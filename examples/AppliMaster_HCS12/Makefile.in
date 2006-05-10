@@ -1,0 +1,84 @@
+#! gmake
+
+#
+# Copyright (C) 2006 Laurent Bessard
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+CC = SUB_CC
+OPT_CFLAGS = -Os
+CFLAGS = SUB_OPT_CFLAGS
+PROG_CFLAGS = SUB_PROG_CFLAGS
+OS_NAME = SUB_OS_NAME
+ARCH_NAME = SUB_ARCH_NAME
+PREFIX = SUB_PREFIX
+BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
+TARGET = SUB_TARGET
+
+INCLUDES = -I../../include -I../../include/hcs12
+MEMORY_X = ../../include/hcs12/board/arch
+
+OBJCOPY = $(BINUTILS_PREFIX)objcopy
+OBJCOPY_FLAGS = --only-section=.text --only-section=.rodata --only-section=.vectors --only-section=.data
+
+PROGDEFINES = -mnoshort -Wall -Wmissing-prototypes -fno-strict-aliasing -g
+
+PGR=AppliMaster
+
+MASTER_OBJS = objdict.o appli.o vectors.o
+
+OBJS = ../../src/hc12_pdo.o ../../src/hc12_sdo.o ../../src/hc12_init.o ../../src/hc12_sync.o\
+       ../../src/hc12_objacces.o ../../src/hc12_lifegrd.o ../../src/hc12_timer.o ../../src/hc12_nmtMaster.o\
+       ../../drivers/hc12/canOpenDriver.o ../../drivers/hc12/ports.o ../../drivers/hc12/interrupt.o\
+       ../../drivers/hc12/timerhw.o ../../drivers/hc12/variahw.o $(MASTER_OBJS)
+
+LDFLAGS= -Wl,-m,m68hc12elfb -L$(MEMORY_X)
+
+all: $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s MSG
+
+%o: %c
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -c -o $@ $<
+
+%o: %s
+	$(CC)  -c -x assembler-with-cpp $(PROG_CFLAGS) -o  $@ $<
+
+$(PGR).elf: $(OBJS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS)
+
+$(PGR).s19: $(PGR).elf
+	$(OBJCOPY) --output-target=srec $(OBJCOPY_FLAGS) $< $@
+
+$(PGR).b: $(PGR).elf
+	$(OBJCOPY) --output-target=binary --gap-fill=255 --only-section=.data $(OBJCOPY_FLAGS) $< $@
+
+$(PGR).s: $(PGR).elf
+	@echo "Desassemble"
+	$(BINUTILS_PREFIX)objdump -D $(PGR).elf > $(PGR).s
+
+MSG:
+	$(BINUTILS_PREFIX)readelf -S $(PGR).elf
+	@echo
+	$(BINUTILS_PREFIX)size $(PGR).elf
+
+clean:
+	-\rm $(MASTER_OBJS)
+
+mrproper: clean
+	-\rm $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s
+

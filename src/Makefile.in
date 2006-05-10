@@ -1,0 +1,123 @@
+#! gmake
+
+#
+# Copyright (C) 2006 Laurent Bessard
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+CC = SUB_CC
+PROG_CFLAGS = SUB_PROG_CFLAGS
+LIBS = -lm
+SHAREDLIBOPT = -shared
+OS_NAME = SUB_OS_NAME
+ARCH_NAME = SUB_ARCH_NAME
+PREFIX = SUB_PREFIX
+BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
+TARGET = SUB_TARGET
+LSS_ENABLE=SUB_LSS_ENABLE
+LED_ENABLE=SUB_LED_ENABLE
+NVRAM_ENABLE=SUB_NVRAM_ENABLE
+CAN_DRIVER = SUB_CAN_DRIVER
+TIMERS_DRIVER = SUB_TIMERS_DRIVER
+TIMERS_ENABLE = SUB_TIMERS_ENABLE
+
+INCLUDES = -I../include -I../include/$(TARGET) -I../include/$(CAN_DRIVER) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
+
+OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o\
+	    $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o
+
+# ecos driver shortcuts timer.c
+ifeq ($(TIMERS_ENABLE),YES)
+OBJS += $(TARGET)_timer.o
+endif
+
+# # # # Target specific paramters # # # #
+
+ifeq ($(TARGET),ecos_lpc2138_sja1000)
+ECOS_GLOBAL_CFLAGS=-mcpu=arm7tdmi -Wall -Wpointer-arith -Wstrict-prototypes -Winline -Wundef -Os -ffunction-sections -fdata-sections -fno-exceptions -finline-functions
+ECOS_GLOBAL_LDFLAGS=-mcpu=arm7tdmi -Wl,--gc-sections -Wl,-static -nostdlib
+endif
+
+ifeq ($(TARGET),hcs12)
+OPT_CFLAGS = -Os
+PROGDEFINES = -mnoshort -Wall -Wmissing-prototypes -fno-strict-aliasing
+endif
+
+ifeq ($(TARGET),generic)
+OPT_CFLAGS = -O2
+endif
+
+# # # # Options # # # # 
+
+ifeq ($(LSS_ENABLE),YES)
+OBJS += $(TARGET)_lss.o
+SRC_HFILES += ../include/lss.h
+endif 
+
+ifeq ($(LED_ENABLE),YES)
+OBJS += $(TARGET)_led.o
+SRC_HFILES += ../include/led.h
+endif 
+
+ifeq ($(NVRAM_ENABLE),YES)
+OBJS += $(TARGET)_nvram.o
+SRC_HFILES += ../include/nvram.h
+endif 
+
+ifeq ($(TIMERS_ENABLE),YES)
+OBJS += $(TARGET)_timer.o
+endif
+
+
+CFLAGS = SUB_OPT_CFLAGS
+
+all: canfestival
+
+canfestival: libcanfestival.a
+
+libcanfestival.a: $(OBJS)
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Building [libcanfestival.a]"
+	@echo "*********************************************"
+	$(BINUTILS_PREFIX)ar rc $@ $(OBJS)
+	$(BINUTILS_PREFIX)ranlib $@
+
+$(TARGET)_%o: %c
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Compiling $< -> $@"
+	@echo "*********************************************"
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
+
+install: libcanfestival.a
+	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/include/canfestival
+	cp libcanfestival.a $(PREFIX)/lib/
+	cp ../include/*.h $(PREFIX)/include/canfestival
+
+uninstall:
+	rm -f $(PREFIX)/lib/libcanfestival.a
+	rm -rf $(PREFIX)/include/canfestival
+
+clean:
+	rm -f $(OBJS) libcanfestival.a
+
+mrproper: clean
+

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+
+<!-- 
+This file is part of CanFestival, a library implementing CanOpen Stack. 
+
+Copyright (C): Francis DUPIN
+
+See COPYING file for copyrights details.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<JAXECFG>
+  
+  <FICHIERXSL nom="objdict.xsl"/>
+  
+  <FICHIERSCHEMA nom="objdict.xsd"/>
+
+  <RACINE>
+    <BALISE nom="node" titre="Description of the node dictionary" type="division"/>
+  </RACINE>
+  
+  <MENU titre="New Node">
+    <BALISE nom="node" titre="node" type="division">
+      <PARAMETRE nom="titreAtt" valeur="name"/>
+      <PARAMETRE nom="titreAtt" valeur="node_id"/>
+    </BALISE>
+  </MENU>
+  
+  <MENU titre="heartbeat_consumers">
+    <BALISE nom="heartbeat_consumers" titre="Nbr of node which send a heartbeat" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="nombre"/>
+    </BALISE>	
+  </MENU>
+
+  <MENU titre="SDO">
+    <BALISE nom="sdo_clients" titre="Nbr of sdo clients" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="nombre"/>
+    </BALISE>	
+  </MENU>
+
+  <MENU titre="PDO">
+    <BALISE nom="pdo" titre="Add a PDO receive or transmit" type="division">
+      <PARAMETRE nom="titreAtt" valeur="type_rx_tx"/>
+    </BALISE>	
+    <BALISE nom="mapped_object" titre="Map an object in a PDO. (optional)" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="name"/>
+    </BALISE>	
+  </MENU>
+
+  
+  <MENU titre="Mapping">
+    <BALISE nom="mapped_variable" titre="Mapped variable" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="name"/>
+      <PARAMETRE nom="titreAtt" valeur="access"/>
+    </BALISE>
+    <BALISE nom="mapped_table" titre="Mapped table" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="name"/>
+      <PARAMETRE nom="titreAtt" valeur="access"/>
+    </BALISE>
+        <BALISE nom="mapped_string_variable" titre="Mapped string variable" type="vide">
+      <PARAMETRE nom="titreAtt" valeur="name"/>
+      <PARAMETRE nom="titreAtt" valeur="access"/>
+    </BALISE>
+  </MENU>
+
+
+</JAXECFG>

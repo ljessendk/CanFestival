@@ -1,0 +1,85 @@
+#! gmake
+
+#
+# Copyright (C) 2006 Laurent Bessard
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+CC = SUB_CC
+OPT_CFLAGS = -O2
+CFLAGS = SUB_OPT_CFLAGS
+PROG_CFLAGS = SUB_PROG_CFLAGS
+LIBS = -lm
+SHAREDLIBOPT = -shared
+OS_NAME = SUB_OS_NAME
+ARCH_NAME = SUB_ARCH_NAME
+PREFIX = SUB_PREFIX
+TARGET = SUB_TARGET
+CAN_DRIVER = SUB_CAN_DRIVER
+TIMERS_DRIVER = SUB_TIMERS_DRIVER
+
+INCLUDES = -I../../include -I../../include/generic
+
+OBJS = 
+
+# add timers driver if any
+ifneq ($(TIMERS_DRIVER),)
+OBJS += ../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o
+endif
+
+# add can driver if any
+ifneq ($(CAN_DRIVER),)
+OBJS += ../$(CAN_DRIVER)/$(CAN_DRIVER).o
+endif
+
+SRC_HFILES = ../../include/$(TARGET)/applicfg.h
+
+TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h
+
+all: driver
+
+driver: $(OBJS)
+
+#../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:
+#	$(MAKE) -C ../$(TIMERS_DRIVER) driver
+
+#../$(CAN_DRIVER)/$(CAN_DRIVER).o:
+#	$(MAKE) -C ../$(CAN_DRIVER) driver
+
+libcanfestival_generic.a: $(OBJS)
+	@echo Building [libcanfestival_generic.a]
+	ar rc $@ $(OBJS)
+	ranlib $@
+
+install: libcanfestival_generic.a
+	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/include/canfestival
+	cp libcanfestival_generic.a $(PREFIX)/lib/
+	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+
+uninstall:
+	rm -f $(PREFIX)/lib/libcanfestival_generic.a
+	rm -f $(TARGET_HFILES)
+
+clean:
+	-\rm libcanfestival_generic.a
+
+mrproper: clean
+
+

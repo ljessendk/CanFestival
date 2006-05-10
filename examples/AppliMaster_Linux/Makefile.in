@@ -1,0 +1,61 @@
+#! gmake
+
+#
+# Copyright (C) 2006 Laurent Bessard
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+CC = SUB_CC
+OPT_CFLAGS = -O2
+CFLAGS = SUB_OPT_CFLAGS
+PROG_CFLAGS = SUB_PROG_CFLAGS
+OS_NAME = SUB_OS_NAME
+ARCH_NAME = SUB_ARCH_NAME
+PREFIX = SUB_PREFIX
+TARGET = SUB_TARGET
+
+LIBPATH = /usr/lib
+LIBINC = /usr/include
+LIB = -L$(LIBPATH) -lpcan
+
+INCLUDES = -I../../include -I../../include/peak
+
+MASTER_OBJS = objdict.o appli.o
+
+OBJS = $(MASTER_OBJS) ../../src/peak_pdo.o ../../src/peak_sdo.o ../../src/peak_init.o ../../src/peak_sync.o\
+       ../../src/peak_objacces.o ../../src/peak_lifegrd.o ../../src/peak_timer.o ../../src/peak_nmtMaster.o\
+       ../../drivers/peak/canOpenDriver.o ../../drivers/peak/timerhw.o
+
+
+all: AppliMaster
+
+AppliMaster: $(OBJS)
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -lpthread  -lstdc++ $(OBJS) $(LIB)
+
+%o: %c
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -D_REENTRANT -c $<
+
+clean:
+	-rm $(MASTER_OBJS)
+
+mrproper: clean
+	-rm AppliMaster
+
+
+

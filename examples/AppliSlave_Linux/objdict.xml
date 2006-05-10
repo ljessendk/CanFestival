@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<node manufacturer_device_name_1008="Appli_Slave_Linux" name="Linux_slave" type_node="slave">
+<heartbeat_consumers nombre="1"/>
+<sdo_clients nombre="1"/>
+<pdo type_rx_tx="rx">
+
+</pdo>
+<pdo type_rx_tx="rx">
+
+</pdo>
+<pdo type_rx_tx="rx">
+
+</pdo>
+<pdo type_rx_tx="tx">
+
+</pdo>
+<pdo type_rx_tx="tx">
+
+</pdo>
+<pdo type_rx_tx="tx">
+
+</pdo>
+<mapped_variable access="rw" index="0x2000" name="seconds" size_in_bits="8" sub_index="0x1"/>
+<mapped_variable access="rw" index="0x2000" name="minutes" size_in_bits="32" sub_index="0x02"/>
+<mapped_variable access="rw" index="0x2000" name="hours" size_in_bits="8" sub_index="0x3"/>
+<mapped_variable access="rw" index="0x2000" name="day" size_in_bits="8" sub_index="0x4"/>
+<mapped_variable access="rw" index="0x6000" name="canopenErrNB" size_in_bits="32" sub_index="0x0"/>
+<mapped_variable access="rw" index="0x6001" name="canopenErrVAL" size_in_bits="32" sub_index="0x0"/>
+<mapped_table index="0x2001" name="essai_table" number_elements="10" size_in_bits="8"/>
+<mapped_string_variable access="rw" index="0x6002" name="strTest" size_in_byte="10" sub_index="0x0"/>
+
+
+
+</node>

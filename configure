@@ -1,0 +1,645 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2004 Edouard TISSERRANT, Laurent BESSARD
+# Based on Gabriel Gerhardsson's cacheprobe configure script. 
+# 
+# This file is part of CanFestival, a library implementing CanOpen Stack. 
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+###########################################################################
+#                       DEFAULT CANFESTIVAL DEFINES                       #
+###########################################################################
+
+# Number of can bus to use 
+MAX_CAN_BUS_ID=1 
+
+# max bytes to transmit by SDO Put 4 if you only support expedited transfert.
+# For a normal transfert, (usually for a string), put the maximum string size to transfer.
+SDO_MAX_LENGTH_TRANSFERT=32 
+
+# Number of SDO from differents nodes that the node can manage concurrently.   
+# for a slave node, usually put 1.
+SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
+
+# Used for NMTable[bus][nodeId]	  
+# You can put less of 128 if on the netwo
+# are connected only smaller nodeId node.
+NMT_MAX_NODE_ID=128  
+
+#Timeout in milliseconds for SDO.
+#    Comment the #define if not used (infinite wait for SDO response message)
+SDO_TIMEOUT_MS=3000
+
+MAX_NB_TIMER=32
+
+# Default to little-endian
+CANOPEN_LITTLE_ENDIAN=1
+CANOPEN_BIG_ENDIAN=
+
+###########################################################################
+#                             DEFAULT BUILD OPTIONS                       #
+###########################################################################
+
+# Leave empty for automatic detection
+CC=
+
+#default target
+SUB_TARGET=
+
+# First compiler option - we will check if it exists
+CC1=gcc
+# Second compiler option - we will check if it exists
+CC2=cc
+
+# Install prefix
+SUB_PREFIX=
+
+SUB_TIMERS_ENABLE=YES
+
+# Used for C compiler test/detection 
+CFLAGS=
+test=conftest
+rm -f $test $test.c
+
+# Jaxe install is now disbaled by default
+DISABLE_JAXE=1
+
+XENO_CONFIG=/usr/xenomai/bin/xeno-config
+
+###########################################################################
+#                          ARGUMENTS PARSING                              #
+###########################################################################
+while [ $# -ge 1 ]; do
+	optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
+	
+	case $1 in
+	--cc=*)		CC=$optarg;;
+	--arch=*)	SUB_ARCH_NAME=$optarg;;
+	--os=*)		SUB_OS_NAME=$optarg;;
+	--prefix=*)	SUB_PREFIX=$optarg;;
+	--target=*)	SUB_TARGET=$optarg;;
+	--can=*)	SUB_CAN_DRIVER=$optarg;;
+	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
+	--disable-Ox)	DISABLE_OPT=1;
+			echo "On user request: Won't optimize with \"-Ox\"";;
+	--enable-jaxe)	DISABLE_JAXE=0;
+			echo "On user request: Will not install jaxe";;
+	--debug)	DEBUG=1;
+			echo "Debug messages enabled !!";;
+	--debugPDO)	DEBUG=PDO;
+			echo "Debug messages (PDO) enabled !!";;
+	--enable-lss)	SUB_LSS_ENABLE=YES;
+			echo "On user request: Will enable Auto Baudrate detect Feature";;
+	--enable-led)	SUB_LED_ENABLE=YES;
+			echo "On user request: Will enable diagnostic LED feature";;
+	--enable-nvram)	SUB_NVRAM_ENABLE=YES;
+			echo "On user request: Will enable Non Volatile RAM Feature";;
+	--desable-timers)	SUB_TIMERS_ENABLE=NO;
+			echo "On user request: Will enable built-in timer dispatch Feature";;
+	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
+	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$1;;
+	--SDO_MAX_SIMULTANEOUS_TRANSFERTS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERTS=$1;;
+	--NMT_MAX_NODE_ID=*)	NMT_MAX_NODE_ID=$1;;
+	--SDO_TIMEOUT_MS=*)	SDO_TIMEOUT_MS=$1;;
+	--CANOPEN_BIG_ENDIAN=*)	CANOPEN_BIG_ENDIAN=$1;;
+	--MAX_NB_TIMER=*) MAX_NB_TIMER=$1;;
+	--help)	echo	"Usage: ./configure [options]"
+    		echo	"Options:"
+    		echo 	" --cc=foo	Use compiler 'foo' instead of defaults ${CC1} or ${CC2}."
+		echo 	" --arch=foo	Use architecture 'foo' instead of trying to autodetect."
+		echo 	" --os=foo	Use operative system 'foo' instead of trying to autodetect."
+		echo 	" --prefix=foo	Use prefix 'foo' instead of default ${SUB_PREFIX}."
+		echo 	" --target=foo	Use 'foo' as build target."
+		echo	"		Where 'foo' can be \"generic\" to have independant CAN and TIMERS driver"
+		echo	"		or"
+		echo	"		\"hcs12\" for HCS12 micro-controller"
+		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
+		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak' or 'virtual')"
+		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xenomai')"
+		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
+		echo	" --enable-jaxe	Enable \"jaxe\" installation."
+		echo	" --debug	Enable debug messages."
+		echo	" --debugPDO	Enable debug messages, using PDO."
+		echo	" --enable-lss	Enable Auto Baudrate detect Feature"
+		echo	" --enable-led	Enable DS-305 LED diagnistic Feature"
+		echo	" --enable-nvram Enable Non-volatile RAM managment Feature"
+		echo	" --enable-timers Enable built-in schuduler Feature"
+		echo	" --enable-	Enable  Feature"
+		echo
+		echo	"Stack compilation constants"
+		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
+		echo	" --SDO_MAX_LENGTH_TRANSFERT [=32] max bytes to transmit by SDO"
+		echo	" --SDO_MAX_SIMULTANEOUS_TRANSFERTS [=4] Number of SDO that the node can manage concurrently"
+		echo	" --NMT_MAX_NODE_ID [=128] can be reduced to gain memory on small network"
+		echo	" --SDO_TIMEOUT_MS [=3000] Timeout in milliseconds for SDO (None to disable the feature)"
+		exit 0;;
+	*)		echo "Unknown argument ${1}"; exit -1;;
+	esac
+
+	shift
+done
+
+if [ "$DISABLE_JAXE" = "1" ]; then
+	SUB_OPT_JAXE=
+else
+	which java >/dev/null 2>&1
+	if (( $? )); then 
+		SUB_OPT_JAXE=
+		echo "Could not find java VM ! Jaxe XML editor disabled !"
+	else
+		SUB_OPT_JAXE=jaxe
+	fi
+fi
+###########################################################################
+#                      DEFAULT TARGET/DRIVERS GUESSING                    #
+###########################################################################
+# If target not specified, try to gess one
+if [ "$SUB_TARGET" = "" ]; then
+	SUB_TARGET=generic
+fi
+
+# If target generic, try to gess can
+if [ "$SUB_TARGET" = "generic" -a "$SUB_CAN_DRIVER" = "" ]; then
+	if [ -e /usr/lib/libpcan.so ]; then 
+		echo "Choosing installed Peak driver as CAN driver."
+		SUB_CAN_DRIVER=peak
+	else
+		echo "Choosing virtual CAN driver."
+		SUB_CAN_DRIVER=virtual
+		SUB_LED_ENABLE=YES
+	fi
+fi
+
+# If target generic, try to gess timers
+if [ "$SUB_TARGET" = "generic" -a "$SUB_TIMERS_DRIVER" = "" ]; then
+	echo "Choosing unix timers driver."
+	SUB_TIMERS_DRIVER=unix
+fi
+
+if [ "$SUB_CAN_DRIVER" = "peak" ]; then
+	if [ ! -e /usr/lib/libpcan.so ]; then 
+		echo "Peak driver hasn't been installed !"
+		exit -1
+	fi
+fi
+
+###########################################################################
+#                              GUESS OS/ARCH                              #
+###########################################################################
+
+if [ "$SUB_OS_NAME" = "" ]; then
+	SUB_OS_NAME="`(uname -s | sed \"s/\//-/\" | sed \"s/_/-/\" \
+			| sed \"s/-.*//g\") 2>&1`"
+fi
+if [ "$SUB_OS_NAME" = "HP" -o "$SUB_OS_NAME" = "HP-UX" ]; then
+	SUB_OS_NAME=HPUX
+fi
+
+if [ "$SUB_ARCH_NAME" = "" ]; then
+	if [ "$CC" = "" ]; then
+		A_NAME="`(uname -m) 2>&1`"
+	else
+		A_NAME="`$CC -dumpmachine | sed 's:-.*::'`"
+	fi
+fi
+
+# x86
+if [ "$A_NAME" = "i386" ]; then
+	SUB_ARCH_NAME=x86
+fi
+if [ "$A_NAME" = "i486" ]; then
+	SUB_ARCH_NAME=x86
+fi
+if [ "$A_NAME" = "i586" ]; then
+	SUB_ARCH_NAME=x86
+fi
+if [ "$A_NAME" = "i686" ]; then
+	SUB_ARCH_NAME=x86
+fi
+if [ "$A_NAME" = "x86" ]; then
+	SUB_ARCH_NAME=x86
+fi
+
+# x86_64
+if [ "$A_NAME" = "x86_64" ]; then
+	SUB_ARCH_NAME=x86_64
+fi
+
+# ia64
+if [ "$A_NAME" = "ia64" ]; then
+	SUB_ARCH_NAME=ia64
+fi
+
+# alpha
+if [ "$A_NAME" = "alpha" ]; then
+	SUB_ARCH_NAME=alpha
+fi
+
+# parisc
+if [ "$A_NAME" = "parisc" ]; then
+	SUB_ARCH_NAME=parisc
+fi
+if [ "$SUB_OS_NAME" = "HPUX" -a "$A_NAME" != "ia64" ]; then
+	# If we're on HP-UX and the architecture is *not* ia64,
+	# it's most likely parisc
+	SUB_ARCH_NAME=parisc
+fi
+
+# sparc
+if [ "$A_NAME" = "sparc" ]; then
+	SUB_ARCH_NAME=sparc
+fi
+if [ "$A_NAME" = "sun4u" ]; then
+	SUB_ARCH_NAME=sparc
+fi
+
+# sparc64
+if [ "$A_NAME" = "sparc64" ]; then
+	SUB_ARCH_NAME=sparc64
+fi
+
+
+#
+# The following has not been verified
+#
+
+# ppc
+if [ "$A_NAME" = "powerpc" ]; then
+	SUB_ARCH_NAME=ppc
+fi
+
+# ppc64
+if [ "$A_NAME" = "powerpc64" ]; then
+	SUB_ARCH_NAME=ppc64
+fi
+
+# arm
+if [ "$A_NAME" = "arm" ]; then
+	SUB_ARCH_NAME=arm
+fi
+
+# mips3
+if [ "$A_NAME" = "ip32" ]; then		# IRIX
+	SUB_ARCH_NAME=mips3
+fi
+if [ "$A_NAME" = "ip35" ]; then		# IRIX
+	SUB_ARCH_NAME=mips3
+fi
+
+# mips32
+if [ "$A_NAME" = "mips32" ]; then
+	SUB_ARCH_NAME=mips32
+fi
+if [ "$A_NAME" = "mips" ]; then
+	SUB_ARCH_NAME=mips32
+fi
+if [ "$A_NAME" = "MIPS" ]; then
+	SUB_ARCH_NAME=mips32
+fi
+if [ "$A_NAME" = "RISC" ]; then		# MIPS Ultrix
+	SUB_ARCH_NAME=mips32
+fi
+
+# mips64
+if [ "$A_NAME" = "mips64" ]; then
+	SUB_ARCH_NAME=mips64
+fi
+if [ "$A_NAME" = "MIPS64" ]; then
+	SUB_ARCH_NAME=mips64
+fi
+if [ "$A_NAME" = "IP64" ]; then		# IRIX
+	SUB_ARCH_NAME=mips64
+fi
+
+# power
+if [ "$A_NAME" = "power" ]; then	# Manual
+	SUB_ARCH_NAME=power
+fi
+
+echo "Using OS: ${SUB_OS_NAME}"
+echo "Using architecture: ${SUB_ARCH_NAME}"
+
+if [ "$SUB_ARCH_NAME" = "" ]; then
+	echo "Error: could not detect what architecture this system is running!"
+	echo "Please supply manually instead with \"--arch=foo\""
+	exit -1
+fi
+
+if [ "$SUB_OS_NAME" = "HPUX" -a "$CC" = "gcc" ]; then
+	# Only if we are on HP-UX, ia64 and using gcc
+	SUB_PROG_CFLAGS=-mlp64
+fi
+
+if [ "$SUB_OS_NAME" = "SunOS" -a "$SUB_ARCH_NAME" = "sparc" -a "$CC" = "gcc" ]; then
+	# Only if we are on SunOS, sparc and using gcc
+	# Tells the assembler that we are dealing with a v8plusa arch sparc
+	# and -mimpure-text is needed for shared library linking
+	SUB_PROG_CFLAGS="-Wa,-xarch=v8plusa -mimpure-text"
+fi
+
+if [ "$SUB_OS_NAME" = "AIX" -a "$SUB_ARCH_NAME" = "power" -a "$CC" = "gcc" ]; then
+	# Only if we are on AIX, power and using gcc
+	# The assembler may default to generating Power and PowerPC compatible
+	# code. We need to override that.
+	SUB_PROG_CFLAGS=-Wa,-mpwr
+fi
+
+if [ "$SUB_OS_NAME" = "AIX" -a "$SUB_ARCH_NAME" = "ppc" -a "$CC" = "gcc" ]; then
+	# Only if we are on AIX, ppc and using gcc
+	# The assembler may default to generating Power and PowerPC compatible
+	# code. We need to override that.
+	SUB_PROG_CFLAGS=-Wa,-mppc
+fi
+
+if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
+	# Only if we are on x86_64 and using gcc
+	# For shared library generation, it needs this
+	SUB_PROG_CFLAGS=-fPIC
+fi
+
+###########################################################################
+#              TARGET/DRIVER SPECIFIC CFLAGS and OPTIONS                  #
+###########################################################################
+if [ "$SUB_TARGET" = "hcs12" ]; then
+	# Only if we want to compile for a µC HCS12
+	# search for gcc hcs12 compiler m6811-elf-gcc or m68hc12-gcc ?
+	if [ "$CC" = "" ]; then
+		which m6811-elf-gcc >/dev/null 2>&1
+		if (( $? )); then 
+			which m68hc12-gcc >/dev/null 2>&1
+			if (( $? )); then 
+				echo "Please use --cc flag to specify compiler"
+				exit 0
+			else
+				CC=m68hc12-gcc 
+			fi
+		else
+			CC=m6811-elf-gcc
+			SUB_PROG_CFLAGS=-m68hc12
+		fi
+	fi
+	# hcs12 driver implement its own timers
+	SUB_TIMERS_ENABLE=YES
+fi	
+
+if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
+	# search for gcc arm compiler arm-elf-gcc or arm-elf-gcc ?
+	if [ "$CC" = "" ]; then
+		which arm-elf-gcc >/dev/null 2>&1
+		if (( $? )); then 
+			echo "error : Could not find arm-elf-gcc"
+		else
+			CC=arm-elf-gcc
+			SUB_PROG_CFLAGS="-mcpu=arm7tdmi -Wall -Wpointer-arith -Wstrict-prototypes -Winline -Wundef -Os \
+                        -ffunction-sections -fdata-sections -fno-exceptions -finline-functions"
+		fi
+	fi
+	# ecos sja1000 driver implements calls needed by LSS.
+	SUB_LSS_ENABLE=YES
+	SUB_LED_ENABLE=YES
+	SUB_NVRAM_ENABLE=YES
+	# ecos driver implement its own timers
+	SUB_TIMERS_ENABLE=NO
+#	SUB_TIMERS_DRIVER=ecos
+#	SUB_CAN_DRIVER=ecos_lpc2138_sja1000
+
+fi
+
+
+#### CAN_DRIVER ####
+
+if [ "$SUB_CAN_DRIVER" = "peak" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
+fi
+
+if [ "$SUB_CAN_DRIVER" = "ecos_lpc2138_sja1000" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ 
+fi
+
+
+#### TIMERS_DRIVER ####
+
+if [ "$SUB_TIMERS_DRIVER" = "ecos" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -llpthread
+fi
+
+if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread
+fi
+
+if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\
+\	-L`$XENO_CONFIG --library-dir`
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
+fi
+
+###########################################################################
+#                              GUESS COMPILER                             #
+###########################################################################
+# If CC is empty, the user wanted automatic detection
+if [ "$CC" = "" ]; then
+	# Check for second compiler, CC2
+	cat > $test.c <<EOF
+	int main() { return 0; }
+EOF
+	if test "`($CC2 -c $CFLAGS $test.c) 2>&1`" = ""; then
+		DETECTCC=$CC2
+		echo "Checking for ${CC2}... Yes."
+	else
+		echo "Checking for ${CC2}... No."
+	fi
+	rm -f $test.c $test.o
+	
+	# Check for first compiler, CC1
+	cat > $test.c <<EOF
+	int main() { return 0; }
+EOF
+	if test "`($CC1 -c $CFLAGS $test.c) 2>&1`" = ""; then
+		DETECTCC=$CC1
+		echo "Checking for ${CC1}... Yes."
+	else
+		echo "Checking for ${CC1}... No."
+	fi
+	rm -f $test.c $test.o
+	CC=$DETECTCC
+fi
+# Check if we decided on a compiler after all
+if [ "$CC" = "" ]; then
+	echo "Error: Could not find a C compiler"
+	echo "Please supply the wanted compiler"
+	exit -1
+fi
+
+echo "Using ${CC}"
+
+###########################################################################
+#                              GUESS PREFIX's                             #
+###########################################################################
+
+SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
+
+# Guess prefix as regard cross compiling target machine
+if [ "$SUB_PREFIX" = "" ]; then
+	$CC -dumpspecs |grep -A 1 'cross_compile'|grep -q 1
+	if (( $? )); then 
+		SUB_PREFIX=/usr/local
+		echo "Not cross-compiling. Will install in $SUB_PREFIX";
+	else
+		SUB_PREFIX=/usr/`$CC -dumpmachine`
+		echo "This is a cross-compiler. Will install in $SUB_PREFIX";			
+	fi
+fi
+
+echo "Using prefix: ${SUB_PREFIX}"
+
+###########################################################################
+#                   CANFESTIVAL DEFINES --> config.h                      #
+###########################################################################
+# Some CONSTANTS preparation
+if [ "$CANOPEN_BIG_ENDIAN" = "" ]; then
+	CANOPEN_LITTLE_ENDIAN=1
+else
+	CANOPEN_LITTLE_ENDIAN=
+fi
+
+# Create include/config.h with the relevant contents
+rm -f include/config.h
+echo "/*"\ >  include/config.h
+echo "This file is part of CanFestival, a library implementing CanOpen Stack." >> include/config.h
+echo "" >> include/config.h
+echo "Copyright (C): Edouard TISSERANT and Francis DUPIN" >> include/config.h
+echo "See COPYING file for copyrights details." >> include/config.h
+echo "" >> include/config.h
+echo "This library is free software; you can redistribute it and/or" >> include/config.h
+echo "modify it under the terms of the GNU Lesser General Public" >> include/config.h
+echo "License as published by the Free Software Foundation; either" >> include/config.h
+echo "version 2.1 of the License, or (at your option) any later version." >> include/config.h
+echo "" >> include/config.h
+echo "This library is distributed in the hope that it will be useful," >> include/config.h
+echo "but WITHOUT ANY WARRANTY; without even the implied warranty of" >> include/config.h
+echo "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU" >> include/config.h
+echo "Lesser General Public License for more details." >> include/config.h
+echo "" >> include/config.h
+echo "You should have received a copy of the GNU Lesser General Public" >> include/config.h
+echo "License along with this library; if not, write to the Free Software" >> include/config.h
+echo "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA" >> include/config.h
+echo "*/" >> include/config.h
+echo "" >> include/config.h
+echo "#ifndef _CONFIG_H_" >> include/config.h
+echo "#define _CONFIG_H_" >> include/config.h
+echo "" >> include/config.h
+for i in \
+ MAX_CAN_BUS_ID\
+ SDO_MAX_LENGTH_TRANSFERT\
+ SDO_MAX_SIMULTANEOUS_TRANSFERTS\
+ NMT_MAX_NODE_ID\
+ SDO_TIMEOUT_MS\
+ MAX_NB_TIMER\
+ CANOPEN_BIG_ENDIAN\
+ CANOPEN_LITTLE_ENDIAN ; do
+if [ "${!i}" = "" ]; then
+echo "// $i is not defined" >> include/config.h
+else
+echo "#define $i ${!i}" >> include/config.h
+fi
+done	
+echo "" >> include/config.h
+echo "#endif /* _CONFIG_H_ */" >> include/config.h
+
+###########################################################################
+#                           DEBUG DEFINES/CFLAGS                          #
+###########################################################################
+if [ "$DEBUG" != "" ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_CAN\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g
+fi
+
+if [ "$DEBUG" = "PDO" ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DPDO_ERROR
+fi
+
+if [ "$DISABLE_OPT" = "1" ]; then
+	SUB_OPT_CFLAGS=
+else
+	SUB_OPT_CFLAGS=\$\(OPT_CFLAGS\)
+fi
+
+###########################################################################
+#                              CREATE MAKEFILES                           #
+###########################################################################
+MAKEFILES=Makefile.in\
+\ src/Makefile.in\
+\ drivers/Makefile.in\
+\ objdictgen/Makefile.in\
+\ examples/Makefile.in
+
+if [ "$SUB_TARGET" = "hcs12" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/hcs12/Makefile.in\
+\	examples/AppliMaster_HCS12/Makefile.in\
+\	examples/AppliSlave_HCS12/Makefile.in\
+\	examples/gene_SYNC_HCS12/Makefile.in
+fi
+
+if [ "$SUB_TIMERS_DRIVER" != "" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/timers_$SUB_TIMERS_DRIVER/Makefile.in
+fi
+
+if [ "$SUB_CAN_DRIVER" != "" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/can_$SUB_CAN_DRIVER/Makefile.in
+fi
+
+if [ "$SUB_TARGET" = "generic" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/generic/Makefile.in\
+\	examples/AppliMaster_Linux/Makefile.in\
+\	examples/AppliSlave_Linux/Makefile.in\
+\	examples/TestMasterSlave/Makefile.in
+fi
+
+if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/ecos_lpc2138_sja1000/Makefile.in\
+\	examples/ecos_lpc2138_sja1000/src/Makefile.in
+fi
+
+for makefile_in in $MAKEFILES; do
+	makefile=`echo $makefile_in | sed 's:.in$::'`
+	echo "Creating $makefile"
+	sed < $makefile_in "
+	s:SUB_CC:${CC}:
+	s:SUB_PROG_CFLAGS:${SUB_PROG_CFLAGS}:
+	s:SUB_EXE_CFLAGS:${SUB_EXE_CFLAGS}:
+	s:SUB_PREFIX:${SUB_PREFIX}:
+	s:SUB_OS_NAME:${SUB_OS_NAME}:
+	s:SUB_ARCH_NAME:${SUB_ARCH_NAME}:
+	s:SUB_OPT_CFLAGS:${SUB_OPT_CFLAGS}:
+	s:SUB_TARGET:${SUB_TARGET}:
+	s:SUB_BINUTILS_PREFIX:${SUB_BINUTILS_PREFIX}:
+	s:SUB_OPT_JAXE:${SUB_OPT_JAXE}:
+	s:SUB_LSS_ENABLE:${SUB_LSS_ENABLE}:
+	s:SUB_LED_ENABLE:${SUB_LED_ENABLE}:
+	s:SUB_NVRAM_ENABLE:${SUB_NVRAM_ENABLE}:
+	s:SUB_TIMERS_ENABLE:${SUB_TIMERS_ENABLE}:
+	s:SUB_TIMERS_DRIVER:timers_${SUB_TIMERS_DRIVER}:
+	s:SUB_CAN_DRIVER:can_${SUB_CAN_DRIVER}:
+	" > $makefile
+done
+
+echo "All done."

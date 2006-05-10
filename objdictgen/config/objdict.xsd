@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!-- 
+This file is part of CanFestival, a library implementing CanOpen Stack. 
+
+Copyright (C): Francis DUPIN
+
+See COPYING file for copyrights details.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Rangement par ordre alphabétique -->
+
+  <!-- Définition des types -->
+
+ <xs:simpleType name="taccess"> <!-- "ro" ou "rw" -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="(ro|rw)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:simpleType name="tevent_timer">
+    <xs:restriction base="xs:unsignedInt"> 
+      <xs:maxInclusive value="65535"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex64"> <!-- Un nombre hexadecimal sur 64 bits -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)([0-F]|[a-f]){1,16}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex32"> <!-- Un nombre hexadecimal sur 32 bits -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)([0-F]|[a-f]){1,8}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex16"> <!-- Un nombre hexadecimal sur 16 bits -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)([0-F]|[a-f]){1,4}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex11"> <!-- Un nombre entre 0x0 et 0x7FF (11 bits) -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)[0-7]?([0-F]|[a-f]){1,2}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex8"> <!-- Un nombre hexadecimal sur 8 bits -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)([0-F]|[a-f]){1,4}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="thex7"> <!-- Un nombre entre 0x0 et 0x7F -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)[0-7]?([0-F]|[a-f])" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tindex_var"> <!-- Un nombre entre 0x2000 et 0x9FFF (16 bits) -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="0(x|X)[2-9]([0-F]|[a-f]){3}" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tinhibit_time">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:maxInclusive value="65535"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tmode_pdo"> <!-- "tx" ou "rx" -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="(tx|rx)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tnbr_elts_mapped_table"> <!-- Un nombre entre 1 et 50  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="50"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tnbr_heartbeat_consumers"> <!-- Un nombre entre 1 et 50  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="50"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tmax_objects_in_pdo"> <!-- Un nombre entre 1 et 8  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="8"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tnbr_pdo"> <!-- Un nombre entre 1 et 510  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="510"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tnbr_sdo_clients"> <!-- Un nombre entre 1 et 50  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="50"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tsize"> <!-- Un nombre entre 1 et 8  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="1"/>
+      <xs:maxInclusive value="8"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="tsize_in_bits"> <!-- 8, 16 ou 32 bits -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="(8)|(16)|(32)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ttransmission_type"> <!-- Un nombre entre 0 et 255  -->
+    <xs:restriction base="xs:unsignedShort">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="255"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ttype_node"> <!-- "master" ou "slave" -->
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="(master|slave)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ttype_var"> 
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:pattern value="(UNS|REAL)" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Définition des éléments de type simple -->
+  <xs:element name="compatibility_entry" type="thex7"></xs:element>
+  <xs:element name="event_timer" type="tevent_timer"></xs:element>
+  <xs:element name="inhibit_time" type="tinhibit_time"></xs:element>
+  <xs:element name="node_id" type="thex11"></xs:element>
+  <xs:element name="size" type="tsize"></xs:element>
+  <xs:element name="transmission_type" type="thex8"></xs:element>
+  <xs:element name="value_int" type="thex64"></xs:element>
+
+  <!-- Définition des éléments de type complexe -->
+ 
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:sequence  minOccurs="1" maxOccurs="1">
+	<xs:element ref="heartbeat_consumers" minOccurs="1" maxOccurs="1" />
+        <xs:element ref="sdo_clients" minOccurs="1" maxOccurs="1" />
+	<!--<xs:element ref="pdo_param" minOccurs="1" maxOccurs="1" />  Obsolet -->
+	<!--<xs:element ref="pdo_receive" minOccurs="1" maxOccurs="1" /> Obsolet -->
+	<!--<xs:element ref="pdo_transmit" minOccurs="1" maxOccurs="1" /> Obsolet -->
+        <xs:element ref="pdo" minOccurs="0" maxOccurs="500" />
+	<xs:element ref="mapped_variable" minOccurs="0" maxOccurs="200" />
+	<xs:element ref="mapped_table" minOccurs="0" maxOccurs="200" />
+	<xs:element ref="mapped_string_variable" minOccurs="0" maxOccurs="200" />
+	<!--<xs:element ref="mapped_string_table" minOccurs="0" maxOccurs="200" />-->
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required" />
+      <xs:attribute name="type_node" type="ttype_node" use="required" />
+      <xs:attribute name="node_id" type="thex11" use="optional" />
+      <xs:attribute name="device_type_1000" type="thex32" use="optional" />
+      <xs:attribute name="manufacturer_device_name_1008" type="xs:string" use="optional" />
+      <xs:attribute name="manufacturer_hardware_version_1009" type="xs:string" use="optional" />
+      <xs:attribute name="manufacturer_software_version_100A" type="xs:string" use="optional" />
+      <xs:attribute name="vendor_id_1018" type="thex32" use="optional" />
+      <xs:attribute name="product_code_1018" type="thex32" use="optional" />
+      <xs:attribute name="revision_number_1018" type="thex32" use="optional" />
+      <xs:attribute name="serial_number_1018" type="thex32" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="heartbeat_consumers" >
+    <xs:complexType>
+      <xs:attribute name="nombre" type="tnbr_heartbeat_consumers" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="sdo_clients" >
+    <xs:complexType>
+      <xs:attribute name="nombre" type="tnbr_sdo_clients" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="pdo_param" > <!-- Obsolet -->
+    <xs:complexType>
+      <xs:attribute name="max_objects_in_pdo" type="tmax_objects_in_pdo" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="pdo_receive" > <!-- Obsolet -->
+    <xs:complexType>
+      <xs:attribute name="nombre" type="tnbr_pdo" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="pdo_transmit" >  <!-- Obsolet -->
+    <xs:complexType>
+      <xs:attribute name="nombre" type="tnbr_pdo" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="pdo" >
+    <xs:complexType>
+      <xs:sequence  minOccurs="1" maxOccurs="1">
+	<xs:element ref="mapped_object" minOccurs="0" maxOccurs="8" />
+      </xs:sequence>
+      <xs:attribute name="type_rx_tx" type="tmode_pdo" use="required"/>
+      <xs:attribute name="index_communication_parameter" type="thex16" use="optional"/>
+      <xs:attribute name="cob_id" type="thex11" use="optional"/>
+      <xs:attribute name="max_objects_in_pdo" type="tmax_objects_in_pdo" use="optional"/>
+      <xs:attribute name="transmission_type" type="ttransmission_type" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="mapped_object" >
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="optional"/>
+      <xs:attribute name="size_in_bits" type="tsize_in_bits" use="required"/>
+      <xs:attribute name="index" type="tindex_var" use="required"/>
+      <xs:attribute name="sub_index" type="thex8" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="mapped_variable" >
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+      <xs:attribute name="size_in_bits" type="tsize_in_bits" use="required"/>
+      <xs:attribute name="index" type="tindex_var" use="required"/>
+      <xs:attribute name="sub_index" type="thex8" use="required"/>
+      <xs:attribute name="type" type="ttype_var" use="optional"/>
+      <xs:attribute name="access" type="taccess" use="optional"/>
+      <xs:attribute name="min_value" type="xs:anySimpleType" use="optional"/>
+      <xs:attribute name="max_value" type="xs:anySimpleType" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+
+
+  <xs:element name="mapped_table" >
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+      <xs:attribute name="number_elements" type="tnbr_elts_mapped_table" use="required"/>
+      <xs:attribute name="size_in_bits" type="tsize_in_bits" use="required"/>
+      <xs:attribute name="index" type="tindex_var" use="required"/>
+      <xs:attribute name="type" type="ttype_var" use="optional"/>
+      <xs:attribute name="access" type="taccess" use="optional"/>
+      <xs:attribute name="min_value" type="xs:decimal" use="optional"/>
+      <xs:attribute name="max_value" type="xs:decimal" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="mapped_string_variable" >
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+      <xs:attribute name="size_in_byte" type="xs:unsignedInt" use="required"/>
+      <xs:attribute name="index" type="tindex_var" use="required"/>
+      <xs:attribute name="sub_index" type="thex8" use="required"/>
+      <xs:attribute name="access" type="taccess" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+
+  <xs:element name="mapped_string_table" >
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:NMTOKEN" use="required"/>
+      <xs:attribute name="number_elements" type="tnbr_elts_mapped_table" use="required"/>
+      <xs:attribute name="size_in_byte" type="xs:unsignedInt" use="required"/>
+      <xs:attribute name="index" type="tindex_var" use="required"/>
+      <xs:attribute name="access" type="taccess" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

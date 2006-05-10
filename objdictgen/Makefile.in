@@ -1,0 +1,73 @@
+#! gmake
+
+#
+# Copyright (C) 2006 Laurent Bessard
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+PREFIX = SUB_PREFIX
+INSTALL_JAXE = SUB_OPT_JAXE
+
+all: jaxe gnosis
+
+jaxe: jaxe-unix-2.2.tar.gz
+
+gnosis: Gnosis_Utils-1.2.1.tar.gz
+
+Gnosis_Utils-1.2.1.tar.gz:
+	wget http://gnosis.cx/download/Gnosis_Utils-1.2.1.tar.gz
+	tar xfz Gnosis_Utils-1.2.1.tar.gz
+	mv Gnosis_Utils-1.2.1/gnosis .
+	rm -rf Gnosis_Utils-1.2.1
+
+jaxe-unix-2.2.tar.gz:
+ifeq ($(INSTALL_JAXE),jaxe)
+	wget http://dl.sourceforge.net/sourceforge/jaxe/jaxe-unix-2.2.tar.gz
+	tar xfz jaxe-unix-2.2.tar.gz
+endif
+
+install: jaxe
+	cp -r ../objdictgen $(PREFIX)/
+ifeq ($(INSTALL_JAXE),jaxe)
+	rm -f $(PREFIX)/objdictgen/jaxe-unix-2.2.tar.gz
+endif
+	rm -f $(PREFIX)/objdictgen/Gnosis_Utils-current.tar.gz
+	chmod -R a+r $(PREFIX)/objdictgen
+	chmod 755 $(PREFIX)/objdictgen/objdictedit.sh
+	echo -e "#!/bin/sh\n pushd $(PREFIX)/objdictgen/\n ./objdictedit.sh\n popd\n" > $(PREFIX)/bin/objdictedit
+	chmod 755 $(PREFIX)/bin/objdictedit
+	ln -s $(PREFIX)/objdictgen/objdictgen.py $(PREFIX)/bin/objdictgen
+	chmod 755 $(PREFIX)/objdictgen/objdictgen.py
+
+uninstall:
+	-rm -rf $(PREFIX)/objdictgen
+	-rm -f $(PREFIX)/bin/objdictgen
+	-rm -f $(PREFIX)/bin/objdictgen.py
+
+clean:
+
+mrproper: clean
+ifeq ($(INSTALL_JAXE),jaxe)
+	-rm -f jaxe-unix-2.2.tar.gz
+	-rm -rf jaxe
+endif
+	-rm -f Gnosis_Utils-1.2.1.tar.gz
+	-rm -rf gnosis
+
+

@@ -1,0 +1,97 @@
+#! gmake
+
+#
+# Copyright (C) 2006 OREMEQ
+# 
+# This file is part of canfestival, a library implementing the canopen
+# stack
+# 
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+# 
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+
+CC = SUB_CC
+OPT_CFLAGS = SUB_OPT_CFLAGS
+CFLAGS = 
+PROG_CFLAGS = SUB_PROG_CFLAGS
+LIBS = -lm
+SHAREDLIBOPT = -shared
+OS_NAME = SUB_OS_NAME
+ARCH_NAME = SUB_ARCH_NAME
+PREFIX = SUB_PREFIX
+TARGET = SUB_TARGET
+INCLUDES = -I../../include -I../../examples/ecos_lpc2138_sja1000/include
+
+ECOS_GLOBAL_CFLAGS=-mcpu=arm7tdmi -Wall -Wpointer-arith -Wstrict-prototypes -Winline -Wundef -Os -ffunction-sections -fdata-sections -fno-exceptions -finline-functions
+ECOS_GLOBAL_LDFLAGS=-mcpu=arm7tdmi -Wl,--gc-sections -Wl,-static -nostdlib
+
+export CAN_CONTROLER_CLOCK_SPEED := 24.000   # Crystal frequency of the SJA1000 clock input.
+export CAN_CONTROLER_PHASE_SHIFT_TOLERANCE := 3  #Synchronization Jump Width (SJW) (in SJA1000==> 0..3)
+                                                          #To compensate for phase shifts between
+                                                          #clock oscillators of different bus
+                                                          # controllers, any bus controller must
+                                                          #re-synchronize on any relevant signal
+                                                          #edge of the current transmission.
+
+
+OBJS = canOpenDriver.o lpc2138.o sja1000.o time_slicer.o
+INCLUDE_H = applicfg.h baudrate_table.h canOpenDriver.h lpc2138.h lpc2138_defs.h \
+lpc2138_pinout.h sja1000.h time_slicer.h
+
+all: driver
+
+driver: build_baudrate $(OBJS)
+
+build_baudrate:
+	gcc -o build_baudrate build_baudrate.c
+	@echo "Generate The baudrate register structure in canControler.h regarding the"
+	@echo "SJA1000 clock speed defined in the Makefile, CAN_CONTROLER_CLOCK_SPEED"
+	./build_baudrate $(CAN_CONTROLER_CLOCK_SPEED) $(CAN_CONTROLER_PHASE_SHIFT_TOLERANCE)
+
+
+libcandriver.a: $(OBJS)
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Building [libcandriver]"
+	@echo "*********************************************"
+	$(BINUTILS_PREFIX)ar rc $@ $(OBJS)
+	$(BINUTILS_PREFIX)ranlib $@
+
+%o: %c
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Compiling $< -> $@"
+	@echo "*********************************************"
+	$(CC) -g -c $(ECOS_GLOBAL_CFLAGS) $(INCLUDES) -I. -c -o $@ $<
+
+%o: %s
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Compiling $< -> $@"
+	@echo "*********************************************"
+	$(CC)  -c -x assembler-with-cpp $(ECOS_GLOBAL_CFLAGS) $(INCLUDES) -I. -o $@ $<
+
+install:
+	mkdir -p $(PREFIX)/lib
+	ln -s ../../../drivers/ecos_lpc2138_sja1000 $(PREFIX)/lib/driver
+
+uninstall:
+	rm -f ../../examples/ecos_lpc2138_sja1000/lib/driver
+
+clean:
+	-\rm -f $(OBJS) build_baudrate baudrate_table.h 
+
+mrproper: clean
+	-\rm ../../lib/ecos_lpc2138_sja1000/libcandriver.a 
+
