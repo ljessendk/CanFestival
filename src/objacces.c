@@ -20,6 +20,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+//#define DEBUG_WAR_CONSOLE_ON
+//#define DEBUG_ERR_CONSOLE_ON
+
 #include "objacces.h"
 
 #ifdef DEBUG_WAR_CONSOLE_ON
@@ -82,6 +85,7 @@ UNS32 getODentry( CO_Data* d,
   }
   
   if (checkAccess && !(ptrTable->pSubindex[bSubindex].bAccessType & WO)) {
+  	MSG_WAR(0x2B30, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
     accessDictionaryError(wIndex, bSubindex, 0, 0, OD_WRITE_NOT_ALLOWED);
     return OD_READ_NOT_ALLOWED;
   }
@@ -97,8 +101,8 @@ UNS32 getODentry( CO_Data* d,
 	      {
 		// data must be transmited with low byte first
 		UNS8 i, j = 0;
-		for ( i = ptrTable->pSubindex[bSubindex].size - 1 ; i >= 0 ; i--) {
-			((char*)pDestData)[j++] = ((char*)ptrTable->pSubindex[bSubindex].pObject)[i];
+		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
+			((char*)pDestData)[j++] = ((char*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
 		}
 	      }
 	#else  	
@@ -135,7 +139,8 @@ UNS32 setODentry( CO_Data* d,
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_NO_SUCH_SUBINDEX);
     return OD_NO_SUCH_SUBINDEX;
   }
-  if (checkAccess && !(ptrTable->pSubindex[bSubindex].bAccessType & RO)) {
+  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType == RO)) {
+  	MSG_WAR(0x2B25, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_WRITE_NOT_ALLOWED);
     return OD_WRITE_NOT_ALLOWED;
   }
@@ -157,8 +162,8 @@ UNS32 setODentry( CO_Data* d,
 	      {
 		// data must be transmited with low byte first
 		UNS8 i, j = 0;
-		for ( i = ptrTable->pSubindex[bSubindex].size - 1 ; i >= 0 ; i--) {
-			((char*)ptrTable->pSubindex[bSubindex].pObject)[i] = ((char*)pSourceData)[j++];
+		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
+			((char*)ptrTable->pSubindex[bSubindex].pObject)[i - 1] = ((char*)pSourceData)[j++];
 		}
 	      }
       #else  	
@@ -197,4 +202,5 @@ UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCal
 		CallbackList[bSubindex] = Callback;
 	return errorCode;
 }
+
 

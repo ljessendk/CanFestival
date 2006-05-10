@@ -20,8 +20,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#define DEBUG_WAR_CONSOLE_ON
-//#define DEBUG_ERR_CONSOLE_ON
+#define DEBUG_WAR_CONSOLE_ON
+#define DEBUG_ERR_CONSOLE_ON
 
 #include "objacces.h"
 #include "sdo.h"
@@ -116,12 +116,13 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
   UNS8 i;
   UNS8      size;
   UNS32 errorCode;
+  MSG_WAR(0x3A08, "Enter in SDOlineToObjdict ", line);
   size = d->transfers[line].count;
   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex, 
 			 (void *) d->transfers[line].data, &size, 1);
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
-
+  MSG_WAR(0x3A08, "exit of SDOlineToObjdict ", line);
   return 0;
 
 }
@@ -196,15 +197,16 @@ UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index,
   UNS8 err;
   UNS8 line;
   err = getSDOlineOnUse( d, nodeId, whoami, &line );
-  if (!err)
+  if (!err) // If a line on use have been found.
     MSG_WAR(0x3A20, "FailedSDO : line found : ", line);
   if ((! err) && (whoami == SDO_SERVER)) {
     resetSDOline( d, line );
     MSG_WAR(0x3A21, "FailedSDO : line released : ", line);
   }
-  if ((! err) && (whoami == SDO_CLIENT))
-    StopSDO_TIMER(line)
+  if ((! err) && (whoami == SDO_CLIENT)) {
+    StopSDO_TIMER(line);
     d->transfers[line].state = SDO_ABORTED_INTERNAL;
+  }
   MSG_WAR(0x3A22, "Sending SDO abort ", 0);
   err = sendSDOabort(d, whoami, index, subIndex, abortCode);
   if (err) {
@@ -218,7 +220,7 @@ UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index,
 void resetSDOline ( CO_Data* d, UNS8 line )
 {
   UNS8 i; 
-
+  MSG_WAR(0x3A25, "reset SDO line nb : ", line); 
   initSDOline(d, line, 0, 0, 0, SDO_RESET);
   for (i = 0 ; i < SDO_MAX_LENGTH_TRANSFERT ; i++)
     d->transfers[line].data[i] = 0;
@@ -227,6 +229,7 @@ void resetSDOline ( CO_Data* d, UNS8 line )
 /***************************************************************************/
 UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 state)
 {
+  MSG_WAR(0x3A25, "init SDO line nb : ", line); 
   if (state == SDO_DOWNLOAD_IN_PROGRESS || state == SDO_UPLOAD_IN_PROGRESS){
   	StartSDO_TIMER(line)
   }else{
@@ -391,7 +394,7 @@ UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 ab
 {
   s_SDO sdo;
   UNS8 ret;
-  MSG_WAR(0x2A50,"Sending SDO abort", abortCode);
+  MSG_WAR(0x2A50,"Sending SDO abort ", abortCode);
   sdo.nodeId = *d->bDeviceNodeId;
   sdo.body.data[0] = 0x80;
   // Index
@@ -1275,3 +1278,4 @@ UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode)
   * abortCode = d->transfers[line].abortCode;
   return d->transfers[line].state;
 }
+
