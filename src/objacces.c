@@ -98,6 +98,7 @@ UNS32 getODentry( CO_Data* d,
   	(*pDataType == visible_string && *pExpectedSize > szData)) // We allow to fetch a shorter string than expected
   {
 	#ifdef CANOPEN_BIG_ENDIAN
+	      if(*pDataType > boolean && dataType < visible_string){
 	      {
 		// data must be transmited with low byte first
 		UNS8 i, j = 0;
@@ -153,22 +154,24 @@ UNS32 setODentry( CO_Data* d,
   	*pExpectedSize == szData ||
   	(dataType == visible_string && *pExpectedSize < szData)) // We allow to store a shorter string than entry size
   {
+      #ifdef CANOPEN_BIG_ENDIAN
+	      if(dataType > boolean && dataType < visible_string){
+		// we invert the data source directly. This let us do range testing without
+		// additional temp variable
+		UNS8 i, j = 0;
+		for ( i = ptrTable->pSubindex[bSubindex].size >> 1 ; i > 0 ; i--) {
+			char tmp = ((char*)pSourceData)[i - 1];
+			((char*)pSourceData)[i - 1] = ((char*)pSourceData)[j];
+			((char*)pSourceData)[j++] = tmp;
+		}
+	      }
+      #endif
       errorCode = (*d->valueRangeTest)(dataType, pSourceData);
       if (errorCode) {
 	accessDictionaryError(wIndex, bSubindex, szData, *pExpectedSize, errorCode);
 	return errorCode;
       }
-      #ifdef CANOPEN_BIG_ENDIAN
-	      {
-		// data must be transmited with low byte first
-		UNS8 i, j = 0;
-		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
-			((char*)ptrTable->pSubindex[bSubindex].pObject)[i - 1] = ((char*)pSourceData)[j++];
-		}
-	      }
-      #else  	
-  	      memcpy(ptrTable->pSubindex[bSubindex].pObject,pSourceData, *pExpectedSize);
-      #endif
+      memcpy(ptrTable->pSubindex[bSubindex].pObject,pSourceData, *pExpectedSize);
       *pExpectedSize = szData;
       
       // Callbacks
