@@ -37,14 +37,14 @@ CAN_HANDLE canOpen(s_BOARD *board);
 int canClose(CAN_HANDLE fd0);
 void canReceiveLoop(CAN_HANDLE fd0);
 
-void led_set_redgreen(unsigned char bits);
+#include "data.h"
+
+void led_set_redgreen(CO_Data *d, unsigned char bits);
 
 int nvram_open(void);
 void nvram_close(void);
 char nvram_write(int type, int access_attr, void *data);
 char nvram_read(int type, int access_attr, void *data);
-
-#include "data.h"
 
 struct struct_s_BOARD {
   char * busname;

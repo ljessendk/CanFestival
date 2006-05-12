@@ -25,10 +25,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define _LPC2138_H_
 
 
+/* block and maximum size of NVRRAM in bytes */ 
+#define NVRAM_BLOCK_SIZE 256
+#define NVRAM_MAX_SIZE 1024*512
+
 extern short data_len;
+extern short data_num_pages;
 extern unsigned int *data_page;
 extern unsigned int data_addr;
 
+extern unsigned int *regs_page;
 
 void lpc2138_pinsel_set(int pin, LPC2138_PORT port, int size, int func); 
 void lpc2138_pinsel_clear(void); 
@@ -45,7 +51,9 @@ void sja1000_write(unsigned char addr8, unsigned char data);
 void iat_flash_erase(unsigned int command_ee,unsigned int result_ee[]);
 void iat_flash_write_page(unsigned int addr);
 void iat_flash_read_page(unsigned int addr);
-
+ 
+void iat_flash_write_regs(void);
+void iat_flash_read_regs(void);
 
 #endif
 

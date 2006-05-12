@@ -1,0 +1,61 @@
+procedure for NVRAM
+===================
+
+data block 0
+------------
+This data block is located at the beginning of the NVRAM and contains
+a series of registers.
+eg. 1. the version number of the current dictionnary (32 bits)
+    2. pointer to the current dictionnary (32 bits)
+    3. date of last dictionnary dump (32 bits)
+    4. pointer to the last dict (32 bits)
+    5. size in page of the current dict
+
+a minimum number of registers should always be in this block (including a number of 'for future use' 32 bits registers). the remaining space will be left to the developper
+
+a 256kb data block could handled 64 registers 
+
+data block 1 to N
+-----------------
+The place where to put the content of the dictionnary
+
+
+procedure to write in the NVRAM
+-------------------------------
+for each sub-index
+add a flag indicating the state
+	= 0  : normal
+	= -1 : this is a old sub-index, no longer used
+	= +1 : this is a new sub-index
+
+the sub-indexed flaged to -1 could be remove when doing a new release of dictionnary
+eg. from BIOS V0 to V1, flag the old sub-index to -1.  but when going to V2, those must be remove from the dictionnary
+
+this flag is important when reloading the old NVRAM content. Since the writing and reading are done sequentially, the dictionnary and the NVRAM must be synchronised.
+
+
+ON BOOT
+-------
+1. read the block data 0 and check the NVRAM version number against the current dictionnary
+if the dict version = NVRAM version, then read the NVRAM using the normal procedure (state=0 and state=+1)
+if the dict version is newer then the NVRAM, read the NVRAM using the state=0 and state=-1 . this will ensure a synchone reading of the data
+
+2. if this is a new NVRAM, write the whole dictionnary to a NEW position in the NVRAM.
+	write all sub-indexes with state=0 and =+1, do not write does with state=-1
+	write the new version number in the registery and the date
+
+
+ON WRITE
+--------
+write the content of the whole dict (only those sub-indexes that must be saved) to the NVRAM
+write the version number  
+write the date
+
+
+NEW VERSION OF BIOS
+-------------------
+When a new version of BIOS is downloaded into the device, special procedure must be taken (cf. ON BOOT and ON WRITE). But to avoid problem during the update (i.e. lost of NVRAM data or worst NVRAM corruption) fewer NVRAM manipulation should be performed. Therefore, when writing the new dictionary to NVRAM, it should be put AFTER the previous one. This will provide a way to go back and fetch the previous dictionnary saved values if needed. 
+
+Obviously, the NVRAM has a limited capacity and it is possible that the new BIOS will overshoot the upper limit of memory. In that case, the algorithm should do a loop-around the addressed. Meaning, if the last block of data is reached, go back to data block 1 (data block 0 = registers). If the NVRAM is large enough, it should not cause problem (i.e. overwritting the beginning of the actual dict).
+
+Data Block 0 has the offset in memory to access the current dict. It also containt the pointer to the last version of the dict. Since the algo writing to the NVRAM does not compact memory, the size of the dict is not necessarily the size of the NVRAM memory it occupies.

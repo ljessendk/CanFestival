@@ -155,16 +155,31 @@ return : 0 if OK, 1 if error
 
 int nvram_open(void)
 {
+	int n = NVRAM_BLOCK_SIZE / sizeof(unsigned int);
+
 	/* some actions to initialise the flash */
 	data_len = 0;
+	data_num_pages = 0;
 
-	data_addr = 0; 
-
-	data_page = (unsigned int *)malloc(sizeof(unsigned int) * 64);
-	memset(data_page, 0, sizeof(unsigned int)*64);
+	data_page = (unsigned int *)malloc(sizeof(unsigned int) * n);
+	memset(data_page, 0, sizeof(unsigned int)*n);
 
 	if (data_page == NULL)
 		return -1;
+
+	regs_page = (unsigned int *)malloc(sizeof(unsigned int) * n);
+	memset(regs_page, 0, sizeof(unsigned int)*n);
+	if (regs_page == NULL)
+		return -2;
+
+	iat_flash_read_regs();
+
+	/* start the data at the location specified in the registers */ 
+	if (0) /* for now it is 0, but put here a test to know whether
+                  or not the NVRAM has been written before */
+		data_addr = regs_page[1];
+	else
+		data_addr = NVRAM_BLOCK_SIZE; /* let start at block 1 */
 
 	return 0;
 }
@@ -172,8 +187,34 @@ int nvram_open(void)
 
 void nvram_close(void)
 {
+	/* write the last page before closing */
+	iat_flash_write_page(data_addr);
+
 	/* some actions to end accessing the flash */
 	free(data_page);
+
+	regs_page[4] = data_num_pages;
+	/* write the registers to the NVRAM before closing */
+	iat_flash_write_regs();
+	free(regs_page);
+}
+
+
+void nvram_set_pos(UNS32 pos)
+/* set the current position in the NVRAM to pos */
+{
+}
+
+
+void nvram_new_firmwave()
+{
+/*
+	this function is called whenever a new firmware is about
+	to be written in the NVRAM
+*/
+	data_addr = regs_page[1] + regs_page[4]*NVRAM_BLOCK_SIZE;
+	if (data_addr > NVRAM_MAX_SIZE)
+		data_addr = NVRAM_BLOCK_SIZE;
 }
 
 int _get_data_len(int type)
@@ -233,16 +274,22 @@ int _get_data_len(int type)
 }
 
 
-char nvram_write(int type, int access_attr, void *data)
+char nvram_write_data(int type, int access_attr, void *data)
 /* return 0 if successfull */
 {
 	int len = _get_data_len(type);
 
-	if (data_len+len > 256)
+	if (data_len+len > NVRAM_BLOCK_SIZE)
 	{
 		iat_flash_write_page(data_addr);
 		data_len = 0;
-		data_addr += 256;
+		data_addr += NVRAM_BLOCK_SIZE; 
+
+		/* wrap-around address pointer */
+		if (data_addr > NVRAM_MAX_SIZE)
+			data_addr = NVRAM_BLOCK_SIZE;
+
+		data_num_pages++;
 	}
 		
 	memcpy(((char *)data_page)+data_len, data, len);
@@ -253,14 +300,19 @@ char nvram_write(int type, int access_attr, void *data)
 }
 
 
-char nvram_read(int type, int access_attr, void *data)
+char nvram_read_data(int type, int access_attr, void *data)
 /* return 0 if successful */
 {
 	int len = _get_data_len(type);
 
-	if (data_len+len > 256)
+	if (data_len+len > NVRAM_BLOCK_SIZE)
 	{
-		data_addr += 256;
+		data_addr += NVRAM_BLOCK_SIZE;
+
+		/* wrap-around address pointer */
+		if (data_addr > NVRAM_MAX_SIZE)
+			data_addr = NVRAM_BLOCK_SIZE;
+
 		iat_flash_read_page(data_addr);
 		data_len = 0;		
 	}
@@ -272,12 +324,36 @@ char nvram_read(int type, int access_attr, void *data)
 	return 0;
 }
 
+/*
+	NVRAM registers at block 0
+	pos        description
+	0          version of the current dictionnary
+	1          starting address for data block
+	2          date of last writing
+	3          address of the previous dictionnary          
+	4          size in pages of the current dict
+*/
+void nvram_write_reg(UNS32 reg, UNS16 pos)
+/* write reg at the position in the data block 0 */
+{
+	regs_page[pos] = reg;
+}
+
+UNS32 nvram_read_reg(UNS16 pos)
+/* read reg at the position in the data block 0 */
+{
+	return regs_page[pos];
+}
+
 
 /*
 	LED
 */
 
-void led_set_redgreen(unsigned char bits)
+void led_set_redgreen(UNS8 bits)
+/* bits : each bit of this uns8 is assigned a led 
+          0=off, 1=on
+*/
 {
 	lpc2138_redgreenled_set(bits);
 }

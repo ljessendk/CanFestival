@@ -32,6 +32,7 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+LED_ENABLE = SUB_LED_ENABLE
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
@@ -42,6 +43,12 @@ OBJS = $(MASTER_OBJS) ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a  ../../
 ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
 endif
+
+ifeq ($(LED_ENABLE),YES)
+OBJS += ../../drivers/can_virtual/led_virtual.o 
+PROG_CFLAGS += -DLED_ENABLE
+endif
+
 
 all: TestMasterSlave
 

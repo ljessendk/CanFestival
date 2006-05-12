@@ -1,5 +1,19 @@
 /*
 This file is part of CanFestival, a library implementing CanOpen Stack.
+  ____    _    _   _
+ / ___|  / \  | \ | | ___  _ __   ___ _ __
+| |     / _ \ |  \| |/ _ \| '_ \ / _ \ '_ \
+| |___ / ___ \| |\  | (_) | |_) |  __/ | | |
+ \____/_/   \_\_| \_|\___/| .__/ \___|_| |_|
+                          |_|
+          ____                      _
+         / ___|__ _ _ __   __ _  __| | __ _
+        | |   / _` | '_ \ / _` |/ _` |/ _` |
+        | |__| (_| | | | | (_| | (_| | (_| |
+         \____\__,_|_| |_|\__,_|\__,_|\__,_|
+
+                   canfestival@canopencanada.ca
+/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
 See COPYING file for copyrights details.
 
@@ -18,25 +32,18 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
-#if !defined(_LED_INDICATORS_H_)
-#define _LED_INDICATORS_H_
-
-
-enum 
-{
-	LED_NO_ERROR = 6, /* reference to States values */
-	LED_AUTOBITRATE,
-	LED_INVALID_CONFIG,
-	LED_WARNING_LIMIT_REACH,
-	LED_ERROR_CTRL_EVENT,
-	LED_SYNC_ERROR,
-	LED_EVENT_TIMER_ERROR,
-	LED_BUS_OFF,
-	LED_PRG_DOWNLOAD
-};
+#if !defined(_NVRAM_IO_H_)
+#define _NVRAM_IO_H_
 
 
-void led_set_state(CO_Data *d, int state);
+int    nvram_open(void);
+void   nvram_close(void);
+
+char nvram_write_data(int type, int access_attr, void *data);
+char nvram_read_data(int type, int access_attr, void *data);
+
+void nvram_write_regs(void);
+void nvram_read_regs(void);
 
 #endif
+

@@ -65,6 +65,8 @@ const char *led_sequence_table[6] = // up and downs of the sequence
 
 void led_set_state(CO_Data *d, int state)
 {
+printf("led_set_state(%x)\n", state);
+
 	switch(state)
 	{
 		case Initialisation:
@@ -100,8 +102,8 @@ void led_set_state(CO_Data *d, int state)
 	{
 		led_stop_timer();
 
-		led_set_green(led_state_green);
-		led_set_red(led_state_red);
+		//led_set_green(led_state_green);
+		//led_set_red(led_state_red);
 	}
 
 	else
@@ -168,15 +170,15 @@ void led_set_error(CO_Data *d, UNS8 error)
 		}
 
 		led_start_timer(d, 200);
-		led_set_red(led_state_red);
+		//led_set_red(led_state_red);
 	}
 
 	if (led_state_green < 2  &&  led_state_red < 2)
 	{
 		led_stop_timer();
 
-		led_set_green(led_state_green);
-		led_set_red(led_state_red);
+		//led_set_green(led_state_green);
+		//led_set_red(led_state_red);
 	}
 }
 
@@ -197,7 +199,7 @@ void led_stop_timer(void)
 
 void led_callback(CO_Data *d, UNS32 id)
 {
-	unsigned char bits = 0;
+	UNS8 bits = 0;
 
 	// RED LED
 	if (led_sequence_table[led_sequence_red][led_seq_index_red] == '1')
@@ -233,7 +235,7 @@ void led_callback(CO_Data *d, UNS32 id)
 	if (led_seq_index_green > strlen(led_sequence_table[led_sequence_green]))
 		led_seq_index_green = 0;
 
-	led_set_redgreen(bits);
+	led_set_redgreen(d, bits);
 }
 
 
