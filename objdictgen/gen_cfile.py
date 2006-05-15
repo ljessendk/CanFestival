@@ -159,8 +159,10 @@ def GenerateFileContent(Manager, headerfilepath):
             texts["suffixe"] = typeinfos[1]
             if typeinfos[2] == "visible_string":
                 texts["value"] = "\"%s\""%values
+                texts["comment"] = ""
             else:
                 texts["value"] = "0x%X"%values
+                texts["comment"] = "\t// %s"%str(values)
             if index in variablelist:
                 texts["name"] = FormatName(subentry_infos["name"])
                 strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x00\n"%texts
@@ -168,7 +170,7 @@ def GenerateFileContent(Manager, headerfilepath):
                     strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
                 mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x00\n"%texts
             else:
-                strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X%(suffixe)s = %(value)s;\n"%texts
+                strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X%(suffixe)s = %(value)s;%(comment)s\n"%texts
             values = [values]
         else:
             
@@ -192,27 +194,31 @@ def GenerateFileContent(Manager, headerfilepath):
                     mappedVariableContent = "%(subIndexType)s %(name)s[] =\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
+                        comment = ""
                         if subIndex > 0:
                             if subIndex == len(values)-1:
                                 sep = ""
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
                             else:
+                                comment = "\t// %s"%str(value)
                                 value = "0x%X"%value
-                            mappedVariableContent += "    %s%s\n"%(value, sep)
+                            mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  }\n"
                 else:
                     strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
+                        comment = ""
                         if subIndex > 0:
                             if subIndex == len(values)-1:
                                 sep = ""
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
                             else:
-                                value = str(value)
-                            strIndex += "                      %s%s\n"%(value, sep)
+                                comment = "\t// %s"%str(value)
+                                value = "0x%X"%value
+                            strIndex += "                      %s%s%s\n"%(value, sep, comment)
                     strIndex += "                    };\n"
             else:
                 
@@ -231,14 +237,16 @@ def GenerateFileContent(Manager, headerfilepath):
                         texts["suffixe"] = typeinfos[1]
                         if typeinfos[2] == "visible_string":
                             texts["value"] = "\"%s\""%value
+                            texts["comment"] = ""
                         else:
                             texts["value"] = "0x%X"%value
+                            texts["comment"] = "\t// %s"%str(value)
                         texts["name"] = FormatName(subentry_infos["name"])
                         if index in variablelist:
                             strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
                             mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
                         else:
-                            strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;\n"%texts
+                            strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
                 if callbacks:
                     texts["name"] = FormatName(entry_infos["name"])
                     strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
@@ -309,7 +317,7 @@ def GenerateFileContent(Manager, headerfilepath):
         entry_infos = Manager.GetEntryInfos(0x1006)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1006] = """\n/* index 0x1006 :   %(EntryName)s */
-                    UNS32 %(NodeName)s_obj1006 = 0;
+                    UNS32 %(NodeName)s_obj1006 = 0x0;   // 0
 """%texts
 
     if 0x1016 in communicationlist:
@@ -332,7 +340,7 @@ def GenerateFileContent(Manager, headerfilepath):
         entry_infos = Manager.GetEntryInfos(0x1017)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */ 
-                    UNS16 %(NodeName)s_obj1017 = 0;
+                    UNS16 %(NodeName)s_obj1017 = 0x0;   // 0
 """%texts
 
 #-------------------------------------------------------------------------------
