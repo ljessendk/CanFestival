@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "objacces.h"
 
+
 #ifdef DEBUG_WAR_CONSOLE_ON
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex, 
 			     UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code)
@@ -98,8 +99,7 @@ UNS32 getODentry( CO_Data* d,
   	(*pDataType == visible_string && *pExpectedSize > szData)) // We allow to fetch a shorter string than expected
   {
 	#ifdef CANOPEN_BIG_ENDIAN
-	      if(*pDataType > boolean && dataType < visible_string){
-	      {
+	      if(*pDataType > boolean && pDataType < visible_string){
 		// data must be transmited with low byte first
 		UNS8 i, j = 0;
 		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
