@@ -29,6 +29,7 @@ But you have to put your code in this functions,
 if you plan to use interruptions.
 */
 
+#include "../include/data.h"
 #include "../include/hcs12/applicfg.h"
 #include "../include/hcs12/error.h"
 #include "../include/hcs12/candriver.h"
