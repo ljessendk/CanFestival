@@ -168,6 +168,7 @@ typedef struct {
 extern canBusInit bi;
 
 
+
 /*
 For the received messsage, add a Identificator to
 the list of ID to accept.
@@ -187,6 +188,12 @@ char canAddIdToFilter (
 		       UNS8 nFilter,
 		       UNS16 id /* 11 bits, the 5 msb not used */
 		       );
+
+/*
+ Use this function to change the CAN message acceptance filters and masks.
+ */
+char canChangeFilter (UNS16 adrCAN, canBusFilterInit fi);
+
 
 /*
 Enable one of the 5 MSCAN.
@@ -284,6 +291,11 @@ char canMsgTransmit (
 		     UNS16 adrCAN,  /* First address of MSCANx registers */
 		     Message msg  /* Message to transmit                */
 		     );
+
+/*
+ Set the interruptions. Must be call just after having left the init mode.
+ */	     
+char canSetInterrupt (UNS16 adrCAN);		     
 
 /*
 Put one of the 5 mscan in sleep mode

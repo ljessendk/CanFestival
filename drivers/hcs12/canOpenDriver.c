@@ -28,11 +28,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "../include/hcs12/asm-m68hc12/portsaccess.h"
 #include "../include/hcs12/asm-m68hc12/ports_def.h"
 #include "../include/hcs12/asm-m68hc12/ports.h"
+#include "../include/data.h"
 #include "../include/hcs12/applicfg.h"
 #include "../include/hcs12/candriver.h"
 #include "../include/hcs12/interrupt.h"
 #include "../include/hcs12/canOpenDriver.h"
-
 #include "../include/can.h"
 #include "../include/objdictdef.h"
 #include "../include/timer.h"
@@ -247,6 +247,22 @@ char canAddIdToFilter(UNS16 adrCAN, UNS8 nFilter, UNS16 id)
 }
 
 /***************************************************************************/
+char canChangeFilter(UNS16 adrCAN, canBusFilterInit fi)
+{
+  /* If not in init mode, go to sleep before going in init mode*/
+  if (! canTestInitMode(adrCAN)) {
+    canSleepMode(adrCAN);
+    canInitMode(adrCAN); 
+  }
+  //update the filters configuration
+  canInitFilter(adrCAN, fi);
+  canInitModeQ(adrCAN);
+  canSleepModeQ(adrCAN);
+  canSetInterrupt(adrCAN);
+  return 0;
+}
+
+/***************************************************************************/
 char canEnable(UNS16 adrCAN)
 {
   /* Register CANCTL1
@@ -287,8 +303,7 @@ char canInit(UNS16 adrCAN, canBusInit bi)
   /* rxfrm is cleared, mupe also (should be before)*/
     IO_PORTS_8(adrCAN + CANCTL0) &= 0x53; /* Clr the bits that may be modified */
     IO_PORTS_8(adrCAN + CANCTL0) = (bi.cswai << 5) | (bi.time << 3);
-    IO_PORTS_8(adrCAN + CANRIER) = 0X01; /* Allow interruptions on receive */
-    IO_PORTS_8(adrCAN + CANTIER) = 0X00; /* disallow  interruptions on transmit */
+    canSetInterrupt(adrCAN);
     canInitModeQ(adrCAN); /* Leave the init mode */
     canSleepModeQ(adrCAN); /* Leave the sleep mode */    
   return 0;
@@ -427,6 +442,13 @@ char canMsgTransmit(UNS16 adrCAN, Message msg)
 }
 
 /***************************************************************************/
+char canSetInterrupt(UNS16 adrCAN) 
+{
+  IO_PORTS_8(adrCAN + CANRIER) = 0X01; /* Allow interruptions on receive */
+  IO_PORTS_8(adrCAN + CANTIER) = 0X00; /* disallow  interruptions on transmit */
+  return 0;  
+}
+/***************************************************************************/
 char canSleepMode(UNS16 adrCAN)
 {
   IO_PORTS_8(adrCAN + CANCTL0) &= 0xFB;   /* clr the bit WUPE  to avoid a wake-up*/ 
@@ -562,7 +584,7 @@ void __attribute__((interrupt)) can0HdlRcv (void)
   IO_PORTS_8(CAN0 + CANRFLG) |= 0x01;
   // Not very usefull
   IO_PORTS_8(CAN0 + CANCTL0) |= 0x80;
-  IO_PORTS_8(PORTB) |= 0x40; // led 6 port B : ON
+  IO_PORTS_8(PORTB) |= 0x40; // led 6 port B : OFF
   unlock();
 }
 
