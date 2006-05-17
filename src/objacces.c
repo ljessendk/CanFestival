@@ -20,8 +20,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#define DEBUG_WAR_CONSOLE_ON
-//#define DEBUG_ERR_CONSOLE_ON
+#define DEBUG_WAR_CONSOLE_ON
+#define DEBUG_ERR_CONSOLE_ON
 
 #include "objacces.h"
 
@@ -99,12 +99,16 @@ UNS32 getODentry( CO_Data* d,
   	(*pDataType == visible_string && *pExpectedSize > szData)) // We allow to fetch a shorter string than expected
   {
 	#ifdef CANOPEN_BIG_ENDIAN
-	      if(*pDataType > boolean && pDataType < visible_string){
+	      if(*pDataType > boolean && *pDataType < visible_string){
 		// data must be transmited with low byte first
+		MSG_WAR(0x2B30, "Dans ENDIANISATION", 0x00);
 		UNS8 i, j = 0;
 		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
 			((char*)pDestData)[j++] = ((char*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
 		}
+	      }
+	      else {
+	      	MSG_WAR(0x2B32, "cas string", 0x00);
 	      }
 	#else  	
   	      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,*pExpectedSize);
@@ -158,12 +162,19 @@ UNS32 setODentry( CO_Data* d,
 	      if(dataType > boolean && dataType < visible_string){
 		// we invert the data source directly. This let us do range testing without
 		// additional temp variable
+		MSG_WAR(0x2B31, "Dans ENDIANISATION", 0x00);
 		UNS8 i, j = 0;
-		for ( i = ptrTable->pSubindex[bSubindex].size >> 1 ; i > 0 ; i--) {
-			char tmp = ((char*)pSourceData)[i - 1];
-			((char*)pSourceData)[i - 1] = ((char*)pSourceData)[j];
-			((char*)pSourceData)[j++] = tmp;
+		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
+			((char*)ptrTable->pSubindex[bSubindex].pObject)[i - 1] = ((char*)pSourceData)[j++];
 		}
+//		for ( i = ptrTable->pSubindex[bSubindex].size >> 1 ; i > 0 ; i--) {
+//			char tmp = ((char*)pSourceData)[i - 1];
+//			((char*)pSourceData)[i - 1] = ((char*)pSourceData)[j];
+//			((char*)pSourceData)[j++] = tmp;
+//		}
+	      }
+	      else {
+	      	MSG_WAR(0x2B35, "cas string", 0x00);
 	      }
       #endif
       errorCode = (*d->valueRangeTest)(dataType, pSourceData);
