@@ -136,8 +136,8 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
   UNS8  dataType;
   UNS32 errorCode;
 
-  MSG_WAR(0x3A05, "Reading at index : ", d->transfers[line].index);
-  MSG_WAR(0x3A06, "Reading at subIndex : ", d->transfers[line].subIndex);
+  MSG_WAR(0x3A05, "objdict->line index : ", d->transfers[line].index);
+  MSG_WAR(0x3A06, "  subIndex : ", d->transfers[line].subIndex);
 
   errorCode = getODentry(d, 	d->transfers[line].index,
   				d->transfers[line].subIndex,
@@ -149,6 +149,15 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 
   d->transfers[line].count = size;
   d->transfers[line].offset = 0;
+#if 0
+  // Me laisser ça, please ! (FD)
+  {
+    UNS8 i;
+    for (i = 0 ; i < 10 ; i++) {
+      MSG_WAR(i, "data= ", d->transfers[line].data[i]);
+    }     
+  }
+#endif
   return 0;
 }
 
@@ -764,10 +773,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       // Search if a SDO transfert have been yet initiated
       err = getSDOlineOnUse( d, nodeId, whoami, &line );
       if (! err) {
-	MSG_ERR(0x1A92, "SDO error : Transmission yet started at line : ", line); 
+	    MSG_ERR(0x1A92, "SDO error : Transmission yet started at line : ", line); 
         MSG_WAR(0x3A93, "nodeId = ", nodeId); 
-	failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_LOCAL_CTRL_ERROR);
-	return 0xFF;
+	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_LOCAL_CTRL_ERROR);
+	    return 0xFF;
       }
       // No line on use. Great !
       // Try to open a new line.

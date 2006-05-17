@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //#define DEBUG_WAR_CONSOLE_ON
 //#define DEBUG_ERR_CONSOLE_ON
 
-#undef CANOPEN_BIG_ENDIAN
 
 #include "objacces.h"
 
@@ -96,28 +95,48 @@ UNS32 getODentry( CO_Data* d,
   *pDataType = ptrTable->pSubindex[bSubindex].bDataType;
    szData = ptrTable->pSubindex[bSubindex].size;
 
-  if(	*pExpectedSize == 0 ||
+   if(	*pExpectedSize == 0 ||
   	*pExpectedSize == szData ||
-  	(*pDataType == visible_string && *pExpectedSize > szData)) // We allow to fetch a shorter string than expected
-  {
-	#ifdef CANOPEN_BIG_ENDIAN
-	      if(*pDataType > boolean && *pDataType < visible_string) {
-		// data must be transmited with low byte first
-		UNS8 i, j = 0;
-		for ( i = ptrTable->pSubindex[bSubindex].size ; i > 0 ; i--) {
-			((char*)pDestData)[j++] = ((char*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
-		}
-	      }
-	#else  	
-  	      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,*pExpectedSize);
-	#endif
-      *pExpectedSize = szData;
-      return OD_SUCCESSFUL;
-  }else{
-      *pExpectedSize = szData;
-      accessDictionaryError(wIndex, bSubindex, szData, *pExpectedSize, OD_LENGTH_DATA_INVALID);
-      return OD_LENGTH_DATA_INVALID;
-  }
+  	(*pDataType == visible_string && *pExpectedSize < szData)) {// We allow to fetch a shorter string than expected
+     
+#  ifdef CANOPEN_BIG_ENDIAN
+     if(*pDataType > boolean && *pDataType < visible_string) {
+       // data must be transmited with low byte first
+       UNS8 i, j = 0;
+       MSG_WAR(boolean, "data type ", *pDataType);
+       MSG_WAR(visible_string, "data type ", *pDataType);
+       for ( i = szData ; i > 0 ; i--) {
+         MSG_WAR(i," ", j);
+	 ((UNS8*)pDestData)[j++] = 
+	   ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
+       }
+     }
+     else // It it is a visible string no endianisation to perform
+       memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+#  else
+     memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+#  endif
+     
+     *pExpectedSize = szData;
+#if 0
+     // Me laisser ça, please ! (FD)
+     {
+       UNS8 i;
+       for (i = 0 ; i < 10 ; i++) {
+	 MSG_WAR(*pExpectedSize, "dic data= ",
+		 *(UNS8 *)(ptrTable->pSubindex[bSubindex].pObject + i));
+       }
+      
+     }
+#endif
+     return OD_SUCCESSFUL;
+   }
+   else { // Error !
+     *pExpectedSize = szData;
+     accessDictionaryError(wIndex, bSubindex, szData, 
+			   *pExpectedSize, OD_LENGTH_DATA_INVALID);
+     return OD_LENGTH_DATA_INVALID;
+   }
 }
 
 UNS32 setODentry( CO_Data* d, 
