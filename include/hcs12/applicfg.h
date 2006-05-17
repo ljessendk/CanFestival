@@ -76,7 +76,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //   SERIAL_SCI0_BAUD_RATE 57600     BUS_CLOCK 24  Send Failed  Receive not tested
 //   SERIAL_SCI0_BAUD_RATE 115200    BUS_CLOCK 24  Send Failed  Receive not tested
 
-#define SERIAL_SCI0_BAUD_RATE 19200
+#define SERIAL_SCI0_BAUD_RATE 38400
 #define SERIAL_SCI1_BAUD_RATE 9600
 
 

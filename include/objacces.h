@@ -44,11 +44,11 @@ typedef UNS32 (*valueRangeTest_t)(UNS8 typeValue, void *Value);
 
 /**
 Print MSG_WAR (s) if error to the access to the object dictionary occurs.
-You must uncomment the lines 
+You must uncomment the lines*/ 
 //#define DEBUG_CAN
 //#define DEBUG_WAR_CONSOLE_ON
 //#define DEBUG_ERR_CONSOLE_ON
-in the file objaccess.c
+/*in the file objaccess.c
 sizeDataDict : Size of the data defined in the dictionary
 sizeDataGiven : Size data given by the user.
 code : error code to print. (SDO abort code. See file def.h)
