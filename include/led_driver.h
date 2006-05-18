@@ -20,29 +20,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef __can_driver_h__
-#define __can_driver_h__
-
-#include "timerscfg.h"
-
-struct struct_s_BOARD;
-
-typedef struct struct_s_BOARD s_BOARD;
-
-#include "can.h"
-
-UNS8 canReceive(CAN_HANDLE fd0, Message *m);
-UNS8 canSend(CAN_HANDLE fd0, Message *m);
-CAN_HANDLE canOpen(s_BOARD *board);
-int canClose(CAN_HANDLE fd0);
-void canReceiveLoop(CAN_HANDLE fd0);
+#ifndef __led_driver_h__
+#define __led_driver_h__
 
 #include "data.h"
 
-struct struct_s_BOARD {
-  char * busname;
-  int baudrate;
-  CO_Data * d;
-};
+void led_set_redgreen(CO_Data *d, unsigned char bits);
 
 #endif

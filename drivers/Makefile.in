@@ -24,11 +24,20 @@
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-LED_ENABLE = SUB_LED_ENABLE
+LED_DRIVER = SUB_LED_DRIVER
+NVRAM_DRIVER = SUB_NVRAM_DRIVER
 
 all: driver
 
 driver:
+ifneq ($(LED_DRIVER),led_)
+	$(MAKE) -C $(LED_DRIVER) $@
+endif
+
+ifneq ($(NVRAM_DRIVER),nvram_)
+	$(MAKE) -C $(NVRAM_DRIVER) $@
+endif
+
 ifneq ($(TIMERS_DRIVER),timers_)
 	$(MAKE) -C $(TIMERS_DRIVER) $@
 endif
@@ -39,6 +48,14 @@ endif
 	$(MAKE) -C $(TARGET) $@
 
 install:
+ifneq ($(LED_DRIVER),led_)
+	$(MAKE) -C $(LED_DRIVER) $@
+endif
+
+ifneq ($(NVRAM_DRIVER),nvram_)
+	$(MAKE) -C $(NVRAM_DRIVER) $@
+endif
+
 ifneq ($(TIMERS_DRIVER),timers_)
 	$(MAKE) -C $(TIMERS_DRIVER) $@
 endif
@@ -49,6 +66,14 @@ endif
 	$(MAKE) -C $(TARGET) $@
 
 uninstall:
+ifneq ($(LED_DRIVER),led_)
+	$(MAKE) -C $(LED_DRIVER) $@
+endif
+
+ifneq ($(NVRAM_DRIVER),nvram_)
+	$(MAKE) -C $(NVRAM_DRIVER) $@
+endif
+
 ifneq ($(TIMERS_DRIVER),timers_)
 	$(MAKE) -C $(TIMERS_DRIVER) $@
 endif
@@ -59,6 +84,14 @@ endif
 	$(MAKE) -C $(TARGET) $@
 
 clean:
+ifneq ($(LED_DRIVER),led_)
+	$(MAKE) -C $(LED_DRIVER) $@
+endif
+
+ifneq ($(NVRAM_DRIVER),nvram_)
+	$(MAKE) -C $(NVRAM_DRIVER) $@
+endif
+
 ifneq ($(TIMERS_DRIVER),timers_)
 	$(MAKE) -C $(TIMERS_DRIVER) $@
 endif
@@ -69,6 +102,14 @@ endif
 	$(MAKE) -C $(TARGET) $@
 
 mrproper: clean
+ifneq ($(LED_DRIVER),led_)
+	$(MAKE) -C $(LED_DRIVER) $@
+endif
+
+ifneq ($(NVRAM_DRIVER),nvram_)
+	$(MAKE) -C $(NVRAM_DRIVER) $@
+endif
+
 ifneq ($(TIMERS_DRIVER),timers_)
 	$(MAKE) -C $(TIMERS_DRIVER) $@
 endif

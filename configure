@@ -94,6 +94,8 @@ while [ $# -ge 1 ]; do
 	--prefix=*)	SUB_PREFIX=$optarg;;
 	--target=*)	SUB_TARGET=$optarg;;
 	--can=*)	SUB_CAN_DRIVER=$optarg;;
+	--led=*)	SUB_LED_DRIVER=$optarg;;
+	--nvram=*)	SUB_NVRAM_DRIVER=$optarg;;
 	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
 	--disable-Ox)	DISABLE_OPT=1;
 			echo "On user request: Won't optimize with \"-Ox\"";;
@@ -105,10 +107,6 @@ while [ $# -ge 1 ]; do
 			echo "Debug messages (PDO) enabled !!";;
 	--enable-lss)	SUB_LSS_ENABLE=YES;
 			echo "On user request: Will enable Auto Baudrate detect Feature";;
-	--enable-led)	SUB_LED_ENABLE=YES;
-			echo "On user request: Will enable diagnostic LED feature";;
-	--enable-nvram)	SUB_NVRAM_ENABLE=YES;
-			echo "On user request: Will enable Non Volatile RAM Feature";;
 	--desable-timers)	SUB_TIMERS_ENABLE=NO;
 			echo "On user request: Will enable built-in timer dispatch Feature";;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
@@ -131,15 +129,13 @@ while [ $# -ge 1 ]; do
 		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
 		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak' or 'virtual')"
 		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xenomai')"
+		echo	" --led=foo	Use 'foo' as DS-305 LED driver (use 'none' to disable or 'stdout')"
+		echo	" --nvram=foo	Use 'foo' as NVRAM driver (use 'none' to disable or 'file')"
 		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
 		echo	" --enable-jaxe	Enable \"jaxe\" installation."
 		echo	" --debug	Enable debug messages."
 		echo	" --debugPDO	Enable debug messages, using PDO."
 		echo	" --enable-lss	Enable Auto Baudrate detect Feature"
-		echo	" --enable-led	Enable DS-305 LED diagnistic Feature"
-		echo	" --enable-nvram Enable Non-volatile RAM managment Feature"
-		echo	" --enable-timers Enable built-in schuduler Feature"
-		echo	" --enable-	Enable  Feature"
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -183,6 +179,16 @@ if [ "$SUB_TARGET" = "generic" -a "$SUB_CAN_DRIVER" = "" ]; then
 		SUB_CAN_DRIVER=virtual
 		SUB_LED_ENABLE=YES
 	fi
+fi
+
+if [ "$SUB_TARGET" = "generic" -a "$SUB_LED_DRIVER" = "" ]; then
+	echo "Choosing stdout LED driver."
+	SUB_LED_DRIVER=stdout
+fi
+
+if [ "$SUB_TARGET" = "generic" -a "$SUB_NVRAM_DRIVER" = "" ]; then
+	echo "Choosing binary file NVRAM driver. -- not implemented --"
+#	SUB_NVRAM_DRIVER=file
 fi
 
 # If target generic, try to gess timers
@@ -415,9 +421,6 @@ if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
 	SUB_NVRAM_ENABLE=YES
 	# ecos driver implement its own timers
 	SUB_TIMERS_ENABLE=NO
-#	SUB_TIMERS_DRIVER=ecos
-#	SUB_CAN_DRIVER=ecos_lpc2138_sja1000
-
 fi
 
 
@@ -427,16 +430,7 @@ if [ "$SUB_CAN_DRIVER" = "peak" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
 fi
 
-if [ "$SUB_CAN_DRIVER" = "ecos_lpc2138_sja1000" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ 
-fi
-
-
 #### TIMERS_DRIVER ####
-
-if [ "$SUB_TIMERS_DRIVER" = "ecos" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -llpthread
-fi
 
 if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread
@@ -446,6 +440,36 @@ if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\
 \	-L`$XENO_CONFIG --library-dir`
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
+fi
+
+#### LED_DRIVER ####
+#enable led support if a led driver have been selected.
+if [ "$SUB_LED_DRIVER" != "" ]; then
+	SUB_LED_ENABLE=YES
+fi
+#if "none" driver is selected led feature is enabled but driver not compiled
+if [ "$SUB_LED_DRIVER" = "none" ]; then
+	SUB_LED_DRIVER=
+fi
+#if "disable" driver is selected led feature is disabled
+if [ "$SUB_LED_DRIVER" = "disable" ]; then
+	SUB_LED_ENABLE=
+	SUB_LED_DRIVER=
+fi
+
+#### NVRAM_DRIVER ####
+#enable nvram support if a nvram driver have been selected.
+if [ "$SUB_NVRAM_DRIVER" != "" ]; then
+	SUB_NVRAM_ENABLE=YES
+fi
+#if "none" driver is selected nvram feature is enabled but driver not compiled
+if [ "$SUB_NVRAM_DRIVER" = "none" ]; then
+	SUB_NVRAM_DRIVER=
+fi
+#if "disable" driver is selected nvram feature is disabled
+if [ "$SUB_NVRAM_DRIVER" = "disable" ]; then
+	SUB_NVRAM_ENABLE=
+	SUB_NVRAM_DRIVER=
 fi
 
 ###########################################################################
@@ -605,6 +629,16 @@ if [ "$SUB_CAN_DRIVER" != "" ]; then
 \	drivers/can_$SUB_CAN_DRIVER/Makefile.in
 fi
 
+if [ "$SUB_LED_DRIVER" != "" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/led_$SUB_LED_DRIVER/Makefile.in
+fi
+
+if [ "$SUB_NVRAM_DRIVER" != "" ]; then
+	MAKEFILES=$MAKEFILES\
+\	drivers/nvram_$SUB_NVRAM_DRIVER/Makefile.in
+fi
+
 if [ "$SUB_TARGET" = "generic" ]; then
 	MAKEFILES=$MAKEFILES\
 \	drivers/generic/Makefile.in\
@@ -639,6 +673,8 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_TIMERS_ENABLE:${SUB_TIMERS_ENABLE}:
 	s:SUB_TIMERS_DRIVER:timers_${SUB_TIMERS_DRIVER}:
 	s:SUB_CAN_DRIVER:can_${SUB_CAN_DRIVER}:
+	s:SUB_LED_DRIVER:led_${SUB_LED_DRIVER}:
+	s:SUB_NVRAM_DRIVER:nvram_${SUB_NVRAM_DRIVER}:
 	" > $makefile
 done
 

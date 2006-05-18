@@ -34,21 +34,15 @@ CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 LED_ENABLE = SUB_LED_ENABLE
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
+INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER) -I../../include/$(LED_DRIVER) -I../../include/$(NVRAM_DRIVER)
 
 MASTER_OBJS = TestSlave.o TestMaster.o TestMasterSlave.o Slave.o Master.o
 
-OBJS = $(MASTER_OBJS) ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a  ../../src/libcanfestival.a
+OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
 
 ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
 endif
-
-ifeq ($(LED_ENABLE),YES)
-OBJS += ../../drivers/can_virtual/led_virtual.o 
-PROG_CFLAGS += -DLED_ENABLE
-endif
-
 
 all: TestMasterSlave
 
