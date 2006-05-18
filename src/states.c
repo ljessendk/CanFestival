@@ -95,12 +95,12 @@ void canDispatch(CO_Data* d, Message *m)
 
 void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicationState)
 {
-	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 	StartOrStop(csSDO,	None,		resetSDO(d))
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
 	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
 //	StartOrStop(Emergency,,)
 	StartOrStop(csPDO,	None,	None)
+	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
 
 UNS8 setState(CO_Data* d, e_nodeState newState)
