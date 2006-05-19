@@ -1,0 +1,10 @@
+            ____     ____     ______    __  ___    ______   ____
+           / __ \   / __ \   / ____/   /  |/  /   / ____/  / __ \
+          / / / /  / /_/ /  / __/     / /|_/ /   / __/    / / / /
+         / /_/ /  / _, _/  / /___    / /  / /   / /___   / /_/ /
+         \____/  /_/ |_|  /_____/   /_/  /_/   /_____/   \___\_\
+
+Observatoire de Recherche Environnementale sur l'ElectroMagnetisme du Quebec
+
+Video Register Address:		0x00000..0x1FFFF
+Video Memory Address:		0x20000..0x3FFFF
