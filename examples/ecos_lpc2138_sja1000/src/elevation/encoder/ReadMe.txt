@@ -33,8 +33,8 @@ and fill the DS-406 specification for CANopen.
 You can find this specification at: http://www.can-cia.org/
 Ask for the document: CiA DS 406 V3.1: CANopen device profile for encoder
 
-To build this project, see $CANFESTIVAL_HOME/driver/ecos-lpc2138/ReadMe.txt
-to prepare your environemnt.
+To build this project, see $CANFESTIVAL_HOME/drivers/ecos_lpc2138_sja1000/ReadMe.txt
+to prepare your environment.
 
 See the schematic.jpg in this directory.
 
