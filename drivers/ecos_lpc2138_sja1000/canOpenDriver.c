@@ -155,48 +155,13 @@ return : 0 if OK, 1 if error
 
 int nvram_open(void)
 {
-	int n = NVRAM_BLOCK_SIZE / sizeof(unsigned int);
-
-	/* some actions to initialise the flash */
-	data_len = 0;
-	data_num_pages = 0;
-
-	data_page = (unsigned int *)malloc(sizeof(unsigned int) * n);
-	memset(data_page, 0, sizeof(unsigned int)*n);
-
-	if (data_page == NULL)
-		return -1;
-
-	regs_page = (unsigned int *)malloc(sizeof(unsigned int) * n);
-	memset(regs_page, 0, sizeof(unsigned int)*n);
-	if (regs_page == NULL)
-		return -2;
-
-	iat_flash_read_regs();
-
-	/* start the data at the location specified in the registers */ 
-	if (0) /* for now it is 0, but put here a test to know whether
-                  or not the NVRAM has been written before */
-		data_addr = regs_page[1];
-	else
-		data_addr = NVRAM_BLOCK_SIZE; /* let start at block 1 */
-
-	return 0;
+	return iat_init();
 }
 
 
 void nvram_close(void)
 {
-	/* write the last page before closing */
-	iat_flash_write_page(data_addr);
-
-	/* some actions to end accessing the flash */
-	free(data_page);
-
-	regs_page[4] = data_num_pages;
-	/* write the registers to the NVRAM before closing */
-	iat_flash_write_regs();
-	free(regs_page);
+	iat_end();
 }
 
 
@@ -206,7 +171,7 @@ void nvram_set_pos(UNS32 pos)
 }
 
 
-void nvram_new_firmwave()
+void nvram_new_firmware()
 {
 /*
 	this function is called whenever a new firmware is about

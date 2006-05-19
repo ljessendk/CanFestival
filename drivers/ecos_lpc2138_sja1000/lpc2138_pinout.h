@@ -1,19 +1,7 @@
 /*
 This file is part of CanFestival, a library implementing CanOpen Stack.
-  ____    _    _   _
- / ___|  / \  | \ | | ___  _ __   ___ _ __
-| |     / _ \ |  \| |/ _ \| '_ \ / _ \ '_ \
-| |___ / ___ \| |\  | (_) | |_) |  __/ | | |
- \____/_/   \_\_| \_|\___/| .__/ \___|_| |_|
-                          |_|
-          ____                      _
-         / ___|__ _ _ __   __ _  __| | __ _
-        | |   / _` | '_ \ / _` |/ _` |/ _` |
-        | |__| (_| | | | | (_| | (_| | (_| |
-         \____\__,_|_| |_|\__,_|\__,_|\__,_|
 
-                   canfestival@canopencanada.ca
-/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+ Author: Christian Fortin (canfestival@canopencanada.ca)
 
 See COPYING file for copyrights details.
 
@@ -94,13 +82,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define LPC2138_ale_PORT               P0
 #define LPC2138_ale_SIZE                1
 
-#define LPC2138_redled                 27 /* Pin 27 */
-#define LPC2138_redled_PORT            P0
-#define LPC2138_redled_SIZE             1
-
-#define LPC2138_greenled               28 /* Pin 28 */
-#define LPC2138_greenled_PORT          P0
-#define LPC2138_greenled_SIZE           1
+#define LPC2138_redgreenled             27 /* Pin 27 */
+#define LPC2138_redgreenled_PORT        P0
+#define LPC2138_redgreenled_SIZE        2
 
 #define LPC2138_rd                     29 /* Pin 29 */
 #define LPC2138_rd_PORT                P0
