@@ -41,6 +41,8 @@ void TestMaster_post_TPDO();
 // Master node data struct
 extern CO_Data TestMaster_Data;
 
+extern ODCallback_t Store_parameters_callbacks[];		// Callbacks of index0x1010
+extern ODCallback_t Restore_Default_Parameters_callbacks[];		// Callbacks of index0x1011
 extern UNS8 MasterMap1;		// Mapped at index 0x2000, subindex 0x00
 extern ODCallback_t MasterMap1_callbacks[];		// Callbacks of index0x2000
 extern UNS8 MasterMap2;		// Mapped at index 0x2001, subindex 0x00

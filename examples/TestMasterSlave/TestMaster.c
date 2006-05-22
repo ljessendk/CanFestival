@@ -63,21 +63,21 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1000 :   Device Type. */
-                    UNS32 TestMaster_obj1000 = 0x12D;
+                    UNS32 TestMaster_obj1000 = 0x12D;	// 301
                     subindex TestMaster_Index1000[] = 
                      {
                        { RO, uint32, sizeof (UNS32), (void*)&TestMaster_obj1000 }
                      };
 
 /* index 0x1001 :   Error Register. */
-                    UNS8 TestMaster_obj1001 = 0x0;
+                    UNS8 TestMaster_obj1001 = 0x0;	// 0
                     subindex TestMaster_Index1001[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_obj1001 }
                      };
 
 /* index 0x1005 :   SYNC COB ID. */
-                    UNS32 TestMaster_obj1005 = 0x40000080;
+                    UNS32 TestMaster_obj1005 = 0x40000080;	// 1073741952
                     ODCallback_t TestMaster_Index1005_callbacks[] = 
                      {
                        NULL,
@@ -88,7 +88,7 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
                      };
 
 /* index 0x1006 :   Communication / Cycle Period. */
-                    UNS32 TestMaster_obj1006 = 0xC350;
+                    UNS32 TestMaster_obj1006 = 0xC350;	// 50000
                     ODCallback_t TestMaster_Index1006_callbacks[] = 
                      {
                        NULL,
@@ -98,11 +98,57 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1006 }
                      };
 
+/* index 0x1010 :   Store parameters. */
+                    UNS8 TestMaster_highestSubIndex_obj1010 = 4; // number of subindex - 1
+                    UNS32 TestMaster_obj1010_Save_All_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1010_Save_Communication_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1010_Save_Application_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1010_Save_Manufacturer_Parameters = 0x0;	// 0
+                    ODCallback_t TestMaster_Index1010_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
+                    subindex TestMaster_Index1010[] = 
+                     {
+                       { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1010 },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1010_Save_All_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1010_Save_Communication_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1010_Save_Application_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1010_Save_Manufacturer_Parameters }
+                     };
+
+/* index 0x1011 :   Restore Default Parameters. */
+                    UNS8 TestMaster_highestSubIndex_obj1011 = 4; // number of subindex - 1
+                    UNS32 TestMaster_obj1011_Restore_All_Default_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1011_Restore_Communication_Default_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1011_Restore_Application_Default_Parameters = 0x0;	// 0
+                    UNS32 TestMaster_obj1011_Restore_Manufacturer_Default_Parameters = 0x0;	// 0
+                    ODCallback_t TestMaster_Index1011_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
+                    subindex TestMaster_Index1011[] = 
+                     {
+                       { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1011 },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1011_Restore_All_Default_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1011_Restore_Communication_Default_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1011_Restore_Application_Default_Parameters },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1011_Restore_Manufacturer_Default_Parameters }
+                     };
+
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 TestMaster_highestSubIndex_obj1016 = 1; // number of subindex - 1
                     UNS32 TestMaster_obj1016[] = 
                     {
-                      133122
+                      0x20802	// 133122
                     };
                     subindex TestMaster_Index1016[] = 
                      {
@@ -111,14 +157,14 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
                      };
 
 /* index 0x1017 :   Producer Heartbeat Time */ 
-                    UNS16 TestMaster_obj1017 = 0;
+                    UNS16 TestMaster_obj1017 = 0x0;   // 0
 
 /* index 0x1018 :   Identity. */
                     UNS8 TestMaster_highestSubIndex_obj1018 = 4; // number of subindex - 1
-                    UNS32 TestMaster_obj1018_Vendor_ID = 0x0;
-                    UNS32 TestMaster_obj1018_Product_Code = 0x0;
-                    UNS32 TestMaster_obj1018_Revision_Number = 0x0;
-                    UNS32 TestMaster_obj1018_Serial_Number = 0x0;
+                    UNS32 TestMaster_obj1018_Vendor_ID = 0x0;	// 0
+                    UNS32 TestMaster_obj1018_Product_Code = 0x0;	// 0
+                    UNS32 TestMaster_obj1018_Revision_Number = 0x0;	// 0
+                    UNS32 TestMaster_obj1018_Serial_Number = 0x0;	// 0
                     subindex TestMaster_Index1018[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1018 },
@@ -130,9 +176,9 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
 
 /* index 0x1280 :   Client SDO 1 Parameter. */
                     UNS8 TestMaster_highestSubIndex_obj1280 = 3; // number of subindex - 1
-                    UNS32 TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x602;
-                    UNS32 TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x582;
-                    UNS32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;
+                    UNS32 TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x602;	// 1538
+                    UNS32 TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x582;	// 1410
+                    UNS32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;	// 2
                     subindex TestMaster_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1280 },
@@ -143,11 +189,11 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */
                     UNS8 TestMaster_highestSubIndex_obj1400 = 5; // number of subindex - 1
-                    UNS32 TestMaster_obj1400_COB_ID_used_by_PDO = 0x182;
-                    UNS8 TestMaster_obj1400_Transmission_Type = 0x1;
-                    UNS16 TestMaster_obj1400_Inhibit_Time = 0x0;
-                    UNS16 TestMaster_obj1400_Compatibility_Entry = 0x0;
-                    UNS16 TestMaster_obj1400_Event_Timer = 0x0;
+                    UNS32 TestMaster_obj1400_COB_ID_used_by_PDO = 0x182;	// 386
+                    UNS8 TestMaster_obj1400_Transmission_Type = 0x1;	// 1
+                    UNS16 TestMaster_obj1400_Inhibit_Time = 0x0;	// 0
+                    UNS16 TestMaster_obj1400_Compatibility_Entry = 0x0;	// 0
+                    UNS16 TestMaster_obj1400_Event_Timer = 0x0;	// 0
                     subindex TestMaster_Index1400[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1400 },
@@ -160,11 +206,11 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
 
 /* index 0x1401 :   Receive PDO 2 Parameter. */
                     UNS8 TestMaster_highestSubIndex_obj1401 = 5; // number of subindex - 1
-                    UNS32 TestMaster_obj1401_COB_ID_used_by_PDO = 0x282;
-                    UNS8 TestMaster_obj1401_Transmission_Type = 0x1;
-                    UNS16 TestMaster_obj1401_Inhibit_Time = 0x0;
-                    UNS16 TestMaster_obj1401_Compatibility_Entry = 0x0;
-                    UNS16 TestMaster_obj1401_Event_Timer = 0x0;
+                    UNS32 TestMaster_obj1401_COB_ID_used_by_PDO = 0x282;	// 642
+                    UNS8 TestMaster_obj1401_Transmission_Type = 0x1;	// 1
+                    UNS16 TestMaster_obj1401_Inhibit_Time = 0x0;	// 0
+                    UNS16 TestMaster_obj1401_Compatibility_Entry = 0x0;	// 0
+                    UNS16 TestMaster_obj1401_Event_Timer = 0x0;	// 0
                     subindex TestMaster_Index1401[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1401 },
@@ -179,8 +225,8 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
                     UNS8 TestMaster_highestSubIndex_obj1600 = 2; // number of subindex - 1
                     UNS32 TestMaster_obj1600[] = 
                     {
-                      536870920,
-                      536936456
+                      0x20000008,	// 536870920
+                      0x20010008	// 536936456
                     };
                     subindex TestMaster_Index1600[] = 
                      {
@@ -193,8 +239,8 @@ TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
                     UNS8 TestMaster_highestSubIndex_obj1601 = 2; // number of subindex - 1
                     UNS32 TestMaster_obj1601[] = 
                     {
-                      537001992,
-                      537067528
+                      0x20020008,	// 537001992
+                      0x20030008	// 537067528
                     };
                     subindex TestMaster_Index1601[] = 
                      {
@@ -237,6 +283,8 @@ const indextable TestMaster_objdict[] =
   { (subindex*)TestMaster_Index1001,sizeof(TestMaster_Index1001)/sizeof(TestMaster_Index1001[0]), 0x1001},
   { (subindex*)TestMaster_Index1005,sizeof(TestMaster_Index1005)/sizeof(TestMaster_Index1005[0]), 0x1005},
   { (subindex*)TestMaster_Index1006,sizeof(TestMaster_Index1006)/sizeof(TestMaster_Index1006[0]), 0x1006},
+  { (subindex*)TestMaster_Index1010,sizeof(TestMaster_Index1010)/sizeof(TestMaster_Index1010[0]), 0x1010},
+  { (subindex*)TestMaster_Index1011,sizeof(TestMaster_Index1011)/sizeof(TestMaster_Index1011[0]), 0x1011},
   { (subindex*)TestMaster_Index1016,sizeof(TestMaster_Index1016)/sizeof(TestMaster_Index1016[0]), 0x1016},
   { (subindex*)TestMaster_Index1018,sizeof(TestMaster_Index1018)/sizeof(TestMaster_Index1018[0]), 0x1018},
   { (subindex*)TestMaster_Index1280,sizeof(TestMaster_Index1280)/sizeof(TestMaster_Index1280[0]), 0x1280},
@@ -253,22 +301,25 @@ const indextable TestMaster_objdict[] =
 const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
+	*callbacks = NULL;
 	switch(wIndex){
-		case 0x1000: i = 0; *callbacks = NULL; break;
-		case 0x1001: i = 1; *callbacks = NULL; break;
-		case 0x1005: i = 2; *callbacks = TestMaster_Index1005_callbacks; break;
-		case 0x1006: i = 3; *callbacks = TestMaster_Index1006_callbacks; break;
-		case 0x1016: i = 4; *callbacks = NULL; break;
-		case 0x1018: i = 5; *callbacks = NULL; break;
-		case 0x1280: i = 6; *callbacks = NULL; break;
-		case 0x1400: i = 7; *callbacks = NULL; break;
-		case 0x1401: i = 8; *callbacks = NULL; break;
-		case 0x1600: i = 9; *callbacks = NULL; break;
-		case 0x1601: i = 10; *callbacks = NULL; break;
-		case 0x2000: i = 11; *callbacks = MasterMap1_callbacks; break;
-		case 0x2001: i = 12; *callbacks = NULL; break;
-		case 0x2002: i = 13; *callbacks = NULL; break;
-		case 0x2003: i = 14; *callbacks = NULL; break;
+		case 0x1000: i = 0;break;
+		case 0x1001: i = 1;break;
+		case 0x1005: i = 2;*callbacks = TestMaster_Index1005_callbacks; break;
+		case 0x1006: i = 3;*callbacks = TestMaster_Index1006_callbacks; break;
+		case 0x1010: i = 4;*callbacks = TestMaster_Index1010_callbacks; break;
+		case 0x1011: i = 5;*callbacks = TestMaster_Index1011_callbacks; break;
+		case 0x1016: i = 6;break;
+		case 0x1018: i = 7;break;
+		case 0x1280: i = 8;break;
+		case 0x1400: i = 9;break;
+		case 0x1401: i = 10;break;
+		case 0x1600: i = 11;break;
+		case 0x1601: i = 12;break;
+		case 0x2000: i = 13;*callbacks = MasterMap1_callbacks; break;
+		case 0x2001: i = 14;break;
+		case 0x2002: i = 15;break;
+		case 0x2003: i = 16;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;
@@ -284,18 +335,18 @@ UNS8 TestMaster_count_sync[1] = {0,};
 
 quick_index TestMaster_firstIndex = {
   SDO_SVR : 0,
-  SDO_CLT : 6,
-  PDO_RCV : 7,
-  PDO_RCV_MAP : 9,
+  SDO_CLT : 8,
+  PDO_RCV : 9,
+  PDO_RCV_MAP : 11,
   PDO_TRS : 0,
   PDO_TRS_MAP : 0
 };
 
 quick_index TestMaster_lastIndex = {
   SDO_SVR : 0,
-  SDO_CLT : 6,
-  PDO_RCV : 8,
-  PDO_RCV_MAP : 10,
+  SDO_CLT : 8,
+  PDO_RCV : 10,
+  PDO_RCV_MAP : 12,
   PDO_TRS : 0,
   PDO_TRS_MAP : 0
 };

@@ -41,6 +41,8 @@ void TestSlave_post_TPDO();
 // Master node data struct
 extern CO_Data TestSlave_Data;
 
+extern ODCallback_t Store_parameters_callbacks[];		// Callbacks of index0x1010
+extern ODCallback_t Restore_Default_Parameters_callbacks[];		// Callbacks of index0x1011
 extern UNS8 SlaveMap1;		// Mapped at index 0x2000, subindex 0x00
 extern UNS8 SlaveMap2;		// Mapped at index 0x2001, subindex 0x00
 extern UNS8 SlaveMap3;		// Mapped at index 0x2002, subindex 0x00
