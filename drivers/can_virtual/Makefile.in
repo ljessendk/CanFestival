@@ -34,7 +34,6 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 LED_ENABLE = SUB_LED_ENABLE
-NVRAM_ENABLE = SUB_NVRAM_ENABLE
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
@@ -43,11 +42,6 @@ OBJS = $(CAN_DRIVER).o
 SRC_HFILES = ../../include/$(CAN_DRIVER)/cancfg.h
 
 TARGET_HFILES = $(PREFIX)/include/canfestival/cancfg.h
-
-ifeq ($(NVRAM_ENABLE),YES)
-OBJS += nvram.o
-SRC_HFILES += ../include/nvram.h
-endif
 
 all: driver
 
