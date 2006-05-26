@@ -29,7 +29,7 @@ ifeq ($(TARGET),hc12)
 	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
-ifeq ($(TARGET),generic)
+ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
 endif
 
@@ -39,7 +39,7 @@ ifeq ($(TARGET),hc12)
 	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
-ifeq ($(TARGET),generic)
+ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
 endif
 
@@ -49,7 +49,7 @@ ifeq ($(TARGET),hc12)
 	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
-ifeq ($(TARGET),generic)
+ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
 endif
 

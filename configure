@@ -47,6 +47,11 @@ SDO_TIMEOUT_MS=3000
 
 MAX_NB_TIMER=32
 
+# Generic timers declaration defaults
+US_TO_TIMEVAL_FACTOR=
+TIMEVAL=
+TIMEVAL_MAX=
+
 # Default to little-endian
 CANOPEN_LITTLE_ENDIAN=1
 CANOPEN_BIG_ENDIAN=
@@ -75,9 +80,6 @@ SUB_TIMERS_ENABLE=YES
 CFLAGS=
 test=conftest
 rm -f $test $test.c
-
-# Jaxe install is now disbaled by default
-DISABLE_JAXE=1
 
 XENO_CONFIG=/usr/xenomai/bin/xeno-config
 
@@ -123,8 +125,9 @@ while [ $# -ge 1 ]; do
 		echo 	" --os=foo	Use operative system 'foo' instead of trying to autodetect."
 		echo 	" --prefix=foo	Use prefix 'foo' instead of default ${SUB_PREFIX}."
 		echo 	" --target=foo	Use 'foo' as build target."
-		echo	"		Where 'foo' can be \"generic\" to have independant CAN and TIMERS driver"
-		echo	"		or"
+		echo	"		\"generic\" for have independant CAN and TIMERS driver"
+		echo	"		\"unix\" for unix-like systems"
+		echo	"		\"win32\" for win32 systems"
 		echo	"		\"hcs12\" for HCS12 micro-controller"
 		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
 		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak' or 'virtual')"
@@ -159,48 +162,6 @@ else
 		echo "Could not find java VM ! Jaxe XML editor disabled !"
 	else
 		SUB_OPT_JAXE=jaxe
-	fi
-fi
-###########################################################################
-#                      DEFAULT TARGET/DRIVERS GUESSING                    #
-###########################################################################
-# If target not specified, try to gess one
-if [ "$SUB_TARGET" = "" ]; then
-	SUB_TARGET=generic
-fi
-
-# If target generic, try to gess can
-if [ "$SUB_TARGET" = "generic" -a "$SUB_CAN_DRIVER" = "" ]; then
-	if [ -e /usr/lib/libpcan.so ]; then 
-		echo "Choosing installed Peak driver as CAN driver."
-		SUB_CAN_DRIVER=peak
-	else
-		echo "Choosing virtual CAN driver."
-		SUB_CAN_DRIVER=virtual
-		SUB_LED_ENABLE=YES
-	fi
-fi
-
-if [ "$SUB_TARGET" = "generic" -a "$SUB_LED_DRIVER" = "" ]; then
-	echo "Choosing stdout LED driver."
-	SUB_LED_DRIVER=stdout
-fi
-
-if [ "$SUB_TARGET" = "generic" -a "$SUB_NVRAM_DRIVER" = "" ]; then
-	echo "Choosing binary file NVRAM driver. -- not implemented --"
-#	SUB_NVRAM_DRIVER=file
-fi
-
-# If target generic, try to gess timers
-if [ "$SUB_TARGET" = "generic" -a "$SUB_TIMERS_DRIVER" = "" ]; then
-	echo "Choosing unix timers driver."
-	SUB_TIMERS_DRIVER=unix
-fi
-
-if [ "$SUB_CAN_DRIVER" = "peak" ]; then
-	if [ ! -e /usr/lib/libpcan.so ]; then 
-		echo "Peak driver hasn't been installed !"
-		exit -1
 	fi
 fi
 
@@ -379,8 +340,74 @@ if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 fi
 
 ###########################################################################
+#                      DEFAULT TARGET/DRIVERS GUESSING                    #
+###########################################################################
+# If target not specified, try to gess one
+if [ "$SUB_TARGET" = "" ]; then
+	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
+		echo "Choosing win32 target"
+		SUB_TARGET=win32
+	else
+		echo "Choosing unix target"
+		SUB_TARGET=unix
+	fi
+fi
+
+# Try to gess can
+if [ "$SUB_CAN_DRIVER" = "" ]; then
+	if [ "$SUB_TARGET" = "unix" ]; then
+		if [ -e /usr/lib/libpcan.so ]; then 
+			echo "Choosing installed Peak driver as CAN driver."
+			SUB_CAN_DRIVER=peak
+		else
+			echo "Choosing virtual CAN driver."
+			SUB_CAN_DRIVER=virtual
+		fi
+	fi
+	if [ "$SUB_TARGET" = "win32" ]; then
+		echo "CAN driver for windows --Not Implemented--"
+	fi
+fi
+
+if [ "$SUB_TARGET" = "unix" -a "$SUB_LED_DRIVER" = "" ]; then
+	echo "Choosing stdout LED driver."
+	SUB_LED_DRIVER=stdout
+fi
+
+if [ "$SUB_TARGET" = "unix" -a "$SUB_NVRAM_DRIVER" = "" ]; then
+	echo "Choosing binary file NVRAM driver. -- not implemented --"
+#	SUB_NVRAM_DRIVER=file
+fi
+
+# If target is unix, default timers also
+if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "" ]; then
+	echo "Choosing unix timers driver."
+	SUB_TIMERS_DRIVER=unix
+fi
+
+# Warn for unstalled peak driver if choosen
+if [ "$SUB_CAN_DRIVER" = "peak" ]; then
+	if [ ! -e /usr/lib/libpcan.so ]; then 
+		echo "Peak driver hasn't been installed !"
+		exit -1
+	fi
+fi
+
+###########################################################################
 #              TARGET/DRIVER SPECIFIC CFLAGS and OPTIONS                  #
 ###########################################################################
+if [ "$SUB_TARGET" = "generic" ]; then
+	if [ "$US_TO_TIMEVAL_FACTOR" = "" ]; then
+		US_TO_TIMEVAL_FACTOR=1
+	fi
+	if [ "$TIMEVAL" = "" ]; then
+		TIMEVAL=UNS64
+	fi
+	if [ "$TIMEVAL_MAX" = "" ]; then
+		TIMEVAL_MAX=0xffffffffffffffff
+	fi
+fi
+
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	# Only if we want to compile for a µC HCS12
 	# search for gcc hcs12 compiler m6811-elf-gcc or m68hc12-gcc ?
@@ -399,8 +426,6 @@ if [ "$SUB_TARGET" = "hcs12" ]; then
 			SUB_PROG_CFLAGS=-m68hc12
 		fi
 	fi
-	# hcs12 driver implement its own timers
-	SUB_TIMERS_ENABLE=YES
 fi	
 
 if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
@@ -419,8 +444,6 @@ if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
 	SUB_LSS_ENABLE=YES
 	SUB_LED_ENABLE=YES
 	SUB_NVRAM_ENABLE=YES
-	# ecos driver implement its own timers
-	SUB_TIMERS_ENABLE=NO
 fi
 
 
@@ -428,6 +451,10 @@ fi
 
 if [ "$SUB_CAN_DRIVER" = "peak" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
+fi
+
+if [ "$SUB_CAN_DRIVER" = "none" ]; then
+	SUB_CAN_DRIVER=
 fi
 
 #### TIMERS_DRIVER ####
@@ -440,6 +467,10 @@ if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\
 \	-L`$XENO_CONFIG --library-dir`
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
+fi
+
+if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
+	SUB_TIMERS_DRIVER=
 fi
 
 #### LED_DRIVER ####
@@ -575,7 +606,10 @@ for i in \
  SDO_TIMEOUT_MS\
  MAX_NB_TIMER\
  CANOPEN_BIG_ENDIAN\
- CANOPEN_LITTLE_ENDIAN ; do
+ CANOPEN_LITTLE_ENDIAN\
+ US_TO_TIMEVAL_FACTOR\
+ TIMEVAL\
+ TIMEVAL_MAX; do
 if [ "${!i}" = "" ]; then
 echo "// $i is not defined" >> include/config.h
 else
@@ -605,20 +639,14 @@ fi
 ###########################################################################
 #                              CREATE MAKEFILES                           #
 ###########################################################################
+# General Makefiles
 MAKEFILES=Makefile.in\
 \ src/Makefile.in\
 \ drivers/Makefile.in\
 \ objdictgen/Makefile.in\
 \ examples/Makefile.in
 
-if [ "$SUB_TARGET" = "hcs12" ]; then
-	MAKEFILES=$MAKEFILES\
-\	drivers/hcs12/Makefile.in\
-\	examples/AppliMaster_HCS12/Makefile.in\
-\	examples/AppliSlave_HCS12/Makefile.in\
-\	examples/gene_SYNC_HCS12/Makefile.in
-fi
-
+# Drivers dependent Makefiles
 if [ "$SUB_TIMERS_DRIVER" != "" ]; then
 	MAKEFILES=$MAKEFILES\
 \	drivers/timers_$SUB_TIMERS_DRIVER/Makefile.in
@@ -639,17 +667,25 @@ if [ "$SUB_NVRAM_DRIVER" != "" ]; then
 \	drivers/nvram_$SUB_NVRAM_DRIVER/Makefile.in
 fi
 
-if [ "$SUB_TARGET" = "generic" ]; then
+# Target dependent Makefiles
+MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
+
+if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
-\	drivers/generic/Makefile.in\
 \	examples/AppliMaster_Linux/Makefile.in\
 \	examples/AppliSlave_Linux/Makefile.in\
 \	examples/TestMasterSlave/Makefile.in
 fi
 
+if [ "$SUB_TARGET" = "hcs12" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/AppliMaster_HCS12/Makefile.in\
+\	examples/AppliSlave_HCS12/Makefile.in\
+\	examples/gene_SYNC_HCS12/Makefile.in
+fi
+
 if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
 	MAKEFILES=$MAKEFILES\
-\	drivers/ecos_lpc2138_sja1000/Makefile.in\
 \	examples/ecos_lpc2138_sja1000/src/Makefile.in
 fi
 

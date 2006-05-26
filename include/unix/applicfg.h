@@ -26,6 +26,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <string.h>
 #include <stdio.h>
 
+#include "cancfg.h"
+#include "timerscfg.h"
+
 // Define the architecture : little_endian or big_endian
 // -----------------------------------------------------
 // Test :
@@ -62,7 +65,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define UNS40
 #define UNS48
 #define UNS56
-#define UNS64 unsigned long long
+#define UNS64 
 
 // Reals
 #define REAL32	float
@@ -93,10 +96,3 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #endif
 
 #endif
-
-#define CAN_HANDLE	void*
-
-#define MS_TO_TIMEVAL(ms) ms*US_TO_TIMEVAL_FACTOR*1000
-#define US_TO_TIMEVAL(us) us*US_TO_TIMEVAL_FACTOR
-
-#define TASK_HANDLE pthread_t

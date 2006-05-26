@@ -35,17 +35,11 @@ LED_ENABLE = SUB_LED_ENABLE
 NVRAM_ENABLE = SUB_NVRAM_ENABLE
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-TIMERS_ENABLE = SUB_TIMERS_ENABLE
 
 INCLUDES = -I../include -I../include/$(TARGET) -I../include/$(CAN_DRIVER) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
 
 OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o\
-	    $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o
-
-# ecos driver shortcuts timer.c
-ifeq ($(TIMERS_ENABLE),YES)
-OBJS += $(TARGET)_timer.o
-endif
+	    $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o $(TARGET)_timer.o
 
 # # # # Target specific paramters # # # #
 
@@ -59,7 +53,7 @@ OPT_CFLAGS = -Os
 PROGDEFINES = -mnoshort -Wall -Wmissing-prototypes -fno-strict-aliasing
 endif
 
-ifeq ($(TARGET),generic)
+ifeq ($(TARGET),unix)
 OPT_CFLAGS = -O2
 endif
 
@@ -80,11 +74,6 @@ ifeq ($(NVRAM_ENABLE),YES)
 OBJS += $(TARGET)_nvram.o
 SRC_HFILES += ../include/nvram.h
 endif 
-
-ifeq ($(TIMERS_ENABLE),YES)
-OBJS += $(TARGET)_timer.o
-endif
-
 
 CFLAGS = SUB_OPT_CFLAGS
 

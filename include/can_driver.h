@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __can_driver_h__
 #define __can_driver_h__
 
-#include "timerscfg.h"
-
 struct struct_s_BOARD;
 
 typedef struct struct_s_BOARD s_BOARD;
