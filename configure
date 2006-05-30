@@ -130,7 +130,7 @@ while [ $# -ge 1 ]; do
 		echo	"		\"win32\" for win32 systems"
 		echo	"		\"hcs12\" for HCS12 micro-controller"
 		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
-		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak' or 'virtual')"
+		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak', 'lincan' or 'virtual')"
 		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xenomai')"
 		echo	" --led=foo	Use 'foo' as DS-305 LED driver (use 'none' to disable or 'stdout')"
 		echo	" --nvram=foo	Use 'foo' as NVRAM driver (use 'none' to disable or 'file')"
