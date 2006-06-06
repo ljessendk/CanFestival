@@ -204,7 +204,7 @@ def GenerateFileContent(Manager, headerfilepath):
                                 comment = "\t// %s"%str(value)
                                 value = "0x%X"%value
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
-                    mappedVariableContent += "  }\n"
+                    mappedVariableContent += "  };\n"
                 else:
                     strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
                     for subIndex, value in enumerate(values):
