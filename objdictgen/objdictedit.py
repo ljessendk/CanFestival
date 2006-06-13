@@ -1238,7 +1238,7 @@ class objdictedit(wx.Frame):
     
     def OnSaveAsMenu(self, event):
         self.SaveAs()
-        evant.Skip()
+        event.Skip()
         
     def Save(self):
         result = self.Manager.SaveCurrentInFile()

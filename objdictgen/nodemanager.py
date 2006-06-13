@@ -178,8 +178,8 @@ def FindMapVariableList(mappingdictionary, Manager):
                     infos = Manager.GetEntryInfos(mappingdictionary[index]["values"][subIndex]["type"])
                     if mappingdictionary[index]["struct"] & OD_IdenticalSubindexes:
                         values = Manager.GetCurrentEntry(index)
-                        for i in xrange(len(values)):
-                            list.append((index, i + 1, infos["size"], StringFormat(mappingdictionary[index]["values"][subIndex]["name"],1,i)))
+                        for i in xrange(len(values) - 1):
+                            list.append((index, i + 1, infos["size"], StringFormat(mappingdictionary[index]["values"][subIndex]["name"],1,i+1)))
                     else:
                         list.append((index, subIndex, infos["size"], mappingdictionary[index]["values"][subIndex]["name"]))
     return list
@@ -780,10 +780,13 @@ class NodeManager:
                     self.CurrentNode.SetEntry(index, subIndex, value)
                 else:
                     subentry_infos = self.GetSubentryInfos(index, subIndex)
+                    type = subentry_infos["type"]
                     dic = {}
                     for typeindex, typevalue in CustomisableTypes:
                         dic[typeindex] = typevalue
-                    if dic[subentry_infos["type"]] == 0:
+                    if type not in dic:
+                        type = self.CurrentNode.GetEntry(type)[1]
+                    if dic[type] == 0:
                         try:
                             value = eval(value, {})
                             self.CurrentNode.SetEntry(index, subIndex, value)
