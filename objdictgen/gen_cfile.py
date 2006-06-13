@@ -188,10 +188,10 @@ def GenerateFileContent(Manager, headerfilepath):
                 texts["length"] = values[0]
                 if index in variablelist:
                     texts["name"] = FormatName(entry_infos["name"])
-                    strDeclareHeader += "%(subIndexType)s %(name)s[%(length)d]%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n"%texts
+                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(length)d]%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n"%texts
                     if callbacks:
                         strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
-                    mappedVariableContent = "%(subIndexType)s %(name)s[] =\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n  {\n"%texts
+                    mappedVariableContent += "%(subIndexType)s %(name)s[] =\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         comment = ""
