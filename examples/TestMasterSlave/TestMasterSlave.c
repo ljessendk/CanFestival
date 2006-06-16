@@ -117,10 +117,8 @@ void catch_signal(int sig)
 {
   signal(SIGTERM, catch_signal);
   signal(SIGINT, catch_signal);
-  stopTimer();
-  eprintf("Got Sigterm - Finishing.\n");
+  eprintf("Got Signal %d\n",sig);
 }
-
 
 void help()
 {
@@ -189,10 +187,17 @@ int main(int argc,char **argv)
 	SlaveCanHandle = canOpen(&SlaveBoard);
 	MasterCanHandle = canOpen(&MasterBoard);	
 	
-	// Will call InitNodes, and wait and handle next timer events.
-	TimerLoop(&InitNodes);
+	// Start timer thread
+	StartTimerLoop(&InitNodes);
+
+	// wait Ctrl-C
+	pause();
+	eprintf("Finishing.\n");
 	
-	// Close CAN devices
+	// Stop timer thread
+	StopTimerLoop();
+	
+	// Close CAN devices (and can threads)
 	canClose(SlaveCanHandle);
 	canClose(MasterCanHandle);	
 	

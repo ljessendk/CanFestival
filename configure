@@ -453,7 +453,7 @@ if [ "$SUB_CAN_DRIVER" = "peak" ]; then
     if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
     	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lrtdm
     fi
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
+    SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
 fi
 
 if [ "$SUB_CAN_DRIVER" = "none" ]; then
@@ -463,7 +463,7 @@ fi
 #### TIMERS_DRIVER ####
 
 if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread\ -lrt
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then

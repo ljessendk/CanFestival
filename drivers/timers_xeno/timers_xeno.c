@@ -26,7 +26,7 @@ void cleanup_all(void)
 	rt_task_delete(&timerloop_task);
 	rt_alarm_delete(&timerloop_alarm);
 }
-void stopTimer(void)
+void StopTimerLoop(void)
 {
 	stop_timer = 1;
 	rt_task_unblock(&timerloop_task);
@@ -57,7 +57,7 @@ void timerloop_task_proc(void *arg)
 	printf("End of TimerLoop, code %d\n",ret);
 }
 
-void TimerLoop(TimerCallback_t init_callback)
+void StartTimerLoop(TimerCallback_t init_callback)
 {
 	int ret;
 	stop_timer = 0;
@@ -86,8 +86,6 @@ void TimerLoop(TimerCallback_t init_callback)
 		goto error;
 	}
 	
-	// At first, TimeDispatch will call init_callback.
-	pause();
 
 error:
 	cleanup_all();

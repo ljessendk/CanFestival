@@ -248,6 +248,7 @@ UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex
   d->transfers[line].count = 0;
   d->transfers[line].offset = 0;
   d->transfers[line].dataType = 0;
+  d->transfers[line].Callback = NULL;  
   return 0;
 }
 
@@ -606,6 +607,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	// The code is safe for the case e=s=0 in initiate frame.
 	StopSDO_TIMER(line)
 	d->transfers[line].state = SDO_FINISHED;
+	if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
+	
 	MSG_WAR(0x3A77, "SDO. End of upload from node : ", nodeId);
       }
       else { // more segments to receive
@@ -722,6 +725,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	MSG_WAR(0x3A87, "SDO End download. segment response received. OK. from nodeId", nodeId); 
 	StopSDO_TIMER(line)
 	d->transfers[line].state = SDO_FINISHED;
+	if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
 	return 0x00;
       }
       // At least one transfer to send.	  
@@ -861,6 +865,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	StopSDO_TIMER(line)
 	d->transfers[line].count = nbBytes;
 	d->transfers[line].state = SDO_FINISHED;
+	if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
 	return 0;
       }
       else { // So, if it is not an expedited transfert
@@ -966,6 +971,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	MSG_WAR(0x3AA6, "SDO End download expedited. Response received. from nodeId", nodeId); 
 	StopSDO_TIMER(line)
 	d->transfers[line].state = SDO_FINISHED;
+	if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
 	return 0x00;
       }	  
       if (nbBytes > 7) {
@@ -1038,8 +1044,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 }
 
 /*******************************************************************)******/
-UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)
+inline UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
 {
   UNS8 err;
   UNS8 SDOfound = 0;
@@ -1141,14 +1147,25 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
     // release the line
     resetSDOline(d, line);
     return 0xFF;
-  }		
+  }
+  d->transfers[line].Callback = Callback;
   return 0;
+}
+UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)
+{
+	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, NULL);
+}
+
+UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
+{
+	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, Callback);	
 }
 
 
-
 /***************************************************************************/
-UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)
+UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)
 {
   UNS8 err;
   UNS8 SDOfound = 0;
@@ -1229,9 +1246,19 @@ UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 
     resetSDOline(d, line);
     return 0xFF;
   }		
+  d->transfers[line].Callback = Callback;
   return 0;
 }
 
+UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)
+{
+	return _readNetworkDict (d, nodeId, index, subIndex, dataType, NULL);
+}
+
+UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)
+{
+	return _readNetworkDict (d, nodeId, index, subIndex, dataType, Callback);
+}
 /***************************************************************************/
 
 UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, 

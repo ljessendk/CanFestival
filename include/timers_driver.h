@@ -30,10 +30,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 void EnterMutex(void);
 void LeaveMutex(void);
 void WaitReceiveTaskEnd(TASK_HANDLE*);
-void stopTimer(void);
 
 // For use from application
-void TimerLoop(TimerCallback_t init_callback);
+void StartTimerLoop(TimerCallback_t init_callback);
+void StopTimerLoop(void);
 void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE *ReceiveLoop_task);
 
 #endif

@@ -114,7 +114,8 @@ struct struct_CO_Data {
 		offset: 0,\
 		data: {0,},\
 		dataType: 0,\
-		timer: -1},},\
+		timer: -1,\
+		Callback: NULL},},\
 	SDOtimeoutError: &NODE_PREFIX ## _SDOtimeoutError,\
 	\
 	/* State machine */\

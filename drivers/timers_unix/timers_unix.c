@@ -1,8 +1,8 @@
 #include <stdlib.h>
 
 #include <sys/time.h>
-#include <signal.h>
 #include <pthread.h> 
+#include <signal.h>
 
 #include "applicfg.h"
 #include "can_driver.h"
@@ -10,31 +10,13 @@
 
 pthread_mutex_t CanFestival_mutex = PTHREAD_MUTEX_INITIALIZER;
 
+TASK_HANDLE TimerLoopThread;
+
 TIMEVAL last_time_set = TIMEVAL_MAX;
 
 struct timeval last_sig;
 
-char stop_timer=0;
-
-void sig(int val)
-{
-	signal( SIGALRM, sig);
-	gettimeofday(&last_sig,NULL);
-//	printf("getCurrentTime() return=%u\n", p.tv_usec);
-}
-
-void initTimer(void)
-{
-	gettimeofday(&last_sig,NULL);
-	signal( SIGALRM, sig);
-	stop_timer = 0;
-}
-
-void stopTimer(void)
-{
-	stop_timer = 1;
-	kill(0, SIGALRM);	
-}
+timer_t timer;
 
 void EnterMutex(void)
 {
@@ -46,17 +28,41 @@ void LeaveMutex(void)
 	pthread_mutex_unlock(&CanFestival_mutex);
 }
 
-void TimerLoop(TimerCallback_t init_callback)
+void timer_notify(int val)
+{
+	gettimeofday(&last_sig,NULL);
+	EnterMutex();
+	TimeDispatch();
+	LeaveMutex();
+//	printf("getCurrentTime() return=%u\n", p.tv_usec);
+}
+
+void initTimer(void)
+{
+	struct sigevent sigev;
+
+	// Take first absolute time ref.
+	gettimeofday(&last_sig,NULL);
+
+	memset (&sigev, 0, sizeof (struct sigevent));
+	sigev.sigev_value.sival_int = 0;
+	sigev.sigev_notify = SIGEV_THREAD;
+	sigev.sigev_notify_attributes = NULL;
+	sigev.sigev_notify_function = timer_notify;
+
+	timer_create (CLOCK_REALTIME, &sigev, &timer);
+}
+
+void StopTimerLoop(void)
+{
+	timer_delete (timer);
+}
+
+void StartTimerLoop(TimerCallback_t init_callback)
 {
 	initTimer();
 	// At first, TimeDispatch will call init_callback.
 	SetAlarm(NULL, 0, init_callback, 0, 0);
-	while (!stop_timer) {
-		EnterMutex();
-		TimeDispatch();
-		LeaveMutex();
-		pause();
-	}
 }
 
 void ReceiveLoop(void* arg)
@@ -78,13 +84,16 @@ void WaitReceiveTaskEnd(TASK_HANDLE Thread)
 void setTimer(TIMEVAL value)
 {
 //	printf("setTimer(TIMEVAL value=%d)\n", value);
-	struct itimerval timerValues;
-	struct itimerval timerV = {{0,0},{0,0}};
-	timerValues.it_value.tv_sec = 0;
-	timerValues.it_value.tv_usec = max(value,1);
+	// TIMEVAL is us whereas setitimer wants ns...
+	long tv_nsec = 1000 * (max(value,1)%1000000);
+	time_t tv_sec = value/1000000;
+	struct itimerspec timerValues;
+	timerValues.it_value.tv_sec = tv_sec;
+	timerValues.it_value.tv_nsec = tv_nsec;
 	timerValues.it_interval.tv_sec = 0;
-	timerValues.it_interval.tv_usec = 0;
-	setitimer(ITIMER_REAL, &timerValues, &timerV);
+	timerValues.it_interval.tv_nsec = 0;
+
+ 	timer_settime (timer, 0, &timerValues, NULL);
 }
 
 TIMEVAL getElapsedTime(void)

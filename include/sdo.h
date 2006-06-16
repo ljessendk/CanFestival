@@ -28,6 +28,8 @@ struct struct_s_transfer;
 
 #include "timer.h"
 
+typedef void (*SDOCallback_t)(CO_Data* d, UNS8 nodeId);
+
 /* The Transfer structure
 Used to store the different segments of 
  - a SDO received before writing in the dictionary  
@@ -60,6 +62,7 @@ struct struct_s_transfer {
                              // the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
                              // SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
                              // when the response SDO have been received.
+  SDOCallback_t Callback;   // The user callback func to be called at SDO transaction end
 };
 typedef struct struct_s_transfer s_transfer;
   
