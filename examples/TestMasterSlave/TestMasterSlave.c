@@ -66,6 +66,7 @@ void print_message(Message *m)
 UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	eprintf("OnSlaveMap1Update:%d\n", SlaveMap1);
+	return 0;
 }
 
 
@@ -134,7 +135,7 @@ void help()
   printf("*   If you have chosen virtual CAN driver, just type         *\n");
   printf("*   ./TestMasterSlave                                        *\n");
   printf("*                                                            *\n");
-  printf("*   Else you need to sepcify bus:                            *\n");
+  printf("*   Else you need to specify bus:                            *\n");
   printf("*                                                            *\n");
   printf("*     -s : slave CAN bus [default 0, peak first PCI]         *\n");
   printf("*     -m : master CAN bus [default 1, peak second PCI]       *\n");

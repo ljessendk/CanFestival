@@ -131,7 +131,7 @@ while [ $# -ge 1 ]; do
 		echo	"		\"hcs12\" for HCS12 micro-controller"
 		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
 		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak', 'lincan' or 'virtual')"
-		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xenomai')"
+		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo	" --led=foo	Use 'foo' as DS-305 LED driver (use 'none' to disable or 'stdout')"
 		echo	" --nvram=foo	Use 'foo' as NVRAM driver (use 'none' to disable or 'file')"
 		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
@@ -450,6 +450,9 @@ fi
 #### CAN_DRIVER ####
 
 if [ "$SUB_CAN_DRIVER" = "peak" ]; then
+    if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
+    	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lrtdm
+    fi
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
 fi
 

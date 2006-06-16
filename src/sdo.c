@@ -112,8 +112,6 @@ void resetSDO (CO_Data* d)
 /***************************************************************************/
 UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 {
-  const indextable *ptrTable;
-  UNS8 i;
   UNS8      size;
   UNS32 errorCode;
   MSG_WAR(0x3A08, "Enter in SDOlineToObjdict ", line);
@@ -130,8 +128,6 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 /***************************************************************************/
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 {
-  UNS8  j;
-//  UNS8  *data;
   UNS8  size = 0;
   UNS8  dataType;
   UNS32 errorCode;

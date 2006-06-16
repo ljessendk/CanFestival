@@ -42,6 +42,7 @@ void led_stop_timer(void);
 void led_set_green(UNS8 on);
 void led_set_red(UNS8 on);
 void led_callback(CO_Data* d, UNS32 id);
+void led_set_redgreen(CO_Data *d, unsigned char state);
 
 
 // 0 = always off, 1 = always on, 2 = flashing
