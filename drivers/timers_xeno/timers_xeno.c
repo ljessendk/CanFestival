@@ -124,10 +124,11 @@ void WaitReceiveTaskEnd(TASK_HANDLE Thread)
 {
 	rt_task_delete(&Thread);
 }
-#define max(a,b) a>b?a:b
+
+//#define max(a,b) a>b?a:b
 void setTimer(TIMEVAL value)
 {	
-	last_alarm_set = last_time_read + value;
+	last_alarm_set = (value == TIMEVAL_MAX) ? TIMEVAL_MAX : last_time_read + value;
 	rt_task_unblock(&timerloop_task);
 }
 
