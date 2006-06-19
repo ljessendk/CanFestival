@@ -52,8 +52,9 @@ void timerloop_task_proc(void *arg)
 			EnterMutex();
 			TimeDispatch();
 			LeaveMutex();
-		}while ((ret =  rt_task_sleep_until(last_alarm_set)) == 0);
-	}while (ret == -EINTR && !stop_timer );
+			while ((ret = rt_task_sleep_until(last_alarm_set)) == -EINTR);
+		}while (ret == 0);
+	}while (!stop_timer);
 	printf("End of TimerLoop, code %d\n",ret);
 }
 
@@ -86,7 +87,8 @@ void StartTimerLoop(TimerCallback_t init_callback)
 		goto error;
 	}
 	
-
+	return;
+	
 error:
 	cleanup_all();
 }

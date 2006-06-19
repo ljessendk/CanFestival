@@ -62,7 +62,10 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
   UNS8 data; 
   TPCANMsg peakMsg;
   if ((errno = CAN_Read(((CANPort*)fd0)->fd, & peakMsg))) {		// Blocks until no new message or error.
-    perror("!!! Peak board : error of reading. (from f_can_receive function) \n");
+    if(errno != -EIDRM) // error is not "Can Port closed while reading" 
+    {
+    	perror("!!! Peak board : error of reading. (from f_can_receive function) \n");
+    }
     return 1;
   }
   m->cob_id.w = peakMsg.ID;   
@@ -159,7 +162,7 @@ CAN_HANDLE canOpen(s_BOARD *board)
 int canClose(CAN_HANDLE fd0)
 {
   CAN_Close(((CANPort*)fd0)->fd);
-  ((CANPort*)fd0)->used = 0;
   WaitReceiveTaskEnd(&((CANPort*)fd0)->receiveTask);
+  ((CANPort*)fd0)->used = 0;
   return 0;
 }
