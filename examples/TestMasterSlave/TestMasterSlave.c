@@ -69,35 +69,6 @@ UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8
 	return 0;
 }
 
-
-
-void InitNodes(CO_Data* d, UNS32 id)
-{
-//  TestSlave_Index2000_callbacks[0] = &OnMasterMap1Update;
-  RegisterSetODentryCallBack(&TestMaster_Data, 0x2000, 0, &OnMasterMap1Update);
-
-  /****************************** INITIALISATION MASTER *******************************/
-  /* Defining the node Id */
-  setNodeId(&TestMaster_Data, 0x01);
-
-  /* init */
-  setState(&TestMaster_Data, Initialisation);
-
-  /****************************** INITIALISATION SLAVE *******************************/
-  /* Defining the node Id */
-  setNodeId(&TestSlave_Data, 0x02);
-
-  /* init */
-  setState(&TestSlave_Data, Initialisation);
-
-  /****************************** START *******************************/
-  /* Put the master in operational mode */
-  setState(&TestMaster_Data, Operational);
-  
-  masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Start_Node);
-	
-}
-
 CAN_HANDLE SlaveCanHandle;
 CAN_HANDLE MasterCanHandle;
 
@@ -106,12 +77,39 @@ CAN_HANDLE MasterCanHandle;
 // CAN_BAUD_20K CAN_BAUD_10K CAN_BAUD_5K
 
 #ifdef CAN_BAUD_500K
-// Appli have been compiled for Peak. Baudrate is defined
-# define BAUDRATE CAN_BAUD_500K
+int TranslateBaudeRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return CAN_BAUD_1M;
+	if(!strcmp( optarg, "500K")) return CAN_BAUD_500K;
+	if(!strcmp( optarg, "250K")) return CAN_BAUD_250K;
+	if(!strcmp( optarg, "125K")) return CAN_BAUD_125K;
+	if(!strcmp( optarg, "100K")) return CAN_BAUD_100K;
+	if(!strcmp( optarg, "50K")) return CAN_BAUD_50K;
+	if(!strcmp( optarg, "20K")) return CAN_BAUD_20K;
+	if(!strcmp( optarg, "10K")) return CAN_BAUD_10K;
+	if(!strcmp( optarg, "5K")) return CAN_BAUD_5K;
+	if(!strcmp( optarg, "none")) return 0;
+	return 0x0000;
+}
+s_BOARD SlaveBoard = {"0", CAN_BAUD_500K, &TestSlave_Data};
+s_BOARD MasterBoard = {"1", CAN_BAUD_500K, &TestMaster_Data};
 #else
-// Appli have been compiled for Generic. Baudrate not used
-# define BAUDRATE 0
+int TranslateBaudeRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return 1000;
+	if(!strcmp( optarg, "500K")) return 500;
+	if(!strcmp( optarg, "250K")) return 250;
+	if(!strcmp( optarg, "125K")) return 125;
+	if(!strcmp( optarg, "100K")) return 100;
+	if(!strcmp( optarg, "50K")) return 50;
+	if(!strcmp( optarg, "20K")) return 20;
+	if(!strcmp( optarg, "10K")) return 10;
+	if(!strcmp( optarg, "5K")) return 5;
+	if(!strcmp( optarg, "none")) return 0;
+	return 0;
+}
+s_BOARD SlaveBoard = {"0", 500, &TestSlave_Data};
+s_BOARD MasterBoard = {"1", 500, &TestMaster_Data};
 #endif
+
 
 void catch_signal(int sig)
 {
@@ -127,18 +125,52 @@ void help()
   printf("*                                                            *\n");
   printf("*  A simple example for PC. It does implement 2 CanOpen      *\n");
   printf("*  nodes in the same process. A master and a slave. Both     *\n");
-  printf("*   communicate together, exchanging periodically NMT, SYNC, *\n");
-  printf("*   SDO and PDO.                                             *\n");
+  printf("*  communicate together, exchanging periodically NMT, SYNC,  *\n");
+  printf("*  SDO and PDO.                                              *\n");
   printf("*                                                            *\n");
-  printf("*   If you have chosen virtual CAN driver, just type         *\n");
-  printf("*   ./TestMasterSlave                                        *\n");
+  printf("*   Usage:                                                   *\n");
+  printf("*   ./TestMasterSlave  [OPTIONS]                             *\n");
   printf("*                                                            *\n");
-  printf("*   Else you need to specify bus:                            *\n");
+  printf("*   OPTIONS:                                                 *\n");
+  printf("*    Slave:                                                  *\n");
+  printf("*     -s : bus name [\"0\"]                                    *\n");
+  printf("*     -S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
-  printf("*     -s : slave CAN bus [default 0, peak first PCI]         *\n");
-  printf("*     -m : master CAN bus [default 1, peak second PCI]       *\n");
+  printf("*    Master:                                                 *\n");
+  printf("*     -m : bus name [\"1\"]                                    *\n");
+  printf("*     -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
   printf("**************************************************************\n");
+}
+
+/***************************  INIT  *****************************************/
+void InitNodes(CO_Data* d, UNS32 id)
+{
+	/****************************** INITIALISATION SLAVE *******************************/
+	if(SlaveBoard.baudrate) {
+		/* Defining the node Id */
+		setNodeId(&TestSlave_Data, 0x02);
+		/* init */
+		setState(&TestSlave_Data, Initialisation);
+	}
+
+	/****************************** INITIALISATION MASTER *******************************/
+	if(MasterBoard.baudrate){
+ 		RegisterSetODentryCallBack(&TestMaster_Data, 0x2000, 0, &OnMasterMap1Update);
+
+		/* Defining the node Id */
+		setNodeId(&TestMaster_Data, 0x01);
+
+		/* init */
+		setState(&TestMaster_Data, Initialisation);
+
+		/****************************** START *******************************/
+		/* Put the master in operational mode */
+		setState(&TestMaster_Data, Operational);
+  
+		/* Ask slave node to go in operational mode */
+		masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Start_Node);
+	}
 }
 
 /****************************************************************************/
@@ -146,14 +178,11 @@ void help()
 /****************************************************************************/
 int main(int argc,char **argv)
 {
-	s_BOARD SlaveBoard = {"0", BAUDRATE, &TestSlave_Data};
-	s_BOARD MasterBoard = {"1", BAUDRATE, &TestMaster_Data};
-
 
   char c;
   extern char *optarg;
 
-  while ((c = getopt(argc, argv, "-m:s:")) != EOF)
+  while ((c = getopt(argc, argv, "-m:s:M:S:")) != EOF)
   {
     switch(c)
     {
@@ -173,6 +202,22 @@ int main(int argc,char **argv)
         }
         MasterBoard.busname = optarg;
         break;
+      case 'S' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        SlaveBoard.baudrate = TranslateBaudeRate(optarg);
+        break;
+      case 'M' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        MasterBoard.baudrate = TranslateBaudeRate(optarg);
+        break;
       default:
         help();
         exit(1);
@@ -184,8 +229,11 @@ int main(int argc,char **argv)
 	signal(SIGINT, catch_signal);
 	
 	// Open CAN devices
-	SlaveCanHandle = canOpen(&SlaveBoard);
-	MasterCanHandle = canOpen(&MasterBoard);	
+	if(SlaveBoard.baudrate)
+		if((SlaveCanHandle = canOpen(&SlaveBoard))==NULL) goto fail_slave;
+		
+	if(MasterBoard.baudrate)
+		if((MasterCanHandle = canOpen(&MasterBoard))==NULL) goto fail_master;
 	
 	// Start timer thread
 	StartTimerLoop(&InitNodes);
@@ -198,8 +246,10 @@ int main(int argc,char **argv)
 	StopTimerLoop();
 	
 	// Close CAN devices (and can threads)
-	canClose(SlaveCanHandle);
-	canClose(MasterCanHandle);	
+	if(SlaveBoard.baudrate) canClose(SlaveCanHandle);
+fail_master:
+	if(MasterBoard.baudrate) canClose(MasterCanHandle);	
+fail_slave:
 	
 
   return 0;
