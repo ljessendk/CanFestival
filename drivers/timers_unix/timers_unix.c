@@ -75,9 +75,10 @@ void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE* Thread)
 	pthread_create(Thread, NULL, (void *)&ReceiveLoop, (void*)fd0);
 }
 
-void WaitReceiveTaskEnd(TASK_HANDLE Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	pthread_join(Thread, NULL);
+	pthread_kill(*Thread, SIGTERM);
+	pthread_join(*Thread, NULL);
 }
 
 #define max(a,b) a>b?a:b

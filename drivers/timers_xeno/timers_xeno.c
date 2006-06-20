@@ -120,9 +120,9 @@ void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE *ReceiveLoop_task)
 	}
 }
 
-void WaitReceiveTaskEnd(TASK_HANDLE Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	rt_task_delete(&Thread);
+	rt_task_delete(Thread);
 }
 
 //#define max(a,b) a>b?a:b

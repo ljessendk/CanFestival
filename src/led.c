@@ -66,7 +66,7 @@ const char *led_sequence_table[6] = // up and downs of the sequence
 
 void led_set_state(CO_Data *d, int state)
 {
-printf("led_set_state(%x)\n", state);
+//printf("led_set_state(%x)\n", state);
 
 	switch(state)
 	{
@@ -236,7 +236,7 @@ void led_callback(CO_Data *d, UNS32 id)
 	if (led_seq_index_green > strlen(led_sequence_table[led_sequence_green]))
 		led_seq_index_green = 0;
 
-	led_set_redgreen(d, bits);
+	//led_set_redgreen(d, bits);
 }
 
 

@@ -62,7 +62,7 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
   UNS8 data; 
   TPCANMsg peakMsg;
   if ((errno = CAN_Read(((CANPort*)fd0)->fd, & peakMsg))) {		// Blocks until no new message or error.
-    if(errno != -EIDRM) // error is not "Can Port closed while reading" 
+    if(errno != -EIDRM && errno != -EPERM) // error is not "Can Port closed while reading" 
     {
     	perror("!!! Peak board : error of reading. (from f_can_receive function) \n");
     }
