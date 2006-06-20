@@ -81,12 +81,12 @@ void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 	pthread_join(*Thread, NULL);
 }
 
-#define max(a,b) a>b?a:b
+#define maxval(a,b) a>b?a:b
 void setTimer(TIMEVAL value)
 {
 //	printf("setTimer(TIMEVAL value=%d)\n", value);
 	// TIMEVAL is us whereas setitimer wants ns...
-	long tv_nsec = 1000 * (max(value,1)%1000000);
+	long tv_nsec = 1000 * (maxval(value,1)%1000000);
 	time_t tv_sec = value/1000000;
 	struct itimerspec timerValues;
 	timerValues.it_value.tv_sec = tv_sec;

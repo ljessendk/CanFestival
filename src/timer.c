@@ -32,8 +32,7 @@ s_timer_entry timers[MAX_NB_TIMER] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
 TIMEVAL total_sleep_time = TIMEVAL_MAX;
 TIMER_HANDLE last_timer_raw = -1;
 
-#define max(a,b) a>b?a:b
-#define min(a,b) a<b?a:b
+#define minval(a,b) a<b?a:b
 
 // ---------  Use this to declare a new alarm ---------
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
@@ -66,7 +65,7 @@ TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL va
 		if (row_number == last_timer_raw + 1) last_timer_raw++;
 		
 		// set next wakeup alarm if new entry is sooner than others, or if it is alone
-		TIMEVAL real_timer_value = min(value, TIMEVAL_MAX);
+		TIMEVAL real_timer_value = minval(value, TIMEVAL_MAX);
 		TIMEVAL elapsed_time = getElapsedTime();
 
 		//printf("elapsed_time=%d real_timer_value=%d total_sleep_time=%d\n", elapsed_time, real_timer_value, total_sleep_time);
@@ -129,7 +128,7 @@ void TimeDispatch()
 					row->val = row->interval - (overrun % row->interval);
 					row->state = TIMER_TRIG_PERIOD; // ask for trig, periodic
 					// Check if this new timer value is the soonest
-					next_wakeup = min(row->val,next_wakeup);
+					next_wakeup = minval(row->val,next_wakeup);
 				}
 			}
 			else
@@ -138,7 +137,7 @@ void TimeDispatch()
 				row->val -= real_total_sleep_time;
 
 				// Check if this new timer value is the soonest
-				next_wakeup = min(row->val,next_wakeup);
+				next_wakeup = minval(row->val,next_wakeup);
 			}
 		}
 	}

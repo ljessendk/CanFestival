@@ -345,8 +345,8 @@ fi
 # If target not specified, try to gess one
 if [ "$SUB_TARGET" = "" ]; then
 	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
-		echo "Choosing win32 target"
-		SUB_TARGET=win32
+		echo "Choosing unix (cygwin) target"
+		SUB_TARGET=unix
 	else
 		echo "Choosing unix target"
 		SUB_TARGET=unix
@@ -456,6 +456,17 @@ if [ "$SUB_CAN_DRIVER" = "peak" ]; then
     SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
 fi
 
+if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
+	if [ "PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
+		echo "!!! ERROR !!! Please set PCAN_LIB PCAN_HEADER [PCAN_INCLUDE] to appropriate paths ! "
+	fi
+   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ \'$PCAN_LIB\'
+	if [ "$PCAN_INCLUDE" != "" ]; then
+	   	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -I$PCAN_INCLUDE
+	fi
+   	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ \'-DPCAN_HEADER_=\"$PCAN_HEADER\"\'
+fi
+
 if [ "$SUB_CAN_DRIVER" = "none" ]; then
 	SUB_CAN_DRIVER=
 fi
@@ -463,7 +474,9 @@ fi
 #### TIMERS_DRIVER ####
 
 if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread\ -lrt
+	if [ "$SUB_OS_NAME" != "CYGWIN" ]; then
+	   SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpthread\ -lrt
+	fi
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
