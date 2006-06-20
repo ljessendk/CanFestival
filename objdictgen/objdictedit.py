@@ -447,7 +447,7 @@ class EditingPanel(wx.SplitterWindow):
         self.FirstCall = False
         
         for values in DictionaryOrganisation:
-            text = "\t0x%04X-0x%04X\t\t%s"%(values["minIndex"],values["maxIndex"],values["name"])
+            text = "   0x%04X-0x%04X      %s"%(values["minIndex"],values["maxIndex"],values["name"])
             self.PartList.Append(text)
         self.Table = SubindexTable(self, [], [], ["subindex", "name", "type", "value", "access", "save", "comment"])
         self.SubindexGrid.SetTable(self.Table)
@@ -518,7 +518,7 @@ class EditingPanel(wx.SplitterWindow):
             values = DictionaryOrganisation[i]
             self.ListIndex = []
             for name, index in self.Manager.GetCurrentValidIndexes(values["minIndex"], values["maxIndex"]):
-                self.IndexList.Append("0x%04X\t%s"%(index, name))
+                self.IndexList.Append("0x%04X   %s"%(index, name))
                 self.ListIndex.append(index)
             self.ChoiceIndex = []
             if i == 0:
@@ -541,7 +541,7 @@ class EditingPanel(wx.SplitterWindow):
             else:
                 for name, index in self.Manager.GetCurrentValidChoices(values["minIndex"], values["maxIndex"]):
                     if index:
-                        self.IndexChoice.Append("0x%04X\t%s"%(index, name))
+                        self.IndexChoice.Append("0x%04X   %s"%(index, name))
                     else:
                         self.IndexChoice.Append(name)
                     self.ChoiceIndex.append(index)
@@ -982,9 +982,11 @@ class objdictedit(wx.Frame):
 
     def OnFileSelectedChanged(self, event):
         selected = self.FileOpened.GetSelection()
-        self.Manager.ChangeCurrentNode(selected)
-        self.RefreshBufferState()
-        self.RefreshProfileMenu()
+        # At init selected = -1
+        if selected >= 0:
+        	self.Manager.ChangeCurrentNode(selected)
+        	self.RefreshBufferState()
+        	self.RefreshProfileMenu()
         event.Skip()
 
     def OnHelpDS301Menu(self, event):
@@ -1550,10 +1552,10 @@ class CommunicationDialog(wx.Dialog):
                 self.AllList.append(index)
         self.AllList.sort()
         for index in self.AllList:
-            self.PossibleIndexes.Append("0x%04X\t%s"%(index, self.IndexDictionary[index][0]))
+            self.PossibleIndexes.Append("0x%04X   %s"%(index, self.IndexDictionary[index][0]))
         for index in self.CurrentList:
             if index in self.IndexDictionary:
-                self.CurrentIndexes.Append("0x%04X\t%s"%(index, self.IndexDictionary[index][0]))
+                self.CurrentIndexes.Append("0x%04X   %s"%(index, self.IndexDictionary[index][0]))
 
     def OnPossibleIndexesDClick(self, event):
         self.SelectPossible()
