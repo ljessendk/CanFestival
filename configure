@@ -101,8 +101,6 @@ while [ $# -ge 1 ]; do
 	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
 	--disable-Ox)	DISABLE_OPT=1;
 			echo "On user request: Won't optimize with \"-Ox\"";;
-	--enable-jaxe)	DISABLE_JAXE=0;
-			echo "On user request: Will not install jaxe";;
 	--debug)	DEBUG=1;
 			echo "Debug messages enabled !!";;
 	--debugPDO)	DEBUG=PDO;
@@ -135,7 +133,6 @@ while [ $# -ge 1 ]; do
 		echo	" --led=foo	Use 'foo' as DS-305 LED driver (use 'none' to disable or 'stdout')"
 		echo	" --nvram=foo	Use 'foo' as NVRAM driver (use 'none' to disable or 'file')"
 		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
-		echo	" --enable-jaxe	Enable \"jaxe\" installation."
 		echo	" --debug	Enable debug messages."
 		echo	" --debugPDO	Enable debug messages, using PDO."
 		echo	" --enable-lss	Enable Auto Baudrate detect Feature"
@@ -152,18 +149,6 @@ while [ $# -ge 1 ]; do
 
 	shift
 done
-
-if [ "$DISABLE_JAXE" = "1" ]; then
-	SUB_OPT_JAXE=
-else
-	which java >/dev/null 2>&1
-	if (( $? )); then 
-		SUB_OPT_JAXE=
-		echo "Could not find java VM ! Jaxe XML editor disabled !"
-	else
-		SUB_OPT_JAXE=jaxe
-	fi
-fi
 
 ###########################################################################
 #                              GUESS OS/ARCH                              #
@@ -718,7 +703,6 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_OPT_CFLAGS:${SUB_OPT_CFLAGS}:
 	s:SUB_TARGET:${SUB_TARGET}:
 	s:SUB_BINUTILS_PREFIX:${SUB_BINUTILS_PREFIX}:
-	s:SUB_OPT_JAXE:${SUB_OPT_JAXE}:
 	s:SUB_LSS_ENABLE:${SUB_LSS_ENABLE}:
 	s:SUB_LED_ENABLE:${SUB_LED_ENABLE}:
 	s:SUB_NVRAM_ENABLE:${SUB_NVRAM_ENABLE}:

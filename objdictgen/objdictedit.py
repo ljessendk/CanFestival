@@ -1418,18 +1418,25 @@ class objdictedit(wx.Frame):
 #-------------------------------------------------------------------------------
         
     def AddMapVariable(self):
-        dialog = MapVariableDialog(self)
-        if dialog.ShowModal() == wxID_OK:
-            index, name, struct, number = dialog.GetValues()
-            result = self.Manager.AddMapVariableToCurrent(index, name, struct, number)
-            if type(result) != StringType:
-                self.RefreshBufferState()
-                self.RefreshCurrentIndexList()
-            else:
-                message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
+        index = self.Manager.GetCurrentNextMapIndex()
+        if index:
+            dialog = MapVariableDialog(self)
+            dialog.SetIndex(index)
+            if dialog.ShowModal() == wxID_OK:
+                index, name, struct, number = dialog.GetValues()
+                result = self.Manager.AddMapVariableToCurrent(index, name, struct, number)
+                if type(result) != StringType:
+                    self.RefreshBufferState()
+                    self.RefreshCurrentIndexList()
+                else:
+                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+            dialog.Destroy()
+        else:
+            message = wxMessageDialog(self, result, "No map variable index left!", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
         
     def AddUserType(self):
         dialog = UserTypeDialog(self)
@@ -1634,42 +1641,42 @@ class MapVariableDialog(wx.Dialog):
               label='Index :', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
-        self.radioButton1 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON1,
-              label='VAR', name='radioButton1', parent=self.MainPanel,
-              pos=wx.Point(208, 48), size=wx.Size(72, 24), style=0)
-        self.radioButton1.SetValue(True)
-        self.radioButton1.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton1Click,
-              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON1)
-
-        self.radioButton2 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON2,
-              label='REC', name='radioButton2', parent=self.MainPanel,
-              pos=wx.Point(208, 96), size=wx.Size(96, 24), style=0)
-        self.radioButton2.SetValue(False)
-        self.radioButton2.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton2Click,
-              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON2)
-
-        self.radioButton3 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON3,
-              label='ARRAY', name='radioButton3', parent=self.MainPanel,
-              pos=wx.Point(208, 72), size=wx.Size(80, 24), style=0)
-        self.radioButton3.SetValue(False)
-        self.radioButton3.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton3Click,
-              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON3)
-
-        self.staticText2 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT2,
-              label='Type :', name='staticText2', parent=self.MainPanel,
-              pos=wx.Point(208, 24), size=wx.Size(38, 17), style=0)
-
-        self.IndexName = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEXNAME,
-              name='IndexName', parent=self.MainPanel, pos=wx.Point(24, 104),
-              size=wx.Size(152, 24), style=0, value='Undefined')
+        self.Index = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEX, name='Index',
+              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(152,
+              25), style=0, value='0x2000')
 
         self.staticText3 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT3,
               label='Name :', name='staticText3', parent=self.MainPanel,
               pos=wx.Point(24, 80), size=wx.Size(47, 17), style=0)
 
-        self.Index = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEX, name='Index',
-              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(152,
-              25), style=0, value='0x2000')
+        self.IndexName = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEXNAME,
+              name='IndexName', parent=self.MainPanel, pos=wx.Point(24, 104),
+              size=wx.Size(152, 24), style=0, value='Undefined')
+
+        self.staticText2 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT2,
+              label='Type :', name='staticText2', parent=self.MainPanel,
+              pos=wx.Point(208, 24), size=wx.Size(38, 17), style=0)
+
+        self.radioButton1 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON1,
+              label='VAR', name='radioButton1', parent=self.MainPanel,
+              pos=wx.Point(208, 48), size=wx.Size(72, 24), style=wxRB_GROUP)
+        self.radioButton1.SetValue(True)
+        self.radioButton1.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton1Click,
+              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON1)
+
+        self.radioButton2 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON2,
+              label='ARRAY', name='radioButton2', parent=self.MainPanel,
+              pos=wx.Point(208, 72), size=wx.Size(80, 24), style=wxRB_SINGLE)
+        self.radioButton2.SetValue(False)
+        self.radioButton2.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton2Click,
+              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON2)
+
+        self.radioButton3 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON3,
+              label='REC', name='radioButton3', parent=self.MainPanel,
+              pos=wx.Point(208, 96), size=wx.Size(96, 24), style=wxRB_SINGLE)
+        self.radioButton3.SetValue(False)
+        self.radioButton3.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton3Click,
+              id=wxID_MAPVARIABLEDIALOGRADIOBUTTON3)
 
         self.staticText4 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT4,
               label='Number :', name='staticText4', parent=self.MainPanel,
@@ -1688,6 +1695,9 @@ class MapVariableDialog(wx.Dialog):
         self.staticText4.Enable(False)
         self.Number.Enable(False)
 
+    def SetIndex(self, index):
+        self.Index.SetValue("0x%04X"%index)
+
     def GetValues(self):
         if self.radioButton1.GetValue():
             struct = 1
@@ -1701,20 +1711,20 @@ class MapVariableDialog(wx.Dialog):
         return index, name, struct, number
 
     def OnRadioButton1Click(self, event):
-        self.staticText4.Enable(False)
-        self.Number.Enable(False)
+        self.EnableNumberTyping(False)
         event.Skip()
 
     def OnRadioButton2Click(self, event):
-        self.staticText4.Enable(True)
-        self.Number.Enable(True)
+        self.EnableNumberTyping(True)
         event.Skip()
 
     def OnRadioButton3Click(self, event):
-        self.staticText4.Enable(True)
-        self.Number.Enable(True)
+        self.EnableNumberTyping(True)
         event.Skip()
 
+    def EnableNumberTyping(self, enable):
+        self.staticText4.Enable(enable)
+        self.Number.Enable(enable)
 
 
 #-------------------------------------------------------------------------------
@@ -1759,6 +1769,12 @@ class UserTypeDialog(wx.Dialog):
               label='Type :', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
+        self.Type = wx.Choice(choices=[], id=wxID_USERTYPEDIALOGTYPE,
+              name='Type', parent=self.MainPanel, pos=wx.Point(24, 48),
+              size=wx.Size(160, 24), style=0)
+        self.Type.Bind(wx.EVT_CHOICE, self.OnTypeChoice,
+              id=wxID_USERTYPEDIALOGTYPE)
+
         self.staticBox1 = wx.StaticBox(id=wxID_USERTYPEDIALOGSTATICBOX1,
               label='Values', name='staticBox1', parent=self.MainPanel,
               pos=wx.Point(200, 24), size=wx.Size(224, 144), style=0)
@@ -1786,12 +1802,6 @@ class UserTypeDialog(wx.Dialog):
         self.Length = wx.TextCtrl(id=wxID_USERTYPEDIALOGLENGTH, name='Length',
               parent=self.MainPanel, pos=wx.Point(296, 128), size=wx.Size(112,
               25), style=wx.TE_RIGHT, value='0')
-
-        self.Type = wx.Choice(choices=[], id=wxID_USERTYPEDIALOGTYPE,
-              name='Type', parent=self.MainPanel, pos=wx.Point(24, 48),
-              size=wx.Size(160, 24), style=0)
-        self.Type.Bind(wx.EVT_CHOICE, self.OnTypeChoice,
-              id=wxID_USERTYPEDIALOGTYPE)
 
         self._init_sizers()
 
@@ -1905,9 +1915,17 @@ class NodeInfosDialog(wx.Dialog):
               label='Name :', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
+        self.Name = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNAME, name='Name',
+              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(200,
+              25), style=0, value='')
+
         self.staticText2 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT2,
               label='Node ID :', name='staticText2', parent=self.MainPanel,
               pos=wx.Point(24, 80), size=wx.Size(67, 17), style=0)
+
+        self.NodeID = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNODEID, name='NodeID',
+              parent=self.MainPanel, pos=wx.Point(24, 104), size=wx.Size(200,
+              25), style=wx.TE_RIGHT, value='')
 
         self.staticText3 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT3,
               label='Type :', name='staticText3', parent=self.MainPanel,
@@ -1915,15 +1933,7 @@ class NodeInfosDialog(wx.Dialog):
 
         self.Type = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGTYPE,
               name='Type', parent=self.MainPanel, pos=wx.Point(24, 160),
-              size=wx.Size(200, 24), style=0)
-
-        self.Name = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNAME, name='Name',
-              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(200,
-              25), style=0, value='')
-
-        self.NodeID = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNODEID, name='NodeID',
-              parent=self.MainPanel, pos=wx.Point(24, 104), size=wx.Size(200,
-              25), style=wx.TE_RIGHT, value='')
+              size=wx.Size(200, 25), style=0)
 
         self.staticText4 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT4,
               label='Profile :', name='staticText4', parent=self.MainPanel,
@@ -1931,7 +1941,7 @@ class NodeInfosDialog(wx.Dialog):
 
         self.Profile = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGPROFILE,
               name='Profile', parent=self.MainPanel, pos=wx.Point(24, 216),
-              size=wx.Size(200, 24), style=0)
+              size=wx.Size(200, 25), style=0)
 
         self._init_sizers()
 

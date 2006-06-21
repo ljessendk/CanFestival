@@ -969,6 +969,16 @@ class NodeManager:
                 current.append(index)
         return dictionary, current
 
+    def GetCurrentNextMapIndex(self):
+        if self.CurrentNode:
+            index = 0x2000
+            while self.CurrentNode.IsEntry(index) and index < 0x5FFF:
+                index += 1
+            if index < 0x6000:
+                return index
+            else:
+                return None
+
     def CurrentDS302Defined(self):
         if self.CurrentNode:
             return len(self.CurrentNode.GetDS302Profile()) > 0
