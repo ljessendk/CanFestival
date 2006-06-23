@@ -58,6 +58,6 @@ uninstall:
 	rm -f $(TARGET_HFILES)
 
 clean:
-	-\rm $(OBJS)
+	rm $(OBJS)
 
 mrproper: clean

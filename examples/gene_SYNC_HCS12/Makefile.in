@@ -113,8 +113,8 @@ MSG:
 	$(BINUTILS_PREFIX)size $(PGR).elf
 
 clean:
-	-\rm $(SYNC_OBJS)
+	rm -f $(SYNC_OBJS)
 
 mrproper: clean
-	-\rm $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s
+	rm -f $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s
 

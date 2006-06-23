@@ -90,8 +90,8 @@ uninstall:
 	rm -f ../../examples/ecos_lpc2138_sja1000/lib/driver
 
 clean:
-	-\rm -f $(OBJS) build_baudrate baudrate_table.h 
+	rm -f $(OBJS) build_baudrate baudrate_table.h 
 
 mrproper: clean
-	-\rm ../../lib/ecos_lpc2138_sja1000/libcandriver.a 
+	rm -f ../../lib/ecos_lpc2138_sja1000/libcandriver.a 
 

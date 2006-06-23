@@ -445,7 +445,7 @@ if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 	if [ "PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
 		echo "!!! ERROR !!! Please set PCAN_LIB PCAN_HEADER [PCAN_INCLUDE] to appropriate paths ! "
 	fi
-   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ \'$PCAN_LIB\'
+   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -liberty\ \'$PCAN_LIB\'
 	if [ "$PCAN_INCLUDE" != "" ]; then
 	   	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -I$PCAN_INCLUDE
 	fi

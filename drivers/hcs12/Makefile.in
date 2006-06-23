@@ -72,8 +72,8 @@ uninstall:
 	rm -f ../../lib/hc12/libcandriver.a
 
 clean:
-	-\rm $(OBJS)
+	rm -f $(OBJS)
 
 mrproper: clean
-	-\rm ../../lib/hc12/libcandriver.a
+	rm -f ../../lib/hc12/libcandriver.a
 

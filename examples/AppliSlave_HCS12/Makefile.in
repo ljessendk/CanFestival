@@ -77,8 +77,8 @@ MSG:
 	$(BINUTILS_PREFIX)size $(PGR).elf
 
 clean:
-	-\rm $(SLAVE_OBJS)
+	rm -f $(SLAVE_OBJS)
 
 mrproper: clean
-	-\rm $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s
+	rm -f $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s
 

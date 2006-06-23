@@ -51,7 +51,7 @@ all: TestMasterSlave
 
 
 TestMasterSlave: $(OBJS)
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) $(EXE_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS)
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 
 %o: %c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<

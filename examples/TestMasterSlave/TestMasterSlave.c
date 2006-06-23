@@ -231,7 +231,7 @@ int main(int argc,char **argv)
 	// Open CAN devices
 	if(SlaveBoard.baudrate)
 		if((SlaveCanHandle = canOpen(&SlaveBoard))==NULL) goto fail_slave;
-		
+
 	if(MasterBoard.baudrate)
 		if((MasterCanHandle = canOpen(&MasterBoard))==NULL) goto fail_master;
 	

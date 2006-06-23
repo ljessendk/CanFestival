@@ -52,7 +52,7 @@ install:
 uninstall:
 
 clean:
-	-\rm $(OBJS)
+	rm -f $(OBJS)
 
 mrproper: clean
 

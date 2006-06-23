@@ -90,7 +90,7 @@ uninstall:
 	rm -f $(TARGET_HFILES)
 
 clean:
-	-\rm libcanfestival_$(TARGET).a
+	rm -f libcanfestival_$(TARGET).a
 
 mrproper: clean
 
