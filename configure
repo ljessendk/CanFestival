@@ -442,14 +442,23 @@ if [ "$SUB_CAN_DRIVER" = "peak" ]; then
 fi
 
 if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
-	if [ "PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
+	if [ "$PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
 		echo "!!! ERROR !!! Please set PCAN_LIB PCAN_HEADER [PCAN_INCLUDE] to appropriate paths ! "
 	fi
    	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -liberty\ \'$PCAN_LIB\'
-	if [ "$PCAN_INCLUDE" != "" ]; then
-	   	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -I$PCAN_INCLUDE
+	echo "Converting PcanLib header files for gcc -> /drivers/can_peak_win32/cancfg.h"
+	cat include/can_peak_win32/cancfg.h.head $PCAN_INCLUDE/$PCAN_HEADER > include/can_peak_win32/cancfg.h
+	# second port handling
+	if [ "$PCAN2_HEADER" != "" ]; then
+		echo "Stripping down second Pcan Light header "
+		echo >> include/can_peak_win32/cancfg.h
+		echo "// Stripped PcanLight header to prevent typedef conflicts ">> include/can_peak_win32/cancfg.h
+		echo >> include/can_peak_win32/cancfg.h
+		grep __stdcall $PCAN_INCLUDE/$PCAN2_HEADER >> include/can_peak_win32/cancfg.h
+	   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ \'$PCAN2_LIB\'
 	fi
-   	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ \'-DPCAN_HEADER_=\"$PCAN_HEADER\"\'
+	echo '#define PCAN2_HEADER_' >> include/can_peak_win32/cancfg.h
+	cat include/can_peak_win32/cancfg.h.tail >> include/can_peak_win32/cancfg.h
 fi
 
 if [ "$SUB_CAN_DRIVER" = "none" ]; then

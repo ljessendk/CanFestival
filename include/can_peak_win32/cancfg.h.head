@@ -24,8 +24,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define __CANCFG_H__
 
 #include <windef.h>
-//#include "Pcan_usb.h"
-#include PCAN_HEADER_
-#define CAN_HANDLE	void*
 
-#endif
+// Following part of the file is copied by configure script
+// from choosen PcanLight header file
+//-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------
