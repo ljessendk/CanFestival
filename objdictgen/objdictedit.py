@@ -983,7 +983,6 @@ class objdictedit(wx.Frame):
     def OnFileSelectedChanged(self, event):
         selected = event.GetSelection()
         # At init selected = -1
-        print selected
         if selected >= 0:
         	self.Manager.ChangeCurrentNode(selected)
         	self.RefreshBufferState()
