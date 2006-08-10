@@ -456,8 +456,13 @@ if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 		echo >> include/can_peak_win32/cancfg.h
 		grep __stdcall $PCAN_INCLUDE/$PCAN2_HEADER >> include/can_peak_win32/cancfg.h
 	   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ \'$PCAN2_LIB\'
+		echo '#define PCAN2_HEADER_' >> include/can_peak_win32/cancfg.h
 	fi
-	echo '#define PCAN2_HEADER_' >> include/can_peak_win32/cancfg.h
+	if grep -q CANHwType include/can_peak_win32/cancfg.h ; then
+		echo "Peak Init HwType, IO_Port and IRQ will be passed in environment :"
+		echo "	PCANHwType PCANIO_Port PCANInterupt"
+		echo '#define extra_PCAN_init_params' >> include/can_peak_win32/cancfg.h
+	fi
 	cat include/can_peak_win32/cancfg.h.tail >> include/can_peak_win32/cancfg.h
 fi
 
