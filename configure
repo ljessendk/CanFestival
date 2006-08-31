@@ -479,9 +479,10 @@ if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\ -lrtdm\
 \	-L`$XENO_CONFIG --library-dir`
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
+	RTCAN_SOCKET=1
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
@@ -624,7 +625,8 @@ for i in \
  CANOPEN_LITTLE_ENDIAN\
  US_TO_TIMEVAL_FACTOR\
  TIMEVAL\
- TIMEVAL_MAX; do
+ TIMEVAL_MAX\
+ RTCAN_SOCKET; do
 if [ "${!i}" = "" ]; then
 echo "// $i is not defined" >> include/config.h
 else
