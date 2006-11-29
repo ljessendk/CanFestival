@@ -81,7 +81,7 @@ void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 	pthread_join(*Thread, NULL);
 }
 
-#define maxval(a,b) a>b?a:b
+#define maxval(a,b) ((a>b)?a:b)
 void setTimer(TIMEVAL value)
 {
 //	printf("setTimer(TIMEVAL value=%d)\n", value);

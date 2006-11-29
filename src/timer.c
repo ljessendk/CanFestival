@@ -32,7 +32,7 @@ s_timer_entry timers[MAX_NB_TIMER] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
 TIMEVAL total_sleep_time = TIMEVAL_MAX;
 TIMER_HANDLE last_timer_raw = -1;
 
-#define minval(a,b) a<b?a:b
+#define minval(a,b) ((a<b)?a:b)
 
 // ---------  Use this to declare a new alarm ---------
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
