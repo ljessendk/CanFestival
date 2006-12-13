@@ -85,7 +85,7 @@ MappingDictionary = {
     0x000B : {"name" : "UNICODE_STRING", "struct" : nosub, "size" : 16, "default" : "", "values" : []},
     0x000C : {"name" : "TIME_OF_DAY", "struct" : nosub, "size" : 48, "default" : 0, "values" : []},
     0x000D : {"name" : "TIME_DIFFERENCE", "struct" : nosub, "size" : 48, "default" : 0, "values" : []},
-    0x000F : {"name" : "DOMAIN", "struct" : nosub, "size" : 0, "default" : "", "values" : []},
+#    0x000F : {"name" : "DOMAIN", "struct" : nosub, "size" : 0, "default" : "", "values" : []},
     0x0010 : {"name" : "INTEGER24", "struct" : nosub, "size" : 24, "default" : 0, "values" : []},
     0x0011 : {"name" : "REAL64", "struct" : nosub, "size" : 64, "default" : 0.0, "values" : []},
     0x0012 : {"name" : "INTEGER40", "struct" : nosub, "size" : 40, "default" : 0, "values" : []},
@@ -157,10 +157,10 @@ MappingDictionary = {
                 [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
                  {"name" : "Configuration Date", "type" : 0x04, "access" : 'ro', "pdo" : False},
                  {"name" : "Configuration Time", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
-    0x1021 : {"name" : "Store EDS", "struct" : var, "need" : False, "values" :
-                [{"name" : "Store EDS", "type" : 0x0F, "access" : 'rw', "pdo" : False}]},
-    0x1022 : {"name" : "Storage Format", "struct" : var, "need" : False, "values" :
-                [{"name" : "Storage Format", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+#    0x1021 : {"name" : "Store EDS", "struct" : var, "need" : False, "values" :
+#                [{"name" : "Store EDS", "type" : 0x0F, "access" : 'rw', "pdo" : False}]},
+#    0x1022 : {"name" : "Storage Format", "struct" : var, "need" : False, "values" :
+#                [{"name" : "Storage Format", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
     0x1023 : {"name" : "OS Command", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
                  {"name" : "Command", "type" : 0x0A, "access" : 'rw', "pdo" : False},

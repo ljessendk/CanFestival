@@ -464,6 +464,7 @@ class EditingPanel(wx.SplitterWindow):
         return None
 
     def OnAddButtonClick(self, event):
+        self.SubindexGrid.SetGridCursor(0, 0)
         selected = self.IndexChoice.GetStringSelection()
         if selected != "":
             if selected == "User Type":
@@ -820,8 +821,8 @@ class objdictedit(wx.Frame):
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS2,
               kind=wx.ITEM_NORMAL, text='Close\tCTRL+W')
         parent.AppendSeparator()
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
-              kind=wx.ITEM_NORMAL, text='Import XML file')
+#        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
+#              kind=wx.ITEM_NORMAL, text='Import XML file')
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS8,
               kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
         parent.AppendSeparator()
@@ -839,8 +840,8 @@ class objdictedit(wx.Frame):
               id=wxID_OBJDICTEDITFILEMENUITEMS5)
         self.Bind(wx.EVT_MENU, self.OnSaveAsMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS6)
-        self.Bind(wx.EVT_MENU, self.OnImportMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS7)
+#        self.Bind(wx.EVT_MENU, self.OnImportMenu,
+#              id=wxID_OBJDICTEDITFILEMENUITEMS7)
         self.Bind(wx.EVT_MENU, self.OnExportMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS8)
 
@@ -1173,33 +1174,22 @@ class objdictedit(wx.Frame):
         dialog = CreateNodeDialog(self)
         if dialog.ShowModal() == wxID_OK:
             name, id, type = dialog.GetValues()
-            if name != "":
-                good = not name[0].isdigit()
-                for item in name.split("_"):
-                    good &= item.isalnum()
+            profile, filepath = dialog.GetProfile()
+            NMT = dialog.GetNMTManagement()
+            options = dialog.GetOptions()
+            result = self.Manager.CreateNewNode(name, id, type, profile, filepath, NMT, options)
+            if not IsOfType(result, StringType):
+                new_editingpanel = EditingPanel(self, self.Manager)
+                self.FileOpened.AddPage(new_editingpanel, "")
+                self.FileOpened.SetSelection(self.Manager.GetCurrentNodeIndex())
+                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, False)
+                if "DS302" in options:
+                    self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
+                self.RefreshBufferState()
+                self.RefreshProfileMenu()
+                self.RefreshMainMenu()
             else:
-                good = False
-            if good:
-                profile,filepath = dialog.GetProfile()
-                NMT = dialog.GetNMTManagement()
-                options = dialog.GetOptions()
-                result = self.Manager.CreateNewNode(name, id, type, profile, filepath, NMT, options)
-                if not IsOfType(result, StringType):
-                    new_editingpanel = EditingPanel(self, self.Manager)
-                    self.FileOpened.AddPage(new_editingpanel, "")
-                    self.FileOpened.SetSelection(self.Manager.GetCurrentNodeIndex())
-                    self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, False)
-                    if "DS302" in options:
-                        self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
-                    self.RefreshBufferState()
-                    self.RefreshProfileMenu()
-                    self.RefreshMainMenu()
-                else:
-                    message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            else:
-                message = wxMessageDialog(self, "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!", "ERROR", wxOK|wxICON_ERROR)
+                message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         event.Skip()
@@ -1210,7 +1200,7 @@ class objdictedit(wx.Frame):
             directory = os.path.dirname(filepath)
         else:
             directory = os.getcwd()
-        dialog = wxFileDialog(self, "Choose a file", directory, "",  "OD files (*.od)|*.od|All files|*.*", wxOPEN)
+        dialog = wxFileDialog(self, "Choose a file", directory, "",  "OD files (*.od)|*.od|All files|*.*", wxOPEN|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
@@ -1259,7 +1249,7 @@ class objdictedit(wx.Frame):
             directory, filename = os.path.split(filepath)
         else:
             directory, filename = os.getcwd(), "%s.od"%self.Manager.GetCurrentNodeInfos()[0]
-        dialog = wxFileDialog(self, "Choose a file", directory, filename,  "OD files (*.od)|*.od|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT)
+        dialog = wxFileDialog(self, "Choose a file", directory, filename,  "OD files (*.od)|*.od|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
@@ -1304,7 +1294,7 @@ class objdictedit(wx.Frame):
 #-------------------------------------------------------------------------------
 
     def OnImportMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), "",  "XML OD files (*.xml)|*.xml|All files|*.*", wxOPEN)
+        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), "",  "XML OD files (*.xml)|*.xml|All files|*.*", wxOPEN|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
@@ -1325,7 +1315,7 @@ class objdictedit(wx.Frame):
         event.Skip()
 
     def OnExportMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival OD files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT)
+        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival OD files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
@@ -1520,12 +1510,12 @@ class CommunicationDialog(wx.Dialog):
               id=wxID_COMMUNICATIONDIALOGUNSELECT)
 
         self.staticText1 = wx.StaticText(id=wxID_COMMUNICATIONDIALOGSTATICTEXT1,
-              label='Possible Profile Indexes :', name='staticText1',
+              label='Possible Profile Indexes:', name='staticText1',
               parent=self.MainPanel, pos=wx.Point(40, 24), size=wx.Size(156,
               17), style=0)
 
         self.staticText2 = wx.StaticText(id=wxID_COMMUNICATIONDIALOGSTATICTEXT2,
-              label='Current Profile Indexes :', name='staticText2',
+              label='Current Profile Indexes:', name='staticText2',
               parent=self.MainPanel, pos=wx.Point(400, 24), size=wx.Size(152,
               17), style=0)
 
@@ -1638,7 +1628,7 @@ class MapVariableDialog(wx.Dialog):
         self.MainPanel.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT1,
-              label='Index :', name='staticText1', parent=self.MainPanel,
+              label='Index:', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
         self.Index = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEX, name='Index',
@@ -1646,7 +1636,7 @@ class MapVariableDialog(wx.Dialog):
               25), style=0, value='0x2000')
 
         self.staticText3 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT3,
-              label='Name :', name='staticText3', parent=self.MainPanel,
+              label='Name:', name='staticText3', parent=self.MainPanel,
               pos=wx.Point(24, 80), size=wx.Size(47, 17), style=0)
 
         self.IndexName = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGINDEXNAME,
@@ -1654,7 +1644,7 @@ class MapVariableDialog(wx.Dialog):
               size=wx.Size(152, 24), style=0, value='Undefined')
 
         self.staticText2 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT2,
-              label='Type :', name='staticText2', parent=self.MainPanel,
+              label='Type:', name='staticText2', parent=self.MainPanel,
               pos=wx.Point(208, 24), size=wx.Size(38, 17), style=0)
 
         self.radioButton1 = wx.RadioButton(id=wxID_MAPVARIABLEDIALOGRADIOBUTTON1,
@@ -1679,7 +1669,7 @@ class MapVariableDialog(wx.Dialog):
               id=wxID_MAPVARIABLEDIALOGRADIOBUTTON3)
 
         self.staticText4 = wx.StaticText(id=wxID_MAPVARIABLEDIALOGSTATICTEXT4,
-              label='Number :', name='staticText4', parent=self.MainPanel,
+              label='Number:', name='staticText4', parent=self.MainPanel,
               pos=wx.Point(312, 80), size=wx.Size(88, 16), style=0)
 
         self.Number = wx.TextCtrl(id=wxID_MAPVARIABLEDIALOGNUMBER,
@@ -1766,7 +1756,7 @@ class UserTypeDialog(wx.Dialog):
         self.MainPanel.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_USERTYPEDIALOGSTATICTEXT1,
-              label='Type :', name='staticText1', parent=self.MainPanel,
+              label='Type:', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=wxID_USERTYPEDIALOGTYPE,
@@ -1780,7 +1770,7 @@ class UserTypeDialog(wx.Dialog):
               pos=wx.Point(200, 24), size=wx.Size(224, 144), style=0)
 
         self.staticText2 = wx.StaticText(id=wxID_USERTYPEDIALOGSTATICTEXT2,
-              label='Minimum :', name='staticText2', parent=self.MainPanel,
+              label='Minimum:', name='staticText2', parent=self.MainPanel,
               pos=wx.Point(216, 48), size=wx.Size(67, 17), style=0)
 
         self.Min = wx.TextCtrl(id=wxID_USERTYPEDIALOGMIN, name='Min',
@@ -1788,7 +1778,7 @@ class UserTypeDialog(wx.Dialog):
               24), style=wx.TE_RIGHT, value='0')
 
         self.staticText3 = wx.StaticText(id=wxID_USERTYPEDIALOGSTATICTEXT3,
-              label='Maximum :', name='staticText3', parent=self.MainPanel,
+              label='Maximum:', name='staticText3', parent=self.MainPanel,
               pos=wx.Point(216, 88), size=wx.Size(71, 17), style=0)
 
         self.Max = wx.TextCtrl(id=wxID_USERTYPEDIALOGMAX, name='Max',
@@ -1796,7 +1786,7 @@ class UserTypeDialog(wx.Dialog):
               25), style=wx.TE_RIGHT, value='0')
 
         self.staticText4 = wx.StaticText(id=wxID_USERTYPEDIALOGSTATICTEXT4,
-              label='Length :', name='staticText4', parent=self.MainPanel,
+              label='Length:', name='staticText4', parent=self.MainPanel,
               pos=wx.Point(216, 128), size=wx.Size(52, 17), style=0)
 
         self.Length = wx.TextCtrl(id=wxID_USERTYPEDIALOGLENGTH, name='Length',
@@ -1912,7 +1902,8 @@ class NodeInfosDialog(wx.Dialog):
         self.MainPanel.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT1,
-              label='Name :', name='staticText1', parent=self.MainPanel,
+              label='Name:', 
+              name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
         self.Name = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNAME, name='Name',
@@ -1920,7 +1911,7 @@ class NodeInfosDialog(wx.Dialog):
               25), style=0, value='')
 
         self.staticText2 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT2,
-              label='Node ID :', name='staticText2', parent=self.MainPanel,
+              label='Node ID:', name='staticText2', parent=self.MainPanel,
               pos=wx.Point(24, 80), size=wx.Size(67, 17), style=0)
 
         self.NodeID = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNODEID, name='NodeID',
@@ -1928,7 +1919,7 @@ class NodeInfosDialog(wx.Dialog):
               25), style=wx.TE_RIGHT, value='')
 
         self.staticText3 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT3,
-              label='Type :', name='staticText3', parent=self.MainPanel,
+              label='Type:', name='staticText3', parent=self.MainPanel,
               pos=wx.Point(24, 136), size=wx.Size(71, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGTYPE,
@@ -1936,7 +1927,7 @@ class NodeInfosDialog(wx.Dialog):
               size=wx.Size(200, 25), style=0)
 
         self.staticText4 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT4,
-              label='Profile :', name='staticText4', parent=self.MainPanel,
+              label='Profile:', name='staticText4', parent=self.MainPanel,
               pos=wx.Point(24, 192), size=wx.Size(47, 17), style=0)
 
         self.Profile = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGPROFILE,
@@ -1953,6 +1944,24 @@ class NodeInfosDialog(wx.Dialog):
         self.Type.Append("slave")
         self.staticText4.Hide()
         self.Profile.Hide()
+
+        EVT_BUTTON(self, self.ButtonSizer.GetAffirmativeButton().GetId(), self.OnOK)
+
+    def OnOK(self, event):
+        name = self.Name.GetValue()
+        if name != "":
+            good = not name[0].isdigit()
+            for item in name.split("_"):
+                good &= item.isalnum()
+        else:
+            good = False
+        if not good:
+            message = wxMessageDialog(self, "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!", "ERROR", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+            self.Name.SetFocus()
+        else:
+            self.EndModal(wxID_OK)
     
     def SetProfiles(self, profiles):
         for profile in profiles:
@@ -2018,15 +2027,15 @@ class CreateNodeDialog(wx.Dialog):
         self.MainPanel.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT1,
-              label='Name :', name='staticText1', parent=self.MainPanel,
+              label='Name:', name='staticText1', parent=self.MainPanel,
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
         self.staticText2 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT2,
-              label='Node ID :', name='staticText2', parent=self.MainPanel,
+              label='Node ID:', name='staticText2', parent=self.MainPanel,
               pos=wx.Point(24, 80), size=wx.Size(67, 17), style=0)
 
         self.staticText3 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT3,
-              label='Type :', name='staticText3', parent=self.MainPanel,
+              label='Type:', name='staticText3', parent=self.MainPanel,
               pos=wx.Point(24, 136), size=wx.Size(71, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=wxID_CREATENODEDIALOGTYPE,
@@ -2042,7 +2051,7 @@ class CreateNodeDialog(wx.Dialog):
               25), style=wx.TE_RIGHT, value='')
 
         self.staticText4 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT4,
-              label='Profile :', name='staticText4', parent=self.MainPanel,
+              label='Profile:', name='staticText4', parent=self.MainPanel,
               pos=wx.Point(24, 192), size=wx.Size(47, 17), style=0)
 
         self.Profile = wx.Choice(choices=[], id=wxID_CREATENODEDIALOGPROFILE,
@@ -2052,7 +2061,7 @@ class CreateNodeDialog(wx.Dialog):
               id=wxID_CREATENODEDIALOGPROFILE)
 
         self.staticText5 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT5,
-              label='Network Management :', name='staticText5',
+              label='Network Management:', name='staticText5',
               parent=self.MainPanel, pos=wx.Point(256, 24), size=wx.Size(152,
               16), style=0)
 
@@ -2073,13 +2082,14 @@ class CreateNodeDialog(wx.Dialog):
         self.NMT_Heartbeat.SetValue(False)
 
         self.staticText6 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT6,
-              label='Options :', name='staticText6', parent=self.MainPanel,
+              label='Options:', name='staticText6', parent=self.MainPanel,
               pos=wx.Point(256, 128), size=wx.Size(72, 17), style=0)
 
         self.DS302 = wx.CheckBox(id=wxID_CREATENODEDIALOGGENSYNC,
               label='DS-302 Profile', name='DS302', parent=self.MainPanel,
               pos=wx.Point(256, 144), size=wx.Size(128, 24), style=0)
         self.DS302.SetValue(False)
+        self.DS302.Enable(False)
 
         self.GenSYNC = wx.CheckBox(id=wxID_CREATENODEDIALOGGENSYNC,
               label='Generate SYNC', name='GenSYNC', parent=self.MainPanel,
@@ -2091,24 +2101,27 @@ class CreateNodeDialog(wx.Dialog):
               parent=self.MainPanel, pos=wx.Point(256, 192), size=wx.Size(152,
               24), style=0)
         self.Emergency.SetValue(False)
+        self.Emergency.Enable(False)
 
         self.SaveConfig = wx.CheckBox(id=wxID_CREATENODEDIALOGSAVECONFIG,
               label='Save Configuration', name='SaveConfig',
               parent=self.MainPanel, pos=wx.Point(256, 216), size=wx.Size(152,
               24), style=0)
         self.SaveConfig.SetValue(False)
+        self.SaveConfig.Enable(False)
 
-        self.StoreEDS = wx.CheckBox(id=wxID_CREATENODEDIALOGSTOREEDS,
-              label='Store EDS', name='StoreEDS', parent=self.MainPanel,
-              pos=wx.Point(256, 240), size=wx.Size(144, 24), style=0)
-        self.StoreEDS.SetValue(False)
-
+#        self.StoreEDS = wx.CheckBox(id=wxID_CREATENODEDIALOGSTOREEDS,
+#              label='Store EDS', name='StoreEDS', parent=self.MainPanel,
+#              pos=wx.Point(256, 240), size=wx.Size(144, 24), style=0)
+#        self.StoreEDS.SetValue(False)
+ 
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
         self.ButtonSizer = self.CreateButtonSizer(wxOK|wxCANCEL)
         self.flexGridSizer1.Add(self.ButtonSizer, 1, wxALIGN_CENTER)
+        self.NodeID.SetValue("0x00")
         self.Type.Append("master")
         self.Type.Append("slave")
         self.Type.SetStringSelection("slave")
@@ -2124,6 +2137,25 @@ class CreateNodeDialog(wx.Dialog):
                 self.Profile.Append(name)
         self.Profile.Append("Other")
         self.Profile.SetStringSelection("None")
+        self.Name.SetFocus()
+        
+        EVT_BUTTON(self, self.ButtonSizer.GetAffirmativeButton().GetId(), self.OnOK)
+
+    def OnOK(self, event):
+        name = self.Name.GetValue()
+        if name != "":
+            good = not name[0].isdigit()
+            for item in name.split("_"):
+                good &= item.isalnum()
+        else:
+            good = False
+        if not good:
+            message = wxMessageDialog(self, "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!", "ERROR", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+            self.Name.SetFocus()
+        else:
+            self.EndModal(wxID_OK)
 
     def GetValues(self):
         name = self.Name.GetValue()
@@ -2156,13 +2188,13 @@ class CreateNodeDialog(wx.Dialog):
             options.append("Emergency")
         if self.SaveConfig.GetValue():
             options.append("SaveConfig")
-        if self.StoreEDS.GetValue():
-            options.append("StoreEDS")
+#        if self.StoreEDS.GetValue():
+#            options.append("StoreEDS")
         return options
 
     def OnProfileChoice(self, event):
         if self.Profile.GetStringSelection() == "Other":
-            dialog = wxFileDialog(self, "Choose a file", self.Directory, "",  "OD Profile files (*.prf)|*.prf|All files|*.*", wxOPEN)
+            dialog = wxFileDialog(self, "Choose a file", self.Directory, "",  "OD Profile files (*.prf)|*.prf|All files|*.*", wxOPEN|wxCHANGE_DIR)
             dialog.ShowModal()
             filepath = dialog.GetPath()
             dialog.Destroy()

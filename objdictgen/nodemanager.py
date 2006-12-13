@@ -1119,12 +1119,10 @@ class NodeManager:
                         result = type_model.match(dic["type"])
                         if result:
                             values = result.groups()
-                            if values[0] == "INTEGER":
+                            if values[0] in ["INTEGER", "UNSIGNED"]:
                                 format = "0x%0" + str(int(values[1])/4) + "X"
                                 dic["value"] = format%dic["value"]
                                 editor["value"] = "string"
-                            elif values[0] == "UNSIGNED":
-                                editor["value"] = "number"
                             elif values[0] == "REAL":
                                 editor["value"] = "float"
                             elif values[0] == "VISIBLE_STRING":
