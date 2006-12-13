@@ -23,9 +23,8 @@ a) Compile CanFestival for hcs12 :
   make clean all
 
 b) Build the example
---------------------
- cd examples/gene_SYNC_HCS12
 
+ cd examples/gene_SYNC_HCS12
  make clean all
 
 
@@ -38,7 +37,7 @@ Informations availables if you connect the serial port 0 to a terminal configure
 
 
 
-The default values :
+The node default values :
 nodeId = 0x03
 CAN rate = 250 kbps
 Please read appli.c, these values can be modified by switch.
@@ -47,7 +46,16 @@ Please read appli.c, these values can be modified by switch.
 If you put the node in operational state, the CAN messages received are filtered : Only the NMT and Nodeguard can be received.
 The parameters of the filter are mapped in the object dictionary, so that the filter can be configured by SDO before entering in operational state. See the object dictionary index 2015 to 2023. To have the values applied, always download at 0x2023 index 0 the value 1 before entering in operational.
 
-Read the file objdict.c to see the capabilities of the node. 
+Read the file objdict.c to see the capabilities of the node.
+
+
+
+To change the period of SYNC,
+In pre-operational mode, send the SDO message cobid | .... (all in hexa):
+0x603 | 23 06 10 00 40 42 0F 00 
+to have a SYNC generated every 1 second. The change is instantaneous.
+(Assume that the nodeId is 3).
+
 
 
 
