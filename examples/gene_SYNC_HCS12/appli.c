@@ -441,7 +441,9 @@ UNS8 main (void)
 	Message m;
 	if (f_can_receive(0, &m)) {
 	  //MSG_WAR(0x3F36, "Msg received", m.cob_id.w);
+	  lock(); // Not to have interruptions by timer, which can corrupt the data
 	  canDispatch(&gene_SYNC_Data, &m);
+	  unlock();
 	}  
     	}
 
