@@ -83,6 +83,11 @@ struct struct_s_SDO {
 
 typedef struct struct_s_SDO s_SDO;
 
+/** Reset of a SDO exchange on timeout. 
+ * Send a SDO abort
+ */
+void SDOTimeoutAlarm(CO_Data* d, UNS32 id);
+
 /** Reset all sdo buffers
  */
 void resetSDO (CO_Data* d);
@@ -202,7 +207,12 @@ UNS8 proceedSDO (CO_Data* d, Message *m);
  */
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data); 
-
+/** Used to send a SDO request frame to write in a distant node dictionnary.
+ * The function Callback	which must be defined in the user code is called at the
+ * end of the exchange. (on succes or abort).
+ */       		       
+UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback);
 /** Used by the application to send a SDO request frame to read
  * in the dictionary of a server node whose node_id is ID
  * at the index and subIndex indicated
@@ -212,6 +222,12 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  */
 UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		      UNS8 subIndex, UNS8 dataType);
+		       
+/** Used to send a SDO request frame to read in a distant node dictionnary.
+ * The function Callback	which must be defined in the user code is called at the
+ * end of the exchange. (on succes or abort).
+ */   
+UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback);
 
 /** Use this function after a readNetworkDict to get the result.
   Returns : SDO_FINISHED             // data is available
@@ -248,5 +264,8 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data,
   while ( getWriteResultNetworkDict (0, 0x05, &abortCode) != SDO_DOWNLOAD_IN_PROGRESS);  
 */
 UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode);
+
+
+ 
 
 #endif

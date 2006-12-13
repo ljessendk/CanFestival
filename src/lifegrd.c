@@ -23,12 +23,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <data.h>
 #include "lifegrd.h"
 
+// Prototypes for internals functions
+void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
+void ProducerHearbeatAlarm(CO_Data* d, UNS32 id);
+
+
+/*****************************************************************************/
 e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
 {
 	e_nodeState networkNodeState = d->NMTable[nodeId];
 	return networkNodeState;
 }
 
+/*****************************************************************************/
 // The Consumer Timer Callback
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
@@ -38,7 +45,7 @@ void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
 	(*d->heartbeatError)((UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
 }
 
-/* Retourne le node-id */
+/*****************************************************************************/
 void proceedNODE_GUARD(CO_Data* d, Message* m )
 {
   UNS8 nodeId = (UNS8) GET_NODE_ID((*m));
@@ -100,6 +107,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
   }
 }
 
+/*****************************************************************************/
 // The Consumer Timer Callback
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
@@ -122,7 +130,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 	}
 }
 
-
+/*****************************************************************************/
 void heartbeatInit(CO_Data* d)
 {
     UNS8 index; // Index to scan the table of heartbeat consumers
@@ -146,7 +154,7 @@ void heartbeatInit(CO_Data* d)
     }
 }
 
-
+/*****************************************************************************/
 void heartbeatStop(CO_Data* d)
 {
     UNS8 index;

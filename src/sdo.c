@@ -26,6 +26,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "objacces.h"
 #include "sdo.h"
 
+/*Internals prototypes*/
+
+/** Called by writeNetworkDict */
+inline UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback);
+
+/** Called by readNetworkDict */
+inline UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, 
+	UNS8 dataType, SDOCallback_t Callback);
+	
+
 /***************************************************************************/
 // SDO (un)packing macros
 
@@ -1151,11 +1162,16 @@ inline UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   d->transfers[line].Callback = Callback;
   return 0;
 }
+
+/*--------------------------------------------------------------------------*/
+
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)
 {
 	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, NULL);
 }
+
+/*--------------------------------------------------------------------------*/
 
 UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
@@ -1165,7 +1181,7 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
 
 
 /***************************************************************************/
-UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)
+inline UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)
 {
   UNS8 err;
   UNS8 SDOfound = 0;
@@ -1250,15 +1266,19 @@ UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8
   return 0;
 }
 
+/*--------------------------------------------------------------------------*/
+
 UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)
 {
 	return _readNetworkDict (d, nodeId, index, subIndex, dataType, NULL);
 }
 
+/*--------------------------------------------------------------------------*/
 UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)
 {
 	return _readNetworkDict (d, nodeId, index, subIndex, dataType, Callback);
 }
+
 /***************************************************************************/
 
 UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, 

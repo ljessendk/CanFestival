@@ -23,11 +23,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 #include "sync.h"
 
+// Prototypes for internals functions
+void SyncAlarm(CO_Data* d, UNS32 id);
+UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, 
+	UNS8 unsused_bSubindex);
+
+
+
+/*****************************************************************************/
 void SyncAlarm(CO_Data* d, UNS32 id)
 {
 	sendSYNC(d, *d->COB_ID_Sync & 0x1FFFFFFF) ;
 }
 
+/*****************************************************************************/
 // This is called when Index 0x1005 is updated.
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
@@ -35,6 +44,7 @@ UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS
 	return 0;
 }
 
+/*****************************************************************************/
 void startSYNC(CO_Data* d)
 {
 	RegisterSetODentryCallBack(d, 0x1005, 0, &OnCOB_ID_SyncUpdate);
@@ -55,6 +65,7 @@ void startSYNC(CO_Data* d)
 	}
 }
 
+/*****************************************************************************/
 void stopSYNC(CO_Data* d)
 {
 	d->syncTimer = DelAlarm(d->syncTimer);

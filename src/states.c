@@ -31,12 +31,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define led_set_state(a,b)
 #endif
 
-
+// Prototypes for internals functions
+void switchCommunicationState(CO_Data* d, 
+	s_state_communication *newCommunicationState);
+	
+/*****************************************************************************/
 e_nodeState getState(CO_Data* d)
 {
   return d->nodeState;
 }
 
+/*****************************************************************************/
 void canDispatch(CO_Data* d, Message *m)
 {
 	 switch(m->cob_id.w >> 7)
@@ -92,7 +97,8 @@ void canDispatch(CO_Data* d, Message *m)
 		FuncStop;\
 	}
 #define None
-
+	
+/*****************************************************************************/
 void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicationState)
 {
 	StartOrStop(csSDO,	None,		resetSDO(d))
@@ -103,6 +109,7 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
 
+/*****************************************************************************/
 UNS8 setState(CO_Data* d, e_nodeState newState)
 {
 	while(newState != d->nodeState){
@@ -184,11 +191,13 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 	return 0;
 }
 
+/*****************************************************************************/
 UNS8 getNodeId(CO_Data* d)
 {
   return *d->bDeviceNodeId;
 }
 
+/*****************************************************************************/
 void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
