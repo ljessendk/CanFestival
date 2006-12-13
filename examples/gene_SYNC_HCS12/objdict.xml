@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<node manufacturer_device_name_1008="Gene_SYNC" name="Gene_SYNC" node_id="0x03" type_node="slave">
-<heartbeat_consumers nombre="1"/>
-<sdo_clients nombre="1"/>
-<mapped_variable index="0x6000" name="canopenErrNB" size_in_bits="32" sub_index="0x01"/>
-<mapped_variable index="0x6000" name="canopenErrVAL" size_in_bits="32" sub_index="0x02"/>
-</node>
