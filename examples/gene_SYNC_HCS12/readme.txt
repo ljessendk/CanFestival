@@ -1,66 +1,57 @@
 Generator of Canopen SYNC message (cobid = 0x80)
 ---------------------------------------------
 francis.dupin@inrets.fr
-27 Janv 2005
-
-Node for Microcontroler MC9S12DP256 
-on board  T-board (http://www.elektronikladen.de
-
-=============
-Node N° 0x03
-=============
-
-This node generate only the SYNC signal.
-(cob-id : 0x80)
-
-To test this node
------------------
-Reset it :
-It is sending :
-cobid : 0x703
-data : 00
-
- 1 - Wants to generate SYNC every 10 milliseconds
-
-1a - put the value (4 bytes) : 0x00002710 in its dictionary 
-index 0x1006, subindex 0x00 :
-
-CAN message (SDO) : 
-cobid : 0x603
-data : 23 06 10 00 10 27 00 00
-(put 23 to transmit a data of 4 bytes
-     27                       3 bytes
-     2B                       2 bytes
-     2F                       1 byte
-)
-
-The node is responding :
-cobid : 0x583
-data : 60 06 10 00 00 00 00 00
-
-1b - put the value (4 bytes) : 0x40000080 at index 0x1005, subindex 0x00
-to start the SYNC : 
-cobid : 0x603
-data : 23 05 10 00 80 00 00 40
-
-The node is responding :
-cobid : 0x583
-data : 60 05 10 00 00 00 00 00
-
- 2 - Put the node in operational mode
-CAN message (NMT) :
-cobid : 0x00
-data : 01 03
-
-The node is sending the SYNC every 10 ms
+27 Janv 2005. 
+Revised 13 Dec 2006
 
 
-Nota
------
-To stop the SYNC : 2 methods
+Status of the code :
+====================
+Tested with 
+- CanFestival 3 rc2 (cvs version)
+- gcc port for HC12 release 3.1
+- Microcontroler MC9S12DP256 
+on board  T-board (http://www.elektronikladen.de)
 
-1 - put 0x00000000 at index 1006 subindex 0
-2 - put 0x00000080 at index 1005 subindex 0 
+
+
+To build the example
+--------------------
+a) Compile CanFestival for hcs12 :
+  Go to the root of CanFestival and enter
+  ./configure --target=hcs12
+  make clean all
+
+b) Build the example
+--------------------
+ cd examples/gene_SYNC_HCS12
+
+ make clean all
+
+
+What does the node ?
+====================
+Just reset it, it should send the SYNC (cobId 0x80) every 10 ms
+Informations availables if you connect the serial port 0 to a terminal configured at 38400 8N1
+				   
+
+
+
+
+The default values :
+nodeId = 0x03
+CAN rate = 250 kbps
+Please read appli.c, these values can be modified by switch.
+
+
+If you put the node in operational state, the CAN messages received are filtered : Only the NMT and Nodeguard can be received.
+The parameters of the filter are mapped in the object dictionary, so that the filter can be configured by SDO before entering in operational state. See the object dictionary index 2015 to 2023. To have the values applied, always download at 0x2023 index 0 the value 1 before entering in operational.
+
+Read the file objdict.c to see the capabilities of the node. 
+
+
+
+
 
 
 

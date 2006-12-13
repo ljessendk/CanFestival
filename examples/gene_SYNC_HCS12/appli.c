@@ -20,7 +20,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
+// Uncomment if you don't need console informations.
 #define DEBUG_WAR_CONSOLE_ON
 #define DEBUG_ERR_CONSOLE_ON
 
@@ -31,12 +31,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <asm-m68hc12/ports.h>
 #include  <interrupt.h>
 
+#include "../include/data.h"
 #include <applicfg.h>
 
 
 
-#include <../include/hcs12/candriver.h>
-
+#include "../include/hcs12/candriver.h"
+#include "../include/hcs12/canOpenDriver.h"
 #include "../include/def.h"
 #include "../include/can.h"
 #include "../include/objdictdef.h"
@@ -47,9 +48,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "../include/lifegrd.h"
 #include "../include/sync.h"
 
-
 #include "../include/nmtSlave.h"
 #include "objdict.h"
+
+// Variables defined in the object dictionary (See objdict.c)
+extern UNS16 acceptanceFilter1;		// Mapped at index 0x2015, subindex 0x00
+extern UNS16 acceptanceFilter2;		// Mapped at index 0x2016, subindex 0x00
+extern UNS16 acceptanceFilter3;		// Mapped at index 0x2017, subindex 0x00
+extern UNS16 acceptanceFilter4;		// Mapped at index 0x2018, subindex 0x00
+extern UNS16 mask1;		// Mapped at index 0x2019, subindex 0x00
+extern UNS16 mask2;		// Mapped at index 0x2020, subindex 0x00
+extern UNS16 mask3;		// Mapped at index 0x2021, subindex 0x00
+extern UNS16 mask4;		// Mapped at index 0x2022, subindex 0x00
+extern UNS8 applyDownloadedFilters;
+
+
 
 
 // HCS12 configuration
@@ -131,11 +144,22 @@ const canBusTime CAN_Baudrates[] =
 
 /**************************prototypes*****************************************/
 
-//fonction d'initialisation du bus can et la couche CANOPEN pour le capteur
+//Init can bus and Canopen
 void initCanopencapteur (void);
-// les fonctions d'initialisation du capteur: timer, compteurs logiciel
+// Init the sensor
 void initSensor(void);
 void initPortB(void);
+void initPortH(void);
+
+// Functions needed by Canfestival
+// Notice that gene_SYNC is the name of the sensor defined in python GUI.
+// Do not change it !.
+void gene_SYNC_initialisation(void);
+void gene_SYNC_preOperational(void);
+void gene_SYNC_operational(void);
+void gene_SYNC_stopped(void);
+void gene_SYNC_post_sync(void);
+
 
 //------------------------------------------------------------------------------
 //Initialisation of the port B for the leds.
@@ -147,18 +171,41 @@ void initPortB(void)
   IO_PORTS_8(PORTB) = 0xFF;
 }
 
-
+//------------------------------------------------------------------------------
+// Init of port H to choose the CAN rate by switch, and the nodeId
+void initPortH(void)
+{
+  // Port H is input
+  IO_PORTS_8(DDRH)= 0X00;
+  // Enable pull device
+  IO_PORTS_8(PERH) = 0XFF;
+  // Choose the pull-up device
+  IO_PORTS_8(PPSH) = 0X00;
+}
 
 //------------------------------------------------------------------------------
 void initSensor(void)
 { 
-  UNS8 baudrate = 0;
-  MSG_WAR(0x3F33, "I am the node :  ", getNodeId(&gene_SYNC_Data));  
+  UNS8 baudrate = 0; 
+  UNS8 nodeId = 0; 
   // Init led control
   initPortB(); 
   IO_PORTS_8(PORTB) &= ~ 0x01; //One led ON
-  // Init port to choose se CAN baudrate by switch
-  IO_PORTS_8(ATD0DIEN) = 0x03;
+  initPortH();
+  
+    /* Defining the node Id */
+  // Uncomment to have a fixed nodeId
+  //setNodeId(&gene_SYNC_Data, 0x03);
+  
+  // Comment below to have a fixed nodeId
+  nodeId = ~(IO_PORTS_8(PTH)) & 0x3F;
+  if (nodeId == 0) {
+  	MSG_WAR(0x3F33, "Using default nodeId :  ", getNodeId(&gene_SYNC_Data));
+  }
+  else	
+    setNodeId(&gene_SYNC_Data, nodeId);
+  
+  MSG_WAR(0x3F33, "My nodeId is :  ", getNodeId(&gene_SYNC_Data));
   
   canBusInit bi0 = {
     0,    /* no low power                 */ 
@@ -185,26 +232,38 @@ void initSensor(void)
   //Init the HCS12 microcontroler for CanOpen 
   initHCS12();
    
-  // Chose the CAN rate
-  baudrate = IO_PORTS_8(PORTAD0) & 0x03;
+  // Chose the CAN rate (On our board, whe have switch for all purpose)
+  //  7    8
+  //  ON   ON   => 1000 kpbs
+  //  OFF  ON   =>  500 kpbs
+  //  ON   OFF  =>  250 kpbs
+  
+  baudrate = ~(IO_PORTS_8(PTH)) & 0xC0;
+  
+  // Uncomment to have a fixed baudrate of 250 kbps
+  //baudrate = 1;
+  
   switch (baudrate) {
-  case 1:
+  case 0x40:
     bi0.clk = CAN_Baudrates[CAN_BAUDRATE_250K];
     MSG_WAR(0x3F30, "CAN 250 kbps ", 0);
     break;
-  case 2:
+  case 0x80:
     bi0.clk = CAN_Baudrates[CAN_BAUDRATE_500K];
     MSG_WAR(0x3F31, "CAN 500 kbps ", 0);
     break;
-  case 3:
+  case 0xC0:
     bi0.clk = CAN_Baudrates[CAN_BAUDRATE_1M];
     MSG_WAR(0x3F31, "CAN 1000 kbps ", 0);
     break;   
   default:
-    MSG_WAR(0x2F32, "CAN BAUD RATE NOT DEFINED ", 0);
+    bi0.clk = CAN_Baudrates[CAN_BAUDRATE_1M];
+    MSG_WAR(0x2F32, "CAN BAUD RATE NOT DEFINED => 250 kbps ", 0);
   }
 
-  MSG_WAR(0x3F33, "SYNC signal generator", 0);
+   
+
+  MSG_WAR(0x3F33, "SYNC signal generator ", 0);
 
   canInit(CANOPEN_LINE_NUMBER_USED, bi0);  //initialize filters...
   initTimer(); // Init hcs12 timer used by CanFestival. (see timerhw.c)
@@ -244,9 +303,11 @@ UNS8 gene_SYNC_canSend(Message *m)
 void gene_SYNC_initialisation()
 {  
   MSG_WAR (0x3F00, "Entering in INIT ", 0); 
-  initSensor();
+  initSensor();  
+
   IO_PORTS_8(PORTB) &= ~ 0x01; // led  0         : ON
   IO_PORTS_8(PORTB) |=   0x0E; // leds 1, 2, 3   : OFF
+  
 }
 
 
@@ -256,6 +317,27 @@ void gene_SYNC_preOperational()
   MSG_WAR (0x3F01, "Entering in PRE-OPERATIONAL ", 0); 
   IO_PORTS_8(PORTB) &= ~ 0x03; // leds 0, 1      : ON
   IO_PORTS_8(PORTB) |=   0x0C; // leds 2, 3      : OFF
+    /* default values for the msg CAN filters */
+  /* Accept all */
+    {
+   	  canBusFilterInit filterConfiguration = 
+   	  {
+   	  0x01,  /* Filter on 16 bits. See Motorola Block Guide V02.14 */
+      /*canidarx, canidmrx */                        
+      0x00, 0xFF,          /* filter 0 */
+      0x00, 0xFF, 		   /* filter 0 */
+      0x00, 0xFF,          /* filter 1 */
+      0x00, 0xFF, 		   /* filter 1 */
+      0x00, 0xFF,          /* filter 2 */
+      0x00, 0xFF, 		   /* filter 2 */
+      0x00, 0xFF,          /* filter 3 */
+      0x00, 0xFF, 	       /* filter 3 */
+   	 };
+   	 canChangeFilter(CANOPEN_LINE_NUMBER_USED, filterConfiguration);
+   } 
+   // Reset the automatic change by SDO
+   applyDownloadedFilters = 0;
+   
 }
 
 
@@ -265,12 +347,59 @@ void gene_SYNC_operational()
    MSG_WAR (0x3F02, "Entering in OPERATIONAL ", 0); 
    IO_PORTS_8(PORTB) &= ~ 0x07; // leds 0, 1, 2   : ON
    IO_PORTS_8(PORTB) |=   0x08; // leds 3         : OFF
+   
+   // Filtering the CAN received msgs.
+   // 2 ways
+   // First :applying an automatic filter
+   // Second : The values of the filtering registers are mapped in the object dictionary,
+   // So that a filtering configuration can be downloaded by SDO in pre-operational mode
+   	
+   	if (applyDownloadedFilters == 0) {// No downloaded configuration to apply
+  		UNS16 accept1 = 0x0000; // Accept NMT
+   		UNS16 mask1 = 0x0FFF;   // Mask NMT
+   		UNS16 accept2 = 0xE000; // Accept NMT error control (heartbeat, nodeguard)
+   		UNS16 mask2 = 0x0FFF;   // Mask NMT error control (heartbeat, nodeguard)
+   		
+   		canBusFilterInit filterConfiguration = 
+				{// filters 3 and 4 not used, so configured like filter 1.
+   		  	0x01,  /* Filter on 16 bits. See Motorola Block Guide V02.14 */
+     	    /*canidarx, canidmrx */                        
+      		(UNS8)(accept1 >> 8), (UNS8)(mask1 >> 8),    /* filter 1 id10...3*/
+      		(UNS8)accept1       , (UNS8)mask1, 		       /* filter 1 id2 ... */
+      		(UNS8)(accept2 >> 8), (UNS8)(mask2 >> 8),    /* filter 2 id10...3*/
+      		(UNS8)accept2       , (UNS8)mask2, 		       /* filter 2 id2 ... */
+       		(UNS8)(accept1 >> 8), (UNS8)(mask1 >> 8),    /* filter 3 id10...3*/
+      		(UNS8)accept1       , (UNS8)mask1, 		       /* filter 3 id2 ... */
+      		(UNS8)(accept1 >> 8), (UNS8)(mask1 >> 8),    /* filter 4 id10...3*/
+      		(UNS8)accept1       , (UNS8)mask1 		       /* filter 4 id2 ... */     	
+   	 	 	};
+   	 		canChangeFilter(CANOPEN_LINE_NUMBER_USED, filterConfiguration);
+   	 		MSG_WAR (0x3F03, "Internal CAN Rcv filter applied ", 0); 
+    	} 
+   	  else { // Apply filters downnloaded
+   			canBusFilterInit filterConfiguration = 
+				{// filters 3 and 4 not used, so configured like filter 1.
+   		  	0x01,  /* Filter on 16 bits. See Motorola Block Guide V02.14 */
+     	    /*canidarx, canidmrx */                        
+      		(UNS8)( acceptanceFilter1>> 8), (UNS8)(mask1 >> 8),    /* filter 1 id10...3*/
+      		(UNS8)acceptanceFilter1       , (UNS8)mask1, 		       /* filter 1 id2 ... */
+      		(UNS8)(acceptanceFilter2 >> 8), (UNS8)(mask2 >> 8),     /* filter 2 id10...3*/
+      		(UNS8)acceptanceFilter2       , (UNS8)mask2, 		       /* filter 2 id2 ... */
+       		(UNS8)(acceptanceFilter3 >> 8), (UNS8)(mask3 >> 8),    /* filter 3 id10...3*/
+      		(UNS8)acceptanceFilter3       , (UNS8)mask3, 		       /* filter 3 id2 ... */
+      		(UNS8)(acceptanceFilter4 >> 8), (UNS8)(mask4 >> 8),    /* filter 4 id10...3*/
+      		(UNS8)acceptanceFilter4       , (UNS8)mask4 		       /* filter 4 id2 ... */     	
+   	 	 	};
+   	 		canChangeFilter(CANOPEN_LINE_NUMBER_USED, filterConfiguration);  		
+   	 		MSG_WAR (0x3F04, "Downloaded CAN Rcv filter applied ", 0); 
+   	}
 }
 
 //------------------------------------------------------------------------------
 void gene_SYNC_stopped()
 {
   MSG_WAR (0x3F02, "Entering in STOPPED ", 0); 
+  IO_PORTS_8(PORTB) |=   0x0E; // leds 1, 2, 3, 4   : OFF
 }
 
 //------------------------------------------------------------------------------
@@ -295,13 +424,11 @@ void gene_SYNC_post_TPDO()
 UNS8 main (void)
 {
 
-  MSG_WAR(0x3F34, "Entering in the main", 0);
+  MSG_WAR(0x3F34, "Entering in the main ", 0);
   //----------------------------- INITIALISATION --------------------------------
-  /* Defining the node Id */
-  setNodeId(&gene_SYNC_Data, 0x03);
-
+  
   /* Put the node in Initialisation mode */
-  MSG_WAR(0x3F35, "va passer en init", 0);
+  MSG_WAR(0x3F35, "Will entering in INIT ", 0);
   setState(&gene_SYNC_Data, Initialisation);
 
   //----------------------------- START -----------------------------------------
@@ -309,18 +436,14 @@ UNS8 main (void)
   //MSG_WAR(0x3F36, "va passer en pre-op", 0);
   //setState(&gene_SYNC_Data, Pre_operational);
 
-    while (1) {
-      {
+	// Loop of receiving messages
+  while (1) {
 	Message m;
 	if (f_can_receive(0, &m)) {
-	  MSG_WAR(0x3F36, "Msg received", m.cob_id.w);
+	  //MSG_WAR(0x3F36, "Msg received", m.cob_id.w);
 	  canDispatch(&gene_SYNC_Data, &m);
-	}
-	  
-	
-      }
-      
-    }
+	}  
+    	}
 
   return (0); 
 }
