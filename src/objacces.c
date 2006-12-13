@@ -180,7 +180,7 @@ UNS32 setODentry( CO_Data* d,
 	      {
 			// we invert the data source directly. This let us do range testing without
 			// additional temp variable
-		 	UNS8 tmp, i;
+		 	UNS8 i;
 	  		for ( i = 0 ; i < ( ptrTable->pSubindex[bSubindex].size >> 1)  ; i++) 
 	  		{
 	    		UNS8 tmp =((UNS8 *)pSourceData) [(ptrTable->pSubindex[bSubindex].size - 1) - i];
