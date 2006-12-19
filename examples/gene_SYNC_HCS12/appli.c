@@ -49,18 +49,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "../include/sync.h"
 
 #include "../include/nmtSlave.h"
+
+// File created by the GUI 
 #include "objdict.h"
 
-// Variables defined in the object dictionary (See objdict.c)
-extern UNS16 acceptanceFilter1;		// Mapped at index 0x2015, subindex 0x00
-extern UNS16 acceptanceFilter2;		// Mapped at index 0x2016, subindex 0x00
-extern UNS16 acceptanceFilter3;		// Mapped at index 0x2017, subindex 0x00
-extern UNS16 acceptanceFilter4;		// Mapped at index 0x2018, subindex 0x00
-extern UNS16 mask1;		// Mapped at index 0x2019, subindex 0x00
-extern UNS16 mask2;		// Mapped at index 0x2020, subindex 0x00
-extern UNS16 mask3;		// Mapped at index 0x2021, subindex 0x00
-extern UNS16 mask4;		// Mapped at index 0x2022, subindex 0x00
-extern UNS8 applyDownloadedFilters;
 
 
 
@@ -150,15 +142,6 @@ void initCanopencapteur (void);
 void initSensor(void);
 void initPortB(void);
 void initPortH(void);
-
-// Functions needed by Canfestival
-// Notice that gene_SYNC is the name of the sensor defined in python GUI.
-// Do not change it !.
-void gene_SYNC_initialisation(void);
-void gene_SYNC_preOperational(void);
-void gene_SYNC_operational(void);
-void gene_SYNC_stopped(void);
-void gene_SYNC_post_sync(void);
 
 
 //------------------------------------------------------------------------------
@@ -288,7 +271,17 @@ void gene_SYNC_heartbeatError( UNS8 heartbeatID )
 //------------------------------------------------------------------------------
 void gene_SYNC_SDOtimeoutError (UNS8 line)
 {
+	// This function was implemented for the Client's use (client = the one which initiate the dialog),
+	// but we can use it also for the server.
+	// Note : if for an other reason than a timeout, a SDO to read or write 
+	// faile, we do not have implemented a warning function at the server side.
+	// Of course, there is one on the client side.
+  
   MSG_ERR(0x1F01, "SDO timeout for line : ", line);
+  // See the transfer structure in sdo.h to know what informations
+  // you can retreive.
+  MSG_ERR(0x1F02, "  to access index ", gene_SYNC_Data.transfers[line].index);
+  MSG_ERR(0x1F03, "         subIndex ", gene_SYNC_Data.transfers[line].subIndex);
 }
 
 //------------------------------------------------------------------------------

@@ -30,13 +30,13 @@ void gene_SYNC_heartbeatError(UNS8);
 
 UNS8 gene_SYNC_canSend(Message *);
 
-void gene_SYNC_initialisation();
-void gene_SYNC_preOperational();
-void gene_SYNC_operational();
-void gene_SYNC_stopped();
+void gene_SYNC_initialisation(void);
+void gene_SYNC_preOperational(void);
+void gene_SYNC_operational(void);
+void gene_SYNC_stopped(void);
 
-void gene_SYNC_post_sync();
-void gene_SYNC_post_TPDO();
+void gene_SYNC_post_sync(void);
+void gene_SYNC_post_TPDO(void);
 
 // Master node data struct
 extern CO_Data gene_SYNC_Data;

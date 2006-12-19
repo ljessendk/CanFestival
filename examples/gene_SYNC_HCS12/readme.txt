@@ -51,10 +51,38 @@ Read the file objdict.c to see the capabilities of the node.
 
 
 To change the period of SYNC,
+-----------------------------
 In pre-operational mode, send the SDO message cobid | .... (all in hexa):
 0x603 | 23 06 10 00 40 42 0F 00 
 to have a SYNC generated every 1 second. The change is instantaneous.
 (Assume that the nodeId is 3).
+
+
+To read the name of the node
+----------------------------
+(Assume that the nodeId is 3).
+You must use the segmented SDO protocole to make an upload from index
+0x1008 subindex 0x00
+
+c : client
+s : server (geneSync)
+
+Here is the dialog you must obtain.
+c: 0x603 | 40 08 10 00 00 00 00 00
+s: 0x583 | 41 08 10 00 0A 00 00 00
+c: 0x603 | 60 00 00 00 00 00 00 00
+s: 0x583 | 00 47 45 4E 45 5F 53 59
+c: 0x603 | 70 00 00 00 00 00 00 00
+s: 0x583 | 19 4E 43 00 00 00 00 00
+
+In the server's frames, you should read GENE_SYNC. (yes ...)
+
+If in the exchange you are not responding too faster (less than 3
+seconds. See in config.h #define SDO_TIMEOUT_MS),
+the nodes send a SDO abort :
+0x583 | 08 08 10 00 00 00 04 05
+
+
 
 
 
