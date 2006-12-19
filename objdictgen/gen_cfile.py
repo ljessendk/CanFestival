@@ -472,13 +472,13 @@ void %(NodeName)s_heartbeatError(UNS8);
 
 UNS8 %(NodeName)s_canSend(Message *);
 
-void %(NodeName)s_initialisation();
-void %(NodeName)s_preOperational();
-void %(NodeName)s_operational();
-void %(NodeName)s_stopped();
+void %(NodeName)s_initialisation(void);
+void %(NodeName)s_preOperational(void);
+void %(NodeName)s_operational(void);
+void %(NodeName)s_stopped(void);
 
-void %(NodeName)s_post_sync();
-void %(NodeName)s_post_TPDO();
+void %(NodeName)s_post_sync(void);
+void %(NodeName)s_post_TPDO(void);
 
 // Master node data struct
 extern CO_Data %(NodeName)s_Data;
