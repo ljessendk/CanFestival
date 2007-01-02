@@ -117,7 +117,7 @@ MappingDictionary = {
     0x1009 : {"name" : "Manufacturer Hardware Version", "struct" : var, "need" : False, "values" :
                 [{"name" : "Manufacturer Hardware Version", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
     0x100A : {"name" : "Manufacturer Software Version", "struct" : var, "need" : False, "values" :
-                [{"name" : "Manufacturer Software Version", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Manufacturer Software Version", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
     0x100C : {"name" : "Guard Time", "struct" : var, "need" : False, "values" :
                 [{"name" : "Guard Time", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
     0x100D : {"name" : "Life Time Factor", "struct" : var, "need" : False, "values" :
