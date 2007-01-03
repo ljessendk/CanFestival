@@ -804,13 +804,15 @@ class NodeManager:
             else:
                 if editor == "type":
                     value = self.TypeTranslation[value]
+                    size = self.GetEntryInfos(value)["size"]
+                    self.CurrentNode.UpdateMapVariable(index, subIndex, size)
                 elif editor == "access":
                     dic = {}
                     for abbrev,access in AccessType.iteritems():
                         dic[access] = abbrev
                     value = dic[value]
                 self.CurrentNode.SetMappingEntry(index, subIndex, values = {name : value})
-                if name == "name":
+                if name == "name" or editor == "type":
                     self.GenerateMapList()
             self.BufferCurrentNode()
 

@@ -466,6 +466,10 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
     HeaderFileContent = copyright_notice + generated_tag + """
 #include "data.h"
 
+// prototypes of function provided by object dictionnary
+UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
+const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+
 // prototypes of function to be filled by app
 void %(NodeName)s_SDOtimeoutError(UNS8 line);
 void %(NodeName)s_heartbeatError(UNS8);

@@ -582,6 +582,18 @@ class Node:
                     if (value & mask) == model:
                         self.Dictionary[i][j] = 0
     
+    def UpdateMapVariable(self, index, subIndex, size):
+        model = index << 16
+        mask = 0xFFFF << 16
+        if subIndex:
+            model += subIndex << 8
+            mask = 0xFF << 8
+        for i in self.Dictionary.iterkeys():
+            if 0x1600 <= i <= 0x17FF or 0x1A00 <= i <= 0x1BFF:
+                for j,value in enumerate(self.Dictionary[i]):
+                    if (value & mask) == model:
+                        self.Dictionary[i][j] = model + size
+    
     def RemoveLine(self, index, max, incr = 1):
         i = index
         while i < max and self.IsEntry(i + incr):

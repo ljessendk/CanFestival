@@ -131,8 +131,11 @@ class SubindexTable(wxPyGridTableBase):
 
     def GetValue(self, row, col):
         if row < self.GetNumberRows():
-            name = str(self.data[row].get(self.GetColLabelValue(col), ""))
-            return name
+            value = self.data[row].get(self.GetColLabelValue(col), "")
+            if (type(value) == UnicodeType):
+                return value
+            else: 
+                return str(value)
     
     def GetEditor(self, row, col):
         if row < self.GetNumberRows():
