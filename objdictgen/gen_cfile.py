@@ -415,8 +415,8 @@ const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
     fileContent += """
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 //
-//                       OBJECT DICTIONARY
-//                   
+//                             OBJECT DICTIONARY
+//
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 """%texts
     contentlist = indexContents.keys()

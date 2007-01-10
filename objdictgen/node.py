@@ -493,7 +493,7 @@ class Node:
             elif type(self.Dictionary[index]) == ListType and 0 <= subIndex <= len(self.Dictionary[index]):
                 result = DefaultParams.copy()
                 if index in self.ParamsDictionary and subIndex in self.ParamsDictionary[index]:
-                    result.update(self.Dictionary[index][subIndex])
+                    result.update(self.ParamsDictionary[index][subIndex])
                 return result
         return None
 
