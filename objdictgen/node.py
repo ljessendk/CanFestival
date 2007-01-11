@@ -210,7 +210,7 @@ MappingDictionary = {
                  {"name" : "Compatibility Entry", "type" : 0x03, "access" : 'rw', "pdo" : False},
                  {"name" : "Event Timer", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
     0x1600 : {"name" : "Receive PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'rw', "pdo" : False},
                  {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
     0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x02, "access" : 'ro', "pdo" : False},
@@ -220,7 +220,7 @@ MappingDictionary = {
                  {"name" : "Compatibility Entry", "type" : 0x03, "access" : 'rw', "pdo" : False},
                  {"name" : "Event Timer", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
     0x1A00 : {"name" : "Transmit PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'rw', "pdo" : False},
                  {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
 }
 
