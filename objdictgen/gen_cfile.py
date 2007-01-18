@@ -222,6 +222,7 @@ def GenerateFileContent(Manager, headerfilepath):
                     strIndex += "                    };\n"
             else:
                 
+                texts["parent"] = FormatName(entry_infos["name"])
                 # Entry type is ARRAY
                 for subIndex, value in enumerate(values):
                     texts["subIndex"] = subIndex
@@ -243,13 +244,12 @@ def GenerateFileContent(Manager, headerfilepath):
                             texts["comment"] = "\t// %s"%str(value)
                         texts["name"] = FormatName(subentry_infos["name"])
                         if index in variablelist:
-                            strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
-                            mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
+                            strDeclareHeader += "extern %(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
+                            mappedVariableContent += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
                         else:
                             strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
                 if callbacks:
-                    texts["name"] = FormatName(entry_infos["name"])
-                    strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
+                    strDeclareHeader += "extern ODCallback_t %(parent)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
         
         # Generating Dictionary C++ entry
         if callbacks:
