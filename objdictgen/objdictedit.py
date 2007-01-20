@@ -81,6 +81,7 @@ filesOpen = args
 ColSizes = [75, 250, 150, 125, 100, 60, 250]
 ColAlignements = [wxALIGN_CENTER, wxALIGN_LEFT, wxALIGN_CENTER, wxALIGN_RIGHT, wxALIGN_CENTER, wxALIGN_CENTER, wxALIGN_LEFT]
 AccessList = "Read Only,Write Only,Read/Write"
+RAccessList = "Read Only,Read/Write"
 BoolList = "True,False"
 OptionList = "Yes,No"
 
@@ -230,6 +231,9 @@ class SubindexTable(wxPyGridTableBase):
                     elif editortype == "access":
                         editor = wxGridCellChoiceEditor()
                         editor.SetParameters(AccessList)
+                    elif editortype == "raccess":
+                        editor = wxGridCellChoiceEditor()
+                        editor.SetParameters(RAccessList)
                     elif editortype == "option":
                         editor = wxGridCellChoiceEditor()
                         editor.SetParameters(OptionList)
@@ -239,6 +243,9 @@ class SubindexTable(wxPyGridTableBase):
                     elif editortype == "map":
                         editor = wxGridCellChoiceEditor()
                         editor.SetParameters(self.Parent.Manager.GetCurrentMapList())
+                    elif editortype == "time":
+                        editor = wxGridCellTextEditor()
+                        renderer = wxGridCellStringRenderer()
                 else:
                     grid.SetReadOnly(row, col, True)
                     

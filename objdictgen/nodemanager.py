@@ -778,6 +778,8 @@ class NodeManager:
                 elif editor == "bool":
                     value = value == "True"
                     self.CurrentNode.SetEntry(index, subIndex, value)
+                elif editor == "time":
+                    self.CurrentNode.SetEntry(index, subIndex, value)
                 else:
                     subentry_infos = self.GetSubentryInfos(index, subIndex)
                     type = subentry_infos["type"]
@@ -806,11 +808,16 @@ class NodeManager:
                     value = self.TypeTranslation[value]
                     size = self.GetEntryInfos(value)["size"]
                     self.CurrentNode.UpdateMapVariable(index, subIndex, size)
-                elif editor == "access":
+                elif editor in ["access","raccess"]:
                     dic = {}
                     for abbrev,access in AccessType.iteritems():
                         dic[access] = abbrev
                     value = dic[value]
+                    if editor == "raccess" and not self.CurrentNode.IsMappingEntry(index):
+                        entry_infos = self.GetEntryInfos(index)
+                        self.CurrentNode.AddMappingEntry(index, name = entry_infos["name"], struct = 7)
+                        self.CurrentNode.AddMappingEntry(index, 0, values = self.GetSubentryInfos(index, 0, False).copy())
+                        self.CurrentNode.AddMappingEntry(index, 1, values = self.GetSubentryInfos(index, 1, False).copy())
                 self.CurrentNode.SetMappingEntry(index, subIndex, values = {name : value})
                 if name == "name" or editor == "type":
                     self.GenerateMapList()
@@ -1082,7 +1089,10 @@ class NodeManager:
                 if type(values) == ListType and i == 0:
                     editor["name"] = None
                     editor["type"] = None
-                    editor["access"] = None
+                    if 0x1600 <= index <= 0x17FF or 0x1A00 <= index <= 0x1C00:
+                        editor["access"] = "raccess"
+                    else:
+                        editor["access"] = None
                     editor["value"] = None
                 else:
                     if infos["user_defined"]:
@@ -1115,6 +1125,8 @@ class NodeManager:
                     else:
                         if dic["type"].startswith("VISIBLE_STRING"):
                             editor["value"] = "string"
+                        if dic["type"] in ["TIME_OF_DAY","TIME_DIFFERENCE"]:
+                            editor["value"] = "time"
                         elif dic["type"] == "BOOLEAN":
                             editor["value"] = "bool"
                             dic["value"] = BoolType[dic["value"]]
@@ -1150,28 +1162,32 @@ class NodeManager:
         return values, customisabletypes[values[1]][1]
 
     def GetEntryName(self, index, node = True):
-        result = FindEntryName(index, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindEntryName(index, NodeMappings[i])
                 i += 1
+        if result == None:
+            result = FindEntryName(index, MappingDictionary)
         return result
     
     def GetEntryInfos(self, index, node = True):
-        result = FindEntryInfos(index, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindEntryInfos(index, NodeMappings[i])
                 i += 1
+        if result == None:
+            result = FindEntryInfos(index, MappingDictionary)
         return result
     
     def GetSubentryInfos(self, index, subIndex, node = True):
-        result = FindSubentryInfos(index, subIndex, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
@@ -1179,38 +1195,46 @@ class NodeManager:
                 if result:
                     result["user_defined"] = i == len(NodeMappings) - 1 and index >= 0x1000
                 i += 1
-        else :
-            result["user_defined"] = False
+        if result == None:    
+            result = FindSubentryInfos(index, subIndex, MappingDictionary)
+            if result:
+                result["user_defined"] = False
         return result
     
     def GetTypeIndex(self, typename, node = True):
-        result = FindTypeIndex(typename, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindTypeIndex(typename, NodeMappings[i])
                 i += 1
+        if result == None:
+            result = FindTypeIndex(typename, MappingDictionary)
         return result
     
     def GetTypeName(self, typeindex, node = True):
-        result = FindTypeName(typeindex, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindTypeName(typeindex, NodeMappings[i])
                 i += 1
+        if result == None:
+            result = FindTypeName(typeindex, MappingDictionary)
         return result
     
     def GetTypeDefaultValue(self, typeindex, node = True):
-        result = FindTypeDefaultValue(typeindex, MappingDictionary)
-        if result == None and node:
+        result = None
+        if node:
             NodeMappings = self.CurrentNode.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindTypeDefaultValue(typeindex, NodeMappings[i])
                 i += 1
+        if result == None:
+            result = FindTypeDefaultValue(typeindex, MappingDictionary)
         return result
     
     def GetTypeList(self, node = True):

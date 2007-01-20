@@ -505,6 +505,14 @@ class Node:
         return False
 
     """
+    Check if an entry exists in the User Mapping Dictionary and returns the answer.
+    """
+    def IsMappingEntry(self, index):
+        if index in self.UserMapping:
+            return True
+        return False
+
+    """
     Add a new entry in the User Mapping Dictionary
     """
     def AddMappingEntry(self, index, subIndex = None, name = "Undefined", struct = 0, size = None, nbmax = None, default = None, values = None):
