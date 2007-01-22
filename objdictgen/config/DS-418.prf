@@ -5,91 +5,64 @@ MappingDictionary for DS-418
 """
 
 Mapping = {
+    0x6000 : {"name" : "Battery Status", "struct" : var, "need" : True, "values" :
+                [{"name" : "Battery Status", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
+    0x6001 : {"name" : "Charger Status", "struct" : var, "need" : True, "values" :
+                [{"name" : "Charger Status", "type" : 0x05, "access" : 'rw', "pdo" : True}]},
+    0x6010 : {"name" : "Temperature", "struct" : var, "need" : True, "values" :
+                [{"name" : "Temperature", "type" : 0x03, "access" : 'ro', "pdo" : True}]},
 
-    0x0080 : {"name" : "BatteryPar", "struct" : array, "need" : False, "values" :
-                [{"name" : "Highest sub-index supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Battery type", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "Ah capacity", "type" : 0x06, "access" : 'rw', "pdo" : False},
-                 {"name" : "Maximum charge current", "type" : 0x06, "access" : 'rw', "pdo" : False},
-                 {"name" : "Number of cells", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
+    0x6020 : {"name" : "Battery Parameters", "struct" : array, "need" : True, "values" :
+                [{"name" : "Highest Sub-Index Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Battery Type", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Ah Capacity", "type" : 0x06, "access" : 'ro', "pdo" : False},
+                 {"name" : "Maximum Charge Current", "type" : 0x06, "access" : 'ro', "pdo" : False},
+                 {"name" : "Number of Cells", "type" : 0x06, "access" : 'ro', "pdo" : False}]},
 
-    0x6000 : {"name" : "Battery status", "struct" : var, "need" : True, "values" :
-                [{"name" : "battery_status", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
+    0x6030 : {"name" : "Battery Serial Number", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Packed ASCII Characters %d to %d[(sub*4-3,sub*4)]", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0x03}]},
+    0x6031 : {"name" : "Battery ID", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Packed ASCII Characters %d to %d[(sub*4-3,sub*4)]", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0x05}]},
+    0x6040 : {"name" : "Vehicle Serial Number", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Packed ASCII Characters %d to %d[(sub*4-3,sub*4)]", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0x05}]},
+    0x6041 : {"name" : "Vehicle ID", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Packed ASCII Characters %d to %d[(sub*4-3,sub*4)]", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0x05}]},
 
-    0x6001 : {"name" : "Charger status", "struct" : var, "need" : True, "values" :
-                [{"name" : "charger_status", "type" : 0x05, "access" : 'rw', "pdo" : True}]},
+    0x6050 : {"name" : "Cumulative Total Ah Charge", "struct" : var, "need" : False, "values" :
+                [{"name" : "Cumulative Total Ah Charge", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
 
-    0x6010 : {"name" : "temperature", "struct" : var, "need" : True, "values" :
-                [{"name" : "temperature", "type" : 0x03, "access" : 'ro', "pdo" : True}]},
+    0x6051 : {"name" : "Ah Expected Since Last Charge", "struct" : var, "need" : False, "values" :
+                [{"name" : "Ah Expected Since Last Charge", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
 
-    0x6020 : {"name" : "Battery parameters", "struct" : array, "need" : True, "values" :
-                [{"name" : "highest sub-index supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "battery type", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "ah capacity", "type" : 0x06, "access" : 'ro', "pdo" : False},
-                 {"name" : "maximum charge current", "type" : 0x06, "access" : 'ro', "pdo" : False},
-                 {"name" : "number of cells", "type" : 0x06, "access" : 'ro', "pdo" : False}]},
+    0x6052 : {"name" : "Ah Returned During Last Charge", "struct" : var, "need" : False, "values" :
+                [{"name" : "Ah Returned During Last Charge", "type" : 0x06, "access" : 'rw', "pdo" : True}]},
 
-    0x6030 : {"name" : "Battery serial number", "struct" : array, "need" : False, "values" :
-                [{"name" : "number of elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 1 to 4", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 5 to 8", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 9 to 10", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6053 : {"name" : "Ah Since Last Equalization", "struct" : var, "need" : False, "values" :
+                [{"name" : "Ah Since Last Equalization", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
 
-    0x6031 : {"name" : "Battery ID", "struct" : array, "need" : False, "values" :
-                [{"name" : "number of elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 1 to 4", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 5 to 8", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 9 to 12", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 13 to 16", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 17 to 20", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6054 : {"name" : "Date of Last Equalization", "struct" : array, "need" : False, "values" :
+                [{"name" : "Number of Elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Number of Minutes", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "Number of Days", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
 
-    0x6040 : {"name" : "vehicle serial number", "struct" : array, "need" : False, "values" :
-                [{"name" : "number of elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 1 to 4", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 5 to 8", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 9 to 12", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 13 to 16", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 17 to 20", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6060 : {"name" : "Battery Voltage", "struct" : var, "need" : False, "values" :
+                [{"name" : "Battery Voltage", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
 
-    0x6041 : {"name" : "vehicle ID", "struct" : array, "need" : False, "values" :
-                [{"name" : "number of elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 1 to 4", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 5 to 8", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 9 to 12", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 13 to 16", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "packed ASCII characters 17 to 20", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6070 : {"name" : "Charge Current Requested", "struct" : var, "need" : False, "values" :
+                [{"name" : "Charge Current Requested", "type" : 0x06, "access" : 'ro', "pdo" : True}]},
 
-    0x6050 : {"name" : "cumulative total ah charge", "struct" : var, "need" : False, "values" :
-                [{"name" : "cumulative total ah charge", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6080 : {"name" : "Charger State of Charge", "struct" : var, "need" : False, "values" :
+                [{"name" : "Charge State of Charge", "type" : 0x05, "access" : 'rw', "pdo" : True}]},
 
-    0x6051 : {"name" : "ah expected since last charge", "struct" : var, "need" : False, "values" :
-                [{"name" : "ah expected since last charge", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x6081 : {"name" : "Battery State of Charge", "struct" : var, "need" : False, "values" :
+                [{"name" : "Battery State of Charge", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
 
-    0x6052 : {"name" : "Ah returned during last charge", "struct" : var, "need" : False, "values" :
-                [{"name" : "ah returned during last charge", "type" : 0x06, "access" : 'rw', "pdo" : True}]},
-
-    0x6053 : {"name" : "ah since last equalization", "struct" : var, "need" : False, "values" :
-                [{"name" : "ah since last equalization", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
-
-    0x6041 : {"name" : "date of laste equalization", "struct" : array, "need" : False, "values" :
-                [{"name" : "number of elements", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "number of minutes", "type" : 0x06, "access" : 'rw', "pdo" : False},
-                 {"name" : "number of days", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
-
-    0x6060 : {"name" : "Battery voltage", "struct" : var, "need" : False, "values" :
-                [{"name" : "battery voltage", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
-
-    0x6070 : {"name" : "Charge current requested", "struct" : var, "need" : False, "values" :
-                [{"name" : "charge current requested", "type" : 0x06, "access" : 'ro', "pdo" : True}]},
-
-    0x6080 : {"name" : "Charger state of charge", "struct" : var, "need" : False, "values" :
-                [{"name" : "charge state of charge", "type" : 0x05, "access" : 'rw', "pdo" : True}]},
-
-    0x6081 : {"name" : "Battery state of charge", "struct" : var, "need" : False, "values" :
-                [{"name" : "battery state of charge", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
-
-    0x6090 : {"name" : "Water level status", "struct" : var, "need" : False, "values" :
-                [{"name" : "Water level status", "type" : 0x05, "access" : 'ro', "pdo" : False}]}
+    0x6090 : {"name" : "Water Level Status", "struct" : var, "need" : False, "values" :
+                [{"name" : "Water Level Status", "type" : 0x05, "access" : 'ro', "pdo" : False}]}
 
 }
 

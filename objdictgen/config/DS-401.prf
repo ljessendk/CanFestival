@@ -5,7 +5,7 @@ MappingDictionary for DS-401
 """
 
 Mapping = {
-    0x6000 : {"name" : "Read Inputs 8 Bit", "struct" : rec,  "need" : False, "values" :
+    0x6000 : {"name" : "Read Inputs 8 Bit", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Input 8 bit", "type" : 0x02, "access" : 'ro', "pdo" : False},
                  {"name" : "Read Inputs 0x%X to 0x%X[(sub*8-7,sub*8)]", "type" : 0x05, "access" : 'ro', "pdo" : True, "nbmax" : 0xFE}]},
     0x6002 : {"name" : "Polarity Input 8 Bit", "struct" : rec, "need" : False, "values" :
