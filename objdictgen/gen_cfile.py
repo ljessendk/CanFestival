@@ -293,7 +293,7 @@ def GenerateFileContent(Manager, headerfilepath):
                     name = "%s_obj%04X[%d]"%(texts["NodeName"], texts["index"], subIndex - 1)
             else:
                 if index in variablelist:
-                    name = FormatName(subentry_infos["name"])
+                    name = FormatName("%s_%s"%(entry_infos["name"],subentry_infos["name"]))
                 else:
                     name = "%s_obj%04X_%s"%(texts["NodeName"], texts["index"], FormatName(subentry_infos["name"]))
             if subIndexType == "visible_string":
