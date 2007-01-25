@@ -54,33 +54,33 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define REQUEST 1
 #define NOT_A_REQUEST 0
 
-/// Misc constants
-// --------------
+/* Misc constants */
+/* -------------- */
 /* Should not be modified */
 #define Rx 0
 #define Tx 1
 #define TRUE  1
 #define FALSE 0
 
-//TODO: remove this limitation. do bit granularity mapping
+/* TODO: remove this limitation. do bit granularity mapping */
 #define PDO_MAX_LEN 8    
                                
 /** Status of the SDO transmission
  */
-#define SDO_RESET                0x0      // Transmission not started. Init state.
-#define SDO_FINISHED             0x1      // data are available                            
-#define	SDO_ABORTED_RCV          0x80     // Received an abort message. Data not available 
-#define	SDO_ABORTED_INTERNAL     0x85     // Aborted but not because of an abort message.
+#define SDO_RESET                0x0      /* Transmission not started. Init state. */
+#define SDO_FINISHED             0x1      /* data are available */                          
+#define	SDO_ABORTED_RCV          0x80     /* Received an abort message. Data not available */
+#define	SDO_ABORTED_INTERNAL     0x85     /* Aborted but not because of an abort message. */
 #define	SDO_DOWNLOAD_IN_PROGRESS 0x2 
 #define	SDO_UPLOAD_IN_PROGRESS   0x3   
 
-// Status of the node during the SDO transfert :
+/* Status of the node during the SDO transfert : */
 #define SDO_SERVER  0x1
 #define SDO_CLIENT  0x2
 #define SDO_UNKNOWN 0x3             
 
 /*  Function Codes 
-  --------------- 
+   ---------------
   defined in the canopen DS301 
 */
 #define NMT	   0x0
@@ -98,8 +98,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define SDOrx      0xC
 #define NODE_GUARD 0xE
 
-/// NMT Command Specifier, sent by master to change a slave state
-// -------------------------------------------------------------
+/* NMT Command Specifier, sent by master to change a slave state */
+/* ------------------------------------------------------------- */
 /* Should not be modified */
 #define NMT_Start_Node              0x01
 #define NMT_Stop_Node               0x02
@@ -107,8 +107,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define NMT_Reset_Node              0x81
 #define NMT_Reset_Comunication      0x82
 
-/// constantes used in the different state machines
-// -----------------------------------------------
+/* constantes used in the different state machines */
+/* ----------------------------------------------- */
 /* Must not be modified */
 #define state1  0x01
 #define state2  0x02
@@ -122,5 +122,5 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define state10 0x0A
 #define state11 0x0B
 
-#endif // __def_h__
+#endif /* __def_h__ */
 

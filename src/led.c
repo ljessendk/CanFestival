@@ -45,7 +45,7 @@ void led_callback(CO_Data* d, UNS32 id);
 void led_set_redgreen(CO_Data *d, unsigned char state);
 
 
-// 0 = always off, 1 = always on, 2 = flashing
+/* 0 = always off, 1 = always on, 2 = flashing */
 static UNS8 led_state_red, led_state_green; 
 
 static UNS16 led_sequence_red, led_seq_index_red;
@@ -53,20 +53,20 @@ static UNS16 led_sequence_green, led_seq_index_green;
 
 static UNS8 led_error_code = LED_NO_ERROR;
 
-const char *led_sequence_table[6] = // up and downs of the sequence
+const char *led_sequence_table[6] = /* up and downs of the sequence */
 {
-	"01",           // flickering
-	"01",           // blinking
-	"100000",       // single flash
-	"10100000",     // double flash
-	"1010100000",   // triple flash
-	"101010100000"  // quadruple flash
+	"01",           /* flickering */
+	"01",           /* blinking */
+	"100000",       /* single flash */
+	"10100000",     /* double flash */
+	"1010100000",   /* triple flash */
+	"101010100000"  /* quadruple flash */
 };
 
 
 void led_set_state(CO_Data *d, int state)
 {
-//printf("led_set_state(%x)\n", state);
+/*printf("led_set_state(%x)\n", state); */
 
 	switch(state)
 	{
@@ -103,8 +103,8 @@ void led_set_state(CO_Data *d, int state)
 	{
 		led_stop_timer();
 
-		//led_set_green(led_state_green);
-		//led_set_red(led_state_red);
+		/*led_set_green(led_state_green); */
+		/*led_set_red(led_state_red); */
 	}
 
 	else
@@ -171,15 +171,15 @@ void led_set_error(CO_Data *d, UNS8 error)
 		}
 
 		led_start_timer(d, 200);
-		//led_set_red(led_state_red);
+		/*led_set_red(led_state_red); */
 	}
 
 	if (led_state_green < 2  &&  led_state_red < 2)
 	{
 		led_stop_timer();
 
-		//led_set_green(led_state_green);
-		//led_set_red(led_state_red);
+		/*led_set_green(led_state_green); */
+		/*led_set_red(led_state_red); */
 	}
 }
 
@@ -202,7 +202,7 @@ void led_callback(CO_Data *d, UNS32 id)
 {
 	UNS8 bits = 0;
 
-	// RED LED
+	/* RED LED */
 	if (led_sequence_table[led_sequence_red][led_seq_index_red] == '1')
 	{
 		if (led_state_red > 0)
@@ -219,7 +219,7 @@ void led_callback(CO_Data *d, UNS32 id)
 	if (led_seq_index_red > strlen(led_sequence_table[led_sequence_red]))
 		led_seq_index_red = 0;
 
-	// GREEN LED
+	/* GREEN LED */
 	if (led_sequence_table[led_sequence_green][led_seq_index_green] == '1')
 	{
 		if (led_state_green > 0)
@@ -236,7 +236,7 @@ void led_callback(CO_Data *d, UNS32 id)
 	if (led_seq_index_green > strlen(led_sequence_table[led_sequence_green]))
 		led_seq_index_green = 0;
 
-	//led_set_redgreen(d, bits);
+	/*led_set_redgreen(d, bits); */
 }
 
 

@@ -61,4 +61,4 @@ UNS8 masterSendNMTnodeguard (CO_Data* d, UNS8 nodeId);
 void masterRequestNodeState (CO_Data* d, UNS8 nodeId);
 
 
-#endif // __nmtMaster_h__
+#endif /* __nmtMaster_h__ */

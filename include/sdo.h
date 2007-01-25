@@ -37,46 +37,49 @@ Used to store the different segments of
 */
 
 struct struct_s_transfer {
-  UNS8           nodeId;     //own ID if server, or node ID of the server if client
+  UNS8           nodeId;     /*own ID if server, or node ID of the server if client */
   
-  UNS8           whoami;     // Takes the values SDO_CLIENT or SDO_SERVER
-  UNS8           state;      // state of the transmission : Takes the values SDO_...
+  UNS8           whoami;     /* Takes the values SDO_CLIENT or SDO_SERVER */
+  UNS8           state;      /* state of the transmission : Takes the values SDO_... */
   UNS8           toggle;
-  UNS32          abortCode;  // Sent or received
-  // index and subindex of the dictionary where to store
-  // (for a received SDO) or to read (for a transmit SDO)
+  UNS32          abortCode;  /* Sent or received */
+  /* index and subindex of the dictionary where to store */
+  /* (for a received SDO) or to read (for a transmit SDO) */
   UNS16          index; 
   UNS8           subIndex; 
-  UNS32          count;      // Number of data received or to be sent.
-  UNS32          offset;     // stack pointer of data[]
-                             // Used only to tranfer part of a line to or from a SDO.
-                             // offset is always pointing on the next free cell of data[].
-                             // WARNING s_transfer.data is subject to ENDIANISATION 
-                             // (with respect to CANOPEN_BIG_ENDIAN)
+  UNS32          count;      /* Number of data received or to be sent. */
+  UNS32          offset;     /* stack pointer of data[]
+                              * Used only to tranfer part of a line to or from a SDO.
+                              * offset is always pointing on the next free cell of data[].
+                              * WARNING s_transfer.data is subject to ENDIANISATION 
+                              * (with respect to CANOPEN_BIG_ENDIAN)
+                              */
   UNS8           data [SDO_MAX_LENGTH_TRANSFERT];
-  UNS8           dataType;   // Defined in objdictdef.h Value is visible_string 
-                             // if it is a string, any other value if it is not a string, 
-                             // like 0. In fact, it is used only if client.
-  TIMER_HANDLE   timer;    // Time counter to implement a timeout in milliseconds.
-                             // It is automatically incremented whenever 
-                             // the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
-                             // SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
-                             // when the response SDO have been received.
-  SDOCallback_t Callback;   // The user callback func to be called at SDO transaction end
+  UNS8           dataType;   /* Defined in objdictdef.h Value is visible_string 
+                              * if it is a string, any other value if it is not a string, 
+                              * like 0. In fact, it is used only if client.
+                              */
+  TIMER_HANDLE   timer;      /* Time counter to implement a timeout in milliseconds.
+                             /* It is automatically incremented whenever 
+                             /* the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
+                             /* SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
+                             /* when the response SDO have been received.
+                              */
+  SDOCallback_t Callback;   /* The user callback func to be called at SDO transaction end */
 };
 typedef struct struct_s_transfer s_transfer;
   
 
 #include "data.h"
 
-/// The 8 bytes data of the SDO
+/* The 8 bytes data of the SDO */
 struct BODY{
     UNS8 data[8];
 };
 
-/// The SDO structure ...
+/* The SDO structure ...*/
 struct struct_s_SDO {
-  UNS8 nodeId;		//in any case, Node ID of the server (case sender or receiver).
+  UNS8 nodeId;		/*in any case, Node ID of the server (case sender or receiver).*/
   struct BODY body;
 };
 

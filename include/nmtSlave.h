@@ -42,4 +42,4 @@ void proceedNMTstateChange (CO_Data* d, Message * m);
 UNS8 slaveSendBootUp (CO_Data* d);
 
 
-#endif // __nmtSlave_h__
+#endif /* __nmtSlave_h__ */

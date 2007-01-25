@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <data.h>
 #include "lifegrd.h"
 
-// Prototypes for internals functions
+/* Prototypes for internals functions */
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id);
 
@@ -36,12 +36,12 @@ e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
 }
 
 /*****************************************************************************/
-// The Consumer Timer Callback
+/* The Consumer Timer Callback */
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
-        //MSG_WAR(0x00, "ConsumerHearbeatAlarm", 0x00);
+        /*MSG_WAR(0x00, "ConsumerHearbeatAlarm", 0x00);*/
 	
-	// call heartbeat error with NodeId
+	/* call heartbeat error with NodeId */
 	(*d->heartbeatError)((UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
 }
 
@@ -51,8 +51,8 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
   UNS8 nodeId = (UNS8) GET_NODE_ID((*m));
   
   if((m->rtr == 1) ) /* Notice that only the master can have sent this node guarding request */
-  { // Receiving a NMT NodeGuarding (request of the state by the master)
-    //  only answer to the NMT NodeGuarding request, the master is not checked (not implemented)
+  { /* Receiving a NMT NodeGuarding (request of the state by the master) */
+    /*  only answer to the NMT NodeGuarding request, the master is not checked (not implemented) */
     if (nodeId == *d->bDeviceNodeId )
     {
       Message msg;
@@ -67,26 +67,26 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
       }
       else
         d->toggle = 1 ; 
-      // send the nodeguard response.
+      /* send the nodeguard response. */
       MSG_WAR(0x3130, "Sending NMT Nodeguard to master, state: ", d->nodeState);
       (*d->canSend)(&msg );
     }  
 
-  }else{ // Not a request CAN  
+  }else{ /* Not a request CAN */
 
     MSG_WAR(0x3110, "Received NMT nodeId : ", nodeId);
     /* the slave's state receievd is stored in the NMTable */
-      // The state is stored on 7 bit
+      /* The state is stored on 7 bit */
     d->NMTable[nodeId] = (e_nodeState) ((*m).data[0] & 0x7F) ;
     
     /* Boot-Up frame reception */
     if ( d->NMTable[nodeId] == Initialisation)
       {
-        // The device send the boot-up message (Initialisation)
-        // to indicate the master that it is entered in pre_operational mode
-        // Because the  device enter automaticaly in pre_operational mode,
-        // the pre_operational mode is stored 
-//        NMTable[bus_id][nodeId] = Pre_operational;
+        /* The device send the boot-up message (Initialisation) */
+        /* to indicate the master that it is entered in pre_operational mode */
+        /* Because the  device enter automaticaly in pre_operational mode, */
+        /* the pre_operational mode is stored */
+/*        NMTable[bus_id][nodeId] = Pre_operational; */
         MSG_WAR(0x3100, "The NMT is a bootup from node : ", nodeId);
       }
       
@@ -98,7 +98,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
             if ( nodeId == ConsummerHeartBeat_nodeId )
             {
                 TIMEVAL time = ( (d->ConsumerHeartbeatEntries[index]) & (UNS32)0x0000FFFF ) ;
-            	// Renew alarm for next heartbeat.
+            	/* Renew alarm for next heartbeat. */
             	DelAlarm(d->ConsumerHeartBeatTimers[index]);
             	d->ConsumerHeartBeatTimers[index] = SetAlarm(d, index, &ConsumerHearbeatAlarm, MS_TO_TIMEVAL(time), 0);
             }
@@ -108,21 +108,22 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
 }
 
 /*****************************************************************************/
-// The Consumer Timer Callback
+/* The Consumer Timer Callback */
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
 	if(*d->ProducerHeartBeatTime)
 	{
 		Message msg;
-		// Time expired, the heartbeat must be sent immediately
-		// generate the correct node-id: this is done by the offset 1792
-		// (decimal) and additionaly
-		// the node-id of this device.
+		/* Time expired, the heartbeat must be sent immediately
+		 * generate the correct node-id: this is done by the offset 1792
+		 * (decimal) and additionaly
+		 * the node-id of this device.
+		 */
 		msg.cob_id.w = *d->bDeviceNodeId + 0x700;
 		msg.len = (UNS8)0x01;
 		msg.rtr = 0;
-		msg.data[0] = d->nodeState; // No toggle for heartbeat !
-		// send the heartbeat
+		msg.data[0] = d->nodeState; /* No toggle for heartbeat !*/
+		/* send the heartbeat */
       		MSG_WAR(0x3130, "Producing heartbeat: ", d->nodeState);
       		(*d->canSend)(&msg );
 	}else{
@@ -133,14 +134,14 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 /*****************************************************************************/
 void heartbeatInit(CO_Data* d)
 {
-    UNS8 index; // Index to scan the table of heartbeat consumers
+    UNS8 index; /* Index to scan the table of heartbeat consumers */
 
     d->toggle = 0;
 
     for( index = (UNS8)0x00; index < *d->ConsumerHeartbeatCount; index++ )
     {
         TIMEVAL time = (UNS16) ( (d->ConsumerHeartbeatEntries[index]) & (UNS32)0x0000FFFF ) ;
-        //MSG_WAR(0x3121, "should_time : ", should_time ) ;
+        /* MSG_WAR(0x3121, "should_time : ", should_time ) ; */
         if ( time )
         {
             	d->ConsumerHeartBeatTimers[index] = SetAlarm(d, index, &ConsumerHearbeatAlarm, MS_TO_TIMEVAL(time), 0);

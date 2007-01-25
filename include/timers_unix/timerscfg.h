@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <pthread.h>
 
-// Time unit : us
-// Time resolution : 64bit (~584942 years)
+/* Time unit : us */
+/* Time resolution : 64bit (~584942 years) */
 #define TIMEVAL unsigned long long
 #define TIMEVAL_MAX ~(TIMEVAL)0
 #define MS_TO_TIMEVAL(ms) ms*1000

@@ -20,10 +20,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+
 #include "data.h"
 #include "sync.h"
 
-// Prototypes for internals functions
+/* Prototypes for internals functions */
 void SyncAlarm(CO_Data* d, UNS32 id);
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, 
 	UNS8 unsused_bSubindex);
@@ -37,7 +38,7 @@ void SyncAlarm(CO_Data* d, UNS32 id)
 }
 
 /*****************************************************************************/
-// This is called when Index 0x1005 is updated.
+/* This is called when Index 0x1005 is updated.*/
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	startSYNC(d);
@@ -58,7 +59,7 @@ void startSYNC(CO_Data* d)
 	{
 		d->syncTimer = SetAlarm(
 				d,
-				0/*No id needed*/,
+				0 /*No id needed*/,
 				&SyncAlarm,
 				US_TO_TIMEVAL(*d->Sync_Cycle_Period), 
 				US_TO_TIMEVAL(*d->Sync_Cycle_Period));
@@ -91,17 +92,15 @@ UNS8 sendSYNC(CO_Data* d, UNS32 cob_id)
 UNS8 proceedSYNC(CO_Data* d, Message *m)
 {
 
-  MSG_WAR(0x3002, "SYNC received. Proceed. ", 0);
+  UNS8 	pdoNum,       /* number of the actual processed pdo-nr. */
+        prp_j;
 
-  UNS8 	pdoNum,       // number of the actual processed pdo-nr.
-    prp_j;
-
-  const UNS8 *     pMappingCount = NULL;      // count of mapped objects...
-  // pointer to the var which is mapped to a pdo
-//  void *     pMappedAppObject = NULL; 
-  // pointer fo the var which holds the mapping parameter of an mapping entry  
+  const UNS8 *     pMappingCount = NULL;      /* count of mapped objects...*/
+  /* pointer to the var which is mapped to a pdo */
+  /* void *     pMappedAppObject = NULL; */
+  /* pointer fo the var which holds the mapping parameter of an mapping entry  */
   UNS32 *    pMappingParameter = NULL;  
-  // pointer to the transmissiontype...
+  /* pointer to the transmissiontype...*/
   UNS8 *     pTransmissionType = NULL;  
   UNS32 *    pwCobId = NULL;	
 
@@ -113,16 +112,19 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   UNS8 offset;
   UNS8 status;
   UNS8 sizeData;
-  pSize = &size;
   UNS32   objDict;	
-  status = state3;
-  pdoNum=0x00;
-  prp_j=0x00;
-  offset = 0x00;
   UNS16 offsetObjdict;
   UNS16 offsetObjdictMap;
   UNS16 lastIndex;
-
+  
+  pSize = &size;
+  status = state3;
+  pdoNum = 0x00;
+  prp_j = 0x00;
+  offset = 0x00;
+  
+  MSG_WAR(0x3002, "SYNC received. Proceed. ", 0);
+  
   /* only operational state allows PDO transmission */
   if( d->nodeState != Operational ) 
     return 0;
@@ -185,7 +187,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
     case state9:	/* get data to transmit */ 
       index = (UNS16)((*pMappingParameter) >> 16);
       subIndex = (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & (UNS32)0x000000FF);
-      // <<3 because in *pMappingParameter the size is in bits
+      /* <<3 because in *pMappingParameter the size is in bits */
       sizeData = (UNS8) ((*pMappingParameter & (UNS32)0x000000FF) >> 3) ;
 
         objDict = getODentry(d, index, subIndex, (void *)&d->process_var.data[offset], &sizeData, &dataType, 0 ); 
@@ -228,9 +230,9 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
     default:
       MSG_ERR(0x1019,"Unknown state has been reached : %d",status);
       return 0xFF;
-    }// end switch case
+    }/* end switch case */
     
-  }// end while( prp_i<dict_cstes.max_count_of_PDO_transmit )
+  }/* end while( prp_i<dict_cstes.max_count_of_PDO_transmit ) */
    
   (*d->post_TPDO)();
 

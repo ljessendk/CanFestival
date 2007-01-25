@@ -62,8 +62,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define sdo_parameter               0x22
 #define identity                    0x23
 
-// CanFestival is using 0x24 to 0xFF to define some types containing a 
-// value range (See how it works in objdict.c)
+/* CanFestival is using 0x24 to 0xFF to define some types containing a 
+ value range (See how it works in objdict.c)
+ */
 
 
 
@@ -94,19 +95,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 typedef struct td_subindex
 {
     UNS8                    bAccessType;
-    UNS8                    bDataType; // Defines of what datatype the entry is
-    UNS8                    size;      // The size (in Byte) of the variable
-    void*                   pObject;   // This is the pointer of the Variable
+    UNS8                    bDataType; /* Defines of what datatype the entry is */
+    UNS8                    size;      /* The size (in Byte) of the variable */
+    void*                   pObject;   /* This is the pointer of the Variable */
 } subindex;
 
 /** Struct for creating entries in the communictaion profile
  */
 typedef struct td_indextable
 {
-    subindex*   pSubindex;   // Pointer to the subindex
-    UNS8   bSubCount;   // the count of valid entries for this subindex
-                        // This count here defines how many memory has been
-                        // allocated. this memory does not have to be used.
+    subindex*   pSubindex;   /* Pointer to the subindex */
+    UNS8   bSubCount;   /* the count of valid entries for this subindex
+                         * This count here defines how many memory has been
+                         * allocated. this memory does not have to be used.
+                         */
     UNS16   index;
 } indextable;
 
@@ -120,14 +122,14 @@ typedef struct s_quick_index{
 }quick_index;
 
 
-//typedef struct struct_CO_Data CO_Data;
+/*typedef struct struct_CO_Data CO_Data; */
 typedef UNS32 (*ODCallback_t)(CO_Data* d, const indextable *, UNS8 bSubindex);
 typedef const indextable * (*scanIndexOD_t)(UNS16 wIndex, UNS32 * errorCode, ODCallback_t **Callback);
 
 /************************** MACROS *********************************/
 
-///CANopen usefull helpers
+/* CANopen usefull helpers */
 #define GET_NODE_ID(m)         (m.cob_id.w & 0x7f)
 #define GET_FUNCTION_CODE(m)     (m.cob_id.w >> 7)
 
-#endif // __objdictdef_h__
+#endif /* __objdictdef_h__ */

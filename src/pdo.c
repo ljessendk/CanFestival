@@ -30,13 +30,13 @@ UNS8 sendPDO(CO_Data* d, s_PDO pdo, UNS8 req)
     Message m;
 
     /* Message copy for sending */
-    m.cob_id.w = pdo.cobId & 0x7FF; // Because the cobId is 11 bytes length
+    m.cob_id.w = pdo.cobId & 0x7FF; /* Because the cobId is 11 bytes length */
     if ( req == NOT_A_REQUEST ) {
       UNS8 i;
       m.rtr = NOT_A_REQUEST;
       m.len = pdo.len;
-      //memcpy(&m.data, &pdo.data, m.len);
-      // This Memcpy depends on packing structure. Avoid
+      /* memcpy(&m.data, &pdo.data, m.len); */
+      /* This Memcpy depends on packing structure. Avoid */
       for (i = 0 ; i < pdo.len ; i++)
 	m.data[i] = pdo.data[i];
     }
@@ -52,12 +52,12 @@ UNS8 sendPDO(CO_Data* d, s_PDO pdo, UNS8 req)
     }
 		  
     return (*d->canSend)(&m);
-  } // end if 
+  } /* end if */
   return 0xFF;
 }
 
 /***************************************************************************/
-UNS8 PDOmGR(CO_Data* d, UNS32 cobId) //PDO Manager
+UNS8 PDOmGR(CO_Data* d, UNS32 cobId) /* PDO Manager */
 {
   UNS8 res;
   UNS8 i;
@@ -69,8 +69,8 @@ UNS8 PDOmGR(CO_Data* d, UNS32 cobId) //PDO Manager
      preparation of the message to send */
     pdo.cobId = cobId;
     pdo.len =  d->process_var.count;
-    //memcpy(&(pdo.data), &(process_var.data), pdo.len);
-    // Ce memcpy devrait être portable
+    /* memcpy(&(pdo.data), &(process_var.data), pdo.len); */
+    /* Ce memcpy devrait être portable */
     for ( i = 0 ; i < pdo.len ; i++) 
       pdo.data[i] = d->process_var.data[i];
 
@@ -81,14 +81,14 @@ UNS8 PDOmGR(CO_Data* d, UNS32 cobId) //PDO Manager
 
 /**************************************************************************/
 UNS8 buildPDO(CO_Data* d, UNS16 index)
-{ // DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails.	
+{ /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails. */	
   UNS16 ind;
   UNS8      subInd;
 
-  UNS8 *     pMappingCount = NULL;      // count of mapped objects...
-  // pointer to the var which is mapped to a pdo
-//  void *     pMappedAppObject = NULL; 
-  // pointer fo the var which holds the mapping parameter of an mapping entry  
+  UNS8 *     pMappingCount = NULL;      /* count of mapped objects... */
+  /* pointer to the var which is mapped to a pdo */
+/*  void *     pMappedAppObject = NULL;  */
+  /* pointer fo the var which holds the mapping parameter of an mapping entry  */ 
   UNS32 *    pMappingParameter = NULL;  
 
   UNS8      Size;
@@ -118,13 +118,13 @@ UNS8 buildPDO(CO_Data* d, UNS16 index)
 	  pMappingCount = (d->objdict + offsetObjdict + ind)->pSubindex[0].pObject;
 	  MSG_WAR(0x3912, "Nb maped objects : ",* pMappingCount);
 	  MSG_WAR(0x3913, "        at index : ", 0x1A00 + ind);
-	  while (subInd < *pMappingCount) { // Loop on mapped variables
+	  while (subInd < *pMappingCount) { /* Loop on mapped variables */
 	    /* get mapping parameters */
 	    pMappingParameter = (d->objdict + offsetObjdict + ind)->pSubindex[subInd + 1].pObject;
 	    MSG_WAR(0x3914, "Get the mapping      at index : ", (UNS16)0x1A00 + ind);
 	    MSG_WAR(0x3915, "                     subIndex : ", subInd + 1);
 	    MSG_WAR(0x3916, "                     value    : ", *(UNS32 *)pMappingParameter);
-	    // Get the mapped variable
+	    /* Get the mapped variable */
 	     Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
 	     objDict = getODentry(d, (UNS16)((*pMappingParameter) >> 16),
 				    (UNS8)(((*pMappingParameter) >> 8 ) & 0x000000FF),
@@ -140,7 +140,7 @@ UNS8 buildPDO(CO_Data* d, UNS16 index)
 	      offset += Size;
 	      d->process_var.count = offset;
 	      subInd++;					
-	}// end Loop on mapped variables 
+	}/* end Loop on mapped variables  */
   }
   return 0;
 }
@@ -154,8 +154,8 @@ UNS8 sendPDOrequest( CO_Data* d, UNS32 cobId )
   UNS8           err;
 
   MSG_WAR(0x3930, "sendPDOrequest ",0);  
-  // Sending the request only if the cobid have been found on the PDO receive
-  // part dictionary
+  /* Sending the request only if the cobid have been found on the PDO receive */
+  /* part dictionary */
   offset = d->firstIndex->PDO_RCV;
   lastIndex = d->lastIndex->PDO_RCV;
   if (offset)
@@ -182,14 +182,14 @@ UNS8 sendPDOrequest( CO_Data* d, UNS32 cobId )
 UNS8 proceedPDO(CO_Data* d, Message *m)
 {		
   UNS8   numPdo;
-  UNS8   numMap;  // Number of the mapped varable                           
+  UNS8   numMap;  /* Number of the mapped varable */                      
   UNS8 i;
-  UNS8 *     pMappingCount = NULL;    // count of mapped objects...
-  // pointer to the var which is mapped to a pdo...
-//  void *     pMappedAppObject = NULL;  
-  // pointer fo the var which holds the mapping parameter of an mapping entry
+  UNS8 *     pMappingCount = NULL;    /* count of mapped objects... */
+  /* pointer to the var which is mapped to a pdo... */
+/*  void *     pMappedAppObject = NULL;   */
+  /* pointer fo the var which holds the mapping parameter of an mapping entry */
   UNS32 *    pMappingParameter = NULL;  
-  UNS8  *    pTransmissionType = NULL; // pointer to the transmission type
+  UNS8  *    pTransmissionType = NULL; /* pointer to the transmission type */
   UNS32 *    pwCobId = NULL;
   UNS8       Size;
   UNS8       dataType;
@@ -204,7 +204,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   offset = 0x00;
   numPdo = 0;
   numMap = 0;
-  if((*m).rtr == NOT_A_REQUEST ) { // The PDO received is not a request.
+  if((*m).rtr == NOT_A_REQUEST ) { /* The PDO received is not a request. */
     offsetObjdict = d->firstIndex->PDO_RCV;
     lastIndex = d->lastIndex->PDO_RCV;
 
@@ -215,8 +215,8 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	      switch( status ) {
 						
 	        case state1:	/* data are stored in process_var array */
-		  //memcpy(&(process_var.data), &m->data, (*m).len);
-		  // Ce memcpy devrait être portable.
+		  /* memcpy(&(process_var.data), &m->data, (*m).len); */
+		  /* Ce memcpy devrait être portable. */
 		  for ( i = 0 ; i < m->len ; i++) 
 		    d->process_var.data[i] = m->data[i];
 		  d->process_var.count = (*m).len;
@@ -228,15 +228,15 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 		  /* get CobId of the dictionary correspondant to the received PDO */
 	          pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;
 		  /* check the CobId coherance */
-		  //*pwCobId is the cobId read in the dictionary at the state 3
+		  /*pwCobId is the cobId read in the dictionary at the state 3 */
 		  if ( *pwCobId == (*m).cob_id.w ){
-		    // The cobId is recognized
+		    /* The cobId is recognized */
 		    status = state4;
 		    MSG_WAR(0x3936, "cobId found at index ", 0x1400 + numPdo);
 		    break;
 		  }
 		  else {
-		    // cobId received does not match with those write in the dictionnary
+		    /* cobId received does not match with those write in the dictionnary */
 		    numPdo++;
 		    offsetObjdict++;
 		    status = state2;
@@ -244,7 +244,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 		  }
 	
 		case state4:	/* get mapped objects number */
-		  // The cobId of the message received has been found in the dictionnary.
+		  /* The cobId of the message received has been found in the dictionnary. */
 		  offsetObjdict = d->firstIndex->PDO_RCV_MAP;
 		  lastIndex = d->lastIndex->PDO_RCV_MAP;
 		  pMappingCount = (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;	  
@@ -255,10 +255,10 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 		      MSG_ERR(0x1937, "Couldn't get mapping parameter : ", numMap + 1); 
 		      return 0xFF;
 		    }
-		    // Get the addresse of the mapped variable.
-		    // detail of *pMappingParameter :
-	            // The 16 hight bits contains the index, the medium 8 bits contains the subindex, 
-		    // and the lower 8 bits contains the size of the mapped variable.
+		    /* Get the addresse of the mapped variable. */
+		    /* detail of *pMappingParameter : */
+	            /* The 16 hight bits contains the index, the medium 8 bits contains the subindex, */
+		    /* and the lower 8 bits contains the size of the mapped variable. */
 
 		    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
 
@@ -276,18 +276,18 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 		    MSG_WAR(0x3942, "Variable updated with value received by PDO cobid : ", m->cob_id.w);  
 		    MSG_WAR(0x3943, "         Mapped at index : ", (*pMappingParameter) >> 16);
 		    MSG_WAR(0x3944, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
-//		    MSG_WAR(0x3945, "                data : ",*((UNS32 *)pMappedAppObject));
+		    /* MSG_WAR(0x3945, "                data : ",*((UNS32 *)pMappedAppObject)); */
 		    offset += Size;
 		    numMap++;
-		  } // end loop while on mapped variables
+		  } /* end loop while on mapped variables */
 		  
 		  offset=0x00;		
 		  numMap = 0;
 		  return 0;
 		  
-	      }// end switch status		 
-	    }// end while	
-  }// end if Donnees 
+	      }/* end switch status	*/	 
+	    }/* end while	*/
+  }/* end if Donnees */
 
 
   else if ((*m).rtr == REQUEST ){  
@@ -322,7 +322,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	    break;
 	  }
 	  else {
-	    // The requested PDO is not to send on request. So, does nothing.
+	    /* The requested PDO is not to send on request. So, does nothing. */
 	    MSG_WAR(0x2947, "PDO is not to send on request : ", m->cob_id.w);
 	    return 0xFF;
 	  }
@@ -334,7 +334,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	  numMap = 0;
 	  while (numMap < *pMappingCount) {
 	    pMappingParameter = (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
-	    // Get the mapped variable
+	    /* Get the mapped variable */
 	    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
 	    objDict = getODentry( d, (UNS16)((*pMappingParameter) >> (UNS8)16), 
 				     (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & 0xFF),
@@ -349,13 +349,13 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	    d->process_var.count = offset;
 	    numMap++;
 
-	  } // end while
-	  PDOmGR( d, *pwCobId ); // Transmit the PDO
+	  } /* end while */
+	  PDOmGR( d, *pwCobId ); /* Transmit the PDO */
 	  return 0;
 
-	}// end switch status
-      }// end while				
-    }// end if Requete
+	}/* end switch status */
+      }/* end while	 */			
+    }/* end if Requete */
 		
   return 0;
 }
@@ -363,12 +363,14 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 
 
 
+#if 0
+
 /*********************************************************************/
 /* TODO : reimplement this using CallBacks                           */
 /*********************************************************************/
-/*
+
 UNS8 sendPDOevent( CO_Data* d, void * variable )
-{ // DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails.	
+{ /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails.	*/
   UNS32           objDict = 0;
   UNS8            ind, sub_ind;
   UNS8            status; 
@@ -376,7 +378,7 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
   UNS8 *     pMappingCount = NULL;
   UNS32 *    pMappingParameter = NULL;
   void *     pMappedAppObject = NULL;
-  UNS8 *     pTransmissionType = NULL; // pointer to the transmission type
+  UNS8 *     pTransmissionType = NULL; /* pointer to the transmission type */
   UNS32 *    pwCobId = NULL;
   UNS8 *     pSize;
   UNS8       size;
@@ -391,8 +393,8 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
   pSize   = &size;
   status  = state1;
 
-  // look for the index and subindex where the variable is mapped
-  // Then, send the pdo which contains the variable.
+  /* look for the index and subindex where the variable is mapped */
+  /* Then, send the pdo which contains the variable. */
 
   MSG_WAR (0x3960, "sendPDOevent", 0);
   offsetObjdictPrm = d->firstIndex->PDO_TRS;
@@ -401,9 +403,9 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
   lastIndex = d->lastIndex->PDO_TRS_MAP;
 
   if (offsetObjdictPrm && offsetObjdict) 
-	  // Loop on PDO Transmit
+	  /* Loop on PDO Transmit */
 	  while(offsetObjdict <= lastIndex){
-	    // Check the transmission mode
+	    /* Check the transmission mode */
 	    pTransmissionType = d->objdict[offsetObjdictPrm].pSubindex[2].pObject;
 	    if (*pTransmissionType != TRANS_EVENT) {
 	      ind++;
@@ -412,10 +414,10 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
 	      continue;
 	    }
 	    pMappingCount = d->objdict[offsetObjdict].pSubindex[0].pObject;
-	    numMap = 1; // mapped variable
+	    numMap = 1; /* mapped variable */
 	    while (numMap <= *pMappingCount) {
 	      pMappingParameter = d->objdict[offsetObjdict].pSubindex[numMap].pObject;
-	      // Get the variable
+	      /* Get the variable */
 	      objDict = getODentry( d,
 	                            (UNS16)((*pMappingParameter) >> 16), 
 				    (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & (UNS32)0x000000FF),
@@ -434,20 +436,20 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
 		MSG_WAR(0x3964, "                       subIndex : ", 
 			((*pMappingParameter) >> 8 ) & 0x000000FF);
 		buildPDO(d, 0x1800 + ind);
-		// Get the cobId
+		/* Get the cobId */
 		pwCobId = d->objdict[offsetObjdictPrm].pSubindex[1].pObject;
-		PDOmGR( d, *pwCobId ); // Send the PDO
+		PDOmGR( d, *pwCobId ); /* Send the PDO */
 		return 0;	    
 	      }
 	      numMap++;
-	    } // End loop on mapped variable
+	    } /* End loop on mapped variable */
 	    ind++;	
 	    offsetObjdict++;  
 	    offsetObjdictPrm++;
-	  } // End loop while on PDO
+	  } /* End loop while on PDO */
 
   MSG_WAR(0x2965, "Variable not found in a PDO to send on event", 0);
   return 0xFF;
 
 }
-*/
+#endif

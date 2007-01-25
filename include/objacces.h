@@ -42,13 +42,13 @@ typedef UNS32 (*valueRangeTest_t)(UNS8 typeValue, void *Value);
 
 
 
-/**
+/*
 Print MSG_WAR (s) if error to the access to the object dictionary occurs.
-You must uncomment the lines*/ 
+You must uncomment the lines
 //#define DEBUG_CAN
 //#define DEBUG_WAR_CONSOLE_ON
 //#define DEBUG_ERR_CONSOLE_ON
-/*in the file objaccess.c
+in the file objaccess.c
 sizeDataDict : Size of the data defined in the dictionary
 sizeDataGiven : Size data given by the user.
 code : error code to print. (SDO abort code. See file def.h)
@@ -60,10 +60,10 @@ getSDOerror(). So do not take attention to these variables if they are null.
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex, 
 			   UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code);
 #else
-#define accessDictionaryError(...) 
+/*#define accessDictionaryError(...) */
 #endif
 
-/** Reads an entry from the object dictionary.\n
+/* Reads an entry from the object dictionary.\n
  *  \code
  *  // Example usage:
  *  UNS8  *pbData;
@@ -101,7 +101,7 @@ UNS32 getODentry( CO_Data* d,
 		  UNS8 checkAccess);
 
 
-/** By this function you can write an entry into the object dictionary\n
+/* By this function you can write an entry into the object dictionary\n
  *  \code
  *  // Example usage:
  *  UNS8 B;
@@ -129,7 +129,7 @@ UNS32 setODentry( CO_Data* d,
 		  UNS8 checkAccess);
 
 
-/** Scan the index of object dictionary. Used only by setODentry and getODentry.
+/* Scan the index of object dictionary. Used only by setODentry and getODentry.
  *  *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)
  *  Return NULL if index not found. Else : return the table part of the object dictionary.
  */
@@ -137,4 +137,4 @@ UNS32 setODentry( CO_Data* d,
 
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback);
 
-#endif // __objacces_h__
+#endif /* __objacces_h__ */

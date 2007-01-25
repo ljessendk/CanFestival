@@ -20,8 +20,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-//#define DEBUG_WAR_CONSOLE_ON
-//#define DEBUG_ERR_CONSOLE_ON
+/* #define DEBUG_WAR_CONSOLE_ON */
+/* #define DEBUG_ERR_CONSOLE_ON */
 
 
 #include "objacces.h"
@@ -70,7 +70,7 @@ UNS32 getODentry( CO_Data* d,
 		  UNS8 * pExpectedSize,
 		  UNS8 * pDataType,
 		  UNS8 checkAccess)
-{ // DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails.
+{ /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails. */
   UNS32 errorCode;
   UNS8 szData;
   const indextable *ptrTable;
@@ -81,7 +81,7 @@ UNS32 getODentry( CO_Data* d,
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
   if( ptrTable->bSubCount <= bSubindex ) {
-    // Subindex not found
+    /* Subindex not found */
     accessDictionaryError(wIndex, bSubindex, 0, 0, OD_NO_SUCH_SUBINDEX);
     return OD_NO_SUCH_SUBINDEX;
   }
@@ -97,11 +97,11 @@ UNS32 getODentry( CO_Data* d,
 
    if(	*pExpectedSize == 0 ||
   	*pExpectedSize == szData ||
-  	(*pDataType == visible_string && *pExpectedSize < szData)) {// We allow to fetch a shorter string than expected
+  	(*pDataType == visible_string && *pExpectedSize < szData)) {/* We allow to fetch a shorter string than expected */
      
 #  ifdef CANOPEN_BIG_ENDIAN
      if(*pDataType > boolean && *pDataType < visible_string) {
-       // data must be transmited with low byte first
+       /* data must be transmited with low byte first */
        UNS8 i, j = 0;
        MSG_WAR(boolean, "data type ", *pDataType);
        MSG_WAR(visible_string, "data type ", *pDataType);
@@ -111,7 +111,7 @@ UNS32 getODentry( CO_Data* d,
 	   ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
        }
      }
-     else // It it is a visible string no endianisation to perform
+     else /* It it is a visible string no endianisation to perform */
        memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
 #  else
      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
@@ -119,7 +119,7 @@ UNS32 getODentry( CO_Data* d,
      
      *pExpectedSize = szData;
 #if 0
-     // Me laisser ça, please ! (FD)
+     /* Me laisser ça, please ! (FD) */
      {
        UNS8 i;
        for (i = 0 ; i < 10 ; i++) {
@@ -131,7 +131,7 @@ UNS32 getODentry( CO_Data* d,
 #endif
      return OD_SUCCESSFUL;
    }
-   else { // Error !
+   else { /* Error ! */
      *pExpectedSize = szData;
      accessDictionaryError(wIndex, bSubindex, szData, 
 			   *pExpectedSize, OD_LENGTH_DATA_INVALID);
@@ -157,7 +157,7 @@ UNS32 setODentry( CO_Data* d,
     return errorCode;
 
   if( ptrTable->bSubCount <= bSubindex ) {
-    // Subindex not found
+    /* Subindex not found */
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_NO_SUCH_SUBINDEX);
     return OD_NO_SUCH_SUBINDEX;
   }
@@ -173,13 +173,13 @@ UNS32 setODentry( CO_Data* d,
 
   if( *pExpectedSize == 0 ||
   	*pExpectedSize == szData ||
-  	(dataType == visible_string && *pExpectedSize < szData)) // We allow to store a shorter string than entry size
+  	(dataType == visible_string && *pExpectedSize < szData)) /* We allow to store a shorter string than entry size */
   {
       #ifdef CANOPEN_BIG_ENDIAN
 	      if(dataType > boolean && dataType < visible_string)
 	      {
-			// we invert the data source directly. This let us do range testing without
-			// additional temp variable
+			/* we invert the data source directly. This let us do range testing without */
+			/* additional temp variable */
 		 	UNS8 i;
 	  		for ( i = 0 ; i < ( ptrTable->pSubindex[bSubindex].size >> 1)  ; i++) 
 	  		{
@@ -197,13 +197,13 @@ UNS32 setODentry( CO_Data* d,
       memcpy(ptrTable->pSubindex[bSubindex].pObject,pSourceData, *pExpectedSize);
       *pExpectedSize = szData;
       
-      // Callbacks
+      /* Callbacks */
       if(Callback && Callback[bSubindex]){
       	 (*Callback[bSubindex])(d, ptrTable, bSubindex);
       }
       
-      // TODO : Store dans NVRAM      
-      // if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVED)
+      /* TODO : Store dans NVRAM */     
+      /* if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVED) */
       return OD_SUCCESSFUL;
   }else{
       *pExpectedSize = szData;

@@ -29,25 +29,26 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "cancfg.h"
 #include "timerscfg.h"
 
-// Define the architecture : little_endian or big_endian
-// -----------------------------------------------------
-// Test :
-// UNS32 v = 0x1234ABCD;
-// char *data = &v;
-//
-// Result for a little_endian architecture :
-// data[0] = 0xCD;
-// data[1] = 0xAB;
-// data[2] = 0x34;
-// data[3] = 0x12;
-//
-// Result for a big_endian architecture :
-// data[0] = 0x12;
-// data[1] = 0x34;
-// data[2] = 0xAB;
-// data[3] = 0xCD;
+/*  Define the architecture : little_endian or big_endian
+ -----------------------------------------------------
+ Test :
+ UNS32 v = 0x1234ABCD;
+ char *data = &v;
 
-// Integers
+ Result for a little_endian architecture :
+ data[0] = 0xCD;
+ data[1] = 0xAB;
+ data[2] = 0x34;
+ data[3] = 0x12;
+
+ Result for a big_endian architecture :
+ data[0] = 0x12;
+ data[1] = 0x34;
+ data[2] = 0xAB;
+ data[3] = 0xCD;
+ */
+
+/* Integers */
 #define INTEGER8 char
 #define INTEGER16 short
 #define INTEGER24
@@ -57,7 +58,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define INTEGER56
 #define INTEGER64
 
-// Unsigned integers
+/* Unsigned integers */
 #define UNS8   unsigned char
 #define UNS16  unsigned short
 #define UNS32  unsigned long
@@ -67,18 +68,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define UNS56
 #define UNS64 
 
-// Reals
+/* Reals */
 #define REAL32	float
 #define REAL64 double
 
-/// Definition of error and warning macros
-// --------------------------------------
+/* Definition of error and warning macros */
+/* -------------------------------------- */
 #if defined DEBUG_ERR_CONSOLE_ON || defined DEBUG_WAR_CONSOLE_ON
 #include <stdio.h>
 #endif
 
-/// Definition of MSG_ERR
-// ---------------------
+/* Definition of MSG_ERR */
+/* --------------------- */
 #ifdef DEBUG_ERR_CONSOLE_ON
 #    define MSG_ERR(num, str, val)/*            \
           printf("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);*/
@@ -86,8 +87,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    define MSG_ERR(num, str, val)
 #endif
 
-/// Definition of MSG_WAR
-// ---------------------
+/* Definition of MSG_WAR */
+/* --------------------- */
 #ifdef DEBUG_WAR_CONSOLE_ON
 #    define MSG_WAR(num, str, val)/*          \
           printf("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);*/

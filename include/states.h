@@ -25,11 +25,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <applicfg.h>
 
-///The nodes states 
-//-----------------
-/// values are choosen so, that they can be sent directly
-/// for heartbeat messages...
-/// Must be coded on 7 bits only
+/* The nodes states 
+ * -----------------
+ * values are choosen so, that they can be sent directly
+ * for heartbeat messages...
+ * Must be coded on 7 bits only
+ * */
 /* Should not be modified */
 enum enum_nodeState {
   Initialisation  = 0x00, 
@@ -89,7 +90,7 @@ void setNodeId (CO_Data* d, UNS8 nodeId);
 /** Some stuff to do when the node enter in reset mode
  *
  */
-//void initResetMode (CO_Data* d);
+/* void initResetMode (CO_Data* d); */
 
 
 /** Some stuff to do when the node enter in pre-operational mode

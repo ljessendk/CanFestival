@@ -30,9 +30,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  Used to store the PDO before the transmission or the reception.
 */
 typedef struct struct_s_process_var {
-  UNS8 count; // Size of data. Ex : for a PDO of 6 bytes of data, count = 6
-  // WARNING s_process_var.data is subject to ENDIANISATION 
-  // (with respect to CANOPEN_BIG_ENDIAN)
+  UNS8 count; /* Size of data. Ex : for a PDO of 6 bytes of data, count = 6 */
+  /* WARNING s_process_var.data is subject to ENDIANISATION 
+   * (with respect to CANOPEN_BIG_ENDIAN)
+   */
   UNS8 data[PDO_MAX_LEN];
 }s_process_var;
 
@@ -40,9 +41,9 @@ typedef struct struct_s_process_var {
 
 /** The PDO structure */
 typedef struct struct_s_PDO {
-  UNS32 cobId;	  // COB-ID
-  UNS8           len;	  // Number of data transmitted (in data[])
-  UNS8           data[8]; // Contain the data
+  UNS32 cobId;	  /* COB-ID */
+  UNS8           len;	  /* Number of data transmitted (in data[]) */
+  UNS8           data[8]; /* Contain the data */
 }s_PDO;
 
 /** Transmit a PDO data frame on the bus bus_id

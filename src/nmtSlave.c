@@ -33,12 +33,12 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
     
     MSG_WAR(0x3400, "NMT received. for node :  ", (*m).data[1]);
     
-    // Check if this NMT-message is for this node
-    // byte 1 = 0 : all the nodes are concerned (broadcast)
+    /* Check if this NMT-message is for this node */
+    /* byte 1 = 0 : all the nodes are concerned (broadcast) */
     	
     if( ( (*m).data[1] == 0 ) || ( (*m).data[1] == *d->bDeviceNodeId ) ){
       
-      switch( (*m).data[0]){ // command specifier (cs)			
+      switch( (*m).data[0]){ /* command specifier (cs) */			
       case NMT_Start_Node:
         if ( (d->nodeState == Pre_operational) || (d->nodeState == Stopped) )
           setState(d,Operational);
@@ -64,9 +64,9 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
           setState(d,Initialisation);
         break;
         
-      }// end switch
+      }/* end switch */
       
-    }// end if( ( (*m).data[1] == 0 ) || ( (*m).data[1] == bDeviceNodeId ) )
+    }/* end if( ( (*m).data[1] == 0 ) || ( (*m).data[1] == bDeviceNodeId ) ) */
   }
 }
 

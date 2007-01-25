@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define led_set_state(a,b)
 #endif
 
-// Prototypes for internals functions
+/* Prototypes for internals functions */
 void switchCommunicationState(CO_Data* d, 
 	s_state_communication *newCommunicationState);
 	
@@ -50,7 +50,7 @@ void canDispatch(CO_Data* d, Message *m)
 			if(d->CurrentCommunicationState.csSYNC)
 				proceedSYNC(d,m);
 			break;
-		//case TIME_STAMP:
+		/* case TIME_STAMP: */
 		case PDO1tx:
 		case PDO1rx:
 		case PDO2tx:
@@ -104,7 +104,7 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csSDO,	None,		resetSDO(d))
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
 	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
-//	StartOrStop(Emergency,,)
+/*	StartOrStop(Emergency,,) */
 	StartOrStop(csPDO,	None,	None)
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
@@ -116,31 +116,19 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 		switch( newState ){
 			case Initialisation:
 			{
-				s_state_communication newCommunicationState = {
-					csBoot_Up: 1,
-					csSDO: 0,
-					csEmergency: 0,
-					csSYNC: 0,
-					csHeartbeat: 0,
-					csPDO: 0};
-				// This will force a second loop for the state switch
+				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0};
+				/* This will force a second loop for the state switch */
 				d->nodeState = Initialisation;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				// call user app related state func.
+				/* call user app related state func. */
 				(*d->initialisation)();
 			}
 			break;
 								
 			case Pre_operational:
 			{
-				s_state_communication newCommunicationState = {
-					csBoot_Up: 0,
-					csSDO: 1,
-					csEmergency: 1,
-					csSYNC: 1,
-					csHeartbeat: 1,
-					csPDO: 0};
+				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0};
 				d->nodeState = Pre_operational;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
@@ -151,13 +139,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Operational:
 			if(d->nodeState == Initialisation) return 0xFF;
 			{
-				s_state_communication newCommunicationState = {
-					csBoot_Up: 0,
-					csSDO: 1,
-					csEmergency: 1,
-					csSYNC: 1,
-					csHeartbeat: 1,
-					csPDO: 1};
+				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 1};
 				d->nodeState = Operational;
 				newState = Operational;
 				switchCommunicationState(d, &newCommunicationState);
@@ -168,13 +150,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Stopped:
 			if(d->nodeState == Initialisation) return 0xFF;
 			{
-				s_state_communication newCommunicationState = {
-					csBoot_Up: 0,
-					csSDO: 0,
-					csEmergency: 0,
-					csSYNC: 0,
-					csHeartbeat: 1,
-					csPDO: 0};
+				s_state_communication newCommunicationState = {0, 0, 0, 0, 1, 0};
 				d->nodeState = Stopped;
 				newState = Stopped;
 				switchCommunicationState(d, &newCommunicationState);
@@ -184,7 +160,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			
 			default:
 				return 0xFF;
-		}//end switch case
+		}/* end switch case */
 
 		led_set_state(d, newState);		
 	}
@@ -202,20 +178,20 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
   if(offset){
-      //cob_id_client = 0x600 + nodeId;
+      /* cob_id_client = 0x600 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
-      //cob_id_server = 0x580 + nodeId;
+      /* cob_id_server = 0x580 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
-      // node Id client. As we do not know the value, we put the node Id Server
-      //*(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId;
+      /* node Id client. As we do not know the value, we put the node Id Server */
+      /* *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
   }
 
-  // ** Initialize the server(s) SDO parameters
-  // Remember that only one SDO server is allowed, defined at index 0x1200
+  /* ** Initialize the server(s) SDO parameters */
+  /* Remember that only one SDO server is allowed, defined at index 0x1200 */
  
-  // ** Initialize the client(s) SDO parameters  
-  // Nothing to initialize (no default values required by the DS 401)
-  // ** Initialize the receive PDO communication parameters. Only for 0x1400 to 0x1403
+  /* ** Initialize the client(s) SDO parameters  */
+  /* Nothing to initialize (no default values required by the DS 401) */
+  /* ** Initialize the receive PDO communication parameters. Only for 0x1400 to 0x1403 */
   {
     UNS8 i = 0;
     UNS16 offset = d->firstIndex->PDO_RCV;
@@ -228,7 +204,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
       offset ++;
     }
   }
-  // ** Initialize the transmit PDO communication parameters. Only for 0x1800 to 0x1803
+  /* ** Initialize the transmit PDO communication parameters. Only for 0x1800 to 0x1803 */
   {
     UNS8 i = 0;
     UNS16 offset = d->firstIndex->PDO_TRS;
@@ -242,6 +218,6 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
       offset ++;
     }
   }
-  // bDeviceNodeId is defined in the object dictionary.
+  /* bDeviceNodeId is defined in the object dictionary. */
   *d->bDeviceNodeId = nodeId;
 }

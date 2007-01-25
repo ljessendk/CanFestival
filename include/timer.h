@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "data.h"
 
-// --------- types et constants definitions ---------
+/* --------- types and constants definitions --------- */
 #define TIMER_FREE 0
 #define TIMER_ARMED 1
 #define TIMER_TRIG 2
@@ -42,22 +42,22 @@ typedef void (*TimerCallback_t)(CO_Data* d, UNS32 id);
 struct struct_s_timer_entry {
 	UNS8 state;
 	CO_Data* d;
-	TimerCallback_t callback; // The callback func.
-	UNS32 id; // The callback func.
+	TimerCallback_t callback; /* The callback func. */
+	UNS32 id; /* The callback func. */
 	TIMEVAL val;
-	TIMEVAL interval; // Periodicity
+	TIMEVAL interval; /* Periodicity */
 };
 
 typedef struct struct_s_timer_entry s_timer_entry;
 
-// ---------  prototypes ---------
-//#define SetAlarm(d, id, callback, value, period) printf("%s, %d, SetAlarm(%s, %s, %s, %s, %s)\n",__FILE__, __LINE__, #d, #id, #callback, #value, #period); _SetAlarm(d, id, callback, value, period)
+/* ---------  prototypes --------- */
+/*#define SetAlarm(d, id, callback, value, period) printf("%s, %d, SetAlarm(%s, %s, %s, %s, %s)\n",__FILE__, __LINE__, #d, #id, #callback, #value, #period); _SetAlarm(d, id, callback, value, period)*/
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period);
 TIMER_HANDLE DelAlarm(TIMER_HANDLE handle);
 void TimeDispatch(void);
 
-// ---------  to be defined in user app ---------
+/* ---------  to be defined in user app ---------*/
 void setTimer(TIMEVAL value);
 TIMEVAL getElapsedTime(void);
 
-#endif // #define __timer_h__
+#endif /* #define __timer_h__ */

@@ -58,13 +58,13 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
 /******************************************************************************/
 void masterRequestNodeState(CO_Data* d, UNS8 nodeId)
 {
-  // FIXME: should warn for bad toggle bit.
+  /* FIXME: should warn for bad toggle bit. */
 
   /* NMTable configuration to indicate that the master is waiting
    * for a Node_Guard frame from the slave whose node_id is ID */
-  d->NMTable[nodeId] = Unknown_state; // A state that does not exist
+  d->NMTable[nodeId] = Unknown_state; /* A state that does not exist */
 
-  if (nodeId == 0) { // NMT broadcast
+  if (nodeId == 0) { /* NMT broadcast */
     UNS8 i = 0;
     for (i = 0 ; i < NMT_MAX_NODE_ID ; i++) {
       d->NMTable[i] = Unknown_state;

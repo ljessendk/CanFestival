@@ -24,8 +24,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __data_h__
 #define __data_h__
 
-// declaration of CO_Data type let us include all necessary headers
-// struct struct_CO_Data can then be defined later
+/* declaration of CO_Data type let us include all necessary headers
+ struct struct_CO_Data can then be defined later
+ */
 typedef struct struct_CO_Data CO_Data;
 
 #include <applicfg.h>
@@ -40,9 +41,9 @@ typedef struct struct_CO_Data CO_Data;
 #include "sync.h"
 #include "nmtMaster.h"
 
-// This structurs contains all necessary information for a CanOpen node
+/* This structurs contains all necessary information for a CanOpen node */
 struct struct_CO_Data {
-	// Object dictionary
+	/* Object dictionary */
 	UNS8 *bDeviceNodeId;
 	const indextable *objdict;
 	UNS8 *count_sync;
@@ -52,12 +53,12 @@ struct struct_CO_Data {
 	const UNS8 *iam_a_slave;
 	valueRangeTest_t valueRangeTest;
 	
-	// SDO
+	/* SDO */
 	s_transfer transfers[SDO_MAX_SIMULTANEOUS_TRANSFERTS];
 	SDOtimeoutError_t SDOtimeoutError;
-	//s_sdo_parameter *sdo_parameters;
+	/* s_sdo_parameter *sdo_parameters; */
 
-	// State machine
+	/* State machine */
 	e_nodeState nodeState;
 	s_state_communication CurrentCommunicationState;
 	initialisation_t initialisation;
@@ -65,7 +66,7 @@ struct struct_CO_Data {
 	operational_t operational;
 	stopped_t stopped;
 
-	// NMT-heartbeat
+	/* NMT-heartbeat */
 	UNS8 *ConsumerHeartbeatCount;
 	UNS32 *ConsumerHeartbeatEntries;
 	TIMER_HANDLE *ConsumerHeartBeatTimers;
@@ -74,24 +75,24 @@ struct struct_CO_Data {
 	heartbeatError_t heartbeatError;
 	e_nodeState NMTable[NMT_MAX_NODE_ID]; 
 
-	// SYNC
+	/* SYNC */
 	TIMER_HANDLE syncTimer;
 	UNS32 *COB_ID_Sync;
 	UNS32 *Sync_Cycle_Period;
-	/*UNS32 *Sync_window_length*/;
+	/*UNS32 *Sync_window_length;;*/
 	post_sync_t post_sync;
 	post_TPDO_t post_TPDO;
 	
-	// PDO
+	/* PDO */
 	s_process_var process_var;
 	
-	// General
+	/* General */
 	UNS8 toggle;
 	canSend_t canSend;	
 	scanIndexOD_t scanIndexOD;
 };
 
-// A macro to initialize the data in client app.
+/* A macro to initialize the data in client app.*/
 #define CANOPEN_NODE_DATA_INITIALIZER(NODE_PREFIX) {\
 	/* Object dictionary*/\
 	bDeviceNodeId:& NODE_PREFIX ## _bDeviceNodeId,\
@@ -160,6 +161,6 @@ struct struct_CO_Data {
 	scanIndexOD: NODE_PREFIX ## _scanIndexOD\
 }
 
-#endif // __data_h__
+#endif /* __data_h__ */
 
 
