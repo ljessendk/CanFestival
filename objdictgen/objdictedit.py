@@ -23,7 +23,6 @@
 #Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from wxPython.wx import *
-from wxPython.html import *
 from wxPython.grid import *
 import wx
 from wx.lib.anchors import LayoutAnchors
@@ -38,24 +37,73 @@ from nodemanager import *
 from node import OD_Subindex,OD_MultipleSubindexes,OD_IdenticalSubindexes,OD_IdenticalIndexes
 from doc_index.DS301_index import *
 
-wxEVT_HTML_URL_CLICK = wxNewId()
+try:
+    from wxPython.html import *
 
-def EVT_HTML_URL_CLICK(win, func):
-    win.Connect(-1, -1, wxEVT_HTML_URL_CLICK, func)
+    wxEVT_HTML_URL_CLICK = wxNewId()
 
-class wxHtmlWindowUrlClick(wxPyEvent):
-    def __init__(self, linkinfo):
-        wxPyEvent.__init__(self)
-        self.SetEventType(wxEVT_HTML_URL_CLICK)
-        self.linkinfo = (linkinfo.GetHref(), linkinfo.GetTarget())
+    def EVT_HTML_URL_CLICK(win, func):
+        win.Connect(-1, -1, wxEVT_HTML_URL_CLICK, func)
 
-class wxUrlClickHtmlWindow(wxHtmlWindow):
-    """ HTML window that generates and OnLinkClicked event.
+    class wxHtmlWindowUrlClick(wxPyEvent):
+        def __init__(self, linkinfo):
+            wxPyEvent.__init__(self)
+            self.SetEventType(wxEVT_HTML_URL_CLICK)
+            self.linkinfo = (linkinfo.GetHref(), linkinfo.GetTarget())
 
-    Use this to avoid having to override HTMLWindow
-    """
-    def OnLinkClicked(self, linkinfo):
-        wxPostEvent(self, wxHtmlWindowUrlClick(linkinfo))
+    class wxUrlClickHtmlWindow(wxHtmlWindow):
+        """ HTML window that generates and OnLinkClicked event.
+
+        Use this to avoid having to override HTMLWindow
+        """
+        def OnLinkClicked(self, linkinfo):
+            wxPostEvent(self, wxHtmlWindowUrlClick(linkinfo))
+    
+#-------------------------------------------------------------------------------
+#                                Html Frame
+#-------------------------------------------------------------------------------
+
+    [wxID_HTMLFRAME, wxID_HTMLFRAMEHTMLCONTENT] = [wx.NewId() for _init_ctrls in range(2)]
+
+    class HtmlFrame(wx.Frame):
+        def _init_ctrls(self, prnt):
+            # generated method, don't edit
+            wx.Frame.__init__(self, id=wxID_HTMLFRAME, name='HtmlFrame',
+                  parent=prnt, pos=wx.Point(320, 231), size=wx.Size(853, 616),
+                  style=wx.DEFAULT_FRAME_STYLE, title='')
+            self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_HTMLFRAME)
+            
+            self.HtmlContent = wxUrlClickHtmlWindow(id=wxID_HTMLFRAMEHTMLCONTENT,
+                  name='HtmlContent', parent=self, pos=wx.Point(0, 0),
+                  size=wx.Size(-1, -1), style=wxHW_SCROLLBAR_AUTO|wxHW_NO_SELECTION)
+            EVT_HTML_URL_CLICK(self.HtmlContent, self.OnLinkClick)
+
+        def __init__(self, parent, opened):
+            self._init_ctrls(parent)
+            self.HtmlFrameOpened = opened
+        
+        def SetHtmlCode(self, htmlcode):
+            self.HtmlContent.SetPage(htmlcode)
+            
+        def SetHtmlPage(self, htmlpage):
+            self.HtmlContent.LoadPage(htmlpage)
+            
+        def OnCloseFrame(self, event):
+            self.HtmlFrameOpened.remove(self.GetTitle())
+            event.Skip()
+        
+        def OnLinkClick(self, event):
+            url = event.linkinfo[0]
+            try:
+                import webbrowser
+            except ImportError:
+                wxMessageBox('Please point your browser at: %s' % url)
+            else:
+                webbrowser.open(url)
+    
+    Html_Window = True
+except:
+    Html_Window = False
 
 def create(parent):
     return objdictedit(parent)
@@ -806,16 +854,17 @@ class objdictedit(wx.Frame):
 
         parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
-        parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS1,
-              kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
-        parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS2,
-              kind=wx.ITEM_NORMAL, text='About')
         self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu,
               id=wxID_OBJDICTEDITHELPMENUITEMS0)
-        self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu,
-              id=wxID_OBJDICTEDITHELPMENUITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnAboutMenu,
-              id=wxID_OBJDICTEDITHELPMENUITEMS2)
+        if Html_Window:
+            parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS1,
+                  kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
+            parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS2,
+                  kind=wx.ITEM_NORMAL, text='About')
+            self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu,
+                  id=wxID_OBJDICTEDITHELPMENUITEMS1)
+            self.Bind(wx.EVT_MENU, self.OnAboutMenu,
+                  id=wxID_OBJDICTEDITHELPMENUITEMS2)
 
     def _init_coll_FileMenu_Items(self, parent):
         # generated method, don't edit
@@ -1001,17 +1050,25 @@ class objdictedit(wx.Frame):
         event.Skip()
 
     def OnHelpDS301Menu(self, event):
+        find_index = False
         selected = self.FileOpened.GetSelection()
         if selected >= 0:
             window = self.FileOpened.GetPage(selected)
             result = window.GetSelection()
             if result:
+                find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index)
                 if type(result) == StringType:
                     message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
+        if not find_index:
+            result = OpenPDFDocIndex(None)
+            if type(result) == StringType:
+                message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
         event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
@@ -2217,52 +2274,6 @@ class CreateNodeDialog(wx.Dialog):
             else:
                 self.Profile.SetStringSelection("None")
         event.Skip()
-
-
-
-#-------------------------------------------------------------------------------
-#                                Html Frame
-#-------------------------------------------------------------------------------
-
-
-[wxID_HTMLFRAME, wxID_HTMLFRAMEHTMLCONTENT, 
-] = [wx.NewId() for _init_ctrls in range(2)]
-
-class HtmlFrame(wx.Frame):
-    def _init_ctrls(self, prnt):
-        # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_HTMLFRAME, name='HtmlFrame',
-              parent=prnt, pos=wx.Point(320, 231), size=wx.Size(853, 616),
-              style=wx.DEFAULT_FRAME_STYLE, title='')
-        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_HTMLFRAME)
-        
-        self.HtmlContent = wxUrlClickHtmlWindow(id=wxID_HTMLFRAMEHTMLCONTENT,
-              name='HtmlContent', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(-1, -1), style=wxHW_SCROLLBAR_AUTO|wxHW_NO_SELECTION)
-        EVT_HTML_URL_CLICK(self.HtmlContent, self.OnLinkClick)
-
-    def __init__(self, parent, opened):
-        self._init_ctrls(parent)
-        self.HtmlFrameOpened = opened
-    
-    def SetHtmlCode(self, htmlcode):
-        self.HtmlContent.SetPage(htmlcode)
-        
-    def SetHtmlPage(self, htmlpage):
-        self.HtmlContent.LoadPage(htmlpage)
-        
-    def OnCloseFrame(self, event):
-        self.HtmlFrameOpened.remove(self.GetTitle())
-        event.Skip()
-    
-    def OnLinkClick(self, event):
-        url = event.linkinfo[0]
-        try:
-            import webbrowser
-        except ImportError:
-            wxMessageBox('Please point your browser at: %s' % url)
-        else:
-            webbrowser.open(url)
     
 
 #-------------------------------------------------------------------------------
