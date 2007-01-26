@@ -1,27 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-copyright_notice="""/*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
 
-Copyright (C): Edouard TISSERANT and Francis DUPIN
-
-See COPYING file for copyrights details.
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-"""
+#This file is part of CanFestival, a library implementing CanOpen Stack. 
+#
+#Copyright (C): Edouard TISSERANT and Francis DUPIN
+#
+#See COPYING file for copyrights details.
+#
+#This library is free software; you can redistribute it and/or
+#modify it under the terms of the GNU Lesser General Public
+#License as published by the Free Software Foundation; either
+#version 2.1 of the License, or (at your option) any later version.
+#
+#This library is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#Lesser General Public License for more details.
+#
+#You should have received a copy of the GNU Lesser General Public
+#License along with this library; if not, write to the Free Software
+#Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 from node import *
 from types import *
@@ -328,8 +326,8 @@ def GenerateFileContent(Manager, headerfilepath):
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1016] = """\n/* index 0x1016 :   %(EntryName)s */
                     UNS8 %(NodeName)s_highestSubIndex_obj1016 = 0;
-                    UNS32 %(NodeName)s_obj1016[0];
-                    subindex %(NodeName)s_Index1016[0];
+                    UNS32 %(NodeName)s_obj1016[];
+                    subindex %(NodeName)s_Index1016[];
 """%texts
     if texts["nombre"] > 0:
         strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(nombre)d] = {TIMER_NONE,};\n"%texts
@@ -381,7 +379,7 @@ def GenerateFileContent(Manager, headerfilepath):
 #                            Write File Content
 #-------------------------------------------------------------------------------
 
-    fileContent = copyright_notice + generated_tag + """
+    fileContent = generated_tag + """
 #include "%s"
 """%(headerfilepath)
 
@@ -463,7 +461,7 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 #                          Write Header File Content
 #-------------------------------------------------------------------------------
 
-    HeaderFileContent = copyright_notice + generated_tag + """
+    HeaderFileContent = generated_tag + """
 #include "data.h"
 
 // prototypes of function provided by object dictionnary
