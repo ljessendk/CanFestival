@@ -27,10 +27,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "objacces.h"
 
 
-#ifdef DEBUG_WAR_CONSOLE_ON
+
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex, 
 			     UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code)
 {
+#ifdef DEBUG_WAR_CONSOLE_ON
   MSG_WAR(0x2B09,"Dictionary index : ", index);
   MSG_WAR(0X2B10,"           subindex : ", subIndex);
   switch (code) {
@@ -59,9 +60,10 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
   default :
     MSG_WAR(0x2B20, "Unknown error code : ", code);
   }
+#endif
   return 0; 
 }	
-#endif
+
 
 UNS32 getODentry( CO_Data* d, 
                   UNS16 wIndex,

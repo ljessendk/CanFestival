@@ -56,12 +56,10 @@ Beware that sometimes, we force the sizeDataDict or sizeDataGiven to 0, when we 
 this function but we do not have the access to the right value. One example is
 getSDOerror(). So do not take attention to these variables if they are null.
 */
-#ifdef DEBUG_WAR_CONSOLE_ON
+
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex, 
 			   UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code);
-#else
-/*#define accessDictionaryError(...) */
-#endif
+
 
 /* Reads an entry from the object dictionary.\n
  *  \code
