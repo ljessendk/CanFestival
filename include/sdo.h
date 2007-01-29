@@ -60,10 +60,10 @@ struct struct_s_transfer {
                               * like 0. In fact, it is used only if client.
                               */
   TIMER_HANDLE   timer;      /* Time counter to implement a timeout in milliseconds.
-                             /* It is automatically incremented whenever 
-                             /* the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
-                             /* SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
-                             /* when the response SDO have been received.
+                              * It is automatically incremented whenever 
+                              * the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
+                              * SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
+                              * when the response SDO have been received.
                               */
   SDOCallback_t Callback;   /* The user callback func to be called at SDO transaction end */
 };
