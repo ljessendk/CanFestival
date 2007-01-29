@@ -40,7 +40,7 @@ along with this file; see the file COPYING.  If not, write to the Free
 Software Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 
-// Revised francis.dupin@inrets.fr 2003-07
+/* Revised francis.dupin@inrets.fr 2003-07 */
 
 #ifndef _M68HC11_PORTS_H
 #define _M68HC11_PORTS_H

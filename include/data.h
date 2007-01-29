@@ -93,72 +93,84 @@ struct struct_CO_Data {
 };
 
 /* A macro to initialize the data in client app.*/
+/* CO_Data structure */
 #define CANOPEN_NODE_DATA_INITIALIZER(NODE_PREFIX) {\
 	/* Object dictionary*/\
-	bDeviceNodeId:& NODE_PREFIX ## _bDeviceNodeId,\
-	objdict: NODE_PREFIX ## _objdict,\
-	count_sync: NODE_PREFIX ## _count_sync,\
-	firstIndex: & NODE_PREFIX ## _firstIndex,\
-	lastIndex: & NODE_PREFIX ## _lastIndex,\
-	ObjdictSize: & NODE_PREFIX ## _ObjdictSize,\
-	iam_a_slave: & NODE_PREFIX ## _iam_a_slave,\
-	valueRangeTest: NODE_PREFIX ## _valueRangeTest,\
+	& NODE_PREFIX ## _bDeviceNodeId,     /* bDeviceNodeId */\
+	NODE_PREFIX ## _objdict,             /* objdict  */\
+	NODE_PREFIX ## _count_sync,          /* count_sync */\
+	& NODE_PREFIX ## _firstIndex,        /* firstIndex */\
+	& NODE_PREFIX ## _lastIndex,         /* lastIndex */\
+	& NODE_PREFIX ## _ObjdictSize,       /* ObjdictSize */\
+	& NODE_PREFIX ## _iam_a_slave,       /* iam_a_slave */\
+	NODE_PREFIX ## _valueRangeTest,      /* valueRangeTest */\
 	\
-	/* SDO */\
-	transfers:{{\
-		nodeId: 0,\
-		index: 0,\
-		subIndex: 0,\
-		state: SDO_RESET,\
-		toggle: 0,\
-		count: 0,\
-		offset: 0,\
-		data: {0,},\
-		dataType: 0,\
-		timer: -1,\
-		Callback: NULL},},\
-	SDOtimeoutError: &NODE_PREFIX ## _SDOtimeoutError,\
+	/* SDO, structure s_transfer */\
+	{ /* WARNING. Only the first element of the table is well initialized. */\
+	  /* May be problems for "timer". Is it ok ? (FD)                      */\
+          {\
+		0,          /* nodeId */\
+		0,          /* wohami */\
+		SDO_RESET,  /* state */\
+		0,          /* toggle */\
+		0,          /* abortCode */\
+		0,          /* index */\
+		0,          /* subIndex */\
+		0,          /* count */\
+		0,          /* offset */\
+		{0},        /* data (static use, so that all the table is initialize at 0)*/\
+		0,          /* dataType */\
+		-1,         /* timer */\
+		NULL        /* Callback */\
+	  }\
+	},\
+	&NODE_PREFIX ## _SDOtimeoutError,    /* SDOtimeoutError */\
 	\
-	/* State machine */\
-	nodeState:Unknown_state,\
-	CurrentCommunicationState:{\
-		csBoot_Up: 0,\
-		csSDO: 0,\
-		csEmergency: 0,\
-		csSYNC: 0,\
-		csHeartbeat: 0,\
-		csPDO: 0},\
-	initialisation: &NODE_PREFIX ## _initialisation,\
-	preOperational: &NODE_PREFIX ## _preOperational,\
-	operational: &NODE_PREFIX ## _operational,\
-	stopped: &NODE_PREFIX ## _stopped,\
+	/* State machine*/\
+	Unknown_state,      /* nodeState */\
+	/* structure s_state_communication */\
+	{\
+		0,          /* csBoot_Up */\
+		0,          /* csSDO */\
+		0,          /* csEmergency */\
+		0,          /* csSYNC */\
+		0,          /* csHeartbeat */\
+		0           /* csPDO */\
+	},\
+	&NODE_PREFIX ## _initialisation,     /* initialisation */\
+	&NODE_PREFIX ## _preOperational,     /* preOperational */\
+	&NODE_PREFIX ## _operational,        /* operational */\
+	&NODE_PREFIX ## _stopped,            /* stopped */\
 	\
 	/* NMT-heartbeat */\
-	ConsumerHeartbeatCount: & NODE_PREFIX ## _highestSubIndex_obj1016,\
-	ConsumerHeartbeatEntries: NODE_PREFIX ## _obj1016,\
-	ConsumerHeartBeatTimers: NODE_PREFIX ## _heartBeatTimers,\
-	ProducerHeartBeatTime: & NODE_PREFIX ## _obj1017,\
-	ProducerHeartBeatTimer: TIMER_NONE,\
-	heartbeatError: NODE_PREFIX ## _heartbeatError,\
-	NMTable:{Unknown_state,},\
+	& NODE_PREFIX ## _highestSubIndex_obj1016, /* ConsumerHeartbeatCount */\
+	NODE_PREFIX ## _obj1016,                   /* ConsumerHeartbeatEntries */\
+	NODE_PREFIX ## _heartBeatTimers,           /* ConsumerHeartBeatTimers  */\
+	& NODE_PREFIX ## _obj1017,                 /* ProducerHeartBeatTime */\
+	TIMER_NONE,                                /* ProducerHeartBeatTimer */\
+	NODE_PREFIX ## _heartbeatError,            /* heartbeatError */\
+	\
+	{Unknown_state},                           /* NMTable WARNING : Only the first value */\
+                                                   /* is  well initialized at "Unknown_state". Is it ok ? (FD)*/\
 	\
 	/* SYNC */\
-	syncTimer: TIMER_NONE,\
-	COB_ID_Sync: & NODE_PREFIX ## _obj1005,\
-	Sync_Cycle_Period: & NODE_PREFIX ## _obj1006,\
-	/*Sync_window_length: & NODE_PREFIX ## _obj1007,*/\
-	post_sync: NODE_PREFIX ## _post_sync,\
-	post_TPDO: NODE_PREFIX ## _post_TPDO,\
+	TIMER_NONE,                                /* syncTimer */\
+	& NODE_PREFIX ## _obj1005,                 /* COB_ID_Sync */\
+	& NODE_PREFIX ## _obj1006,                 /* Sync_Cycle_Period */\
+	/*& NODE_PREFIX ## _obj1007, */            /* Sync_window_length */\
+	NODE_PREFIX ## _post_sync,                 /* post_sync */\
+	NODE_PREFIX ## _post_TPDO,                 /* post_TPDO */\
 	\
-	/* PDO */\
-	process_var: {\
-		count: 0,\
-		data: {0,}},\
-	\
+	/* PDO, structure s_process_var */\
+        {\
+		0,          /* count */\
+		{0}         /* data (static use, so that all the table is initialize at 0)*/\
+        },\
+        \
 	/* General */\
-	toggle: 0,\
-	canSend: NODE_PREFIX ## _canSend,\
-	scanIndexOD: NODE_PREFIX ## _scanIndexOD\
+	0,                                         /* toggle */\
+	NODE_PREFIX ## _canSend,                   /* canSend */\
+	NODE_PREFIX ## _scanIndexOD                /* scanIndexOD */\
 }
 
 #endif /* __data_h__ */
