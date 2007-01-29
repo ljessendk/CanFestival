@@ -395,6 +395,8 @@ fi
 
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	# Only if we want to compile for a µC HCS12
+       # it is a big endian architecture.
+       CANOPEN_BIG_ENDIAN=1
 	# search for gcc hcs12 compiler m6811-elf-gcc or m68hc12-gcc ?
 	if [ "$CC" = "" ]; then
 		which m6811-elf-gcc >/dev/null 2>&1
