@@ -142,7 +142,7 @@ def GenerateFileContent(Manager, headerfilepath):
             strIndex += "\n/* index 0x%(index)04X :   %(EntryName)s. */\n"%texts
         if type(values) == ListType:
             texts["value"] = values[0]
-            strIndex += "                    UNS8 %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; // number of subindex - 1\n"%texts
+            strIndex += "                    UNS8 %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; /* number of subindex - 1*/\n"%texts
         
         # Entry type is VAR
         if type(values) != ListType:
@@ -160,13 +160,13 @@ def GenerateFileContent(Manager, headerfilepath):
                 texts["comment"] = ""
             else:
                 texts["value"] = "0x%X"%values
-                texts["comment"] = "\t// %s"%str(values)
+                texts["comment"] = "\t/* %s */"%str(values)
             if index in variablelist:
                 texts["name"] = FormatName(subentry_infos["name"])
-                strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x00\n"%texts
+                strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00*/\n"%texts
                 if callbacks:
-                    strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
-                mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x00\n"%texts
+                    strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t/* Callbacks of index0x%(index)04X */\n"%texts
+                mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00 */\n"%texts
             else:
                 strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X%(suffixe)s = %(value)s;%(comment)s\n"%texts
             values = [values]
@@ -186,10 +186,10 @@ def GenerateFileContent(Manager, headerfilepath):
                 texts["length"] = values[0]
                 if index in variablelist:
                     texts["name"] = FormatName(entry_infos["name"])
-                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(length)d]%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n"%texts
+                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(length)d]%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
                     if callbacks:
-                        strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
-                    mappedVariableContent += "%(subIndexType)s %(name)s[] =\t\t// Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X\n  {\n"%texts
+                        strDeclareHeader += "extern ODCallback_t %(name)s_callbacks[];\t\t/* Callbacks of index0x%(index)04X */\n"%texts
+                    mappedVariableContent += "%(subIndexType)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         comment = ""
@@ -199,7 +199,7 @@ def GenerateFileContent(Manager, headerfilepath):
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
                             else:
-                                comment = "\t// %s"%str(value)
+                                comment = "\t/* %s */"%str(value)
                                 value = "0x%X"%value
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
@@ -214,7 +214,7 @@ def GenerateFileContent(Manager, headerfilepath):
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
                             else:
-                                comment = "\t// %s"%str(value)
+                                comment = "\t/* %s */"%str(value)
                                 value = "0x%X"%value
                             strIndex += "                      %s%s%s\n"%(value, sep, comment)
                     strIndex += "                    };\n"
@@ -239,15 +239,15 @@ def GenerateFileContent(Manager, headerfilepath):
                             texts["comment"] = ""
                         else:
                             texts["value"] = "0x%X"%value
-                            texts["comment"] = "\t// %s"%str(value)
+                            texts["comment"] = "\t/* %s */"%str(value)
                         texts["name"] = FormatName(subentry_infos["name"])
                         if index in variablelist:
-                            strDeclareHeader += "extern %(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
-                            mappedVariableContent += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s = %(value)s;\t\t// Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X\n"%texts
+                            strDeclareHeader += "extern %(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
+                            mappedVariableContent += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
                         else:
                             strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
                 if callbacks:
-                    strDeclareHeader += "extern ODCallback_t %(parent)s_callbacks[];\t\t// Callbacks of index0x%(index)04X\n"%texts
+                    strDeclareHeader += "extern ODCallback_t %(parent)s_callbacks[];\t\t/* Callbacks of index0x%(index)04X */\n"%texts
         
         # Generating Dictionary C++ entry
         if callbacks:
@@ -315,7 +315,7 @@ def GenerateFileContent(Manager, headerfilepath):
         entry_infos = Manager.GetEntryInfos(0x1006)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1006] = """\n/* index 0x1006 :   %(EntryName)s */
-                    UNS32 %(NodeName)s_obj1006 = 0x0;   // 0
+                    UNS32 %(NodeName)s_obj1006 = 0x0;   /* 0 */
 """%texts
 
     if 0x1016 in communicationlist:
@@ -332,13 +332,13 @@ def GenerateFileContent(Manager, headerfilepath):
     if texts["nombre"] > 0:
         strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(nombre)d] = {TIMER_NONE,};\n"%texts
     else:
-        strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[0];\n"%texts
+        strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
 
     if 0x1017 not in communicationlist:
         entry_infos = Manager.GetEntryInfos(0x1017)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */ 
-                    UNS16 %(NodeName)s_obj1017 = 0x0;   // 0
+                    UNS16 %(NodeName)s_obj1017 = 0x0;   /* 0 */
 """%texts
 
 #-------------------------------------------------------------------------------
@@ -372,7 +372,7 @@ def GenerateFileContent(Manager, headerfilepath):
         for i, (cat, idx_min, idx_max) in enumerate(categories):
             if i == len(categories) - 1:
                 sep = ""
-            strQuickIndex += "  %s : %d%s\n"%(cat, quick_index[index_cat][cat], sep)
+            strQuickIndex += "  %d%s /* %s */\n"%(quick_index[index_cat][cat],sep,cat)
         strQuickIndex += "};\n"
 
 #-------------------------------------------------------------------------------
@@ -402,7 +402,7 @@ def GenerateFileContent(Manager, headerfilepath):
 /* node_id default value.*/
 UNS8 %(NodeName)s_bDeviceNodeId = 0x%(NodeID)02X;
 
-//*****************************************************************************/
+/**************************************************************************/
 /* Array of message processing information */
 
 const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
@@ -411,11 +411,13 @@ const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
     fileContent += strTimers
     
     fileContent += """
-//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-//
-//                             OBJECT DICTIONARY
-//
-//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+/*
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+                               OBJECT DICTIONARY
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+*/
 """%texts
     contentlist = indexContents.keys()
     contentlist.sort()
@@ -444,9 +446,10 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
 	return &%(NodeName)s_objdict[i];
 }
 
-// To count at which received SYNC a PDO must be sent.
-// Even if no pdoTransmit are defined, at least one entry is computed
-// for compilations issues.
+/* To count at which received SYNC a PDO must be sent.
+ * Even if no pdoTransmit are defined, at least one entry is computed
+ * for compilations issues.
+ */
 UNS8 %(NodeName)s_count_sync[%(maxPDOtransmit)d] = {0,};
 """%texts
     fileContent += strQuickIndex
@@ -464,11 +467,11 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
     HeaderFileContent = generated_tag + """
 #include "data.h"
 
-// prototypes of function provided by object dictionnary
+/* Prototypes of function provided by object dictionnary */
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
-// prototypes of function to be filled by app
+/* prototypes of function to be filled by app. */
 void %(NodeName)s_SDOtimeoutError(UNS8 line);
 void %(NodeName)s_heartbeatError(UNS8);
 
@@ -482,7 +485,7 @@ void %(NodeName)s_stopped(void);
 void %(NodeName)s_post_sync(void);
 void %(NodeName)s_post_TPDO(void);
 
-// Master node data struct
+/* Master node data struct */
 extern CO_Data %(NodeName)s_Data;
 
 """%texts
