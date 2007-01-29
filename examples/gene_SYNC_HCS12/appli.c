@@ -240,7 +240,7 @@ void initSensor(void)
     MSG_WAR(0x3F31, "CAN 1000 kbps ", 0);
     break;   
   default:
-    bi0.clk = CAN_Baudrates[CAN_BAUDRATE_1M];
+    bi0.clk = CAN_Baudrates[CAN_BAUDRATE_250K];
     MSG_WAR(0x2F32, "CAN BAUD RATE NOT DEFINED => 250 kbps ", 0);
   }
 
