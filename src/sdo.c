@@ -20,8 +20,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/* #define DEBUG_WAR_CONSOLE_ON */
-/* #define DEBUG_ERR_CONSOLE_ON */
+#define DEBUG_WAR_CONSOLE_ON 
+#define DEBUG_ERR_CONSOLE_ON 
 
 #include "objacces.h"
 #include "sdo.h"
@@ -353,9 +353,6 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   UNS8 i;
   UNS32 * pwCobId = NULL;
   UNS8 * pwNodeId = NULL;
-  UNS8 *    pSize;
-  UNS8      size;
-  pSize = &size;
 
   MSG_WAR(0x3A38, "sendSDO",0);
   if( !((d->nodeState == Operational) ||  (d->nodeState == Pre_operational ))) {
@@ -455,12 +452,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS32 abortCode;
   UNS8 i,j;
   UNS32 *     pCobId = NULL;
-  UNS8 *      pSize;
-  UNS8        size;
   UNS16 offset;
   UNS16 lastIndex;
-  
-  pSize = &size; 
 
   MSG_WAR(0x3A60, "proceedSDO ", 0);
   whoami = SDO_UNKNOWN;
@@ -1025,11 +1018,11 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
     } /* end if I am a CLIENT		*/	  
     break;  
 
-  case 4:
-    abortCode = (*m).data[3] | 
-      (m->data[5] << 8) |
-      (m->data[6] << 16) |
-      (m->data[7] << 24);
+   case 4:
+     abortCode = (*m).data[3] |
+      ((UNS32)m->data[5] << 8) |
+      ((UNS32)m->data[6] << 16) |
+      ((UNS32)m->data[7] << 24);
     /* Received SDO abort. */
     /* Looking for the line concerned. */
     if (whoami == SDO_SERVER) {
@@ -1073,13 +1066,10 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   UNS8 line;
   s_SDO sdo;    /* SDO to transmit */
   UNS8 i, j;
-  UNS8 *    pSize;
-  UNS8      size;
   UNS16     lastIndex;
   UNS16     offset;
   UNS8      *pNodeIdServer;
   UNS8      nodeIdServer;
-  pSize = &size;
 
   MSG_WAR(0x3AC0, "Send SDO to write in the dictionary of node : ", nodeId);
   MSG_WAR(0x3AC1, "                                   At index : ", index);
@@ -1197,14 +1187,11 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
   UNS8 SDOfound = 0;
   UNS8 i;
   UNS8 line;
-  UNS8 *    pSize;
-  UNS8      size;
   s_SDO sdo;    /* SDO to transmit */
   UNS8      *pNodeIdServer;
   UNS8      nodeIdServer;
   UNS16     offset;
   UNS16     lastIndex;
-  pSize = &size;
   MSG_WAR(0x3AD5, "Send SDO to read in the dictionary of node : ", nodeId);
   MSG_WAR(0x3AD6, "                                  At index : ", index);
   MSG_WAR(0x3AD7, "                                  subIndex : ", subIndex);
