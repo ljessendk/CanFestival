@@ -20,8 +20,8 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define DEBUG_WAR_CONSOLE_ON 
-#define DEBUG_ERR_CONSOLE_ON 
+/* #define DEBUG_WAR_CONSOLE_ON */
+/* #define DEBUG_ERR_CONSOLE_ON */
 
 #include "objacces.h"
 #include "sdo.h"
