@@ -104,8 +104,6 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   UNS8 *     pTransmissionType = NULL;  
   UNS32 *    pwCobId = NULL;	
 
-  UNS8 *    pSize;
-  UNS8      size;
   UNS8      dataType;
   UNS16 index;
   UNS8 subIndex;
@@ -117,7 +115,6 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   UNS16 offsetObjdictMap;
   UNS16 lastIndex;
   
-  pSize = &size;
   status = state3;
   pdoNum = 0x00;
   prp_j = 0x00;
