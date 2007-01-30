@@ -27,12 +27,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "sdo.h"
 
 /* Uncomment if your compiler does not support inline functions */
- #define NO_INLINE 
+#define NO_INLINE 
 
 #ifdef NO_INLINE
   #define INLINE 
 #else
-	#define INLINE inline
+  #define INLINE inline
 #endif
 
 /*Internals prototypes*/
@@ -1068,8 +1068,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   UNS8 i, j;
   UNS16     lastIndex;
   UNS16     offset;
-  UNS8      *pNodeIdServer;
-  UNS8      nodeIdServer;
+  UNS32      *pNodeIdServer;
+  UNS32      nodeIdServer;
 
   MSG_WAR(0x3AC0, "Send SDO to write in the dictionary of node : ", nodeId);
   MSG_WAR(0x3AC1, "                                   At index : ", index);
@@ -1107,7 +1107,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
      MSG_WAR(0x1AD2, "index : ", 0x1280 + i);
      MSG_WAR(0x1AD3, "nodeIdServer : ", nodeIdServer);
    
-    if(nodeIdServer == nodeId) {
+    if(nodeIdServer == (UNS32)nodeId) {
       SDOfound = 1;
       break;
     }
@@ -1188,8 +1188,8 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
   UNS8 i;
   UNS8 line;
   s_SDO sdo;    /* SDO to transmit */
-  UNS8      *pNodeIdServer;
-  UNS8      nodeIdServer;
+  UNS32      *pNodeIdServer;
+  UNS32      nodeIdServer;
   UNS16     offset;
   UNS16     lastIndex;
   MSG_WAR(0x3AD5, "Send SDO to read in the dictionary of node : ", nodeId);
@@ -1229,7 +1229,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
      pNodeIdServer = d->objdict[offset].pSubindex[3].pObject;
      nodeIdServer = *pNodeIdServer;
    
-    if(nodeIdServer == nodeId) {
+    if(nodeIdServer == (UNS32)nodeId) {
       SDOfound = 1;
       break;
     }
