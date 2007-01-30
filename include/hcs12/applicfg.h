@@ -50,8 +50,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // data[2] = 0xAB;
 // data[3] = 0xCD;
 
+/* CANOPEN_BIG_ENDIAN now defined in config.h*/
+#ifndef CANOPEN_BIG_ENDIAN
+#  define CANOPEN_BIG_ENDIAN 1
+#endif
 
-#define CANOPEN_BIG_ENDIAN
 
 // Use or not the PLL
 //#define USE_PLL
