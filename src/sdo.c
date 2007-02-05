@@ -352,7 +352,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   Message m;
   UNS8 i;
   UNS32 * pwCobId = NULL;
-  UNS8 * pwNodeId = NULL;
+  UNS32 * pwNodeId = NULL;
 
   MSG_WAR(0x3A38, "sendSDO",0);
   if( !((d->nodeState == Operational) ||  (d->nodeState == Pre_operational ))) {
@@ -443,7 +443,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS8 line;
   UNS8 nbBytes; /* received or to be transmited. */
   UNS8 nodeId = 0;  /* The node from which the SDO is received */
-  UNS8 *pNodeId = NULL;
+  UNS32 nodeId_32; /* node id in 32 bits, for temporary use */
+  UNS32 *pNodeId = NULL;
   UNS8 whoami = SDO_UNKNOWN;  /* SDO_SERVER or SDO_CLIENT.*/
   UNS32 errorCode; /* while reading or writing in the local object dictionary.*/
   s_SDO sdo;    /* SDO to transmit */
@@ -495,7 +496,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	 /* b) cobid found, so reading the node id of the server. */
 	 pNodeId = d->objdict[offset].pSubindex[3].pObject;
 	 whoami = SDO_CLIENT;
-	 nodeId = *pNodeId;
+	 nodeId_32 = *pNodeId;
+	 nodeId = (UNS8)nodeId_32;
 	 MSG_WAR(0x3A64, "proceedSDO. I am server. index : ", 0x1280 + j);
 	 MSG_WAR(0x3A65, "                 Server nodeId : ", nodeId);
 	 break;
