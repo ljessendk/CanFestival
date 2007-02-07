@@ -72,7 +72,7 @@ void canDispatch(CO_Data* d, Message *m)
 				proceedNODE_GUARD(d,m);
 			break;
 		case NMT:
-			if (d->iam_a_slave)
+			if (*(d->iam_a_slave))
 			{
 				proceedNMTstateChange(d,m);
 			}
