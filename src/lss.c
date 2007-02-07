@@ -126,7 +126,7 @@ void lss_SwitchModeGlobal(CO_Data *d, UNS32 mode)
 		[2..7] = 0 reserved
 	*/
 	
-	if (!(d->iam_a_slave))
+	if (! *(d->iam_a_slave))
 	{
 		msg.cob_id.w = 0x07E5 /* 2021 */;
 
@@ -157,7 +157,7 @@ void lss_SwitchModeSelective_master(CO_Data *d, UNS32 *LSSaddr)
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (d->iam_a_slave) /* not the master */
+	if (*(d->iam_a_slave)) /* not the master */
 		return; 
 
 	msg.cob_id.w = 0x07E5 /* 2021 */;
@@ -271,7 +271,7 @@ void lss_ConfigureNode_ID(CO_Data *d, UNS32 node_id)
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave))
+	if (!*(d->iam_a_slave))
 	{
 		msg.cob_id.w = 0x07E5 /* 2021 */;
 
@@ -320,7 +320,7 @@ void lss_ConfigureBitTimingParameters(CO_Data *d,
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave))
+	if (!*(d->iam_a_slave))
 	{
 		msg.cob_id.w = 0x07E5 /* 2021 */;
 
@@ -372,7 +372,7 @@ void lss_ActivateBitTimingParameters_master(CO_Data *d, unsigned short switch_de
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (d->iam_a_slave)
+	if (*(d->iam_a_slave))
 		return;
 	
 	msg.cob_id.w = 0x07E5 /* 2021 */;
@@ -411,7 +411,7 @@ void lss_StoreConfiguredParameters(CO_Data *d)
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave))
+	if (!*(d->iam_a_slave))
 	{
 		msg.cob_id.w = 0x07E5 /* 2021 */;
 
@@ -450,7 +450,7 @@ void lss_InquireLSSAddress_master(CO_Data *d, int flag)
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave))
+	if (!*(d->iam_a_slave))
 	{
 		msg.cob_id.w = 0x07E5 /* 2021 */;
 
@@ -468,7 +468,7 @@ int lss_InquireLSSAddress_slave(CO_Data *d, int cs)
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave)) /* not a slave */
+	if (!*(d->iam_a_slave)) /* not a slave */
 		return -1;
 
 	UNS32 value = 0;
@@ -522,7 +522,7 @@ void lss_IdentifyRemoteSlaves(CO_Data *d,
 	Message msg;
 	lss_init_msg(&msg);
 
-	if (!(d->iam_a_slave))
+	if (!*(d->iam_a_slave))
 	{
 		/*
 			request answers from all slaves corresponding
