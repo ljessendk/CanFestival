@@ -133,7 +133,7 @@ UNS8 buildPDO(CO_Data* d, UNS16 index)
 	     if (objDict != OD_SUCCESSFUL) {
 	        MSG_WAR(0x2919, "error accessing to the mapped var : ", subInd + 1);  
 		MSG_WAR(0x2920, "         Mapped at index : ", (*pMappingParameter) >> 16);
-		MSG_WAR(0x2921, "                subindex : "getODentry, ((*pMappingParameter) >> 8 ) & 0xFF);
+		MSG_WAR(0x2921, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
 		return 0xFF;
 	     } 
 
