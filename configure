@@ -96,8 +96,6 @@ while [ $# -ge 1 ]; do
 	--prefix=*)	SUB_PREFIX=$optarg;;
 	--target=*)	SUB_TARGET=$optarg;;
 	--can=*)	SUB_CAN_DRIVER=$optarg;;
-	--led=*)	SUB_LED_DRIVER=$optarg;;
-	--nvram=*)	SUB_NVRAM_DRIVER=$optarg;;
 	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
 	--disable-Ox)	DISABLE_OPT=1;
 			echo "On user request: Won't optimize with \"-Ox\"";;
@@ -105,8 +103,6 @@ while [ $# -ge 1 ]; do
 			echo "Debug messages enabled !!";;
 	--debugPDO)	DEBUG=PDO;
 			echo "Debug messages (PDO) enabled !!";;
-	--enable-lss)	SUB_LSS_ENABLE=YES;
-			echo "On user request: Will enable Auto Baudrate detect Feature";;
 	--desable-timers)	SUB_TIMERS_ENABLE=NO;
 			echo "On user request: Will enable built-in timer dispatch Feature";;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
@@ -127,15 +123,11 @@ while [ $# -ge 1 ]; do
 		echo	"		\"unix\" for unix-like systems"
 		echo	"		\"win32\" for win32 systems"
 		echo	"		\"hcs12\" for HCS12 micro-controller"
-		echo	"		\"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
 		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak', 'lincan' or 'virtual')"
 		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
-		echo	" --led=foo	Use 'foo' as DS-305 LED driver (use 'none' to disable or 'stdout')"
-		echo	" --nvram=foo	Use 'foo' as NVRAM driver (use 'none' to disable or 'file')"
 		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
 		echo	" --debug	Enable debug messages."
 		echo	" --debugPDO	Enable debug messages, using PDO."
-		echo	" --enable-lss	Enable Auto Baudrate detect Feature"
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -354,16 +346,6 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 	fi
 fi
 
-if [ "$SUB_TARGET" = "unix" -a "$SUB_LED_DRIVER" = "" ]; then
-	echo "Choosing stdout LED driver."
-	SUB_LED_DRIVER=stdout
-fi
-
-if [ "$SUB_TARGET" = "unix" -a "$SUB_NVRAM_DRIVER" = "" ]; then
-	echo "Choosing binary file NVRAM driver. -- not implemented --"
-#	SUB_NVRAM_DRIVER=file
-fi
-
 # If target is unix, default timers also
 if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "" ]; then
 	echo "Choosing unix timers driver."
@@ -414,25 +396,6 @@ if [ "$SUB_TARGET" = "hcs12" ]; then
 		fi
 	fi
 fi	
-
-if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
-	# search for gcc arm compiler arm-elf-gcc or arm-elf-gcc ?
-	if [ "$CC" = "" ]; then
-		which arm-elf-gcc >/dev/null 2>&1
-		if (( $? )); then 
-			echo "error : Could not find arm-elf-gcc"
-		else
-			CC=arm-elf-gcc
-			SUB_PROG_CFLAGS="-mcpu=arm7tdmi -Wall -Wpointer-arith -Wstrict-prototypes -Winline -Wundef -Os \
-                        -ffunction-sections -fdata-sections -fno-exceptions -finline-functions"
-		fi
-	fi
-	# ecos sja1000 driver implements calls needed by LSS.
-	SUB_LSS_ENABLE=YES
-	SUB_LED_ENABLE=YES
-	SUB_NVRAM_ENABLE=YES
-fi
-
 
 #### CAN_DRIVER ####
 
@@ -489,36 +452,6 @@ fi
 
 if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
 	SUB_TIMERS_DRIVER=
-fi
-
-#### LED_DRIVER ####
-#enable led support if a led driver have been selected.
-if [ "$SUB_LED_DRIVER" != "" ]; then
-	SUB_LED_ENABLE=YES
-fi
-#if "none" driver is selected led feature is enabled but driver not compiled
-if [ "$SUB_LED_DRIVER" = "none" ]; then
-	SUB_LED_DRIVER=
-fi
-#if "disable" driver is selected led feature is disabled
-if [ "$SUB_LED_DRIVER" = "disable" ]; then
-	SUB_LED_ENABLE=
-	SUB_LED_DRIVER=
-fi
-
-#### NVRAM_DRIVER ####
-#enable nvram support if a nvram driver have been selected.
-if [ "$SUB_NVRAM_DRIVER" != "" ]; then
-	SUB_NVRAM_ENABLE=YES
-fi
-#if "none" driver is selected nvram feature is enabled but driver not compiled
-if [ "$SUB_NVRAM_DRIVER" = "none" ]; then
-	SUB_NVRAM_DRIVER=
-fi
-#if "disable" driver is selected nvram feature is disabled
-if [ "$SUB_NVRAM_DRIVER" = "disable" ]; then
-	SUB_NVRAM_ENABLE=
-	SUB_NVRAM_DRIVER=
 fi
 
 ###########################################################################
@@ -691,36 +624,17 @@ if [ "$SUB_CAN_DRIVER" != "" ]; then
 \	drivers/can_$SUB_CAN_DRIVER/Makefile.in
 fi
 
-if [ "$SUB_LED_DRIVER" != "" ]; then
-	MAKEFILES=$MAKEFILES\
-\	drivers/led_$SUB_LED_DRIVER/Makefile.in
-fi
-
-if [ "$SUB_NVRAM_DRIVER" != "" ]; then
-	MAKEFILES=$MAKEFILES\
-\	drivers/nvram_$SUB_NVRAM_DRIVER/Makefile.in
-fi
-
 # Target dependent Makefiles
 MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/AppliMaster_Linux/Makefile.in\
-\	examples/AppliSlave_Linux/Makefile.in\
 \	examples/TestMasterSlave/Makefile.in
 fi
 
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/AppliMaster_HCS12/Makefile.in\
-\	examples/AppliSlave_HCS12/Makefile.in\
 \	examples/gene_SYNC_HCS12/Makefile.in
-fi
-
-if [ "$SUB_TARGET" = "ecos_lpc2138_sja1000" ]; then
-	MAKEFILES=$MAKEFILES\
-\	examples/ecos_lpc2138_sja1000/src/Makefile.in
 fi
 
 for makefile_in in $MAKEFILES; do
@@ -736,14 +650,9 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_OPT_CFLAGS:${SUB_OPT_CFLAGS}:
 	s:SUB_TARGET:${SUB_TARGET}:
 	s:SUB_BINUTILS_PREFIX:${SUB_BINUTILS_PREFIX}:
-	s:SUB_LSS_ENABLE:${SUB_LSS_ENABLE}:
-	s:SUB_LED_ENABLE:${SUB_LED_ENABLE}:
-	s:SUB_NVRAM_ENABLE:${SUB_NVRAM_ENABLE}:
 	s:SUB_TIMERS_ENABLE:${SUB_TIMERS_ENABLE}:
 	s:SUB_TIMERS_DRIVER:timers_${SUB_TIMERS_DRIVER}:
 	s:SUB_CAN_DRIVER:can_${SUB_CAN_DRIVER}:
-	s:SUB_LED_DRIVER:led_${SUB_LED_DRIVER}:
-	s:SUB_NVRAM_DRIVER:nvram_${SUB_NVRAM_DRIVER}:
 	" > $makefile
 done
 

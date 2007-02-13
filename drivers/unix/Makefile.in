@@ -50,16 +50,6 @@ ifneq ($(CAN_DRIVER),can_)
 OBJS += ../$(CAN_DRIVER)/$(CAN_DRIVER).o
 endif
 
-# add led driver if any
-ifneq ($(LED_DRIVER),led_)
-OBJS += ../$(LED_DRIVER)/$(LED_DRIVER).o
-endif
-
-# add nvram driver if any
-ifneq ($(NVRAM_DRIVER),nvram_)
-OBJS += ../$(NVRAM_DRIVER)/$(NVRAM_DRIVER).o
-endif
-
 SRC_HFILES = ../../include/$(TARGET)/applicfg.h
 
 TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h

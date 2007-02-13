@@ -56,7 +56,7 @@ if __name__ == '__main__':
         manager = NodeManager()
         if os.path.isfile(fileIn):
             print "Parsing input file"
-            result = manager.ImportCurrentFromFile(fileIn)
+            result = manager.OpenFileInCurrent(fileIn)
             if type(result) != UnicodeType:
                 Node = result
             else:
