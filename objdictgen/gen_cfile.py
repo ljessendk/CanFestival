@@ -326,8 +326,7 @@ def GenerateFileContent(Manager, headerfilepath):
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1016] = """\n/* index 0x1016 :   %(EntryName)s */
                     UNS8 %(NodeName)s_highestSubIndex_obj1016 = 0;
-                    UNS32 %(NodeName)s_obj1016[];
-                    subindex %(NodeName)s_Index1016[];
+                    UNS32 %(NodeName)s_obj1016[]={0};
 """%texts
     if texts["nombre"] > 0:
         strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(nombre)d] = {TIMER_NONE,};\n"%texts

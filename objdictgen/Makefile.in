@@ -43,14 +43,14 @@ install: gnosis
 	chmod 755 $(PREFIX)/objdictgen/objdictgen.py
 
 uninstall:
-	-rm -rf $(PREFIX)/objdictgen
-	-rm -f $(PREFIX)/bin/objdictedit
-	-rm -f $(PREFIX)/bin/objdictgen
+	rm -rf $(PREFIX)/objdictgen
+	rm -f $(PREFIX)/bin/objdictedit
+	rm -f $(PREFIX)/bin/objdictgen
 
 clean:
 
 mrproper: clean
-	-rm -f Gnosis_Utils-1.2.1.tar.gz
-	-rm -rf gnosis
+	rm -f Gnosis_Utils-1.2.1.tar.gz
+	rm -rf gnosis
 
 

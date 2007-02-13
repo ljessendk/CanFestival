@@ -50,17 +50,28 @@ all: TestMasterSlave
 	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
 
 
-TestMasterSlave: $(OBJS)
+TestMasterSlave: TestSlave.c TestMaster.c $(OBJS)
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+	
+TestSlave.c: TestSlave.od
+	$(MAKE) -C ../../objdictgen gnosis
+	python ../../objdictgen/objdictgen.py TestSlave.od TestSlave.c
+	
+TestMaster.c: TestMaster.od
+	$(MAKE) -C ../../objdictgen gnosis
+	python ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 
 %o: %c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 clean:
-	-rm $(MASTER_OBJS)
-	-rm TestMasterSlave
+	rm -f $(MASTER_OBJS)
+	rm -f TestMasterSlave
 
 mrproper: clean
+	rm -f TestSlave.c
+	rm -f TestMaster.c
+	
 
 
 

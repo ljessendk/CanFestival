@@ -92,6 +92,24 @@ struct struct_CO_Data {
 	scanIndexOD_t scanIndexOD;
 };
 
+#define NMTable_Initializer Unknown_state,
+
+#define s_transfer_Initializer {\
+		0,          /* nodeId */\
+		0,          /* wohami */\
+		SDO_RESET,  /* state */\
+		0,          /* toggle */\
+		0,          /* abortCode */\
+		0,          /* index */\
+		0,          /* subIndex */\
+		0,          /* count */\
+		0,          /* offset */\
+		{0},        /* data (static use, so that all the table is initialize at 0)*/\
+		0,          /* dataType */\
+		-1,         /* timer */\
+		NULL        /* Callback */\
+	  },
+
 /* A macro to initialize the data in client app.*/
 /* CO_Data structure */
 #define CANOPEN_NODE_DATA_INITIALIZER(NODE_PREFIX) {\
@@ -106,23 +124,8 @@ struct struct_CO_Data {
 	NODE_PREFIX ## _valueRangeTest,      /* valueRangeTest */\
 	\
 	/* SDO, structure s_transfer */\
-	{ /* WARNING. Only the first element of the table is well initialized. */\
-	  /* May be problems for "timer". Is it ok ? (FD)                      */\
-          {\
-		0,          /* nodeId */\
-		0,          /* wohami */\
-		SDO_RESET,  /* state */\
-		0,          /* toggle */\
-		0,          /* abortCode */\
-		0,          /* index */\
-		0,          /* subIndex */\
-		0,          /* count */\
-		0,          /* offset */\
-		{0},        /* data (static use, so that all the table is initialize at 0)*/\
-		0,          /* dataType */\
-		-1,         /* timer */\
-		NULL        /* Callback */\
-	  }\
+	{\
+          REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(s_transfer_Initializer)\
 	},\
 	&NODE_PREFIX ## _SDOtimeoutError,    /* SDOtimeoutError */\
 	\
@@ -150,7 +153,7 @@ struct struct_CO_Data {
 	TIMER_NONE,                                /* ProducerHeartBeatTimer */\
 	NODE_PREFIX ## _heartbeatError,            /* heartbeatError */\
 	\
-	{Unknown_state},                           /* NMTable WARNING : Only the first value */\
+	{REPEAT_NMT_MAX_NODE_ID_TIMES(NMTable_Initializer)},\
                                                    /* is  well initialized at "Unknown_state". Is it ok ? (FD)*/\
 	\
 	/* SYNC */\

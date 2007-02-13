@@ -638,6 +638,19 @@ echo "#define $i ${!i}" >> include/config.h
 fi
 done	
 echo "" >> include/config.h
+
+for i in \
+ SDO_MAX_SIMULTANEOUS_TRANSFERTS\
+ NMT_MAX_NODE_ID; do
+	echo "#define REPEAT_"$i"_TIMES(repeat)\\">> include/config.h
+	times=${!i}
+	result=""
+	for (( j=0; j<times; j++ ));do
+		result="$result repeat"
+	done
+	echo $result >> include/config.h
+done
+
 echo "#endif /* _CONFIG_H_ */" >> include/config.h
 
 ###########################################################################
