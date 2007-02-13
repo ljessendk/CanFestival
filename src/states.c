@@ -25,12 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "nmtSlave.h"
 
-#ifdef LED_ENABLE
-#include "led.h"
-#else
-#define led_set_state(a,b)
-#endif
-
 /* Prototypes for internals functions */
 void switchCommunicationState(CO_Data* d, 
 	s_state_communication *newCommunicationState);
@@ -76,13 +70,6 @@ void canDispatch(CO_Data* d, Message *m)
 			{
 				proceedNMTstateChange(d,m);
 			}
-#ifdef CANOPEN_LSS_ENABLE
-		default:
-			if (m->cob_id.w == 0x7E4 || m->cob_id.w == 0x705)
-			{
-				proceedLSS(d,m);
-			}
-#endif
 	}
 }
 
@@ -161,8 +148,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			default:
 				return 0xFF;
 		}/* end switch case */
-
-		led_set_state(d, newState);		
+	
 	}
 	return 0;
 }

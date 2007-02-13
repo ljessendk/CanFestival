@@ -33,8 +33,6 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-LED_DRIVER = SUB_LED_DRIVER
-NVRAM_DRIVER = SUB_NVRAM_DRIVER
 
 INCLUDES = -I../../include -I../../include/$(SUB_TARGET)
 
@@ -48,16 +46,6 @@ endif
 # add can driver if any
 ifneq ($(CAN_DRIVER),can_)
 OBJS += ../$(CAN_DRIVER)/$(CAN_DRIVER).o
-endif
-
-# add led driver if any
-ifneq ($(LED_DRIVER),led_)
-OBJS += ../$(LED_DRIVER)/$(LED_DRIVER).o
-endif
-
-# add nvram driver if any
-ifneq ($(NVRAM_DRIVER),nvram_)
-OBJS += ../$(NVRAM_DRIVER)/$(NVRAM_DRIVER).o
 endif
 
 SRC_HFILES = ../../include/$(TARGET)/applicfg.h
