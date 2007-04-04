@@ -60,7 +60,7 @@ install: libcanfestival_$(CAN_DRIVER).so
 	cp $@ $(PREFIX)/lib/
 	
 uninstall:
-	rm -f $(TARGET_HFILES)
+	rm -f $(TARGET_SOFILES)
 
 clean:
 	rm -f $(OBJS)

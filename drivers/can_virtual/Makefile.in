@@ -29,6 +29,8 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+ENABLE_DLL_DRIVERS=SUB_ENABLE_DLL_DRIVERS
+CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER)
 
@@ -51,7 +53,7 @@ driver: $(DRIVER)
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 libcanfestival_$(CAN_DRIVER).so: $(OBJS)
-	gcc -shared -Wl,-soname,libcanfestival_$(CAN_DRIVER).so -o $@ $<
+	gcc -shared -Wl,-soname,libcanfestival_$(CAN_DRIVER).so $(CAN_DLL_CFLAGS) -o $@ $<
 
 install: libcanfestival_$(CAN_DRIVER).so
 	mkdir -p $(PREFIX)/lib/
