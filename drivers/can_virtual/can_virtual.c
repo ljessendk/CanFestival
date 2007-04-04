@@ -24,30 +24,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	Virtual CAN driver.
 */
 
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <unistd.h>
 
-#include <applicfg.h>
-#include "timer.h"
 #include "can_driver.h"
-#include "timers_driver.h"
 
-#define MAX_NB_CAN_PIPES 10
+#define MAX_NB_CAN_PIPES 16
 
 typedef struct {
   char used;
   int pipe[2];
-  TASK_HANDLE receiveTask;
-  CO_Data* d;
 } CANPipe;
 
-CANPipe canpipes[MAX_NB_CAN_PIPES] = {{0,{0,0},},};
+CANPipe canpipes[MAX_NB_CAN_PIPES] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},};
 
 /*********functions which permit to communicate with the board****************/
-UNS8 canReceive(CAN_HANDLE fd0, Message *m)
+UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
 	if(read(((CANPipe*)fd0)->pipe[0], m, sizeof(Message)) < sizeof(Message))
 	{
@@ -56,24 +48,8 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
 	return 0;
 }
 
-void canReceiveLoop(CAN_HANDLE fd0)
-{
-	CO_Data* d = ((CANPipe*)fd0)->d;
-	Message m;
-	while (1) {
-		if(!canReceive(fd0, &m))
-		{  
-			EnterMutex();
-			canDispatch(d, &m);
-			LeaveMutex();
-		}else{
-			break;
-		}
-	}
-}
-
 /***************************************************************************/
-UNS8 canSend(CAN_HANDLE fd0, Message *m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 {
   int i;
   // Send to all readers, except myself
@@ -86,9 +62,22 @@ UNS8 canSend(CAN_HANDLE fd0, Message *m)
   }
   return 0;
 }
-
+/*
+int TranslateBaudeRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return 1000;
+	if(!strcmp( optarg, "500K")) return 500;
+	if(!strcmp( optarg, "250K")) return 250;
+	if(!strcmp( optarg, "125K")) return 125;
+	if(!strcmp( optarg, "100K")) return 100;
+	if(!strcmp( optarg, "50K")) return 50;
+	if(!strcmp( optarg, "20K")) return 20;
+	if(!strcmp( optarg, "10K")) return 10;
+	if(!strcmp( optarg, "5K")) return 5;
+	if(!strcmp( optarg, "none")) return 0;
+	return 0;
+}*/
 /***************************************************************************/
-CAN_HANDLE canOpen(s_BOARD *board)
+CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
   int i;  
   for(i=0; i < MAX_NB_CAN_PIPES; i++)
@@ -105,20 +94,16 @@ CAN_HANDLE canOpen(s_BOARD *board)
     }
 
    canpipes[i].used = 1;
-
-   canpipes[i].d = board->d;
-   CreateReceiveTask((CAN_HANDLE) &canpipes[i], &canpipes[i].receiveTask);
-
    return (CAN_HANDLE) &canpipes[i];
 }
 
 /***************************************************************************/
-int canClose(CAN_HANDLE fd0)
+int canClose_driver(CAN_HANDLE fd0)
 {
   close(((CANPipe*)fd0)->pipe[0]);
   close(((CANPipe*)fd0)->pipe[1]);
   ((CANPipe*)fd0)->used = 0;
-  WaitReceiveTaskEnd(&((CANPipe*)fd0)->receiveTask);
+  return 0;
 }
 
 

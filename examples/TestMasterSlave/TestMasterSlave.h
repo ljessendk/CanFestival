@@ -26,10 +26,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #endif
 void print_message(Message *m);
 
-UNS8 canSend(CAN_HANDLE fd0, Message *m);
+/*UNS8 canSend(CAN_HANDLE fd0, Message *m);*/
 
-extern CAN_HANDLE SlaveCanHandle;
-extern CAN_HANDLE MasterCanHandle;
+#include "canfestival.h"
+
+extern CAN_PORT SlaveCanHandle;
+extern CAN_PORT MasterCanHandle;
 
 
 /*

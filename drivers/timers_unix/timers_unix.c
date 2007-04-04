@@ -5,7 +5,6 @@
 #include <signal.h>
 
 #include "applicfg.h"
-#include "can_driver.h"
 #include "timer.h"
 
 pthread_mutex_t CanFestival_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -28,7 +27,7 @@ void LeaveMutex(void)
 	pthread_mutex_unlock(&CanFestival_mutex);
 }
 
-void timer_notify(int val)
+void timer_notify(sigval_t val)
 {
 	gettimeofday(&last_sig,NULL);
 	EnterMutex();
@@ -65,20 +64,15 @@ void StartTimerLoop(TimerCallback_t init_callback)
 	SetAlarm(NULL, 0, init_callback, 0, 0);
 }
 
-void ReceiveLoop(void* arg)
+void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 {
-	canReceiveLoop((CAN_HANDLE)arg);
+	pthread_create(Thread, NULL, ReceiveLoopPtr, (void*)port);
 }
 
-void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE* Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE Thread)
 {
-	pthread_create(Thread, NULL, (void *)&ReceiveLoop, (void*)fd0);
-}
-
-void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
-{
-	pthread_kill(*Thread, SIGTERM);
-	pthread_join(*Thread, NULL);
+	pthread_kill(Thread, SIGTERM);
+	pthread_join(Thread, NULL);
 }
 
 #define maxval(a,b) ((a>b)?a:b)

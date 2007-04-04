@@ -29,27 +29,41 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
+ENABLE_DLL_DRIVERS=SUB_ENABLE_DLL_DRIVERS
+CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
+INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER)
 
 OBJS = $(CAN_DRIVER).o
 
-SRC_HFILES = ../../include/$(CAN_DRIVER)/cancfg.h
+ifeq ($(ENABLE_DLL_DRIVERS),1)
+CFLAGS += -fPIC
+DRIVER = cyg$(CAN_DRIVER).dll
+else
+DRIVER = $(OBJS)
+endif
 
-TARGET_HFILES = $(PREFIX)/include/canfestival/cancfg.h
+TARGET_SOFILES = $(PREFIX)/lib/$(DRIVER)
 
 all: driver
 
-driver: $(OBJS)
+driver: $(DRIVER)
 
 %o: %c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
-install:
-	mkdir -p $(PREFIX)/include/canfestival
-	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
-
+cyg$(CAN_DRIVER).dll: $(OBJS)
+	gcc -shared -o $@ \
+	-Wl,--export-all-symbols \
+	-Wl,--enable-auto-import \
+	-Wl,--whole-archive $< \
+	-Wl,--no-whole-archive $(CAN_DLL_CFLAGS) \
+	-Wl,--exclude-libs,ALL
+		
+install: libcanfestival_$(CAN_DRIVER).so
+	mkdir -p $(PREFIX)/lib/
+	cp $@ $(PREFIX)/lib/
+	
 uninstall:
 	rm -f $(TARGET_HFILES)
 
@@ -57,12 +71,3 @@ clean:
 	rm -f $(OBJS)
 
 mrproper: clean
-
-#********** make obfuscated translation *************************************
-.PHONY : obfuscate
-obfuscate:
-	cobf -p obf/pp_gnu -o obf -c can_peak_win32.c -t obf/tlist.tok -m obf/mlist.tok -x pcan_ obf/can_peak_win32_org.c;\
-	cat obf/can_peak_win32.c.header  obf/can_peak_win32.c  > can_peak_win32.c;\
-	cat obf/cobf.h.header obf/cobf.h > cobf.h;\
-	rm -f obf/can_peak_win32.c obf/cobf.h obf/cobf.log obf/uncobf.h
-

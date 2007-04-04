@@ -22,36 +22,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include <errno.h>
-#include <stddef.h> /* for NULL */
-#include <sys/ioctl.h>
 #include <fcntl.h>
-#include <signal.h>
-#include <sys/time.h>
-#include <unistd.h>
 
 #include "canmsg.h"
 #include "lincan.h"
 
-struct CANPort;
-#define CAN_HANDLE struct CANPort *
-
-#include <applicfg.h>
-
-#include "timer.h"
 #include "can_driver.h"
-#include "timers_driver.h"
-
-typedef struct CANPort {
-  char used;
-  HANDLE fd;
-  TASK_HANDLE receiveTask;
-  CO_Data* d;
-} CANPort;
 
 /*********functions which permit to communicate with the board****************/
-UNS8 canReceive(CAN_HANDLE fd0, Message *m)
+UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
   int res;
   struct canmsg_t canmsg;
@@ -59,7 +39,7 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
   canmsg.flags = 0; /* Ensure standard receive, not required for LinCAN>=0.3.1 */
 
   do{
-    res = read(fd0->fd,&canmsg,sizeof(canmsg_t));
+    res = read(fd0,&canmsg,sizeof(canmsg_t));
     if((res<0)&&(errno == -EAGAIN)) res = 0;
   }while(res==0);
 
@@ -82,25 +62,8 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
   return 0;
 }
 
-void canReceiveLoop(CAN_HANDLE fd0)
-{
-	CO_Data* d = fd0->d;
-	Message m;
-	while (fd0->used) {
-		if(!canReceive(fd0, &m))
-		{
-			EnterMutex();
-			canDispatch(d, &m);
-			LeaveMutex();
-		}else{
-			printf("canReceive returned error\n");
-			break;
-		}
-	}
-}
-
 /***************************************************************************/
-UNS8 canSend(CAN_HANDLE fd0, Message *m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 {
   int res;
   struct canmsg_t canmsg;
@@ -119,7 +82,7 @@ UNS8 canSend(CAN_HANDLE fd0, Message *m)
     canmsg.flags |= MSG_EXT;
   }
 
-  res = write(fd0->fd,&canmsg,sizeof(canmsg_t));
+  res = write(fd0,&canmsg,sizeof(canmsg_t));
   if(res!=sizeof(canmsg_t))
     return 1;
 
@@ -129,7 +92,7 @@ UNS8 canSend(CAN_HANDLE fd0, Message *m)
 /***************************************************************************/
 static const char lnx_can_dev_prefix[] = "/dev/can";
 
-CAN_HANDLE canOpen(s_BOARD *board)
+CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
   int name_len = strlen(board->busname);
   int prefix_len = strlen(lnx_can_dev_prefix);
@@ -147,15 +110,12 @@ CAN_HANDLE canOpen(s_BOARD *board)
   memcpy(dev_name+prefix_len,board->busname,name_len);
   dev_name[prefix_len+name_len] = 0;
 
-  fd0->fd = open(dev_name, O_RDWR|o_flags);
-  if(fd0->fd < 0){
+  fd0 = open(dev_name, O_RDWR|o_flags);
+  if(fd0 < 0){
     fprintf(stderr,"!!! Board %s is unknown. See can_lincan.c\n", board->busname);
     goto error_ret;
   }
 
-  fd0->d = board->d;
-  fd0->used = 1;
-  CreateReceiveTask(fd0, &fd0->receiveTask);
   return fd0;
 
  error_ret:
@@ -164,13 +124,10 @@ CAN_HANDLE canOpen(s_BOARD *board)
 }
 
 /***************************************************************************/
-int canClose(CAN_HANDLE fd0)
+int canClose_driver(CAN_HANDLE fd0)
 {
   if(!fd0)
     return 0;
-  fd0->used = 0;
-  WaitReceiveTaskEnd(&fd0->receiveTask);
-  close(fd0->fd);
-  free(fd0);
+  close(fd0);
   return 0;
 }

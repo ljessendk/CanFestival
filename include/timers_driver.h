@@ -23,17 +23,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __timer_driver_h__
 #define __timer_driver_h__
 
+#include "timerscfg.h"
 #include "timer.h"
 /*void initTimer();*/
 
 // For use from CAN driver
 void EnterMutex(void);
 void LeaveMutex(void);
-void WaitReceiveTaskEnd(TASK_HANDLE*);
+void WaitReceiveTaskEnd(TASK_HANDLE);
 
 // For use from application
 void StartTimerLoop(TimerCallback_t init_callback);
 void StopTimerLoop(void);
-void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE *ReceiveLoop_task);
+void CreateReceiveTask(CAN_PORT , TASK_HANDLE* , void* );
 
 #endif

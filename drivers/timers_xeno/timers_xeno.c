@@ -90,12 +90,7 @@ error:
 	cleanup_all();
 }
 
-void ReceiveLoop_task_proc(void* arg)
-{
-	canReceiveLoop((CAN_HANDLE)arg);
-}
-
-void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE *ReceiveLoop_task)
+void CreateReceiveTask(CAN_PORT fd0, TASK_HANDLE *ReceiveLoop_task, void* ReceiveLoop_task_proc)
 {
 	int ret;
 	static int id = 0;

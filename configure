@@ -74,8 +74,6 @@ CC2=cc
 # Install prefix
 SUB_PREFIX=
 
-SUB_TIMERS_ENABLE=YES
-
 # Used for C compiler test/detection 
 CFLAGS=
 test=conftest
@@ -99,12 +97,12 @@ while [ $# -ge 1 ]; do
 	--timers=*)	SUB_TIMERS_DRIVER=$optarg;;
 	--disable-Ox)	DISABLE_OPT=1;
 			echo "On user request: Won't optimize with \"-Ox\"";;
+	--disable-dll)	DISABLE_DLL=1;
+			echo "On user request: Won't create and link to dll";;
 	--debug)	DEBUG=1;
 			echo "Debug messages enabled !!";;
 	--debugPDO)	DEBUG=PDO;
 			echo "Debug messages (PDO) enabled !!";;
-	--desable-timers)	SUB_TIMERS_ENABLE=NO;
-			echo "On user request: Will enable built-in timer dispatch Feature";;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
 	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$1;;
 	--SDO_MAX_SIMULTANEOUS_TRANSFERTS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERTS=$1;;
@@ -114,20 +112,31 @@ while [ $# -ge 1 ]; do
 	--MAX_NB_TIMER=*) MAX_NB_TIMER=$1;;
 	--help)	echo	"Usage: ./configure [options]"
     		echo	"Options:"
-    		echo 	" --cc=foo	Use compiler 'foo' instead of defaults ${CC1} or ${CC2}."
-		echo 	" --arch=foo	Use architecture 'foo' instead of trying to autodetect."
-		echo 	" --os=foo	Use operative system 'foo' instead of trying to autodetect."
-		echo 	" --prefix=foo	Use prefix 'foo' instead of default ${SUB_PREFIX}."
-		echo 	" --target=foo	Use 'foo' as build target."
-		echo	"		\"generic\" for have independant CAN and TIMERS driver"
-		echo	"		\"unix\" for unix-like systems"
-		echo	"		\"win32\" for win32 systems"
-		echo	"		\"hcs12\" for HCS12 micro-controller"
-		echo 	" --can=foo	Use 'foo' as CAN driver (can be either 'peak', 'lincan' or 'virtual')"
-		echo 	" --timers=foo	Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
-		echo	" --disable-Ox	Disable gcc \"-Ox\" optimizations."
-		echo	" --debug	Enable debug messages."
-		echo	" --debugPDO	Enable debug messages, using PDO."
+    		echo 	" --cc=foo      Use compiler 'foo' instead of defaults ${CC1} or ${CC2}."
+		echo 	" --arch=foo    Use architecture 'foo' instead of trying to autodetect."
+		echo 	" --os=foo      Use operative system 'foo' instead of trying to autodetect."
+		echo 	" --prefix=foo  Use prefix 'foo' instead of default ${SUB_PREFIX}."
+		echo 	" --target=foo  Use 'foo' as build target."
+		echo	"               \"generic\" for have independant CAN and TIMERS driver"
+		echo	"               \"unix\" for unix-like systems"
+		echo	"               \"win32\" for win32 systems"
+		echo	"               \"hcs12\" for HCS12 micro-controller"
+		echo	"               \"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
+		echo 	" --can=foo	Use 'foo' as CAN driver"
+		echo	"               \"peak_linux\" use Linux build host installed Peak driver and library"
+		echo	"                                please see http://www.peak-system.com/linux/"
+		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin" 
+		echo	"                                please see http://www.peak-system.com/themen/download_gb.html"
+		echo	"               \"virtual\" use unix pipe based virtual can driver"
+		echo	"               \"socket\" use socket-can  "
+		echo	"                                please see http://developer.berlios.de/projects/socketcan/"
+		echo	"               \"lincan\" for HCS12 micro-controller"
+		echo	"                                please see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
+		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
+		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
+		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
+		echo	" --debug       Enable debug messages."
+		echo	" --debugPDO    Enable debug messages, using PDO."
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -216,11 +225,6 @@ fi
 if [ "$A_NAME" = "sparc64" ]; then
 	SUB_ARCH_NAME=sparc64
 fi
-
-
-#
-# The following has not been verified
-#
 
 # ppc
 if [ "$A_NAME" = "powerpc" ]; then
@@ -335,14 +339,14 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 	if [ "$SUB_TARGET" = "unix" ]; then
 		if [ -e /usr/lib/libpcan.so ]; then 
 			echo "Choosing installed Peak driver as CAN driver."
-			SUB_CAN_DRIVER=peak
+			SUB_CAN_DRIVER=peak_linux
+		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "PCAN_LIB" != "" ]; then
+			echo "Choosing installed Peak driver as CAN driver."
+			SUB_CAN_DRIVER=peak_win32		
 		else
 			echo "Choosing virtual CAN driver."
 			SUB_CAN_DRIVER=virtual
 		fi
-	fi
-	if [ "$SUB_TARGET" = "win32" ]; then
-		echo "CAN driver for windows --Not Implemented--"
 	fi
 fi
 
@@ -399,36 +403,34 @@ fi
 
 #### CAN_DRIVER ####
 
-if [ "$SUB_CAN_DRIVER" = "peak" ]; then
-    if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
-    	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lrtdm
-    fi
-    SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lpcan
+if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lpcan
 fi
 
+PW32DIR=drivers/can_peak_win32
 if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 	if [ "$PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
 		echo "!!! ERROR !!! Please set PCAN_LIB PCAN_HEADER [PCAN_INCLUDE] to appropriate paths ! "
 	fi
-   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -liberty\ \'$PCAN_LIB\'
-	echo "Converting PcanLib header files for gcc -> /drivers/can_peak_win32/cancfg.h"
-	cat include/can_peak_win32/cancfg.h.head $PCAN_INCLUDE/$PCAN_HEADER > include/can_peak_win32/cancfg.h
+   	SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -liberty\ \'$PCAN_LIB\'
+	echo "Converting PcanLib header files for gcc -> $PW32DIR/cancfg.h"
+	cat $PW32DIR/cancfg.h.head $PCAN_INCLUDE/$PCAN_HEADER > $PW32DIR/cancfg.h
 	# second port handling
 	if [ "$PCAN2_HEADER" != "" ]; then
 		echo "Stripping down second Pcan Light header "
-		echo >> include/can_peak_win32/cancfg.h
-		echo "// Stripped PcanLight header to prevent typedef conflicts ">> include/can_peak_win32/cancfg.h
-		echo >> include/can_peak_win32/cancfg.h
-		grep __stdcall $PCAN_INCLUDE/$PCAN2_HEADER >> include/can_peak_win32/cancfg.h
-	   	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ \'$PCAN2_LIB\'
-		echo '#define PCAN2_HEADER_' >> include/can_peak_win32/cancfg.h
+		echo >> $PW32DIR/cancfg.h
+		echo "// Stripped PcanLight header to prevent typedef conflicts ">> $PW32DIR/cancfg.h
+		echo >> $PW32DIR/cancfg.h
+		grep __stdcall $PCAN_INCLUDE/$PCAN2_HEADER >> $PW32DIR/cancfg.h
+		echo '#define PCAN2_HEADER_' >> $PW32DIR/cancfg.h
+	   	SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ \'$PCAN2_LIB\'
 	fi
-	if grep -q CANHwType include/can_peak_win32/cancfg.h ; then
+	if grep -q CANHwType $PW32DIR/cancfg.h ; then
 		echo "Peak Init HwType, IO_Port and IRQ will be passed in environment :"
 		echo "	PCANHwType PCANIO_Port PCANInterupt"
-		echo '#define extra_PCAN_init_params' >> include/can_peak_win32/cancfg.h
+		echo '#define extra_PCAN_init_params' >> $PW32DIR/cancfg.h
 	fi
-	cat include/can_peak_win32/cancfg.h.tail >> include/can_peak_win32/cancfg.h
+	cat $PW32DIR/cancfg.h.tail >> $PW32DIR/cancfg.h
 fi
 
 if [ "$SUB_CAN_DRIVER" = "none" ]; then
@@ -603,6 +605,19 @@ else
 	SUB_OPT_CFLAGS=\$\(OPT_CFLAGS\)
 fi
 
+if [ "$DISABLE_DLL" = "1" ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DNOT_USE_DYNAMIC_LOADING
+	SUB_ENABLE_DLL_DRIVERS=0
+else
+	SUB_ENABLE_DLL_DRIVERS=1
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -ldl
+fi
+
+
+if [ "$DISABLE_DLL" = "1" ]; then
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ $SUB_CAN_DLL_CFLAGS
+fi
+
 ###########################################################################
 #                              CREATE MAKEFILES                           #
 ###########################################################################
@@ -650,9 +665,10 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_OPT_CFLAGS:${SUB_OPT_CFLAGS}:
 	s:SUB_TARGET:${SUB_TARGET}:
 	s:SUB_BINUTILS_PREFIX:${SUB_BINUTILS_PREFIX}:
-	s:SUB_TIMERS_ENABLE:${SUB_TIMERS_ENABLE}:
 	s:SUB_TIMERS_DRIVER:timers_${SUB_TIMERS_DRIVER}:
 	s:SUB_CAN_DRIVER:can_${SUB_CAN_DRIVER}:
+	s:SUB_CAN_DLL_CFLAGS:${SUB_CAN_DLL_CFLAGS}:
+	s:SUB_ENABLE_DLL_DRIVERS:${SUB_ENABLE_DLL_DRIVERS}:
 	" > $makefile
 done
 

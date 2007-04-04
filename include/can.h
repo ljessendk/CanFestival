@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #ifndef __can_h__
 #define __can_h__
+
+#include "applicfg.h"
 /** Used for the Can message structure */
 /*
 union SHORT_CAN {

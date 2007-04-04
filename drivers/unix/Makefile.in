@@ -25,36 +25,34 @@ CC = SUB_CC
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
-LIBS = -lm
-SHAREDLIBOPT = -shared
 OS_NAME = SUB_OS_NAME
 ARCH_NAME = SUB_ARCH_NAME
 PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+ENABLE_DLL_DRIVERS = SUB_ENABLE_DLL_DRIVERS
 
-INCLUDES = -I../../include -I../../include/$(SUB_TARGET)
+INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(TIMERS_DRIVER)
 
-OBJS = 
+OBJS = $(TARGET).o
 
 # add timers driver if any
 ifneq ($(TIMERS_DRIVER),timers_)
 OBJS += ../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o
 endif
 
-# add can driver if any
-ifneq ($(CAN_DRIVER),can_)
-OBJS += ../$(CAN_DRIVER)/$(CAN_DRIVER).o
-endif
+SRC_HFILES = ../../include/$(TARGET)/applicfg.h ../../include/$(TARGET)/canfestival.h
 
-SRC_HFILES = ../../include/$(TARGET)/applicfg.h
-
-TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h
+TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h $(PREFIX)/include/$(TARGET)/canfestival.h
 
 all: driver
 
 driver: $(OBJS)
+
+
+%o: %c
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 #../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:
 #	$(MAKE) -C ../$(TIMERS_DRIVER) driver
@@ -78,6 +76,7 @@ uninstall:
 	rm -f $(TARGET_HFILES)
 
 clean:
+	rm -f $(OBJS)
 	rm -f libcanfestival_$(TARGET).a
 
 mrproper: clean

@@ -27,20 +27,26 @@ struct struct_s_BOARD;
 
 typedef struct struct_s_BOARD s_BOARD;
 
+#include "applicfg.h"
 #include "can.h"
-
-UNS8 canReceive(CAN_HANDLE fd0, Message *m);
-UNS8 canSend(CAN_HANDLE fd0, Message *m);
-CAN_HANDLE canOpen(s_BOARD *board);
-int canClose(CAN_HANDLE fd0);
-void canReceiveLoop(CAN_HANDLE fd0);
-
-#include "data.h"
 
 struct struct_s_BOARD {
   char * busname;
-  int baudrate;
-  CO_Data * d;
+  char * baudrate;
 };
+
+#ifndef DLL_CALL
+#define DLL_CALL(funcname) funcname##_driver
+#endif
+
+#ifndef FCT_PTR_INIT
+#define FCT_PTR_INIT
+#endif
+
+
+UNS8 DLL_CALL(canReceive)(CAN_HANDLE, Message *)FCT_PTR_INIT;
+UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message *)FCT_PTR_INIT;
+CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *)FCT_PTR_INIT;
+int DLL_CALL(canClose)(CAN_HANDLE)FCT_PTR_INIT;
 
 #endif

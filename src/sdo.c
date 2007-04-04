@@ -98,12 +98,12 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
     /* Reset timer handler */
     d->transfers[id].timer = TIMER_NONE;
     /* Call the user function to inform of the problem.*/
-    (*d->SDOtimeoutError)(id);
+    (*d->SDOtimeoutError)((UNS8)id);
     /* Sending a SDO abort */
     sendSDOabort(d, d->transfers[id].whoami, 
 		 d->transfers[id].index, d->transfers[id].subIndex, SDOABT_TIMED_OUT);
     /* Reset the line*/
-    resetSDOline(d, id);
+    resetSDOline(d, (UNS8)id);
 }
 
 #define StopSDO_TIMER(id) \
@@ -136,7 +136,7 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
   UNS8      size;
   UNS32 errorCode;
   MSG_WAR(0x3A08, "Enter in SDOlineToObjdict ", line);
-  size = d->transfers[line].count;
+  size = (UNS8)d->transfers[line].count;
   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex, 
 			 (void *) d->transfers[line].data, &size, 1);
   if (errorCode != OD_SUCCESSFUL)
@@ -191,7 +191,7 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data) {
     MSG_ERR(0x1A11,"SDO Size of data too large. Exceed count", nbBytes);
     return 0xFF;
   }
-  offset = d->transfers[line].offset;
+  offset = (UNS8)d->transfers[line].offset;
   for (i = 0 ; i < nbBytes ; i++) 
     * (data + i) = d->transfers[line].data[offset + i];
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
@@ -209,7 +209,7 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data)
     MSG_ERR(0x1A15,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
     return 0xFF;
   }
-  offset = d->transfers[line].offset;
+  offset = (UNS8)d->transfers[line].offset;
   for (i = 0 ; i < nbBytes ; i++) 
     d->transfers[line].data[offset + i] = * (data + i);
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
@@ -327,7 +327,7 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 * nbBytes)
   if (d->transfers[line].count == 0) /* if received initiate SDO protocol with e=0 and s=0 */
     * nbBytes = 0;
   else
-    * nbBytes = d->transfers[line].count - d->transfers[line].offset;
+    * nbBytes = (UNS8)d->transfers[line].count - (UNS8)d->transfers[line].offset;
   return 0;
 }
 
@@ -1298,7 +1298,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
     return d->transfers[line].state;
 
   /* Transfert is finished. Put the value in the data. */
-  * size = d->transfers[line].count;
+  * size = (UNS8)d->transfers[line].count;
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
     if (d->transfers[line].dataType != visible_string)

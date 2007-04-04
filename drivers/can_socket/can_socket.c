@@ -47,28 +47,15 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAN_IOCTL      ioctl
 #endif
 
-struct CANPort;
-#define CAN_HANDLE struct CANPort *
-
-#include <applicfg.h>
-
-#include "timer.h"
 #include "can_driver.h"
-#include "timers_driver.h"
-
-typedef struct CANPort {
-       int fd;
-       TASK_HANDLE receiveTask;
-       CO_Data* d;
-} CANPort;
 
 /*********functions which permit to communicate with the board****************/
-UNS8 canReceive(CAN_HANDLE fd0, Message *m)
+UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
        int res;
        struct can_frame frame;
 
-       res = CAN_RECV(fd0->fd, &frame, sizeof(frame), 0);
+       res = CAN_RECV(fd0, &frame, sizeof(frame), 0);
        if (res < 0)
                return 1;
 
@@ -83,23 +70,9 @@ UNS8 canReceive(CAN_HANDLE fd0, Message *m)
        return 0;
 }
 
-void canReceiveLoop(CAN_HANDLE fd0)
-{
-       CO_Data* d = fd0->d;
-       Message m;
-
-       while (1) {
-               if (canReceive(fd0, &m) != 0)
-                       break;
-
-               EnterMutex();
-               canDispatch(d, &m);
-               LeaveMutex();
-       }
-}
 
 /***************************************************************************/
-UNS8 canSend(CAN_HANDLE fd0, Message *m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 {
        int res;
        struct can_frame frame;
@@ -113,7 +86,7 @@ UNS8 canSend(CAN_HANDLE fd0, Message *m)
        else
                memcpy(frame.data, m->data, 8);
 
-       res = CAN_SEND(fd0->fd, &frame, sizeof(frame), 0);
+       res = CAN_SEND(fd0, &frame, sizeof(frame), 0);
        if (res < 0)
                return 1;
 
@@ -121,25 +94,21 @@ UNS8 canSend(CAN_HANDLE fd0, Message *m)
 }
 
 /***************************************************************************/
-CAN_HANDLE canOpen(s_BOARD *board)
+CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
        CAN_HANDLE fd0;
        struct ifreq ifr;
        struct sockaddr_can addr;
        int err;
 
-       fd0 = malloc(sizeof(*fd0));
-       if (!fd0)
-               return NULL;
-
-       fd0->fd = CAN_SOCKET(PF_CAN, SOCK_RAW, 0);
-       if(fd0->fd < 0){
+       fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, 0);
+       if(fd0 < 0){
                fprintf(stderr,"Socket creation failed.\n");
                goto error_ret;
        }
 
        snprintf(ifr.ifr_name, IFNAMSIZ, CAN_IFNAME, board->busname);
-       err = CAN_IOCTL(fd0->fd, SIOCGIFINDEX, &ifr);
+       err = CAN_IOCTL(fd0, SIOCGIFINDEX, &ifr);
        if (err) {
                fprintf(stderr, "Unknown device: %s\n", ifr.ifr_name);
                goto error_close;
@@ -147,32 +116,27 @@ CAN_HANDLE canOpen(s_BOARD *board)
 
        addr.can_family  = AF_CAN;
        addr.can_ifindex = ifr.ifr_ifindex;
-       err = CAN_BIND(fd0->fd, (struct sockaddr *)&addr,
+       err = CAN_BIND(fd0, (struct sockaddr *)&addr,
                              sizeof(addr));
        if (err) {
                fprintf(stderr, "Binding failed.\n");
                goto error_close;
        }
 
-       fd0->d = board->d;
-       CreateReceiveTask(fd0, &fd0->receiveTask);
        return fd0;
 
  error_close:
-       CAN_CLOSE(fd0->fd);
+       CAN_CLOSE(fd0);
 
  error_ret:
-       free(fd0);
        return NULL;
 }
 
 /***************************************************************************/
-int canClose(CAN_HANDLE fd0)
+int canClose_driver(CAN_HANDLE fd0)
 {
        if (fd0) {
-               WaitReceiveTaskEnd(&fd0->receiveTask);
-               CAN_CLOSE(fd0->fd);
-               free(fd0);
+               CAN_CLOSE(fd0);
        }
        return 0;
 }
