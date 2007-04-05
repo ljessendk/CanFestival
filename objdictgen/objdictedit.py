@@ -125,6 +125,7 @@ for o, a in opts:
         sys.exit()
 
 filesOpen = args
+WorkingDirectory = sys.path[0]
 
 ColSizes = [75, 250, 150, 125, 100, 60, 250]
 ColAlignements = [wxALIGN_CENTER, wxALIGN_LEFT, wxALIGN_CENTER, wxALIGN_RIGHT, wxALIGN_CENTER, wxALIGN_CENTER, wxALIGN_LEFT]
@@ -1058,13 +1059,13 @@ class objdictedit(wx.Frame):
             if result:
                 find_index = True
                 index, subIndex = result
-                result = OpenPDFDocIndex(index)
+                result = OpenPDFDocIndex(index, WorkingDirectory)
                 if type(result) == StringType:
                     message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
-            result = OpenPDFDocIndex(None)
+            result = OpenPDFDocIndex(None, WorkingDirectory)
             if type(result) == StringType:
                 message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                 message.ShowModal()
