@@ -1073,11 +1073,11 @@ class objdictedit(wx.Frame):
         event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
-        self.OpenHtmlFrame("CAN Festival Reference", "../doc/canfestival.html", wx.Size(1000, 600))
+        self.OpenHtmlFrame("CAN Festival Reference", os.path.join(WorkingDirectory, "../doc/canfestival.html"), wx.Size(1000, 600))
         event.Skip()
 
     def OnAboutMenu(self, event):
-        self.OpenHtmlFrame("About CAN Festival", "../doc/about.html", wx.Size(500, 450))
+        self.OpenHtmlFrame("About CAN Festival", os.path.join(WorkingDirectory, "../doc/about.html"), wx.Size(500, 450))
         event.Skip()
 
     def OpenHtmlFrame(self, title, file, size):
