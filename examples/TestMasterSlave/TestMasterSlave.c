@@ -78,9 +78,6 @@ UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8
 	return 0;
 }
 
-CAN_PORT SlaveCanHandle;
-CAN_PORT MasterCanHandle;
-
 s_BOARD SlaveBoard = {"0", "500K"};
 s_BOARD MasterBoard = {"1", "500K"};
 
@@ -221,16 +218,34 @@ int main(int argc,char **argv)
 #endif		
 	// Open CAN devices
 	if(SlaveBoard.baudrate){
-		SlaveCanHandle = canOpen(&SlaveBoard,&TestSlave_Data);
-		if(SlaveCanHandle == NULL){
+		
+		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
+		TestSlave_Data.SDOtimeoutError = TestSlave_SDOtimeoutError;
+		TestSlave_Data.initialisation = TestSlave_initialisation;
+		TestSlave_Data.preOperational = TestSlave_preOperational;
+		TestSlave_Data.operational = TestSlave_operational;
+		TestSlave_Data.stopped = TestSlave_stopped;
+		TestSlave_Data.post_sync = TestSlave_post_sync;
+		TestSlave_Data.post_TPDO = TestSlave_post_TPDO;
+
+		if(!canOpen(&SlaveBoard,&TestSlave_Data)){
 			eprintf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
 			goto fail_slave;
 		}
 	}
 
 	if(MasterBoard.baudrate){
-		MasterCanHandle = canOpen(&MasterBoard,&TestMaster_Data);
-		if(MasterCanHandle == NULL){
+		
+		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
+		TestMaster_Data.SDOtimeoutError = TestMaster_SDOtimeoutError;
+		TestMaster_Data.initialisation = TestMaster_initialisation;
+		TestMaster_Data.preOperational = TestMaster_preOperational;
+		TestMaster_Data.operational = TestMaster_operational;
+		TestMaster_Data.stopped = TestMaster_stopped;
+		TestMaster_Data.post_sync = TestMaster_post_sync;
+		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
+		
+		if(!canOpen(&MasterBoard,&TestMaster_Data)){
 			eprintf("Cannot open Master Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
 			goto fail_master;
 		}
@@ -247,9 +262,9 @@ int main(int argc,char **argv)
 	StopTimerLoop();
 	
 	// Close CAN devices (and can threads)
-	if(SlaveBoard.baudrate) canClose(SlaveCanHandle);
+	if(SlaveBoard.baudrate) canClose(&TestSlave_Data);
 fail_master:
-	if(MasterBoard.baudrate) canClose(MasterCanHandle);	
+	if(MasterBoard.baudrate) canClose(&TestMaster_Data);	
 fail_slave:
 	
 

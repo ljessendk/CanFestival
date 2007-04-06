@@ -197,8 +197,12 @@ UNS8 canSend(CAN_PORT fd0, Message *m)
    {
    if (fd0 != NULL && s_driver_procs.m_canSend != NULL)
       {
+      UNS8 res;
       driver_data* data = (driver_data*)fd0;
-      if ((*s_driver_procs.m_canSend)(data->inst, m))
+      LeaveMutex();
+      res = (*s_driver_procs.m_canSend)(data->inst, m);      
+      EnterMutex();
+      if (res)
          return 0;
       }
    return 1;
@@ -217,6 +221,9 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
          data->inst = inst;
          data->continue_receive_thread = true;
          CreateReceiveTask(data, &data->receive_thread, &canReceiveLoop);
+	 EnterMutex();
+         d->canHandle = data;
+         LeaveMutex();
          return data;
          }
       }
@@ -224,11 +231,14 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
    }
 
 /***************************************************************************/
-int canClose(CAN_PORT fd0)
+int canClose(CO_Data * d)
    {
    if (fd0 != NULL && s_driver_procs.m_canClose != NULL)
       {
-      driver_data* data = (driver_data*)fd0;
+      EnterMutex();
+      driver_data* data = (driver_data*)d->canHandle;
+      d->canHandle = NULL;
+      LeaveMutex();
       data->continue_receive_thread = false;
       WaitReceiveTaskEnd(&data->receive_thread);
       (*s_driver_procs.m_canClose)(data->inst);

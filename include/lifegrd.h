@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <applicfg.h>
 
 typedef void (*heartbeatError_t)(UNS8);
+void _heartbeatError(UNS8 heartbeatID);
 
 #include "data.h"
 

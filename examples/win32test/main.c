@@ -34,48 +34,6 @@ Copyright (C) 2007  Leonid Tochinski (ltochinski AT chattenassociates DOT com)
 #define uptime_ms_proc (1000*(time()%86400))  // TOD
 #endif
 
-/* required canfestival callbacks. */
-void win32test_SDOtimeoutError(UNS8 line)
-  {
-  }
-  
-void win32test_heartbeatError(UNS8 node_id)
-  {
-  }
-
-void win32test_initialisation(void)
-  {
-  }
-
-void win32test_preOperational(void)
-  {
-  }
-
-void win32test_operational(void)
-  {
-  }
-
-void win32test_stopped(void)
-  {
-  }
-
-void win32test_post_sync(void)
-  {
-  }
-
-void win32test_post_TPDO(void)
-  {
-  }
-
-static CAN_HANDLE g_MasterCanHandle = NULL;
-
-UNS8 win32test_canSend(Message *m)
-  {
-  if (g_MasterCanHandle != NULL)
-     return canSend(g_MasterCanHandle, m);
-  return 1;
-  }
-
 UNS8 GetChangeStateResults(UNS8 node_id, UNS8 expected_state, unsigned long timeout_ms)
    {
    unsigned long start_time = 0;
@@ -150,9 +108,7 @@ int main(int argc, char *argv[])
       return 1;
       }
    
-   g_MasterCanHandle = canOpen(&MasterBoard,&win32test_Data);
-   
-   if (g_MasterCanHandle)
+   if (canOpen(&MasterBoard,&win32test_Data))
       {
       /* Defining the node Id */
       setNodeId(&win32test_Data, 0x01);
@@ -239,7 +195,7 @@ int main(int argc, char *argv[])
 
       setState(&win32test_Data, Stopped);
       
-      canClose(g_MasterCanHandle);
+      canClose(&win32test_Data);
       }
    return 0;
   }

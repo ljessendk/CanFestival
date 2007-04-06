@@ -36,15 +36,6 @@ void TestSlave_SDOtimeoutError (UNS8 line)
 	eprintf("TestSlave_SDOtimeoutError %d\n", line);
 }
 
-/*****************************************************************************/
-UNS8 TestSlave_canSend(Message *m)
-{
-	eprintf("S->M ");
-	print_message(m);
-	canSend(SlaveCanHandle, m);
-	return 0;
-}
-
 void TestSlave_initialisation()
 {
 	eprintf("TestSlave_initialisation\n");

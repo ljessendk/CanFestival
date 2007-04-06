@@ -285,14 +285,6 @@ void gene_SYNC_SDOtimeoutError (UNS8 line)
 }
 
 //------------------------------------------------------------------------------
-UNS8 gene_SYNC_canSend(Message *m)
-{
-  // HCS12 driver function to send the CAN msg
-  canMsgTransmit(CAN0, *m);
-  return 0;
-}
-
-//------------------------------------------------------------------------------
 void gene_SYNC_initialisation()
 {  
   MSG_WAR (0x3F00, "Entering in INIT ", 0); 
@@ -395,16 +387,6 @@ void gene_SYNC_stopped()
   IO_PORTS_8(PORTB) |=   0x0E; // leds 1, 2, 3, 4   : OFF
 }
 
-//------------------------------------------------------------------------------
-void gene_SYNC_post_sync()
-{
-}
-
-//------------------------------------------------------------------------------
-void gene_SYNC_post_TPDO()
-{
-}
-
 // End functions which are part of Canfestival
 //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
@@ -419,6 +401,13 @@ UNS8 main (void)
 
   MSG_WAR(0x3F34, "Entering in the main ", 0);
   //----------------------------- INITIALISATION --------------------------------
+  gene_SYNC_Data.heartbeatError = gene_SYNC_heartbeatError;
+  gene_SYNC_Data.SDOtimeoutError = gene_SYNC_SDOtimeoutError;
+  gene_SYNC_Data.initialisation = gene_SYNC_initialisation;
+  gene_SYNC_Data.preOperational = gene_SYNC_preOperational;
+  gene_SYNC_Data.preOperational = gene_SYNC_operational;
+  gene_SYNC_Data.stopped = gene_SYNC_stopped;
+
   
   /* Put the node in Initialisation mode */
   MSG_WAR(0x3F35, "Will entering in INIT ", 0);

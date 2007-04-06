@@ -37,15 +37,6 @@ void TestMaster_SDOtimeoutError (UNS8 line)
 }
 
 /*****************************************************************************/
-// CanSend store message in a FIFO, for Slave
-UNS8 TestMaster_canSend(Message *m)
-{
-	eprintf("M->S ");
-	print_message(m);
-	canSend(MasterCanHandle, m);
-	return 0;
-}
-
 void TestMaster_initialisation()
 {
 	eprintf("TestMaster_initialisation\n");

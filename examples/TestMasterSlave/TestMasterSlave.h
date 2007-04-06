@@ -30,10 +30,6 @@ void print_message(Message *m);
 
 #include "canfestival.h"
 
-extern CAN_PORT SlaveCanHandle;
-extern CAN_PORT MasterCanHandle;
-
-
 /*
 #define CAN_FIFO_LENGTH 100
 

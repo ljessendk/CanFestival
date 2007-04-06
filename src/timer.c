@@ -159,7 +159,8 @@ void TimeDispatch()
 		if (row->state & TIMER_TRIG)
 		{
 			row->state &= ~TIMER_TRIG; /* reset trig state (will be free if not periodic) */
-			(*row->callback)(row->d, row->id); /* trig ! */
+			if(row->callback)
+				(*row->callback)(row->d, row->id); /* trig ! */
 		}
 	}
 }

@@ -54,14 +54,18 @@ void initTimer(void)
 
 void StopTimerLoop(void)
 {
+	EnterMutex();
 	timer_delete (timer);
+	LeaveMutex();
 }
 
 void StartTimerLoop(TimerCallback_t init_callback)
 {
 	initTimer();
+	EnterMutex();
 	// At first, TimeDispatch will call init_callback.
 	SetAlarm(NULL, 0, init_callback, 0, 0);
+	LeaveMutex();
 }
 
 void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)

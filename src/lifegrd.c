@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <data.h>
 #include "lifegrd.h"
+#include "canfestival.h"
 
 /* Prototypes for internals functions */
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
@@ -69,7 +70,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
         d->toggle = 1 ; 
       /* send the nodeguard response. */
       MSG_WAR(0x3130, "Sending NMT Nodeguard to master, state: ", d->nodeState);
-      (*d->canSend)(&msg );
+      canSend(d->canHandle,&msg );
     }  
 
   }else{ /* Not a request CAN */
@@ -125,7 +126,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 		msg.data[0] = d->nodeState; /* No toggle for heartbeat !*/
 		/* send the heartbeat */
       		MSG_WAR(0x3130, "Producing heartbeat: ", d->nodeState);
-      		(*d->canSend)(&msg );
+      		canSend(d->canHandle,&msg );
 	}else{
 		d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);
 	}
@@ -167,3 +168,4 @@ void heartbeatStop(CO_Data* d)
     d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);;
 }
 
+void _heartbeatError(UNS8 heartbeatID){}

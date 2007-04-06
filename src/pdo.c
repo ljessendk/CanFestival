@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 #include "pdo.h"
 #include "objacces.h"
+#include "canfestival.h"
 
 /****************************************************************************/
 UNS8 sendPDO(CO_Data* d, s_PDO pdo, UNS8 req)
@@ -51,7 +52,7 @@ UNS8 sendPDO(CO_Data* d, s_PDO pdo, UNS8 req)
       MSG_WAR(0x3903,"           data : ", m.data[i]);
     }
 		  
-    return (*d->canSend)(&m);
+    return canSend(d->canHandle,&m);
   } /* end if */
   return 0xFF;
 }

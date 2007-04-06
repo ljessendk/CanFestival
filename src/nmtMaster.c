@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include "nmtMaster.h"
+#include "canfestival.h"
 
 /******************************************************************************/
 UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
@@ -36,7 +37,7 @@ UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
   m.data[0] = cs;
   m.data[1] = Node_ID;
   
-  return (*d->canSend)(&m);
+  return canSend(d->canHandle,&m);
 }
 
 
@@ -52,7 +53,7 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
   m.rtr = REQUEST;
   m.len = 1;
   
-  return (*d->canSend)(&m);
+  return canSend(d->canHandle,&m);
 }
 
 /******************************************************************************/

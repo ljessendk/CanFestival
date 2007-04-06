@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "objacces.h"
 #include "sdo.h"
+#include "canfestival.h"
 
 /* Uncomment if your compiler does not support inline functions */
 #define NO_INLINE 
@@ -410,7 +411,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   for (i = 0 ; i < 8 ; i++) {
     m.data[i] =  sdo.body.data[i];
   }
-  return (*d->canSend)(&m);
+  return canSend(d->canHandle,&m);
 }
 
 /***************************************************************************/
@@ -1330,3 +1331,4 @@ UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode)
   return d->transfers[line].state;
 }
 
+void _SDOtimeoutError (UNS8 line){}

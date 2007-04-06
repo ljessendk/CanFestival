@@ -55,13 +55,18 @@ typedef struct
 	UNS8 csPDO;
 } s_state_communication;
 
-/** Function that user app must provide
+/** Function that user app can overload
  * 
  */
 typedef void (*initialisation_t)(void);
 typedef void (*preOperational_t)(void);
 typedef void (*operational_t)(void);
 typedef void (*stopped_t)(void);
+
+void _initialisation();
+void _preOperational();
+void _operational();
+void _stopped();
 
 #include "data.h"
 

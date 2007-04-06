@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "data.h"
 #include "sync.h"
+#include "canfestival.h"
 
 /* Prototypes for internals functions */
 void SyncAlarm(CO_Data* d, UNS32 id);
@@ -83,7 +84,7 @@ UNS8 sendSYNC(CO_Data* d, UNS32 cob_id)
   m.cob_id.w = cob_id ;
   m.rtr = NOT_A_REQUEST;
   m.len = 0;
-  resultat = (*d->canSend)(&m) ;
+  resultat = canSend(d->canHandle,&m) ;
   proceedSYNC(d, &m) ; 
   return resultat ;
 }
@@ -237,3 +238,5 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 }
 
 
+void _post_sync(){}
+void _post_TPDO(){}

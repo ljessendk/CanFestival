@@ -207,3 +207,8 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   /* bDeviceNodeId is defined in the object dictionary. */
   *d->bDeviceNodeId = nodeId;
 }
+
+void _initialisation(){}
+void _preOperational(){}
+void _operational(){}
+void _stopped(){}

@@ -1073,7 +1073,8 @@ class objdictedit(wx.Frame):
         event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
-        self.OpenHtmlFrame("CAN Festival Reference", os.path.join(WorkingDirectory, "../doc/canfestival.html"), wx.Size(1000, 600))
+        #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(WorkingDirectory, "../doc/canfestival.html"), wx.Size(1000, 600))
+        os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(WorkingDirectory, "../doc/manual/en/manual.pdf"),16))
         event.Skip()
 
     def OnAboutMenu(self, event):

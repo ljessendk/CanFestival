@@ -146,7 +146,14 @@ UNS8 canReceive(CAN_PORT port, Message *m)
 
 UNS8 canSend(CAN_PORT port, Message *m)
 {
-	return DLL_CALL(canSend)(((CANPort*)port)->fd, m);
+	if(port){
+		UNS8 res;
+	        LeaveMutex();
+		res = DLL_CALL(canSend)(((CANPort*)port)->fd, m);
+		EnterMutex();
+		return res;
+	}               
+	return -1;
 }
 
 void canReceiveLoop(CAN_PORT port)
@@ -184,17 +191,23 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 	canports[i].d = d;
 
 	CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
-		
+	
+	EnterMutex();
+	d->canHandle = (CAN_PORT)&canports[i];
+	LeaveMutex();
 	return (CAN_PORT)&canports[i];
 }
 
-int canClose(CAN_PORT port)
+int canClose(CO_Data * d)
 {
-	((CANPort*)port)->used = 0;
-	int res = DLL_CALL(canClose)(((CANPort*)port)->fd);
+	EnterMutex();
+	((CANPort*)d->canHandle)->used = 0;
+	CANPort* tmp = (CANPort*)d->canHandle;
+	d->canHandle = NULL;
+	LeaveMutex();
 	
-	WaitReceiveTaskEnd(((CANPort*)port)->receiveTask);
+	int res = DLL_CALL(canClose)(tmp->fd);
+	
+	WaitReceiveTaskEnd(tmp->receiveTask);
 	return res;
 }
-
-

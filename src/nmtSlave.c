@@ -84,6 +84,6 @@ UNS8 slaveSendBootUp(CO_Data* d)
   m.len = 1;
   m.data[0] = 0x00;
     
-  return (*d->canSend)(&m);
+  return canSend(d->canHandle,&m);
 }
 
