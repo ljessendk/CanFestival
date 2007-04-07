@@ -103,7 +103,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="./configure.win32.bat"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -328,15 +328,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\led.c"
-				>
-			</File>
-			<File
 				RelativePath=".\src\lifegrd.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\lss.c"
 				>
 			</File>
 			<File
@@ -345,10 +337,6 @@
 			</File>
 			<File
 				RelativePath=".\src\nmtSlave.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\nvram.c"
 				>
 			</File>
 			<File

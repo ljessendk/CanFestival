@@ -65,21 +65,11 @@ EXPORTS
         canReceive
         canOpen
         canClose
-        lss_SwitchModeGlobal
-        lss_ConfigureNode_ID
-        lss_ConfigureBitTimingParameters
-        lss_ActivateBitTimingParameters_master
-        lss_ActivateBitTimingParameters_slave
-        lss_StoreConfiguredParameters
-        lss_InquireLSSAddress_master
-        lss_InquireLSSAddress_slave
-        lss_IdentifyRemoteSlaves
-        lss_validate_address
-        lss_IdentifySlave
-        canSaveData
-        canReadData
-        nvram_open
-        nvram_close
-        nvram_write
-        nvram_read
-        led_set_state
+		_post_TPDO
+		_post_sync
+		_heartbeatError
+		_stopped
+		_operational
+		_preOperational
+		_initialisation
+		_SDOtimeoutError

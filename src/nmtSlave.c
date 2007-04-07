@@ -22,6 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "nmtSlave.h"
 #include "states.h"
+#include "canfestival.h"
 
 /*******************************************************************)*********/
 /* put the slave in the state wanted by the master */	

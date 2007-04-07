@@ -28,10 +28,10 @@ void startSYNC(CO_Data* d);
 void stopSYNC(CO_Data* d);
 
 typedef void (*post_sync_t)(void);
-void _post_sync();
+void _post_sync(void);
 
 typedef void (*post_TPDO_t)(void);
-void _post_TPDO();
+void _post_TPDO(void);
 
 /** transmit a SYNC message on the bus number bus_id
  * bus_id is hardware dependant

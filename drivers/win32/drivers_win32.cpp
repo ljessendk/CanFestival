@@ -34,8 +34,6 @@ extern "C"
 #include "canfestival.h"
 #include "timer.h"
 
-#include "nvram_driver.h"
-#include "lss_driver.h"
 #include "timers_driver.h"
    };
 
@@ -44,15 +42,6 @@ typedef UNS8 (*CANSEND_DRIVER_PROC)(void* inst, const Message *m);
 typedef void* (*CANOPEN_DRIVER_PROC)(s_BOARD *board);
 typedef int (*CANCLOSE_DRIVER_PROC)(void* inst);
 
-typedef int (*NVRAM_OPEN_PROC)(void);
-typedef void (*NVRAM_CLOSE_PROC)(void);
-typedef char (*NVRAM_WRITE_PROC)(int type, int access_attr, void *data);
-typedef char (*NVRAM_READ_PROC)(int type, int access_attr, void *data);
-
-typedef void (*LED_SET_REDGREEN_PROC)(CO_Data *d, unsigned char bits);
-
-typedef UNS8 (*BAUDRATE_VALID_PROC)(UNS32 table_index);
-typedef void (*BAUDRATE_SET_PROC)(UNS8 table_index);
 
 class driver_procs
    {
@@ -70,17 +59,6 @@ class driver_procs
       CANOPEN_DRIVER_PROC m_canOpen;
       CANCLOSE_DRIVER_PROC m_canClose;
 
-      // nvram driver
-      NVRAM_OPEN_PROC m_nvram_open;
-      NVRAM_CLOSE_PROC m_nvram_close;
-      NVRAM_WRITE_PROC m_nvram_write;
-      NVRAM_READ_PROC m_nvram_read;
-      // led driver
-      LED_SET_REDGREEN_PROC m_led_set_redgreen;
-      // lss driver
-      BAUDRATE_VALID_PROC m_baudrate_valid;
-      BAUDRATE_SET_PROC m_baudrate_set;
-
       // driver module habndle
       HMODULE m_driver_handle;
    };
@@ -89,13 +67,6 @@ driver_procs::driver_procs() : m_canReceive(0),
       m_canSend(0),
       m_canOpen(0),
       m_canClose(0),
-      m_nvram_open(0),
-      m_nvram_close(0),
-      m_nvram_write(0),
-      m_nvram_read(0),
-      m_led_set_redgreen(),
-      m_baudrate_valid(0),
-      m_baudrate_set(0),
       m_driver_handle(0)
    {}
 
@@ -132,17 +103,6 @@ HMODULE driver_procs::load_canfestival_driver(LPCTSTR driver_name)
    m_canSend = (CANSEND_DRIVER_PROC)::GetProcAddress(m_driver_handle, myTEXT("canSend_driver"));
    m_canOpen = (CANOPEN_DRIVER_PROC)::GetProcAddress(m_driver_handle, myTEXT("canOpen_driver"));
    m_canClose = (CANCLOSE_DRIVER_PROC)::GetProcAddress(m_driver_handle, myTEXT("canClose_driver"));
-
-   m_nvram_open = (NVRAM_OPEN_PROC)::GetProcAddress(m_driver_handle, myTEXT("nvram_open_driver"));
-   m_nvram_close = (NVRAM_CLOSE_PROC)::GetProcAddress(m_driver_handle, myTEXT("nvram_close_driver"));
-   m_nvram_write = (NVRAM_WRITE_PROC)::GetProcAddress(m_driver_handle, myTEXT("nvram_write_driver"));
-   m_nvram_read = (NVRAM_READ_PROC)::GetProcAddress(m_driver_handle, myTEXT("nvram_read_driver"));
-
-   m_led_set_redgreen = (LED_SET_REDGREEN_PROC)::GetProcAddress(m_driver_handle, myTEXT("led_set_redgreen_driver"));
-
-   m_baudrate_valid = (BAUDRATE_VALID_PROC)::GetProcAddress(m_driver_handle, myTEXT("baudrate_valid_driver"));
-   m_baudrate_set = (BAUDRATE_SET_PROC)::GetProcAddress(m_driver_handle, myTEXT("baudrate_set_driver"));
-
    return can_driver_valid()?m_driver_handle:NULL;
    }
 
@@ -233,68 +193,21 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
    {
-   if (fd0 != NULL && s_driver_procs.m_canClose != NULL)
+   if (s_driver_procs.m_canClose != NULL)
       {
-      EnterMutex();
-      driver_data* data = (driver_data*)d->canHandle;
-      d->canHandle = NULL;
-      LeaveMutex();
-      data->continue_receive_thread = false;
-      WaitReceiveTaskEnd(&data->receive_thread);
-      (*s_driver_procs.m_canClose)(data->inst);
-      delete data;
-      return 0;
+		  driver_data* data;
+		  EnterMutex();
+		  if(d->canHandle != NULL){
+			data = (driver_data*)d->canHandle;
+			d->canHandle = NULL;
+			data->continue_receive_thread = false;}
+		  LeaveMutex();
+		  WaitReceiveTaskEnd(&data->receive_thread);
+		  (*s_driver_procs.m_canClose)(data->inst);
+		  delete data;
+		  return 0;
       }
    return 0;
    }
 
-/***************************************************************************/
-int nvram_open(void)
-   {
-   if (s_driver_procs.m_nvram_read != NULL)
-      return (*s_driver_procs.m_nvram_open)();
-   return -1;
-   }
 
-void nvram_close(void)
-   {
-   if (s_driver_procs.m_nvram_close != NULL)
-      (*s_driver_procs.m_nvram_close)();
-   }
-
-char nvram_write(int type, int access_attr, void *data)
-   {
-   if (s_driver_procs.m_nvram_write != NULL)
-      return (*s_driver_procs.m_nvram_write)(type, access_attr, data);
-   return 0;
-   }
-
-char nvram_read(int type, int access_attr, void *data)
-   {
-   if (s_driver_procs.m_nvram_read != NULL)
-      return (*s_driver_procs.m_nvram_read)(type, access_attr, data);
-   return 0;
-   }
-
-/***************************************************************************/
-
-void led_set_redgreen(CO_Data *d, unsigned char bits)
-   {
-   if (s_driver_procs.m_led_set_redgreen != NULL)
-      (*s_driver_procs.m_led_set_redgreen)(d, bits);
-   }
-
-/***************************************************************************/
-
-UNS8 baudrate_valid(UNS32 table_index)
-   {
-   if (s_driver_procs.m_baudrate_valid != NULL)
-      return (*s_driver_procs.m_baudrate_valid)(table_index);
-   return 0;
-   }
-
-void baudrate_set(UNS8 table_index)
-   {
-   if (s_driver_procs.m_baudrate_set != NULL)
-      (*s_driver_procs.m_baudrate_set)(table_index);
-   }

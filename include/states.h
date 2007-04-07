@@ -63,10 +63,10 @@ typedef void (*preOperational_t)(void);
 typedef void (*operational_t)(void);
 typedef void (*stopped_t)(void);
 
-void _initialisation();
-void _preOperational();
-void _operational();
-void _stopped();
+void _initialisation(void);
+void _preOperational(void);
+void _operational(void);
+void _stopped(void);
 
 #include "data.h"
 
