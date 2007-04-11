@@ -20,7 +20,7 @@
    inkscape:export-xdpi="87.57"
    inkscape:export-ydpi="87.57"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   sodipodi:modified="TRUE">
+   sodipodi:modified="true">
   <defs
      id="defs4">
     <marker
@@ -105,16 +105,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.6302963"
-     inkscape:cx="765.19682"
-     inkscape:cy="373.17074"
+     inkscape:zoom="1.2605926"
+     inkscape:cx="740.98173"
+     inkscape:cy="552.24525"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1592"
      inkscape:window-height="965"
-     inkscape:window-x="80"
+     inkscape:window-x="0"
      inkscape:window-y="0"
      showgrid="false"
      gridspacingy="1cm"
@@ -809,7 +809,7 @@
          sodipodi:role="line"
          id="tspan5230"
          x="466.21942"
-         y="566.78787"> s_BOARD SlaveBoard = {&quot;0&quot;, &quot;500K&quot;};</tspan><tspan
+         y="566.78787"> s_BOARD MyBoard = {&quot;0&quot;, &quot;500K&quot;};</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
          y="582.04782"
@@ -1140,7 +1140,7 @@
          id="tspan6812">scheduled function call.</tspan></text>
     <path
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
-       d="M 967.14579,220.52677 C 991.41355,213.9215 964.05968,86.919629 959.18694,82.040011 C 896.38411,19.148526 571.25806,132.9419 379.06207,93.795141"
+       d="M 967.14579,220.52677 C 991.41355,213.9215 963.66304,74.623825 958.7903,69.744207 C 895.98747,6.8527216 571.25806,132.9419 379.06207,93.795141"
        id="path6816"
        sodipodi:nodetypes="csc" />
     <path
@@ -1187,7 +1187,7 @@
          y="670.44073"
          x="934.95794"
          sodipodi:role="line"
-         id="tspan8782">satck calls with</tspan><tspan
+         id="tspan8782">stack calls with</tspan><tspan
          y="692.89482"
          x="934.95795"
          sodipodi:role="line"

@@ -27,16 +27,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define DLL_CALL(funcname) (* funcname##_driver)
 #define FCT_PTR_INIT =NULL
 
-#ifdef WIN32
-#define DLSYM(name)\
-    *(void **) (&_##name) = GetProcAddress(handle, TEXT(#name"_driver"));\
-	if (name##_driver == NULL)  {\
-		fprintf (stderr, "Error loading symbol %s\n",#name"_driver");\
-		UnLoadCanDriver(handle);\
-		return NULL;\
-	}
- 
-#else
 #define DLSYM(name)\
 	*(void **) (&name##_driver) = dlsym(handle, #name"_driver");\
 	if ((error = dlerror()) != NULL)  {\
@@ -44,7 +34,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 		UnLoadCanDriver(handle);\
 		return NULL;\
 	}
-#endif
 
 #else /*NOT_USE_DYNAMIC_LOADING*/
 
@@ -83,11 +72,8 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 {
 	if(handle!=NULL)
 	{
-#ifdef WIN32
-	        FreeLibrary(handle);    
-#else
 		dlclose(handle);
-#endif
+
 		handle=NULL;
 		return 0;
 	}
@@ -100,19 +86,7 @@ LIB_HANDLE LoadCanDriver(char* driver_name)
 	LIB_HANDLE handle = NULL;
 	char *error;
 	
-#ifdef WIN32
 
-	if(handle==NULL)
-	{
-		handle = LoadLibrary(driver_name);
-	}
- 
-	if (handle == NULL) {
-        	fprintf(stderr,"Error loading Can Driver dll \n");
-        	return -1;
-	}
-
-#else
 	if(handle==NULL)
 	{
 		handle = dlopen(driver_name, RTLD_LAZY);
@@ -122,7 +96,6 @@ LIB_HANDLE LoadCanDriver(char* driver_name)
 		fprintf (stderr, "%s\n", dlerror());
         	return NULL;
 	}
-#endif
  
 	/*Get function ptr*/
 	DLSYM(canReceive)
