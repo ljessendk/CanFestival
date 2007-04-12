@@ -25,8 +25,6 @@ TARGET = SUB_TARGET
 
 all:
 ifeq ($(TARGET),hc12)
-	$(MAKE) -C AppliMaster_HCS12 $@
-	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
 ifeq ($(TARGET),unix)
@@ -35,8 +33,6 @@ endif
 
 clean:
 ifeq ($(TARGET),hc12)
-	$(MAKE) -C AppliMaster_HCS12 $@
-	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
 ifeq ($(TARGET),unix)
@@ -45,8 +41,6 @@ endif
 
 mrproper: clean
 ifeq ($(TARGET),hc12)
-	$(MAKE) -C AppliMaster_HCS12 $@
-	$(MAKE) -C AppliSlave_HCS12 $@
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
 ifeq ($(TARGET),unix)

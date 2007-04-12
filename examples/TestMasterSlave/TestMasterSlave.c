@@ -36,41 +36,13 @@ void pause(void)
 #include <signal.h>
 #endif
 
-#include <applicfg.h>
-#include <can_driver.h>
-#include <timers_driver.h>
+#include "canfestival.h"
+//#include <can_driver.h>
+//#include <timers_driver.h>
 
 #include "Master.h"
 #include "Slave.h"
 #include "TestMasterSlave.h"
-
-#define MyCase(fc) case fc: eprintf(#fc);break;
-void print_message(Message *m)
-{
-	int i;
-	switch(m->cob_id.w >> 7)
-	{
-		MyCase(SYNC)
-		MyCase(TIME_STAMP)
-		MyCase(PDO1tx)
-		MyCase(PDO1rx)
-		MyCase(PDO2tx)
-		MyCase(PDO2rx)
-		MyCase(PDO3tx)
-		MyCase(PDO3rx)
-		MyCase(PDO4tx)
-		MyCase(PDO4rx)
-		MyCase(SDOtx)
-		MyCase(SDOrx)
-		MyCase(NODE_GUARD)
-		MyCase(NMT)
-	}
-	eprintf(" rtr:%d", m->rtr);
-	eprintf(" len:%d", m->len);
-	for (i = 0 ; i < m->len ; i++)
-		eprintf(" %02x", m->data[i]);
-	eprintf("\n");
-}
 
 UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
