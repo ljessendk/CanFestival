@@ -165,7 +165,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x1800 :   Transmit PDO 1 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1800 = 5; /* number of subindex - 1*/
                     UNS32 TestSlave_obj1800_COB_ID_used_by_PDO = 0x182;	/* 386 */
-                    UNS8 TestSlave_obj1800_Transmission_Type = 0x1;	/* 1 */
+                    UNS8 TestSlave_obj1800_Transmission_Type = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1800_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1800_Event_Timer = 0x0;	/* 0 */
@@ -182,7 +182,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x1801 :   Transmit PDO 2 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1801 = 5; /* number of subindex - 1*/
                     UNS32 TestSlave_obj1801_COB_ID_used_by_PDO = 0x282;	/* 642 */
-                    UNS8 TestSlave_obj1801_Transmission_Type = 0x1;	/* 1 */
+                    UNS8 TestSlave_obj1801_Transmission_Type = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1801_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1801_Event_Timer = 0x0;	/* 0 */

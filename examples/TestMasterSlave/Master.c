@@ -36,15 +36,119 @@ void TestMaster_SDOtimeoutError (UNS8 line)
 	eprintf("TestMaster_SDOtimeoutError %d\n", line);
 }
 
-/*****************************************************************************/
+/********************************************************
+ * ConfigureSlaveNode is responsible to
+ *  - setup master RPDO 1 to receive TPDO 1 from id 2
+ *  - setup master RPDO 2 to receive TPDO 2 from id 2
+ ********************************************************/
 void TestMaster_initialisation()
 {
+	UNS32 PDO1_COBID = 0x0182; 
+	UNS32 PDO2_COBID = 0x0282;
+	UNS8 size = sizeof(UNS32); 
+
 	eprintf("TestMaster_initialisation\n");
+
+	/*****************************************
+	 * Define RPDOs to match slave ID=2 TPDOs*
+	 *****************************************/
+	setODentry( &TestMaster_Data, /*CO_Data* d*/
+			0x1400, /*UNS16 index*/
+			0x01, /*UNS8 subind*/ 
+			&PDO1_COBID, /*void * pSourceData,*/ 
+			&size, /* UNS8 * pExpectedSize*/
+			RW);  /* UNS8 checkAccess */
+			
+	setODentry( &TestMaster_Data, /*CO_Data* d*/
+			0x1401, /*UNS16 index*/
+			0x01, /*UNS8 subind*/ 
+			&PDO2_COBID, /*void * pSourceData,*/ 
+			&size, /* UNS8 * pExpectedSize*/
+			RW);  /* UNS8 checkAccess */
+}
+
+/********************************************************
+ * ConfigureSlaveNode is responsible to
+ *  - setup slave TPDO 1 transmit time
+ *  - setup slave TPDO 2 transmit time
+ *  - switch to operational mode
+ *  - send NMT to slave
+ ********************************************************
+ * This an example of :
+ * Network Dictionary Access (SDO) with Callback 
+ * Slave node state change request (NMT) 
+ ********************************************************
+ * This is called first by TestMaster_preOperational
+ * then it called again each time a SDO exchange is
+ * finished.
+ ********************************************************/
+static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
+{
+	// Step counts number of times ConfigureSlaveNode is called
+	static step = 1;
+	
+	UNS8 Transmission_Type = 0x01; 
+	UNS32 abortCode;
+	UNS8 res;
+	eprintf("Master : ConfigureSlaveNode %2.2x\n", nodeId);
+
+	switch(step++){
+		case 1: /*First step : setup Slave's TPDO 1 to be transmitted on SYNC*/
+			eprintf("Master : set slave %2.2x TPDO 1 transmit type\n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					*TestSlave_Data.bDeviceNodeId, /*UNS8 nodeId*/
+					0x1800, /*UNS16 index*/
+					0x02, /*UNS8 subindex*/
+					1, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&Transmission_Type,/*void *data*/
+					ConfigureSlaveNode); /*SDOCallback_t Callback*/			break;
+		case 2:	/*Second step*/
+			/*check and warn for previous slave OD access error*/
+			if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
+				eprintf("Master : Couldn't set slave %2.2x TPDO 1 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
+
+			/* Finalise last SDO transfer with this node */
+			closeSDOtransfer(&TestMaster_Data,
+					*TestSlave_Data.bDeviceNodeId,
+					SDO_CLIENT);
+					
+			/*Setup Slave's TPDO 1 to be transmitted on SYNC*/
+			eprintf("Master : set slave %2.2x TPDO 2 transmit type\n", nodeId);
+			writeNetworkDictCallBack (d, /*CO_Data* d*/
+					*TestSlave_Data.bDeviceNodeId, /*UNS8 nodeId*/
+					0x1801, /*UNS16 index*/
+					0x02, /*UNS16 index*/
+					1, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&Transmission_Type,/*void *data*/
+					ConfigureSlaveNode); /*SDOCallback_t Callback*/
+			break;
+		case 3: /*Last step*/
+			/*check and warn for previous slave OD access error*/
+			if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
+				eprintf("Master : Couldn't set slave %2.2x TPDO 2 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
+
+			/* Finalise last SDO transfer with this node */
+			closeSDOtransfer(&TestMaster_Data,
+					*TestSlave_Data.bDeviceNodeId,
+					SDO_CLIENT);
+
+			/* Put the master in operational mode */
+			setState(d, Operational);
+			  
+			/* Ask slave node to go in operational mode */
+			masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
+	}
+			
 }
 
 void TestMaster_preOperational()
 {
+
 	eprintf("TestMaster_preOperational\n");
+	ConfigureSlaveNode(&TestMaster_Data, 2);
+	
 }
 
 void TestMaster_operational()

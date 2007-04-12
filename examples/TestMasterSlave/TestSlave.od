@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE PyObject SYSTEM "PyObjects.dtd">
-<PyObject module="node" class="Node" id="146839660">
-<attr name="Profile" type="dict" id="146845180" >
+<PyObject module="node" class="Node" id="19120640">
+<attr name="Profile" type="dict" id="19883904" >
 </attr>
 <attr name="Name" type="string" value="TestSlave" />
-<attr name="Dictionary" type="dict" id="146301924" >
+<attr name="Dictionary" type="dict" id="19884976" >
   <entry>
     <key type="numeric" value="4096" />
     <val type="numeric" value="301" />
@@ -22,14 +22,8 @@
     <val type="numeric" value="0" />
   </entry>
   <entry>
-    <key type="numeric" value="6145" />
-    <val type="list" id="146840204" >
-      <item type="numeric" value="642" />
-      <item type="numeric" value="1" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
+    <key type="numeric" value="8193" />
+    <val type="numeric" value="0" />
   </entry>
   <entry>
     <key type="numeric" value="4101" />
@@ -40,65 +34,9 @@
     <val type="numeric" value="0" />
   </entry>
   <entry>
-    <key type="numeric" value="8193" />
-    <val type="numeric" value="0" />
-  </entry>
-  <entry>
-    <key type="numeric" value="6144" />
-    <val type="list" id="146840492" >
-      <item type="numeric" value="386" />
-      <item type="numeric" value="1" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="4112" />
-    <val type="list" id="146839916" >
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="4113" />
-    <val type="list" id="146839788" >
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="4608" />
-    <val type="list" id="146839884" >
-      <item type="numeric" value="1537" />
-      <item type="numeric" value="1409" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="6657" />
-    <val type="list" id="146839692" >
-      <item type="numeric" value="537001992" />
-      <item type="numeric" value="537067528" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="6656" />
-    <val type="list" id="146840428" >
-      <item type="numeric" value="536870920" />
-      <item type="numeric" value="536936456" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="4119" />
-    <val type="numeric" value="1000" />
-  </entry>
-  <entry>
-    <key type="numeric" value="4120" />
-    <val type="list" id="146839980" >
+    <key type="numeric" value="6145" />
+    <val type="list" id="16937976" >
+      <item type="numeric" value="642" />
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
@@ -109,13 +47,75 @@
     <key type="numeric" value="4102" />
     <val type="numeric" value="0" />
   </entry>
+  <entry>
+    <key type="numeric" value="4112" />
+    <val type="list" id="19124376" >
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="4113" />
+    <val type="list" id="19124304" >
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6657" />
+    <val type="list" id="16938120" >
+      <item type="numeric" value="537001992" />
+      <item type="numeric" value="537067528" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6656" />
+    <val type="list" id="19119784" >
+      <item type="numeric" value="536870920" />
+      <item type="numeric" value="536936456" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="4608" />
+    <val type="list" id="19124448" >
+      <item type="numeric" value="1537" />
+      <item type="numeric" value="1409" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="4119" />
+    <val type="numeric" value="1000" />
+  </entry>
+  <entry>
+    <key type="numeric" value="4120" />
+    <val type="list" id="19119568" >
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6144" />
+    <val type="list" id="19118776" >
+      <item type="numeric" value="386" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
 </attr>
-<attr name="SpecificMenu" type="list" id="146275244" >
+<attr name="SpecificMenu" type="list" id="19118704" >
 </attr>
-<attr name="ParamsDictionary" type="dict" id="146844772" >
+<attr name="ParamsDictionary" type="dict" id="19886496" >
   <entry>
     <key type="numeric" value="8192" />
-    <val type="dict" id="146846148" >
+    <val type="dict" id="19886784" >
       <entry>
         <key type="string" value="callback" />
         <val type="False" value="" />
@@ -124,7 +124,7 @@
   </entry>
   <entry>
     <key type="numeric" value="4112" />
-    <val type="dict" id="146857740" >
+    <val type="dict" id="19884192" >
       <entry>
         <key type="string" value="callback" />
         <val type="True" value="" />
@@ -133,7 +133,7 @@
   </entry>
   <entry>
     <key type="numeric" value="4113" />
-    <val type="dict" id="147802964" >
+    <val type="dict" id="19884480" >
       <entry>
         <key type="string" value="callback" />
         <val type="True" value="" />
@@ -141,18 +141,18 @@
     </val>
   </entry>
 </attr>
-<attr name="UserMapping" type="dict" id="146845876" >
+<attr name="UserMapping" type="dict" id="19890160" >
   <entry>
     <key type="numeric" value="8192" />
-    <val type="dict" id="146844636" >
+    <val type="dict" id="19890448" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="146840396" >
-          <item type="dict" id="146846420" >
+        <val type="list" id="19119856" >
+          <item type="dict" id="19890736" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -184,15 +184,15 @@
   </entry>
   <entry>
     <key type="numeric" value="8193" />
-    <val type="dict" id="146845316" >
+    <val type="dict" id="19891024" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="146840268" >
-          <item type="dict" id="146846692" >
+        <val type="list" id="19124664" >
+          <item type="dict" id="19891312" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -224,15 +224,15 @@
   </entry>
   <entry>
     <key type="numeric" value="8194" />
-    <val type="dict" id="146845740" >
+    <val type="dict" id="19891600" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="146840908" >
-          <item type="dict" id="146846964" >
+        <val type="list" id="19120072" >
+          <item type="dict" id="19891888" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -264,15 +264,15 @@
   </entry>
   <entry>
     <key type="numeric" value="8195" />
-    <val type="dict" id="146845044" >
+    <val type="dict" id="19892224" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="146840108" >
-          <item type="dict" id="146847236" >
+        <val type="list" id="19124592" >
+          <item type="dict" id="19892512" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -303,7 +303,7 @@
     </val>
   </entry>
 </attr>
-<attr name="DS302" type="dict" id="146846012" >
+<attr name="DS302" type="dict" id="19893632" >
 </attr>
 <attr name="ProfileName" type="string" value="DS-301" />
 <attr name="Type" type="string" value="slave" />

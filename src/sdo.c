@@ -978,7 +978,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	failedSDO(d, nodeId, whoami, 0, 0, SDOABT_LOCAL_CTRL_ERROR);
 	return 0xFF;
       }
-      /* Reset the wathdog */
+      /* Reset the watchdog */
       RestartSDO_TIMER(line)
       index = d->transfers[line].index;
       subIndex = d->transfers[line].subIndex;
@@ -1154,7 +1154,9 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   sdo.body.data[1] = index & 0xFF;        /* LSB */
   sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
   sdo.body.data[3] = subIndex;
-  
+
+  d->transfers[line].Callback = Callback;
+    
   err = sendSDO(d, SDO_CLIENT, sdo);
   if (err) {
     MSG_ERR(0x1AD1, "SDO. Error while sending SDO to node : ", nodeId);
@@ -1162,7 +1164,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
     resetSDOline(d, line);
     return 0xFF;
   }
-  d->transfers[line].Callback = Callback;
+
+  
   return 0;
 }
 
@@ -1255,6 +1258,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
   sdo.body.data[3] = subIndex;
   for (i = 4 ; i < 8 ; i++)
     sdo.body.data[i] = 0;
+  d->transfers[line].Callback = Callback;
   err = sendSDO(d, SDO_CLIENT, sdo);
   if (err) {
     MSG_ERR(0x1AE5, "SDO. Error while sending SDO to node : ", nodeId);
@@ -1262,7 +1266,6 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
     resetSDOline(d, line);
     return 0xFF;
   }		
-  d->transfers[line].Callback = Callback;
   return 0;
 }
 
