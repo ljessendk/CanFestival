@@ -123,11 +123,11 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   
   MSG_WAR(0x3002, "SYNC received. Proceed. ", 0);
   
+  (*d->post_sync)();
+
   /* only operational state allows PDO transmission */
   if( d->nodeState != Operational ) 
     return 0;
-
-   (*d->post_sync)();
   
   /* So, the node is in operational state */
   /* study all PDO stored in the objects dictionary */	
