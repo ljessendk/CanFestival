@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <unistd.h>
 
 #include "can_driver.h"
+#include "def.h"
 
 #define MAX_NB_CAN_PIPES 16
 
@@ -48,10 +49,50 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 	return 0;
 }
 
+#define MyCase(fc) case fc: printf(#fc);break;
+void print_message(Message *m)
+{
+	int i;
+	switch(m->cob_id.w >> 7)
+	{
+		MyCase(SYNC)
+		MyCase(TIME_STAMP)
+		MyCase(PDO1tx)
+		MyCase(PDO1rx)
+		MyCase(PDO2tx)
+		MyCase(PDO2rx)
+		MyCase(PDO3tx)
+		MyCase(PDO3rx)
+		MyCase(PDO4tx)
+		MyCase(PDO4rx)
+		MyCase(SDOtx)
+		MyCase(SDOrx)
+		MyCase(NODE_GUARD)
+		MyCase(NMT)
+	}
+	printf(" rtr:%d", m->rtr);
+	printf(" len:%d", m->len);
+	for (i = 0 ; i < m->len ; i++)
+		printf(" %02x", m->data[i]);
+	printf("\n");
+}
+
 /***************************************************************************/
 UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 {
   int i;
+  
+  printf("%x->[ ", (CANPipe*)fd0 - &canpipes[0]); 
+  for(i=0; i < MAX_NB_CAN_PIPES; i++)
+  {
+  	if(canpipes[i].used && &canpipes[i] != (CANPipe*)fd0)
+  	{
+		printf("%x ",i);	
+  	}
+  }
+  printf(" ]");	
+  print_message(m);
+  
   // Send to all readers, except myself
   for(i=0; i < MAX_NB_CAN_PIPES; i++)
   {
