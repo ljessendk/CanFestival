@@ -1,4 +1,3 @@
-#Boa:Frame:objdictedit
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -125,7 +124,7 @@ for o, a in opts:
         sys.exit()
 
 filesOpen = args
-WorkingDirectory = sys.path[0]
+ScriptDirectory = sys.path[0]
 
 ColSizes = [75, 250, 150, 125, 100, 60, 250]
 ColAlignements = [wxALIGN_CENTER, wxALIGN_LEFT, wxALIGN_CENTER, wxALIGN_RIGHT, wxALIGN_CENTER, wxALIGN_CENTER, wxALIGN_LEFT]
@@ -1059,13 +1058,13 @@ class objdictedit(wx.Frame):
             if result:
                 find_index = True
                 index, subIndex = result
-                result = OpenPDFDocIndex(index, WorkingDirectory)
+                result = OpenPDFDocIndex(index, ScriptDirectory)
                 if type(result) == StringType:
                     message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
-            result = OpenPDFDocIndex(None, WorkingDirectory)
+            result = OpenPDFDocIndex(None, ScriptDirectory)
             if type(result) == StringType:
                 message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
                 message.ShowModal()
@@ -1073,12 +1072,12 @@ class objdictedit(wx.Frame):
         event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
-        #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(WorkingDirectory, "../doc/canfestival.html"), wx.Size(1000, 600))
-        os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(WorkingDirectory, "../doc/manual/en/manual.pdf"),16))
+        #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(ScriptDirectory, "doc/canfestival.html"), wx.Size(1000, 600))
+        os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
         event.Skip()
 
     def OnAboutMenu(self, event):
-        self.OpenHtmlFrame("About CAN Festival", os.path.join(WorkingDirectory, "../doc/about.html"), wx.Size(500, 450))
+        self.OpenHtmlFrame("About CAN Festival", os.path.join(ScriptDirectory, "doc/about.html"), wx.Size(500, 450))
         event.Skip()
 
     def OpenHtmlFrame(self, title, file, size):
@@ -2196,7 +2195,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Type.SetStringSelection("slave")
         self.ListProfile = {"None" : ""}
         self.Profile.Append("None")
-        self.Directory = os.path.join(os.getcwd(), "config")
+        self.Directory = os.path.join(ScriptDirectory, "config")
         listfiles = os.listdir(self.Directory)
         listfiles.sort()
         for item in listfiles:

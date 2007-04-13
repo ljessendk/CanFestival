@@ -62,8 +62,8 @@ cyg$(CAN_DRIVER).dll: $(OBJS)
 		
 install: libcanfestival_$(CAN_DRIVER).so
 	mkdir -p $(PREFIX)/lib/
-	cp $@ $(PREFIX)/lib/
-	
+	cp $< $(PREFIX)/lib/
+		
 uninstall:
 	rm -f $(TARGET_SOFILES)
 

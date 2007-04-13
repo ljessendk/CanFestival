@@ -34,13 +34,13 @@ Gnosis_Utils-1.2.1.tar.gz:
 	rm -rf Gnosis_Utils-1.2.1
 
 install: gnosis
-	cp -r ../objdictgen $(PREFIX)/
-	rm -f $(PREFIX)/objdictgen/Gnosis_Utils-1.2.1.tar.gz
+	mkdir -p $(PREFIX)/objdictgen
+	cp -r *.py* *.sh config doc doc_index examples gnosis $(PREFIX)/objdictgen
 	chmod -R a+r $(PREFIX)/objdictgen
 	mkdir -p $(PREFIX)/bin
-	ln -s $(PREFIX)/objdictgen/objdictedit.py $(PREFIX)/bin/objdictedit
+	ln -sf $(PREFIX)/objdictgen/objdictedit.py $(PREFIX)/bin/objdictedit
 	chmod 755 $(PREFIX)/objdictgen/objdictedit.py
-	ln -s $(PREFIX)/objdictgen/objdictgen.py $(PREFIX)/bin/objdictgen
+	ln -sf $(PREFIX)/objdictgen/objdictgen.py $(PREFIX)/bin/objdictgen
 	chmod 755 $(PREFIX)/objdictgen/objdictgen.py
 
 uninstall:

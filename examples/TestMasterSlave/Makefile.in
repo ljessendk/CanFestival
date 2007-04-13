@@ -71,6 +71,12 @@ mrproper: clean
 	rm -f TestSlave.c
 	rm -f TestMaster.c
 	
+install: TestMasterSlave
+	mkdir -p $(PREFIX)/bin/
+	cp $< $(PREFIX)/bin/
+	
+uninstall:
+	rm -f $(PREFIX)/bin/TestMasterSlave
 
 
 

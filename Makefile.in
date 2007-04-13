@@ -38,11 +38,14 @@ driver:
 install: canfestival driver
 	$(MAKE) -C drivers $@
 	$(MAKE) -C src $@
+	$(MAKE) -C examples $@
 	$(MAKE) -C objdictgen $@
+	ldconfig
 
 uninstall:
 	$(MAKE) -C drivers $@
 	$(MAKE) -C src $@
+	$(MAKE) -C examples $@
 	$(MAKE) -C objdictgen $@
 
 clean:
