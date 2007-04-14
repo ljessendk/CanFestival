@@ -205,7 +205,9 @@ UNS32 setODentry( CO_Data* d,
       }
       
       /* TODO : Store dans NVRAM */     
-      /* if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVED) */
+      if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
+      	(*d->storeODSubIndex)(wIndex, bSubindex);
+      }
       return OD_SUCCESSFUL;
   }else{
       *pExpectedSize = szData;
@@ -231,4 +233,4 @@ UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCal
 	return errorCode;
 }
 
-
+void _storeODSubIndex (UNS16 wIndex, UNS8 bSubindex){}

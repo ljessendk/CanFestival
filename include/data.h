@@ -90,6 +90,7 @@ struct struct_CO_Data {
 	UNS8 toggle;
 	CAN_HANDLE canHandle;	
 	scanIndexOD_t scanIndexOD;
+	storeODSubIndex_t storeODSubIndex; 
 };
 
 #define NMTable_Initializer Unknown_state,
@@ -173,7 +174,8 @@ struct struct_CO_Data {
 	/* General */\
 	0,                                         /* toggle */\
 	NULL,/*NODE_PREFIX ## _canSend,                   /* canSend */\
-	NODE_PREFIX ## _scanIndexOD                /* scanIndexOD */\
+	NODE_PREFIX ## _scanIndexOD,                /* scanIndexOD */\
+	_storeODSubIndex                /* storeODSubIndex */\
 }
 
 #endif /* __data_h__ */

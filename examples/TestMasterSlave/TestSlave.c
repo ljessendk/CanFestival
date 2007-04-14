@@ -173,8 +173,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestSlave_highestSubIndex_obj1800 },
                        { RW, uint32, sizeof (UNS32), (void*)&TestSlave_obj1800_COB_ID_used_by_PDO },
-                       { RW, uint8, sizeof (UNS8), (void*)&TestSlave_obj1800_Transmission_Type },
-                       { RW, uint16, sizeof (UNS16), (void*)&TestSlave_obj1800_Inhibit_Time },
+                       { RW|TO_BE_SAVE, uint8, sizeof (UNS8), (void*)&TestSlave_obj1800_Transmission_Type },
+                       { RW|TO_BE_SAVE, uint16, sizeof (UNS16), (void*)&TestSlave_obj1800_Inhibit_Time },
                        { RW, uint16, sizeof (UNS16), (void*)&TestSlave_obj1800_Compatibility_Entry },
                        { RW, uint16, sizeof (UNS16), (void*)&TestSlave_obj1800_Event_Timer }
                      };

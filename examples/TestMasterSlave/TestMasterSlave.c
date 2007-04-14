@@ -199,6 +199,7 @@ int main(int argc,char **argv)
 		TestSlave_Data.stopped = TestSlave_stopped;
 		TestSlave_Data.post_sync = TestSlave_post_sync;
 		TestSlave_Data.post_TPDO = TestSlave_post_TPDO;
+		TestSlave_Data.storeODSubIndex = TestSlave_storeODSubIndex;		
 
 		if(!canOpen(&SlaveBoard,&TestSlave_Data)){
 			eprintf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);

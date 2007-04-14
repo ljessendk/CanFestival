@@ -70,3 +70,17 @@ void TestSlave_post_TPDO()
 {
 	eprintf("TestSlave_post_TPDO\n");
 }
+
+void TestSlave_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex)
+{
+	/*TODO : 
+	 * - call getODEntry for index and subindex, 
+	 * - save content to file, database, flash, nvram, ...
+	 * 
+	 * To ease flash organisation, index of variable to store
+	 * can be established by scanning d->objdict[d->ObjdictSize]
+	 * for variables to store.
+	 * 
+	 * */
+	eprintf("TestSlave_storeODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
+}
