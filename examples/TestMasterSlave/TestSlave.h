@@ -7,20 +7,6 @@
 UNS32 TestSlave_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * TestSlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
-/* prototypes of function to be filled by app. */
-void TestSlave_SDOtimeoutError(UNS8 line);
-void TestSlave_heartbeatError(UNS8);
-
-UNS8 TestSlave_canSend(Message *);
-
-void TestSlave_initialisation(void);
-void TestSlave_preOperational(void);
-void TestSlave_operational(void);
-void TestSlave_stopped(void);
-
-void TestSlave_post_sync(void);
-void TestSlave_post_TPDO(void);
-
 /* Master node data struct */
 extern CO_Data TestSlave_Data;
 

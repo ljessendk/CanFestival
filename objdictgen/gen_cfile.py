@@ -470,20 +470,6 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
-/* prototypes of function to be filled by app. */
-void %(NodeName)s_SDOtimeoutError(UNS8 line);
-void %(NodeName)s_heartbeatError(UNS8);
-
-UNS8 %(NodeName)s_canSend(Message *);
-
-void %(NodeName)s_initialisation(void);
-void %(NodeName)s_preOperational(void);
-void %(NodeName)s_operational(void);
-void %(NodeName)s_stopped(void);
-
-void %(NodeName)s_post_sync(void);
-void %(NodeName)s_post_TPDO(void);
-
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;
 
