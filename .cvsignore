@@ -16,3 +16,4 @@ Pcan_2pcc.dll
 Pcan_pcc.dll
 Release
 .pydevproject
+.cvschangelog
