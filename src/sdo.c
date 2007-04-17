@@ -1046,6 +1046,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	StopSDO_TIMER(line)
 	d->transfers[line].state = SDO_ABORTED_RCV;
 	MSG_WAR(0x3AB0, "SD0. Received SDO abort. Line state ABORTED. Code : ", abortCode);
+	if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
       }
       else
 	MSG_WAR(0x3AB1, "SD0. Received SDO abort. No line found. Code : ", abortCode);
