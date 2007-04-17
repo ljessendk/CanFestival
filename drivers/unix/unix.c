@@ -158,17 +158,21 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 	}
 #endif	
 	CAN_HANDLE fd0 = DLL_CALL(canOpen)(board);
-
-	canports[i].used = 1;
-	canports[i].fd = fd0;
-	canports[i].d = d;
-
-	CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
+	if(fd0){
+		canports[i].used = 1;
+		canports[i].fd = fd0;
+		canports[i].d = d;
 	
-	EnterMutex();
-	d->canHandle = (CAN_PORT)&canports[i];
-	LeaveMutex();
-	return (CAN_PORT)&canports[i];
+		CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
+		
+		EnterMutex();
+		d->canHandle = (CAN_PORT)&canports[i];
+		LeaveMutex();
+		return (CAN_PORT)&canports[i];
+	}else{
+        	fprintf(stderr,"CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate);
+		return NULL;
+	}
 }
 
 int canClose(CO_Data * d)

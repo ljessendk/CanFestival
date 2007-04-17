@@ -44,7 +44,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
   if ((errno = CAN_Read(fd0, & peakMsg))) {		// Blocks until no new message or error.
     if(errno != -EIDRM && errno != -EPERM) // error is not "Can Port closed while reading" 
     {
-    	perror("!!! Peak board : error of reading. (from f_can_receive function) \n");
+    	perror("canReceive_driver (Peak_Linux) : error of reading.\n");
     }
     return 1;
   }
@@ -77,7 +77,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   	peakMsg.DATA[data] = m->data[data];         	/* data bytes, up to 8 */
   
   if((errno = CAN_Write(fd0, & peakMsg))) {
-    perror("!!! Peak board : error of writing. (from canSend function) \n");
+    perror("canSend_driver (Peak_Linux) : error of writing.\n");
     return 1;
   }
   return 0;
@@ -115,8 +115,12 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
     fd0 = LINUX_CAN_Open(busname, O_RDWR);
   }
 
-  if(baudrate = TranslateBaudeRate(board->baudrate))
+  if(fd0 && (baudrate = TranslateBaudeRate(board->baudrate)))
+  {
    	CAN_Init(fd0, baudrate, CAN_INIT_TYPE_ST);
+  }else{
+  	fprintf(stderr, "canOpen_driver (Peak_Linux) : error opening %s\n", busname);
+  }
 
    return (CAN_HANDLE)fd0;
 }
