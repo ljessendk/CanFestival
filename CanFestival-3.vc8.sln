@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "win32test", "examples\win32
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "can_peak_win32", "drivers\can_peak_win32\can_peak_win32.vcproj", "{732EC5B6-C6F1-4783-9BC8-924FFF67BF5A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMasterSlave", "examples\TestMasterSlave\TestMasterSalve.vcproj", "{B51A176D-5320-4534-913B-3025CED5B27E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMasterSlave", "examples\TestMasterSlave\TestMasterSlave.vcproj", "{B51A176D-5320-4534-913B-3025CED5B27E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

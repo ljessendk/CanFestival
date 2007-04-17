@@ -647,6 +647,11 @@ if [ "$SUB_TARGET" = "unix" ]; then
 \	examples/TestMasterSlave/Makefile.in
 fi
 
+if [ "$SUB_TARGET" = "unix" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/TestMasterMicroMod/Makefile.in
+fi
+
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/gene_SYNC_HCS12/Makefile.in

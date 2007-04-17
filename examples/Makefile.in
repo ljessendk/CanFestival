@@ -27,32 +27,30 @@ all:
 ifeq ($(TARGET),hc12)
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
+
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterMicroMod $@
 endif
 
 clean:
 ifeq ($(TARGET),hc12)
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
+
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterMicroMod $@
 endif
+
+
 
 mrproper: clean
 ifeq ($(TARGET),hc12)
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
-endif
 
-install:
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-endif
-
-uninstall:
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterMicroMod $@
 endif
