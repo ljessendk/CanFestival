@@ -28,6 +28,7 @@ void pause(void)
 	system("PAUSE");
 }
 #else
+#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -241,11 +242,11 @@ void help()
   printf("*                                                            *\n");
   printf("*  A simple example for PC.                                  *\n");
   printf("*  A CanOpen master that control a MicroMod module:          *\n");
-  printf("*  - setup module TPDO 1 transmit type (ignored ???)         *\n");
-  printf("*  - setup module RPDO 1 transmit type (ignored ???)         *\n");
+  printf("*  - setup module TPDO 1 transmit type (ignored ?)           *\n");
+  printf("*  - setup module RPDO 1 transmit type (ignored ?)           *\n");
   printf("*  - setup module hearbeatbeat period                        *\n");
   printf("*  - set state to operational                                *\n");
-  printf("*  - send periodic SYNC (ignored ???)                        *\n");
+  printf("*  - send periodic SYNC (ignored ?)                          *\n");
   printf("*  - send periodic RPDO 1 to Micromod (digital output)       *\n");
   printf("*  - listen Micromod's TPDO 1 (digital input)                *\n");
   printf("*                                                            *\n");
@@ -260,7 +261,7 @@ void help()
   printf("*                                                            *\n");
   printf("*    Master:                                                 *\n");
   printf("*     -m : bus name [\"1\"]                                    *\n");
-  printf("*     -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
+  printf("*     -M : 1M,500K,250K,125K,100K,50K,20K,10K                *\n");
   printf("*                                                            *\n");
   printf("**************************************************************\n");
 }
@@ -341,21 +342,18 @@ int main(int argc,char **argv)
 	LoadCanDriver(LibraryPath);
 #endif		
 
-	if(MasterBoard.baudrate){
-		
-		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
-		TestMaster_Data.SDOtimeoutError = TestMaster_SDOtimeoutError;
-		TestMaster_Data.initialisation = TestMaster_initialisation;
-		TestMaster_Data.preOperational = TestMaster_preOperational;
-		TestMaster_Data.operational = TestMaster_operational;
-		TestMaster_Data.stopped = TestMaster_stopped;
-		TestMaster_Data.post_sync = TestMaster_post_sync;
-		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
-		
-		if(!canOpen(&MasterBoard,&TestMaster_Data)){
-			eprintf("Cannot open Master Board\n");
-			goto fail_master;
-		}
+	TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
+	TestMaster_Data.SDOtimeoutError = TestMaster_SDOtimeoutError;
+	TestMaster_Data.initialisation = TestMaster_initialisation;
+	TestMaster_Data.preOperational = TestMaster_preOperational;
+	TestMaster_Data.operational = TestMaster_operational;
+	TestMaster_Data.stopped = TestMaster_stopped;
+	TestMaster_Data.post_sync = TestMaster_post_sync;
+	TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
+	
+	if(!canOpen(&MasterBoard,&TestMaster_Data)){
+		eprintf("Cannot open Master Board\n");
+		goto fail_master;
 	}
 	
 	// Start timer thread

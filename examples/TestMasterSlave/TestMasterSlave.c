@@ -30,8 +30,7 @@ void pause(void)
 #else
 #include <stdio.h>
 #include <string.h>
-//#include <sys/time.h>
-//#include <unistd.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
 #endif
@@ -189,7 +188,7 @@ int main(int argc,char **argv)
 	LoadCanDriver(LibraryPath);
 #endif		
 	// Open CAN devices
-	if(SlaveBoard.baudrate){
+	if(strcmp( SlaveBoard.baudrate, "none")){
 		
 		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
 		TestSlave_Data.SDOtimeoutError = TestSlave_SDOtimeoutError;
@@ -207,7 +206,7 @@ int main(int argc,char **argv)
 		}
 	}
 
-	if(MasterBoard.baudrate){
+	if(strcmp( MasterBoard.baudrate, "none")){
 		
 		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
 		TestMaster_Data.SDOtimeoutError = TestMaster_SDOtimeoutError;
