@@ -4,6 +4,7 @@
 #include "timerscfg.h"
 #include "can_driver.h"
 #include "data.h"
+#include "timers_driver.h"
 #ifdef WIN32
 #include <windows.h>
 typedef HINSTANCE LIB_HANDLE;

@@ -128,7 +128,7 @@ struct struct_CO_Data {
 	{\
           REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(s_transfer_Initializer)\
 	},\
-	_SDOtimeoutError,/*&NODE_PREFIX ## _SDOtimeoutError,    /* SDOtimeoutError */\
+	_SDOtimeoutError,   /* SDOtimeoutError */\
 	\
 	/* State machine*/\
 	Unknown_state,      /* nodeState */\
@@ -141,10 +141,10 @@ struct struct_CO_Data {
 		0,          /* csHeartbeat */\
 		0           /* csPDO */\
 	},\
-	_initialisation,/*&NODE_PREFIX ## _initialisation,     /* initialisation */\
-	_preOperational,/*&NODE_PREFIX ## _preOperational,     /* preOperational */\
-	_operational,/*&NODE_PREFIX ## _operational,        /* operational */\
-	_stopped,/*&NODE_PREFIX ## _stopped,            /* stopped */\
+	_initialisation,     /* initialisation */\
+	_preOperational,     /* preOperational */\
+	_operational,        /* operational */\
+	_stopped,            /* stopped */\
 	\
 	/* NMT-heartbeat */\
 	& NODE_PREFIX ## _highestSubIndex_obj1016, /* ConsumerHeartbeatCount */\
@@ -152,7 +152,7 @@ struct struct_CO_Data {
 	NODE_PREFIX ## _heartBeatTimers,           /* ConsumerHeartBeatTimers  */\
 	& NODE_PREFIX ## _obj1017,                 /* ProducerHeartBeatTime */\
 	TIMER_NONE,                                /* ProducerHeartBeatTimer */\
-	_heartbeatError,/*NODE_PREFIX ## _heartbeatError,            /* heartbeatError */\
+	_heartbeatError,           /* heartbeatError */\
 	\
 	{REPEAT_NMT_MAX_NODE_ID_TIMES(NMTable_Initializer)},\
                                                    /* is  well initialized at "Unknown_state". Is it ok ? (FD)*/\
@@ -162,8 +162,8 @@ struct struct_CO_Data {
 	& NODE_PREFIX ## _obj1005,                 /* COB_ID_Sync */\
 	& NODE_PREFIX ## _obj1006,                 /* Sync_Cycle_Period */\
 	/*& NODE_PREFIX ## _obj1007, */            /* Sync_window_length */\
-	_post_sync,/*NODE_PREFIX ## _post_sync,                 /* post_sync */\
-	_post_TPDO,/*NODE_PREFIX ## _post_TPDO,                 /* post_TPDO */\
+	_post_sync,                 /* post_sync */\
+	_post_TPDO,                 /* post_TPDO */\
 	\
 	/* PDO, structure s_process_var */\
         {\
@@ -173,7 +173,7 @@ struct struct_CO_Data {
         \
 	/* General */\
 	0,                                         /* toggle */\
-	NULL,/*NODE_PREFIX ## _canSend,                   /* canSend */\
+	NULL,                   /* canSend */\
 	NODE_PREFIX ## _scanIndexOD,                /* scanIndexOD */\
 	_storeODSubIndex                /* storeODSubIndex */\
 }
