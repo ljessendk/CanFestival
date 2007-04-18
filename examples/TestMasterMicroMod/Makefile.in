@@ -67,6 +67,11 @@ clean:
 mrproper: clean
 	rm -f TestMaster.c
 	
-
+install: TestMasterMicroMod
+	mkdir -p $(PREFIX)/bin/
+	cp $< $(PREFIX)/bin/
+	
+uninstall:
+	rm -f $(PREFIX)/bin/TestMasterMicroMod
 
 

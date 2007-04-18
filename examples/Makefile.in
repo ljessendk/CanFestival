@@ -50,6 +50,13 @@ ifeq ($(TARGET),hc12)
 	$(MAKE) -C gene_SYNC_HCS12 $@
 endif
 
+install:
+ifeq ($(TARGET),unix)
+	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterMicroMod $@
+endif
+
+uninstall:
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
 	$(MAKE) -C TestMasterMicroMod $@
