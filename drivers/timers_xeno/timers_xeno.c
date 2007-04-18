@@ -107,7 +107,7 @@ void CreateReceiveTask(CAN_PORT fd0, TASK_HANDLE *ReceiveLoop_task, void* Receiv
 		return;
 	}
 	// start timerloop_task
-	ret = rt_task_start(ReceiveLoop_task,&ReceiveLoop_task_proc,(void*)fd0);
+	ret = rt_task_start(ReceiveLoop_task,ReceiveLoop_task_proc,(void*)fd0);
 	if (ret) {
 		printf("Failed to start ReceiveLoop_task number %d, code %d\n", id, errno);
 		return;
