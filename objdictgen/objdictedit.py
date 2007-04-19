@@ -880,8 +880,8 @@ class objdictedit(wx.Frame):
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS2,
               kind=wx.ITEM_NORMAL, text='Close\tCTRL+W')
         parent.AppendSeparator()
-#        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
-#              kind=wx.ITEM_NORMAL, text='Import XML file')
+        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
+              kind=wx.ITEM_NORMAL, text='Import EDS file')
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS8,
               kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
         parent.AppendSeparator()
@@ -899,8 +899,8 @@ class objdictedit(wx.Frame):
               id=wxID_OBJDICTEDITFILEMENUITEMS5)
         self.Bind(wx.EVT_MENU, self.OnSaveAsMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS6)
-#        self.Bind(wx.EVT_MENU, self.OnImportMenu,
-#              id=wxID_OBJDICTEDITFILEMENUITEMS7)
+        self.Bind(wx.EVT_MENU, self.OnImportMenu,
+              id=wxID_OBJDICTEDITFILEMENUITEMS7)
         self.Bind(wx.EVT_MENU, self.OnExportMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS8)
 

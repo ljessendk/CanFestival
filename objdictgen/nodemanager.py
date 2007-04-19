@@ -26,7 +26,7 @@ from gnosis.xml.pickle.util import setParanoia
 setParanoia(0)
 
 from node import *
-import xml_in, gen_cfile
+import eds_in, gen_cfile
 
 from types import *
 import os, re
@@ -479,7 +479,7 @@ class NodeManager:
     """
     def ImportCurrentFromFile(self, filepath):
         # Generate node from definition in a xml file
-        node = xml_in.GenerateNode(filepath, self)
+        node = eds_in.GenerateNode(filepath, self)
         if node:
             self.CurrentNode = node
             self.GenerateTypeList()
