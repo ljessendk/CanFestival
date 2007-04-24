@@ -128,6 +128,14 @@ UNS32 setODentry( CO_Data* d,
 		  UNS8 * pExpectedSize, 
 		  UNS8 checkAccess);
 
+/*The same, without endianisation*/
+UNS32 writeLocalDict( CO_Data* d, 
+                  UNS16 wIndex,
+		  UNS8 bSubindex, 
+		  void * pSourceData, 
+		  UNS8 * pExpectedSize, 
+		  UNS8 checkAccess);
+
 
 /* Scan the index of object dictionary. Used only by setODentry and getODentry.
  *  *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)

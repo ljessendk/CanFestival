@@ -63,7 +63,7 @@ void TestMaster_initialisation()
 	/*****************************************
 	 * Define RPDOs to match slave ID=0x40 TPDOs*
 	 *****************************************/
-	setODentry( &TestMaster_Data, /*CO_Data* d*/
+	writeLocalDict( &TestMaster_Data, /*CO_Data* d*/
 			0x1400, /*UNS16 index*/
 			0x01, /*UNS8 subind*/ 
 			&PDO1_COBID, /*void * pSourceData,*/ 
@@ -74,7 +74,7 @@ void TestMaster_initialisation()
 	/*****************************************
 	 * Define TPDOs to match slave ID=0x40 RPDOs*
 	 *****************************************/
-	setODentry( &TestMaster_Data, /*CO_Data* d*/
+	writeLocalDict( &TestMaster_Data, /*CO_Data* d*/
 			0x1800, /*UNS16 index*/
 			0x01, /*UNS8 subind*/ 
 			&PDO2_COBID, /*void * pSourceData,*/ 

@@ -65,13 +65,14 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
 }	
 
 
-UNS32 getODentry( CO_Data* d, 
+UNS32 _getODentry( CO_Data* d, 
                   UNS16 wIndex,
 		  UNS8 bSubindex,
 		  void * pDestData,
 		  UNS8 * pExpectedSize,
 		  UNS8 * pDataType,
-		  UNS8 checkAccess)
+		  UNS8 checkAccess,
+		  UNS8 endianize)
 { /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails. */
   UNS32 errorCode;
   UNS8 szData;
@@ -102,7 +103,7 @@ UNS32 getODentry( CO_Data* d,
   	(*pDataType == visible_string && *pExpectedSize < szData)) {/* We allow to fetch a shorter string than expected */
      
 #  ifdef CANOPEN_BIG_ENDIAN
-     if(*pDataType > boolean && *pDataType < visible_string) {
+     if(endianize && *pDataType > boolean && *pDataType < visible_string) {
        /* data must be transmited with low byte first */
        UNS8 i, j = 0;
        MSG_WAR(boolean, "data type ", *pDataType);
@@ -141,12 +142,49 @@ UNS32 getODentry( CO_Data* d,
    }
 }
 
-UNS32 setODentry( CO_Data* d, 
+UNS32 getODentry( CO_Data* d, 
+                  UNS16 wIndex,
+		  UNS8 bSubindex,
+		  void * pDestData,
+		  UNS8 * pExpectedSize,
+		  UNS8 * pDataType,
+		  UNS8 checkAccess)
+{
+	return _getODentry( d, 
+                  wIndex,
+		  bSubindex,
+		  pDestData,
+		  pExpectedSize,
+		  pDataType,
+		  checkAccess,
+		  1);//endianize
+}
+
+UNS32 readLocalDict( CO_Data* d, 
+                  UNS16 wIndex,
+		  UNS8 bSubindex,
+		  void * pDestData,
+		  UNS8 * pExpectedSize,
+		  UNS8 * pDataType,
+		  UNS8 checkAccess)
+{
+		return _getODentry( d, 
+                  wIndex,
+		  bSubindex,
+		  pDestData,
+		  pExpectedSize,
+		  pDataType,
+		  checkAccess,
+		  0);//do not endianize
+}
+
+UNS32 _setODentry( CO_Data* d, 
                   UNS16 wIndex,
 		  UNS8 bSubindex, 
 		  void * pSourceData, 
 		  UNS8 * pExpectedSize, 
-		  UNS8 checkAccess)
+		  UNS8 checkAccess,
+		  UNS8 endianize)
 {
   UNS8 szData;
   UNS8 dataType;
@@ -178,7 +216,7 @@ UNS32 setODentry( CO_Data* d,
   	(dataType == visible_string && *pExpectedSize < szData)) /* We allow to store a shorter string than entry size */
   {
       #ifdef CANOPEN_BIG_ENDIAN
-	      if(dataType > boolean && dataType < visible_string)
+	      if(endianize && dataType > boolean && dataType < visible_string)
 	      {
 			/* we invert the data source directly. This let us do range testing without */
 			/* additional temp variable */
@@ -215,6 +253,40 @@ UNS32 setODentry( CO_Data* d,
       return OD_LENGTH_DATA_INVALID;
   }
 }
+
+UNS32 setODentry( CO_Data* d, 
+                  UNS16 wIndex,
+		  UNS8 bSubindex, 
+		  void * pSourceData, 
+		  UNS8 * pExpectedSize, 
+		  UNS8 checkAccess)
+{
+	return _setODentry( d, 
+                  wIndex,
+		  bSubindex, 
+		  pSourceData, 
+		  pExpectedSize, 
+		  checkAccess,
+		  1);//endianize
+}
+
+UNS32 writeLocalDict( CO_Data* d, 
+                  UNS16 wIndex,
+		  UNS8 bSubindex, 
+		  void * pSourceData, 
+		  UNS8 * pExpectedSize, 
+		  UNS8 checkAccess)
+{
+	return _setODentry( d, 
+                  wIndex,
+		  bSubindex, 
+		  pSourceData, 
+		  pExpectedSize, 
+		  checkAccess,
+		  0);//do not endianize
+}
+
+
 
 
 const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)

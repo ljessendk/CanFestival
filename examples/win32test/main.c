@@ -134,9 +134,9 @@ int main(int argc, char *argv[])
          UNS32 Node_ID_of_the_SDO_Server = node_id;
          UNS8 ExpectedSize = sizeof (UNS32);
 
-         if (OD_SUCCESSFUL ==  setODentry(&win32test_Data, 0x1280, 1, &COB_ID_Client_to_Server_Transmit_SDO, &ExpectedSize, RW) 
-              && OD_SUCCESSFUL ==  setODentry(&win32test_Data, 0x1280, 2, &COB_ID_Server_to_Client_Receive_SDO, &ExpectedSize, RW) 
-              && OD_SUCCESSFUL ==  setODentry(&win32test_Data, 0x1280, 3, &Node_ID_of_the_SDO_Server, &ExpectedSize, RW))
+         if (OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 1, &COB_ID_Client_to_Server_Transmit_SDO, &ExpectedSize, RW) 
+              && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 2, &COB_ID_Server_to_Client_Receive_SDO, &ExpectedSize, RW) 
+              && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 3, &Node_ID_of_the_SDO_Server, &ExpectedSize, RW))
             {
             UNS32 dev_type = 0;
             char device_name[64]="";
