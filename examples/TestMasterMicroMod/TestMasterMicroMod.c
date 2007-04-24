@@ -82,6 +82,25 @@ void TestMaster_initialisation()
 			RW);  /* UNS8 checkAccess */
 }
 
+static init_step = 0;
+
+/*Froward declaration*/
+static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId);
+
+/**/
+static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
+{
+	UNS32 abortCode;
+
+	if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
+		eprintf("Master : Failed in initializing slave %2.2x, step %d, AbortCode :%4.4x \n", nodeId, init_step, abortCode);
+
+	/* Finalise last SDO transfer with this node */
+	closeSDOtransfer(&TestMaster_Data, nodeId, SDO_CLIENT);
+
+	ConfigureSlaveNode(d, nodeId);
+}
+
 /********************************************************
  * ConfigureSlaveNode is responsible to
  *  - setup slave TPDO 1 transmit time
@@ -100,16 +119,30 @@ void TestMaster_initialisation()
  ********************************************************/
 static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 {
-	// Step counts number of times ConfigureSlaveNode is called
-	static step = 1;
-	
-	UNS8 Transmission_Type = 0x01;
-	UNS16 Heartbeat_Producer_Time = 0x03E8; 
-	UNS32 abortCode;
 	UNS8 res;
 	eprintf("Master : ConfigureSlaveNode %2.2x\n", nodeId);
-	switch(step++){
-		case 1: /*First step : setup Slave's TPDO 1 to be transmitted on SYNC*/
+	switch(++init_step){
+		case 1: 
+		{	/*disable Slave's TPDO 1 */
+			UNS32 TPDO_COBId = 0x80000180 + nodeId;
+			
+			eprintf("Master : disable slave %2.2x TPDO 1 \n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
+					0x1800, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
+		break;
+
+		case 2: 
+		{	/*setup Slave's TPDO 1 to be transmitted on SYNC*/
+			UNS8 Transmission_Type = 0x01;
+			
 			eprintf("Master : set slave %2.2x TPDO 1 transmit type\n", nodeId);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
 					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
@@ -119,70 +152,152 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					ConfigureSlaveNode); /*SDOCallback_t Callback*/			
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
+		break;
+
+		case 3: 
+		{	/*re-enable Slave's TPDO 1 */
+			UNS32 TPDO_COBId = 0x00000180 + nodeId;
+			
+			eprintf("Master : re-enable slave %2.2x TPDO 1\n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
+					0x1800, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
 		break;
 					
-					
-		case 2:	/*Second step*/
-			if(getWriteResultNetworkDict (d, slavenodeid, &abortCode) != SDO_FINISHED)
-				eprintf("Master : Couldn't set slave %2.2x TPDO 1 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
-
-			/* Finalise last SDO transfer with this node */
-			closeSDOtransfer(&TestMaster_Data,
+		case 4: 
+		{	/*disable Slave's TPDO 2 */
+			UNS32 TPDO_COBId = 0x80000200 + nodeId;
+			
+			eprintf("Master : disable slave %2.2x RPDO 1\n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
 					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
-					slavenodeid, /*UNS8 nodeId*/
-					SDO_CLIENT);
+					nodeId, /*UNS8 nodeId*/
+					0x1400, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
+		break;
 
+					
+		case 5:
+		{	
+			UNS8 Transmission_Type = 0x01;
+			
 			eprintf("Master : set slave %2.2x RPDO 1 receive type\n", nodeId);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
 					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
-					slavenodeid, /*UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
 					0x1400, /*UNS16 index*/
 					0x02, /*UNS8 subindex*/
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					ConfigureSlaveNode); /*SDOCallback_t Callback*/	
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}	
+		break;
+
+		case 6: 
+		{	/*re-enable Slave's TPDO 1 */
+			UNS32 TPDO_COBId = 0x00000200 + nodeId;
+			
+			eprintf("Master : re-enable %2.2x RPDO 1\n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
+					0x1400, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
 		break;
 		
-		case 3:	/*Second step*/
-			if(getWriteResultNetworkDict (d, slavenodeid, &abortCode) != SDO_FINISHED)
-			eprintf("Master : Couldn't set slave %2.2x RPDO 1 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
-
-			/* Finalise last SDO transfer with this node */
-			closeSDOtransfer(&TestMaster_Data,
-					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
-					slavenodeid, /*UNS8 nodeId*/
-					SDO_CLIENT);
-
+		case 7:	
+		{
+			UNS16 Heartbeat_Producer_Time = 0x03E8; 
 			eprintf("Master : set slave %2.2x heartbeat producer time \n", nodeId);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
 					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
-					slavenodeid, /*UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
 					0x1017, /*UNS16 index*/
 					0x00, /*UNS8 subindex*/
 					2, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Heartbeat_Producer_Time,/*void *data*/
-					ConfigureSlaveNode); /*SDOCallback_t Callback*/			
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
 		break;
-		
-		case 4:	/*Second step*/
 
-			if(getWriteResultNetworkDict (d, slavenodeid, &abortCode) != SDO_FINISHED)
-			eprintf("Master : Couldn't set slave %2.2x Heartbeat_Producer_Time. AbortCode :%4.4x \n", nodeId, abortCode);
-
-			/* Finalise last SDO transfer with this node */
-			closeSDOtransfer(&TestMaster_Data,
+		case 8: 
+		{	/*disable Slave's TPDO 2 */
+			UNS32 TPDO_COBId = 0x80000280 + nodeId;
+			
+			eprintf("Master : disable slave %2.2x TPDO 2 \n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
 					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
-					slavenodeid, /*UNS8 nodeId*/
-					SDO_CLIENT);
+					nodeId, /*UNS8 nodeId*/
+					0x1801, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
+		break;
 
+		case 9: 
+		{	/*disable Slave's TPDO 3 */
+			UNS32 TPDO_COBId = 0x80000380 + nodeId;
+			
+			eprintf("Master : disable slave %2.2x TPDO 3 \n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
+					0x1802, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}
+		break;			
+
+		case 10: 
+		{	/*disable Slave's TPDO 2 */
+			UNS32 TPDO_COBId = 0x80000480 + nodeId;
+			
+			eprintf("Master : disable slave %2.2x TPDO 4 \n", nodeId);
+			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
+					/**TestSlave_Data.bDeviceNodeId, UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
+					0x1803, /*UNS16 index*/
+					0x01, /*UNS8 subindex*/
+					4, /*UNS8 count*/
+					0, /*UNS8 dataType*/
+					&TPDO_COBId,/*void *data*/
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+		}			
+		break;			
+		
+		case 11:
 			/* Put the master in operational mode */
 			setState(d, Operational);
 			  
 			/* Ask slave node to go in operational mode */
-			masterSendNMTstateChange (d, slavenodeid, NMT_Start_Node);
+			masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
 	}
 			
 }
