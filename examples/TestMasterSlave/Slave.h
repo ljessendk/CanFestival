@@ -1,6 +1,5 @@
 #include "TestSlave.h"
 
-void TestSlave_SDOtimeoutError(UNS8 line);
 void TestSlave_heartbeatError(UNS8);
 
 UNS8 TestSlave_canSend(Message *);

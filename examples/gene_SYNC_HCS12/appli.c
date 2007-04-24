@@ -269,22 +269,6 @@ void gene_SYNC_heartbeatError( UNS8 heartbeatID )
 }
 
 //------------------------------------------------------------------------------
-void gene_SYNC_SDOtimeoutError (UNS8 line)
-{
-	// This function was implemented for the Client's use (client = the one which initiate the dialog),
-	// but we can use it also for the server.
-	// Note : if for an other reason than a timeout, a SDO to read or write 
-	// faile, we do not have implemented a warning function at the server side.
-	// Of course, there is one on the client side.
-  
-  MSG_ERR(0x1F01, "SDO timeout for line : ", line);
-  // See the transfer structure in sdo.h to know what informations
-  // you can retreive.
-  MSG_ERR(0x1F02, "  to access index ", gene_SYNC_Data.transfers[line].index);
-  MSG_ERR(0x1F03, "         subIndex ", gene_SYNC_Data.transfers[line].subIndex);
-}
-
-//------------------------------------------------------------------------------
 void gene_SYNC_initialisation()
 {  
   MSG_WAR (0x3F00, "Entering in INIT ", 0); 
@@ -402,7 +386,6 @@ UNS8 main (void)
   MSG_WAR(0x3F34, "Entering in the main ", 0);
   //----------------------------- INITIALISATION --------------------------------
   gene_SYNC_Data.heartbeatError = gene_SYNC_heartbeatError;
-  gene_SYNC_Data.SDOtimeoutError = gene_SYNC_SDOtimeoutError;
   gene_SYNC_Data.initialisation = gene_SYNC_initialisation;
   gene_SYNC_Data.preOperational = gene_SYNC_preOperational;
   gene_SYNC_Data.preOperational = gene_SYNC_operational;

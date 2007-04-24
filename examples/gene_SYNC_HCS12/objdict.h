@@ -8,7 +8,6 @@ UNS32 gene_SYNC_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * gene_SYNC_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* prototypes of function to be filled by app. */
-void gene_SYNC_SDOtimeoutError(UNS8 line);
 void gene_SYNC_heartbeatError(UNS8);
 
 UNS8 gene_SYNC_canSend(Message *);

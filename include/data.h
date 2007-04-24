@@ -55,7 +55,6 @@ struct struct_CO_Data {
 	
 	/* SDO */
 	s_transfer transfers[SDO_MAX_SIMULTANEOUS_TRANSFERTS];
-	SDOtimeoutError_t SDOtimeoutError;
 	/* s_sdo_parameter *sdo_parameters; */
 
 	/* State machine */
@@ -128,7 +127,6 @@ struct struct_CO_Data {
 	{\
           REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(s_transfer_Initializer)\
 	},\
-	_SDOtimeoutError,   /* SDOtimeoutError */\
 	\
 	/* State machine*/\
 	Unknown_state,      /* nodeState */\

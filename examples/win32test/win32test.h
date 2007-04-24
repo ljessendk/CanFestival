@@ -8,7 +8,6 @@ UNS32 win32test_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * win32test_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* prototypes of function to be filled by app. */
-void win32test_SDOtimeoutError(UNS8 line);
 void win32test_heartbeatError(UNS8);
 
 UNS8 win32test_canSend(Message *);

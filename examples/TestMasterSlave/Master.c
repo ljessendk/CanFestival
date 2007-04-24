@@ -30,12 +30,6 @@ void TestMaster_heartbeatError(UNS8 heartbeatID)
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
 
-/*****************************************************************************/
-void TestMaster_SDOtimeoutError (UNS8 line)
-{
-	eprintf("TestMaster_SDOtimeoutError %d\n", line);
-}
-
 /********************************************************
  * ConfigureSlaveNode is responsible to
  *  - setup master RPDO 1 to receive TPDO 1 from id 2

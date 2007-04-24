@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __sdo_h__
 #define __sdo_h__
 
-typedef void (*SDOtimeoutError_t)(UNS8 line);
-void _SDOtimeoutError (UNS8);
-
 struct struct_s_transfer;
 
 #include "timer.h"

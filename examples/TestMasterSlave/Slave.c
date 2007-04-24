@@ -30,12 +30,6 @@ void TestSlave_heartbeatError(UNS8 heartbeatID)
 	eprintf("TestSlave_heartbeatError %d\n", heartbeatID);
 }
 
-/*****************************************************************************/
-void TestSlave_SDOtimeoutError (UNS8 line)
-{
-	eprintf("TestSlave_SDOtimeoutError %d\n", line);
-}
-
 void TestSlave_initialisation()
 {
 	eprintf("TestSlave_initialisation\n");

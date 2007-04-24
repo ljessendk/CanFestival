@@ -1,6 +1,5 @@
 #include "TestMaster.h"
 
-void TestMaster_SDOtimeoutError(UNS8 line);
 void TestMaster_heartbeatError(UNS8);
 
 UNS8 TestMaster_canSend(Message *);

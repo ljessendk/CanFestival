@@ -98,13 +98,19 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
     MSG_WAR(0x2A02, "   subIndex : ", d->transfers[id].subIndex); 
     /* Reset timer handler */
     d->transfers[id].timer = TIMER_NONE;
-    /* Call the user function to inform of the problem.*/
-    (*d->SDOtimeoutError)((UNS8)id);
+    /*Set aborted state*/
+    d->transfers[id].state = SDO_ABORTED_INTERNAL;
     /* Sending a SDO abort */
     sendSDOabort(d, d->transfers[id].whoami, 
 		 d->transfers[id].index, d->transfers[id].subIndex, SDOABT_TIMED_OUT);
-    /* Reset the line*/
-    resetSDOline(d, (UNS8)id);
+    d->transfers[id].abortCode = SDOABT_TIMED_OUT;
+    /* Call the user function to inform of the problem.*/
+    if(d->transfers[id].Callback)
+    	/*If ther is a callback, it is responsible to close SDO transfer (client)*/
+    	(*d->transfers[id].Callback)(d,d->transfers[id].nodeId);
+    else if(d->transfers[id].whoami == SDO_SERVER)
+    	/*Else, if server, reset the line*/
+    	resetSDOline(d, (UNS8)id);
 }
 
 #define StopSDO_TIMER(id) \
@@ -1335,5 +1341,3 @@ UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode)
   * abortCode = d->transfers[line].abortCode;
   return d->transfers[line].state;
 }
-
-void _SDOtimeoutError (UNS8 line){}

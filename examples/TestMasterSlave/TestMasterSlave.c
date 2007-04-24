@@ -191,7 +191,6 @@ int main(int argc,char **argv)
 	if(strcmp( SlaveBoard.baudrate, "none")){
 		
 		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
-		TestSlave_Data.SDOtimeoutError = TestSlave_SDOtimeoutError;
 		TestSlave_Data.initialisation = TestSlave_initialisation;
 		TestSlave_Data.preOperational = TestSlave_preOperational;
 		TestSlave_Data.operational = TestSlave_operational;
@@ -209,7 +208,6 @@ int main(int argc,char **argv)
 	if(strcmp( MasterBoard.baudrate, "none")){
 		
 		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
-		TestMaster_Data.SDOtimeoutError = TestMaster_SDOtimeoutError;
 		TestMaster_Data.initialisation = TestMaster_initialisation;
 		TestMaster_Data.preOperational = TestMaster_preOperational;
 		TestMaster_Data.operational = TestMaster_operational;
@@ -234,9 +232,9 @@ int main(int argc,char **argv)
 	StopTimerLoop();
 	
 	// Close CAN devices (and can threads)
-	if(SlaveBoard.baudrate) canClose(&TestSlave_Data);
+	if(strcmp( SlaveBoard.baudrate, "none")) canClose(&TestSlave_Data);
 fail_master:
-	if(MasterBoard.baudrate) canClose(&TestMaster_Data);	
+	if(strcmp( MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);	
 fail_slave:
 	
 
