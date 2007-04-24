@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /** Called by writeNetworkDict */
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback);
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 
 /** Called by readNetworkDict */
 INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, 
@@ -1070,7 +1070,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 
 /*******************************************************************)******/
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)
 {
   UNS8 err;
   UNS8 SDOfound = 0;
@@ -1137,7 +1137,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   /* Copy data to transfers structure. */
   for (j = 0 ; j < count ; j++) {
 # ifdef CANOPEN_BIG_ENDIAN
-    if (dataType == 0)
+    if (dataType == 0 && endianize)
       d->transfers[line].data[count - 1 - j] = ((char *)data)[j];
     else /* String of bytes. */
       d->transfers[line].data[j] = ((char *)data)[j];
@@ -1182,7 +1182,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)
 {
-	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, NULL);
+	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, NULL, 1);
 }
 
 /*--------------------------------------------------------------------------*/
@@ -1190,7 +1190,7 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index, 
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
 {
-	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, Callback);	
+	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, Callback, 1);	
 }
 
 
