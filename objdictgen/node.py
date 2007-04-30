@@ -85,7 +85,7 @@ MappingDictionary = {
     0x000B : {"name" : "UNICODE_STRING", "struct" : nosub, "size" : 16, "default" : "", "values" : []},
 #    0x000C : {"name" : "TIME_OF_DAY", "struct" : nosub, "size" : 48, "default" : 0, "values" : []},
 #    0x000D : {"name" : "TIME_DIFFERENCE", "struct" : nosub, "size" : 48, "default" : 0, "values" : []},
-#    0x000F : {"name" : "DOMAIN", "struct" : nosub, "size" : 0, "default" : "", "values" : []},
+    0x000F : {"name" : "DOMAIN", "struct" : nosub, "size" : 0, "default" : "", "values" : []},
     0x0010 : {"name" : "INTEGER24", "struct" : nosub, "size" : 24, "default" : 0, "values" : []},
     0x0011 : {"name" : "REAL64", "struct" : nosub, "size" : 64, "default" : 0.0, "values" : []},
     0x0012 : {"name" : "INTEGER40", "struct" : nosub, "size" : 40, "default" : 0, "values" : []},
@@ -336,7 +336,7 @@ class Node:
     """
     
     def ExtendSpecificMenu(self, specificmenu):
-        self.SpecificMenu.extend(AddMenuEntries)
+        self.SpecificMenu.extend(specificmenu)
     
     """
     Function which return the different Mappings available for this node

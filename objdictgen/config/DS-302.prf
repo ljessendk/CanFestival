@@ -1,0 +1,21 @@
+global Mapping, AddMenuEntries
+
+"""
+MappingDictionary for DS-302
+"""
+
+Mapping = {
+    0x1F20 : {"name" : "Store DCF", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                 {"name" : "Store DCF for node %d[(sub)]", "type" : 0x0F, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
+    
+    0x1F21 : {"name" : "Storage Format", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                 {"name" : "Storage Format for Node %d[(sub)]", "type" : 0x02, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
+    
+    0x1F22 : {"name" : "Concise DCF", "struct" : rec, "need" : False, "values" :
+                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                 {"name" : "Concise DCF for Node %d[(sub)]", "type" : 0x0F, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]}   
+}
+
+AddMenuEntries = []

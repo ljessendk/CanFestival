@@ -379,11 +379,9 @@ class NodeManager:
                     # Charging DS-302 profile if choosen by user
                     if os.path.isfile("config/DS-302.prf"):
                         try:
-                            Mapping = {}
-                            AddMenuEntries = []
-                            execfile("config/DS-302.prf")
-                            self.CurrentNode.SetDS302Profile(Mapping)
-                            self.CurrentNode.ExtendSpecificMenu(AddMenuEntries)
+                        	execfile("config/DS-302.prf")
+                        	self.CurrentNode.SetDS302Profile(Mapping)
+                        	self.CurrentNode.ExtendSpecificMenu(AddMenuEntries)
                         except:
                             return "Problem with DS-302! Syntax Error."
                     else:
@@ -780,6 +778,14 @@ class NodeManager:
                     self.CurrentNode.SetEntry(index, subIndex, value)
                 elif editor == "time":
                     self.CurrentNode.SetEntry(index, subIndex, value)
+                elif editor == "domain":
+                    try:
+                        if len(value) % 2 != 0:
+                            value = "0" + value
+                        value = value.decode('hex_codec')
+                        self.CurrentNode.SetEntry(index, subIndex, value)
+                    except:
+                        pass
                 else:
                     subentry_infos = self.GetSubentryInfos(index, subIndex)
                     type = subentry_infos["type"]
@@ -1074,7 +1080,7 @@ class NodeManager:
             if type(values) == ListType:
                 for i, value in enumerate(values):
                     data.append({"value" : value})
-                    data[-1].update(params[i])
+                    data[-1].update(params[i])      
             else:
                 data.append({"value" : values})
                 data[-1].update(params)
@@ -1125,8 +1131,11 @@ class NodeManager:
                     else:
                         if dic["type"].startswith("VISIBLE_STRING"):
                             editor["value"] = "string"
-                        if dic["type"] in ["TIME_OF_DAY","TIME_DIFFERENCE"]:
+                        elif dic["type"] in ["TIME_OF_DAY","TIME_DIFFERENCE"]:
                             editor["value"] = "time"
+                        elif dic["type"] == "DOMAIN":
+                            editor["value"] = "domain"
+                            dic["value"] = dic["value"].encode('hex_codec')
                         elif dic["type"] == "BOOLEAN":
                             editor["value"] = "bool"
                             dic["value"] = BoolType[dic["value"]]

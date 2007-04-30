@@ -294,6 +294,9 @@ class SubindexTable(wxPyGridTableBase):
                     elif editortype == "time":
                         editor = wxGridCellTextEditor()
                         renderer = wxGridCellStringRenderer()
+                    elif editortype == "domain":
+                        editor = wxGridCellTextEditor()
+                        renderer = wxGridCellStringRenderer()
                 else:
                     grid.SetReadOnly(row, col, True)
                     
@@ -2157,7 +2160,7 @@ class CreateNodeDialog(wx.Dialog):
               label='DS-302 Profile', name='DS302', parent=self.MainPanel,
               pos=wx.Point(256, 144), size=wx.Size(128, 24), style=0)
         self.DS302.SetValue(False)
-        self.DS302.Enable(False)
+        #self.DS302.Enable(False)
 
         self.GenSYNC = wx.CheckBox(id=wxID_CREATENODEDIALOGGENSYNC,
               label='Generate SYNC', name='GenSYNC', parent=self.MainPanel,

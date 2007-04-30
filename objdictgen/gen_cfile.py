@@ -61,6 +61,8 @@ def GetValidTypeInfos(typename):
                 return "UNS8", "[10]", "visible_string"
             else:
                 return "UNS8", "[%s]"%values[1], "visible_string"
+        elif values[0] == "DOMAIN":
+        	return "UNS8*", "", "domain"
     return None
 
 def WriteFile(filepath, content):
@@ -213,6 +215,8 @@ def GenerateFileContent(Manager, headerfilepath):
                                 sep = ""
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
+                            if typeinfos[2] == "domain":
+                                value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
                             else:
                                 comment = "\t/* %s */"%str(value)
                                 value = "0x%X"%value
@@ -294,16 +298,16 @@ def GenerateFileContent(Manager, headerfilepath):
                     name = FormatName("%s_%s"%(entry_infos["name"],subentry_infos["name"]))
                 else:
                     name = "%s_obj%04X_%s"%(texts["NodeName"], texts["index"], FormatName(subentry_infos["name"]))
-            if subIndexType == "visible_string":
-                sizeof = name
+            if subIndexType in ["visible_string", "domain"]:
+                sizeof = str(len(values[subIndex]))
             else:
-                sizeof = typeinfos[0]
+                sizeof = "sizeof (%s)"%typeinfos[0]
             params = Manager.GetCurrentParamsEntry(index, subIndex)
             if params["save"]:
                 save = "|TO_BE_SAVE"
             else:
                 save = ""
-            strIndex += "                       { %s%s, %s, sizeof (%s), (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,subIndexType,sizeof,name,sep)
+            strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,subIndexType,sizeof,name,sep)
         strIndex += "                     };\n"
         indexContents[index] = strIndex
 
