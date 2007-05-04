@@ -145,7 +145,7 @@ MappingDictionary = {
     0x1016 : {"name" : "Consumer Heartbeat Time", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
                  {"name" : "Consumer Heartbeat Time", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
-    0x1017 : {"name" : "Producer Heartbeat Time", "struct" : var, "need" : False, "values" :
+    0x1017 : {"name" : "Producer Heartbeat Time", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "Producer Heartbeat Time", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
     0x1018 : {"name" : "Identity", "struct" : array, "need" : True, "values" :
                 [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},

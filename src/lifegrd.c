@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Prototypes for internals functions */
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id);
+UNS32 OnHearbeatUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
 
 
 /*****************************************************************************/
@@ -120,6 +121,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 		 * (decimal) and additionaly
 		 * the node-id of this device.
 		 */
+		
 		msg.cob_id.w = *d->bDeviceNodeId + 0x700;
 		msg.len = (UNS8)0x01;
 		msg.rtr = 0;
@@ -127,18 +129,30 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 		/* send the heartbeat */
       		MSG_WAR(0x3130, "Producing heartbeat: ", d->nodeState);
       		canSend(d->canHandle,&msg );
+	
 	}else{
 		d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);
 	}
 }
 
 /*****************************************************************************/
+/* This is called when Index 0x1017 is updated.*/
+UNS32 OnHeartbeatProducerUpdate(CO_Data* d)
+{
+	heartbeatStop(d);
+	heartbeatInit(d);
+	return 0;
+}
+/*****************************************************************************/
+
 void heartbeatInit(CO_Data* d)
 {
+		
     UNS8 index; /* Index to scan the table of heartbeat consumers */
-
+	RegisterSetODentryCallBack(d, 0x1017,0x00, &OnHeartbeatProducerUpdate);
+    
     d->toggle = 0;
-
+	
     for( index = (UNS8)0x00; index < *d->ConsumerHeartbeatCount; index++ )
     {
         TIMEVAL time = (UNS16) ( (d->ConsumerHeartbeatEntries[index]) & (UNS32)0x0000FFFF ) ;
