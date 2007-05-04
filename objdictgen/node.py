@@ -98,20 +98,20 @@ MappingDictionary = {
     0x001A : {"name" : "UNSIGNED56", "struct" : nosub, "size" : 56, "default" : 0, "values" : []},
     0x001B : {"name" : "UNSIGNED64", "struct" : nosub, "size" : 64, "default" : 0, "values" : []},
     0x1000 : {"name" : "Device Type", "struct" : var, "need" : True, "values" : 
-                [{"name" : "Device Type", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Device Type", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
     0x1001 : {"name" : "Error Register", "struct" : var,  "need" : True, "values" : 
-                [{"name" : "Error Register", "type" : 0x02, "access": 'ro', "pdo" : True}]},
+                [{"name" : "Error Register", "type" : 0x05, "access": 'ro', "pdo" : True}]},
     0x1002 : {"name" : "Manufacturer Status Register", "struct" : var, "need" : False,  "values" :
-                [{"name" : "Manufacturer Status Register", "type" : 0x04, "access" : 'ro', "pdo" : True}]},
+                [{"name" : "Manufacturer Status Register", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
     0x1003 : {"name" : "Pre-defined Error Field", "struct" : rec, "need" : False,  "values" :
-                [{"name" : "Number of Errors", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Standard Error Field", "type" : 0x04, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
+                [{"name" : "Number of Errors", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
     0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : True, "callback" : True, "values" :
-                [{"name" : "SYNC COB ID", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "SYNC COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1006 : {"name" : "Communication / Cycle Period", "struct" : var, "need" : False, "callback" : True, "values" :
-                [{"name" : "Communication Cycle Period", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Communication Cycle Period", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1007 : {"name" : "Synchronous Window Length", "struct" : var, "need" : False, "values" :
-                [{"name" : "Synchronous Window Length", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Synchronous Window Length", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1008 : {"name" : "Manufacturer Device Name", "struct" : var, "need" : False, "values" :
                 [{"name" : "Manufacturer Device Name", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
     0x1009 : {"name" : "Manufacturer Hardware Version", "struct" : var, "need" : False, "values" :
@@ -119,109 +119,109 @@ MappingDictionary = {
     0x100A : {"name" : "Manufacturer Software Version", "struct" : var, "need" : False, "values" :
                 [{"name" : "Manufacturer Software Version", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
     0x100C : {"name" : "Guard Time", "struct" : var, "need" : False, "values" :
-                [{"name" : "Guard Time", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Guard Time", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x100D : {"name" : "Life Time Factor", "struct" : var, "need" : False, "values" :
-                [{"name" : "Life Time Factor", "type" : 0x02, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Life Time Factor", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1010 : {"name" : "Store parameters", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Save All Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Save Communication Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Save Application Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Save Manufacturer Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Save All Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Save Communication Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Save Application Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Save Manufacturer Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
     0x1011 : {"name" : "Restore Default Parameters", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Restore All Default Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Restore Communication Default Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Restore Application Default Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Restore Manufacturer Default Parameters", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Restore All Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Restore Communication Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Restore Application Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Restore Manufacturer Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
     0x1012 : {"name" : "TIME COB ID", "struct" : var, "need" : False, "values" :
-                [{"name" : "TIME COB ID", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "TIME COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1013 : {"name" : "High Resolution Timestamp", "struct" : var, "need" : False, "values" :
-                [{"name" : "High Resolution Time Stamp", "type" : 0x04, "access" : 'rw', "pdo" : True}]},
+                [{"name" : "High Resolution Time Stamp", "type" : 0x07, "access" : 'rw', "pdo" : True}]},
     0x1014 : {"name" : "Emergency COB ID", "struct" : var, "need" : False, "values" :
-                [{"name" : "Emergency COB ID", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Emergency COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1015 : {"name" : "Inhibit Time Emergency", "struct" : var, "need" : False, "values" :
-                [{"name" : "Inhibit Time Emergency", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Inhibit Time Emergency", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1016 : {"name" : "Consumer Heartbeat Time", "struct" : rec, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Consumer Heartbeat Time", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Consumer Heartbeat Time", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
     0x1017 : {"name" : "Producer Heartbeat Time", "struct" : var, "need" : False, "callback" : True, "values" :
-                [{"name" : "Producer Heartbeat Time", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Producer Heartbeat Time", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1018 : {"name" : "Identity", "struct" : array, "need" : True, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Vendor ID", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Product Code", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Revision Number", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Serial Number", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Vendor ID", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Product Code", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Revision Number", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Serial Number", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
     0x1020 : {"name" : "Verify Configuration", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Configuration Date", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Configuration Time", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Configuration Date", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Configuration Time", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
 #    0x1021 : {"name" : "Store EDS", "struct" : var, "need" : False, "values" :
 #                [{"name" : "Store EDS", "type" : 0x0F, "access" : 'rw', "pdo" : False}]},
 #    0x1022 : {"name" : "Storage Format", "struct" : var, "need" : False, "values" :
-#                [{"name" : "Storage Format", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+#                [{"name" : "Storage Format", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1023 : {"name" : "OS Command", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Command", "type" : 0x0A, "access" : 'rw', "pdo" : False},
-                 {"name" : "Status", "type" : 0x02, "access" : 'ro', "pdo" : False},
+                 {"name" : "Status", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Reply", "type" : 0x0A, "access" : 'ro', "pdo" : False}]},
     0x1024 : {"name" : "OS Command Mode", "struct" : var, "need" : False, "values" :
-                [{"name" : "OS Command Mode", "type" : 0x02, "access" : 'wo', "pdo" : False}]},
+                [{"name" : "OS Command Mode", "type" : 0x05, "access" : 'wo', "pdo" : False}]},
     0x1025 : {"name" : "OS Debugger Interface", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Command", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Status", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Reply", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Command", "type" : 0x0A, "access" : 'rw', "pdo" : False},
+                 {"name" : "Status", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Reply", "type" : 0x0A, "access" : 'ro', "pdo" : False}]},
     0x1026 : {"name" : "OS Prompt", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "StdIn", "type" : 0x02, "access" : 'wo', "pdo" : True},
-                 {"name" : "StdOut", "type" : 0x02, "access" : 'ro', "pdo" : True},
-                 {"name" : "StdErr", "type" : 0x02, "access" : 'ro', "pdo" : True}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "StdIn", "type" : 0x05, "access" : 'wo', "pdo" : True},
+                 {"name" : "StdOut", "type" : 0x05, "access" : 'ro', "pdo" : True},
+                 {"name" : "StdErr", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
     0x1027 : {"name" : "Module List", "struct" : rec, "need" : False, "values" :
-                [{"name" : "Number of Connected Modules", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Module %d[(sub)]", "type" : 0x03, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
+                [{"name" : "Number of Connected Modules", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Module %d[(sub)]", "type" : 0x06, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
     0x1028 : {"name" : "Emergency Consumer", "struct" : rec, "need" : False, "values" :
-                [{"name" : "Number of Consumed Emergency Objects", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Emergency Consumer", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x7E}]},
+                [{"name" : "Number of Consumed Emergency Objects", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Emergency Consumer", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7E}]},
     0x1029 : {"name" : "Error Behavior", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Error Classes", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "Communication Error", "type" : 0x02, "access" : 'rw', "pdo" : False},
-                 {"name" : "Device Profile", "type" : 0x02, "access" : 'rw', "pdo" : False, "nbmax" : 0xFE}]},
+                [{"name" : "Number of Error Classes", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "Communication Error", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Device Profile", "type" : 0x05, "access" : 'rw', "pdo" : False, "nbmax" : 0xFE}]},
     0x1200 : {"name" : "Server SDO Parameter", "struct" : array, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
     0x1201 : {"name" : "Additional Server SDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x7F, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x04, "access" : 'ro', "pdo" : False},
-                 {"name" : "Node ID of the SDO Client", "type" : 0x04, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Node ID of the SDO Client", "type" : 0x05, "access" : 'ro', "pdo" : False}]},
     0x1280 : {"name" : "Client SDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x100, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Transmit SDO)", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Receive SDO)", "type" : 0x04, "access" : 'rw', "pdo" : False},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Client to Server (Transmit SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "COB ID Server to Client (Receive SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Node ID of the SDO Server", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
     0x1400 : {"name" : "Receive PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Highest SubIndex Supported", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Transmission Type", "type" : 0x02, "access" : 'rw', "pdo" : False},
-                 {"name" : "Inhibit Time", "type" : 0x03, "access" : 'rw', "pdo" : False},
-                 {"name" : "Compatibility Entry", "type" : 0x03, "access" : 'rw', "pdo" : False},
-                 {"name" : "Event Timer", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1600 : {"name" : "Receive PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'rw', "pdo" : False},
-                 {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
     0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Highest SubIndex Supported", "type" : 0x02, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x04, "access" : 'rw', "pdo" : False},
-                 {"name" : "Transmission Type", "type" : 0x02, "access" : 'rw', "pdo" : False},
-                 {"name" : "Inhibit Time", "type" : 0x03, "access" : 'rw', "pdo" : False},
-                 {"name" : "Compatibility Entry", "type" : 0x03, "access" : 'rw', "pdo" : False},
-                 {"name" : "Event Timer", "type" : 0x03, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1A00 : {"name" : "Transmit PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
-                [{"name" : "Number of Entries", "type" : 0x02, "access" : 'rw', "pdo" : False},
-                 {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x04, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
+                [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
+                 {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
 }
 
 #-------------------------------------------------------------------------------
@@ -235,10 +235,11 @@ that the structure of the Object Dictionary stay coherent
 
 class Node:
     
-    def __init__(self, name = "", type = "slave", id = 0, profilename = "DS-301", profile = {}, specificmenu = []):
+    def __init__(self, name = "", type = "slave", id = 0, description = "", profilename = "DS-301", profile = {}, specificmenu = []):
         self.Name = name
         self.Type = type
         self.ID = id
+        self.Description = description
         self.ProfileName = profilename
         self.Profile = profile
         self.SpecificMenu = specificmenu
@@ -282,6 +283,21 @@ class Node:
     """
     def SetNodeID(self, id):
         self.ID = id
+
+    """
+    Return the node description
+    """
+    def GetNodeDescription(self):
+        if getattr(self, "Description", False):
+            return self.Description
+        else:
+            return ""
+    
+    """
+    Define the node description
+    """
+    def SetNodeDescription(self, description):
+        self.Description = description
 
     """
     Return the Specific Profile Name

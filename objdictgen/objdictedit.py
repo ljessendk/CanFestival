@@ -752,12 +752,12 @@ class EditingPanel(wx.SplitterWindow):
                 dialog = wxTextEntryDialog(self, "Number of subindexes to add:",
                              "Add subindexes", "1", wxOK|wxCANCEL)
                 if dialog.ShowModal() == wxID_OK:
-                    number = eval(dialog.GetValue())
-                    if type(number) == IntType:
+                    try:
+                        number = int(dialog.GetValue())
                         self.Manager.AddSubentriesToCurrent(index, number)
                         self.Parent.RefreshBufferState()
                         self.RefreshIndexList()
-                    else:
+                    except:
                         message = wxMessageDialog(self, "An integer is required!", "ERROR", wxOK|wxICON_ERROR)
                         message.ShowModal()
                         message.Destroy()
@@ -772,12 +772,12 @@ class EditingPanel(wx.SplitterWindow):
                 dialog = wxTextEntryDialog(self, "Number of subindexes to delete:",
                              "Delete subindexes", "1", wxOK|wxCANCEL)
                 if dialog.ShowModal() == wxID_OK:
-                    number = eval(dialog.GetValue())
-                    if type(number) == IntType:
+                    try:
+                        number = int(dialog.GetValue())
                         self.Manager.RemoveSubentriesFromCurrent(index, number)
                         self.Parent.RefreshBufferState()
                         self.RefreshIndexList()
-                    else:
+                    except:
                         message = wxMessageDialog(self, "An integer is required!", "ERROR", wxOK|wxICON_ERROR)
                         message.ShowModal()
                         message.Destroy()
@@ -797,7 +797,8 @@ class EditingPanel(wx.SplitterWindow):
  wxID_OBJDICTEDITFILEMENUITEMS2, wxID_OBJDICTEDITFILEMENUITEMS4, 
  wxID_OBJDICTEDITFILEMENUITEMS5, wxID_OBJDICTEDITFILEMENUITEMS6, 
  wxID_OBJDICTEDITFILEMENUITEMS7, wxID_OBJDICTEDITFILEMENUITEMS8,
-] = [wx.NewId() for _init_coll_FileMenu_Items in range(8)]
+ wxID_OBJDICTEDITFILEMENUITEMS9,
+] = [wx.NewId() for _init_coll_FileMenu_Items in range(9)]
 
 [wxID_OBJDICTEDITEDITMENUITEMS0, wxID_OBJDICTEDITEDITMENUITEMS1, 
  wxID_OBJDICTEDITEDITMENUITEMS2, wxID_OBJDICTEDITEDITMENUITEMS4, 
@@ -885,6 +886,8 @@ class objdictedit(wx.Frame):
         parent.AppendSeparator()
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
               kind=wx.ITEM_NORMAL, text='Import EDS file')
+        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS9,
+              kind=wx.ITEM_NORMAL, text='Export to EDS file')
         parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS8,
               kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
         parent.AppendSeparator()
@@ -902,10 +905,12 @@ class objdictedit(wx.Frame):
               id=wxID_OBJDICTEDITFILEMENUITEMS5)
         self.Bind(wx.EVT_MENU, self.OnSaveAsMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS6)
-        self.Bind(wx.EVT_MENU, self.OnImportMenu,
+        self.Bind(wx.EVT_MENU, self.OnImportEDSMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS7)
-        self.Bind(wx.EVT_MENU, self.OnExportMenu,
+        self.Bind(wx.EVT_MENU, self.OnExportCMenu,
               id=wxID_OBJDICTEDITFILEMENUITEMS8)
+        self.Bind(wx.EVT_MENU, self.OnExportEDSMenu,
+              id=wxID_OBJDICTEDITFILEMENUITEMS9)
 
     def _init_coll_AddMenu_Items(self, parent):
         # generated method, don't edit
@@ -989,7 +994,7 @@ class objdictedit(wx.Frame):
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
         
-        self.Manager = NodeManager()
+        self.Manager = NodeManager(ScriptDirectory)
         for filepath in filesOpen:
             self.Manager.OpenFileInCurrent(filepath)
             new_editingpanel = EditingPanel(self, self.Manager)
@@ -1168,48 +1173,54 @@ class objdictedit(wx.Frame):
                 self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
-        if self.FileOpened.GetPageCount() > 0:
-            self.menuBar1.EnableTop(1, True)
-            self.menuBar1.EnableTop(2, True)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, True)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, True)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, True)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, True)
-        else:
-            self.menuBar1.EnableTop(1, False)      
-            self.menuBar1.EnableTop(2, False)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, False)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, False)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, False)
-            self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, False)
+        if self.FileMenu:
+            if self.FileOpened.GetPageCount() > 0:
+                self.menuBar1.EnableTop(1, True)
+                self.menuBar1.EnableTop(2, True)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, True)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, True)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, True)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, True)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS9, True)
+            else:
+                self.menuBar1.EnableTop(1, False)      
+                self.menuBar1.EnableTop(2, False)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, False)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, False)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, False)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, False)
+                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS9, False)
 
     def RefreshEditMenu(self):
-        if self.FileOpened.GetPageCount() > 0:
-            undo, redo = self.Manager.GetCurrentBufferState()
-            self.EditMenu.FindItemByPosition(2).Enable(undo)
-            self.EditMenu.FindItemByPosition(3).Enable(redo)
-        else:
-            self.EditMenu.FindItemByPosition(2).Enable(False)
-            self.EditMenu.FindItemByPosition(3).Enable(False)
+        if self.FileMenu:
+            if self.FileOpened.GetPageCount() > 0:
+                undo, redo = self.Manager.GetCurrentBufferState()
+                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS1, undo)
+                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS0, redo)
+            else:
+                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS1, False)
+                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS0, False)
 
     def RefreshProfileMenu(self):
-        profile = self.Manager.GetCurrentProfileName()
-        edititem = self.EditMenu.FindItemByPosition(8)
-        length = self.AddMenu.GetMenuItemCount()
-        for i in xrange(length-6):
-            additem = self.AddMenu.FindItemByPosition(6)
-            self.AddMenu.Delete(additem.GetId())
-        if profile not in ("None", "DS-301"):
-            edititem.SetText("%s Profile"%profile)
-            edititem.Enable(True)
-            self.AddMenu.AppendSeparator()
-            for text, indexes in self.Manager.GetCurrentSpecificMenu():
-                new_id = wx.NewId()
-                self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
-                self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
-        else:
-            edititem.SetText("Other Profile")
-            edititem.Enable(False)
+        if self.EditMenu:
+            profile = self.Manager.GetCurrentProfileName()
+            edititem = self.EditMenu.FindItemById(wxID_OBJDICTEDITEDITMENUITEMS7)
+            if edititem:
+                length = self.AddMenu.GetMenuItemCount()
+                for i in xrange(length-6):
+                    additem = self.AddMenu.FindItemByPosition(6)
+                    self.AddMenu.Delete(additem.GetId())
+                if profile not in ("None", "DS-301"):
+                    edititem.SetText("%s Profile"%profile)
+                    edititem.Enable(True)
+                    self.AddMenu.AppendSeparator()
+                    for text, indexes in self.Manager.GetCurrentSpecificMenu():
+                        new_id = wx.NewId()
+                        self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
+                        self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
+                else:
+                    edititem.SetText("Other Profile")
+                    edititem.Enable(False)
         
 
 #-------------------------------------------------------------------------------
@@ -1244,11 +1255,11 @@ class objdictedit(wx.Frame):
         self.FilePath = ""
         dialog = CreateNodeDialog(self)
         if dialog.ShowModal() == wxID_OK:
-            name, id, type = dialog.GetValues()
+            name, id, type, description = dialog.GetValues()
             profile, filepath = dialog.GetProfile()
             NMT = dialog.GetNMTManagement()
             options = dialog.GetOptions()
-            result = self.Manager.CreateNewNode(name, id, type, profile, filepath, NMT, options)
+            result = self.Manager.CreateNewNode(name, id, type, description, profile, filepath, NMT, options)
             if not IsOfType(result, StringType):
                 new_editingpanel = EditingPanel(self, self.Manager)
                 self.FileOpened.AddPage(new_editingpanel, "")
@@ -1364,13 +1375,13 @@ class objdictedit(wx.Frame):
 #                         Import and Export Functions
 #-------------------------------------------------------------------------------
 
-    def OnImportMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), "",  "XML OD files (*.xml)|*.xml|All files|*.*", wxOPEN|wxCHANGE_DIR)
+    def OnImportEDSMenu(self, event):
+        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), "",  "EDS files (*.eds)|*.eds|All files|*.*", wxOPEN|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
-                result = self.Manager.ImportCurrentFromFile(filepath)
-                if result:
+                result = self.Manager.ImportCurrentFromEDSFile(filepath)
+                if not result:
                     if self.FileOpened.GetPageCount() == 0:
                         new_editingpanel = EditingPanel(self, self.Manager)
                         self.FileOpened.AddPage(new_editingpanel, "")
@@ -1382,10 +1393,43 @@ class objdictedit(wx.Frame):
                     message = wxMessageDialog(self, "Import successful", "Information", wxOK|wxICON_INFORMATION)
                     message.ShowModal()
                     message.Destroy()
+                else:
+                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+            else:
+                message = wxMessageDialog(self, "\"%s\" is not a valid file!"%filepath, "Error", wxOK|wxICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
         dialog.Destroy()
         event.Skip()
 
-    def OnExportMenu(self, event):
+
+    def OnExportEDSMenu(self, event):
+        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], "EDS files (*.eds)|*.eds|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
+        if dialog.ShowModal() == wxID_OK:
+            filepath = dialog.GetPath()
+            if os.path.isdir(os.path.dirname(filepath)):
+                path, extend = os.path.splitext(filepath)
+                if extend in ("", "."):
+                    filepath = path + ".eds"
+                result = self.Manager.ExportCurrentToEDSFile(filepath)
+                if not result:
+                    message = wxMessageDialog(self, "Export successful", "Information", wxOK|wxICON_INFORMATION)
+                    message.ShowModal()
+                    message.Destroy()
+                else:
+                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+            else:
+                message = wxMessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
+        dialog.Destroy()
+        event.Skip()
+
+    def OnExportCMenu(self, event):
         dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival OD files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
@@ -1393,13 +1437,17 @@ class objdictedit(wx.Frame):
                 path, extend = os.path.splitext(filepath)
                 if extend in ("", "."):
                     filepath = path + ".c"
-                result = self.Manager.ExportCurrentToFile(filepath)
-                if result:
+                result = self.Manager.ExportCurrentToCFile(filepath)
+                if not result:
                     message = wxMessageDialog(self, "Export successful", "Information", wxOK|wxICON_INFORMATION)
                     message.ShowModal()
                     message.Destroy()
+                else:
+                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
             else:
-                message = wxMessageDialog(self, "%s is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
+                message = wxMessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
@@ -1462,13 +1510,11 @@ class objdictedit(wx.Frame):
 
     def OnNodeInfosMenu(self, event):
         dialog = NodeInfosDialog(self)
-        name,id,type = self.Manager.GetCurrentNodeInfos()
-        profile = self.Manager.GetCurrentProfileName()
-        dialog.SetProfiles([profile])
-        dialog.SetValues(name, id, type, profile)
+        name, id, type, description = self.Manager.GetCurrentNodeInfos()
+        dialog.SetValues(name, id, type, description)
         if dialog.ShowModal() == wxID_OK:
-            name,id,type,profile = dialog.GetValues()
-            self.Manager.SetCurrentNodeInfos(name, id, type)
+            name, id, type, description = dialog.GetValues()
+            self.Manager.SetCurrentNodeInfos(name, id, type, description)
             self.RefreshBufferState()
             self.RefreshProfileMenu()
         event.Skip()
@@ -1755,20 +1801,54 @@ class MapVariableDialog(wx.Dialog):
         self.flexGridSizer1.Add(self.ButtonSizer, 1, wxALIGN_CENTER)
         self.staticText4.Enable(False)
         self.Number.Enable(False)
+        
+        EVT_BUTTON(self, self.ButtonSizer.GetAffirmativeButton().GetId(), self.OnOK)
 
     def SetIndex(self, index):
         self.Index.SetValue("0x%04X"%index)
 
+    def OnOK(self, event):
+        error = []
+        try:
+            int(self.Index.GetValue(), 16)
+        except:
+            error.append("Index")
+        if self.radioButton2.GetValue() or self.radioButton3.GetValue():
+            try:
+                int(self.Number.GetValue())
+            except:
+                error.append("Number")
+        if len(error) > 0:
+            text = ""
+            if len(error) > 1:
+                suffix = "s"
+            else:
+                suffix = ""
+            for i, item in enumerate(error):
+                if i == 0:
+                    text += item
+                elif i == len(error) - 1:
+                    text += " and %s"%item
+                else:
+                    text += ", %s"%item
+            message = wxMessageDialog(self, "Form isn't valid. %s must be integer%s!"%(text,suffix), "Error", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+        else:
+            self.EndModal(wxID_OK)
+
     def GetValues(self):
+        name = self.IndexName.GetValue()
+        index = int(self.Index.GetValue(), 16)
         if self.radioButton1.GetValue():
             struct = 1
+            number = None
         elif self.radioButton2.GetValue():
             struct = 3
+            number = int(self.Number.GetValue())
         elif self.radioButton3.GetValue():
             struct = 7
-        name = self.IndexName.GetValue()
-        index = eval(self.Index.GetValue())
-        number = eval(self.Number.GetValue())
+            number = int(self.Number.GetValue())
         return index, name, struct, number
 
     def OnRadioButton1Click(self, event):
@@ -1871,7 +1951,57 @@ class UserTypeDialog(wx.Dialog):
         self.ButtonSizer = self.CreateButtonSizer(wxOK|wxCANCEL)
         self.flexGridSizer1.Add(self.ButtonSizer, 1, wxALIGN_CENTER)
         self.TypeDictionary = {}
-        
+
+        EVT_BUTTON(self, self.ButtonSizer.GetAffirmativeButton().GetId(), self.OnOK)
+
+    def OnOK(self, event):
+        error = []
+        good = True
+        firstmessage = ""
+        secondmessage = ""
+        name = self.Type.GetStringSelection()
+        if name != "":
+            valuetype = self.TypeDictionary[name][1]
+            if valuetype == 0:
+                try:
+                    int(self.Min.GetValue(), 16)
+                except:
+                    error.append("Minimum")
+                    good = False
+                try:
+                    int(self.Max.GetValue(), 16)
+                except:
+                    error.append("Maximum")
+                    good = False
+            elif valuetype == 1:
+                try:
+                    int(self.Length.GetValue(), 16)
+                except:
+                    error.append("Length")
+                    good = False
+            if len(error) > 0:
+                secondmessage = ". "
+                for i, item in enumerate(error):
+                    if i == 0:
+                        secondmessage += item
+                    elif i == len(error) - 1:
+                        secondmessage += " and %s"%item
+                    else:
+                        secondmessage += ", %s"%item
+                secondmessage += " must be integer"
+                if len(error) > 1:
+                    secondmessage += "s"
+        else:
+            firstmessage = ". A type must be selected"
+            good = False
+        if not good:
+            message = wxMessageDialog(self, "Form isn't valid%s%s%s!"%(firstmessage,secondmessage), "Error", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+            self.Name.SetFocus()
+        else:
+            self.EndModal(wxID_OK)
+
     def SetValues(self, min = None, max = None, length = None):
         if min != None:
             self.Min.SetValue(str(min))
@@ -1926,9 +2056,9 @@ class UserTypeDialog(wx.Dialog):
     def GetValues(self):
         name = self.Type.GetStringSelection()
         type = self.TypeDictionary[name][0]
-        min = eval(self.Min.GetValue())
-        max = eval(self.Max.GetValue())
-        length = eval(self.Length.GetValue())
+        min = int(self.Min.GetValue())
+        max = int(self.Max.GetValue())
+        length = int(self.Length.GetValue())
         return type, min, max, length
 
 
@@ -1940,7 +2070,7 @@ class UserTypeDialog(wx.Dialog):
 
 [wxID_NODEINFOSDIALOG, wxID_NODEINFOSDIALOGMAINPANEL, 
  wxID_NODEINFOSDIALOGNAME, wxID_NODEINFOSDIALOGNODEID, 
- wxID_NODEINFOSDIALOGPROFILE, wxID_NODEINFOSDIALOGSTATICTEXT1, 
+ wxID_NODEINFOSDIALOGDESCRIPTION, wxID_NODEINFOSDIALOGSTATICTEXT1, 
  wxID_NODEINFOSDIALOGSTATICTEXT2, wxID_NODEINFOSDIALOGSTATICTEXT3, 
  wxID_NODEINFOSDIALOGSTATICTEXT4, wxID_NODEINFOSDIALOGTYPE, 
 ] = [wx.NewId() for _init_ctrls in range(10)]
@@ -1963,13 +2093,13 @@ class NodeInfosDialog(wx.Dialog):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_NODEINFOSDIALOG,
               name='NodeInfosDialog', parent=prnt, pos=wx.Point(376, 223),
-              size=wx.Size(249, 250), style=wx.DEFAULT_DIALOG_STYLE,
+              size=wx.Size(300, 300), style=wx.DEFAULT_DIALOG_STYLE,
               title='Node Infos')
-        self.SetClientSize(wx.Size(249, 250))
+        self.SetClientSize(wx.Size(300, 300))
 
         self.MainPanel = wx.Panel(id=wxID_NODEINFOSDIALOGMAINPANEL,
               name='MainPanel', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(231, 264), style=wx.TAB_TRAVERSAL)
+              size=wx.Size(280, 264), style=wx.TAB_TRAVERSAL)
         self.MainPanel.SetAutoLayout(True)
 
         self.staticText1 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT1,
@@ -1978,7 +2108,7 @@ class NodeInfosDialog(wx.Dialog):
               pos=wx.Point(24, 24), size=wx.Size(156, 17), style=0)
 
         self.Name = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNAME, name='Name',
-              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(200,
+              parent=self.MainPanel, pos=wx.Point(24, 48), size=wx.Size(250,
               25), style=0, value='')
 
         self.staticText2 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT2,
@@ -1986,7 +2116,7 @@ class NodeInfosDialog(wx.Dialog):
               pos=wx.Point(24, 80), size=wx.Size(67, 17), style=0)
 
         self.NodeID = wx.TextCtrl(id=wxID_NODEINFOSDIALOGNODEID, name='NodeID',
-              parent=self.MainPanel, pos=wx.Point(24, 104), size=wx.Size(200,
+              parent=self.MainPanel, pos=wx.Point(24, 104), size=wx.Size(250,
               25), style=wx.TE_RIGHT, value='')
 
         self.staticText3 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT3,
@@ -1995,15 +2125,15 @@ class NodeInfosDialog(wx.Dialog):
 
         self.Type = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGTYPE,
               name='Type', parent=self.MainPanel, pos=wx.Point(24, 160),
-              size=wx.Size(200, 25), style=0)
+              size=wx.Size(250, 25), style=0)
 
         self.staticText4 = wx.StaticText(id=wxID_NODEINFOSDIALOGSTATICTEXT4,
-              label='Profile:', name='staticText4', parent=self.MainPanel,
-              pos=wx.Point(24, 192), size=wx.Size(47, 17), style=0)
+              label='Description:', name='staticText4', parent=self.MainPanel,
+              pos=wx.Point(24, 192), size=wx.Size(71, 17), style=0)
 
-        self.Profile = wx.Choice(choices=[], id=wxID_NODEINFOSDIALOGPROFILE,
-              name='Profile', parent=self.MainPanel, pos=wx.Point(24, 216),
-              size=wx.Size(200, 25), style=0)
+        self.Description = wx.TextCtrl(id=wxID_NODEINFOSDIALOGDESCRIPTION, 
+              name='Description', parent=self.MainPanel, pos=wx.Point(24, 216), 
+              size=wx.Size(250, 25), style=0, value='')
 
         self._init_sizers()
 
@@ -2013,43 +2143,43 @@ class NodeInfosDialog(wx.Dialog):
         self.flexGridSizer1.Add(self.ButtonSizer, 1, wxALIGN_CENTER)
         self.Type.Append("master")
         self.Type.Append("slave")
-        self.staticText4.Hide()
-        self.Profile.Hide()
 
         EVT_BUTTON(self, self.ButtonSizer.GetAffirmativeButton().GetId(), self.OnOK)
 
     def OnOK(self, event):
         name = self.Name.GetValue()
+        message = ""
         if name != "":
             good = not name[0].isdigit()
             for item in name.split("_"):
                 good &= item.isalnum()
-        else:
-            good = False
-        if not good:
-            message = wxMessageDialog(self, "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!", "ERROR", wxOK|wxICON_ERROR)
+            if not good:
+                message = "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!"
+        if message != "":
+            try:
+                nodeid = int(self.NodeID.GetValue(), 16)
+            except:
+                message = "Node ID must be integer!"
+        if message != "":
+            message = wxMessageDialog(self, message, "ERROR", wxOK|wxICON_ERROR)
             message.ShowModal()
             message.Destroy()
             self.Name.SetFocus()
         else:
             self.EndModal(wxID_OK)
     
-    def SetProfiles(self, profiles):
-        for profile in profiles:
-            self.Profile.Append(profile)
-    
-    def SetValues(self, name, id, type, profile):
+    def SetValues(self, name, id, type, description):
         self.Name.SetValue(name)
         self.NodeID.SetValue("0x%02X"%id)
         self.Type.SetStringSelection(type)
-        self.Profile.SetStringSelection(profile)
+        self.Description.SetValue(description)
 
     def GetValues(self):
         name = self.Name.GetValue()
-        nodeid = eval(self.NodeID.GetValue())
+        nodeid = int(self.NodeID.GetValue(), 16)
         type = self.Type.GetStringSelection()
-        profile = self.Profile.GetStringSelection()
-        return name, nodeid, type, profile
+        description = self.Description.GetValue()
+        return name, nodeid, type, description
 
 
 
@@ -2066,9 +2196,10 @@ class NodeInfosDialog(wx.Dialog):
  wxID_CREATENODEDIALOGSAVECONFIG, wxID_CREATENODEDIALOGSTATICTEXT1, 
  wxID_CREATENODEDIALOGSTATICTEXT2, wxID_CREATENODEDIALOGSTATICTEXT3, 
  wxID_CREATENODEDIALOGSTATICTEXT4, wxID_CREATENODEDIALOGSTATICTEXT5, 
- wxID_CREATENODEDIALOGSTATICTEXT6, wxID_CREATENODEDIALOGSTOREEDS, 
+ wxID_CREATENODEDIALOGSTATICTEXT6, wxID_CREATENODEDIALOGSTATICTEXT7,
+ wxID_CREATENODEDIALOGSTOREEDS, wxID_CREATENODEDIALOGDESCRIPTION,
  wxID_CREATENODEDIALOGTYPE, 
-] = [wx.NewId() for _init_ctrls in range(19)]
+] = [wx.NewId() for _init_ctrls in range(21)]
 
 class CreateNodeDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
@@ -2088,9 +2219,9 @@ class CreateNodeDialog(wx.Dialog):
         # generated method, don't edit
         wx.Dialog.__init__(self, id=wxID_CREATENODEDIALOG,
               name='CreateNodeDialog', parent=prnt, pos=wx.Point(376, 223),
-              size=wx.Size(451, 316), style=wx.DEFAULT_DIALOG_STYLE,
+              size=wx.Size(451, 376), style=wx.DEFAULT_DIALOG_STYLE,
               title='Create a new Node')
-        self.SetClientSize(wx.Size(451, 316))
+        self.SetClientSize(wx.Size(451, 376))
 
         self.MainPanel = wx.Panel(id=wxID_CREATENODEDIALOGMAINPANEL,
               name='MainPanel', parent=self, pos=wx.Point(0, 0),
@@ -2185,7 +2316,15 @@ class CreateNodeDialog(wx.Dialog):
 #              label='Store EDS', name='StoreEDS', parent=self.MainPanel,
 #              pos=wx.Point(256, 240), size=wx.Size(144, 24), style=0)
 #        self.StoreEDS.SetValue(False)
- 
+
+        self.staticText7 = wx.StaticText(id=wxID_CREATENODEDIALOGSTATICTEXT7,
+              label='Description:', name='staticText7', parent=self.MainPanel,
+              pos=wx.Point(24, 248), size=wx.Size(71, 17), style=0)
+
+        self.Description = wx.TextCtrl(id=wxID_CREATENODEDIALOGDESCRIPTION, 
+              name='Description', parent=self.MainPanel, pos=wx.Point(24, 272), 
+              size=wx.Size(400, 25), style=0, value='')
+
         self._init_sizers()
 
     def __init__(self, parent):
@@ -2196,6 +2335,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Type.Append("master")
         self.Type.Append("slave")
         self.Type.SetStringSelection("slave")
+        self.Description.SetValue("")
         self.ListProfile = {"None" : ""}
         self.Profile.Append("None")
         self.Directory = os.path.join(ScriptDirectory, "config")
@@ -2214,14 +2354,20 @@ class CreateNodeDialog(wx.Dialog):
 
     def OnOK(self, event):
         name = self.Name.GetValue()
+        message = ""
         if name != "":
             good = not name[0].isdigit()
             for item in name.split("_"):
                 good &= item.isalnum()
-        else:
-            good = False
-        if not good:
-            message = wxMessageDialog(self, "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!", "ERROR", wxOK|wxICON_ERROR)
+            if not good:
+                message = "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!"
+        if message != "":
+            try:
+                nodeid = int(self.NodeID.GetValue(), 16)
+            except:
+                message = "Node ID must be an integer!"
+        if message != "":
+            message = wxMessageDialog(self, message, "ERROR", wxOK|wxICON_ERROR)
             message.ShowModal()
             message.Destroy()
             self.Name.SetFocus()
@@ -2232,9 +2378,10 @@ class CreateNodeDialog(wx.Dialog):
         name = self.Name.GetValue()
         nodeid = 0
         if self.NodeID.GetValue() != "":
-            nodeid = eval(self.NodeID.GetValue())
+            nodeid = int(self.NodeID.GetValue(), 16)
         type = self.Type.GetStringSelection()
-        return name, nodeid, type
+        description = self.Description.GetValue()
+        return name, nodeid, type, description
 
     def GetProfile(self):
         name = self.Profile.GetStringSelection()

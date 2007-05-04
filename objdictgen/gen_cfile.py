@@ -52,9 +52,11 @@ def GetValidTypeInfos(typename):
     result = type_model.match(typename)
     if result:
         values = result.groups()
-        if values[0] in ("UNSIGNED", "INTEGER") and eval(values[1]) in [i * 8 for i in xrange(1, 9)]:
+        if values[0] == "UNSIGNED" and int(values[1]) in [i * 8 for i in xrange(1, 9)]:
             return "UNS%s"%values[1], "", "uint%s"%values[1]
-        elif values[0] == "REAL" and eval(values[1]) in (32, 64):
+        if values[0] == "INTEGER" and int(values[1]) in [i * 8 for i in xrange(1, 9)]:
+            return "INTEGER%s"%values[1], "", "int%s"%values[1]
+        elif values[0] == "REAL" and int(values[1]) in (32, 64):
             return "%s%s"%(values[0], values[1]), "", "real%s"%values[1]
         elif values[0] == "VISIBLE_STRING":
             if values[1] == "":
@@ -215,7 +217,7 @@ def GenerateFileContent(Manager, headerfilepath):
                                 sep = ""
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
-                            if typeinfos[2] == "domain":
+                            elif typeinfos[2] == "domain":
                                 value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
                             else:
                                 comment = "\t/* %s */"%str(value)

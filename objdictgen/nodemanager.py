@@ -26,7 +26,7 @@ from gnosis.xml.pickle.util import setParanoia
 setParanoia(0)
 
 from node import *
-import eds_in, gen_cfile
+import eds_utils, gen_cfile
 
 from types import *
 import os, re
@@ -300,12 +300,13 @@ class NodeManager:
     """
     Constructor
     """
-    def __init__(self):
+    def __init__(self, cwd):
         self.LastNewIndex = 0
         self.FilePaths = []
         self.FileNames = []
         self.NodeIndex = -1
         self.CurrentNode = None
+        self.ScriptDirectory = cwd
         self.UndoBuffers = []
 
 #-------------------------------------------------------------------------------
@@ -358,17 +359,18 @@ class NodeManager:
     """
     Create a new node and add a new buffer for storing it
     """
-    def CreateNewNode(self, name, id, type, profile, filepath, NMT, options):
+    def CreateNewNode(self, name, id, type, description, profile, filepath, NMT, options):
         # Create a new node
         node = Node()
         # Try to load profile given
         result = self.LoadProfile(profile, filepath, node)
-        if not IsOfType(result, StringType):
+        if not result:
             # if success, initialising node
             self.CurrentNode = node
             self.CurrentNode.SetNodeName(name)
             self.CurrentNode.SetNodeID(id)
             self.CurrentNode.SetNodeType(type)
+            self.CurrentNode.SetNodeDescription(description)
             AddIndexList = self.GetMandatoryIndexes()
             if NMT == "NodeGuarding":
                 AddIndexList.extend([0x100C, 0x100D])
@@ -376,12 +378,13 @@ class NodeManager:
                 AddIndexList.append(0x1017)
             for option in options:
                 if option == "DS302":
+                    DS302Path = os.path.join(self.ScriptDirectory, "config/DS-302.prf")
                     # Charging DS-302 profile if choosen by user
-                    if os.path.isfile("config/DS-302.prf"):
+                    if os.path.isfile(DS302Path):
                         try:
-                        	execfile("config/DS-302.prf")
-                        	self.CurrentNode.SetDS302Profile(Mapping)
-                        	self.CurrentNode.ExtendSpecificMenu(AddMenuEntries)
+                            execfile(DS302Path)
+                            self.CurrentNode.SetDS302Profile(Mapping)
+                            self.CurrentNode.ExtendSpecificMenu(AddMenuEntries)
                         except:
                             return "Problem with DS-302! Syntax Error."
                     else:
@@ -417,15 +420,15 @@ class NodeManager:
                 node.SetProfileName(profile)
                 node.SetProfile(Mapping)
                 node.SetSpecificMenu(AddMenuEntries)
-                return True
+                return None
             except:
-                return "Bad OD Profile file!\nSyntax Error."
+                return "Syntax Error\nBad OD Profile file!."
         else:
             # Default profile
             node.SetProfileName("None")
             node.SetProfile({})
             node.SetSpecificMenu([])
-            return True
+            return None
 
     """
     Open a file and store it in a new buffer
@@ -473,25 +476,33 @@ class NodeManager:
         return False
 
     """
-    Import a xml file and store it in a new buffer if no node edited
+    Import an eds file and store it in a new buffer if no node edited
     """
-    def ImportCurrentFromFile(self, filepath):
+    def ImportCurrentFromEDSFile(self, filepath):
         # Generate node from definition in a xml file
-        node = eds_in.GenerateNode(filepath, self)
-        if node:
-            self.CurrentNode = node
+        result = eds_utils.GenerateNode(filepath, self, self.ScriptDirectory)
+        if isinstance(result, Node):
+            self.CurrentNode = result
             self.GenerateTypeList()
             self.GenerateMapList()
             if len(self.UndoBuffers) == 0:
                 self.AddNodeBuffer()
                 self.SetCurrentFilePath("")
             self.BufferCurrentNode()
-        return result
+            return None
+        else:
+            return result
+    
+    """
+    Export to an eds file and store it in a new buffer if no node edited
+    """
+    def ExportCurrentToEDSFile(self, filepath):
+        return eds_utils.GenerateEDSFile(filepath, self)
     
     """
     Build the C definition of Object Dictionary for current node 
     """
-    def ExportCurrentToFile(self, filepath):
+    def ExportCurrentToCFile(self, filepath):
         return gen_cfile.GenerateFile(filepath, self)
 
 #-------------------------------------------------------------------------------
@@ -645,6 +656,7 @@ class NodeManager:
             self.RemoveCurrentVariable(index)
         self.BufferCurrentNode()
 
+
     """
     Remove an entry from current node. Analize the index to perform the correct
     method
@@ -771,12 +783,17 @@ class NodeManager:
         if self.CurrentNode and self.CurrentNode.IsEntry(index):
             if name == "value":
                 if editor == "map":
-                    value = eval("0x%s"%self.NameTranslation[value])
-                    self.CurrentNode.SetEntry(index, subIndex, value)
+                    try:
+                        value = int(self.NameTranslation[value], 16)
+                        self.CurrentNode.SetEntry(index, subIndex, value)
+                    except:
+                        pass
                 elif editor == "bool":
                     value = value == "True"
                     self.CurrentNode.SetEntry(index, subIndex, value)
                 elif editor == "time":
+                    self.CurrentNode.SetEntry(index, subIndex, value)
+                elif editor == "number":
                     self.CurrentNode.SetEntry(index, subIndex, value)
                 elif editor == "domain":
                     try:
@@ -796,7 +813,7 @@ class NodeManager:
                         type = self.CurrentNode.GetEntry(type)[1]
                     if dic[type] == 0:
                         try:
-                            value = eval(value, {})
+                            value = int(value, 16)
                             self.CurrentNode.SetEntry(index, subIndex, value)
                         except:
                             pass
@@ -1007,12 +1024,14 @@ class NodeManager:
         name = self.CurrentNode.GetNodeName()
         id = self.CurrentNode.GetNodeID()
         type = self.CurrentNode.GetNodeType()
-        return name, id, type
+        description = self.CurrentNode.GetNodeDescription()
+        return name, id, type, description
         
-    def SetCurrentNodeInfos(self, name, id, type):
+    def SetCurrentNodeInfos(self, name, id, type, description):
         self.CurrentNode.SetNodeName(name)
         self.CurrentNode.SetNodeID(id)
         self.CurrentNode.SetNodeType(type)
+        self.CurrentNode.SetNodeDescription(description)
         self.BufferCurrentNode()
 
     def GetCurrentProfileName(self):
@@ -1142,10 +1161,12 @@ class NodeManager:
                         result = type_model.match(dic["type"])
                         if result:
                             values = result.groups()
-                            if values[0] in ["INTEGER", "UNSIGNED"]:
+                            if values[0] == "UNSIGNED":
                                 format = "0x%0" + str(int(values[1])/4) + "X"
                                 dic["value"] = format%dic["value"]
                                 editor["value"] = "string"
+                            if values[0] == "INTEGER":
+                                editor["value"] = "number"
                             elif values[0] == "REAL":
                                 editor["value"] = "float"
                             elif values[0] == "VISIBLE_STRING":
@@ -1153,7 +1174,7 @@ class NodeManager:
                         result = range_model.match(dic["type"])
                         if result:
                             values = result.groups()
-                            if values[0] in ("UNSIGNED", "REAL"):
+                            if values[0] in ["UNSIGNED", "INTEGER", "REAL"]:
                                 editor["min"] = values[2]
                                 editor["max"] = values[3]
                 editors.append(editor)
@@ -1170,74 +1191,81 @@ class NodeManager:
         customisabletypes = self.GetCustomisableTypes()
         return values, customisabletypes[values[1]][1]
 
-    def GetEntryName(self, index, node = True):
+    def GetEntryName(self, index, node = None):
         result = None
-        if node:
-            NodeMappings = self.CurrentNode.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindEntryName(index, NodeMappings[i])
-                i += 1
+        if node == None:
+            node = self.CurrentNode
+        NodeMappings = node.GetMappings()
+        i = 0
+        while not result and i < len(NodeMappings):
+            result = FindEntryName(index, NodeMappings[i])
+            i += 1
         if result == None:
             result = FindEntryName(index, MappingDictionary)
         return result
     
-    def GetEntryInfos(self, index, node = True):
+    def GetEntryInfos(self, index, node = None):
         result = None
-        if node:
-            NodeMappings = self.CurrentNode.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindEntryInfos(index, NodeMappings[i])
-                i += 1
+        if node == None:
+            node = self.CurrentNode
+        NodeMappings = node.GetMappings()
+        i = 0
+        while not result and i < len(NodeMappings):
+            result = FindEntryInfos(index, NodeMappings[i])
+            i += 1
         if result == None:
             result = FindEntryInfos(index, MappingDictionary)
         return result
     
-    def GetSubentryInfos(self, index, subIndex, node = True):
+    def GetSubentryInfos(self, index, subIndex, node = None):
         result = None
-        if node:
-            NodeMappings = self.CurrentNode.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindSubentryInfos(index, subIndex, NodeMappings[i])
-                if result:
-                    result["user_defined"] = i == len(NodeMappings) - 1 and index >= 0x1000
-                i += 1
+        if node == None:
+            node = self.CurrentNode
+        NodeMappings = node.GetMappings()
+        i = 0
+        while not result and i < len(NodeMappings):
+            result = FindSubentryInfos(index, subIndex, NodeMappings[i])
+            if result:
+                result["user_defined"] = i == len(NodeMappings) - 1 and index >= 0x1000
+            i += 1
         if result == None:    
             result = FindSubentryInfos(index, subIndex, MappingDictionary)
             if result:
                 result["user_defined"] = False
         return result
     
-    def GetTypeIndex(self, typename, node = True):
+    def GetTypeIndex(self, typename, node = None):
         result = None
-        if node:
-            NodeMappings = self.CurrentNode.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindTypeIndex(typename, NodeMappings[i])
-                i += 1
+        if node == None:
+            node = self.CurrentNode
+        NodeMappings = node.GetMappings()
+        i = 0
+        while not result and i < len(NodeMappings):
+            result = FindTypeIndex(typename, NodeMappings[i])
+            i += 1
         if result == None:
             result = FindTypeIndex(typename, MappingDictionary)
         return result
     
-    def GetTypeName(self, typeindex, node = True):
+    def GetTypeName(self, typeindex, node = None):
         result = None
-        if node:
-            NodeMappings = self.CurrentNode.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindTypeName(typeindex, NodeMappings[i])
-                i += 1
+        if node == None:
+            node = self.CurrentNode
+        NodeMappings = node.GetMappings()
+        i = 0
+        while not result and i < len(NodeMappings):
+            result = FindTypeName(typeindex, NodeMappings[i])
+            i += 1
         if result == None:
             result = FindTypeName(typeindex, MappingDictionary)
         return result
     
-    def GetTypeDefaultValue(self, typeindex, node = True):
+    def GetTypeDefaultValue(self, typeindex, node = None):
         result = None
+        if node == None:
+            node = self.CurrentNode
         if node:
-            NodeMappings = self.CurrentNode.GetMappings()
+            NodeMappings = node.GetMappings()
             i = 0
             while not result and i < len(NodeMappings):
                 result = FindTypeDefaultValue(typeindex, NodeMappings[i])
@@ -1246,26 +1274,30 @@ class NodeManager:
             result = FindTypeDefaultValue(typeindex, MappingDictionary)
         return result
     
-    def GetTypeList(self, node = True):
+    def GetTypeList(self, node = None):
         list = FindTypeList(MappingDictionary)
-        if node:
-            for NodeMapping in self.CurrentNode.GetMappings():
-                list.extend(FindTypeList(NodeMapping))
+        if node == None:
+            node = self.CurrentNode
+        for NodeMapping in self.CurrentNode.GetMappings():
+            list.extend(FindTypeList(NodeMapping))
         list.sort()
         return list
     
-    def GetMapVariableList(self):
+    def GetMapVariableList(self, node = None):
         list = FindMapVariableList(MappingDictionary, self)
-        for NodeMapping in self.CurrentNode.GetMappings():
+        if node == None:
+            node = self.CurrentNode
+        for NodeMapping in node.GetMappings():
             list.extend(FindMapVariableList(NodeMapping, self))
         list.sort()
         return list
     
-    def GetMandatoryIndexes(self, node = True):
+    def GetMandatoryIndexes(self, node = None):
         list = FindMandatoryIndexes(MappingDictionary)
-        if node:
-            for NodeMapping in self.CurrentNode.GetMappings():
-                list.extend(FindMandatoryIndexes(NodeMapping))
+        if node == None:
+            node = self.CurrentNode
+        for NodeMapping in node.GetMappings():
+            list.extend(FindMandatoryIndexes(NodeMapping))
         return list
     
     def GetCustomisableTypes(self):
@@ -1280,4 +1312,3 @@ class NodeManager:
             return self.CurrentNode.GetSpecificMenu()
         return []
 
-    
