@@ -90,6 +90,11 @@ struct struct_CO_Data {
 	CAN_HANDLE canHandle;	
 	scanIndexOD_t scanIndexOD;
 	storeODSubIndex_t storeODSubIndex; 
+	
+	/* DCF concise */
+	void* dcf_cursor;
+	UNS32 dcf_count_targets;
+	
 };
 
 #define NMTable_Initializer Unknown_state,
@@ -173,7 +178,9 @@ struct struct_CO_Data {
 	0,                                         /* toggle */\
 	NULL,                   /* canSend */\
 	NODE_PREFIX ## _scanIndexOD,                /* scanIndexOD */\
-	_storeODSubIndex                /* storeODSubIndex */\
+	_storeODSubIndex,                /* storeODSubIndex */\
+	NULL,		/*dcf_cursor*/\
+	1		/*dcf_count_targets*/\
 }
 
 #endif /* __data_h__ */

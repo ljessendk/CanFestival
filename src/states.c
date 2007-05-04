@@ -110,16 +110,26 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				switchCommunicationState(d, &newCommunicationState);
 				/* call user app related state func. */
 				(*d->initialisation)();
+				
 			}
 			break;
 								
 			case Pre_operational:
 			{
+				
 				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0};
 				d->nodeState = Pre_operational;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				(*d->preOperational)();
+				if (!(*(d->iam_a_slave)))
+				{
+					UNS32 res;
+					res = decompo_dcf(d,0x01);
+				}
+				else 
+				{
+					(*d->preOperational)();
+				}
 			}
 			break;
 								
