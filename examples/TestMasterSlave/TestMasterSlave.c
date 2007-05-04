@@ -49,8 +49,8 @@ UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8
 	return 0;
 }
 
-s_BOARD SlaveBoard = {"0", "500K"};
-s_BOARD MasterBoard = {"1", "500K"};
+s_BOARD SlaveBoard = {"0", "125K"};
+s_BOARD MasterBoard = {"1", "125K"};
 
 #if !defined(WIN32) || defined(__CYGWIN__)
 void catch_signal(int sig)
@@ -69,7 +69,8 @@ void help()
   printf("*  A simple example for PC. It does implement 2 CanOpen      *\n");
   printf("*  nodes in the same process. A master and a slave. Both     *\n");
   printf("*  communicate together, exchanging periodically NMT, SYNC,  *\n");
-  printf("*  SDO and PDO.                                              *\n");
+  printf("*  SDO and PDO. Master configure heartbeat producer time     *\n");
+  printf("*  at 1000 ms for slave node-id 0x02 by concise DCF.         *\n");                                  
   printf("*                                                            *\n");
   printf("*   Usage:                                                   *\n");
   printf("*   ./TestMasterSlave  [OPTIONS]                             *\n");
@@ -92,7 +93,7 @@ void help()
 void InitNodes(CO_Data* d, UNS32 id)
 {
 	/****************************** INITIALISATION SLAVE *******************************/
-	if(SlaveBoard.baudrate) {
+	if(strcmp(SlaveBoard.baudrate, "none")) {
 		/* Defining the node Id */
 		setNodeId(&TestSlave_Data, 0x02);
 		/* init */
@@ -100,21 +101,15 @@ void InitNodes(CO_Data* d, UNS32 id)
 	}
 
 	/****************************** INITIALISATION MASTER *******************************/
-	if(MasterBoard.baudrate){
+	if(strcmp(MasterBoard.baudrate, "none")){
  		RegisterSetODentryCallBack(&TestMaster_Data, 0x2000, 0, &OnMasterMap1Update);
-
+		
 		/* Defining the node Id */
 		setNodeId(&TestMaster_Data, 0x01);
 
 		/* init */
 		setState(&TestMaster_Data, Initialisation);
-
-		/****************************** START *******************************/
-		/* Put the master in operational mode */
-		setState(&TestMaster_Data, Operational);
-  
-		/* Ask slave node to go in operational mode */
-		masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Start_Node);
+			
 	}
 }
 
@@ -188,7 +183,8 @@ int main(int argc,char **argv)
 	LoadCanDriver(LibraryPath);
 #endif		
 	// Open CAN devices
-	if(strcmp( SlaveBoard.baudrate, "none")){
+
+	if(strcmp(SlaveBoard.baudrate, "none")){
 		
 		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
 		TestSlave_Data.initialisation = TestSlave_initialisation;
@@ -204,8 +200,7 @@ int main(int argc,char **argv)
 			goto fail_slave;
 		}
 	}
-
-	if(strcmp( MasterBoard.baudrate, "none")){
+	if(strcmp(MasterBoard.baudrate, "none")){
 		
 		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
 		TestMaster_Data.initialisation = TestMaster_initialisation;
@@ -216,27 +211,31 @@ int main(int argc,char **argv)
 		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
 		
 		if(!canOpen(&MasterBoard,&TestMaster_Data)){
-			eprintf("Cannot open Master Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
+			eprintf("Cannot open Master Board (%s,%s)\n",MasterBoard.busname, MasterBoard.baudrate);
 			goto fail_master;
 		}
 	}
-	
+	sleep(2);
 	// Start timer thread
 	StartTimerLoop(&InitNodes);
 
 	// wait Ctrl-C
+	
 	pause();
 	eprintf("Finishing.\n");
+	
+	masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Reset_Node);
+	eprintf("reset\n");
+	// Stop master
+	setState(&TestMaster_Data, Stopped);
 	
 	// Stop timer thread
 	StopTimerLoop();
 	
 	// Close CAN devices (and can threads)
-	if(strcmp( SlaveBoard.baudrate, "none")) canClose(&TestSlave_Data);
+	if(strcmp(SlaveBoard.baudrate, "none")) canClose(&TestSlave_Data);
 fail_master:
-	if(strcmp( MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);	
+	if(strcmp(MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);	
 fail_slave:
-	
-
-  return 0;
+	return 0;
 }

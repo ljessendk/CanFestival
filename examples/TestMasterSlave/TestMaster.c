@@ -26,7 +26,7 @@ UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value)
 /* The node id                                                            */
 /**************************************************************************/
 /* node_id default value.*/
-UNS8 TestMaster_bDeviceNodeId = 0x00;
+UNS8 TestMaster_bDeviceNodeId = 0x01;
 
 /**************************************************************************/
 /* Array of message processing information */
@@ -85,14 +85,6 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 TestMaster_obj1010_Save_Communication_Parameters = 0x0;	/* 0 */
                     UNS32 TestMaster_obj1010_Save_Application_Parameters = 0x0;	/* 0 */
                     UNS32 TestMaster_obj1010_Save_Manufacturer_Parameters = 0x0;	/* 0 */
-                    ODCallback_t TestMaster_Index1010_callbacks[] = 
-                     {
-                       NULL,
-                       NULL,
-                       NULL,
-                       NULL,
-                       NULL,
-                     };
                     subindex TestMaster_Index1010[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1010 },
@@ -108,14 +100,6 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 TestMaster_obj1011_Restore_Communication_Default_Parameters = 0x0;	/* 0 */
                     UNS32 TestMaster_obj1011_Restore_Application_Default_Parameters = 0x0;	/* 0 */
                     UNS32 TestMaster_obj1011_Restore_Manufacturer_Default_Parameters = 0x0;	/* 0 */
-                    ODCallback_t TestMaster_Index1011_callbacks[] = 
-                     {
-                       NULL,
-                       NULL,
-                       NULL,
-                       NULL,
-                       NULL,
-                     };
                     subindex TestMaster_Index1011[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1011 },
@@ -129,7 +113,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 TestMaster_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1016[] = 
                     {
-                      0x20802	/* 133122 */
+                      0x5DC	/* 1500 */
                     };
                     subindex TestMaster_Index1016[] = 
                      {
@@ -230,11 +214,21 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1601[1] }
                      };
 
-/* index 0x2000 :   Mapped variable MasterMap1 */
-                    ODCallback_t MasterMap1_callbacks[] = 
+/* index 0x1F22 :   Concise DCF. */
+                    UNS8 TestMaster_highestSubIndex_obj1F22 = 2; /* number of subindex - 1*/
+                    UNS8* TestMaster_obj1F22[] = 
+                    {
+                      "",
+                      "\x01\x00\x00\x00\x17\x10\x00\x02\x00\x00\x00\xe8\x03"
+                    };
+                    subindex TestMaster_Index1F22[] = 
                      {
-                       NULL,
+                       { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1F22 },
+                       { RW, domain, 0, (void*)&TestMaster_obj1F22[0] },
+                       { RW, domain, 13, (void*)&TestMaster_obj1F22[1] }
                      };
+
+/* index 0x2000 :   Mapped variable MasterMap1 */
                     subindex TestMaster_Index2000[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&MasterMap1 }
@@ -273,6 +267,7 @@ const indextable TestMaster_objdict[] =
   { (subindex*)TestMaster_Index1401,sizeof(TestMaster_Index1401)/sizeof(TestMaster_Index1401[0]), 0x1401},
   { (subindex*)TestMaster_Index1600,sizeof(TestMaster_Index1600)/sizeof(TestMaster_Index1600[0]), 0x1600},
   { (subindex*)TestMaster_Index1601,sizeof(TestMaster_Index1601)/sizeof(TestMaster_Index1601[0]), 0x1601},
+  { (subindex*)TestMaster_Index1F22,sizeof(TestMaster_Index1F22)/sizeof(TestMaster_Index1F22[0]), 0x1F22},
   { (subindex*)TestMaster_Index2000,sizeof(TestMaster_Index2000)/sizeof(TestMaster_Index2000[0]), 0x2000},
   { (subindex*)TestMaster_Index2001,sizeof(TestMaster_Index2001)/sizeof(TestMaster_Index2001[0]), 0x2001},
   { (subindex*)TestMaster_Index2002,sizeof(TestMaster_Index2002)/sizeof(TestMaster_Index2002[0]), 0x2002},
@@ -288,8 +283,8 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x1001: i = 1;break;
 		case 0x1005: i = 2;*callbacks = TestMaster_Index1005_callbacks; break;
 		case 0x1006: i = 3;*callbacks = TestMaster_Index1006_callbacks; break;
-		case 0x1010: i = 4;*callbacks = TestMaster_Index1010_callbacks; break;
-		case 0x1011: i = 5;*callbacks = TestMaster_Index1011_callbacks; break;
+		case 0x1010: i = 4;break;
+		case 0x1011: i = 5;break;
 		case 0x1016: i = 6;break;
 		case 0x1018: i = 7;break;
 		case 0x1280: i = 8;break;
@@ -297,10 +292,11 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x1401: i = 10;break;
 		case 0x1600: i = 11;break;
 		case 0x1601: i = 12;break;
-		case 0x2000: i = 13;*callbacks = MasterMap1_callbacks; break;
-		case 0x2001: i = 14;break;
-		case 0x2002: i = 15;break;
-		case 0x2003: i = 16;break;
+		case 0x1F22: i = 13;break;
+		case 0x2000: i = 14;break;
+		case 0x2001: i = 15;break;
+		case 0x2002: i = 16;break;
+		case 0x2003: i = 17;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;

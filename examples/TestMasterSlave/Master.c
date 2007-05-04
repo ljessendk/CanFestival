@@ -40,7 +40,7 @@ void TestMaster_initialisation()
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0282;
 	UNS8 size = sizeof(UNS32); 
-
+	
 	eprintf("TestMaster_initialisation\n");
 
 	/*****************************************
@@ -61,6 +61,25 @@ void TestMaster_initialisation()
 			RW);  /* UNS8 checkAccess */
 }
 
+// Step counts number of times ConfigureSlaveNode is called
+static init_step = 0;
+
+/*Froward declaration*/
+static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId);
+
+/**/
+static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
+{
+	UNS32 abortCode;	
+	if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
+		eprintf("Master : Failed in initializing slave %2.2x, step %d, AbortCode :%4.4x \n", nodeId, init_step, abortCode);
+
+	/* Finalise last SDO transfer with this node */
+	closeSDOtransfer(&TestMaster_Data, nodeId, SDO_CLIENT);
+
+	ConfigureSlaveNode(d, nodeId);
+}
+
 /********************************************************
  * ConfigureSlaveNode is responsible to
  *  - setup slave TPDO 1 transmit time
@@ -76,72 +95,59 @@ void TestMaster_initialisation()
  * then it called again each time a SDO exchange is
  * finished.
  ********************************************************/
+ 
 static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 {
-	// Step counts number of times ConfigureSlaveNode is called
-	static step = 1;
-	
-	UNS8 Transmission_Type = 0x01; 
+	/* Master configure heartbeat producer time at 1000 ms 
+	 * for slave node-id 0x02 by DCF concise */
+	 
+	UNS8 Transmission_Type = 0x01;
 	UNS32 abortCode;
 	UNS8 res;
 	eprintf("Master : ConfigureSlaveNode %2.2x\n", nodeId);
 
-	switch(step++){
+	switch(++init_step){
 		case 1: /*First step : setup Slave's TPDO 1 to be transmitted on SYNC*/
 			eprintf("Master : set slave %2.2x TPDO 1 transmit type\n", nodeId);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
-					*TestSlave_Data.bDeviceNodeId, /*UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
 					0x1800, /*UNS16 index*/
 					0x02, /*UNS8 subindex*/
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					ConfigureSlaveNode); /*SDOCallback_t Callback*/			break;
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					break;
+		
 		case 2:	/*Second step*/
-			/*check and warn for previous slave OD access error*/
-			if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
-				eprintf("Master : Couldn't set slave %2.2x TPDO 1 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
-
-			/* Finalise last SDO transfer with this node */
-			closeSDOtransfer(&TestMaster_Data,
-					*TestSlave_Data.bDeviceNodeId,
-					SDO_CLIENT);
-					
-			/*Setup Slave's TPDO 1 to be transmitted on SYNC*/
 			eprintf("Master : set slave %2.2x TPDO 2 transmit type\n", nodeId);
 			writeNetworkDictCallBack (d, /*CO_Data* d*/
-					*TestSlave_Data.bDeviceNodeId, /*UNS8 nodeId*/
+					nodeId, /*UNS8 nodeId*/
 					0x1801, /*UNS16 index*/
 					0x02, /*UNS16 index*/
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					ConfigureSlaveNode); /*SDOCallback_t Callback*/
-			break;
-		case 3: /*Last step*/
-			/*check and warn for previous slave OD access error*/
-			if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
-				eprintf("Master : Couldn't set slave %2.2x TPDO 2 transmit type. AbortCode :%4.4x \n", nodeId, abortCode);
-
-			/* Finalise last SDO transfer with this node */
-			closeSDOtransfer(&TestMaster_Data,
-					*TestSlave_Data.bDeviceNodeId,
-					SDO_CLIENT);
-
+					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					break;
+		case 3: 
+		
+		/****************************** START *******************************/
+		
 			/* Put the master in operational mode */
 			setState(d, Operational);
-			  
+		 
 			/* Ask slave node to go in operational mode */
 			masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
-	}
 			
+	}
 }
 
 void TestMaster_preOperational()
 {
 
 	eprintf("TestMaster_preOperational\n");
-	ConfigureSlaveNode(&TestMaster_Data, 2);
+	ConfigureSlaveNode(&TestMaster_Data, 0x02);
 	
 }
 
@@ -167,7 +173,7 @@ char waiting_answer = 0;
 void TestMaster_post_TPDO()
 {
 	eprintf("TestMaster_post_TPDO\n");
-
+//
 //	{
 //		char zero = 0;
 //		if(MasterMap4 > 0x80){
@@ -217,5 +223,4 @@ void TestMaster_post_TPDO()
 			0);
 		waiting_answer = 1;
 	}
-		
 }
