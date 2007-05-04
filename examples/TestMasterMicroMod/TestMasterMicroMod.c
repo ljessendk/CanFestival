@@ -351,11 +351,12 @@ void help()
   printf("*                                                            *\n");
   printf("*  A simple example for PC.                                  *\n");
   printf("*  A CanOpen master that control a MicroMod module:          *\n");
-  printf("*  - setup module TPDO 1 transmit type (ignored ?)           *\n");
-  printf("*  - setup module RPDO 1 transmit type (ignored ?)           *\n");
+  printf("*  - setup module TPDO 1 transmit type                       *\n");
+  printf("*  - setup module RPDO 1 transmit type                       *\n");
   printf("*  - setup module hearbeatbeat period                        *\n");
+  printf("*  - disable others TPDOs                                    *\n");
   printf("*  - set state to operational                                *\n");
-  printf("*  - send periodic SYNC (ignored ?)                          *\n");
+  printf("*  - send periodic SYNC                                      *\n");
   printf("*  - send periodic RPDO 1 to Micromod (digital output)       *\n");
   printf("*  - listen Micromod's TPDO 1 (digital input)                *\n");
   printf("*                                                            *\n");
