@@ -99,6 +99,10 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 /*****************************************************************************/
 UNS8 setState(CO_Data* d, e_nodeState newState)
 {
+	UNS16 wIndex = 0x1F22;
+	const indextable *ptrTable;
+  	ODCallback_t *Callback;
+	UNS32 errorCode;
 	while(newState != d->nodeState){
 		switch( newState ){
 			case Initialisation:
@@ -123,8 +127,17 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				switchCommunicationState(d, &newCommunicationState);
 				if (!(*(d->iam_a_slave)))
 				{
-					UNS32 res;
-					res = decompo_dcf(d,0x01);
+					ptrTable =(*d->scanIndexOD)(wIndex, &errorCode, &Callback);
+  					
+  					if (errorCode != OD_SUCCESSFUL)
+  						{
+  							(*d->preOperational)();
+  						}
+					else
+						{
+							UNS32 res;
+							res = decompo_dcf(d,0x01);
+						}				
 				}
 				else 
 				{
