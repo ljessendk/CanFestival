@@ -108,7 +108,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
        int err;
        CAN_HANDLE fd0 = malloc(sizeof(int));
 
-       *(int*)fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, 0);
+       *(int*)fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, CAN_RAW);
        if(*(int*)fd0 < 0){
                fprintf(stderr,"Socket creation failed.\n");
                goto error_ret;
@@ -133,7 +133,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
        return fd0;
 
  error_close:
-       CAN_CLOSE(fd0);
+       CAN_CLOSE(*(int*)fd0);
 
  error_ret:
        free(fd0);
