@@ -47,7 +47,6 @@ def IsOfType(object, typedef):
 """
 Format the text given with the index and subindex defined
 """
-
 def StringFormat(text, idx, sub):
     result = name_model.match(text)
     if result:
@@ -794,7 +793,10 @@ class NodeManager:
                 elif editor == "time":
                     self.CurrentNode.SetEntry(index, subIndex, value)
                 elif editor == "number":
-                    self.CurrentNode.SetEntry(index, subIndex, value)
+                    try:
+                        self.CurrentNode.SetEntry(index, subIndex, int(value))
+                    except:
+                        pass
                 elif editor == "domain":
                     try:
                         if len(value) % 2 != 0:
