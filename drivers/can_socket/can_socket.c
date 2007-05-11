@@ -37,7 +37,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAN_BIND       rt_dev_bind
 #define CAN_IOCTL      rt_dev_ioctl
 #else
-#include "af_can.h"
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include "linux/can.h"
+#include "linux/can/raw.h"
+#include "net/if.h"
+#define PF_CAN 29
+#define AF_CAN PF_CAN
+//#include "af_can.h"
 #define CAN_IFNAME     "can%s"
 #define CAN_SOCKET     socket
 #define CAN_CLOSE      close
@@ -55,7 +62,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
        int res;
        struct can_frame frame;
 
-       res = CAN_RECV(fd0, &frame, sizeof(frame), 0);
+       res = CAN_RECV(*(int*)fd0, &frame, sizeof(frame), 0);
        if (res < 0)
                return 1;
 
@@ -86,7 +93,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
        else
                memcpy(frame.data, m->data, 8);
 
-       res = CAN_SEND(fd0, &frame, sizeof(frame), 0);
+       res = CAN_SEND(*(int*)fd0, &frame, sizeof(frame), 0);
        if (res < 0)
                return 1;
 
@@ -96,19 +103,19 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 /***************************************************************************/
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
-       CAN_HANDLE fd0;
        struct ifreq ifr;
        struct sockaddr_can addr;
        int err;
+       CAN_HANDLE fd0 = malloc(sizeof(int));
 
-       fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, 0);
-       if(fd0 < 0){
+       *(int*)fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, 0);
+       if(*(int*)fd0 < 0){
                fprintf(stderr,"Socket creation failed.\n");
                goto error_ret;
        }
 
        snprintf(ifr.ifr_name, IFNAMSIZ, CAN_IFNAME, board->busname);
-       err = CAN_IOCTL(fd0, SIOCGIFINDEX, &ifr);
+       err = CAN_IOCTL(*(int*)fd0, SIOCGIFINDEX, &ifr);
        if (err) {
                fprintf(stderr, "Unknown device: %s\n", ifr.ifr_name);
                goto error_close;
@@ -116,7 +123,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 
        addr.can_family  = AF_CAN;
        addr.can_ifindex = ifr.ifr_ifindex;
-       err = CAN_BIND(fd0, (struct sockaddr *)&addr,
+       err = CAN_BIND(*(int*)fd0, (struct sockaddr *)&addr,
                              sizeof(addr));
        if (err) {
                fprintf(stderr, "Binding failed.\n");
@@ -129,6 +136,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
        CAN_CLOSE(fd0);
 
  error_ret:
+       free(fd0);
        return NULL;
 }
 
@@ -136,7 +144,8 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 int canClose_driver(CAN_HANDLE fd0)
 {
        if (fd0) {
-               CAN_CLOSE(fd0);
+               CAN_CLOSE(*(int*)fd0);
+               free(fd0);
        }
        return 0;
 }
