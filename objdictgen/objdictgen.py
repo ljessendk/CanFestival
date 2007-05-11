@@ -53,7 +53,7 @@ else:
 
 if __name__ == '__main__':
     if fileIn != "" and fileOut != "":
-        manager = NodeManager()
+        manager = NodeManager(sys.path[0])
         if os.path.isfile(fileIn):
             print "Parsing input file"
             result = manager.OpenFileInCurrent(fileIn)
