@@ -27,8 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Prototypes for internals functions */
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id);
-UNS32 OnHearbeatUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
-
+UNS32 OnHearbeatProducerUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
 
 /*****************************************************************************/
 e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
@@ -137,7 +136,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
 
 /*****************************************************************************/
 /* This is called when Index 0x1017 is updated.*/
-UNS32 OnHeartbeatProducerUpdate(CO_Data* d)
+UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	heartbeatStop(d);
 	heartbeatInit(d);
@@ -149,7 +148,7 @@ void heartbeatInit(CO_Data* d)
 {
 		
     UNS8 index; /* Index to scan the table of heartbeat consumers */
-	RegisterSetODentryCallBack(d, 0x1017,0x00, &OnHeartbeatProducerUpdate);
+	RegisterSetODentryCallBack(d, 0x1017, 0x00, &OnHeartbeatProducerUpdate);
     
     d->toggle = 0;
 	
