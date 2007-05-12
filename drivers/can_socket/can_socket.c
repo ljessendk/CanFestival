@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <string.h>
 #include <stdlib.h>
 #include <stddef.h> /* for NULL */
+#include <errno.h>
 
 #include "config.h"
 
@@ -101,23 +102,64 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 }
 
 /***************************************************************************/
+#ifdef RTCAN_SOCKET
+int TranslateBaudRate(const char* optarg) {
+       int baudrate;
+       int val, len;
+       char *pos = NULL;
+
+       len = strlen(optarg);
+       if (!len)
+               return 0;
+
+       switch ((int)optarg[len - 1]) {
+       case 'M':
+               baudrate =  1000000;
+               break;
+       case 'K':
+               baudrate =  1000;
+               break;
+       default:
+               baudrate = 1;
+               break;
+       }
+       if ((sscanf(optarg, "%i", &val)) == 1)
+               baudrate *= val;
+       else
+               baudrate = 0;;
+
+       printf("baudrate=%d (%s)\n", baudrate, optarg);
+       return baudrate;
+}
+#endif
+
+/***************************************************************************/
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
        struct ifreq ifr;
        struct sockaddr_can addr;
        int err;
        CAN_HANDLE fd0 = malloc(sizeof(int));
+#ifdef RTCAN_SOCKET
+       can_baudrate_t *baudrate;
+       can_mode_t *mode;
+#endif
 
        *(int*)fd0 = CAN_SOCKET(PF_CAN, SOCK_RAW, CAN_RAW);
-       if(*(int*)fd0 < 0){
-               fprintf(stderr,"Socket creation failed.\n");
+       if (*(int*)fd0 < 0) {
+               perror("Socket creation failed");
                goto error_ret;
        }
 
-       snprintf(ifr.ifr_name, IFNAMSIZ, CAN_IFNAME, board->busname);
+       if (*board->busname >= '0' && *board->busname <= '9')
+               snprintf(ifr.ifr_name, IFNAMSIZ, CAN_IFNAME,
+                        board->busname);
+       else
+               strncpy(ifr.ifr_name, board->busname, IFNAMSIZ);
        err = CAN_IOCTL(*(int*)fd0, SIOCGIFINDEX, &ifr);
        if (err) {
-               fprintf(stderr, "Unknown device: %s\n", ifr.ifr_name);
+               fprintf(stderr, "Getting IF index for %s failed: %s\n",
+                       ifr.ifr_name, strerror(errno));
                goto error_close;
        }
 
@@ -126,9 +168,32 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
        err = CAN_BIND(*(int*)fd0, (struct sockaddr *)&addr,
                              sizeof(addr));
        if (err) {
-               fprintf(stderr, "Binding failed.\n");
+               perror("Binding failed");
                goto error_close;
        }
+
+#ifdef RTCAN_SOCKET
+       baudrate = (can_baudrate_t *)&ifr.ifr_ifru;
+       *baudrate = TranslateBaudRate(board->baudrate);
+       if (!*baudrate)
+               goto error_close;
+
+       err = CAN_IOCTL(*(int*)fd0, SIOCSCANBAUDRATE, &ifr);
+       if (err) {
+               fprintf(stderr,
+                       "Setting baudrate %d failed: %s\n",
+                       *baudrate, strerror(errno));
+               goto error_close;
+       }
+
+       mode = (can_mode_t *)&ifr.ifr_ifru;
+       *mode = CAN_MODE_START;
+       err = CAN_IOCTL(*(int*)fd0, SIOCSCANMODE, &ifr);
+       if (err) {
+               perror("Starting CAN device failed");
+               goto error_close;
+       }
+#endif
 
        return fd0;
 
