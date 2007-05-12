@@ -53,7 +53,7 @@ driver: $(DRIVER)
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 cyg$(CAN_DRIVER).dll: $(OBJS)
-	gcc -shared -o $@ \
+	$(CC) -shared -o $@ \
 	-Wl,--export-all-symbols \
 	-Wl,--enable-auto-import \
 	-Wl,--whole-archive $< \

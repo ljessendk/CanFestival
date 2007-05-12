@@ -395,7 +395,7 @@ void InitNodes(CO_Data* d, UNS32 id)
 int main(int argc,char **argv)
 {
 
-  char c;
+  int c;
   extern char *optarg;
   char* LibraryPath="libcanfestival_can_virtual.so";
   char *snodeid;

@@ -28,18 +28,16 @@ const indextable *ptrTable;
 
 static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 {
-	UNS32 res;
-	UNS8 line;
-	UNS8 err;
-	UNS16 Index;
-	UNS8 SubIndex;
 	UNS32 abortCode;
 	
 	if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
-		printf("Master : Failed in initializing slave %2.2x, AbortCode :%4.4x \n", nodeId, abortCode);
-	
+	{
+		MSG_ERR(0x1A01, "SDO error in consise DCF", abortCode);
+		MSG_WAR(0x2A02, "server node : ", nodeId);
+	}
+
 	closeSDOtransfer(d, nodeId, SDO_CLIENT);
-	res = decompo_dcf(d,nodeId);
+	decompo_dcf(d,nodeId);
 }
 
 UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
@@ -48,7 +46,6 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
 		UNS16 target_Index;
 		UNS8 target_Subindex;
 		UNS32 target_Size;
-		void* target_data = NULL;
 		UNS32 res;
   		ODCallback_t *Callback;
 
@@ -93,7 +90,7 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
 				target_Size = *((UNS32*)(d->dcf_cursor)); d->dcf_cursor += 4;
 	#endif
 				
-					printf("Master : ConfigureSlaveNode %2.2x (Concise DCF)\n",nodeId);
+					/*printf("Master : ConfigureSlaveNode %2.2x (Concise DCF)\n",nodeId);*/
 					res = writeNetworkDictCallBack(d, /*CO_Data* d*/
 							nodeId, /*UNS8 nodeId*/
 							target_Index, /*UNS16 index*/
