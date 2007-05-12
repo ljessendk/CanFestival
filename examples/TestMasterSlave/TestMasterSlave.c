@@ -215,7 +215,7 @@ int main(int argc,char **argv)
 			goto fail_master;
 		}
 	}
-	sleep(2);
+
 	// Start timer thread
 	StartTimerLoop(&InitNodes);
 
