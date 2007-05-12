@@ -42,7 +42,7 @@ CANPipe canpipes[MAX_NB_CAN_PIPES] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0
 /*********functions which permit to communicate with the board****************/
 UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
-	if(read(((CANPipe*)fd0)->pipe[0], m, sizeof(Message)) < sizeof(Message))
+	if(read(((CANPipe*)fd0)->pipe[0], m, sizeof(Message)) != (ssize_t)sizeof(Message))
 	{
 		return 1;
 	}
