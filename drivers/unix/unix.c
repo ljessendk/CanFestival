@@ -103,7 +103,7 @@ LIB_HANDLE LoadCanDriver(char* driver_name)
 	DLSYM(canOpen)
 	DLSYM(canClose)
 
-	return 0;
+	return handle;
 }
 
 #endif
