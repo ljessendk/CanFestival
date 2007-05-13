@@ -101,10 +101,7 @@ while [ $# -ge 1 ]; do
 			echo "On user request: Won't optimize with \"-Ox\"";;
 	--disable-dll)	DISABLE_DLL=1;
 			echo "On user request: Won't create and link to dll";;
-	--debug)	DEBUG=1;
-			echo "Debug messages enabled !!";;
-	--debugPDO)	DEBUG=PDO;
-			echo "Debug messages (PDO) enabled !!";;
+	--debug=*)	DEBUG=$optarg;;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
 	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$1;;
 	--SDO_MAX_SIMULTANEOUS_TRANSFERTS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERTS=$1;;
@@ -137,8 +134,10 @@ while [ $# -ge 1 ]; do
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
-		echo	" --debug       Enable debug messages."
-		echo	" --debugPDO    Enable debug messages, using PDO."
+		echo	" --debug=foo   Enable debug messages, ERR -> only errors, WAR)."
+		echo	"                 \"PDO\" send errors and warnings through PDO messages"
+		echo	"                 \"ERR\" errors only, to stdout"
+		echo	"                 \"WAR\" errors and warnings, to stdout"
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -593,12 +592,16 @@ echo "#endif /* _CONFIG_H_ */" >> include/config.h
 ###########################################################################
 #                           DEBUG DEFINES/CFLAGS                          #
 ###########################################################################
-if [ "$DEBUG" != "" ]; then
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_CAN\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g
+if [ "$DEBUG" = "WAR" ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g
+fi
+
+if [ "$DEBUG" = "ERR" ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_ERR_CONSOLE_ON\ -g
 fi
 
 if [ "$DEBUG" = "PDO" ]; then
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DPDO_ERROR
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g\ -DPDO_ERROR
 fi
 
 if [ "$DISABLE_OPT" = "1" ]; then
