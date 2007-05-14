@@ -66,7 +66,7 @@ if __name__ == '__main__':
             print "%s is not a valid file!"%fileIn
             sys.exit(-1)
         print "Writing output file"
-        result = manager.ExportCurrentToFile(fileOut)
+        result = manager.ExportCurrentToCFile(fileOut)
         if type(result) == UnicodeType:
             print result
             sys.exit(-1)
