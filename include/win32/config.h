@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define SDO_TIMEOUT_MS 3000
 #define MAX_NB_TIMER 32
 // CANOPEN_BIG_ENDIAN is not defined
-#define CANOPEN_LITTLE_ENDIAN 1
 
 #define US_TO_TIMEVAL_FACTOR 1
 

@@ -53,7 +53,6 @@ TIMEVAL=
 TIMEVAL_MAX=
 
 # Default to little-endian
-CANOPEN_LITTLE_ENDIAN=1
 CANOPEN_BIG_ENDIAN=
 
 ###########################################################################
@@ -321,6 +320,11 @@ if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 	SUB_PROG_CFLAGS=-fPIC
 fi
 
+if [ "$SUB_ARCH_NAME" = "ppc" -o "$SUB_ARCH_NAME" = "powerpc" ]; then
+	# PowerPC uses big endian format
+	CANOPEN_BIG_ENDIAN=1
+fi
+
 ###########################################################################
 #                      DEFAULT TARGET/DRIVERS GUESSING                    #
 ###########################################################################
@@ -520,11 +524,6 @@ echo "Using prefix: ${SUB_PREFIX}"
 #                   CANFESTIVAL DEFINES --> config.h                      #
 ###########################################################################
 # Some CONSTANTS preparation
-if [ "$CANOPEN_BIG_ENDIAN" = "" ]; then
-	CANOPEN_LITTLE_ENDIAN=1
-else
-	CANOPEN_LITTLE_ENDIAN=
-fi
 
 # Create include/config.h with the relevant contents
 rm -f include/config.h
@@ -562,7 +561,6 @@ for i in \
  SDO_TIMEOUT_MS\
  MAX_NB_TIMER\
  CANOPEN_BIG_ENDIAN\
- CANOPEN_LITTLE_ENDIAN\
  US_TO_TIMEVAL_FACTOR\
  TIMEVAL\
  TIMEVAL_MAX\

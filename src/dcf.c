@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "objacces.h"
 #include "sdo.h"
 #include "dcf.h"
+#include "sysdep.h"
 
 const indextable *ptrTable;
 
@@ -69,26 +70,16 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
 					d->dcf_cursor = dcf + 4;
 					d->dcf_count_targets = 0;
 				}
-	#ifdef CANOPEN_BIG_ENDIAN
-				nb_targets = ((UNS8*)d->dcf++) | ((UNS8*)d->dcf++) << 8 | ((UNS8*)d->dcf++) << 16 | ((UNS8*)d->dcf++) << 24;
-	#else
-				nb_targets = *((UNS32*)dcf);
-	#endif
+				nb_targets = UNS32_LE(*((UNS32*)dcf));
 		  	}
 			
 			// condition on consise DCF string for NodeID, if big enough
 			if(d->dcf_cursor + 7 < dcfend && d->dcf_count_targets < nb_targets)
 			{
 				// pointer to the DCF string for NodeID
-	#ifdef CANOPEN_BIG_ENDIAN
-				target_Index = ((UNS8*)d->dcf_cursor++) | ((UNS8*)d->dcf_cursor++) << 8;
-				target_Subindex = ((UNS8*)d->dcf_cursor++);
-				target_Size = ((UNS8*)d->dcf_cursor++) | ((UNS8*)d->dcf_cursor++) << 8 | ((UNS8*)d->dcf_cursor++) << 16 | ((UNS8*)d->dcf_cursor++) << 24;
-	#else
-				target_Index = *((UNS16*)(d->dcf_cursor)); d->dcf_cursor += 2;
+				target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
 				target_Subindex = *((UNS8*)(d->dcf_cursor++));
-				target_Size = *((UNS32*)(d->dcf_cursor)); d->dcf_cursor += 4;
-	#endif
+				target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
 				
 					/*printf("Master : ConfigureSlaveNode %2.2x (Concise DCF)\n",nodeId);*/
 					res = writeNetworkDictCallBack(d, /*CO_Data* d*/
