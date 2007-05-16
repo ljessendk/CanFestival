@@ -53,11 +53,19 @@ void TestSlave_stopped()
 void TestSlave_post_sync()
 {
       eprintf("TestSlave_post_sync\n");
-      SlaveMap1+=1;
-      SlaveMap2+=2;
-      SlaveMap3+=3;
-      SlaveMap4+=4;
-      eprintf("Slave: %d %d %d %d\n",SlaveMap1, SlaveMap2, SlaveMap3, SlaveMap4);
+      
+      SlaveMap1=1;
+      SlaveMap2=1;
+      SlaveMap3=0;
+      SlaveMap4=0;
+      SlaveMap5=1;
+      SlaveMap6=0;
+      SlaveMap7=1;
+      SlaveMap8=0;
+      SlaveMap9=16;
+      SlaveMap10 = 0xff00ff00;
+      SlaveMap11 = 0xabcd;
+      eprintf("Slave: %d %d %d %d %d %d %d %d %d %x %x\n",SlaveMap1, SlaveMap2, SlaveMap3, SlaveMap4, SlaveMap5, SlaveMap6, SlaveMap7, SlaveMap8, SlaveMap9, SlaveMap10,SlaveMap11);
 }
 
 void TestSlave_post_TPDO()

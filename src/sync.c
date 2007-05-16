@@ -105,13 +105,13 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   UNS8 *     pTransmissionType = NULL;  
   UNS32 *    pwCobId = NULL;	
 
-  UNS8      dataType;
+  UNS8 dataType;
   UNS16 index;
   UNS8 subIndex;
   UNS8 offset;
   UNS8 status;
-  UNS8 sizeData;
-  UNS32   objDict;	
+  UNS8 Size;
+  UNS32 objDict;	
   UNS16 offsetObjdict;
   UNS16 offsetObjdictMap;
   UNS16 lastIndex;
@@ -185,18 +185,21 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
     case state9:	/* get data to transmit */ 
       index = (UNS16)((*pMappingParameter) >> 16);
       subIndex = (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & (UNS32)0x000000FF);
-      /* <<3 because in *pMappingParameter the size is in bits */
-      sizeData = (UNS8) ((*pMappingParameter & (UNS32)0x000000FF) >> 3) ;
-
-        objDict = getODentry(d, index, subIndex, (void *)&d->process_var.data[offset], &sizeData, &dataType, 0 ); 
-
+	  UNS8 ByteSize;
+	  UNS8 tmp[]= {0,0,0,0,0,0,0,0};
+	  Size = (UNS8)(*pMappingParameter); /* Size in bits */
+	  ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 => 2, ... */
+	  objDict = getODentry(d, index, subIndex, tmp, &ByteSize, &dataType, 0 );
+	  /* copy bit per bit in little endian*/
+	  CopyBits(Size, ((UNS8*)tmp), 0 , 0, (UNS8*)&d->process_var.data[offset>>3], offset%8, 0);
+	    
         if( objDict != OD_SUCCESSFUL ){
           MSG_ERR(0x1013, " Couldn't find mapped variable at index-subindex-size : ", (UNS16)(*pMappingParameter));
           return 0xFF;
         }
 	
-	offset += sizeData ;
-	d->process_var.count = offset;
+	offset += Size ;
+	d->process_var.count = 1 + ((offset - 1) >> 3);
 	prp_j++;
 	status = state10;	 
 	break;					

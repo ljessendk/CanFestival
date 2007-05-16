@@ -16,3 +16,10 @@ extern UNS8 SlaveMap1;		/* Mapped at index 0x2000, subindex 0x00*/
 extern UNS8 SlaveMap2;		/* Mapped at index 0x2001, subindex 0x00*/
 extern UNS8 SlaveMap3;		/* Mapped at index 0x2002, subindex 0x00*/
 extern UNS8 SlaveMap4;		/* Mapped at index 0x2003, subindex 0x00*/
+extern UNS8 SlaveMap5;		/* Mapped at index 0x2004, subindex 0x00*/
+extern UNS8 SlaveMap6;		/* Mapped at index 0x2005, subindex 0x00*/
+extern UNS8 SlaveMap7;		/* Mapped at index 0x2006, subindex 0x00*/
+extern UNS8 SlaveMap8;		/* Mapped at index 0x2007, subindex 0x00*/
+extern UNS8 SlaveMap9;		/* Mapped at index 0x2008, subindex 0x00*/
+extern UNS32 SlaveMap10;		/* Mapped at index 0x2009, subindex 0x00*/
+extern UNS16 SlaveMap11;		/* Mapped at index 0x200A, subindex 0x00*/

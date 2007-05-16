@@ -164,7 +164,7 @@ void TestMaster_stopped()
 void TestMaster_post_sync()
 {
 	eprintf("TestMaster_post_sync\n");
-	eprintf("Master: %d %d %d %d\n",MasterMap1, MasterMap2, MasterMap3, MasterMap4);
+	eprintf("Master: %d %d %d %d %d %d %d %d %d %x %x\n",MasterMap1,MasterMap2 ,MasterMap3, MasterMap4,MasterMap5,MasterMap6,MasterMap7,MasterMap8,MasterMap9,MasterMap10,MasterMap11);
 }
 
 char query_result = 0;
@@ -193,7 +193,7 @@ void TestMaster_post_TPDO()
 		UNS8 size;			
 		switch(getReadResultNetworkDict (
 			&TestMaster_Data, 
-			*TestSlave_Data.bDeviceNodeId,
+			0x02,
 			&query_result,
 			&size,
 			&abortCode))
@@ -207,7 +207,7 @@ void TestMaster_post_TPDO()
 				waiting_answer = 0;
 				closeSDOtransfer(
 					&TestMaster_Data,
-					*TestSlave_Data.	bDeviceNodeId,
+					0x02,
 					SDO_CLIENT);
 			break;
 			case SDO_DOWNLOAD_IN_PROGRESS:
@@ -217,7 +217,7 @@ void TestMaster_post_TPDO()
 	}else if(MasterMap1 % 10 == 0){
 		readNetworkDict (
 			&TestMaster_Data,
-			*TestSlave_Data.bDeviceNodeId,
+			0x02,
 			0x2002,
 			0x00,
 			0);

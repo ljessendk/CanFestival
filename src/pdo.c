@@ -80,7 +80,11 @@ UNS8 PDOmGR(CO_Data* d, UNS32 cobId) /* PDO Manager */
     return res;
 }
 
-/**************************************************************************/
+#if 0
+/*********************************************************************/
+/* TODO : implement bit mapping                          			 */
+/*********************************************************************/
+
 UNS8 buildPDO(CO_Data* d, UNS16 index)
 { /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite loop if it fails. */	
   UNS16 ind;
@@ -126,10 +130,10 @@ UNS8 buildPDO(CO_Data* d, UNS16 index)
 	    MSG_WAR(0x3915, "                     subIndex : ", subInd + 1);
 	    MSG_WAR(0x3916, "                     value    : ", *(UNS32 *)pMappingParameter);
 	    /* Get the mapped variable */
-	     Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
-	     objDict = getODentry(d, (UNS16)((*pMappingParameter) >> 16),
+	    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
+	  	objDict = getODentry(d, (UNS16)((*pMappingParameter) >> 16),
 				    (UNS8)(((*pMappingParameter) >> 8 ) & 0x000000FF),
-				    (void *)&d->process_var.data[offset], &Size, &dataType, 0 ); 
+				    (void *)&d->process_var.data[offset], &Size, &dataType, 0 );  
 
 	     if (objDict != OD_SUCCESSFUL) {
 	        MSG_WAR(0x2919, "error accessing to the mapped var : ", subInd + 1);  
@@ -145,7 +149,7 @@ UNS8 buildPDO(CO_Data* d, UNS16 index)
   }
   return 0;
 }
-
+#endif
 /**************************************************************************/
 UNS8 sendPDOrequest( CO_Data* d, UNS32 cobId )
 {		
@@ -199,8 +203,10 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   UNS32      objDict;
   UNS16      offsetObjdict;
   UNS16      lastIndex;
+  UNS16      Index;
+  UNS8       Sindex;
   status = state1;
-
+ 
   MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id.w & 0x7ff)); 
   offset = 0x00;
   numPdo = 0;
@@ -208,11 +214,11 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   if((*m).rtr == NOT_A_REQUEST ) { /* The PDO received is not a request. */
     offsetObjdict = d->firstIndex->PDO_RCV;
     lastIndex = d->lastIndex->PDO_RCV;
-
+    
     /* study of all the PDO stored in the dictionary */   
     if(offsetObjdict)
 	    while (offsetObjdict <= lastIndex) {
-					
+			
 	      switch( status ) {
 						
 	        case state1:	/* data are stored in process_var array */
@@ -227,7 +233,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	
 		case state2:
 		  /* get CobId of the dictionary correspondant to the received PDO */
-	          pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;
+	          pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject; 
 		  /* check the CobId coherance */
 		  /*pwCobId is the cobId read in the dictionary at the state 3 */
 		  if ( *pwCobId == (*m).cob_id.w ){
@@ -251,22 +257,29 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 		  pMappingCount = (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;	  
 		  numMap = 0;
 		  while (numMap < *pMappingCount) {
+			UNS8 tmp[]= {0,0,0,0,0,0,0,0};
+		  	UNS8 ByteSize;
 		    pMappingParameter = (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
 		    if (pMappingParameter == NULL) {
 		      MSG_ERR(0x1937, "Couldn't get mapping parameter : ", numMap + 1); 
 		      return 0xFF;
 		    }
-		    /* Get the addresse of the mapped variable. */
+			/* Get the addresse of the mapped variable. */
 		    /* detail of *pMappingParameter : */
 	            /* The 16 hight bits contains the index, the medium 8 bits contains the subindex, */
 		    /* and the lower 8 bits contains the size of the mapped variable. */
-
-		    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
-
+		    
+		    Size = (UNS8)(*pMappingParameter);
+			
+			/* copy bit per bit in little endian */
+			CopyBits(Size, (UNS8*)&d->process_var.data[offset>>3], offset%8, 0, ((UNS8*)tmp), 0, 0);
+		  	
+		  	ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 => 2, ... */
+		  	
 		    objDict = setODentry(d, (UNS16)((*pMappingParameter) >> 16),
 				            (UNS8)(((*pMappingParameter) >> 8 ) & 0xFF),
-					    (void *)&d->process_var.data[offset], &Size, 0 );
-
+					    	tmp, &ByteSize, 0 );
+					    	
 		    if(objDict != OD_SUCCESSFUL) {
 		      MSG_ERR(0x1938, "error accessing to the mapped var : ", numMap + 1);  
 		      MSG_WAR(0x2939, "         Mapped at index : ", (*pMappingParameter) >> 16);
@@ -336,7 +349,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 	  while (numMap < *pMappingCount) {
 	    pMappingParameter = (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
 	    /* Get the mapped variable */
-	    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
+	    Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3)); 
 	    objDict = getODentry( d, (UNS16)((*pMappingParameter) >> (UNS8)16), 
 				     (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & 0xFF),
 				     (void *)&d->process_var.data[offset], &Size, &dataType, 0 );
@@ -362,7 +375,53 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 }
 
 
+void CopyBits(UNS8 NbBits, UNS8* SrcByteIndex, UNS8 SrcBitIndex, UNS8 SrcBigEndian, UNS8* DestByteIndex, UNS8 DestBitIndex, UNS8 DestBigEndian)
+{
+	//This loop copy as many bits that it can each time, crossing successively bytes
+	// boundaries from LSB to MSB.
+	while(NbBits > 0)
+	{
+		// Bit missalignement between src and dest
+		INTEGER8 Vect = DestBitIndex - SrcBitIndex;
+		
+		// We can now get src and align it to dest
+		UNS8 Aligned = Vect>0 ? *SrcByteIndex << Vect : *SrcByteIndex >> -Vect;
+		
+		// Compute the nb of bit we will be able to copy
+		UNS8 BoudaryLimit = (Vect>0 ? 8 - DestBitIndex :  8 - SrcBitIndex );
+		UNS8 BitsToCopy = BoudaryLimit > NbBits ? NbBits : BoudaryLimit;
 
+		// Create a mask that will serve in:
+		UNS8 Mask = ((0xff << (DestBitIndex + BitsToCopy)) | (0xff >> (8 - DestBitIndex)));
+
+		// - Filtering src
+		UNS8 Filtered = Aligned & ~Mask;
+
+		// - and erase bits where we write, preserve where we don't
+		*DestByteIndex &= Mask;
+
+		// Then write.
+		*DestByteIndex |= Filtered ;
+
+		//Compute next time cursors for src
+		if((SrcBitIndex += BitsToCopy)>7)	// cross boundary ?
+		{
+			SrcBitIndex = 0;							// First bit
+			SrcByteIndex += (SrcBigEndian ? -1 : 1);	// Next byte
+		}
+
+		//Compute next time cursors for dest
+		if((DestBitIndex += BitsToCopy)>7)
+		{
+			DestBitIndex = 0;							// First bit
+			DestByteIndex += (DestBigEndian ? -1 : 1);// Next byte
+		}
+		
+		//And decrement counter.
+		NbBits -= BitsToCopy;
+	}
+
+}
 
 #if 0
 
@@ -414,7 +473,7 @@ UNS8 sendPDOevent( CO_Data* d, void * variable )
 	      offsetObjdictPrm++;
 	      continue;
 	    }
-	    pMappingCount = d->objdict[offsetObjdict].pSubindex[0].pObject;
+	    pMappingCount = d->objdict[offsetObjdict].pSubindex[0].pObject; 
 	    numMap = 1; /* mapped variable */
 	    while (numMap <= *pMappingCount) {
 	      pMappingParameter = d->objdict[offsetObjdict].pSubindex[numMap].pObject;

@@ -10,6 +10,13 @@ UNS8 MasterMap1 = 0x0;		/* Mapped at index 0x2000, subindex 0x00 */
 UNS8 MasterMap2 = 0x0;		/* Mapped at index 0x2001, subindex 0x00 */
 UNS8 MasterMap3 = 0x0;		/* Mapped at index 0x2002, subindex 0x00 */
 UNS8 MasterMap4 = 0x0;		/* Mapped at index 0x2003, subindex 0x00 */
+UNS8 MasterMap5 = 0x0;		/* Mapped at index 0x2004, subindex 0x00 */
+UNS8 MasterMap6 = 0x0;		/* Mapped at index 0x2005, subindex 0x00 */
+UNS8 MasterMap7 = 0x0;		/* Mapped at index 0x2006, subindex 0x00 */
+UNS8 MasterMap8 = 0x0;		/* Mapped at index 0x2007, subindex 0x00 */
+UNS8 MasterMap9 = 0x0;		/* Mapped at index 0x2008, subindex 0x00 */
+UNS32 MasterMap10 = 0x0;		/* Mapped at index 0x2009, subindex 0x00 */
+UNS16 MasterMap11 = 0x0;		/* Mapped at index 0x200A, subindex 0x00 */
 
 /**************************************************************************/
 /* Declaration of the value range types                                   */
@@ -113,7 +120,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 TestMaster_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1016[] = 
                     {
-                      0x5DC	/* 1500 */
+                      0x205DC	/* 132572 */
                     };
                     subindex TestMaster_Index1016[] = 
                      {
@@ -143,13 +150,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 TestMaster_highestSubIndex_obj1280 = 3; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x602;	/* 1538 */
                     UNS32 TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x582;	/* 1410 */
-                    UNS32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;	/* 2 */
+                    INTEGER32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;	/* 2 */
                     subindex TestMaster_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1280 },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO },
-                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
+                       { RW, int32, sizeof (INTEGER32), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
                      };
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */
@@ -157,7 +164,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 TestMaster_obj1400_COB_ID_used_by_PDO = 0x182;	/* 386 */
                     UNS8 TestMaster_obj1400_Transmission_Type = 0x1;	/* 1 */
                     UNS16 TestMaster_obj1400_Inhibit_Time = 0x0;	/* 0 */
-                    UNS16 TestMaster_obj1400_Compatibility_Entry = 0x0;	/* 0 */
+                    UNS8 TestMaster_obj1400_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestMaster_obj1400_Event_Timer = 0x0;	/* 0 */
                     subindex TestMaster_Index1400[] = 
                      {
@@ -165,16 +172,16 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1400_COB_ID_used_by_PDO },
                        { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1400_Transmission_Type },
                        { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1400_Inhibit_Time },
-                       { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1400_Compatibility_Entry },
+                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1400_Compatibility_Entry },
                        { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1400_Event_Timer }
                      };
 
 /* index 0x1401 :   Receive PDO 2 Parameter. */
                     UNS8 TestMaster_highestSubIndex_obj1401 = 5; /* number of subindex - 1*/
-                    UNS32 TestMaster_obj1401_COB_ID_used_by_PDO = 0x282;	/* 642 */
-                    UNS8 TestMaster_obj1401_Transmission_Type = 0x1;	/* 1 */
+                    UNS32 TestMaster_obj1401_COB_ID_used_by_PDO = 0x0;	/* 0 */
+                    UNS8 TestMaster_obj1401_Transmission_Type = 0x0;	/* 0 */
                     UNS16 TestMaster_obj1401_Inhibit_Time = 0x0;	/* 0 */
-                    UNS16 TestMaster_obj1401_Compatibility_Entry = 0x0;	/* 0 */
+                    UNS8 TestMaster_obj1401_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestMaster_obj1401_Event_Timer = 0x0;	/* 0 */
                     subindex TestMaster_Index1401[] = 
                      {
@@ -182,36 +189,50 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1401_COB_ID_used_by_PDO },
                        { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1401_Transmission_Type },
                        { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1401_Inhibit_Time },
-                       { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1401_Compatibility_Entry },
+                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1401_Compatibility_Entry },
                        { RW, uint16, sizeof (UNS16), (void*)&TestMaster_obj1401_Event_Timer }
                      };
 
 /* index 0x1600 :   Receive PDO 1 Mapping. */
-                    UNS8 TestMaster_highestSubIndex_obj1600 = 2; /* number of subindex - 1*/
+                    UNS8 TestMaster_highestSubIndex_obj1600 = 10; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1600[] = 
                     {
-                      0x20000008,	/* 536870920 */
-                      0x20010008	/* 536936456 */
+                      0x20000001,	/* 536870913 */
+                      0x20010001,	/* 536936449 */
+                      0x20020001,	/* 537001985 */
+                      0x20030001,	/* 537067521 */
+                      0x20040001,	/* 537133057 */
+                      0x20050001,	/* 537198593 */
+                      0x20060001,	/* 537264129 */
+                      0x20070001,	/* 537329665 */
+                      0x20080008,	/* 537395208 */
+                      0x20090020	/* 537460768 */
                     };
                     subindex TestMaster_Index1600[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1600 },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[1] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[2] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[3] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[4] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[5] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[6] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[7] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[8] },
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1600[9] }
                      };
 
 /* index 0x1601 :   Receive PDO 2 Mapping. */
-                    UNS8 TestMaster_highestSubIndex_obj1601 = 2; /* number of subindex - 1*/
+                    UNS8 TestMaster_highestSubIndex_obj1601 = 1; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1601[] = 
                     {
-                      0x20020008,	/* 537001992 */
-                      0x20030008	/* 537067528 */
+                      0x200A0010	/* 537526288 */
                     };
                     subindex TestMaster_Index1601[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1601 },
-                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1601[0] },
-                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1601[1] }
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1601[0] }
                      };
 
 /* index 0x1F22 :   Concise DCF. */
@@ -231,25 +252,67 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x2000 :   Mapped variable MasterMap1 */
                     subindex TestMaster_Index2000[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&MasterMap1 }
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap1 }
                      };
 
 /* index 0x2001 :   Mapped variable MasterMap2 */
                     subindex TestMaster_Index2001[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&MasterMap2 }
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap2 }
                      };
 
 /* index 0x2002 :   Mapped variable MasterMap3 */
                     subindex TestMaster_Index2002[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&MasterMap3 }
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap3 }
                      };
 
 /* index 0x2003 :   Mapped variable MasterMap4 */
                     subindex TestMaster_Index2003[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&MasterMap4 }
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap4 }
+                     };
+
+/* index 0x2004 :   Mapped variable MasterMap5 */
+                    subindex TestMaster_Index2004[] = 
+                     {
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap5 }
+                     };
+
+/* index 0x2005 :   Mapped variable MasterMap6 */
+                    subindex TestMaster_Index2005[] = 
+                     {
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap6 }
+                     };
+
+/* index 0x2006 :   Mapped variable MasterMap7 */
+                    subindex TestMaster_Index2006[] = 
+                     {
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap7 }
+                     };
+
+/* index 0x2007 :   Mapped variable MasterMap8 */
+                    subindex TestMaster_Index2007[] = 
+                     {
+                       { RW, boolean, sizeof (UNS8), (void*)&MasterMap8 }
+                     };
+
+/* index 0x2008 :   Mapped variable MasterMap9 */
+                    subindex TestMaster_Index2008[] = 
+                     {
+                       { RW, uint8, sizeof (UNS8), (void*)&MasterMap9 }
+                     };
+
+/* index 0x2009 :   Mapped variable MasterMap10 */
+                    subindex TestMaster_Index2009[] = 
+                     {
+                       { RW, uint32, sizeof (UNS32), (void*)&MasterMap10 }
+                     };
+
+/* index 0x200A :   Mapped variable MasterMap11 */
+                    subindex TestMaster_Index200A[] = 
+                     {
+                       { RW, uint16, sizeof (UNS16), (void*)&MasterMap11 }
                      };
 
 const indextable TestMaster_objdict[] = 
@@ -272,6 +335,13 @@ const indextable TestMaster_objdict[] =
   { (subindex*)TestMaster_Index2001,sizeof(TestMaster_Index2001)/sizeof(TestMaster_Index2001[0]), 0x2001},
   { (subindex*)TestMaster_Index2002,sizeof(TestMaster_Index2002)/sizeof(TestMaster_Index2002[0]), 0x2002},
   { (subindex*)TestMaster_Index2003,sizeof(TestMaster_Index2003)/sizeof(TestMaster_Index2003[0]), 0x2003},
+  { (subindex*)TestMaster_Index2004,sizeof(TestMaster_Index2004)/sizeof(TestMaster_Index2004[0]), 0x2004},
+  { (subindex*)TestMaster_Index2005,sizeof(TestMaster_Index2005)/sizeof(TestMaster_Index2005[0]), 0x2005},
+  { (subindex*)TestMaster_Index2006,sizeof(TestMaster_Index2006)/sizeof(TestMaster_Index2006[0]), 0x2006},
+  { (subindex*)TestMaster_Index2007,sizeof(TestMaster_Index2007)/sizeof(TestMaster_Index2007[0]), 0x2007},
+  { (subindex*)TestMaster_Index2008,sizeof(TestMaster_Index2008)/sizeof(TestMaster_Index2008[0]), 0x2008},
+  { (subindex*)TestMaster_Index2009,sizeof(TestMaster_Index2009)/sizeof(TestMaster_Index2009[0]), 0x2009},
+  { (subindex*)TestMaster_Index200A,sizeof(TestMaster_Index200A)/sizeof(TestMaster_Index200A[0]), 0x200A},
 };
 
 const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
@@ -297,6 +367,13 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x2001: i = 15;break;
 		case 0x2002: i = 16;break;
 		case 0x2003: i = 17;break;
+		case 0x2004: i = 18;break;
+		case 0x2005: i = 19;break;
+		case 0x2006: i = 20;break;
+		case 0x2007: i = 21;break;
+		case 0x2008: i = 22;break;
+		case 0x2009: i = 23;break;
+		case 0x200A: i = 24;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;

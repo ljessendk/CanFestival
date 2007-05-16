@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE PyObject SYSTEM "PyObjects.dtd">
-<PyObject module="node" class="Node" id="151439820">
-<attr name="Profile" type="dict" id="151442540" >
+<PyObject module="node" class="Node" id="141443180">
+<attr name="Profile" type="dict" id="141437916" >
 </attr>
 <attr name="Name" type="string" value="TestSlave" />
-<attr name="Dictionary" type="dict" id="151441860" >
+<attr name="Dictionary" type="dict" id="140114092" >
   <entry>
     <key type="numeric" value="4096" />
     <val type="numeric" value="301" />
@@ -22,14 +22,8 @@
     <val type="numeric" value="0" />
   </entry>
   <entry>
-    <key type="numeric" value="6145" />
-    <val type="list" id="151438060" >
-      <item type="numeric" value="642" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
+    <key type="numeric" value="8196" />
+    <val type="numeric" value="0" />
   </entry>
   <entry>
     <key type="numeric" value="4101" />
@@ -44,18 +38,20 @@
     <val type="numeric" value="0" />
   </entry>
   <entry>
-    <key type="numeric" value="6144" />
-    <val type="list" id="151437836" >
-      <item type="numeric" value="386" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-      <item type="numeric" value="0" />
-    </val>
+    <key type="numeric" value="8200" />
+    <val type="numeric" value="0" />
+  </entry>
+  <entry>
+    <key type="numeric" value="8201" />
+    <val type="numeric" value="0" />
+  </entry>
+  <entry>
+    <key type="numeric" value="8202" />
+    <val type="numeric" value="0" />
   </entry>
   <entry>
     <key type="numeric" value="4112" />
-    <val type="list" id="151438028" >
+    <val type="list" id="140021004" >
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
@@ -64,7 +60,7 @@
   </entry>
   <entry>
     <key type="numeric" value="4113" />
-    <val type="list" id="151439020" >
+    <val type="list" id="140021068" >
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
@@ -73,23 +69,9 @@
   </entry>
   <entry>
     <key type="numeric" value="4608" />
-    <val type="list" id="151437900" >
+    <val type="list" id="140021228" >
       <item type="numeric" value="1537" />
       <item type="numeric" value="1409" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="6657" />
-    <val type="list" id="151438540" >
-      <item type="numeric" value="537001992" />
-      <item type="numeric" value="537067528" />
-    </val>
-  </entry>
-  <entry>
-    <key type="numeric" value="6656" />
-    <val type="list" id="151437932" >
-      <item type="numeric" value="536870920" />
-      <item type="numeric" value="536936456" />
     </val>
   </entry>
   <entry>
@@ -98,7 +80,7 @@
   </entry>
   <entry>
     <key type="numeric" value="4120" />
-    <val type="list" id="151437868" >
+    <val type="list" id="140029996" >
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
       <item type="numeric" value="0" />
@@ -106,16 +88,69 @@
     </val>
   </entry>
   <entry>
+    <key type="numeric" value="8197" />
+    <val type="numeric" value="0" />
+  </entry>
+  <entry>
     <key type="numeric" value="4102" />
     <val type="numeric" value="0" />
   </entry>
+  <entry>
+    <key type="numeric" value="8199" />
+    <val type="numeric" value="0" />
+  </entry>
+  <entry>
+    <key type="numeric" value="8198" />
+    <val type="numeric" value="0" />
+  </entry>
+  <entry>
+    <key type="numeric" value="6144" />
+    <val type="list" id="140030028" >
+      <item type="numeric" value="386" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6656" />
+    <val type="list" id="140021164" >
+      <item type="numeric" value="536870913" />
+      <item type="numeric" value="536936449" />
+      <item type="numeric" value="537001985" />
+      <item type="numeric" value="537067521" />
+      <item type="numeric" value="537133057" />
+      <item type="numeric" value="537198593" />
+      <item type="numeric" value="537264129" />
+      <item type="numeric" value="537329665" />
+      <item type="numeric" value="537395208" />
+      <item type="numeric" value="537460768" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6145" />
+    <val type="list" id="140020940" >
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+      <item type="numeric" value="0" />
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="6657" />
+    <val type="list" id="140030444" >
+      <item type="numeric" value="537526288" />
+    </val>
+  </entry>
 </attr>
-<attr name="SpecificMenu" type="list" id="151437804" >
+<attr name="SpecificMenu" type="list" id="140020332" >
 </attr>
-<attr name="ParamsDictionary" type="dict" id="151442268" >
+<attr name="ParamsDictionary" type="dict" id="141438732" >
   <entry>
     <key type="numeric" value="8192" />
-    <val type="dict" id="151435844" >
+    <val type="dict" id="140113412" >
       <entry>
         <key type="string" value="callback" />
         <val type="False" value="" />
@@ -124,7 +159,7 @@
   </entry>
   <entry>
     <key type="numeric" value="4112" />
-    <val type="dict" id="151436252" >
+    <val type="dict" id="141447620" >
       <entry>
         <key type="string" value="callback" />
         <val type="True" value="" />
@@ -132,8 +167,8 @@
     </val>
   </entry>
   <entry>
-    <key type="numeric" value="4119" />
-    <val type="dict" id="151435708" >
+    <key type="numeric" value="4113" />
+    <val type="dict" id="141447212" >
       <entry>
         <key type="string" value="callback" />
         <val type="True" value="" />
@@ -142,10 +177,10 @@
   </entry>
   <entry>
     <key type="numeric" value="6144" />
-    <val type="dict" id="151441588" >
+    <val type="dict" id="141447756" >
       <entry>
         <key type="numeric" value="2" />
-        <val type="dict" id="151435572" >
+        <val type="dict" id="141447348" >
           <entry>
             <key type="string" value="save" />
             <val type="True" value="" />
@@ -154,7 +189,7 @@
       </entry>
       <entry>
         <key type="numeric" value="3" />
-        <val type="dict" id="151436932" >
+        <val type="dict" id="141448436" >
           <entry>
             <key type="string" value="save" />
             <val type="True" value="" />
@@ -164,8 +199,8 @@
     </val>
   </entry>
   <entry>
-    <key type="numeric" value="4113" />
-    <val type="dict" id="151441452" >
+    <key type="numeric" value="4119" />
+    <val type="dict" id="141447892" >
       <entry>
         <key type="string" value="callback" />
         <val type="True" value="" />
@@ -173,18 +208,18 @@
     </val>
   </entry>
 </attr>
-<attr name="UserMapping" type="dict" id="151435436" >
+<attr name="UserMapping" type="dict" id="141438324" >
   <entry>
     <key type="numeric" value="8192" />
-    <val type="dict" id="151436524" >
+    <val type="dict" id="141448164" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="151437772" >
-          <item type="dict" id="151436796" >
+        <val type="list" id="140030540" >
+          <item type="dict" id="141448980" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -195,7 +230,7 @@
             </entry>
             <entry>
               <key type="string" value="type" />
-              <val type="numeric" value="5" />
+              <val type="numeric" value="1" />
             </entry>
             <entry>
               <key type="string" value="name" />
@@ -216,15 +251,15 @@
   </entry>
   <entry>
     <key type="numeric" value="8193" />
-    <val type="dict" id="140686172" >
+    <val type="dict" id="141448844" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="151437740" >
-          <item type="dict" id="151436116" >
+        <val type="list" id="140021708" >
+          <item type="dict" id="141449252" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -235,18 +270,18 @@
             </entry>
             <entry>
               <key type="string" value="type" />
-              <val type="numeric" value="5" />
+              <val type="numeric" value="1" />
             </entry>
             <entry>
               <key type="string" value="name" />
-              <val type="string" value="SlaveMap2" />
+              <val type="string">SlaveMap2</val>
             </entry>
           </item>
         </val>
       </entry>
       <entry>
         <key type="string" value="name" />
-        <val type="string" value="SlaveMap2" />
+        <val type="string">SlaveMap2</val>
       </entry>
       <entry>
         <key type="string" value="struct" />
@@ -256,15 +291,15 @@
   </entry>
   <entry>
     <key type="numeric" value="8194" />
-    <val type="dict" id="151436388" >
+    <val type="dict" id="141448708" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="151437548" >
-          <item type="dict" id="140685492" >
+        <val type="list" id="140020748" >
+          <item type="dict" id="141438188" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -275,18 +310,18 @@
             </entry>
             <entry>
               <key type="string" value="type" />
-              <val type="numeric" value="5" />
+              <val type="numeric" value="1" />
             </entry>
             <entry>
               <key type="string" value="name" />
-              <val type="string" value="SlaveMap3" />
+              <val type="string">SlaveMap3</val>
             </entry>
           </item>
         </val>
       </entry>
       <entry>
         <key type="string" value="name" />
-        <val type="string" value="SlaveMap3" />
+        <val type="string">SlaveMap3</val>
       </entry>
       <entry>
         <key type="string" value="struct" />
@@ -296,15 +331,215 @@
   </entry>
   <entry>
     <key type="numeric" value="8195" />
-    <val type="dict" id="151435028" >
+    <val type="dict" id="141448300" >
       <entry>
         <key type="string" value="need" />
         <val type="False" value="" />
       </entry>
       <entry>
         <key type="string" value="values" />
-        <val type="list" id="151437708" >
-          <item type="dict" id="151434892" >
+        <val type="list" id="140021484" >
+          <item type="dict" id="141449116" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="1" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap4</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap4</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8196" />
+    <val type="dict" id="141449524" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140021420" >
+          <item type="dict" id="141449388" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="1" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap5</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap5</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8197" />
+    <val type="dict" id="141449796" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140030828" >
+          <item type="dict" id="141449660" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="1" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap6</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap6</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8198" />
+    <val type="dict" id="141450068" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140030060" >
+          <item type="dict" id="141449932" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="1" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap7</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap7</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8199" />
+    <val type="dict" id="141450340" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140019436" >
+          <item type="dict" id="141450204" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="1" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap8</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap8</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8200" />
+    <val type="dict" id="141450612" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140021324" >
+          <item type="dict" id="141450476" >
             <entry>
               <key type="string" value="access" />
               <val type="string" value="rw" />
@@ -319,14 +554,94 @@
             </entry>
             <entry>
               <key type="string" value="name" />
-              <val type="string" value="SlaveMap4" />
+              <val type="string">SlaveMap9</val>
             </entry>
           </item>
         </val>
       </entry>
       <entry>
         <key type="string" value="name" />
-        <val type="string" value="SlaveMap4" />
+        <val type="string">SlaveMap9</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8201" />
+    <val type="dict" id="141450884" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140021644" >
+          <item type="dict" id="141450748" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="7" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap10</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap10</val>
+      </entry>
+      <entry>
+        <key type="string" value="struct" />
+        <val type="numeric" value="1" />
+      </entry>
+    </val>
+  </entry>
+  <entry>
+    <key type="numeric" value="8202" />
+    <val type="dict" id="141451308" >
+      <entry>
+        <key type="string" value="need" />
+        <val type="False" value="" />
+      </entry>
+      <entry>
+        <key type="string" value="values" />
+        <val type="list" id="140021452" >
+          <item type="dict" id="141451020" >
+            <entry>
+              <key type="string" value="access" />
+              <val type="string" value="rw" />
+            </entry>
+            <entry>
+              <key type="string" value="pdo" />
+              <val type="True" value="" />
+            </entry>
+            <entry>
+              <key type="string" value="type" />
+              <val type="numeric" value="6" />
+            </entry>
+            <entry>
+              <key type="string" value="name" />
+              <val type="string">SlaveMap11</val>
+            </entry>
+          </item>
+        </val>
+      </entry>
+      <entry>
+        <key type="string" value="name" />
+        <val type="string">SlaveMap11</val>
       </entry>
       <entry>
         <key type="string" value="struct" />
@@ -335,7 +650,7 @@
     </val>
   </entry>
 </attr>
-<attr name="DS302" type="dict" id="151434756" >
+<attr name="DS302" type="dict" id="141451580" >
 </attr>
 <attr name="ProfileName" type="string" value="DS-301" />
 <attr name="Type" type="string" value="slave" />

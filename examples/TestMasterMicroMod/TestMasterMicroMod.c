@@ -323,7 +323,8 @@ void TestMaster_stopped()
 void TestMaster_post_sync()
 {
 	DO++;
-	eprintf("MicroMod Digital Out: %2.2x In: %2.2d\n",DO,DI);
+	eprintf("MicroMod Digital Out: %2.2x\n",DO);
+	eprintf("MicroMod Digital In (by bit): DI1: %2.2x DI2: %2.2x DI3: %2.2x DI4: %2.2x DI5: %2.2x DI6: %2.2x DI7: %2.2x DI8: %2.2x\n",DI1,DI2,DI3,DI4,DI5,DI6,DI7,DI8);
 }
 
 void TestMaster_post_TPDO()
@@ -359,6 +360,7 @@ void help()
   printf("*  - send periodic SYNC                                      *\n");
   printf("*  - send periodic RPDO 1 to Micromod (digital output)       *\n");
   printf("*  - listen Micromod's TPDO 1 (digital input)                *\n");
+  printf("*  - Mapping RPDO 1 bit per bit (digital input)              *\n");
   printf("*                                                            *\n");
   printf("*   Usage:                                                   *\n");
   printf("*   ./TestMasterMicroMod  [OPTIONS]                          *\n");
