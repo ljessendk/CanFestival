@@ -80,16 +80,17 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
 				target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
 				target_Subindex = *((UNS8*)(d->dcf_cursor++));
 				target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
-				
+					
 					/*printf("Master : ConfigureSlaveNode %2.2x (Concise DCF)\n",nodeId);*/
-					res = writeNetworkDictCallBack(d, /*CO_Data* d*/
+					res = _writeNetworkDict(d, /*CO_Data* d*/
 							nodeId, /*UNS8 nodeId*/
 							target_Index, /*UNS16 index*/
 							target_Subindex, /*UNS8 subindex*/
 							target_Size, /*UNS8 count*/
 							0, /*UNS8 dataType*/
 							d->dcf_cursor,/*void *data*/
-							CheckSDOAndContinue); /*SDOCallback_t Callback*/					
+							CheckSDOAndContinue,/*SDOCallback_t Callback*/	
+							0); /* no endianize		*/
 					/*Push d->dcf_cursor to the end of data*/
 					
 					d->dcf_cursor += target_Size;
