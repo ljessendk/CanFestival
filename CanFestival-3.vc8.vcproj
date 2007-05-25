@@ -23,10 +23,6 @@
 			CharacterSet="2"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine="./configure.win32.bat"
-			/>
-			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
@@ -175,10 +171,6 @@
 			CharacterSet="2"
 			>
 			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine="./configure.win32.bat"
-			/>
-			<Tool
 				Name="VCCustomBuildTool"
 			/>
 			<Tool
@@ -247,10 +239,6 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="1"
 			>
-			<Tool
-				Name="VCPreBuildEventTool"
-				CommandLine="./configure.win32.bat"
-			/>
 			<Tool
 				Name="VCCustomBuildTool"
 			/>
