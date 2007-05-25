@@ -21,7 +21,7 @@ EXPORTS
         RegisterSetODentryCallBack
         sendPDO
         PDOmGR
-        buildPDO
+;        buildPDO
         sendPDOrequest
         proceedPDO
 ;        sendPDOevent
@@ -67,11 +67,12 @@ EXPORTS
         canReceive
         canOpen
         canClose
-		_post_TPDO
-		_post_sync
-		_heartbeatError
-		_stopped
-		_operational
-		_preOperational
-		_initialisation
-		_SDOtimeoutError
+        _post_TPDO
+        _post_sync
+        _heartbeatError
+        _stopped
+        _operational
+        _preOperational
+        _initialisation
+        writeNetworkDictCallBack
+        _storeODSubIndex

@@ -203,8 +203,6 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   UNS32      objDict;
   UNS16      offsetObjdict;
   UNS16      lastIndex;
-  UNS16      Index;
-  UNS8       Sindex;
   status = state1;
  
   MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id.w & 0x7ff)); 

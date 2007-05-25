@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "states.h"
 #include "def.h"
-
+#include "dcf.h"
 #include "nmtSlave.h"
 
 /* Prototypes for internals functions */

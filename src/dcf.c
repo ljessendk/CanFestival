@@ -25,6 +25,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "dcf.h"
 #include "sysdep.h"
 
+
+extern UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
+
 const indextable *ptrTable;
 
 static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
@@ -61,24 +65,24 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
 			UNS32 nb_targets;
 	  		
 	  		UNS8 szData = ptrTable->pSubindex[nodeId].size;
-	  		void* dcfend;
+	  		UNS8* dcfend;
 	  		
 		  	{
-			  	void* dcf = *((void**)ptrTable->pSubindex[nodeId].pObject);
+			  	UNS8* dcf = *((UNS8**)ptrTable->pSubindex[nodeId].pObject);
 		  		dcfend = dcf + szData;
 				if (!d->dcf_cursor)	{
-					d->dcf_cursor = dcf + 4;
+					d->dcf_cursor = (UNS8*)dcf + 4;
 					d->dcf_count_targets = 0;
 				}
 				nb_targets = UNS32_LE(*((UNS32*)dcf));
 		  	}
 			
 			// condition on consise DCF string for NodeID, if big enough
-			if(d->dcf_cursor + 7 < dcfend && d->dcf_count_targets < nb_targets)
+			if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_count_targets < nb_targets)
 			{
 				// pointer to the DCF string for NodeID
 				target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
-				target_Subindex = *((UNS8*)(d->dcf_cursor++));
+				target_Subindex = *((UNS8*)(((UNS8*)d->dcf_cursor)++));
 				target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
 					
 					/*printf("Master : ConfigureSlaveNode %2.2x (Concise DCF)\n",nodeId);*/
