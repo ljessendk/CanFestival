@@ -35,164 +35,15 @@ UndoBufferLength = 20
 
 type_model = re.compile('([\_A-Z]*)([0-9]*)')
 range_model = re.compile('([\_A-Z]*)([0-9]*)\[([\-0-9]*)-([\-0-9]*)\]')
-name_model = re.compile('(.*)\[(.*)\]')
 
-def IsOfType(object, typedef):
-    return type(object) == typedef
+# ID for the file viewed
+CurrentID = 0
 
-#-------------------------------------------------------------------------------
-#                           Formating Name of an Entry
-#-------------------------------------------------------------------------------
-
-"""
-Format the text given with the index and subindex defined
-"""
-def StringFormat(text, idx, sub):
-    result = name_model.match(text)
-    if result:
-        format = result.groups()
-        return format[0]%eval(format[1])
-    else:
-        return text
-
-#-------------------------------------------------------------------------------
-#                         Search in a Mapping Dictionary
-#-------------------------------------------------------------------------------
-
-"""
-Return the index of the informations in the Object Dictionary in case of identical
-indexes
-"""
-def FindIndex(index, mappingdictionary):
-    if index in mappingdictionary:
-        return index
-    else:
-        listpluri = [idx for idx in mappingdictionary.keys() if mappingdictionary[idx]["struct"] & OD_IdenticalIndexes]
-        listpluri.sort()
-        for idx in listpluri:
-            nb_max = mappingdictionary[idx]["nbmax"]
-            incr = mappingdictionary[idx]["incr"]
-            if idx < index < idx + incr * nb_max and (index - idx)%incr == 0:
-                return idx
-    return None
-
-"""
-Return the index of the typename given by searching in mappingdictionary 
-"""
-def FindTypeIndex(typename, mappingdictionary):
-    testdic = {}
-    for index, values in mappingdictionary.iteritems():
-        if index < 0x1000:
-            testdic[values["name"]] = index
-    if typename in testdic:
-        return testdic[typename]
-    return None
-
-"""
-Return the name of the type by searching in mappingdictionary 
-"""
-def FindTypeName(typeindex, mappingdictionary):
-    if typeindex < 0x1000 and typeindex in mappingdictionary:
-        return mappingdictionary[typeindex]["name"]
-    return None
-
-"""
-Return the default value of the type by searching in mappingdictionary 
-"""
-def FindTypeDefaultValue(typeindex, mappingdictionary):
-    if typeindex < 0x1000 and typeindex in mappingdictionary:
-        return mappingdictionary[typeindex]["default"]
-    return None
-
-"""
-Return the list of types defined in mappingdictionary 
-"""
-def FindTypeList(mappingdictionary):
-    list = []
-    for index in mappingdictionary.keys():
-        if index < 0x1000:
-            list.append((index, mappingdictionary[index]["name"]))
-    return list
-
-"""
-Return the name of an entry by searching in mappingdictionary 
-"""
-def FindEntryName(index, mappingdictionary):
-    base_index = FindIndex(index, mappingdictionary)
-    if base_index:
-        infos = mappingdictionary[base_index]
-        if infos["struct"] & OD_IdenticalIndexes:
-            return StringFormat(infos["name"], (index - base_index) / infos["incr"] + 1, 0)
-        else:
-            return infos["name"]
-    return None
-
-"""
-Return the informations of one entry by searching in mappingdictionary 
-"""
-def FindEntryInfos(index, mappingdictionary):
-    base_index = FindIndex(index, mappingdictionary)
-    if base_index:
-        copy = mappingdictionary[base_index].copy()
-        if copy["struct"] & OD_IdenticalIndexes:
-            copy["name"] = StringFormat(copy["name"], (index - base_index) / copy["incr"] + 1, 0)
-        copy.pop("values")
-        return copy
-    return None
-
-"""
-Return the informations of one subentry of an entry by searching in mappingdictionary 
-"""
-def FindSubentryInfos(index, subIndex, mappingdictionary):
-    base_index = FindIndex(index, mappingdictionary)
-    if base_index:
-        struct = mappingdictionary[base_index]["struct"]
-        if struct & OD_Subindex:
-            if struct & OD_IdenticalSubindexes:
-                if struct & OD_IdenticalIndexes:
-                    incr = mappingdictionary[base_index]["incr"]
-                else:
-                    incr = 1
-                if subIndex == 0:
-                    return mappingdictionary[base_index]["values"][0].copy()
-                elif 0 < subIndex <= mappingdictionary[base_index]["values"][1]["nbmax"]:
-                    copy = mappingdictionary[base_index]["values"][1].copy()
-                    copy["name"] = StringFormat(copy["name"], (index - base_index) / incr + 1, subIndex)
-                    return copy
-            elif struct & OD_MultipleSubindexes and 0 <= subIndex < len(mappingdictionary[base_index]["values"]):
-                return mappingdictionary[base_index]["values"][subIndex].copy()
-            elif subIndex == 0:
-                return mappingdictionary[base_index]["values"][0].copy()
-    return None
-
-"""
-Return the list of variables that can be mapped defined in mappingdictionary 
-"""
-def FindMapVariableList(mappingdictionary, Manager):
-    list = []
-    for index in mappingdictionary.iterkeys():
-        if Manager.IsCurrentEntry(index):
-            for subIndex, values in enumerate(mappingdictionary[index]["values"]):
-                if mappingdictionary[index]["values"][subIndex]["pdo"]:
-                    infos = Manager.GetEntryInfos(mappingdictionary[index]["values"][subIndex]["type"])
-                    if mappingdictionary[index]["struct"] & OD_IdenticalSubindexes:
-                        values = Manager.GetCurrentEntry(index)
-                        for i in xrange(len(values) - 1):
-                            list.append((index, i + 1, infos["size"], StringFormat(mappingdictionary[index]["values"][subIndex]["name"],1,i+1)))
-                    else:
-                        list.append((index, subIndex, infos["size"], mappingdictionary[index]["values"][subIndex]["name"]))
-    return list
-
-"""
-Return the list of mandatory indexes defined in mappingdictionary 
-"""
-def FindMandatoryIndexes(mappingdictionary):
-    list = []
-    for index in mappingdictionary.iterkeys():
-        if index >= 0x1000 and mappingdictionary[index]["need"]:
-            list.append(index)
-    return list
-
+# Returns a new id
+def GetNewId():
+    global CurrentID
+    CurrentID += 1
+    return CurrentID
 
 """
 Class implementing a buffer of changes made on the current editing Object Dictionary
@@ -301,55 +152,34 @@ class NodeManager:
     """
     def __init__(self, cwd):
         self.LastNewIndex = 0
-        self.FilePaths = []
-        self.FileNames = []
-        self.NodeIndex = -1
+        self.FilePaths = {}
+        self.FileNames = {}
+        self.NodeIndex = None
         self.CurrentNode = None
         self.ScriptDirectory = cwd
-        self.UndoBuffers = []
+        self.UndoBuffers = {}
 
 #-------------------------------------------------------------------------------
 #                         Type and Map Variable Lists
 #-------------------------------------------------------------------------------
-
-    """
-    Generate the list of types defined for the current node
-    """
-    def GenerateTypeList(self):
-        self.TypeList = ""
-        self.TypeTranslation = {}
-        list = self.GetTypeList()
-        sep = ""
-        for index, name in list:
-            self.TypeList += "%s%s"%(sep,name)
-            self.TypeTranslation[name] = index
-            sep = ","
-    
-    """
-    Generate the list of variables that can be mapped for the current node
-    """
-    def GenerateMapList(self):
-        self.MapList = "None"
-        self.NameTranslation = {"None" : "00000000"}
-        self.MapTranslation = {"00000000" : "None"}
-        list = self.GetMapVariableList()
-        for index, subIndex, size, name in list:
-            self.MapList += ",%s"%name
-            map = "%04X%02X%02X"%(index,subIndex,size)
-            self.NameTranslation[name] = map
-            self.MapTranslation[map] = name
     
     """
     Return the list of types defined for the current node
     """
     def GetCurrentTypeList(self):
-        return self.TypeList
+        if self.CurrentNode:
+            return self.CurrentNode.GetTypeList()
+        else:
+            return ""
 
     """
     Return the list of variables that can be mapped for the current node
     """
     def GetCurrentMapList(self):
-        return self.MapList
+        if self.CurrentNode:
+            return self.CurrentNode.GetMapList()
+        else:
+            return ""
 
 #-------------------------------------------------------------------------------
 #                        Create Load and Save Functions
@@ -397,14 +227,11 @@ class NodeManager:
                 elif option == "StoreEDS":
                     AddIndexList.extend([0x1021, 0x1022])
             # Add a new buffer 
-            self.AddNodeBuffer()
+            index = self.AddNodeBuffer()
             self.SetCurrentFilePath("")
             # Add Mandatory indexes
             self.ManageEntriesOfCurrent(AddIndexList, [])
-            # Regenerate lists
-            self.GenerateTypeList()
-            self.GenerateMapList()
-            return True
+            return index
         else:
             return result
     
@@ -439,12 +266,9 @@ class NodeManager:
         file.close()
         self.CurrentNode = node
         # Add a new buffer and defining current state
-        self.AddNodeBuffer(self.CurrentNode.Copy(), True)
+        index = self.AddNodeBuffer(self.CurrentNode.Copy(), True)
         self.SetCurrentFilePath(filepath)
-        # Regenerate lists
-        self.GenerateTypeList()
-        self.GenerateMapList()
-        return True
+        return index
 
     """
     Save current node in  a file
@@ -479,16 +303,14 @@ class NodeManager:
     """
     def ImportCurrentFromEDSFile(self, filepath):
         # Generate node from definition in a xml file
-        result = eds_utils.GenerateNode(filepath, self, self.ScriptDirectory)
+        result = eds_utils.GenerateNode(filepath, self.ScriptDirectory)
         if isinstance(result, Node):
             self.CurrentNode = result
-            self.GenerateTypeList()
-            self.GenerateMapList()
             if len(self.UndoBuffers) == 0:
-                self.AddNodeBuffer()
+                index = self.AddNodeBuffer()
                 self.SetCurrentFilePath("")
             self.BufferCurrentNode()
-            return None
+            return index
         else:
             return result
     
@@ -705,30 +527,28 @@ class NodeManager:
                     self.CurrentNode.RemoveEntry(index, subIndex)
             if index in Mappings[-1]:
                 self.CurrentNode.RemoveMappingEntry(index, subIndex)
-            self.GenerateMapList()
 
     def AddMapVariableToCurrent(self, index, name, struct, number):
         if 0x2000 <= index <= 0x5FFF:
             if not self.CurrentNode.IsEntry(index):
                 self.CurrentNode.AddMappingEntry(index, name = name, struct = struct)
                 if struct == var:
-                    values = {"name" : name, "type" : 5, "access" : "rw", "pdo" : True}
+                    values = {"name" : name, "type" : 0x05, "access" : "rw", "pdo" : True}
                     self.CurrentNode.AddMappingEntry(index, 0, values = values)
                     self.CurrentNode.AddEntry(index, 0, 0)
                 else:
-                    values = {"name" : "Number of Entries", "type" : 2, "access" : "ro", "pdo" : False}
+                    values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False}
                     self.CurrentNode.AddMappingEntry(index, 0, values = values)
                     if struct == rec:
-                        values = {"name" : name + " %d[(sub)]", "type" : 5, "access" : "rw", "pdo" : True, "nbmax" : 0xFE}
+                        values = {"name" : name + " %d[(sub)]", "type" : 0x05, "access" : "rw", "pdo" : True, "nbmax" : 0xFE}
                         self.CurrentNode.AddMappingEntry(index, 1, values = values)
                         for i in xrange(number):
                             self.CurrentNode.AddEntry(index, i + 1, 0)
                     else:
                         for i in xrange(number):
-                            values = {"name" : "Undefined", "type" : 5, "access" : "rw", "pdo" : True}
+                            values = {"name" : "Undefined", "type" : 0x05, "access" : "rw", "pdo" : True}
                             self.CurrentNode.AddMappingEntry(index, i + 1, values = values)
                             self.CurrentNode.AddEntry(index, i + 1, 0)
-                self.GenerateMapList()
                 self.BufferCurrentNode()
                 return None
             else:
@@ -747,8 +567,8 @@ class NodeManager:
             default = self.GetTypeDefaultValue(type)
             if valuetype == 0:
                 self.CurrentNode.AddMappingEntry(index, name = "%s[%d-%d]"%(name, min, max), struct = 3, size = size, default = default)
-                self.CurrentNode.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x02, "access" : "ro", "pdo" : False})
-                self.CurrentNode.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x02, "access" : "ro", "pdo" : False})
+                self.CurrentNode.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
+                self.CurrentNode.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x05, "access" : "ro", "pdo" : False})
                 self.CurrentNode.AddMappingEntry(index, 2, values = {"name" : "Minimum Value", "type" : type, "access" : "ro", "pdo" : False})
                 self.CurrentNode.AddMappingEntry(index, 3, values = {"name" : "Maximum Value", "type" : type, "access" : "ro", "pdo" : False})
                 self.CurrentNode.AddEntry(index, 1, type)
@@ -756,12 +576,11 @@ class NodeManager:
                 self.CurrentNode.AddEntry(index, 3, max)
             elif valuetype == 1:
                 self.CurrentNode.AddMappingEntry(index, name = "%s%d"%(name, length), struct = 3, size = length * size, default = default)
-                self.CurrentNode.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x02, "access" : "ro", "pdo" : False})
-                self.CurrentNode.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x02, "access" : "ro", "pdo" : False})
-                self.CurrentNode.AddMappingEntry(index, 2, values = {"name" : "Length", "type" : 0x02, "access" : "ro", "pdo" : False})
+                self.CurrentNode.AddMappingEntry(index, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
+                self.CurrentNode.AddMappingEntry(index, 1, values = {"name" : "Type", "type" : 0x05, "access" : "ro", "pdo" : False})
+                self.CurrentNode.AddMappingEntry(index, 2, values = {"name" : "Length", "type" : 0x05, "access" : "ro", "pdo" : False})
                 self.CurrentNode.AddEntry(index, 1, type)
                 self.CurrentNode.AddEntry(index, 2, length)
-            self.GenerateTypeList()
             self.BufferCurrentNode()
             return None
         else:
@@ -782,11 +601,9 @@ class NodeManager:
         if self.CurrentNode and self.CurrentNode.IsEntry(index):
             if name == "value":
                 if editor == "map":
-                    try:
-                        value = int(self.NameTranslation[value], 16)
+                    value = self.CurrentNode.GetMapValue(value)
+                    if value:
                         self.CurrentNode.SetEntry(index, subIndex, value)
-                    except:
-                        pass
                 elif editor == "bool":
                     value = value == "True"
                     self.CurrentNode.SetEntry(index, subIndex, value)
@@ -830,7 +647,7 @@ class NodeManager:
                     self.CurrentNode.SetParamsEntry(index, subIndex, comment = value)
             else:
                 if editor == "type":
-                    value = self.TypeTranslation[value]
+                    value = self.GetTypeIndex(value)
                     size = self.GetEntryInfos(value)["size"]
                     self.CurrentNode.UpdateMapVariable(index, subIndex, size)
                 elif editor in ["access","raccess"]:
@@ -844,8 +661,6 @@ class NodeManager:
                         self.CurrentNode.AddMappingEntry(index, 0, values = self.GetSubentryInfos(index, 0, False).copy())
                         self.CurrentNode.AddMappingEntry(index, 1, values = self.GetSubentryInfos(index, 1, False).copy())
                 self.CurrentNode.SetMappingEntry(index, subIndex, values = {name : value})
-                if name == "name" or editor == "type":
-                    self.GenerateMapList()
             self.BufferCurrentNode()
 
     def SetCurrentEntryName(self, index, name):
@@ -892,7 +707,7 @@ class NodeManager:
 
     def OneFileHasChanged(self):
         result = False
-        for buffer in self.UndoBuffers:
+        for buffer in self.UndoBuffers.values():
             result |= not buffer.IsCurrentSaved()
         return result
 
@@ -906,29 +721,21 @@ class NodeManager:
         self.CurrentNode = self.UndoBuffers[self.NodeIndex].Next().Copy()
 
     def AddNodeBuffer(self, currentstate = None, issaved = False):
-        self.NodeIndex = len(self.UndoBuffers)
-        self.UndoBuffers.append(UndoBuffer(currentstate, issaved))
-        self.FilePaths.append("")
-        self.FileNames.append("")
+        self.NodeIndex = GetNewId()
+        self.UndoBuffers[self.NodeIndex] = UndoBuffer(currentstate, issaved)
+        self.FilePaths[self.NodeIndex] = ""
+        self.FileNames[self.NodeIndex] = ""
+        return self.NodeIndex
 
     def ChangeCurrentNode(self, index):
-        if index < len(self.UndoBuffers):
+        if index in self.UndoBuffers.keys():
             self.NodeIndex = index
             self.CurrentNode = self.UndoBuffers[self.NodeIndex].Current().Copy()
-            self.GenerateTypeList()
-            self.GenerateMapList()
     
     def RemoveNodeBuffer(self, index):
         self.UndoBuffers.pop(index)
         self.FilePaths.pop(index)
         self.FileNames.pop(index)
-        self.NodeIndex = min(self.NodeIndex, len(self.UndoBuffers) - 1)
-        if len(self.UndoBuffers) > 0:
-            self.CurrentNode = self.UndoBuffers[self.NodeIndex].Current().Copy()
-            self.GenerateTypeList()
-            self.GenerateMapList()
-        else:
-            self.CurrentNode = None
     
     def GetCurrentNodeIndex(self):
         return self.NodeIndex
@@ -937,10 +744,9 @@ class NodeManager:
         return self.GetFilename(self.NodeIndex)
     
     def GetAllFilenames(self):
-        filenames = []
-        for i in xrange(len(self.UndoBuffers)):
-            filenames.append(self.GetFilename(i))
-        return filenames
+        indexes = self.UndoBuffers.keys()
+        indexes.sort()
+        return [self.GetFilename(idx) for idx in indexes]
     
     def GetFilename(self, index):
         if self.UndoBuffers[index].IsCurrentSaved():
@@ -1021,6 +827,18 @@ class NodeManager:
 #-------------------------------------------------------------------------------
 #                         Node State and Values Functions
 #-------------------------------------------------------------------------------
+    
+    def GetCurrentNodeName(self):
+        if self.CurrentNode:
+            return self.CurrentNode.GetNodeName()
+        else:
+            return ""
+
+    def GetCurrentNodeID(self):
+        if self.CurrentNode:
+            return self.CurrentNode.GetNodeID()
+        else:
+            return None
 
     def GetCurrentNodeInfos(self):
         name = self.CurrentNode.GetNodeName()
@@ -1092,12 +910,16 @@ class NodeManager:
         return False
     
     def GetCurrentEntryValues(self, index):
-        if self.CurrentNode and self.CurrentNode.IsEntry(index):
-            entry_infos = self.GetEntryInfos(index)
+        if self.CurrentNode:
+            return self.GetNodeEntryValues(self.CurrentNode, index)
+    
+    def GetNodeEntryValues(self, node, index):
+        if node and node.IsEntry(index):
+            entry_infos = node.GetEntryInfos(index)
             data = []
             editors = []
-            values = self.CurrentNode.GetEntry(index)
-            params = self.CurrentNode.GetParamsEntry(index)
+            values = node.GetEntry(index)
+            params = node.GetParamsEntry(index)
             if type(values) == ListType:
                 for i, value in enumerate(values):
                     data.append({"value" : value})
@@ -1106,10 +928,10 @@ class NodeManager:
                 data.append({"value" : values})
                 data[-1].update(params)
             for i, dic in enumerate(data):
-                infos = self.GetSubentryInfos(index, i)
+                infos = node.GetSubentryInfos(index, i)
                 dic["subindex"] = "0x%02X"%i
                 dic["name"] = infos["name"]
-                dic["type"] = self.GetTypeName(infos["type"])
+                dic["type"] = node.GetTypeName(infos["type"])
                 dic["access"] = AccessType[infos["access"]]
                 dic["save"] = OptionType[dic["save"]]
                 editor = {"subindex" : None, "save" : "option", "callback" : "option", "comment" : "string"}
@@ -1145,10 +967,10 @@ class NodeManager:
                     if index < 0x260:
                         editor["value"] = None
                         if i == 1:
-                            dic["value"] = self.GetTypeName(dic["value"])
+                            dic["value"] = node.GetTypeName(dic["value"])
                     elif 0x1600 <= index <= 0x17FF or 0x1A00 <= index <= 0x1C00:
                         editor["value"] = "map"
-                        dic["value"] = self.MapTranslation["%08X"%dic["value"]]
+                        dic["value"] = node.GetMapName(dic["value"])
                     else:
                         if dic["type"].startswith("VISIBLE_STRING"):
                             editor["value"] = "string"
@@ -1183,124 +1005,69 @@ class NodeManager:
             return data, editors
         else:
             return None
-    
+
 #-------------------------------------------------------------------------------
 #                         Node Informations Functions
 #-------------------------------------------------------------------------------
 
     def GetCustomisedTypeValues(self, index):
-        values = self.CurrentNode.GetEntry(index)
-        customisabletypes = self.GetCustomisableTypes()
-        return values, customisabletypes[values[1]][1]
+        if self.CurrentNode:
+            values = self.CurrentNode.GetEntry(index)
+            customisabletypes = self.GetCustomisableTypes()
+            return values, customisabletypes[values[1]][1]
+        else:
+            return None, None
 
-    def GetEntryName(self, index, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        NodeMappings = node.GetMappings()
-        i = 0
-        while not result and i < len(NodeMappings):
-            result = FindEntryName(index, NodeMappings[i])
-            i += 1
-        if result == None:
-            result = FindEntryName(index, MappingDictionary)
-        return result
+    def GetEntryName(self, index):
+        if self.CurrentNode:
+            return self.CurrentNode.GetEntryName(index)
+        else:
+            return FindEntryName(index, MappingDictionary)
     
-    def GetEntryInfos(self, index, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        NodeMappings = node.GetMappings()
-        i = 0
-        while not result and i < len(NodeMappings):
-            result = FindEntryInfos(index, NodeMappings[i])
-            i += 1
-        if result == None:
-            result = FindEntryInfos(index, MappingDictionary)
-        return result
+    def GetEntryInfos(self, index):
+        if self.CurrentNode:
+            return self.CurrentNode.GetEntryInfos(index)
+        else:
+            return FindEntryInfos(index, MappingDictionary)
     
-    def GetSubentryInfos(self, index, subIndex, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        NodeMappings = node.GetMappings()
-        i = 0
-        while not result and i < len(NodeMappings):
-            result = FindSubentryInfos(index, subIndex, NodeMappings[i])
-            if result:
-                result["user_defined"] = i == len(NodeMappings) - 1 and index >= 0x1000
-            i += 1
-        if result == None:    
-            result = FindSubentryInfos(index, subIndex, MappingDictionary)
+    def GetSubentryInfos(self, index, subindex):
+        if self.CurrentNode:
+            return self.CurrentNode.GetSubentryInfos(index, subindex)
+        else:
+            result = FindSubentryInfos(index, subindex, MappingDictionary)
             if result:
                 result["user_defined"] = False
-        return result
+            return result
     
-    def GetTypeIndex(self, typename, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        NodeMappings = node.GetMappings()
-        i = 0
-        while not result and i < len(NodeMappings):
-            result = FindTypeIndex(typename, NodeMappings[i])
-            i += 1
-        if result == None:
-            result = FindTypeIndex(typename, MappingDictionary)
-        return result
+    def GetTypeIndex(self, typename):
+        if self.CurrentNode:
+            return self.CurrentNode.GetTypeIndex(typename)
+        else:
+            return FindTypeIndex(typename, MappingDictionary)
     
-    def GetTypeName(self, typeindex, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        NodeMappings = node.GetMappings()
-        i = 0
-        while not result and i < len(NodeMappings):
-            result = FindTypeName(typeindex, NodeMappings[i])
-            i += 1
-        if result == None:
-            result = FindTypeName(typeindex, MappingDictionary)
-        return result
+    def GetTypeName(self, typeindex):
+        if self.CurrentNode:
+            return self.CurrentNode.GetTypeName(typeindex)
+        else:
+            return FindTypeName(typeindex, MappingDictionary)
     
-    def GetTypeDefaultValue(self, typeindex, node = None):
-        result = None
-        if node == None:
-            node = self.CurrentNode
-        if node:
-            NodeMappings = node.GetMappings()
-            i = 0
-            while not result and i < len(NodeMappings):
-                result = FindTypeDefaultValue(typeindex, NodeMappings[i])
-                i += 1
-        if result == None:
-            result = FindTypeDefaultValue(typeindex, MappingDictionary)
-        return result
+    def GetTypeDefaultValue(self, typeindex):
+        if self.CurrentNode:
+            return self.CurrentNode.GetTypeDefaultValue(typeindex)
+        else:
+            return FindTypeDefaultValue(typeindex, MappingDictionary)
     
-    def GetTypeList(self, node = None):
-        list = FindTypeList(MappingDictionary)
-        if node == None:
-            node = self.CurrentNode
-        for NodeMapping in self.CurrentNode.GetMappings():
-            list.extend(FindTypeList(NodeMapping))
-        list.sort()
-        return list
-    
-    def GetMapVariableList(self, node = None):
-        list = FindMapVariableList(MappingDictionary, self)
-        if node == None:
-            node = self.CurrentNode
-        for NodeMapping in node.GetMappings():
-            list.extend(FindMapVariableList(NodeMapping, self))
-        list.sort()
-        return list
-    
+    def GetMapVariableList(self):
+        if self.CurrentNode:
+            return self.CurrentNode.GetMapVariableList()
+        else:
+            return []
+
     def GetMandatoryIndexes(self, node = None):
-        list = FindMandatoryIndexes(MappingDictionary)
-        if node == None:
-            node = self.CurrentNode
-        for NodeMapping in node.GetMappings():
-            list.extend(FindMandatoryIndexes(NodeMapping))
-        return list
+        if self.CurrentNode:
+            return self.CurrentNode.GetMapVariableList()
+        else:
+            return FindMandatoryIndexes(MappingDictionary)
     
     def GetCustomisableTypes(self):
         dic = {}

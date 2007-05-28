@@ -24,6 +24,7 @@
 from wxPython.wx import *
 from wxPython.grid import *
 import wx
+from wx.lib.anchors import LayoutAnchors
 import wx.grid
 
 from types import *
@@ -31,10 +32,40 @@ import os, re, platform, sys, time, traceback, getopt
 
 __version__ = "$Revision$"
 
+from nodelist import *
 from nodemanager import *
 from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
+
+def create(parent):
+    return networkedit(parent)
+
+def usage():
+    print "\nUsage of networkedit.py :"
+    print "\n   %s [Projectpath]\n"%sys.argv[0]
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+except getopt.GetoptError:
+    # print help information and exit:
+    usage()
+    sys.exit(2)
+
+for o, a in opts:
+    if o in ("-h", "--help"):
+        usage()
+        sys.exit()
+
+if len(args) == 0:
+    projectOpen = None 
+elif len(args) == 1:
+    projectOpen = args[0]
+else:
+    usage()
+    sys.exit(2)
+
+ScriptDirectory = sys.path[0]
 
 try:
     from wxPython.html import *
@@ -104,60 +135,43 @@ try:
 except:
     Html_Window = False
 
-def create(parent):
-    return objdictedit(parent)
 
-def usage():
-    print "\nUsage of objdictedit.py :"
-    print "\n   %s [Filepath, ...]\n"%sys.argv[0]
-
-try:
-    opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
-except getopt.GetoptError:
-    # print help information and exit:
-    usage()
-    sys.exit(2)
-
-for o, a in opts:
-    if o in ("-h", "--help"):
-        usage()
-        sys.exit()
-
-filesOpen = args
-ScriptDirectory = sys.path[0]
-
-
-[wxID_OBJDICTEDIT, wxID_OBJDICTEDITFILEOPENED, 
- wxID_OBJDICTEDITHELPBAR,
+[wxID_NETWORKEDIT, wxID_NETWORKEDITNETWORKNODES, 
+ wxID_NETWORKEDITHELPBAR,
 ] = [wx.NewId() for _init_ctrls in range(3)]
 
-[wxID_OBJDICTEDITADDMENUITEMS0, wxID_OBJDICTEDITADDMENUITEMS1, 
- wxID_OBJDICTEDITADDMENUITEMS2, wxID_OBJDICTEDITADDMENUITEMS3, 
- wxID_OBJDICTEDITADDMENUITEMS4, wxID_OBJDICTEDITADDMENUITEMS5, 
+[wxID_NETWORKEDITADDMENUITEMS0, wxID_NETWORKEDITADDMENUITEMS1, 
+ wxID_NETWORKEDITADDMENUITEMS2, wxID_NETWORKEDITADDMENUITEMS3, 
+ wxID_NETWORKEDITADDMENUITEMS4, wxID_NETWORKEDITADDMENUITEMS5, 
 ] = [wx.NewId() for _init_coll_AddMenu_Items in range(6)]
 
-[wxID_OBJDICTEDITFILEMENUITEMS0, wxID_OBJDICTEDITFILEMENUITEMS1, 
- wxID_OBJDICTEDITFILEMENUITEMS2, wxID_OBJDICTEDITFILEMENUITEMS4, 
- wxID_OBJDICTEDITFILEMENUITEMS5, wxID_OBJDICTEDITFILEMENUITEMS6, 
- wxID_OBJDICTEDITFILEMENUITEMS7, wxID_OBJDICTEDITFILEMENUITEMS8,
- wxID_OBJDICTEDITFILEMENUITEMS9,
-] = [wx.NewId() for _init_coll_FileMenu_Items in range(9)]
+[wxID_NETWORKEDITFILEMENUITEMS0, wxID_NETWORKEDITFILEMENUITEMS1, 
+ wxID_NETWORKEDITFILEMENUITEMS2, wxID_NETWORKEDITFILEMENUITEMS4, 
+ wxID_NETWORKEDITFILEMENUITEMS5, wxID_NETWORKEDITFILEMENUITEMS6,
+] = [wx.NewId() for _init_coll_FileMenu_Items in range(6)]
 
-[wxID_OBJDICTEDITEDITMENUITEMS0, wxID_OBJDICTEDITEDITMENUITEMS1, 
- wxID_OBJDICTEDITEDITMENUITEMS2, wxID_OBJDICTEDITEDITMENUITEMS4, 
- wxID_OBJDICTEDITEDITMENUITEMS6, wxID_OBJDICTEDITEDITMENUITEMS7, 
- wxID_OBJDICTEDITEDITMENUITEMS8, 
+[wxID_NETWORKEDITNETWORKMENUITEMS0, wxID_NETWORKEDITNETWORKMENUITEMS1, 
+ wxID_NETWORKEDITNETWORKMENUITEMS3, 
+] = [wx.NewId() for _init_coll_AddMenu_Items in range(3)]
+
+
+[wxID_NETWORKEDITEDITMENUITEMS0, wxID_NETWORKEDITEDITMENUITEMS1, 
+ wxID_NETWORKEDITEDITMENUITEMS2, wxID_NETWORKEDITEDITMENUITEMS4, 
+ wxID_NETWORKEDITEDITMENUITEMS6, wxID_NETWORKEDITEDITMENUITEMS7, 
+ wxID_NETWORKEDITEDITMENUITEMS8, 
 ] = [wx.NewId() for _init_coll_EditMenu_Items in range(7)]
 
-[wxID_OBJDICTEDITHELPMENUITEMS0, wxID_OBJDICTEDITHELPMENUITEMS1,
- wxID_OBJDICTEDITHELPMENUITEMS2,
+[wxID_NETWORKEDITHELPMENUITEMS0, wxID_NETWORKEDITHELPMENUITEMS1,
+ wxID_NETWORKEDITHELPMENUITEMS2,
 ] = [wx.NewId() for _init_coll_HelpMenu_Items in range(3)]
 
-class objdictedit(wx.Frame):
+class networkedit(wx.Frame):
     def _init_coll_menuBar1_Menus(self, parent):
         # generated method, don't edit
 
-        parent.Append(menu=self.FileMenu, title='File')
+        if self.Mode == "solo":
+            parent.Append(menu=self.FileMenu, title='File')
+        parent.Append(menu=self.NetworkMenu, title='Network')
         parent.Append(menu=self.EditMenu, title='Edit')
         parent.Append(menu=self.AddMenu, title='Add')
         parent.Append(menu=self.HelpMenu, title='Help')
@@ -165,123 +179,123 @@ class objdictedit(wx.Frame):
     def _init_coll_EditMenu_Items(self, parent):
         # generated method, don't edit
 
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS4,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS4,
               kind=wx.ITEM_NORMAL, text='Refresh\tCTRL+R')
         parent.AppendSeparator()
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS1,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS1,
               kind=wx.ITEM_NORMAL, text='Undo\tCTRL+Z')
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS0,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='Redo\tCTRL+Y')
         parent.AppendSeparator()
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS6,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS6,
               kind=wx.ITEM_NORMAL, text='Node infos')
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS2,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS2,
               kind=wx.ITEM_NORMAL, text='DS-301 Profile')
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS8,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS8,
               kind=wx.ITEM_NORMAL, text='DS-302 Profile')
-        parent.Append(help='', id=wxID_OBJDICTEDITEDITMENUITEMS7,
+        parent.Append(help='', id=wxID_NETWORKEDITEDITMENUITEMS7,
               kind=wx.ITEM_NORMAL, text='Other Profile')
         self.Bind(wx.EVT_MENU, self.OnUndoMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS1)
+              id=wxID_NETWORKEDITEDITMENUITEMS1)
         self.Bind(wx.EVT_MENU, self.OnRedoMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS0)
+              id=wxID_NETWORKEDITEDITMENUITEMS0)
         self.Bind(wx.EVT_MENU, self.OnCommunicationMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS2)
+              id=wxID_NETWORKEDITEDITMENUITEMS2)
         self.Bind(wx.EVT_MENU, self.OnRefreshMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS4)
+              id=wxID_NETWORKEDITEDITMENUITEMS4)
         self.Bind(wx.EVT_MENU, self.OnNodeInfosMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS6)
+              id=wxID_NETWORKEDITEDITMENUITEMS6)
         self.Bind(wx.EVT_MENU, self.OnEditProfileMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS7)
+              id=wxID_NETWORKEDITEDITMENUITEMS7)
         self.Bind(wx.EVT_MENU, self.OnOtherCommunicationMenu,
-              id=wxID_OBJDICTEDITEDITMENUITEMS8)
+              id=wxID_NETWORKEDITEDITMENUITEMS8)
 
     def _init_coll_HelpMenu_Items(self, parent):
         # generated method, don't edit
 
-        parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS0,
+        parent.Append(help='', id=wxID_NETWORKEDITHELPMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
         self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu,
-              id=wxID_OBJDICTEDITHELPMENUITEMS0)
-        parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS1,
+              id=wxID_NETWORKEDITHELPMENUITEMS0)
+        parent.Append(help='', id=wxID_NETWORKEDITHELPMENUITEMS1,
               kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
         self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu,
-              id=wxID_OBJDICTEDITHELPMENUITEMS1)
-        if Html_Window:
-            parent.Append(help='', id=wxID_OBJDICTEDITHELPMENUITEMS2,
+              id=wxID_NETWORKEDITHELPMENUITEMS1)
+        if Html_Window and self.Mode == "solo":
+            parent.Append(help='', id=wxID_NETWORKEDITHELPMENUITEMS2,
                   kind=wx.ITEM_NORMAL, text='About')
             self.Bind(wx.EVT_MENU, self.OnAboutMenu,
-                  id=wxID_OBJDICTEDITHELPMENUITEMS2)
+                  id=wxID_NETWORKEDITHELPMENUITEMS2)
 
     def _init_coll_FileMenu_Items(self, parent):
         # generated method, don't edit
 
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS5,
+        parent.Append(help='', id=wxID_NETWORKEDITFILEMENUITEMS5,
               kind=wx.ITEM_NORMAL, text='New\tCTRL+N')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS0,
+        parent.Append(help='', id=wxID_NETWORKEDITFILEMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='Open\tCTRL+O')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS1,
+        parent.Append(help='', id=wxID_NETWORKEDITFILEMENUITEMS1,
               kind=wx.ITEM_NORMAL, text='Save\tCTRL+S')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS6,
-              kind=wx.ITEM_NORMAL, text='Save As...\tALT+S')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS2,
+        parent.Append(help='', id=wxID_NETWORKEDITFILEMENUITEMS2,
               kind=wx.ITEM_NORMAL, text='Close\tCTRL+W')
         parent.AppendSeparator()
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS7,
-              kind=wx.ITEM_NORMAL, text='Import EDS file')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS9,
-              kind=wx.ITEM_NORMAL, text='Export to EDS file')
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS8,
-              kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
-        parent.AppendSeparator()
-        parent.Append(help='', id=wxID_OBJDICTEDITFILEMENUITEMS4,
+        parent.Append(help='', id=wxID_NETWORKEDITFILEMENUITEMS4,
               kind=wx.ITEM_NORMAL, text='Exit')
-        self.Bind(wx.EVT_MENU, self.OnOpenMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS0)
-        self.Bind(wx.EVT_MENU, self.OnSaveMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnCloseMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS2)
+        self.Bind(wx.EVT_MENU, self.OnOpenProjectMenu,
+              id=wxID_NETWORKEDITFILEMENUITEMS0)
+        self.Bind(wx.EVT_MENU, self.OnSaveProjectMenu,
+              id=wxID_NETWORKEDITFILEMENUITEMS1)
+##        self.Bind(wx.EVT_MENU, self.OnCloseProjectMenu,
+##              id=wxID_NETWORKEDITFILEMENUITEMS2)
         self.Bind(wx.EVT_MENU, self.OnQuitMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS4)
-        self.Bind(wx.EVT_MENU, self.OnNewMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS5)
-        self.Bind(wx.EVT_MENU, self.OnSaveAsMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS6)
-        self.Bind(wx.EVT_MENU, self.OnImportEDSMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS7)
-        self.Bind(wx.EVT_MENU, self.OnExportCMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS8)
-        self.Bind(wx.EVT_MENU, self.OnExportEDSMenu,
-              id=wxID_OBJDICTEDITFILEMENUITEMS9)
+              id=wxID_NETWORKEDITFILEMENUITEMS4)
+        self.Bind(wx.EVT_MENU, self.OnNewProjectMenu,
+              id=wxID_NETWORKEDITFILEMENUITEMS5)
+    
+    def _init_coll_NetworkMenu_Items(self, parent):
+        # generated method, don't edit
 
+        parent.Append(help='', id=wxID_NETWORKEDITNETWORKMENUITEMS0,
+              kind=wx.ITEM_NORMAL, text='Add Slave Node')
+        parent.Append(help='', id=wxID_NETWORKEDITNETWORKMENUITEMS1,
+              kind=wx.ITEM_NORMAL, text='Remove Slave Node')
+        parent.AppendSeparator()
+        parent.Append(help='', id=wxID_NETWORKEDITNETWORKMENUITEMS3,
+              kind=wx.ITEM_NORMAL, text='Build Master Dictionary')
+        self.Bind(wx.EVT_MENU, self.OnAddSlaveMenu,
+              id=wxID_NETWORKEDITNETWORKMENUITEMS0)
+        self.Bind(wx.EVT_MENU, self.OnRemoveSlaveMenu,
+              id=wxID_NETWORKEDITNETWORKMENUITEMS1)
+##        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
+##              id=wxID_NETWORKEDITNETWORKMENUITEMS3)
+    
     def _init_coll_AddMenu_Items(self, parent):
         # generated method, don't edit
 
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS0,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='SDO Server')
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS1,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS1,
               kind=wx.ITEM_NORMAL, text='SDO Client')
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS2,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS2,
               kind=wx.ITEM_NORMAL, text='PDO Transmit')
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS3,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS3,
               kind=wx.ITEM_NORMAL, text='PDO Receive')
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS4,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS4,
               kind=wx.ITEM_NORMAL, text='Map Variable')
-        parent.Append(help='', id=wxID_OBJDICTEDITADDMENUITEMS5,
+        parent.Append(help='', id=wxID_NETWORKEDITADDMENUITEMS5,
               kind=wx.ITEM_NORMAL, text='User Type')
         self.Bind(wx.EVT_MENU, self.OnAddSDOServerMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS0)
+              id=wxID_NETWORKEDITADDMENUITEMS0)
         self.Bind(wx.EVT_MENU, self.OnAddSDOClientMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS1)
+              id=wxID_NETWORKEDITADDMENUITEMS1)
         self.Bind(wx.EVT_MENU, self.OnAddPDOTransmitMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS2)
+              id=wxID_NETWORKEDITADDMENUITEMS2)
         self.Bind(wx.EVT_MENU, self.OnAddPDOReceiveMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS3)
+              id=wxID_NETWORKEDITADDMENUITEMS3)
         self.Bind(wx.EVT_MENU, self.OnAddMapVariableMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS4)
+              id=wxID_NETWORKEDITADDMENUITEMS4)
         self.Bind(wx.EVT_MENU, self.OnAddUserTypeMenu,
-              id=wxID_OBJDICTEDITADDMENUITEMS5)
+              id=wxID_NETWORKEDITADDMENUITEMS5)
 
     def _init_coll_HelpBar_Fields(self, parent):
         # generated method, don't edit
@@ -297,8 +311,11 @@ class objdictedit(wx.Frame):
         # generated method, don't edit
         self.menuBar1 = wx.MenuBar()
         self.menuBar1.SetEvtHandlerEnabled(True)
-
-        self.FileMenu = wx.Menu(title='')
+        
+        if self.Mode == "solo":
+            self.FileMenu = wx.Menu(title='')
+        
+        self.NetworkMenu = wx.Menu(title='')
 
         self.EditMenu = wx.Menu(title='')
 
@@ -307,54 +324,62 @@ class objdictedit(wx.Frame):
         self.HelpMenu = wx.Menu(title='')
 
         self._init_coll_menuBar1_Menus(self.menuBar1)
-        self._init_coll_FileMenu_Items(self.FileMenu)
+        if self.Mode == "solo":
+            self._init_coll_FileMenu_Items(self.FileMenu)
+        self._init_coll_NetworkMenu_Items(self.NetworkMenu)
         self._init_coll_EditMenu_Items(self.EditMenu)
         self._init_coll_AddMenu_Items(self.AddMenu)
         self._init_coll_HelpMenu_Items(self.HelpMenu)
 
     def _init_ctrls(self, prnt):
         # generated method, don't edit
-        wx.Frame.__init__(self, id=wxID_OBJDICTEDIT, name='objdictedit',
+        wx.Frame.__init__(self, id=wxID_NETWORKEDIT, name='networkedit',
               parent=prnt, pos=wx.Point(149, 178), size=wx.Size(1000, 700),
-              style=wx.DEFAULT_FRAME_STYLE, title='Objdictedit')
+              style=wx.DEFAULT_FRAME_STYLE, title='Networkedit')
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.menuBar1)
-        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_OBJDICTEDIT)
+##        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_NETWORKEDIT)
 
-        self.FileOpened = wx.Notebook(id=wxID_OBJDICTEDITFILEOPENED,
-              name='FileOpened', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 0), style=0)
-        self.FileOpened.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,
-              self.OnFileSelectedChanged, id=wxID_OBJDICTEDITFILEOPENED)
+        self.NetworkNodes = wx.Notebook(id=wxID_NETWORKEDITNETWORKNODES,
+              name='NetworkNodes', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(0, 0), style=wxNB_LEFT)
+        self.NetworkNodes.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED,
+              self.OnNodeSelectedChanged, id=wxID_NETWORKEDITNETWORKNODES)
 
-        self.HelpBar = wx.StatusBar(id=wxID_OBJDICTEDITHELPBAR, name='HelpBar',
+        self.HelpBar = wx.StatusBar(id=wxID_NETWORKEDITHELPBAR, name='HelpBar',
               parent=self, style=wxST_SIZEGRIP)
         self._init_coll_HelpBar_Fields(self.HelpBar)
         self.SetStatusBar(self.HelpBar)
 
-    def __init__(self, parent):
+    def __init__(self, parent, mode = "solo", nodelist = None):
+        self.Mode = mode
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
         
-        self.Manager = NodeManager(ScriptDirectory)
-        for filepath in filesOpen:
-            self.Manager.OpenFileInCurrent(filepath)
-            new_editingpanel = EditingPanel(self, self.Manager)
-            self.FileOpened.AddPage(new_editingpanel, "")
-            self.FileOpened.SetSelection(self.Manager.GetCurrentNodeIndex())
-        if self.Manager.CurrentDS302Defined(): 
-            self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
+        if self.Mode == "solo":
+            self.Manager = NodeManager(ScriptDirectory)
+            if projectOpen:
+                self.NodeList = NodeList(self.Manager)
+                result = self.NodeList.LoadProject(projectOpen)
+                if not result:
+                    self.RefreshNetworkNodes()
+            else:
+                self.NodeList = None
         else:
-            self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, False)
-        self.RefreshEditMenu()
+            self.NodeList = nodelist
+            self.Manager = self.NodeList.GetManager()
+        
         self.RefreshBufferState()
-        self.RefreshProfileMenu()
         self.RefreshTitle()
         self.RefreshMainMenu()
 
     def GetNoteBook(self):
-        return self.FileOpened
+        return self.NetworkNodes
+
+    def OnQuitMenu(self, event):
+        self.Close()
+        event.Skip()
 
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
@@ -388,22 +413,292 @@ class objdictedit(wx.Frame):
         self.AddUserType()
         event.Skip()
 
-    def OnFileSelectedChanged(self, event):
+    def OnNodeSelectedChanged(self, event):
         selected = event.GetSelection()
         # At init selected = -1
-        if selected >= 0:
-            window = self.FileOpened.GetPage(selected)
-            self.Manager.ChangeCurrentNode(window.GetIndex())
-            self.RefreshBufferState()
-            self.RefreshStatusBar()
-            self.RefreshProfileMenu()
+        if selected > 0:
+            window = self.NetworkNodes.GetPage(selected)
+            self.NodeList.SetCurrentSelected(window.GetIndex())
+        self.RefreshMainMenu()
+        self.RefreshStatusBar()
         event.Skip()
+
+#-------------------------------------------------------------------------------
+#                         Load and Save Funtions
+#-------------------------------------------------------------------------------
+
+    def OnNewProjectMenu(self, event):
+        if self.NodeList:
+            defaultpath = os.path.dirname(self.NodeList.GetRoot())
+        else:
+            defaultpath = os.getcwd()
+        dialog = wxDirDialog(self , "Choose a project", defaultpath, wxDD_NEW_DIR_BUTTON)
+        if dialog.ShowModal() == wxID_OK:
+            projectpath = dialog.GetPath()
+            if os.path.isdir(projectpath) and len(os.path.listdir(projectpath)) == 0:
+                manager = NodeManager(ScriptDirectory)
+                nodelist = NodeList(manager)
+                result = nodelist.LoadProject(projectpath)
+                if not result:
+                    self.Manager = manager
+                    self.NodeList = nodelist
+                    self.NodeList.SetCurrentSelected(0)
+                                        
+                    self.RefreshNetworkNodes()
+                    self.RefreshBufferState()
+                    self.RefreshTitle()
+                    self.RefreshProfileMenu()
+                    self.RefreshMainMenu()
+                else:
+                    message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+        event.Skip()
+
+    def OnOpenProjectMenu(self, event):
+        if self.NodeList:
+            defaultpath = os.path.dirname(self.NodeList.GetRoot())
+        else:
+            defaultpath = os.getcwd()
+        dialog = wxDirDialog(self , "Choose a project", defaultpath, 0)
+        if dialog.ShowModal() == wxID_OK:
+            projectpath = dialog.GetPath()
+            if os.path.isdir(projectpath):
+                manager = NodeManager(ScriptDirectory)
+                nodelist = NodeList(manager)
+                result = nodelist.LoadProject(projectpath)
+                if not result:
+                    self.Manager = manager
+                    self.NodeList = nodelist
+                    self.NodeList.SetCurrentSelected(0)
+                    
+                    self.RefreshNetworkNodes()
+                    self.RefreshBufferState()
+                    self.RefreshTitle()
+                    self.RefreshProfileMenu()
+                    self.RefreshMainMenu()
+                else:
+                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+        dialog.Destroy()
+        event.Skip()
+
+    def OnSaveProjectMenu(self, event):
+        result = self.NodeList.SaveProject()
+        if result:
+            message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+        event.Skip()
+
+#-------------------------------------------------------------------------------
+#                             Slave Nodes Management
+#-------------------------------------------------------------------------------
+
+    def OnAddSlaveMenu(self, event):
+        dialog = AddSlaveDialog(self)
+        dialog.SetNodeList(self.NodeList)
+        if dialog.ShowModal() == wxID_OK:
+            values = dialog.GetValues()
+            result = self.NodeList.AddSlaveNode(values["slaveName"], values["slaveNodeID"], values["edsFile"])
+            if not result:
+                new_editingpanel = EditingPanel(self, self.NodeList, False)
+                new_editingpanel.SetIndex(values["slaveNodeID"])
+                idx = self.NodeList.GetOrderNumber(values["slaveNodeID"])
+                self.NetworkNodes.InsertPage(idx, new_editingpanel, "")
+                self.NodeList.SetCurrentSelected(idx)
+                self.NetworkNodes.SetSelection(idx)
+                self.RefreshBufferState()
+            else:
+                message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
+        dialog.Destroy()
+        event.Skip()
+
+    def OnRemoveSlaveMenu(self, event):
+        slavenames = self.NodeList.GetSlaveNames()
+        slaveids = self.NodeList.GetSlaveIDs()
+        dialog = wxSingleChoiceDialog(self, "Choose a slave to remove", "Remove slave", slavenames)
+        if dialog.ShowModal() == wxID_OK:
+            choice = dialog.GetSelection()
+            result = self.NodeList.RemoveSlaveNode(slaveids[choice])
+            if not result:
+                slaveids.pop(choice)
+                current = self.NetworkNodes.GetSelection()
+                self.NetworkNodes.DeletePage(choice + 1)
+                if self.NetworkNodes.GetPageCount() > 0:
+                    new_selection = min(current, self.NetworkNodes.GetPageCount() - 1)
+                    self.NetworkNodes.SetSelection(new_selection)
+                    if new_selection > 0:
+                        self.NodeList.SetCurrentSelected(slaveids[new_selection - 1])
+                    self.RefreshBufferState()
+            else:
+                message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
+        event.Skip()
+
+#-------------------------------------------------------------------------------
+#                             Refresh Functions
+#-------------------------------------------------------------------------------
+
+    def RefreshTitle(self):
+        if self.NodeList != None:
+            self.SetTitle("Networkedit - %s"%self.NodeList.GetNetworkName())
+        else:
+            self.SetTitle("Networkedit")
+
+    def OnRefreshMenu(self, event):
+        self.RefreshCurrentIndexList()
+        event.Skip()
+
+    def RefreshCurrentIndexList(self):
+        selected = self.NetworkNodes.GetSelection()
+        if selected == 0:
+            window = self.NetworkNodes.GetPage(selected)
+            window.RefreshIndexList()
+        else:
+            pass
+
+    def RefreshNetworkNodes(self):
+        if self.NetworkNodes.GetPageCount() > 0:
+            self.NetworkNodes.DeleteAllPages()
+        if self.NodeList:
+            new_editingpanel = EditingPanel(self, self.Manager)
+            new_editingpanel.SetIndex(0)
+            self.NetworkNodes.AddPage(new_editingpanel, "")
+            for idx in self.NodeList.GetSlaveIDs():
+                new_editingpanel = EditingPanel(self, self.NodeList, False)
+                new_editingpanel.SetIndex(idx)
+                self.NetworkNodes.AddPage(new_editingpanel, "")
+
+    def RefreshStatusBar(self):
+        if self.HelpBar:
+            window = self.NetworkNodes.GetPage(self.NetworkNodes.GetSelection())
+            selection = window.GetSelection()
+            if selection:
+                index, subIndex = selection
+                if self.NodeList.IsCurrentEntry(index):
+                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
+                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
+                    entryinfos = self.NodeList.GetEntryInfos(index)
+                    name = entryinfos["name"]
+                    category = "Optional"
+                    if entryinfos["need"]:
+                        category = "Mandatory"
+                    struct = "VAR"
+                    number = ""
+                    if entryinfos["struct"] & OD_IdenticalIndexes:
+                        number = " possibly defined %d times"%entryinfos["nbmax"]
+                    if entryinfos["struct"] & OD_IdenticalSubindexes:
+                        struct = "REC"
+                    elif entryinfos["struct"] & OD_MultipleSubindexes:
+                        struct = "ARRAY"
+                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
+                    self.HelpBar.SetStatusText(text, 2)
+                else:
+                    for i in xrange(3):
+                        self.HelpBar.SetStatusText("", i)
+            else:
+                for i in xrange(3):
+                    self.HelpBar.SetStatusText("", i)
+
+    def RefreshMainMenu(self):
+        if self.menuBar1:
+            self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, False)
+            if self.NodeList == None:
+                if self.Mode == "solo":
+                    self.menuBar1.EnableTop(1, False)
+                    self.menuBar1.EnableTop(2, False)
+                    self.menuBar1.EnableTop(3, False)
+                    if self.FileMenu:
+                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS1, False)
+                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS2, False)
+                else:
+                    self.menuBar1.EnableTop(0, False)
+                    self.menuBar1.EnableTop(1, False)
+                    self.menuBar1.EnableTop(2, False)
+            else:
+                if self.Mode == "solo":
+                    self.menuBar1.EnableTop(1, True)
+                    if self.FileMenu:
+                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS1, True)
+                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS2, False)
+                    if self.NetworkNodes.GetSelection() == 0:
+                        self.menuBar1.EnableTop(2, True)
+                        self.menuBar1.EnableTop(3, True)
+                    else:
+                        self.menuBar1.EnableTop(2, False)      
+                        self.menuBar1.EnableTop(3, False)
+                else:
+                    self.menuBar1.EnableTop(0, True)
+                    if self.NetworkNodes.GetSelection() == 0:
+                        self.menuBar1.EnableTop(1, True)
+                        self.menuBar1.EnableTop(2, True)
+                    else:
+                        self.menuBar1.EnableTop(1, False)      
+                        self.menuBar1.EnableTop(2, False)
+
+    def RefreshProfileMenu(self):
+        if self.EditMenu:
+            profile = self.Manager.GetCurrentProfileName()
+            edititem = self.EditMenu.FindItemById(wxID_NETWORKEDITEDITMENUITEMS7)
+            if edititem:
+                length = self.AddMenu.GetMenuItemCount()
+                for i in xrange(length-6):
+                    additem = self.AddMenu.FindItemByPosition(6)
+                    self.AddMenu.Delete(additem.GetId())
+                if profile not in ("None", "DS-301"):
+                    edititem.SetText("%s Profile"%profile)
+                    edititem.Enable(True)
+                    self.AddMenu.AppendSeparator()
+                    for text, indexes in self.Manager.GetCurrentSpecificMenu():
+                        new_id = wx.NewId()
+                        self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
+                        self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
+                else:
+                    edititem.SetText("Other Profile")
+                    edititem.Enable(False)
+
+#-------------------------------------------------------------------------------
+#                              Buffer Functions
+#-------------------------------------------------------------------------------
+
+    def RefreshBufferState(self):
+        if self.NodeList:
+            nodeID = self.Manager.GetCurrentNodeID()
+            if nodeID != None:
+                nodename = "0x%2.2X %s"%(nodeID, self.Manager.GetCurrentNodeName())
+            else:
+                nodename = self.Manager.GetCurrentNodeName()
+            self.NetworkNodes.SetPageText(0, nodename)
+            for idx, name in enumerate(self.NodeList.GetSlaveNames()):
+                self.NetworkNodes.SetPageText(idx + 1, name)
+            self.RefreshTitle()
+
+    def OnUndoMenu(self, event):
+        self.Manager.LoadCurrentPrevious()
+        self.RefreshCurrentIndexList()
+        self.RefreshBufferState()
+        event.Skip()
+
+    def OnRedoMenu(self, event):
+        self.Manager.LoadCurrentNext()
+        self.RefreshCurrentIndexList()
+        self.RefreshBufferState()
+        event.Skip()
+
+#-------------------------------------------------------------------------------
+#                                Help Method
+#-------------------------------------------------------------------------------
 
     def OnHelpDS301Menu(self, event):
         find_index = False
-        selected = self.FileOpened.GetSelection()
+        selected = self.NetworkNodes.GetSelection()
         if selected >= 0:
-            window = self.FileOpened.GetPage(selected)
+            window = self.NetworkNodes.GetPage(selected)
             result = window.GetSelection()
             if result:
                 find_index = True
@@ -438,365 +733,6 @@ class objdictedit(wx.Frame):
             window.SetHtmlPage(file)
             window.SetClientSize(size)
             window.Show()
-
-    def OnQuitMenu(self, event):
-        self.Close()
-        event.Skip()
-    
-    def OnCloseFrame(self, event):
-        if self.Manager.OneFileHasChanged():
-            dialog = wxMessageDialog(self, "There are changes, do you want to save?",  "Close Application", wxYES_NO|wxCANCEL|wxICON_QUESTION)
-            answer = dialog.ShowModal()
-            dialog.Destroy()
-            if answer == wxID_YES:
-                self.Manager.ChangeCurrentNode(0)
-                for i in xrange(self.FileOpened.GetPageCount()):
-                    if self.Manager.CurrentIsSaved():
-                        self.Manager.CloseCurrent()
-                    else:
-                        self.Save()
-                        self.Manager.CloseCurrent(True)
-                event.Skip()
-            elif answer == wxID_NO:
-                for i in xrange(self.FileOpened.GetPageCount()):
-                    self.Manager.CloseCurrent(True)
-                wxCallAfter(self.Close)
-                event.Skip()
-        else:
-            event.Skip()
-
-#-------------------------------------------------------------------------------
-#                             Refresh Functions
-#-------------------------------------------------------------------------------
-
-    def RefreshTitle(self):
-        if self.FileOpened.GetPageCount() > 0:
-            self.SetTitle("Objdictedit - %s"%self.Manager.GetCurrentFilename())
-        else:
-            self.SetTitle("Objdictedit")
-
-    def OnRefreshMenu(self, event):
-        self.RefreshCurrentIndexList()
-        event.Skip()
-
-    def RefreshCurrentIndexList(self):
-        selected = self.FileOpened.GetSelection()
-        window = self.FileOpened.GetPage(selected)
-        window.RefreshIndexList()
-
-    def RefreshStatusBar(self):
-        if self.HelpBar:
-            window = self.FileOpened.GetPage(self.FileOpened.GetSelection())
-            selection = window.GetSelection()
-            if selection:
-                index, subIndex = selection
-                if self.Manager.IsCurrentEntry(index):
-                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
-                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
-                    entryinfos = self.Manager.GetEntryInfos(index)
-                    name = entryinfos["name"]
-                    category = "Optional"
-                    if entryinfos["need"]:
-                        category = "Mandatory"
-                    struct = "VAR"
-                    number = ""
-                    if entryinfos["struct"] & OD_IdenticalIndexes:
-                        number = " possibly defined %d times"%entryinfos["nbmax"]
-                    if entryinfos["struct"] & OD_IdenticalSubindexes:
-                        struct = "REC"
-                    elif entryinfos["struct"] & OD_MultipleSubindexes:
-                        struct = "ARRAY"
-                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
-                    self.HelpBar.SetStatusText(text, 2)
-                else:
-                    for i in xrange(3):
-                        self.HelpBar.SetStatusText("", i)
-            else:
-                for i in xrange(3):
-                    self.HelpBar.SetStatusText("", i)
-
-    def RefreshMainMenu(self):
-        if self.FileMenu:
-            if self.FileOpened.GetPageCount() > 0:
-                self.menuBar1.EnableTop(1, True)
-                self.menuBar1.EnableTop(2, True)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, True)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, True)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, True)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, True)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS9, True)
-            else:
-                self.menuBar1.EnableTop(1, False)      
-                self.menuBar1.EnableTop(2, False)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS1, False)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS2, False)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS6, False)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS8, False)
-                self.FileMenu.Enable(wxID_OBJDICTEDITFILEMENUITEMS9, False)
-
-    def RefreshEditMenu(self):
-        if self.FileMenu:
-            if self.FileOpened.GetPageCount() > 0:
-                undo, redo = self.Manager.GetCurrentBufferState()
-                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS1, undo)
-                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS0, redo)
-            else:
-                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS1, False)
-                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS0, False)
-
-    def RefreshProfileMenu(self):
-        if self.EditMenu:
-            profile = self.Manager.GetCurrentProfileName()
-            edititem = self.EditMenu.FindItemById(wxID_OBJDICTEDITEDITMENUITEMS7)
-            if edititem:
-                length = self.AddMenu.GetMenuItemCount()
-                for i in xrange(length-6):
-                    additem = self.AddMenu.FindItemByPosition(6)
-                    self.AddMenu.Delete(additem.GetId())
-                if profile not in ("None", "DS-301"):
-                    edititem.SetText("%s Profile"%profile)
-                    edititem.Enable(True)
-                    self.AddMenu.AppendSeparator()
-                    for text, indexes in self.Manager.GetCurrentSpecificMenu():
-                        new_id = wx.NewId()
-                        self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
-                        self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
-                else:
-                    edititem.SetText("Other Profile")
-                    edititem.Enable(False)
-        
-
-#-------------------------------------------------------------------------------
-#                            Buffer Functions
-#-------------------------------------------------------------------------------
-
-    def RefreshBufferState(self):
-        fileopened = self.Manager.GetAllFilenames()
-        for idx, filename in enumerate(fileopened):
-            self.FileOpened.SetPageText(idx, filename)
-        self.RefreshEditMenu()
-        self.RefreshTitle()
-
-    def OnUndoMenu(self, event):
-        self.Manager.LoadCurrentPrevious()
-        self.RefreshCurrentIndexList()
-        self.RefreshBufferState()
-        event.Skip()
-
-    def OnRedoMenu(self, event):
-        self.Manager.LoadCurrentNext()
-        self.RefreshCurrentIndexList()
-        self.RefreshBufferState()
-        event.Skip()
-
-
-#-------------------------------------------------------------------------------
-#                         Load and Save Funtions
-#-------------------------------------------------------------------------------
-
-    def OnNewMenu(self, event):
-        self.FilePath = ""
-        dialog = CreateNodeDialog(self)
-        if dialog.ShowModal() == wxID_OK:
-            name, id, nodetype, description = dialog.GetValues()
-            profile, filepath = dialog.GetProfile()
-            NMT = dialog.GetNMTManagement()
-            options = dialog.GetOptions()
-            result = self.Manager.CreateNewNode(name, id, nodetype, description, profile, filepath, NMT, options)
-            if type(result) == IntType:
-                new_editingpanel = EditingPanel(self, self.Manager)
-                new_editingpanel.SetIndex(result)
-                self.FileOpened.AddPage(new_editingpanel, "")
-                self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
-                self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, False)
-                if "DS302" in options:
-                    self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
-                self.RefreshBufferState()
-                self.RefreshProfileMenu()
-                self.RefreshMainMenu()
-            else:
-                message = wxMessageDialog(self, result, "ERROR", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        event.Skip()
-
-    def OnOpenMenu(self, event):
-        filepath = self.Manager.GetCurrentFilePath()
-        if filepath != "":
-            directory = os.path.dirname(filepath)
-        else:
-            directory = os.getcwd()
-        dialog = wxFileDialog(self, "Choose a file", directory, "",  "OD files (*.od)|*.od|All files|*.*", wxOPEN|wxCHANGE_DIR)
-        if dialog.ShowModal() == wxID_OK:
-            filepath = dialog.GetPath()
-            if os.path.isfile(filepath):
-                result = self.Manager.OpenFileInCurrent(filepath)
-                if type(result) == IntType:
-                    new_editingpanel = EditingPanel(self, self.Manager)
-                    new_editingpanel.SetIndex(result)
-                    self.FileOpened.AddPage(new_editingpanel, "")
-                    self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
-                    if self.Manager.CurrentDS302Defined(): 
-                        self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
-                    else:
-                        self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, False)
-                    self.RefreshEditMenu()
-                    self.RefreshBufferState()
-                    self.RefreshProfileMenu()
-                    self.RefreshMainMenu()
-                else:
-                    message = wxMessageDialog(self, e.args[0], "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-        dialog.Destroy()
-        event.Skip()
-
-    def OnSaveMenu(self, event):
-        self.Save()
-        event.Skip()
-    
-    def OnSaveAsMenu(self, event):
-        self.SaveAs()
-        event.Skip()
-        
-    def Save(self):
-        result = self.Manager.SaveCurrentInFile()
-        if not result:
-            self.SaveAs()
-        elif type(result) != StringType:
-            self.RefreshBufferState()
-        else:
-            message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-            message.ShowModal()
-            message.Destroy()
-
-    def SaveAs(self):
-        filepath = self.Manager.GetCurrentFilePath()
-        if filepath != "":
-            directory, filename = os.path.split(filepath)
-        else:
-            directory, filename = os.getcwd(), "%s.od"%self.Manager.GetCurrentNodeInfos()[0]
-        dialog = wxFileDialog(self, "Choose a file", directory, filename,  "OD files (*.od)|*.od|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
-        if dialog.ShowModal() == wxID_OK:
-            filepath = dialog.GetPath()
-            if os.path.isdir(os.path.dirname(filepath)):
-                result = self.Manager.SaveCurrentInFile(filepath)
-                if type(result) != StringType:
-                    self.RefreshBufferState()
-                else:
-                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            else:
-                message = wxMessageDialog(self, "%s is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
-
-    def OnCloseMenu(self, event):
-        answer = wxID_YES
-        result = self.Manager.CloseCurrent()
-        if not result:
-            dialog = wxMessageDialog(self, "There are changes, do you want to save?",  "Close File", wxYES_NO|wxCANCEL|wxICON_QUESTION)
-            answer = dialog.ShowModal()
-            dialog.Destroy()
-            if answer == wxID_YES:
-                self.OnSaveMenu(event)
-                if self.Manager.CurrentIsSaved():
-                    self.Manager.CloseCurrent()
-            elif answer == wxID_NO:
-                self.Manager.CloseCurrent(True)
-        if self.FileOpened.GetPageCount() > self.Manager.GetBufferNumber():
-            current = self.FileOpened.GetSelection()
-            self.FileOpened.DeletePage(current)
-            if self.FileOpened.GetPageCount() > 0:
-                self.FileOpened.SetSelection(min(current, self.FileOpened.GetPageCount() - 1))
-            self.RefreshBufferState()
-            self.RefreshMainMenu()
-        event.Skip()
-        
-
-#-------------------------------------------------------------------------------
-#                         Import and Export Functions
-#-------------------------------------------------------------------------------
-
-    def OnImportEDSMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), "",  "EDS files (*.eds)|*.eds|All files|*.*", wxOPEN|wxCHANGE_DIR)
-        if dialog.ShowModal() == wxID_OK:
-            filepath = dialog.GetPath()
-            if os.path.isfile(filepath):
-                result = self.Manager.ImportCurrentFromEDSFile(filepath)
-                if type(result) == IntType:
-                    new_editingpanel = EditingPanel(self, self.Manager)
-                    new_editingpanel.SetIndex(result)
-                    self.FileOpened.AddPage(new_editingpanel, "")
-                    self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
-                    self.RefreshBufferState()
-                    self.RefreshCurrentIndexList()
-                    self.RefreshProfileMenu()
-                    self.RefreshMainMenu()
-                    message = wxMessageDialog(self, "Import successful", "Information", wxOK|wxICON_INFORMATION)
-                    message.ShowModal()
-                    message.Destroy()
-                else:
-                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            else:
-                message = wxMessageDialog(self, "\"%s\" is not a valid file!"%filepath, "Error", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
-        event.Skip()
-
-
-    def OnExportEDSMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], "EDS files (*.eds)|*.eds|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
-        if dialog.ShowModal() == wxID_OK:
-            filepath = dialog.GetPath()
-            if os.path.isdir(os.path.dirname(filepath)):
-                path, extend = os.path.splitext(filepath)
-                if extend in ("", "."):
-                    filepath = path + ".eds"
-                result = self.Manager.ExportCurrentToEDSFile(filepath)
-                if not result:
-                    message = wxMessageDialog(self, "Export successful", "Information", wxOK|wxICON_INFORMATION)
-                    message.ShowModal()
-                    message.Destroy()
-                else:
-                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            else:
-                message = wxMessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
-        event.Skip()
-
-    def OnExportCMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival OD files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
-        if dialog.ShowModal() == wxID_OK:
-            filepath = dialog.GetPath()
-            if os.path.isdir(os.path.dirname(filepath)):
-                path, extend = os.path.splitext(filepath)
-                if extend in ("", "."):
-                    filepath = path + ".c"
-                result = self.Manager.ExportCurrentToCFile(filepath)
-                if not result:
-                    message = wxMessageDialog(self, "Export successful", "Information", wxOK|wxICON_INFORMATION)
-                    message.ShowModal()
-                    message.Destroy()
-                else:
-                    message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            else:
-                message = wxMessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wxOK|wxICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
-        event.Skip()
 
 #-------------------------------------------------------------------------------
 #                          Editing Profiles functions
@@ -840,14 +776,6 @@ class objdictedit(wx.Frame):
             self.RefreshBufferState()
             self.RefreshCurrentIndexList()
         dialog.Destroy()
-
-    def GetProfileCallBack(self, text):
-        def ProfileCallBack(event):
-            self.Manager.AddSpecificEntryToCurrent(text)
-            self.RefreshBufferState()
-            self.RefreshCurrentIndexList()
-            event.Skip()
-        return ProfileCallBack
 
 #-------------------------------------------------------------------------------
 #                         Edit Node informations function
@@ -900,7 +828,7 @@ class objdictedit(wx.Frame):
         if dialog.ShowModal() == wxID_OK:
             type, min, max, length = dialog.GetValues()
             result = self.Manager.AddUserTypeToCurrent(type, min, max, length)
-            if not result:
+            if not IsOfType(result, StringType):
                 self.RefreshBufferState()
                 self.RefreshCurrentIndexList()
             else:
@@ -908,7 +836,6 @@ class objdictedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-    
 
 #-------------------------------------------------------------------------------
 #                               Exception Handler
@@ -940,7 +867,7 @@ Click on OK for saving an error report.
 
 Please contact LOLITech at:
 +33 (0)3 29 52 95 67
-bugs_objdictedit@lolitech.fr
+bugs_networkedit@lolitech.fr
 
 
 Error:
@@ -1020,7 +947,7 @@ if __name__ == '__main__':
     # Install a exception handle for bug reports
     wxAddExceptHook(os.getcwd(),__version__)
     
-    frame = objdictedit(None)
+    frame = networkedit(None)
 
     frame.Show()
     app.MainLoop()
