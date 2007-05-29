@@ -48,8 +48,8 @@ BOOL_TRANSLATE = {True : "1", False : "0"}
 ACCESS_TRANSLATE = {"ro" : "ro", "wo" : "wo", "rw" : "rw", "rwr" : "rw", "rww" : "rw", "const" : "ro"}
 
 # Function for verifying data values
-is_integer = lambda x: type(x) == IntType
-is_string = lambda x: type(x) == StringType
+is_integer = lambda x: type(x) in (IntType, LongType)
+is_string = lambda x: type(x) in (StringType, UnicodeType)
 is_boolean = lambda x: x in (0, 1)
 
 # Define checking of value for each attribute

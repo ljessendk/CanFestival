@@ -28,6 +28,7 @@ import wx.grid
 
 from types import *
 
+from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
 
 ColSizes = [75, 250, 150, 125, 100, 60, 250]
 ColAlignements = [wxALIGN_CENTER, wxALIGN_LEFT, wxALIGN_CENTER, wxALIGN_RIGHT, wxALIGN_CENTER, wxALIGN_CENTER, wxALIGN_LEFT]

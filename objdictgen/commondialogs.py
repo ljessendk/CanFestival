@@ -792,7 +792,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self._init_sizers()
 
-    def __init__(self, parent):
+    def __init__(self, parent, cwd):
         self._init_ctrls(parent)
         self.ButtonSizer = self.CreateButtonSizer(wxOK|wxCANCEL)
         self.flexGridSizer1.Add(self.ButtonSizer, 1, wxALIGN_CENTER)
@@ -803,7 +803,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Description.SetValue("")
         self.ListProfile = {"None" : ""}
         self.Profile.Append("None")
-        self.Directory = os.path.join(ScriptDirectory, "config")
+        self.Directory = os.path.join(cwd, "config")
         listfiles = os.listdir(self.Directory)
         listfiles.sort()
         for item in listfiles:

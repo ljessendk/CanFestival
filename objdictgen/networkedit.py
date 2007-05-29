@@ -435,7 +435,7 @@ class networkedit(wx.Frame):
         dialog = wxDirDialog(self , "Choose a project", defaultpath, wxDD_NEW_DIR_BUTTON)
         if dialog.ShowModal() == wxID_OK:
             projectpath = dialog.GetPath()
-            if os.path.isdir(projectpath) and len(os.path.listdir(projectpath)) == 0:
+            if os.path.isdir(projectpath) and len(os.listdir(projectpath)) == 0:
                 manager = NodeManager(ScriptDirectory)
                 nodelist = NodeList(manager)
                 result = nodelist.LoadProject(projectpath)

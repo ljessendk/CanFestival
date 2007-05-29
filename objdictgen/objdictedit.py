@@ -31,6 +31,8 @@ import os, re, platform, sys, time, traceback, getopt
 
 __version__ = "$Revision$"
 
+from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
+
 from nodemanager import *
 from subindextable import *
 from commondialogs import *
@@ -596,7 +598,7 @@ class objdictedit(wx.Frame):
 
     def OnNewMenu(self, event):
         self.FilePath = ""
-        dialog = CreateNodeDialog(self)
+        dialog = CreateNodeDialog(self, ScriptDirectory)
         if dialog.ShowModal() == wxID_OK:
             name, id, nodetype, description = dialog.GetValues()
             profile, filepath = dialog.GetProfile()
