@@ -1,0 +1,129 @@
+\hypertarget{timer_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/timer.h File Reference}
+\label{timer_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/timer.h@{/home/epimerde/documents/tc11/CanFestival-3/include/timer.h}}
+}
+{\tt \#include $<$timerscfg.h$>$}\par
+{\tt \#include $<$applicfg.h$>$}\par
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structstruct__s__timer__entry}{struct\_\-s\_\-timer\_\-entry}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{timer_8h_146f546340de2a44ab2f63681d40de95}{TIMER\_\-HANDLE}~INTEGER16
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$) \hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS32 id)
+\item 
+typedef \hyperlink{structstruct__s__timer__entry}{struct\_\-s\_\-timer\_\-entry} \hyperlink{timer_8h_da9472124b37d582959f8b16e6d29ffe}{s\_\-timer\_\-entry}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+TIMER\_\-HANDLE \hyperlink{timer_8h_11c2616d78f06ed9144ef662f757b128}{Set\-Alarm} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS32 id, \hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t} callback, TIMEVAL value, TIMEVAL period)
+\item 
+TIMER\_\-HANDLE \hyperlink{timer_8h_991b3cfaac2f201b14d5530f75985c21}{Del\-Alarm} (TIMER\_\-HANDLE handle)
+\item 
+void \hyperlink{timer_8h_9e5fb60f13faab8705899c5806754864}{Time\-Dispatch} (void)
+\item 
+void \hyperlink{timer_8h_b8d05dee70f04b5c5190ab00e84da106}{set\-Timer} (TIMEVAL value)
+\item 
+TIMEVAL \hyperlink{timer_8h_4dccc204d52176bd547ab34d6858f5ba}{get\-Elapsed\-Time} (void)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{timer_8h_146f546340de2a44ab2f63681d40de95}{
+\index{timer.h@{timer.h}!TIMER_HANDLE@{TIMER\_\-HANDLE}}
+\index{TIMER_HANDLE@{TIMER\_\-HANDLE}!timer.h@{timer.h}}
+\subsubsection[TIMER\_\-HANDLE]{\setlength{\rightskip}{0pt plus 5cm}\#define TIMER\_\-HANDLE~INTEGER16}}
+\label{timer_8h_146f546340de2a44ab2f63681d40de95}
+
+
+
+
+Definition at line 29 of file timer.h.
+
+\subsection{Typedef Documentation}
+\hypertarget{timer_8h_da9472124b37d582959f8b16e6d29ffe}{
+\index{timer.h@{timer.h}!s_timer_entry@{s\_\-timer\_\-entry}}
+\index{s_timer_entry@{s\_\-timer\_\-entry}!timer.h@{timer.h}}
+\subsubsection[s\_\-timer\_\-entry]{\setlength{\rightskip}{0pt plus 5cm}typedef struct \hyperlink{structstruct__s__timer__entry}{struct\_\-s\_\-timer\_\-entry} \hyperlink{structstruct__s__timer__entry}{s\_\-timer\_\-entry}}}
+\label{timer_8h_da9472124b37d582959f8b16e6d29ffe}
+
+
+
+
+Definition at line 52 of file timer.h.\hypertarget{timer_8h_f7d102e060339d3730ceae5fea03691b}{
+\index{timer.h@{timer.h}!TimerCallback_t@{TimerCallback\_\-t}}
+\index{TimerCallback_t@{TimerCallback\_\-t}!timer.h@{timer.h}}
+\subsubsection[TimerCallback\_\-t]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$) \hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t}(\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS32 id)}}
+\label{timer_8h_f7d102e060339d3730ceae5fea03691b}
+
+
+
+
+Definition at line 41 of file timer.h.
+
+\subsection{Function Documentation}
+\hypertarget{timer_8h_991b3cfaac2f201b14d5530f75985c21}{
+\index{timer.h@{timer.h}!DelAlarm@{DelAlarm}}
+\index{DelAlarm@{DelAlarm}!timer.h@{timer.h}}
+\subsubsection[DelAlarm]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE Del\-Alarm (TIMER\_\-HANDLE {\em handle})}}
+\label{timer_8h_991b3cfaac2f201b14d5530f75985c21}
+
+
+
+
+Definition at line 87 of file timer.c.
+
+References last\_\-timer\_\-raw, MSG\_\-WAR, struct\_\-s\_\-timer\_\-entry::state, and timers.\hypertarget{timer_8h_4dccc204d52176bd547ab34d6858f5ba}{
+\index{timer.h@{timer.h}!getElapsedTime@{getElapsedTime}}
+\index{getElapsedTime@{getElapsedTime}!timer.h@{timer.h}}
+\subsubsection[getElapsedTime]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL get\-Elapsed\-Time (void)}}
+\label{timer_8h_4dccc204d52176bd547ab34d6858f5ba}
+
+
+
+
+Definition at line 66 of file can\-Open\-Driver.c.
+
+References class\_\-timers::get\_\-elapsed\_\-time(), IO\_\-PORTS\_\-16, and TC4H.\hypertarget{timer_8h_11c2616d78f06ed9144ef662f757b128}{
+\index{timer.h@{timer.h}!SetAlarm@{SetAlarm}}
+\index{SetAlarm@{SetAlarm}!timer.h@{timer.h}}
+\subsubsection[SetAlarm]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE Set\-Alarm (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS32 {\em id}, \hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t} {\em callback}, TIMEVAL {\em value}, TIMEVAL {\em period})}}
+\label{timer_8h_11c2616d78f06ed9144ef662f757b128}
+
+
+
+
+Definition at line 38 of file timer.c.
+
+References struct\_\-s\_\-timer\_\-entry::d, last\_\-timer\_\-raw, MAX\_\-NB\_\-TIMER, TIMER\_\-HANDLE, and timers.\hypertarget{timer_8h_b8d05dee70f04b5c5190ab00e84da106}{
+\index{timer.h@{timer.h}!setTimer@{setTimer}}
+\index{setTimer@{setTimer}!timer.h@{timer.h}}
+\subsubsection[setTimer]{\setlength{\rightskip}{0pt plus 5cm}void set\-Timer (TIMEVAL {\em value})}}
+\label{timer_8h_b8d05dee70f04b5c5190ab00e84da106}
+
+
+
+
+Definition at line 83 of file timers\_\-unix.c.
+
+References maxval, class\_\-timers::set\_\-timer(), and timer.\hypertarget{timer_8h_9e5fb60f13faab8705899c5806754864}{
+\index{timer.h@{timer.h}!TimeDispatch@{TimeDispatch}}
+\index{TimeDispatch@{TimeDispatch}!timer.h@{timer.h}}
+\subsubsection[TimeDispatch]{\setlength{\rightskip}{0pt plus 5cm}void Time\-Dispatch (void)}}
+\label{timer_8h_9e5fb60f13faab8705899c5806754864}
+
+
+
+
+Definition at line 104 of file timer.c.
+
+References get\-Elapsed\-Time(), last\_\-timer\_\-raw, min\_\-val, TIMER\_\-HANDLE, timers, TIMEVAL, TIMEVAL\_\-MAX, and total\_\-sleep\_\-time.

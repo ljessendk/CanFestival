@@ -1,0 +1,187 @@
+\hypertarget{classcan__uvccm__win32}{
+\section{can\_\-uvccm\_\-win32 Class Reference}
+\label{classcan__uvccm__win32}\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classcan__uvccm__win32_f4f6d1f25174fd3b7d897a5f73bc363e}{can\_\-uvccm\_\-win32} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+\hyperlink{classcan__uvccm__win32_39bb5c7bb141391d0f2f34b7dd5f487c}{$\sim$can\_\-uvccm\_\-win32} ()
+\item 
+bool \hyperlink{classcan__uvccm__win32_3358bfa32c0164bc11d220745e3e0430}{send} (const \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+bool \hyperlink{classcan__uvccm__win32_4301393c1d3046b35d0b545e761b94db}{receive} (\hyperlink{structMessage}{Message} $\ast$m)
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+bool \hyperlink{classcan__uvccm__win32_7fb6732edc691451bc1d3206c07d4715}{open\_\-rs232} (int port=1, int baud\_\-rate=57600)
+\item 
+bool \hyperlink{classcan__uvccm__win32_06f9d2fb860a821436471c3233f91dff}{close\_\-rs232} ()
+\item 
+bool \hyperlink{classcan__uvccm__win32_c3d1d02a46518b2639beb6060f79f2a2}{get\_\-can\_\-data} (const char $\ast$can\_\-cmd\_\-buf, long \&bufsize, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+bool \hyperlink{classcan__uvccm__win32_0f2aed9c45f29e6082f37ea17aea46ae}{set\_\-can\_\-data} (const \hyperlink{structMessage}{Message} \&m, std::string \&can\_\-cmd)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+HANDLE \hyperlink{classcan__uvccm__win32_3f13c1748b3cd57fd1d478782428859a}{m\_\-port}
+\item 
+HANDLE \hyperlink{classcan__uvccm__win32_cf25e6725871137696ab41b06fa05417}{m\_\-read\_\-event}
+\item 
+HANDLE \hyperlink{classcan__uvccm__win32_544ea7fd0e8a5d7cfb7cf9058d6020a4}{m\_\-write\_\-event}
+\item 
+std::string \hyperlink{classcan__uvccm__win32_d264855657adc02fbc687f37d302fc9f}{m\_\-residual\_\-buffer}
+\end{CompactItemize}
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+class \hyperlink{classcan__uvccm__win32_1_1error}{error}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 17 of file can\_\-uvccm\_\-win32.cpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classcan__uvccm__win32_f4f6d1f25174fd3b7d897a5f73bc363e}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[can\_\-uvccm\_\-win32]{\setlength{\rightskip}{0pt plus 5cm}can\_\-uvccm\_\-win32::can\_\-uvccm\_\-win32 (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{classcan__uvccm__win32_f4f6d1f25174fd3b7d897a5f73bc363e}
+
+
+
+
+Definition at line 39 of file can\_\-uvccm\_\-win32.cpp.
+
+References struct\_\-s\_\-BOARD::baudrate, and open\_\-rs232().\hypertarget{classcan__uvccm__win32_39bb5c7bb141391d0f2f34b7dd5f487c}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!~can_uvccm_win32@{$\sim$can\_\-uvccm\_\-win32}}
+\index{~can_uvccm_win32@{$\sim$can\_\-uvccm\_\-win32}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[$\sim$can\_\-uvccm\_\-win32]{\setlength{\rightskip}{0pt plus 5cm}can\_\-uvccm\_\-win32::$\sim$can\_\-uvccm\_\-win32 ()}}
+\label{classcan__uvccm__win32_39bb5c7bb141391d0f2f34b7dd5f487c}
+
+
+
+
+Definition at line 47 of file can\_\-uvccm\_\-win32.cpp.
+
+References close\_\-rs232().
+
+\subsection{Member Function Documentation}
+\hypertarget{classcan__uvccm__win32_3358bfa32c0164bc11d220745e3e0430}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!send@{send}}
+\index{send@{send}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[send]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::send (const \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{classcan__uvccm__win32_3358bfa32c0164bc11d220745e3e0430}
+
+
+
+
+Definition at line 52 of file can\_\-uvccm\_\-win32.cpp.
+
+References FALSE, m\_\-port, m\_\-write\_\-event, set\_\-can\_\-data(), and eds\_\-utils::Write\-File().\hypertarget{classcan__uvccm__win32_4301393c1d3046b35d0b545e761b94db}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!receive@{receive}}
+\index{receive@{receive}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[receive]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::receive (\hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{classcan__uvccm__win32_4301393c1d3046b35d0b545e761b94db}
+
+
+
+
+Definition at line 80 of file can\_\-uvccm\_\-win32.cpp.
+
+References FALSE, get\_\-can\_\-data(), m\_\-port, m\_\-read\_\-event, and m\_\-residual\_\-buffer.\hypertarget{classcan__uvccm__win32_7fb6732edc691451bc1d3206c07d4715}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!open_rs232@{open\_\-rs232}}
+\index{open_rs232@{open\_\-rs232}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[open\_\-rs232]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::open\_\-rs232 (int {\em port} = {\tt 1}, int {\em baud\_\-rate} = {\tt 57600})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_7fb6732edc691451bc1d3206c07d4715}
+
+
+
+
+Definition at line 136 of file can\_\-uvccm\_\-win32.cpp.
+
+References FALSE, m\_\-port, m\_\-read\_\-event, m\_\-write\_\-event, and TRUE.\hypertarget{classcan__uvccm__win32_06f9d2fb860a821436471c3233f91dff}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!close_rs232@{close\_\-rs232}}
+\index{close_rs232@{close\_\-rs232}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[close\_\-rs232]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::close\_\-rs232 ()\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_06f9d2fb860a821436471c3233f91dff}
+
+
+
+
+Definition at line 190 of file can\_\-uvccm\_\-win32.cpp.
+
+References m\_\-port, m\_\-read\_\-event, m\_\-residual\_\-buffer, and m\_\-write\_\-event.\hypertarget{classcan__uvccm__win32_c3d1d02a46518b2639beb6060f79f2a2}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!get_can_data@{get\_\-can\_\-data}}
+\index{get_can_data@{get\_\-can\_\-data}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[get\_\-can\_\-data]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::get\_\-can\_\-data (const char $\ast$ {\em can\_\-cmd\_\-buf}, long \& {\em bufsize}, \hyperlink{structMessage}{Message} $\ast$ {\em m})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_c3d1d02a46518b2639beb6060f79f2a2}
+
+
+
+
+Definition at line 206 of file can\_\-uvccm\_\-win32.cpp.
+
+References Message::cob\_\-id, Message::data, Message::len, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{classcan__uvccm__win32_0f2aed9c45f29e6082f37ea17aea46ae}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!set_can_data@{set\_\-can\_\-data}}
+\index{set_can_data@{set\_\-can\_\-data}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[set\_\-can\_\-data]{\setlength{\rightskip}{0pt plus 5cm}bool can\_\-uvccm\_\-win32::set\_\-can\_\-data (const \hyperlink{structMessage}{Message} \& {\em m}, std::string \& {\em can\_\-cmd})\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_0f2aed9c45f29e6082f37ea17aea46ae}
+
+
+
+
+Definition at line 271 of file can\_\-uvccm\_\-win32.cpp.
+
+References Message::cob\_\-id, Message::data, Message::len, Message::rtr, and SHORT\_\-CAN::w.
+
+\subsection{Field Documentation}
+\hypertarget{classcan__uvccm__win32_3f13c1748b3cd57fd1d478782428859a}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!m_port@{m\_\-port}}
+\index{m_port@{m\_\-port}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[m\_\-port]{\setlength{\rightskip}{0pt plus 5cm}HANDLE \hyperlink{classcan__uvccm__win32_3f13c1748b3cd57fd1d478782428859a}{can\_\-uvccm\_\-win32::m\_\-port}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_3f13c1748b3cd57fd1d478782428859a}
+
+
+
+
+Definition at line 33 of file can\_\-uvccm\_\-win32.cpp.\hypertarget{classcan__uvccm__win32_cf25e6725871137696ab41b06fa05417}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!m_read_event@{m\_\-read\_\-event}}
+\index{m_read_event@{m\_\-read\_\-event}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[m\_\-read\_\-event]{\setlength{\rightskip}{0pt plus 5cm}HANDLE \hyperlink{classcan__uvccm__win32_cf25e6725871137696ab41b06fa05417}{can\_\-uvccm\_\-win32::m\_\-read\_\-event}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_cf25e6725871137696ab41b06fa05417}
+
+
+
+
+Definition at line 34 of file can\_\-uvccm\_\-win32.cpp.\hypertarget{classcan__uvccm__win32_544ea7fd0e8a5d7cfb7cf9058d6020a4}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!m_write_event@{m\_\-write\_\-event}}
+\index{m_write_event@{m\_\-write\_\-event}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[m\_\-write\_\-event]{\setlength{\rightskip}{0pt plus 5cm}HANDLE \hyperlink{classcan__uvccm__win32_544ea7fd0e8a5d7cfb7cf9058d6020a4}{can\_\-uvccm\_\-win32::m\_\-write\_\-event}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_544ea7fd0e8a5d7cfb7cf9058d6020a4}
+
+
+
+
+Definition at line 35 of file can\_\-uvccm\_\-win32.cpp.\hypertarget{classcan__uvccm__win32_d264855657adc02fbc687f37d302fc9f}{
+\index{can_uvccm_win32@{can\_\-uvccm\_\-win32}!m_residual_buffer@{m\_\-residual\_\-buffer}}
+\index{m_residual_buffer@{m\_\-residual\_\-buffer}!can_uvccm_win32@{can\_\-uvccm\_\-win32}}
+\subsubsection[m\_\-residual\_\-buffer]{\setlength{\rightskip}{0pt plus 5cm}std::string \hyperlink{classcan__uvccm__win32_d264855657adc02fbc687f37d302fc9f}{can\_\-uvccm\_\-win32::m\_\-residual\_\-buffer}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classcan__uvccm__win32_d264855657adc02fbc687f37d302fc9f}
+
+
+
+
+Definition at line 36 of file can\_\-uvccm\_\-win32.cpp.
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-uvccm\_\-win32/\hyperlink{can__uvccm__win32_8cpp}{can\_\-uvccm\_\-win32.cpp}\end{CompactItemize}

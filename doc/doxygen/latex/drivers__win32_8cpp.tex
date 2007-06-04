@@ -1,0 +1,206 @@
+\hypertarget{drivers__win32_8cpp}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/win32/drivers\_\-win32.cpp File Reference}
+\label{drivers__win32_8cpp}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/win32/drivers_win32.cpp@{/home/epimerde/documents/tc11/CanFestival-3/drivers/win32/drivers\_\-win32.cpp}}
+}
+{\tt \#include $<$windows.h$>$}\par
+{\tt \#include \char`\"{}canfestival.h\char`\"{}}\par
+{\tt \#include \char`\"{}timer.h\char`\"{}}\par
+{\tt \#include \char`\"{}timers\_\-driver.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+class \hyperlink{classdriver__procs}{driver\_\-procs}
+\item 
+struct \hyperlink{structdriver__data}{driver\_\-data}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{drivers__win32_8cpp_74c6a27b44fd54de5cb021299ffce612}{DLL\_\-CALL}(funcname)~($\ast$\_\-\#\#funcname)
+\item 
+\#define \hyperlink{drivers__win32_8cpp_7f7ce94bf48fde67f4af7b64c7ca4c85}{FCT\_\-PTR\_\-INIT}~=NULL
+\item 
+\#define \hyperlink{drivers__win32_8cpp_fa9a7a4802f45e593e1a49e764b12849}{my\-TEXT}(str)~str
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef UNS8($\ast$) \hyperlink{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}{CANRECEIVE\_\-DRIVER\_\-PROC} (void $\ast$inst, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+typedef UNS8($\ast$) \hyperlink{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}{CANSEND\_\-DRIVER\_\-PROC} (void $\ast$inst, const \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+typedef void $\ast$($\ast$) \hyperlink{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}{CANOPEN\_\-DRIVER\_\-PROC} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+typedef int($\ast$) \hyperlink{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}{CANCLOSE\_\-DRIVER\_\-PROC} (void $\ast$inst)
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} \hyperlink{drivers__win32_8cpp_a6eed61fc15f41f772d4645d7a5edeb5}{Load\-Can\-Driver} (char $\ast$driver\_\-name)
+\item 
+UNS8 \hyperlink{drivers__win32_8cpp_c608a4ba478a809fd963a342a24226fd}{can\-Receive} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+void $\ast$ \hyperlink{drivers__win32_8cpp_469503c5171a0cdd8369c1ec39d97d2c}{can\-Receive\-Loop} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} fd0)
+\item 
+UNS8 \hyperlink{drivers__win32_8cpp_01559baf432253d46f1142231a968247}{can\-Send} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{drivers__win32_8cpp_d82cede875fd89036cdeda13e293dafe}{can\-Open} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\item 
+int \hyperlink{drivers__win32_8cpp_02957f72a9b951603adb98a142bd447b}{can\-Close} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+\hyperlink{classdriver__procs}{driver\_\-procs} \hyperlink{drivers__win32_8cpp_410d0af15c08b84bce57bd000f9f8034}{s\_\-driver\_\-procs}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{drivers__win32_8cpp_74c6a27b44fd54de5cb021299ffce612}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!DLL_CALL@{DLL\_\-CALL}}
+\index{DLL_CALL@{DLL\_\-CALL}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[DLL\_\-CALL]{\setlength{\rightskip}{0pt plus 5cm}\#define DLL\_\-CALL(funcname)~($\ast$\_\-\#\#funcname)}}
+\label{drivers__win32_8cpp_74c6a27b44fd54de5cb021299ffce612}
+
+
+
+
+Definition at line 32 of file drivers\_\-win32.cpp.\hypertarget{drivers__win32_8cpp_7f7ce94bf48fde67f4af7b64c7ca4c85}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!FCT_PTR_INIT@{FCT\_\-PTR\_\-INIT}}
+\index{FCT_PTR_INIT@{FCT\_\-PTR\_\-INIT}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[FCT\_\-PTR\_\-INIT]{\setlength{\rightskip}{0pt plus 5cm}\#define FCT\_\-PTR\_\-INIT~=NULL}}
+\label{drivers__win32_8cpp_7f7ce94bf48fde67f4af7b64c7ca4c85}
+
+
+
+
+Definition at line 33 of file drivers\_\-win32.cpp.\hypertarget{drivers__win32_8cpp_fa9a7a4802f45e593e1a49e764b12849}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!myTEXT@{myTEXT}}
+\index{myTEXT@{myTEXT}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[myTEXT]{\setlength{\rightskip}{0pt plus 5cm}\#define my\-TEXT(str)~str}}
+\label{drivers__win32_8cpp_fa9a7a4802f45e593e1a49e764b12849}
+
+
+
+
+Definition at line 91 of file drivers\_\-win32.cpp.
+
+\subsection{Typedef Documentation}
+\hypertarget{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!CANCLOSE_DRIVER_PROC@{CANCLOSE\_\-DRIVER\_\-PROC}}
+\index{CANCLOSE_DRIVER_PROC@{CANCLOSE\_\-DRIVER\_\-PROC}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[CANCLOSE\_\-DRIVER\_\-PROC]{\setlength{\rightskip}{0pt plus 5cm}typedef int($\ast$) \hyperlink{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}{CANCLOSE\_\-DRIVER\_\-PROC}(void $\ast$inst)}}
+\label{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}
+
+
+
+
+Definition at line 43 of file drivers\_\-win32.cpp.\hypertarget{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!CANOPEN_DRIVER_PROC@{CANOPEN\_\-DRIVER\_\-PROC}}
+\index{CANOPEN_DRIVER_PROC@{CANOPEN\_\-DRIVER\_\-PROC}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[CANOPEN\_\-DRIVER\_\-PROC]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$($\ast$) \hyperlink{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}{CANOPEN\_\-DRIVER\_\-PROC}(\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)}}
+\label{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}
+
+
+
+
+Definition at line 42 of file drivers\_\-win32.cpp.\hypertarget{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!CANRECEIVE_DRIVER_PROC@{CANRECEIVE\_\-DRIVER\_\-PROC}}
+\index{CANRECEIVE_DRIVER_PROC@{CANRECEIVE\_\-DRIVER\_\-PROC}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[CANRECEIVE\_\-DRIVER\_\-PROC]{\setlength{\rightskip}{0pt plus 5cm}typedef UNS8($\ast$) \hyperlink{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}{CANRECEIVE\_\-DRIVER\_\-PROC}(void $\ast$inst, \hyperlink{structMessage}{Message} $\ast$m)}}
+\label{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}
+
+
+
+
+Definition at line 40 of file drivers\_\-win32.cpp.\hypertarget{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!CANSEND_DRIVER_PROC@{CANSEND\_\-DRIVER\_\-PROC}}
+\index{CANSEND_DRIVER_PROC@{CANSEND\_\-DRIVER\_\-PROC}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[CANSEND\_\-DRIVER\_\-PROC]{\setlength{\rightskip}{0pt plus 5cm}typedef UNS8($\ast$) \hyperlink{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}{CANSEND\_\-DRIVER\_\-PROC}(void $\ast$inst, const \hyperlink{structMessage}{Message} $\ast$m)}}
+\label{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}
+
+
+
+
+Definition at line 41 of file drivers\_\-win32.cpp.
+
+\subsection{Function Documentation}
+\hypertarget{drivers__win32_8cpp_02957f72a9b951603adb98a142bd447b}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!canClose@{canClose}}
+\index{canClose@{canClose}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[canClose]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{drivers__win32_8cpp_02957f72a9b951603adb98a142bd447b}
+
+
+
+
+Definition at line 194 of file drivers\_\-win32.cpp.
+
+References can\-Close(), struct\_\-CO\_\-Data::can\-Handle, driver\_\-data::continue\_\-receive\_\-thread, DLL\_\-CALL, Enter\-Mutex(), CANPort::fd, driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Close, driver\_\-data::receive\_\-thread, CANPort::receive\-Task, s\_\-driver\_\-procs, and Wait\-Receive\-Task\-End().\hypertarget{drivers__win32_8cpp_d82cede875fd89036cdeda13e293dafe}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!canOpen@{canOpen}}
+\index{canOpen@{canOpen}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[canOpen]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} can\-Open (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board}, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{drivers__win32_8cpp_d82cede875fd89036cdeda13e293dafe}
+
+
+
+
+Definition at line 172 of file drivers\_\-win32.cpp.
+
+References struct\_\-s\_\-BOARD::baudrate, struct\_\-s\_\-BOARD::busname, struct\_\-CO\_\-Data::can\-Handle, can\-Open(), canports, can\-Receive\-Loop(), driver\_\-data::continue\_\-receive\_\-thread, Create\-Receive\-Task(), CANPort::d, driver\_\-data::d, DLL\_\-CALL, Enter\-Mutex(), CANPort::fd, driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Open, MAX\_\-NB\_\-CAN\_\-PORTS, driver\_\-data::receive\_\-thread, s\_\-driver\_\-procs, and CANPort::used.\hypertarget{drivers__win32_8cpp_c608a4ba478a809fd963a342a24226fd}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!canReceive@{canReceive}}
+\index{canReceive@{canReceive}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[canReceive]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Receive (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{drivers__win32_8cpp_c608a4ba478a809fd963a342a24226fd}
+
+
+
+
+Definition at line 124 of file drivers\_\-win32.cpp.
+
+References driver\_\-data::inst, driver\_\-procs::m\_\-can\-Receive, and s\_\-driver\_\-procs.\hypertarget{drivers__win32_8cpp_469503c5171a0cdd8369c1ec39d97d2c}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!canReceiveLoop@{canReceiveLoop}}
+\index{canReceiveLoop@{canReceiveLoop}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[canReceiveLoop]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ can\-Receive\-Loop (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em fd0})}}
+\label{drivers__win32_8cpp_469503c5171a0cdd8369c1ec39d97d2c}
+
+
+
+
+Definition at line 134 of file drivers\_\-win32.cpp.
+
+References can\-Dispatch(), can\-Receive(), driver\_\-data::continue\_\-receive\_\-thread, driver\_\-data::d, Enter\-Mutex(), and Leave\-Mutex().\hypertarget{drivers__win32_8cpp_01559baf432253d46f1142231a968247}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!canSend@{canSend}}
+\index{canSend@{canSend}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[canSend]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{drivers__win32_8cpp_01559baf432253d46f1142231a968247}
+
+
+
+
+Definition at line 156 of file drivers\_\-win32.cpp.
+
+References can\-Send(), DLL\_\-CALL, Enter\-Mutex(), driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Send, s\_\-driver\_\-procs, and UNS8.\hypertarget{drivers__win32_8cpp_a6eed61fc15f41f772d4645d7a5edeb5}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!LoadCanDriver@{LoadCanDriver}}
+\index{LoadCanDriver@{LoadCanDriver}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[LoadCanDriver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} Load\-Can\-Driver (char $\ast$ {\em driver\_\-name})}}
+\label{drivers__win32_8cpp_a6eed61fc15f41f772d4645d7a5edeb5}
+
+
+
+
+Definition at line 119 of file drivers\_\-win32.cpp.
+
+References can\-Close(), can\-Open(), can\-Receive(), can\-Send(), DLSYM, driver\_\-procs::load\_\-canfestival\_\-driver(), and s\_\-driver\_\-procs.
+
+\subsection{Variable Documentation}
+\hypertarget{drivers__win32_8cpp_410d0af15c08b84bce57bd000f9f8034}{
+\index{drivers_win32.cpp@{drivers\_\-win32.cpp}!s_driver_procs@{s\_\-driver\_\-procs}}
+\index{s_driver_procs@{s\_\-driver\_\-procs}!drivers_win32.cpp@{drivers\_\-win32.cpp}}
+\subsubsection[s\_\-driver\_\-procs]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{classdriver__procs}{driver\_\-procs} \hyperlink{drivers__win32_8cpp_410d0af15c08b84bce57bd000f9f8034}{s\_\-driver\_\-procs}}}
+\label{drivers__win32_8cpp_410d0af15c08b84bce57bd000f9f8034}
+
+
+
+
+Definition at line 117 of file drivers\_\-win32.cpp.

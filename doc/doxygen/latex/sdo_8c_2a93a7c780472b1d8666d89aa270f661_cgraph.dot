@@ -1,0 +1,45 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="proceedSDO",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="failedSDO",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#2019db2a4d17e6d29c055cbae173e2b9"];
+  Node2 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="getSDOlineOnUse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f"];
+  Node2 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="resetSDOline",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481"];
+  Node4 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="initSDOline",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d"];
+  Node2 -> Node6 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 [label="sendSDOabort",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c"];
+  Node6 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 [label="sendSDO",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d"];
+  Node1 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 [label="getSDOfreeLine",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#58d1f9691977617601beb9e5b4123252"];
+  Node1 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node1 -> Node9 [color="midnightblue",fontsize=10,style="solid"];
+  Node9 [label="getSDOlineRestBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#acceb714c6e457e98deb9ba164ba2a2f"];
+  Node1 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node1 -> Node10 [color="midnightblue",fontsize=10,style="solid"];
+  Node10 [label="lineToSDO",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#ad6eb8be03b832ebba4dfb87aaba4065"];
+  Node1 -> Node11 [color="midnightblue",fontsize=10,style="solid"];
+  Node11 [label="objdictToSDOline",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#29427a80fd1aeabff30bf0602fbc220f"];
+  Node11 -> Node12 [color="midnightblue",fontsize=10,style="solid"];
+  Node12 [label="getODentry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac"];
+  Node12 -> Node13 [color="midnightblue",fontsize=10,style="solid"];
+  Node13 [label="_getODentry",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$objacces_8c.html#49e9444c8c8d39906a40a153366ed09c"];
+  Node1 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node1 -> Node14 [color="midnightblue",fontsize=10,style="solid"];
+  Node14 [label="SDOlineToObjdict",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#2eb5309dca3a7363da5e5e7230b85d58"];
+  Node14 -> Node15 [color="midnightblue",fontsize=10,style="solid"];
+  Node15 [label="setODentry",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0"];
+  Node15 -> Node16 [color="midnightblue",fontsize=10,style="solid"];
+  Node16 [label="_setODentry",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$objacces_8c.html#72f69950be4a1352fc78648c71454820"];
+  Node1 -> Node17 [color="midnightblue",fontsize=10,style="solid"];
+  Node17 [label="SDOtoLine",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#18b6f7e9c9441640a88ffef1e8720694"];
+  Node1 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node1 -> Node18 [color="midnightblue",fontsize=10,style="solid"];
+  Node18 [label="setSDOlineRestBytes",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sdo_8c.html#601a837ecb5f21bf4c66b058c5ae7810"];
+}

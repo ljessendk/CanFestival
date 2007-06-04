@@ -1,0 +1,72 @@
+\section{examples/Test\-Master\-Slave/Test\-Master\-Slave.c File Reference}
+\label{TestMasterSlave_8c}\index{examples/TestMasterSlave/TestMasterSlave.c@{examples/TestMasterSlave/TestMasterSlave.c}}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$signal.h$>$}\par
+{\tt \#include \char`\"{}canfestival.h\char`\"{}}\par
+{\tt \#include \char`\"{}Master.h\char`\"{}}\par
+{\tt \#include \char`\"{}Slave.h\char`\"{}}\par
+{\tt \#include \char`\"{}Test\-Master\-Slave.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS32 {\bf On\-Master\-Map1Update} ({\bf CO\_\-Data} $\ast$d, const {\bf indextable} $\ast$unsused\_\-indextable, UNS8 unsused\_\-b\-Subindex)
+\item 
+void {\bf catch\_\-signal} (int sig)
+\item 
+void {\bf help} ()
+\item 
+void {\bf Init\-Nodes} ({\bf CO\_\-Data} $\ast$d, UNS32 id)
+\item 
+int {\bf main} (int argc, char $\ast$$\ast$argv)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+{\bf s\_\-BOARD} {\bf Slave\-Board} = \{\char`\"{}0\char`\"{}, \char`\"{}125K\char`\"{}\}
+\item 
+{\bf s\_\-BOARD} {\bf Master\-Board} = \{\char`\"{}1\char`\"{}, \char`\"{}125K\char`\"{}\}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!catch_signal@{catch\_\-signal}}
+\index{catch_signal@{catch\_\-signal}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void catch\_\-signal (int {\em sig})}\label{TestMasterSlave_8c_f2dc378d0481adcc49b61efb98493a9b}
+
+
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!help@{help}}
+\index{help@{help}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void help ()}\label{TestMasterSlave_8c_97ee70a8770dc30d06c744b24eb2fcfc}
+
+
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!InitNodes@{InitNodes}}
+\index{InitNodes@{InitNodes}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Init\-Nodes ({\bf CO\_\-Data} $\ast$ {\em d}, UNS32 {\em id})}\label{TestMasterSlave_8c_8a51032f7610fe37c131376e5a392fd5}
+
+
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!main@{main}}
+\index{main@{main}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int main (int {\em argc}, char $\ast$$\ast$ {\em argv})}\label{TestMasterSlave_8c_3c04138a5bfe5d72780bb7e82a18e627}
+
+
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!OnMasterMap1Update@{OnMasterMap1Update}}
+\index{OnMasterMap1Update@{OnMasterMap1Update}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}UNS32 On\-Master\-Map1Update ({\bf CO\_\-Data} $\ast$ {\em d}, const {\bf indextable} $\ast$ {\em unsused\_\-indextable}, UNS8 {\em unsused\_\-b\-Subindex})}\label{TestMasterSlave_8c_bd99872d05af9bf63e28d6f010c1b174}
+
+
+
+
+\subsection{Variable Documentation}
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!MasterBoard@{MasterBoard}}
+\index{MasterBoard@{MasterBoard}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf s\_\-BOARD} {\bf Master\-Board} = \{\char`\"{}1\char`\"{}, \char`\"{}125K\char`\"{}\}}\label{TestMasterSlave_8c_460b5e3b15bb47df23119998ea0fbd31}
+
+
+\index{TestMasterSlave.c@{Test\-Master\-Slave.c}!SlaveBoard@{SlaveBoard}}
+\index{SlaveBoard@{SlaveBoard}!TestMasterSlave.c@{Test\-Master\-Slave.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf s\_\-BOARD} {\bf Slave\-Board} = \{\char`\"{}0\char`\"{}, \char`\"{}125K\char`\"{}\}}\label{TestMasterSlave_8c_57b2a6d78660d0ee6ca351fb40ffa859}
+
+

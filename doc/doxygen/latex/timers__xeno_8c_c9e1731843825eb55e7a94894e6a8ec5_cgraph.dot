@@ -1,0 +1,15 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="StartTimerLoop",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="cleanup_all",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timers__xeno_8c.html#f37d89241d0a9ac0430a0db6c1ead3d2"];
+  Node1 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="getElapsedTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$canOpenDriver_8c.html#24dbe63e88d184388542037d16a8208d"];
+  Node1 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="SetAlarm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8c.html#11c2616d78f06ed9144ef662f757b128"];
+  Node1 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="timerloop_task_proc",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$timers__xeno_8c.html#15986eb72a64e72df6600dc23c1e19c8"];
+}

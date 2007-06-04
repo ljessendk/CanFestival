@@ -1,0 +1,312 @@
+\hypertarget{candriver_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/hcs12/candriver.h File Reference}
+\label{candriver_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/hcs12/candriver.h@{/home/epimerde/documents/tc11/CanFestival-3/include/hcs12/candriver.h}}
+}
+{\tt \#include $<$can.h$>$}\par
+{\tt \#include $<$objdictdef.h$>$}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structt__pointerStack}{t\_\-pointer\-Stack}
+\item 
+struct \hyperlink{structcanBusTime}{can\-Bus\-Time}
+\item 
+struct \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init}
+\item 
+struct \hyperlink{structcanBusInit}{can\-Bus\-Init}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{candriver_8h_604df069233e19d5960b444524a43042}{MAX\_\-STACK\_\-MSG\_\-RCV}~5
+\item 
+\#define \hyperlink{candriver_8h_08b16baaf10a1b7fb8a3569a6c0f67ff}{NB\_\-LINE\_\-CAN}~1
+\item 
+\#define \hyperlink{candriver_8h_aec12501ba547723b21fd74636ea045a}{CANOPEN\_\-LINE\_\-NUMBER\_\-USED}~CAN0
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+char \hyperlink{candriver_8h_acfd181d5b055d1403930442e28ac643}{can\-Add\-Id\-To\-Filter} (UNS16 adr\-CAN, UNS8 n\-Filter, UNS16 id)
+\item 
+char \hyperlink{candriver_8h_751a41c9747b96ab400b5599370cea83}{can\-Change\-Filter} (UNS16 adr\-CAN, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} fi)
+\item 
+char \hyperlink{candriver_8h_5a53a89d2e348d70331e6ebe269d155a}{can\-Enable} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_3c4f7a31d94e5e7c7322535467b806de}{can\-Init} (UNS16 adr\-CAN, \hyperlink{structcanBusInit}{can\-Bus\-Init} \hyperlink{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}{bi})
+\item 
+char \hyperlink{candriver_8h_6ec3ce6d79012dd8a08fa5aeb6a0489f}{can\-Init\-Clock} (UNS16 adr\-CAN, \hyperlink{structcanBusTime}{can\-Bus\-Time} clk)
+\item 
+char \hyperlink{candriver_8h_5fb549697afb7918607aa113e01c543d}{can\-Init1Filter} (UNS16 adr\-CAN, UNS8 n\-Filter, UNS16 ar, UNS16 mr)
+\item 
+char \hyperlink{candriver_8h_b4502eef7616b25c74b1ac5a2245b085}{can\-Init\-Filter} (UNS16 adr\-CAN, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} fi)
+\item 
+char \hyperlink{candriver_8h_0b98e4800c82d99981833aa4207f1eb9}{can\-Init\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_00ffb46abacfdfa56ebc70e15164113e}{can\-Init\-Mode\-Q} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_2f2d1ed55cfd9d7f85883f8d70d318ba}{can\-Msg\-Transmit} (UNS16 adr\-CAN, \hyperlink{structMessage}{Message} msg)
+\item 
+char \hyperlink{candriver_8h_5ad8616a3276f7f40149b551f09aa6a1}{can\-Set\-Interrupt} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_c7773223579ec7e0fab5238df214da89}{can\-Sleep\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_a89f28005eea54f5b216eb72a18d45f3}{can\-Sleep\-Mode\-Q} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_1ae1ad5d66ac87085baf5b9d0a4e62ca}{can\-Sleep\-Wup\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_6beefe951b3c9de786c585257488fa82}{can\-Test\-Init\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{candriver_8h_fa79f2ac95a8143c2fb087260df39820}{can\-Test\-Sleep\-Mode} (UNS16 adr\-CAN)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+volatile \hyperlink{structMessage}{Message} \hyperlink{candriver_8h_1858449b5bfa9aa019aa643f8453d1c8}{stack\-Msg\-Rcv} \mbox{[}NB\_\-LINE\_\-CAN\mbox{]}\mbox{[}MAX\_\-STACK\_\-MSG\_\-RCV\mbox{]}
+\item 
+\hyperlink{structMessage}{Message} \hyperlink{candriver_8h_54c57753f0e749e7ca14315c745bc8d9}{msg\-Rcv}
+\item 
+volatile \hyperlink{structt__pointerStack}{t\_\-pointer\-Stack} \hyperlink{candriver_8h_509b5bc79f44e93ccb86d970a3aab01c}{ptr\-Msg\-Rcv} \mbox{[}NB\_\-LINE\_\-CAN\mbox{]}
+\item 
+\hyperlink{structcanBusInit}{can\-Bus\-Init} \hyperlink{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}{bi}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{candriver_8h_aec12501ba547723b21fd74636ea045a}{
+\index{candriver.h@{candriver.h}!CANOPEN_LINE_NUMBER_USED@{CANOPEN\_\-LINE\_\-NUMBER\_\-USED}}
+\index{CANOPEN_LINE_NUMBER_USED@{CANOPEN\_\-LINE\_\-NUMBER\_\-USED}!candriver.h@{candriver.h}}
+\subsubsection[CANOPEN\_\-LINE\_\-NUMBER\_\-USED]{\setlength{\rightskip}{0pt plus 5cm}\#define CANOPEN\_\-LINE\_\-NUMBER\_\-USED~CAN0}}
+\label{candriver_8h_aec12501ba547723b21fd74636ea045a}
+
+
+
+
+Definition at line 53 of file candriver.h.\hypertarget{candriver_8h_604df069233e19d5960b444524a43042}{
+\index{candriver.h@{candriver.h}!MAX_STACK_MSG_RCV@{MAX\_\-STACK\_\-MSG\_\-RCV}}
+\index{MAX_STACK_MSG_RCV@{MAX\_\-STACK\_\-MSG\_\-RCV}!candriver.h@{candriver.h}}
+\subsubsection[MAX\_\-STACK\_\-MSG\_\-RCV]{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-STACK\_\-MSG\_\-RCV~5}}
+\label{candriver_8h_604df069233e19d5960b444524a43042}
+
+
+
+
+Definition at line 38 of file candriver.h.\hypertarget{candriver_8h_08b16baaf10a1b7fb8a3569a6c0f67ff}{
+\index{candriver.h@{candriver.h}!NB_LINE_CAN@{NB\_\-LINE\_\-CAN}}
+\index{NB_LINE_CAN@{NB\_\-LINE\_\-CAN}!candriver.h@{candriver.h}}
+\subsubsection[NB\_\-LINE\_\-CAN]{\setlength{\rightskip}{0pt plus 5cm}\#define NB\_\-LINE\_\-CAN~1}}
+\label{candriver_8h_08b16baaf10a1b7fb8a3569a6c0f67ff}
+
+
+
+
+Definition at line 46 of file candriver.h.
+
+\subsection{Function Documentation}
+\hypertarget{candriver_8h_acfd181d5b055d1403930442e28ac643}{
+\index{candriver.h@{candriver.h}!canAddIdToFilter@{canAddIdToFilter}}
+\index{canAddIdToFilter@{canAddIdToFilter}!candriver.h@{candriver.h}}
+\subsubsection[canAddIdToFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Add\-Id\-To\-Filter (UNS16 {\em adr\-CAN}, UNS8 {\em n\-Filter}, UNS16 {\em id})}}
+\label{candriver_8h_acfd181d5b055d1403930442e28ac643}
+
+
+
+
+Definition at line 210 of file can\-Open\-Driver.c.
+
+References CANIDAR0, CANIDAR2, CANIDAR4, CANIDAR6, can\-Test\-Init\-Mode(), IO\_\-PORTS\_\-16, IO\_\-PORTS\_\-8, MSG\_\-WAR, and UNS8.\hypertarget{candriver_8h_751a41c9747b96ab400b5599370cea83}{
+\index{candriver.h@{candriver.h}!canChangeFilter@{canChangeFilter}}
+\index{canChangeFilter@{canChangeFilter}!candriver.h@{candriver.h}}
+\subsubsection[canChangeFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Change\-Filter (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} {\em fi})}}
+\label{candriver_8h_751a41c9747b96ab400b5599370cea83}
+
+
+
+
+Definition at line 250 of file can\-Open\-Driver.c.
+
+References can\-Init\-Filter(), can\-Init\-Mode(), can\-Init\-Mode\-Q(), can\-Set\-Interrupt(), can\-Sleep\-Mode(), can\-Sleep\-Mode\-Q(), and can\-Test\-Init\-Mode().\hypertarget{candriver_8h_5a53a89d2e348d70331e6ebe269d155a}{
+\index{candriver.h@{candriver.h}!canEnable@{canEnable}}
+\index{canEnable@{canEnable}!candriver.h@{candriver.h}}
+\subsubsection[canEnable]{\setlength{\rightskip}{0pt plus 5cm}char can\-Enable (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_5a53a89d2e348d70331e6ebe269d155a}
+
+
+
+
+Definition at line 266 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_3c4f7a31d94e5e7c7322535467b806de}{
+\index{candriver.h@{candriver.h}!canInit@{canInit}}
+\index{canInit@{canInit}!candriver.h@{candriver.h}}
+\subsubsection[canInit]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusInit}{can\-Bus\-Init} {\em bi})}}
+\label{candriver_8h_3c4f7a31d94e5e7c7322535467b806de}
+
+
+
+
+Definition at line 277 of file can\-Open\-Driver.c.
+
+References CANCTL0, CANCTL1, can\-Bus\-Init::cane, can\-Enable(), can\-Init\-Clock(), can\-Init\-Filter(), can\-Init\-Mode(), can\-Init\-Mode\-Q(), can\-Set\-Interrupt(), can\-Sleep\-Mode(), can\-Sleep\-Mode\-Q(), can\-Test\-Init\-Mode(), can\-Bus\-Init::clk, can\-Bus\-Init::cswai, can\-Bus\-Init::fi, IO\_\-PORTS\_\-8, can\-Bus\-Init::listen, can\-Bus\-Init::loopb, can\-Bus\-Init::time, and can\-Bus\-Init::wupm.\hypertarget{candriver_8h_5fb549697afb7918607aa113e01c543d}{
+\index{candriver.h@{candriver.h}!canInit1Filter@{canInit1Filter}}
+\index{canInit1Filter@{canInit1Filter}!candriver.h@{candriver.h}}
+\subsubsection[canInit1Filter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init1Filter (UNS16 {\em adr\-CAN}, UNS8 {\em n\-Filter}, UNS16 {\em ar}, UNS16 {\em mr})}}
+\label{candriver_8h_5fb549697afb7918607aa113e01c543d}
+
+
+
+
+Definition at line 335 of file can\-Open\-Driver.c.
+
+References CANIDAR0, CANIDAR2, CANIDAR4, CANIDAR6, can\-Test\-Init\-Mode(), IO\_\-PORTS\_\-8, MSG\_\-WAR, and UNS8.\hypertarget{candriver_8h_6ec3ce6d79012dd8a08fa5aeb6a0489f}{
+\index{candriver.h@{candriver.h}!canInitClock@{canInitClock}}
+\index{canInitClock@{canInitClock}!candriver.h@{candriver.h}}
+\subsubsection[canInitClock]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Clock (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusTime}{can\-Bus\-Time} {\em clk})}}
+\label{candriver_8h_6ec3ce6d79012dd8a08fa5aeb6a0489f}
+
+
+
+
+Definition at line 313 of file can\-Open\-Driver.c.
+
+References can\-Bus\-Time::brp, CANBTR0, CANBTR1, CANCTL1, can\-Test\-Init\-Mode(), can\-Bus\-Time::clksrc, IO\_\-PORTS\_\-8, MSG\_\-WAR, can\-Bus\-Time::samp, can\-Bus\-Time::sjw, can\-Bus\-Time::tseg1, and can\-Bus\-Time::tseg2.\hypertarget{candriver_8h_b4502eef7616b25c74b1ac5a2245b085}{
+\index{candriver.h@{candriver.h}!canInitFilter@{canInitFilter}}
+\index{canInitFilter@{canInitFilter}!candriver.h@{candriver.h}}
+\subsubsection[canInitFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Filter (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} {\em fi})}}
+\label{candriver_8h_b4502eef7616b25c74b1ac5a2245b085}
+
+
+
+
+Definition at line 364 of file can\-Open\-Driver.c.
+
+References CANIDAC, can\-Bus\-Filter\-Init::canidar0, CANIDAR0, can\-Bus\-Filter\-Init::canidar1, CANIDAR1, can\-Bus\-Filter\-Init::canidar2, CANIDAR2, can\-Bus\-Filter\-Init::canidar3, CANIDAR3, can\-Bus\-Filter\-Init::canidar4, CANIDAR4, can\-Bus\-Filter\-Init::canidar5, CANIDAR5, can\-Bus\-Filter\-Init::canidar6, CANIDAR6, can\-Bus\-Filter\-Init::canidar7, CANIDAR7, can\-Bus\-Filter\-Init::canidmr0, CANIDMR0, can\-Bus\-Filter\-Init::canidmr1, CANIDMR1, can\-Bus\-Filter\-Init::canidmr2, CANIDMR2, can\-Bus\-Filter\-Init::canidmr3, CANIDMR3, can\-Bus\-Filter\-Init::canidmr4, CANIDMR4, can\-Bus\-Filter\-Init::canidmr5, CANIDMR5, can\-Bus\-Filter\-Init::canidmr6, CANIDMR6, can\-Bus\-Filter\-Init::canidmr7, CANIDMR7, can\-Test\-Init\-Mode(), can\-Bus\-Filter\-Init::idam, IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{candriver_8h_0b98e4800c82d99981833aa4207f1eb9}{
+\index{candriver.h@{candriver.h}!canInitMode@{canInitMode}}
+\index{canInitMode@{canInitMode}!candriver.h@{candriver.h}}
+\subsubsection[canInitMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Mode (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_0b98e4800c82d99981833aa4207f1eb9}
+
+
+
+
+Definition at line 392 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_00ffb46abacfdfa56ebc70e15164113e}{
+\index{candriver.h@{candriver.h}!canInitModeQ@{canInitModeQ}}
+\index{canInitModeQ@{canInitModeQ}!candriver.h@{candriver.h}}
+\subsubsection[canInitModeQ]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Mode\-Q (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_00ffb46abacfdfa56ebc70e15164113e}
+
+
+
+
+Definition at line 401 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_2f2d1ed55cfd9d7f85883f8d70d318ba}{
+\index{candriver.h@{candriver.h}!canMsgTransmit@{canMsgTransmit}}
+\index{canMsgTransmit@{canMsgTransmit}!candriver.h@{candriver.h}}
+\subsubsection[canMsgTransmit]{\setlength{\rightskip}{0pt plus 5cm}char can\-Msg\-Transmit (UNS16 {\em adr\-CAN}, \hyperlink{structMessage}{Message} {\em msg})}}
+\label{candriver_8h_2f2d1ed55cfd9d7f85883f8d70d318ba}
+
+
+
+
+Definition at line 410 of file can\-Open\-Driver.c.
+
+References CANTBSEL, CANTFLG, CANTRSDTA, CANTRSID, CANTRSLEN, CANTRSPRI, Message::cob\_\-id, Message::data, IO\_\-PORTS\_\-8, Message::len, MSG\_\-WAR, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{candriver_8h_5ad8616a3276f7f40149b551f09aa6a1}{
+\index{candriver.h@{candriver.h}!canSetInterrupt@{canSetInterrupt}}
+\index{canSetInterrupt@{canSetInterrupt}!candriver.h@{candriver.h}}
+\subsubsection[canSetInterrupt]{\setlength{\rightskip}{0pt plus 5cm}char can\-Set\-Interrupt (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_5ad8616a3276f7f40149b551f09aa6a1}
+
+
+
+
+Definition at line 445 of file can\-Open\-Driver.c.
+
+References CANRIER, CANTIER, and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_c7773223579ec7e0fab5238df214da89}{
+\index{candriver.h@{candriver.h}!canSleepMode@{canSleepMode}}
+\index{canSleepMode@{canSleepMode}!candriver.h@{candriver.h}}
+\subsubsection[canSleepMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Mode (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_c7773223579ec7e0fab5238df214da89}
+
+
+
+
+Definition at line 452 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Sleep\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_a89f28005eea54f5b216eb72a18d45f3}{
+\index{candriver.h@{candriver.h}!canSleepModeQ@{canSleepModeQ}}
+\index{canSleepModeQ@{canSleepModeQ}!candriver.h@{candriver.h}}
+\subsubsection[canSleepModeQ]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Mode\-Q (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_a89f28005eea54f5b216eb72a18d45f3}
+
+
+
+
+Definition at line 466 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), can\-Test\-Sleep\-Mode(), IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{candriver_8h_1ae1ad5d66ac87085baf5b9d0a4e62ca}{
+\index{candriver.h@{candriver.h}!canSleepWupMode@{canSleepWupMode}}
+\index{canSleepWupMode@{canSleepWupMode}!candriver.h@{candriver.h}}
+\subsubsection[canSleepWupMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Wup\-Mode (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_1ae1ad5d66ac87085baf5b9d0a4e62ca}
+
+
+
+
+Definition at line 480 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), can\-Test\-Sleep\-Mode(), IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{candriver_8h_6beefe951b3c9de786c585257488fa82}{
+\index{candriver.h@{candriver.h}!canTestInitMode@{canTestInitMode}}
+\index{canTestInitMode@{canTestInitMode}!candriver.h@{candriver.h}}
+\subsubsection[canTestInitMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Test\-Init\-Mode (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_6beefe951b3c9de786c585257488fa82}
+
+
+
+
+Definition at line 493 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.\hypertarget{candriver_8h_fa79f2ac95a8143c2fb087260df39820}{
+\index{candriver.h@{candriver.h}!canTestSleepMode@{canTestSleepMode}}
+\index{canTestSleepMode@{canTestSleepMode}!candriver.h@{candriver.h}}
+\subsubsection[canTestSleepMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Test\-Sleep\-Mode (UNS16 {\em adr\-CAN})}}
+\label{candriver_8h_fa79f2ac95a8143c2fb087260df39820}
+
+
+
+
+Definition at line 499 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.
+
+\subsection{Variable Documentation}
+\hypertarget{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}{
+\index{candriver.h@{candriver.h}!bi@{bi}}
+\index{bi@{bi}!candriver.h@{candriver.h}}
+\subsubsection[bi]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structcanBusInit}{can\-Bus\-Init} \hyperlink{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}{bi}}}
+\label{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}
+
+
+\hypertarget{candriver_8h_54c57753f0e749e7ca14315c745bc8d9}{
+\index{candriver.h@{candriver.h}!msgRcv@{msgRcv}}
+\index{msgRcv@{msgRcv}!candriver.h@{candriver.h}}
+\subsubsection[msgRcv]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structMessage}{Message} \hyperlink{candriver_8h_54c57753f0e749e7ca14315c745bc8d9}{msg\-Rcv}}}
+\label{candriver_8h_54c57753f0e749e7ca14315c745bc8d9}
+
+
+\hypertarget{candriver_8h_509b5bc79f44e93ccb86d970a3aab01c}{
+\index{candriver.h@{candriver.h}!ptrMsgRcv@{ptrMsgRcv}}
+\index{ptrMsgRcv@{ptrMsgRcv}!candriver.h@{candriver.h}}
+\subsubsection[ptrMsgRcv]{\setlength{\rightskip}{0pt plus 5cm}volatile \hyperlink{structt__pointerStack}{t\_\-pointer\-Stack} \hyperlink{candriver_8h_509b5bc79f44e93ccb86d970a3aab01c}{ptr\-Msg\-Rcv}\mbox{[}NB\_\-LINE\_\-CAN\mbox{]}}}
+\label{candriver_8h_509b5bc79f44e93ccb86d970a3aab01c}
+
+
+\hypertarget{candriver_8h_1858449b5bfa9aa019aa643f8453d1c8}{
+\index{candriver.h@{candriver.h}!stackMsgRcv@{stackMsgRcv}}
+\index{stackMsgRcv@{stackMsgRcv}!candriver.h@{candriver.h}}
+\subsubsection[stackMsgRcv]{\setlength{\rightskip}{0pt plus 5cm}volatile \hyperlink{structMessage}{Message} \hyperlink{candriver_8h_1858449b5bfa9aa019aa643f8453d1c8}{stack\-Msg\-Rcv}\mbox{[}NB\_\-LINE\_\-CAN\mbox{]}\mbox{[}MAX\_\-STACK\_\-MSG\_\-RCV\mbox{]}}}
+\label{candriver_8h_1858449b5bfa9aa019aa643f8453d1c8}
+
+

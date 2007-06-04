@@ -1,0 +1,95 @@
+\hypertarget{win32_2canfestival_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/win32/canfestival.h File Reference}
+\label{win32_2canfestival_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/win32/canfestival.h@{/home/epimerde/documents/tc11/CanFestival-3/include/win32/canfestival.h}}
+}
+{\tt \#include \char`\"{}timerscfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+{\tt \#include $<$windows.h$>$}\par
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef HINSTANCE \hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{win32_2canfestival_8h_cb4f394ec0e040c5962d3dc1957505fb}{Un\-Load\-Can\-Driver} (\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} handle)
+\item 
+\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} \hyperlink{win32_2canfestival_8h_a6eed61fc15f41f772d4645d7a5edeb5}{Load\-Can\-Driver} (char $\ast$driver\_\-name)
+\item 
+UNS8 \hyperlink{win32_2canfestival_8h_8d1909a09c50c750e4d8626595acd9f6}{can\-Send} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} port, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} \hyperlink{win32_2canfestival_8h_7476146ad15948a22e7f80a00c89c40a}{can\-Open} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\item 
+int \hyperlink{win32_2canfestival_8h_02957f72a9b951603adb98a142bd447b}{can\-Close} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{
+\index{win32/canfestival.h@{win32/canfestival.h}!LIB_HANDLE@{LIB\_\-HANDLE}}
+\index{LIB_HANDLE@{LIB\_\-HANDLE}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[LIB\_\-HANDLE]{\setlength{\rightskip}{0pt plus 5cm}typedef HINSTANCE \hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE}}}
+\label{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}
+
+
+
+
+Definition at line 31 of file canfestival.h.
+
+\subsection{Function Documentation}
+\hypertarget{win32_2canfestival_8h_02957f72a9b951603adb98a142bd447b}{
+\index{win32/canfestival.h@{win32/canfestival.h}!canClose@{canClose}}
+\index{canClose@{canClose}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[canClose]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{win32_2canfestival_8h_02957f72a9b951603adb98a142bd447b}
+
+
+
+
+Definition at line 178 of file unix.c.
+
+References can\-Close(), struct\_\-CO\_\-Data::can\-Handle, driver\_\-data::continue\_\-receive\_\-thread, DLL\_\-CALL, Enter\-Mutex(), CANPort::fd, driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Close, driver\_\-data::receive\_\-thread, CANPort::receive\-Task, s\_\-driver\_\-procs, and Wait\-Receive\-Task\-End().\hypertarget{win32_2canfestival_8h_7476146ad15948a22e7f80a00c89c40a}{
+\index{win32/canfestival.h@{win32/canfestival.h}!canOpen@{canOpen}}
+\index{canOpen@{canOpen}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[canOpen]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} can\-Open (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board}, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{win32_2canfestival_8h_7476146ad15948a22e7f80a00c89c40a}
+
+
+
+
+Definition at line 145 of file unix.c.
+
+References struct\_\-s\_\-BOARD::baudrate, struct\_\-s\_\-BOARD::busname, struct\_\-CO\_\-Data::can\-Handle, can\-Open(), canports, can\-Receive\-Loop(), driver\_\-data::continue\_\-receive\_\-thread, Create\-Receive\-Task(), driver\_\-data::d, CANPort::d, DLL\_\-CALL, Enter\-Mutex(), CANPort::fd, driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Open, MAX\_\-NB\_\-CAN\_\-PORTS, driver\_\-data::receive\_\-thread, s\_\-driver\_\-procs, and CANPort::used.\hypertarget{win32_2canfestival_8h_8d1909a09c50c750e4d8626595acd9f6}{
+\index{win32/canfestival.h@{win32/canfestival.h}!canSend@{canSend}}
+\index{canSend@{canSend}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[canSend]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em port}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{win32_2canfestival_8h_8d1909a09c50c750e4d8626595acd9f6}
+
+
+
+
+Definition at line 120 of file unix.c.
+
+References can\-Send(), DLL\_\-CALL, Enter\-Mutex(), driver\_\-data::inst, Leave\-Mutex(), driver\_\-procs::m\_\-can\-Send, s\_\-driver\_\-procs, and UNS8.\hypertarget{win32_2canfestival_8h_a6eed61fc15f41f772d4645d7a5edeb5}{
+\index{win32/canfestival.h@{win32/canfestival.h}!LoadCanDriver@{LoadCanDriver}}
+\index{LoadCanDriver@{LoadCanDriver}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[LoadCanDriver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} Load\-Can\-Driver (char $\ast$ {\em driver\_\-name})}}
+\label{win32_2canfestival_8h_a6eed61fc15f41f772d4645d7a5edeb5}
+
+
+
+
+Definition at line 84 of file unix.c.
+
+References can\-Close(), can\-Open(), can\-Receive(), can\-Send(), DLSYM, driver\_\-procs::load\_\-canfestival\_\-driver(), and s\_\-driver\_\-procs.\hypertarget{win32_2canfestival_8h_cb4f394ec0e040c5962d3dc1957505fb}{
+\index{win32/canfestival.h@{win32/canfestival.h}!UnLoadCanDriver@{UnLoadCanDriver}}
+\index{UnLoadCanDriver@{UnLoadCanDriver}!win32/canfestival.h@{win32/canfestival.h}}
+\subsubsection[UnLoadCanDriver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 Un\-Load\-Can\-Driver (\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} {\em handle})}}
+\label{win32_2canfestival_8h_cb4f394ec0e040c5962d3dc1957505fb}
+
+
+
+
+Definition at line 71 of file unix.c.

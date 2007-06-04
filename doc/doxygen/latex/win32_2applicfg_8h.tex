@@ -1,0 +1,462 @@
+\hypertarget{win32_2applicfg_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/win32/applicfg.h File Reference}
+\label{win32_2applicfg_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/win32/applicfg.h@{/home/epimerde/documents/tc11/CanFestival-3/include/win32/applicfg.h}}
+}
+{\tt \#include $<$windows.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{win32_2applicfg_8h_662ebb8e51dc6acbd8850e22f172c5bf}{INTEGER8}~char
+\item 
+\#define \hyperlink{win32_2applicfg_8h_ef74ac6cf2d7e6e7ceb25199c0a4e8d9}{INTEGER16}~short
+\item 
+\#define \hyperlink{win32_2applicfg_8h_b5cc60bcec9bf20f8565a80fe68ab8f6}{INTEGER24}~long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_88a720c5453c6335aa3784ee788ec8cd}{INTEGER32}~long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_161c8f6e6a63ce9ed9966896f211b8a8}{INTEGER40}~long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_0c5278d056153e1ff380e759c884f479}{INTEGER48}~long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_9543c1a090746b76b7972dcb7cc7483e}{INTEGER56}~long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_4e3182e4d79fdb99c05d57a3abe5ae4e}{INTEGER64}~long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_539234687760592d01a8b0d3357bc00e}{UNS8}~unsigned char
+\item 
+\#define \hyperlink{win32_2applicfg_8h_5528eeccf214bfe021532622d78c6a96}{UNS16}~unsigned short
+\item 
+\#define \hyperlink{win32_2applicfg_8h_889a782714194ae2f780002d25d6e0be}{UNS32}~unsigned long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_7eec2f0575ec58202f7e7e8072722508}{UNS24}~unsigned long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_e83de5a9f9a3ea891eb0ce1044277ee9}{UNS40}~unsigned long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_c67204750d2dc3f2681555bf81368765}{UNS48}~unsigned long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_0cba1f6285c9f23a663d56d0c99559da}{UNS56}~unsigned long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_55de1c7512d46f732dcaea5db4aa7fa9}{UNS64}~unsigned long long
+\item 
+\#define \hyperlink{win32_2applicfg_8h_a317e78f368f51a31a7ea72ea7afbc89}{REAL32}~float
+\item 
+\#define \hyperlink{win32_2applicfg_8h_3c2031a645686699b0f1e3b0ceaac6ee}{REAL64}~double
+\item 
+\#define \hyperlink{win32_2applicfg_8h_ac9b34b63833a5daae8a0cf1ffafa279}{sizeof\_\-INTEGER24}~3
+\item 
+\#define \hyperlink{win32_2applicfg_8h_f93cc2a78a69dc001ee201e4e7ff1bf7}{sizeof\_\-INTEGER40}~5
+\item 
+\#define \hyperlink{win32_2applicfg_8h_82d3aac808ec76267b152fcd59c3723e}{sizeof\_\-INTEGER48}~6
+\item 
+\#define \hyperlink{win32_2applicfg_8h_18386f9059ae9dd6245594b50af51b0d}{sizeof\_\-INTEGER56}~7
+\item 
+\#define \hyperlink{win32_2applicfg_8h_2864f0cc8ddbed1dd87eca67ea7e18c8}{sizeof\_\-UNS24}~3
+\item 
+\#define \hyperlink{win32_2applicfg_8h_8f0490463180fcf079424bdb5bbbc257}{sizeof\_\-UNS40}~5
+\item 
+\#define \hyperlink{win32_2applicfg_8h_1a20a7df1bb6132b6193d096b81ceea8}{sizeof\_\-UNS48}~6
+\item 
+\#define \hyperlink{win32_2applicfg_8h_4024b037e8ff3cd5f513fe1ebbd8b1f1}{sizeof\_\-UNS56}~7
+\item 
+\#define \hyperlink{win32_2applicfg_8h_7cf9d89ab157643b84781b1b8cbba418}{INT24\_\-2\_\-32}(a)~(a $<$= 0x7FFFFF ? a : a$|$0x\-FF000000)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_43c6309a018e52cb75d7fea6b33225ef}{INT40\_\-2\_\-64}(a)~(a $<$= 0x0000007FFFFFFFFF ? a : a$|$0x\-FFFFFF0000000000)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_4ff6132b41561009e9385ba996e684b9}{INT48\_\-2\_\-64}(a)~(a $<$= 0x00007FFFFFFFFFFF ? a : a$|$0x\-FFFF000000000000)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_84b5646cf694c49c63ec810a342f70a6}{INT56\_\-2\_\-64}(a)~(a $<$= 0x007FFFFFFFFFFFFF ? a : a$|$0x\-FF00000000000000)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_51591369c6d44dec7d6db08c6bc2d73e}{INT32\_\-2\_\-24}(a)~(a\&0x00FFFFFF)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_1331f4b2a723553c126f866acea0d6ed}{INT64\_\-2\_\-40}(a)~(a\&0x000000FFFFFFFFFF)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_2179ddc6efeb1c957412234f5a6fd86f}{INT64\_\-2\_\-48}(a)~(a\&0x0000FFFFFFFFFFFF)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_6461005b325a7be7bae2bfa0d0b3377c}{INT64\_\-2\_\-56}(a)~(a\&0x00FFFFFFFFFFFFFF)
+\item 
+\#define \hyperlink{win32_2applicfg_8h_fbc0962bcd0625e0c6e774ee83cbe237}{CANFESTIVAL\_\-DEBUG\_\-MSG}(num, str, val)
+\begin{CompactList}\small\item\em Definition of error and warning macros. \item\end{CompactList}\item 
+\#define \hyperlink{win32_2applicfg_8h_5f4e5133c4c3113931684d3aba518bba}{MSG\_\-WAR}(num, str, val)
+\begin{CompactList}\small\item\em Definition of MSG\_\-WAR. \item\end{CompactList}\item 
+\#define \hyperlink{win32_2applicfg_8h_99178e2619db849578b20df5aa241844}{MSG\_\-ERR}(num, str, val)
+\begin{CompactList}\small\item\em Definition of MSG\_\-ERR. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void $\ast$ \hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}
+\item 
+typedef void $\ast$ \hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{win32_2applicfg_8h_fbc0962bcd0625e0c6e774ee83cbe237}{
+\index{win32/applicfg.h@{win32/applicfg.h}!CANFESTIVAL_DEBUG_MSG@{CANFESTIVAL\_\-DEBUG\_\-MSG}}
+\index{CANFESTIVAL_DEBUG_MSG@{CANFESTIVAL\_\-DEBUG\_\-MSG}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[CANFESTIVAL\_\-DEBUG\_\-MSG]{\setlength{\rightskip}{0pt plus 5cm}\#define CANFESTIVAL\_\-DEBUG\_\-MSG(num, str, val)}}
+\label{win32_2applicfg_8h_fbc0962bcd0625e0c6e774ee83cbe237}
+
+
+\textbf{Value:}
+
+\begin{Code}\begin{verbatim}{char msg[300];\
+     unsigned long value = val;\
+     sprintf(msg,"%s(%d) : 0x%X %s 0x%X\n",__FILE__, __LINE__,num, str, value);\
+     OutputDebugString(msg);}
+\end{verbatim}\end{Code}
+Definition of error and warning macros. 
+
+
+
+Definition at line 104 of file applicfg.h.\hypertarget{win32_2applicfg_8h_7cf9d89ab157643b84781b1b8cbba418}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT24_2_32@{INT24\_\-2\_\-32}}
+\index{INT24_2_32@{INT24\_\-2\_\-32}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT24\_\-2\_\-32]{\setlength{\rightskip}{0pt plus 5cm}\#define INT24\_\-2\_\-32(a)~(a $<$= 0x7FFFFF ? a : a$|$0x\-FF000000)}}
+\label{win32_2applicfg_8h_7cf9d89ab157643b84781b1b8cbba418}
+
+
+
+
+Definition at line 84 of file applicfg.h.\hypertarget{win32_2applicfg_8h_51591369c6d44dec7d6db08c6bc2d73e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT32_2_24@{INT32\_\-2\_\-24}}
+\index{INT32_2_24@{INT32\_\-2\_\-24}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT32\_\-2\_\-24]{\setlength{\rightskip}{0pt plus 5cm}\#define INT32\_\-2\_\-24(a)~(a\&0x00FFFFFF)}}
+\label{win32_2applicfg_8h_51591369c6d44dec7d6db08c6bc2d73e}
+
+
+
+
+Definition at line 89 of file applicfg.h.\hypertarget{win32_2applicfg_8h_43c6309a018e52cb75d7fea6b33225ef}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT40_2_64@{INT40\_\-2\_\-64}}
+\index{INT40_2_64@{INT40\_\-2\_\-64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT40\_\-2\_\-64]{\setlength{\rightskip}{0pt plus 5cm}\#define INT40\_\-2\_\-64(a)~(a $<$= 0x0000007FFFFFFFFF ? a : a$|$0x\-FFFFFF0000000000)}}
+\label{win32_2applicfg_8h_43c6309a018e52cb75d7fea6b33225ef}
+
+
+
+
+Definition at line 85 of file applicfg.h.\hypertarget{win32_2applicfg_8h_4ff6132b41561009e9385ba996e684b9}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT48_2_64@{INT48\_\-2\_\-64}}
+\index{INT48_2_64@{INT48\_\-2\_\-64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT48\_\-2\_\-64]{\setlength{\rightskip}{0pt plus 5cm}\#define INT48\_\-2\_\-64(a)~(a $<$= 0x00007FFFFFFFFFFF ? a : a$|$0x\-FFFF000000000000)}}
+\label{win32_2applicfg_8h_4ff6132b41561009e9385ba996e684b9}
+
+
+
+
+Definition at line 86 of file applicfg.h.\hypertarget{win32_2applicfg_8h_84b5646cf694c49c63ec810a342f70a6}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT56_2_64@{INT56\_\-2\_\-64}}
+\index{INT56_2_64@{INT56\_\-2\_\-64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT56\_\-2\_\-64]{\setlength{\rightskip}{0pt plus 5cm}\#define INT56\_\-2\_\-64(a)~(a $<$= 0x007FFFFFFFFFFFFF ? a : a$|$0x\-FF00000000000000)}}
+\label{win32_2applicfg_8h_84b5646cf694c49c63ec810a342f70a6}
+
+
+
+
+Definition at line 87 of file applicfg.h.\hypertarget{win32_2applicfg_8h_1331f4b2a723553c126f866acea0d6ed}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT64_2_40@{INT64\_\-2\_\-40}}
+\index{INT64_2_40@{INT64\_\-2\_\-40}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT64\_\-2\_\-40]{\setlength{\rightskip}{0pt plus 5cm}\#define INT64\_\-2\_\-40(a)~(a\&0x000000FFFFFFFFFF)}}
+\label{win32_2applicfg_8h_1331f4b2a723553c126f866acea0d6ed}
+
+
+
+
+Definition at line 90 of file applicfg.h.\hypertarget{win32_2applicfg_8h_2179ddc6efeb1c957412234f5a6fd86f}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT64_2_48@{INT64\_\-2\_\-48}}
+\index{INT64_2_48@{INT64\_\-2\_\-48}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT64\_\-2\_\-48]{\setlength{\rightskip}{0pt plus 5cm}\#define INT64\_\-2\_\-48(a)~(a\&0x0000FFFFFFFFFFFF)}}
+\label{win32_2applicfg_8h_2179ddc6efeb1c957412234f5a6fd86f}
+
+
+
+
+Definition at line 91 of file applicfg.h.\hypertarget{win32_2applicfg_8h_6461005b325a7be7bae2bfa0d0b3377c}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INT64_2_56@{INT64\_\-2\_\-56}}
+\index{INT64_2_56@{INT64\_\-2\_\-56}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INT64\_\-2\_\-56]{\setlength{\rightskip}{0pt plus 5cm}\#define INT64\_\-2\_\-56(a)~(a\&0x00FFFFFFFFFFFFFF)}}
+\label{win32_2applicfg_8h_6461005b325a7be7bae2bfa0d0b3377c}
+
+
+
+
+Definition at line 92 of file applicfg.h.\hypertarget{win32_2applicfg_8h_ef74ac6cf2d7e6e7ceb25199c0a4e8d9}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER16@{INTEGER16}}
+\index{INTEGER16@{INTEGER16}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER16]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER16~short}}
+\label{win32_2applicfg_8h_ef74ac6cf2d7e6e7ceb25199c0a4e8d9}
+
+
+
+
+Definition at line 50 of file applicfg.h.\hypertarget{win32_2applicfg_8h_b5cc60bcec9bf20f8565a80fe68ab8f6}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER24@{INTEGER24}}
+\index{INTEGER24@{INTEGER24}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER24]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER24~long}}
+\label{win32_2applicfg_8h_b5cc60bcec9bf20f8565a80fe68ab8f6}
+
+
+
+
+Definition at line 51 of file applicfg.h.\hypertarget{win32_2applicfg_8h_88a720c5453c6335aa3784ee788ec8cd}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER32@{INTEGER32}}
+\index{INTEGER32@{INTEGER32}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER32]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER32~long}}
+\label{win32_2applicfg_8h_88a720c5453c6335aa3784ee788ec8cd}
+
+
+
+
+Definition at line 52 of file applicfg.h.\hypertarget{win32_2applicfg_8h_161c8f6e6a63ce9ed9966896f211b8a8}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER40@{INTEGER40}}
+\index{INTEGER40@{INTEGER40}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER40]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER40~long long}}
+\label{win32_2applicfg_8h_161c8f6e6a63ce9ed9966896f211b8a8}
+
+
+
+
+Definition at line 53 of file applicfg.h.\hypertarget{win32_2applicfg_8h_0c5278d056153e1ff380e759c884f479}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER48@{INTEGER48}}
+\index{INTEGER48@{INTEGER48}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER48]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER48~long long}}
+\label{win32_2applicfg_8h_0c5278d056153e1ff380e759c884f479}
+
+
+
+
+Definition at line 54 of file applicfg.h.\hypertarget{win32_2applicfg_8h_9543c1a090746b76b7972dcb7cc7483e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER56@{INTEGER56}}
+\index{INTEGER56@{INTEGER56}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER56]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER56~long long}}
+\label{win32_2applicfg_8h_9543c1a090746b76b7972dcb7cc7483e}
+
+
+
+
+Definition at line 55 of file applicfg.h.\hypertarget{win32_2applicfg_8h_4e3182e4d79fdb99c05d57a3abe5ae4e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER64@{INTEGER64}}
+\index{INTEGER64@{INTEGER64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER64]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER64~long long}}
+\label{win32_2applicfg_8h_4e3182e4d79fdb99c05d57a3abe5ae4e}
+
+
+
+
+Definition at line 56 of file applicfg.h.\hypertarget{win32_2applicfg_8h_662ebb8e51dc6acbd8850e22f172c5bf}{
+\index{win32/applicfg.h@{win32/applicfg.h}!INTEGER8@{INTEGER8}}
+\index{INTEGER8@{INTEGER8}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[INTEGER8]{\setlength{\rightskip}{0pt plus 5cm}\#define INTEGER8~char}}
+\label{win32_2applicfg_8h_662ebb8e51dc6acbd8850e22f172c5bf}
+
+
+
+
+Definition at line 49 of file applicfg.h.\hypertarget{win32_2applicfg_8h_99178e2619db849578b20df5aa241844}{
+\index{win32/applicfg.h@{win32/applicfg.h}!MSG_ERR@{MSG\_\-ERR}}
+\index{MSG_ERR@{MSG\_\-ERR}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[MSG\_\-ERR]{\setlength{\rightskip}{0pt plus 5cm}\#define MSG\_\-ERR(num, str, val)}}
+\label{win32_2applicfg_8h_99178e2619db849578b20df5aa241844}
+
+
+Definition of MSG\_\-ERR. 
+
+
+
+Definition at line 124 of file applicfg.h.\hypertarget{win32_2applicfg_8h_5f4e5133c4c3113931684d3aba518bba}{
+\index{win32/applicfg.h@{win32/applicfg.h}!MSG_WAR@{MSG\_\-WAR}}
+\index{MSG_WAR@{MSG\_\-WAR}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[MSG\_\-WAR]{\setlength{\rightskip}{0pt plus 5cm}\#define MSG\_\-WAR(num, str, val)}}
+\label{win32_2applicfg_8h_5f4e5133c4c3113931684d3aba518bba}
+
+
+Definition of MSG\_\-WAR. 
+
+
+
+Definition at line 116 of file applicfg.h.\hypertarget{win32_2applicfg_8h_a317e78f368f51a31a7ea72ea7afbc89}{
+\index{win32/applicfg.h@{win32/applicfg.h}!REAL32@{REAL32}}
+\index{REAL32@{REAL32}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[REAL32]{\setlength{\rightskip}{0pt plus 5cm}\#define REAL32~float}}
+\label{win32_2applicfg_8h_a317e78f368f51a31a7ea72ea7afbc89}
+
+
+
+
+Definition at line 69 of file applicfg.h.\hypertarget{win32_2applicfg_8h_3c2031a645686699b0f1e3b0ceaac6ee}{
+\index{win32/applicfg.h@{win32/applicfg.h}!REAL64@{REAL64}}
+\index{REAL64@{REAL64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[REAL64]{\setlength{\rightskip}{0pt plus 5cm}\#define REAL64~double}}
+\label{win32_2applicfg_8h_3c2031a645686699b0f1e3b0ceaac6ee}
+
+
+
+
+Definition at line 70 of file applicfg.h.\hypertarget{win32_2applicfg_8h_ac9b34b63833a5daae8a0cf1ffafa279}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_INTEGER24@{sizeof\_\-INTEGER24}}
+\index{sizeof_INTEGER24@{sizeof\_\-INTEGER24}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-INTEGER24]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-INTEGER24~3}}
+\label{win32_2applicfg_8h_ac9b34b63833a5daae8a0cf1ffafa279}
+
+
+
+
+Definition at line 73 of file applicfg.h.\hypertarget{win32_2applicfg_8h_f93cc2a78a69dc001ee201e4e7ff1bf7}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_INTEGER40@{sizeof\_\-INTEGER40}}
+\index{sizeof_INTEGER40@{sizeof\_\-INTEGER40}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-INTEGER40]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-INTEGER40~5}}
+\label{win32_2applicfg_8h_f93cc2a78a69dc001ee201e4e7ff1bf7}
+
+
+
+
+Definition at line 74 of file applicfg.h.\hypertarget{win32_2applicfg_8h_82d3aac808ec76267b152fcd59c3723e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_INTEGER48@{sizeof\_\-INTEGER48}}
+\index{sizeof_INTEGER48@{sizeof\_\-INTEGER48}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-INTEGER48]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-INTEGER48~6}}
+\label{win32_2applicfg_8h_82d3aac808ec76267b152fcd59c3723e}
+
+
+
+
+Definition at line 75 of file applicfg.h.\hypertarget{win32_2applicfg_8h_18386f9059ae9dd6245594b50af51b0d}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_INTEGER56@{sizeof\_\-INTEGER56}}
+\index{sizeof_INTEGER56@{sizeof\_\-INTEGER56}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-INTEGER56]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-INTEGER56~7}}
+\label{win32_2applicfg_8h_18386f9059ae9dd6245594b50af51b0d}
+
+
+
+
+Definition at line 76 of file applicfg.h.\hypertarget{win32_2applicfg_8h_2864f0cc8ddbed1dd87eca67ea7e18c8}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_UNS24@{sizeof\_\-UNS24}}
+\index{sizeof_UNS24@{sizeof\_\-UNS24}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-UNS24]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-UNS24~3}}
+\label{win32_2applicfg_8h_2864f0cc8ddbed1dd87eca67ea7e18c8}
+
+
+
+
+Definition at line 78 of file applicfg.h.\hypertarget{win32_2applicfg_8h_8f0490463180fcf079424bdb5bbbc257}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_UNS40@{sizeof\_\-UNS40}}
+\index{sizeof_UNS40@{sizeof\_\-UNS40}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-UNS40]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-UNS40~5}}
+\label{win32_2applicfg_8h_8f0490463180fcf079424bdb5bbbc257}
+
+
+
+
+Definition at line 79 of file applicfg.h.\hypertarget{win32_2applicfg_8h_1a20a7df1bb6132b6193d096b81ceea8}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_UNS48@{sizeof\_\-UNS48}}
+\index{sizeof_UNS48@{sizeof\_\-UNS48}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-UNS48]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-UNS48~6}}
+\label{win32_2applicfg_8h_1a20a7df1bb6132b6193d096b81ceea8}
+
+
+
+
+Definition at line 80 of file applicfg.h.\hypertarget{win32_2applicfg_8h_4024b037e8ff3cd5f513fe1ebbd8b1f1}{
+\index{win32/applicfg.h@{win32/applicfg.h}!sizeof_UNS56@{sizeof\_\-UNS56}}
+\index{sizeof_UNS56@{sizeof\_\-UNS56}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[sizeof\_\-UNS56]{\setlength{\rightskip}{0pt plus 5cm}\#define sizeof\_\-UNS56~7}}
+\label{win32_2applicfg_8h_4024b037e8ff3cd5f513fe1ebbd8b1f1}
+
+
+
+
+Definition at line 81 of file applicfg.h.\hypertarget{win32_2applicfg_8h_5528eeccf214bfe021532622d78c6a96}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS16@{UNS16}}
+\index{UNS16@{UNS16}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS16]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS16~unsigned short}}
+\label{win32_2applicfg_8h_5528eeccf214bfe021532622d78c6a96}
+
+
+
+
+Definition at line 60 of file applicfg.h.\hypertarget{win32_2applicfg_8h_7eec2f0575ec58202f7e7e8072722508}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS24@{UNS24}}
+\index{UNS24@{UNS24}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS24]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS24~unsigned long}}
+\label{win32_2applicfg_8h_7eec2f0575ec58202f7e7e8072722508}
+
+
+
+
+Definition at line 62 of file applicfg.h.\hypertarget{win32_2applicfg_8h_889a782714194ae2f780002d25d6e0be}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS32@{UNS32}}
+\index{UNS32@{UNS32}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS32]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS32~unsigned long}}
+\label{win32_2applicfg_8h_889a782714194ae2f780002d25d6e0be}
+
+
+
+
+Definition at line 61 of file applicfg.h.\hypertarget{win32_2applicfg_8h_e83de5a9f9a3ea891eb0ce1044277ee9}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS40@{UNS40}}
+\index{UNS40@{UNS40}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS40]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS40~unsigned long long}}
+\label{win32_2applicfg_8h_e83de5a9f9a3ea891eb0ce1044277ee9}
+
+
+
+
+Definition at line 63 of file applicfg.h.\hypertarget{win32_2applicfg_8h_c67204750d2dc3f2681555bf81368765}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS48@{UNS48}}
+\index{UNS48@{UNS48}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS48]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS48~unsigned long long}}
+\label{win32_2applicfg_8h_c67204750d2dc3f2681555bf81368765}
+
+
+
+
+Definition at line 64 of file applicfg.h.\hypertarget{win32_2applicfg_8h_0cba1f6285c9f23a663d56d0c99559da}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS56@{UNS56}}
+\index{UNS56@{UNS56}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS56]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS56~unsigned long long}}
+\label{win32_2applicfg_8h_0cba1f6285c9f23a663d56d0c99559da}
+
+
+
+
+Definition at line 65 of file applicfg.h.\hypertarget{win32_2applicfg_8h_55de1c7512d46f732dcaea5db4aa7fa9}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS64@{UNS64}}
+\index{UNS64@{UNS64}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS64]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS64~unsigned long long}}
+\label{win32_2applicfg_8h_55de1c7512d46f732dcaea5db4aa7fa9}
+
+
+
+
+Definition at line 66 of file applicfg.h.\hypertarget{win32_2applicfg_8h_539234687760592d01a8b0d3357bc00e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!UNS8@{UNS8}}
+\index{UNS8@{UNS8}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[UNS8]{\setlength{\rightskip}{0pt plus 5cm}\#define UNS8~unsigned char}}
+\label{win32_2applicfg_8h_539234687760592d01a8b0d3357bc00e}
+
+
+
+
+Definition at line 59 of file applicfg.h.
+
+\subsection{Typedef Documentation}
+\hypertarget{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!CAN_HANDLE@{CAN\_\-HANDLE}}
+\index{CAN_HANDLE@{CAN\_\-HANDLE}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[CAN\_\-HANDLE]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$ \hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}}}
+\label{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}
+
+
+
+
+Definition at line 129 of file applicfg.h.\hypertarget{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{
+\index{win32/applicfg.h@{win32/applicfg.h}!CAN_PORT@{CAN\_\-PORT}}
+\index{CAN_PORT@{CAN\_\-PORT}!win32/applicfg.h@{win32/applicfg.h}}
+\subsubsection[CAN\_\-PORT]{\setlength{\rightskip}{0pt plus 5cm}typedef void$\ast$ \hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT}}}
+\label{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}
+
+
+
+
+Definition at line 131 of file applicfg.h.

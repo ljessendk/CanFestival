@@ -1,0 +1,92 @@
+\hypertarget{structcanmsg__t}{
+\section{canmsg\_\-t Struct Reference}
+\label{structcanmsg__t}\index{canmsg_t@{canmsg\_\-t}}
+}
+{\tt \#include $<$canmsg.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+int \hyperlink{structcanmsg__t_beea8084650640976b9c94257623b735}{flags}
+\item 
+int \hyperlink{structcanmsg__t_2a9a1988755a4f92d5706f02cf5001f9}{cob}
+\item 
+\hyperlink{canmsg_8h_4df2eff676652dbe67d372e42ccf8aa7}{canmsg\_\-id\_\-t} \hyperlink{structcanmsg__t_9ca617a401250c914820ae4ed2768725}{id}
+\item 
+\hyperlink{canmsg_8h_f5a9ea1b33e64787190dccc1ce5419a2}{canmsg\_\-tstamp\_\-t} \hyperlink{structcanmsg__t_11568aa34f1851a87de25f6f0d6bbf8f}{timestamp}
+\item 
+unsigned short \hyperlink{structcanmsg__t_9b2006e54552e02778eea1da3ac52070}{length}
+\item 
+unsigned char \hyperlink{structcanmsg__t_778d41b22a1ae1f0da4631885239a10c}{data} \mbox{[}CAN\_\-MSG\_\-LENGTH\mbox{]}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+struct \hyperlink{structcanmsg__t}{canmsg\_\-t} - structure representing CAN message : message flags MSG\_\-RTR .. message is Remote Transmission Request, MSG\_\-EXT .. message with extended ID, MSG\_\-OVR .. indication of queue overflow condition, MSG\_\-LOCAL .. message originates from this node. : communication object number (not used) : ID of CAN message : not used : length of used data : data bytes buffer
+
+Header: \hyperlink{canmsg_8h}{canmsg.h} 
+
+
+
+Definition at line 59 of file canmsg.h.
+
+\subsection{Field Documentation}
+\hypertarget{structcanmsg__t_beea8084650640976b9c94257623b735}{
+\index{canmsg_t@{canmsg\_\-t}!flags@{flags}}
+\index{flags@{flags}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[flags]{\setlength{\rightskip}{0pt plus 5cm}int \hyperlink{structcanmsg__t_beea8084650640976b9c94257623b735}{canmsg\_\-t::flags}}}
+\label{structcanmsg__t_beea8084650640976b9c94257623b735}
+
+
+
+
+Definition at line 60 of file canmsg.h.\hypertarget{structcanmsg__t_2a9a1988755a4f92d5706f02cf5001f9}{
+\index{canmsg_t@{canmsg\_\-t}!cob@{cob}}
+\index{cob@{cob}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[cob]{\setlength{\rightskip}{0pt plus 5cm}int \hyperlink{structcanmsg__t_2a9a1988755a4f92d5706f02cf5001f9}{canmsg\_\-t::cob}}}
+\label{structcanmsg__t_2a9a1988755a4f92d5706f02cf5001f9}
+
+
+
+
+Definition at line 61 of file canmsg.h.\hypertarget{structcanmsg__t_9ca617a401250c914820ae4ed2768725}{
+\index{canmsg_t@{canmsg\_\-t}!id@{id}}
+\index{id@{id}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[id]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{canmsg_8h_4df2eff676652dbe67d372e42ccf8aa7}{canmsg\_\-id\_\-t} \hyperlink{structcanmsg__t_9ca617a401250c914820ae4ed2768725}{canmsg\_\-t::id}}}
+\label{structcanmsg__t_9ca617a401250c914820ae4ed2768725}
+
+
+
+
+Definition at line 62 of file canmsg.h.\hypertarget{structcanmsg__t_11568aa34f1851a87de25f6f0d6bbf8f}{
+\index{canmsg_t@{canmsg\_\-t}!timestamp@{timestamp}}
+\index{timestamp@{timestamp}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[timestamp]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{canmsg_8h_f5a9ea1b33e64787190dccc1ce5419a2}{canmsg\_\-tstamp\_\-t} \hyperlink{structcanmsg__t_11568aa34f1851a87de25f6f0d6bbf8f}{canmsg\_\-t::timestamp}}}
+\label{structcanmsg__t_11568aa34f1851a87de25f6f0d6bbf8f}
+
+
+
+
+Definition at line 63 of file canmsg.h.\hypertarget{structcanmsg__t_9b2006e54552e02778eea1da3ac52070}{
+\index{canmsg_t@{canmsg\_\-t}!length@{length}}
+\index{length@{length}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[length]{\setlength{\rightskip}{0pt plus 5cm}unsigned short \hyperlink{structcanmsg__t_9b2006e54552e02778eea1da3ac52070}{canmsg\_\-t::length}}}
+\label{structcanmsg__t_9b2006e54552e02778eea1da3ac52070}
+
+
+
+
+Definition at line 64 of file canmsg.h.\hypertarget{structcanmsg__t_778d41b22a1ae1f0da4631885239a10c}{
+\index{canmsg_t@{canmsg\_\-t}!data@{data}}
+\index{data@{data}!canmsg_t@{canmsg\_\-t}}
+\subsubsection[data]{\setlength{\rightskip}{0pt plus 5cm}unsigned char \hyperlink{structcanmsg__t_778d41b22a1ae1f0da4631885239a10c}{canmsg\_\-t::data}\mbox{[}CAN\_\-MSG\_\-LENGTH\mbox{]}}}
+\label{structcanmsg__t_778d41b22a1ae1f0da4631885239a10c}
+
+
+
+
+Definition at line 65 of file canmsg.h.
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-lincan/\hyperlink{canmsg_8h}{canmsg.h}\end{CompactItemize}

@@ -1,0 +1,94 @@
+\hypertarget{can__driver_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/can\_\-driver.h File Reference}
+\label{can__driver_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/can_driver.h@{/home/epimerde/documents/tc11/CanFestival-3/include/can\_\-driver.h}}
+}
+{\tt \#include \char`\"{}applicfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}can.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structstruct__s__BOARD}{struct\_\-s\_\-BOARD}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{can__driver_8h_74c6a27b44fd54de5cb021299ffce612}{DLL\_\-CALL}(funcname)~funcname\#\#\_\-driver
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef \hyperlink{structstruct__s__BOARD}{struct\_\-s\_\-BOARD} \hyperlink{can__driver_8h_8791342659a586c5fa66d00ca4e4d583}{s\_\-BOARD}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 DLL\_\-CALL() \hyperlink{can__driver_8h_54d882f7937b7be0a5558f9d372cb0f7}{can\-Receive} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}, \hyperlink{structMessage}{Message} $\ast$) FCT\_\-PTR\_\-INIT
+\item 
+UNS8 DLL\_\-CALL() \hyperlink{can__driver_8h_821c783be9b81479e3d8392cfb8952f4}{can\-Send} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}, \hyperlink{structMessage}{Message} $\ast$) FCT\_\-PTR\_\-INIT
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} DLL\_\-CALL() \hyperlink{can__driver_8h_641404106e253941c94c97e67a8ce524}{can\-Open} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$) FCT\_\-PTR\_\-INIT
+\item 
+int DLL\_\-CALL() \hyperlink{can__driver_8h_daaecb39bb3a67bb15580a112990b506}{can\-Close} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}) FCT\_\-PTR\_\-INIT
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{can__driver_8h_74c6a27b44fd54de5cb021299ffce612}{
+\index{can_driver.h@{can\_\-driver.h}!DLL_CALL@{DLL\_\-CALL}}
+\index{DLL_CALL@{DLL\_\-CALL}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[DLL\_\-CALL]{\setlength{\rightskip}{0pt plus 5cm}\#define DLL\_\-CALL(funcname)~funcname\#\#\_\-driver}}
+\label{can__driver_8h_74c6a27b44fd54de5cb021299ffce612}
+
+
+
+
+Definition at line 39 of file can\_\-driver.h.
+
+\subsection{Typedef Documentation}
+\hypertarget{can__driver_8h_8791342659a586c5fa66d00ca4e4d583}{
+\index{can_driver.h@{can\_\-driver.h}!s_BOARD@{s\_\-BOARD}}
+\index{s_BOARD@{s\_\-BOARD}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[s\_\-BOARD]{\setlength{\rightskip}{0pt plus 5cm}typedef struct \hyperlink{structstruct__s__BOARD}{struct\_\-s\_\-BOARD} \hyperlink{structstruct__s__BOARD}{s\_\-BOARD}}}
+\label{can__driver_8h_8791342659a586c5fa66d00ca4e4d583}
+
+
+
+
+Definition at line 28 of file can\_\-driver.h.
+
+\subsection{Function Documentation}
+\hypertarget{can__driver_8h_daaecb39bb3a67bb15580a112990b506}{
+\index{can_driver.h@{can\_\-driver.h}!canClose@{canClose}}
+\index{canClose@{canClose}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[canClose]{\setlength{\rightskip}{0pt plus 5cm}int DLL\_\-CALL() can\-Close (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE})}}
+\label{can__driver_8h_daaecb39bb3a67bb15580a112990b506}
+
+
+\hypertarget{can__driver_8h_641404106e253941c94c97e67a8ce524}{
+\index{can_driver.h@{can\_\-driver.h}!canOpen@{canOpen}}
+\index{canOpen@{canOpen}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[canOpen]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} DLL\_\-CALL() can\-Open (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$)}}
+\label{can__driver_8h_641404106e253941c94c97e67a8ce524}
+
+
+\hypertarget{can__driver_8h_54d882f7937b7be0a5558f9d372cb0f7}{
+\index{can_driver.h@{can\_\-driver.h}!canReceive@{canReceive}}
+\index{canReceive@{canReceive}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[canReceive]{\setlength{\rightskip}{0pt plus 5cm}UNS8 DLL\_\-CALL() can\-Receive (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}, \hyperlink{structMessage}{Message} $\ast$)}}
+\label{can__driver_8h_54d882f7937b7be0a5558f9d372cb0f7}
+
+
+
+
+Definition at line 124 of file drivers\_\-win32.cpp.
+
+References driver\_\-data::inst, driver\_\-procs::m\_\-can\-Receive, and s\_\-driver\_\-procs.\hypertarget{can__driver_8h_821c783be9b81479e3d8392cfb8952f4}{
+\index{can_driver.h@{can\_\-driver.h}!canSend@{canSend}}
+\index{canSend@{canSend}!can_driver.h@{can\_\-driver.h}}
+\subsubsection[canSend]{\setlength{\rightskip}{0pt plus 5cm}UNS8 DLL\_\-CALL() can\-Send (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE}, \hyperlink{structMessage}{Message} $\ast$)}}
+\label{can__driver_8h_821c783be9b81479e3d8392cfb8952f4}
+
+
+
+
+Definition at line 120 of file unix.c.

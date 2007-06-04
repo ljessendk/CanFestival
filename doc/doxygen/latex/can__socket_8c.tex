@@ -1,0 +1,191 @@
+\hypertarget{can__socket_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-socket/can\_\-socket.c File Reference}
+\label{can__socket_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/can_socket/can_socket.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/can\_\-socket/can\_\-socket.c}}
+}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include $<$stddef.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include \char`\"{}config.h\char`\"{}}\par
+{\tt \#include $<$sys/socket.h$>$}\par
+{\tt \#include $<$sys/ioctl.h$>$}\par
+{\tt \#include \char`\"{}linux/can.h\char`\"{}}\par
+{\tt \#include \char`\"{}linux/can/raw.h\char`\"{}}\par
+{\tt \#include \char`\"{}net/if.h\char`\"{}}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{can__socket_8c_eac0c3db7a1e021f17987bcc76893849}{PF\_\-CAN}~29
+\item 
+\#define \hyperlink{can__socket_8c_546620c7e758f003b24b7fdae4f97bd4}{AF\_\-CAN}~PF\_\-CAN
+\item 
+\#define \hyperlink{can__socket_8c_b0e2c857f77f55e9d76239af529340ef}{CAN\_\-IFNAME}~\char`\"{}can\%s\char`\"{}
+\item 
+\#define \hyperlink{can__socket_8c_3947ec96c2f7841c6a25f0d2b9989597}{CAN\_\-SOCKET}~socket
+\item 
+\#define \hyperlink{can__socket_8c_4a4bdc94205926096ef572a540e4d025}{CAN\_\-CLOSE}~close
+\item 
+\#define \hyperlink{can__socket_8c_b78c6a888be103b97e95bfc85f5da083}{CAN\_\-RECV}~recv
+\item 
+\#define \hyperlink{can__socket_8c_70c9889a227060d2e902e298858c1f36}{CAN\_\-SEND}~send
+\item 
+\#define \hyperlink{can__socket_8c_f51a5befd644cec65f24d3502b31d630}{CAN\_\-BIND}~bind
+\item 
+\#define \hyperlink{can__socket_8c_56776428046c869321581cd587514964}{CAN\_\-IOCTL}~ioctl
+\item 
+\#define \hyperlink{can__socket_8c_e9e218c73b4cb73965e4412c4d50eb2e}{CAN\_\-ERRNO}(err)~errno
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{can__socket_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{can\-Receive\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+UNS8 \hyperlink{can__socket_8c_def95aee49efa13dd047d0b3b5507ad3}{can\-Send\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{can__socket_8c_945403aba7f36acbd2e7160ade361bab}{can\-Open\_\-driver} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+int \hyperlink{can__socket_8c_76e6a915d0e40a23b863198b2aaa5545}{can\-Close\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{can__socket_8c_546620c7e758f003b24b7fdae4f97bd4}{
+\index{can_socket.c@{can\_\-socket.c}!AF_CAN@{AF\_\-CAN}}
+\index{AF_CAN@{AF\_\-CAN}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[AF\_\-CAN]{\setlength{\rightskip}{0pt plus 5cm}\#define AF\_\-CAN~PF\_\-CAN}}
+\label{can__socket_8c_546620c7e758f003b24b7fdae4f97bd4}
+
+
+
+
+Definition at line 48 of file can\_\-socket.c.\hypertarget{can__socket_8c_f51a5befd644cec65f24d3502b31d630}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_BIND@{CAN\_\-BIND}}
+\index{CAN_BIND@{CAN\_\-BIND}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-BIND]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-BIND~bind}}
+\label{can__socket_8c_f51a5befd644cec65f24d3502b31d630}
+
+
+
+
+Definition at line 55 of file can\_\-socket.c.\hypertarget{can__socket_8c_4a4bdc94205926096ef572a540e4d025}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_CLOSE@{CAN\_\-CLOSE}}
+\index{CAN_CLOSE@{CAN\_\-CLOSE}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-CLOSE]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-CLOSE~close}}
+\label{can__socket_8c_4a4bdc94205926096ef572a540e4d025}
+
+
+
+
+Definition at line 52 of file can\_\-socket.c.\hypertarget{can__socket_8c_e9e218c73b4cb73965e4412c4d50eb2e}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_ERRNO@{CAN\_\-ERRNO}}
+\index{CAN_ERRNO@{CAN\_\-ERRNO}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-ERRNO]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-ERRNO(err)~errno}}
+\label{can__socket_8c_e9e218c73b4cb73965e4412c4d50eb2e}
+
+
+
+
+Definition at line 57 of file can\_\-socket.c.\hypertarget{can__socket_8c_b0e2c857f77f55e9d76239af529340ef}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_IFNAME@{CAN\_\-IFNAME}}
+\index{CAN_IFNAME@{CAN\_\-IFNAME}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-IFNAME]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-IFNAME~\char`\"{}can\%s\char`\"{}}}
+\label{can__socket_8c_b0e2c857f77f55e9d76239af529340ef}
+
+
+
+
+Definition at line 50 of file can\_\-socket.c.\hypertarget{can__socket_8c_56776428046c869321581cd587514964}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_IOCTL@{CAN\_\-IOCTL}}
+\index{CAN_IOCTL@{CAN\_\-IOCTL}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-IOCTL]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-IOCTL~ioctl}}
+\label{can__socket_8c_56776428046c869321581cd587514964}
+
+
+
+
+Definition at line 56 of file can\_\-socket.c.\hypertarget{can__socket_8c_b78c6a888be103b97e95bfc85f5da083}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_RECV@{CAN\_\-RECV}}
+\index{CAN_RECV@{CAN\_\-RECV}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-RECV]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-RECV~recv}}
+\label{can__socket_8c_b78c6a888be103b97e95bfc85f5da083}
+
+
+
+
+Definition at line 53 of file can\_\-socket.c.\hypertarget{can__socket_8c_70c9889a227060d2e902e298858c1f36}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_SEND@{CAN\_\-SEND}}
+\index{CAN_SEND@{CAN\_\-SEND}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-SEND]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-SEND~send}}
+\label{can__socket_8c_70c9889a227060d2e902e298858c1f36}
+
+
+
+
+Definition at line 54 of file can\_\-socket.c.\hypertarget{can__socket_8c_3947ec96c2f7841c6a25f0d2b9989597}{
+\index{can_socket.c@{can\_\-socket.c}!CAN_SOCKET@{CAN\_\-SOCKET}}
+\index{CAN_SOCKET@{CAN\_\-SOCKET}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[CAN\_\-SOCKET]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-SOCKET~socket}}
+\label{can__socket_8c_3947ec96c2f7841c6a25f0d2b9989597}
+
+
+
+
+Definition at line 51 of file can\_\-socket.c.\hypertarget{can__socket_8c_eac0c3db7a1e021f17987bcc76893849}{
+\index{can_socket.c@{can\_\-socket.c}!PF_CAN@{PF\_\-CAN}}
+\index{PF_CAN@{PF\_\-CAN}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[PF\_\-CAN]{\setlength{\rightskip}{0pt plus 5cm}\#define PF\_\-CAN~29}}
+\label{can__socket_8c_eac0c3db7a1e021f17987bcc76893849}
+
+
+
+
+Definition at line 47 of file can\_\-socket.c.
+
+\subsection{Function Documentation}
+\hypertarget{can__socket_8c_76e6a915d0e40a23b863198b2aaa5545}{
+\index{can_socket.c@{can\_\-socket.c}!canClose_driver@{canClose\_\-driver}}
+\index{canClose_driver@{canClose\_\-driver}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[canClose\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0})}}
+\label{can__socket_8c_76e6a915d0e40a23b863198b2aaa5545}
+
+
+
+
+Definition at line 228 of file can\_\-socket.c.
+
+References CAN\_\-CLOSE.\hypertarget{can__socket_8c_945403aba7f36acbd2e7160ade361bab}{
+\index{can_socket.c@{can\_\-socket.c}!canOpen_driver@{canOpen\_\-driver}}
+\index{canOpen_driver@{canOpen\_\-driver}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[canOpen\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} can\-Open\_\-driver (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{can__socket_8c_945403aba7f36acbd2e7160ade361bab}
+
+
+
+
+Definition at line 150 of file can\_\-socket.c.
+
+References AF\_\-CAN, struct\_\-s\_\-BOARD::baudrate, struct\_\-s\_\-BOARD::busname, CAN\_\-BIND, CAN\_\-CLOSE, CAN\_\-ERRNO, CAN\_\-IFNAME, CAN\_\-IOCTL, CAN\_\-SOCKET, and PF\_\-CAN.\hypertarget{can__socket_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{
+\index{can_socket.c@{can\_\-socket.c}!canReceive_driver@{canReceive\_\-driver}}
+\index{canReceive_driver@{canReceive\_\-driver}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[canReceive\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Receive\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__socket_8c_6b3248e95acf2b08d1fd8b42610cc5a6}
+
+
+
+
+Definition at line 64 of file can\_\-socket.c.
+
+References CAN\_\-ERRNO, CAN\_\-RECV, Message::cob\_\-id, Message::data, Message::len, Message::rtr, and SHORT\_\-CAN::w.\hypertarget{can__socket_8c_def95aee49efa13dd047d0b3b5507ad3}{
+\index{can_socket.c@{can\_\-socket.c}!canSend_driver@{canSend\_\-driver}}
+\index{canSend_driver@{canSend\_\-driver}!can_socket.c@{can\_\-socket.c}}
+\subsubsection[canSend\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__socket_8c_def95aee49efa13dd047d0b3b5507ad3}
+
+
+
+
+Definition at line 90 of file can\_\-socket.c.
+
+References CAN\_\-ERRNO, CAN\_\-SEND, Message::cob\_\-id, Message::data, Message::len, Message::rtr, and SHORT\_\-CAN::w.

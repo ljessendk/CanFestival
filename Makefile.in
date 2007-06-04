@@ -26,6 +26,10 @@ all: objdictgen canfestival examples
 examples: canfestival driver
 	$(MAKE) -C examples all
 
+documentation: 
+	echo Doxygen generation!!
+	doxygen doc/doxygen/Doxyfile
+
 objdictgen:
 	$(MAKE) -C objdictgen all
 

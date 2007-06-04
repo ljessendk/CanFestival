@@ -1,0 +1,159 @@
+\section{examples/gene\_\-SYNC\_\-HCS12/appli.c File Reference}
+\label{appli_8c}\index{examples/gene_SYNC_HCS12/appli.c@{examples/gene\_\-SYNC\_\-HCS12/appli.c}}
+{\tt \#include $<$stddef.h$>$}\par
+{\tt \#include $<$asm-m68hc12/portsaccess.h$>$}\par
+{\tt \#include $<$asm-m68hc12/ports\_\-def.h$>$}\par
+{\tt \#include $<$asm-m68hc12/ports.h$>$}\par
+{\tt \#include $<$interrupt.h$>$}\par
+{\tt \#include \char`\"{}../include/data.h\char`\"{}}\par
+{\tt \#include $<$applicfg.h$>$}\par
+{\tt \#include \char`\"{}../include/hcs12/candriver.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/can\-Open\-Driver.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/def.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/can.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/objdictdef.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/objacces.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/sdo.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/pdo.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/timer.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/lifegrd.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/sync.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/nmt\-Slave.h\char`\"{}}\par
+{\tt \#include \char`\"{}objdict.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf DEBUG\_\-WAR\_\-CONSOLE\_\-ON}
+\item 
+\#define {\bf DEBUG\_\-ERR\_\-CONSOLE\_\-ON}
+\end{CompactItemize}
+\subsection*{Enumerations}
+\begin{CompactItemize}
+\item 
+enum {\bf E\_\-Can\-Baudrate} \{ {\bf CAN\_\-BAUDRATE\_\-250K}, 
+{\bf CAN\_\-BAUDRATE\_\-500K}, 
+{\bf CAN\_\-BAUDRATE\_\-1M}
+ \}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf init\-Canopencapteur} (void)
+\item 
+void {\bf init\-Sensor} (void)
+\item 
+void {\bf init\-Port\-B} (void)
+\item 
+void {\bf init\-Port\-H} (void)
+\item 
+void {\bf gene\_\-SYNC\_\-heartbeat\-Error} (UNS8 heartbeat\-ID)
+\item 
+void {\bf gene\_\-SYNC\_\-initialisation} ()
+\item 
+void {\bf gene\_\-SYNC\_\-pre\-Operational} ()
+\item 
+void {\bf gene\_\-SYNC\_\-operational} ()
+\item 
+void {\bf gene\_\-SYNC\_\-stopped} ()
+\item 
+UNS8 {\bf main} (void)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+const {\bf can\-Bus\-Time} {\bf CAN\_\-Baudrates} [$\,$]
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\index{appli.c@{appli.c}!DEBUG_ERR_CONSOLE_ON@{DEBUG\_\-ERR\_\-CONSOLE\_\-ON}}
+\index{DEBUG_ERR_CONSOLE_ON@{DEBUG\_\-ERR\_\-CONSOLE\_\-ON}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG\_\-ERR\_\-CONSOLE\_\-ON}\label{appli_8c_bb416887a32f7e4333e095356774f07f}
+
+
+\index{appli.c@{appli.c}!DEBUG_WAR_CONSOLE_ON@{DEBUG\_\-WAR\_\-CONSOLE\_\-ON}}
+\index{DEBUG_WAR_CONSOLE_ON@{DEBUG\_\-WAR\_\-CONSOLE\_\-ON}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG\_\-WAR\_\-CONSOLE\_\-ON}\label{appli_8c_4f52c00ab0d519e2965ebaa533975904}
+
+
+
+
+\subsection{Enumeration Type Documentation}
+\index{appli.c@{appli.c}!E_CanBaudrate@{E\_\-CanBaudrate}}
+\index{E_CanBaudrate@{E\_\-CanBaudrate}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}enum {\bf E\_\-Can\-Baudrate}}\label{appli_8c_a5385c49943465978358d459b4fc430f}
+
+
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{CAN_BAUDRATE_250K@{CAN\_\-BAUDRATE\_\-250K}!appli.c@{appli.c}}\index{appli.c@{appli.c}!CAN_BAUDRATE_250K@{CAN\_\-BAUDRATE\_\-250K}}\item[{\em 
+CAN\_\-BAUDRATE\_\-250K\label{appli_8c_a5385c49943465978358d459b4fc430f8d90575842d76640697deb1398f7023c}
+}]\index{CAN_BAUDRATE_500K@{CAN\_\-BAUDRATE\_\-500K}!appli.c@{appli.c}}\index{appli.c@{appli.c}!CAN_BAUDRATE_500K@{CAN\_\-BAUDRATE\_\-500K}}\item[{\em 
+CAN\_\-BAUDRATE\_\-500K\label{appli_8c_a5385c49943465978358d459b4fc430f07239165beed5e840aed12e7f46af89b}
+}]\index{CAN_BAUDRATE_1M@{CAN\_\-BAUDRATE\_\-1M}!appli.c@{appli.c}}\index{appli.c@{appli.c}!CAN_BAUDRATE_1M@{CAN\_\-BAUDRATE\_\-1M}}\item[{\em 
+CAN\_\-BAUDRATE\_\-1M\label{appli_8c_a5385c49943465978358d459b4fc430ff84d248d0fb707925b35c9ec18624809}
+}]\end{description}
+\end{Desc}
+
+
+
+\subsection{Function Documentation}
+\index{appli.c@{appli.c}!gene_SYNC_heartbeatError@{gene\_\-SYNC\_\-heartbeatError}}
+\index{gene_SYNC_heartbeatError@{gene\_\-SYNC\_\-heartbeatError}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gene\_\-SYNC\_\-heartbeat\-Error (UNS8 {\em heartbeat\-ID})}\label{appli_8c_07f58b5c2d6a07142f3e6e695798646b}
+
+
+\index{appli.c@{appli.c}!gene_SYNC_initialisation@{gene\_\-SYNC\_\-initialisation}}
+\index{gene_SYNC_initialisation@{gene\_\-SYNC\_\-initialisation}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gene\_\-SYNC\_\-initialisation (void)}\label{appli_8c_5249682c125c7e4ad9583bf63c20b5fa}
+
+
+\index{appli.c@{appli.c}!gene_SYNC_operational@{gene\_\-SYNC\_\-operational}}
+\index{gene_SYNC_operational@{gene\_\-SYNC\_\-operational}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gene\_\-SYNC\_\-operational (void)}\label{appli_8c_688e52d5ec8da35ad5c61b4337df495d}
+
+
+\index{appli.c@{appli.c}!gene_SYNC_preOperational@{gene\_\-SYNC\_\-preOperational}}
+\index{gene_SYNC_preOperational@{gene\_\-SYNC\_\-preOperational}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gene\_\-SYNC\_\-pre\-Operational (void)}\label{appli_8c_ccd49c1b2614c38aeac93733ede6cd91}
+
+
+\index{appli.c@{appli.c}!gene_SYNC_stopped@{gene\_\-SYNC\_\-stopped}}
+\index{gene_SYNC_stopped@{gene\_\-SYNC\_\-stopped}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gene\_\-SYNC\_\-stopped (void)}\label{appli_8c_00e6a6d0f2186f329263023a7f1de155}
+
+
+\index{appli.c@{appli.c}!initCanopencapteur@{initCanopencapteur}}
+\index{initCanopencapteur@{initCanopencapteur}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void init\-Canopencapteur (void)}\label{appli_8c_8d772d897083e5a5c5f41878cfea50b8}
+
+
+\index{appli.c@{appli.c}!initPortB@{initPortB}}
+\index{initPortB@{initPortB}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void init\-Port\-B (void)}\label{appli_8c_c17a18fa3b7965bf6e850effaba7179a}
+
+
+\index{appli.c@{appli.c}!initPortH@{initPortH}}
+\index{initPortH@{initPortH}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void init\-Port\-H (void)}\label{appli_8c_b7c33a91e5101b8d7371482fcfd6111d}
+
+
+\index{appli.c@{appli.c}!initSensor@{initSensor}}
+\index{initSensor@{initSensor}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void init\-Sensor (void)}\label{appli_8c_ff8c2bab7ede63d3529f62b4fa3aca8c}
+
+
+\index{appli.c@{appli.c}!main@{main}}
+\index{main@{main}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}UNS8 main (void)}\label{appli_8c_ef83014be811ae964a5ef7f0af7b46a2}
+
+
+
+
+\subsection{Variable Documentation}
+\index{appli.c@{appli.c}!CAN_Baudrates@{CAN\_\-Baudrates}}
+\index{CAN_Baudrates@{CAN\_\-Baudrates}!appli.c@{appli.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}const {\bf can\-Bus\-Time} {\bf CAN\_\-Baudrates}[$\,$]}\label{appli_8c_43fd1d8fc333eddd19554acb6cc2baf8}
+
+

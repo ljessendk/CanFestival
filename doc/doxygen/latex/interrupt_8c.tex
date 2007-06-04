@@ -1,0 +1,69 @@
+\hypertarget{interrupt_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/hcs12/interrupt.c File Reference}
+\label{interrupt_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/hcs12/interrupt.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/hcs12/interrupt.c}}
+}
+{\tt \#include \char`\"{}../include/data.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/applicfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/error.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/candriver.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/regs.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/portsaccess.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/ports\_\-def.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/ports.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/interrupt.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{interrupt_8c_eb99ff49b4a6d5157416f9b5bd0d9c2c}{lock} (void)
+\item 
+void \hyperlink{interrupt_8c_987ce601d6d4c8eedd68b58db3b7811a}{unlock} (void)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+volatile char \hyperlink{interrupt_8c_9c5b421f784338eb10343d2724c56706}{msg\-Recu}
+\item 
+volatile \hyperlink{structMessage}{Message} \hyperlink{interrupt_8c_d91f20f7aab1f9071e2378a8696db736}{can\-Msg\-Rcv}
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{interrupt_8c_eb99ff49b4a6d5157416f9b5bd0d9c2c}{
+\index{interrupt.c@{interrupt.c}!lock@{lock}}
+\index{lock@{lock}!interrupt.c@{interrupt.c}}
+\subsubsection[lock]{\setlength{\rightskip}{0pt plus 5cm}void lock (void)}}
+\label{interrupt_8c_eb99ff49b4a6d5157416f9b5bd0d9c2c}
+
+
+Disable interrupts 
+
+Definition at line 49 of file interrupt.c.
+
+References \_\-\_\-asm\_\-\_\-().\hypertarget{interrupt_8c_987ce601d6d4c8eedd68b58db3b7811a}{
+\index{interrupt.c@{interrupt.c}!unlock@{unlock}}
+\index{unlock@{unlock}!interrupt.c@{interrupt.c}}
+\subsubsection[unlock]{\setlength{\rightskip}{0pt plus 5cm}void unlock (void)}}
+\label{interrupt_8c_987ce601d6d4c8eedd68b58db3b7811a}
+
+
+Enable interrupts 
+
+Definition at line 57 of file interrupt.c.
+
+References \_\-\_\-asm\_\-\_\-().
+
+\subsection{Variable Documentation}
+\hypertarget{interrupt_8c_d91f20f7aab1f9071e2378a8696db736}{
+\index{interrupt.c@{interrupt.c}!canMsgRcv@{canMsgRcv}}
+\index{canMsgRcv@{canMsgRcv}!interrupt.c@{interrupt.c}}
+\subsubsection[canMsgRcv]{\setlength{\rightskip}{0pt plus 5cm}volatile \hyperlink{structMessage}{Message} \hyperlink{interrupt_8c_d91f20f7aab1f9071e2378a8696db736}{can\-Msg\-Rcv}}}
+\label{interrupt_8c_d91f20f7aab1f9071e2378a8696db736}
+
+
+\hypertarget{interrupt_8c_9c5b421f784338eb10343d2724c56706}{
+\index{interrupt.c@{interrupt.c}!msgRecu@{msgRecu}}
+\index{msgRecu@{msgRecu}!interrupt.c@{interrupt.c}}
+\subsubsection[msgRecu]{\setlength{\rightskip}{0pt plus 5cm}volatile char \hyperlink{interrupt_8c_9c5b421f784338eb10343d2724c56706}{msg\-Recu}}}
+\label{interrupt_8c_9c5b421f784338eb10343d2724c56706}
+
+

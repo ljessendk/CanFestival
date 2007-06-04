@@ -1,0 +1,87 @@
+\hypertarget{timers__driver_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/timers\_\-driver.h File Reference}
+\label{timers__driver_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/timers_driver.h@{/home/epimerde/documents/tc11/CanFestival-3/include/timers\_\-driver.h}}
+}
+{\tt \#include \char`\"{}timerscfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}timer.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{timers__driver_8h_d7fee43b8a44cf8b7036853593044037}{Enter\-Mutex} (void)
+\item 
+void \hyperlink{timers__driver_8h_73d9a4eb941fb20cf6b597840510394b}{Leave\-Mutex} (void)
+\item 
+void \hyperlink{timers__driver_8h_c492d1b5ebd2d99020e72c137beda878}{Wait\-Receive\-Task\-End} (TASK\_\-HANDLE)
+\item 
+void \hyperlink{timers__driver_8h_c9e1731843825eb55e7a94894e6a8ec5}{Start\-Timer\-Loop} (\hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t} init\_\-callback)
+\item 
+void \hyperlink{timers__driver_8h_8758484f3cebb0cd44bb247c3f23d5e3}{Stop\-Timer\-Loop} (void)
+\item 
+void \hyperlink{timers__driver_8h_3e8cb5b8159f655ee0bac1ea1d2358d4}{Create\-Receive\-Task} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT}, TASK\_\-HANDLE $\ast$, void $\ast$)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{timers__driver_8h_3e8cb5b8159f655ee0bac1ea1d2358d4}{
+\index{timers_driver.h@{timers\_\-driver.h}!CreateReceiveTask@{CreateReceiveTask}}
+\index{CreateReceiveTask@{CreateReceiveTask}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[CreateReceiveTask]{\setlength{\rightskip}{0pt plus 5cm}void Create\-Receive\-Task (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT}, TASK\_\-HANDLE $\ast$, void $\ast$)}}
+\label{timers__driver_8h_3e8cb5b8159f655ee0bac1ea1d2358d4}
+
+
+
+
+Definition at line 71 of file timers\_\-unix.c.\hypertarget{timers__driver_8h_d7fee43b8a44cf8b7036853593044037}{
+\index{timers_driver.h@{timers\_\-driver.h}!EnterMutex@{EnterMutex}}
+\index{EnterMutex@{EnterMutex}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[EnterMutex]{\setlength{\rightskip}{0pt plus 5cm}void Enter\-Mutex (void)}}
+\label{timers__driver_8h_d7fee43b8a44cf8b7036853593044037}
+
+
+
+
+Definition at line 20 of file timers\_\-unix.c.
+
+References Can\-Festival\_\-mutex, and ccritical\_\-section::enter().\hypertarget{timers__driver_8h_73d9a4eb941fb20cf6b597840510394b}{
+\index{timers_driver.h@{timers\_\-driver.h}!LeaveMutex@{LeaveMutex}}
+\index{LeaveMutex@{LeaveMutex}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[LeaveMutex]{\setlength{\rightskip}{0pt plus 5cm}void Leave\-Mutex (void)}}
+\label{timers__driver_8h_73d9a4eb941fb20cf6b597840510394b}
+
+
+
+
+Definition at line 25 of file timers\_\-unix.c.
+
+References Can\-Festival\_\-mutex, and ccritical\_\-section::leave().\hypertarget{timers__driver_8h_c9e1731843825eb55e7a94894e6a8ec5}{
+\index{timers_driver.h@{timers\_\-driver.h}!StartTimerLoop@{StartTimerLoop}}
+\index{StartTimerLoop@{StartTimerLoop}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[StartTimerLoop]{\setlength{\rightskip}{0pt plus 5cm}void Start\-Timer\-Loop (\hyperlink{timer_8h_f7d102e060339d3730ceae5fea03691b}{Timer\-Callback\_\-t} {\em init\_\-callback})}}
+\label{timers__driver_8h_c9e1731843825eb55e7a94894e6a8ec5}
+
+
+
+
+Definition at line 62 of file timers\_\-unix.c.
+
+References Enter\-Mutex(), init\-Timer(), Leave\-Mutex(), class\_\-timers::resume\_\-timer\_\-thread(), Set\-Alarm(), class\_\-timers::start\_\-timer\_\-thread(), and TIMEVAL.\hypertarget{timers__driver_8h_8758484f3cebb0cd44bb247c3f23d5e3}{
+\index{timers_driver.h@{timers\_\-driver.h}!StopTimerLoop@{StopTimerLoop}}
+\index{StopTimerLoop@{StopTimerLoop}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[StopTimerLoop]{\setlength{\rightskip}{0pt plus 5cm}void Stop\-Timer\-Loop (void)}}
+\label{timers__driver_8h_8758484f3cebb0cd44bb247c3f23d5e3}
+
+
+
+
+Definition at line 55 of file timers\_\-unix.c.
+
+References Enter\-Mutex(), Leave\-Mutex(), class\_\-timers::stop\_\-timer\_\-thread(), and timer.\hypertarget{timers__driver_8h_c492d1b5ebd2d99020e72c137beda878}{
+\index{timers_driver.h@{timers\_\-driver.h}!WaitReceiveTaskEnd@{WaitReceiveTaskEnd}}
+\index{WaitReceiveTaskEnd@{WaitReceiveTaskEnd}!timers_driver.h@{timers\_\-driver.h}}
+\subsubsection[WaitReceiveTaskEnd]{\setlength{\rightskip}{0pt plus 5cm}void Wait\-Receive\-Task\-End (TASK\_\-HANDLE)}}
+\label{timers__driver_8h_c492d1b5ebd2d99020e72c137beda878}
+
+
+
+
+Definition at line 76 of file timers\_\-unix.c.

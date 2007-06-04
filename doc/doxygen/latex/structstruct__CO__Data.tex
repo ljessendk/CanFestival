@@ -1,0 +1,398 @@
+\hypertarget{structstruct__CO__Data}{
+\section{struct\_\-CO\_\-Data Struct Reference}
+\label{structstruct__CO__Data}\index{struct_CO_Data@{struct\_\-CO\_\-Data}}
+}
+{\tt \#include $<$data.h$>$}
+
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+UNS8 $\ast$ \hyperlink{structstruct__CO__Data_e5c35e97a1061bb9737359cc12192269}{b\-Device\-Node\-Id}
+\item 
+const \hyperlink{structtd__indextable}{indextable} $\ast$ \hyperlink{structstruct__CO__Data_a766a4db603786bffdd609817048ef04}{objdict}
+\item 
+UNS8 $\ast$ \hyperlink{structstruct__CO__Data_83ae82d4401e78e3fd3a1ed5d457ade7}{count\_\-sync}
+\item 
+\hyperlink{structs__quick__index}{quick\_\-index} $\ast$ \hyperlink{structstruct__CO__Data_f26b0fce2ed684c5983aa658efd6c52e}{first\-Index}
+\item 
+\hyperlink{structs__quick__index}{quick\_\-index} $\ast$ \hyperlink{structstruct__CO__Data_96d334a4fc8c304826b053681ccbf0d1}{last\-Index}
+\item 
+UNS16 $\ast$ \hyperlink{structstruct__CO__Data_6c3f14328d7662f0adc1da9964327a2e}{Objdict\-Size}
+\item 
+const UNS8 $\ast$ \hyperlink{structstruct__CO__Data_cfe2baf2887f190ca8deebaf462e62fe}{iam\_\-a\_\-slave}
+\item 
+\hyperlink{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}{value\-Range\-Test\_\-t} \hyperlink{structstruct__CO__Data_a8e71f9e9e67d0a594bad7dbbe99a35a}{value\-Range\-Test}
+\item 
+\hyperlink{structstruct__s__transfer}{s\_\-transfer} \hyperlink{structstruct__CO__Data_a7fda2c6f5815323c3d79efb4641c465}{transfers} \mbox{[}SDO\_\-MAX\_\-SIMULTANEOUS\_\-TRANSFERTS\mbox{]}
+\item 
+\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} \hyperlink{structstruct__CO__Data_a03a5121facf5b21d541f8566a8345d6}{node\-State}
+\item 
+\hyperlink{structs__state__communication}{s\_\-state\_\-communication} \hyperlink{structstruct__CO__Data_ab01aa22a1af1044224220cd45e5796d}{Current\-Communication\-State}
+\item 
+\hyperlink{states_8h_d0cd6d1eb89085da7cb9f32ce386e8bc}{initialisation\_\-t} \hyperlink{structstruct__CO__Data_b45e9ca46cffe7924c35ae136db6a2b6}{initialisation}
+\item 
+\hyperlink{states_8h_f4a6da4fe018afbe20eaf716c248e02a}{pre\-Operational\_\-t} \hyperlink{structstruct__CO__Data_d7c66fb721e3f6279a6ff03bf91d82e2}{pre\-Operational}
+\item 
+\hyperlink{states_8h_8aed99e590473f26db47a9c2dc5b73fc}{operational\_\-t} \hyperlink{structstruct__CO__Data_432ddce132ec2f7473064e4fa8ef3f9a}{operational}
+\item 
+\hyperlink{states_8h_c99397ce6341b6b5128104aee4c27ec5}{stopped\_\-t} \hyperlink{structstruct__CO__Data_89dd7dd17f9dd16b7a06c3cf30c2ca02}{stopped}
+\item 
+UNS8 $\ast$ \hyperlink{structstruct__CO__Data_51a0927cdf730eca5661d2d1a26b9e43}{Consumer\-Heartbeat\-Count}
+\item 
+UNS32 $\ast$ \hyperlink{structstruct__CO__Data_928052654c25135aab556909845fa8ea}{Consumer\-Heartbeat\-Entries}
+\item 
+TIMER\_\-HANDLE $\ast$ \hyperlink{structstruct__CO__Data_e0b1fd1bec517c2bc12c5a4fd72adca6}{Consumer\-Heart\-Beat\-Timers}
+\item 
+UNS16 $\ast$ \hyperlink{structstruct__CO__Data_61d5500b982867b523baf6668a2c377d}{Producer\-Heart\-Beat\-Time}
+\item 
+TIMER\_\-HANDLE \hyperlink{structstruct__CO__Data_914dd3ff14e15217fe67c0804200a200}{Producer\-Heart\-Beat\-Timer}
+\item 
+\hyperlink{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}{heartbeat\-Error\_\-t} \hyperlink{structstruct__CO__Data_2ec2bc87656945d2c7dda7ebe662b245}{heartbeat\-Error}
+\item 
+\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} \hyperlink{structstruct__CO__Data_40414cf320a3c3d6236790bd10b4301a}{NMTable} \mbox{[}NMT\_\-MAX\_\-NODE\_\-ID\mbox{]}
+\item 
+TIMER\_\-HANDLE \hyperlink{structstruct__CO__Data_b8e7a429eb6e0bca2429685725516fe8}{sync\-Timer}
+\item 
+UNS32 $\ast$ \hyperlink{structstruct__CO__Data_eb1479220ec68407a35635bfbffa3386}{COB\_\-ID\_\-Sync}
+\item 
+UNS32 $\ast$ \hyperlink{structstruct__CO__Data_2dddbef6ce165dca7ff916e2e1409142}{Sync\_\-Cycle\_\-Period}
+\item 
+\hyperlink{sync_8h_8a0b5b8c19b375ef1c985caa120f3274}{post\_\-sync\_\-t} \hyperlink{structstruct__CO__Data_7eeaefe180dfceca6e829a0a8018f342}{post\_\-sync}
+\item 
+\hyperlink{sync_8h_b9bc4632750ad12f918aa22a1eb7756b}{post\_\-TPDO\_\-t} \hyperlink{structstruct__CO__Data_0cf540e2e36e14c04e1c783dc88d9a0e}{post\_\-TPDO}
+\item 
+\hyperlink{structstruct__s__process__var}{s\_\-process\_\-var} \hyperlink{structstruct__CO__Data_26f4d508a9e409f2ace9c8c55d92d826}{process\_\-var}
+\item 
+UNS8 \hyperlink{structstruct__CO__Data_01f012ef56b614a9519530433b01054f}{toggle}
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{structstruct__CO__Data_c960c3c56e8389105c2853cfb393de0c}{can\-Handle}
+\item 
+\hyperlink{objdictdef_8h_a844575e4d9c9870137121bf0fb241fb}{scan\-Index\-OD\_\-t} \hyperlink{structstruct__CO__Data_1863bd74fef91ec89b4c1ff0bee2dfbf}{scan\-Index\-OD}
+\item 
+\hyperlink{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}{store\-ODSub\-Index\_\-t} \hyperlink{structstruct__CO__Data_d6cd6ffa658b1ed35d887b6bacb990cf}{store\-ODSub\-Index}
+\item 
+UNS8 $\ast$ \hyperlink{structstruct__CO__Data_de0a65bcf0cb16fd4dafe4d866655aab}{dcf\_\-cursor}
+\item 
+UNS32 \hyperlink{structstruct__CO__Data_0a588710c53092b75cfe284ca7d9ccff}{dcf\_\-count\_\-targets}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 45 of file data.h.
+
+\subsection{Field Documentation}
+\hypertarget{structstruct__CO__Data_e5c35e97a1061bb9737359cc12192269}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!bDeviceNodeId@{bDeviceNodeId}}
+\index{bDeviceNodeId@{bDeviceNodeId}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[bDeviceNodeId]{\setlength{\rightskip}{0pt plus 5cm}UNS8$\ast$ \hyperlink{structstruct__CO__Data_e5c35e97a1061bb9737359cc12192269}{struct\_\-CO\_\-Data::b\-Device\-Node\-Id}}}
+\label{structstruct__CO__Data_e5c35e97a1061bb9737359cc12192269}
+
+
+
+
+Definition at line 47 of file data.h.\hypertarget{structstruct__CO__Data_a766a4db603786bffdd609817048ef04}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!objdict@{objdict}}
+\index{objdict@{objdict}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[objdict]{\setlength{\rightskip}{0pt plus 5cm}const \hyperlink{structtd__indextable}{indextable}$\ast$ \hyperlink{structstruct__CO__Data_a766a4db603786bffdd609817048ef04}{struct\_\-CO\_\-Data::objdict}}}
+\label{structstruct__CO__Data_a766a4db603786bffdd609817048ef04}
+
+
+
+
+Definition at line 48 of file data.h.\hypertarget{structstruct__CO__Data_83ae82d4401e78e3fd3a1ed5d457ade7}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!count_sync@{count\_\-sync}}
+\index{count_sync@{count\_\-sync}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[count\_\-sync]{\setlength{\rightskip}{0pt plus 5cm}UNS8$\ast$ \hyperlink{structstruct__CO__Data_83ae82d4401e78e3fd3a1ed5d457ade7}{struct\_\-CO\_\-Data::count\_\-sync}}}
+\label{structstruct__CO__Data_83ae82d4401e78e3fd3a1ed5d457ade7}
+
+
+
+
+Definition at line 49 of file data.h.\hypertarget{structstruct__CO__Data_f26b0fce2ed684c5983aa658efd6c52e}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!firstIndex@{firstIndex}}
+\index{firstIndex@{firstIndex}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[firstIndex]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structs__quick__index}{quick\_\-index}$\ast$ \hyperlink{structstruct__CO__Data_f26b0fce2ed684c5983aa658efd6c52e}{struct\_\-CO\_\-Data::first\-Index}}}
+\label{structstruct__CO__Data_f26b0fce2ed684c5983aa658efd6c52e}
+
+
+
+
+Definition at line 50 of file data.h.\hypertarget{structstruct__CO__Data_96d334a4fc8c304826b053681ccbf0d1}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!lastIndex@{lastIndex}}
+\index{lastIndex@{lastIndex}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[lastIndex]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structs__quick__index}{quick\_\-index}$\ast$ \hyperlink{structstruct__CO__Data_96d334a4fc8c304826b053681ccbf0d1}{struct\_\-CO\_\-Data::last\-Index}}}
+\label{structstruct__CO__Data_96d334a4fc8c304826b053681ccbf0d1}
+
+
+
+
+Definition at line 51 of file data.h.\hypertarget{structstruct__CO__Data_6c3f14328d7662f0adc1da9964327a2e}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ObjdictSize@{ObjdictSize}}
+\index{ObjdictSize@{ObjdictSize}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ObjdictSize]{\setlength{\rightskip}{0pt plus 5cm}UNS16$\ast$ \hyperlink{structstruct__CO__Data_6c3f14328d7662f0adc1da9964327a2e}{struct\_\-CO\_\-Data::Objdict\-Size}}}
+\label{structstruct__CO__Data_6c3f14328d7662f0adc1da9964327a2e}
+
+
+
+
+Definition at line 52 of file data.h.\hypertarget{structstruct__CO__Data_cfe2baf2887f190ca8deebaf462e62fe}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!iam_a_slave@{iam\_\-a\_\-slave}}
+\index{iam_a_slave@{iam\_\-a\_\-slave}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[iam\_\-a\_\-slave]{\setlength{\rightskip}{0pt plus 5cm}const UNS8$\ast$ \hyperlink{structstruct__CO__Data_cfe2baf2887f190ca8deebaf462e62fe}{struct\_\-CO\_\-Data::iam\_\-a\_\-slave}}}
+\label{structstruct__CO__Data_cfe2baf2887f190ca8deebaf462e62fe}
+
+
+
+
+Definition at line 53 of file data.h.\hypertarget{structstruct__CO__Data_a8e71f9e9e67d0a594bad7dbbe99a35a}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!valueRangeTest@{valueRangeTest}}
+\index{valueRangeTest@{valueRangeTest}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[valueRangeTest]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}{value\-Range\-Test\_\-t} \hyperlink{structstruct__CO__Data_a8e71f9e9e67d0a594bad7dbbe99a35a}{struct\_\-CO\_\-Data::value\-Range\-Test}}}
+\label{structstruct__CO__Data_a8e71f9e9e67d0a594bad7dbbe99a35a}
+
+
+
+
+Definition at line 54 of file data.h.\hypertarget{structstruct__CO__Data_a7fda2c6f5815323c3d79efb4641c465}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!transfers@{transfers}}
+\index{transfers@{transfers}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[transfers]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structstruct__s__transfer}{s\_\-transfer} \hyperlink{structstruct__CO__Data_a7fda2c6f5815323c3d79efb4641c465}{struct\_\-CO\_\-Data::transfers}\mbox{[}SDO\_\-MAX\_\-SIMULTANEOUS\_\-TRANSFERTS\mbox{]}}}
+\label{structstruct__CO__Data_a7fda2c6f5815323c3d79efb4641c465}
+
+
+
+
+Definition at line 57 of file data.h.\hypertarget{structstruct__CO__Data_a03a5121facf5b21d541f8566a8345d6}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!nodeState@{nodeState}}
+\index{nodeState@{nodeState}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[nodeState]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} \hyperlink{structstruct__CO__Data_a03a5121facf5b21d541f8566a8345d6}{struct\_\-CO\_\-Data::node\-State}}}
+\label{structstruct__CO__Data_a03a5121facf5b21d541f8566a8345d6}
+
+
+
+
+Definition at line 61 of file data.h.\hypertarget{structstruct__CO__Data_ab01aa22a1af1044224220cd45e5796d}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!CurrentCommunicationState@{CurrentCommunicationState}}
+\index{CurrentCommunicationState@{CurrentCommunicationState}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[CurrentCommunicationState]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structs__state__communication}{s\_\-state\_\-communication} \hyperlink{structstruct__CO__Data_ab01aa22a1af1044224220cd45e5796d}{struct\_\-CO\_\-Data::Current\-Communication\-State}}}
+\label{structstruct__CO__Data_ab01aa22a1af1044224220cd45e5796d}
+
+
+
+
+Definition at line 62 of file data.h.\hypertarget{structstruct__CO__Data_b45e9ca46cffe7924c35ae136db6a2b6}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!initialisation@{initialisation}}
+\index{initialisation@{initialisation}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[initialisation]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_d0cd6d1eb89085da7cb9f32ce386e8bc}{initialisation\_\-t} \hyperlink{structstruct__CO__Data_b45e9ca46cffe7924c35ae136db6a2b6}{struct\_\-CO\_\-Data::initialisation}}}
+\label{structstruct__CO__Data_b45e9ca46cffe7924c35ae136db6a2b6}
+
+
+
+
+Definition at line 63 of file data.h.\hypertarget{structstruct__CO__Data_d7c66fb721e3f6279a6ff03bf91d82e2}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!preOperational@{preOperational}}
+\index{preOperational@{preOperational}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[preOperational]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_f4a6da4fe018afbe20eaf716c248e02a}{pre\-Operational\_\-t} \hyperlink{structstruct__CO__Data_d7c66fb721e3f6279a6ff03bf91d82e2}{struct\_\-CO\_\-Data::pre\-Operational}}}
+\label{structstruct__CO__Data_d7c66fb721e3f6279a6ff03bf91d82e2}
+
+
+
+
+Definition at line 64 of file data.h.\hypertarget{structstruct__CO__Data_432ddce132ec2f7473064e4fa8ef3f9a}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!operational@{operational}}
+\index{operational@{operational}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[operational]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_8aed99e590473f26db47a9c2dc5b73fc}{operational\_\-t} \hyperlink{structstruct__CO__Data_432ddce132ec2f7473064e4fa8ef3f9a}{struct\_\-CO\_\-Data::operational}}}
+\label{structstruct__CO__Data_432ddce132ec2f7473064e4fa8ef3f9a}
+
+
+
+
+Definition at line 65 of file data.h.\hypertarget{structstruct__CO__Data_89dd7dd17f9dd16b7a06c3cf30c2ca02}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!stopped@{stopped}}
+\index{stopped@{stopped}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[stopped]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_c99397ce6341b6b5128104aee4c27ec5}{stopped\_\-t} \hyperlink{structstruct__CO__Data_89dd7dd17f9dd16b7a06c3cf30c2ca02}{struct\_\-CO\_\-Data::stopped}}}
+\label{structstruct__CO__Data_89dd7dd17f9dd16b7a06c3cf30c2ca02}
+
+
+
+
+Definition at line 66 of file data.h.\hypertarget{structstruct__CO__Data_51a0927cdf730eca5661d2d1a26b9e43}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ConsumerHeartbeatCount@{ConsumerHeartbeatCount}}
+\index{ConsumerHeartbeatCount@{ConsumerHeartbeatCount}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ConsumerHeartbeatCount]{\setlength{\rightskip}{0pt plus 5cm}UNS8$\ast$ \hyperlink{structstruct__CO__Data_51a0927cdf730eca5661d2d1a26b9e43}{struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Count}}}
+\label{structstruct__CO__Data_51a0927cdf730eca5661d2d1a26b9e43}
+
+
+
+
+Definition at line 69 of file data.h.\hypertarget{structstruct__CO__Data_928052654c25135aab556909845fa8ea}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ConsumerHeartbeatEntries@{ConsumerHeartbeatEntries}}
+\index{ConsumerHeartbeatEntries@{ConsumerHeartbeatEntries}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ConsumerHeartbeatEntries]{\setlength{\rightskip}{0pt plus 5cm}UNS32$\ast$ \hyperlink{structstruct__CO__Data_928052654c25135aab556909845fa8ea}{struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Entries}}}
+\label{structstruct__CO__Data_928052654c25135aab556909845fa8ea}
+
+
+
+
+Definition at line 70 of file data.h.\hypertarget{structstruct__CO__Data_e0b1fd1bec517c2bc12c5a4fd72adca6}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ConsumerHeartBeatTimers@{ConsumerHeartBeatTimers}}
+\index{ConsumerHeartBeatTimers@{ConsumerHeartBeatTimers}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ConsumerHeartBeatTimers]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE$\ast$ \hyperlink{structstruct__CO__Data_e0b1fd1bec517c2bc12c5a4fd72adca6}{struct\_\-CO\_\-Data::Consumer\-Heart\-Beat\-Timers}}}
+\label{structstruct__CO__Data_e0b1fd1bec517c2bc12c5a4fd72adca6}
+
+
+
+
+Definition at line 71 of file data.h.\hypertarget{structstruct__CO__Data_61d5500b982867b523baf6668a2c377d}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ProducerHeartBeatTime@{ProducerHeartBeatTime}}
+\index{ProducerHeartBeatTime@{ProducerHeartBeatTime}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ProducerHeartBeatTime]{\setlength{\rightskip}{0pt plus 5cm}UNS16$\ast$ \hyperlink{structstruct__CO__Data_61d5500b982867b523baf6668a2c377d}{struct\_\-CO\_\-Data::Producer\-Heart\-Beat\-Time}}}
+\label{structstruct__CO__Data_61d5500b982867b523baf6668a2c377d}
+
+
+
+
+Definition at line 72 of file data.h.\hypertarget{structstruct__CO__Data_914dd3ff14e15217fe67c0804200a200}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!ProducerHeartBeatTimer@{ProducerHeartBeatTimer}}
+\index{ProducerHeartBeatTimer@{ProducerHeartBeatTimer}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[ProducerHeartBeatTimer]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE \hyperlink{structstruct__CO__Data_914dd3ff14e15217fe67c0804200a200}{struct\_\-CO\_\-Data::Producer\-Heart\-Beat\-Timer}}}
+\label{structstruct__CO__Data_914dd3ff14e15217fe67c0804200a200}
+
+
+
+
+Definition at line 73 of file data.h.\hypertarget{structstruct__CO__Data_2ec2bc87656945d2c7dda7ebe662b245}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!heartbeatError@{heartbeatError}}
+\index{heartbeatError@{heartbeatError}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[heartbeatError]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}{heartbeat\-Error\_\-t} \hyperlink{structstruct__CO__Data_2ec2bc87656945d2c7dda7ebe662b245}{struct\_\-CO\_\-Data::heartbeat\-Error}}}
+\label{structstruct__CO__Data_2ec2bc87656945d2c7dda7ebe662b245}
+
+
+
+
+Definition at line 74 of file data.h.\hypertarget{structstruct__CO__Data_40414cf320a3c3d6236790bd10b4301a}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!NMTable@{NMTable}}
+\index{NMTable@{NMTable}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[NMTable]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} \hyperlink{structstruct__CO__Data_40414cf320a3c3d6236790bd10b4301a}{struct\_\-CO\_\-Data::NMTable}\mbox{[}NMT\_\-MAX\_\-NODE\_\-ID\mbox{]}}}
+\label{structstruct__CO__Data_40414cf320a3c3d6236790bd10b4301a}
+
+
+
+
+Definition at line 75 of file data.h.\hypertarget{structstruct__CO__Data_b8e7a429eb6e0bca2429685725516fe8}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!syncTimer@{syncTimer}}
+\index{syncTimer@{syncTimer}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[syncTimer]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE \hyperlink{structstruct__CO__Data_b8e7a429eb6e0bca2429685725516fe8}{struct\_\-CO\_\-Data::sync\-Timer}}}
+\label{structstruct__CO__Data_b8e7a429eb6e0bca2429685725516fe8}
+
+
+
+
+Definition at line 78 of file data.h.\hypertarget{structstruct__CO__Data_eb1479220ec68407a35635bfbffa3386}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!COB_ID_Sync@{COB\_\-ID\_\-Sync}}
+\index{COB_ID_Sync@{COB\_\-ID\_\-Sync}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[COB\_\-ID\_\-Sync]{\setlength{\rightskip}{0pt plus 5cm}UNS32$\ast$ \hyperlink{structstruct__CO__Data_eb1479220ec68407a35635bfbffa3386}{struct\_\-CO\_\-Data::COB\_\-ID\_\-Sync}}}
+\label{structstruct__CO__Data_eb1479220ec68407a35635bfbffa3386}
+
+
+
+
+Definition at line 79 of file data.h.\hypertarget{structstruct__CO__Data_2dddbef6ce165dca7ff916e2e1409142}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!Sync_Cycle_Period@{Sync\_\-Cycle\_\-Period}}
+\index{Sync_Cycle_Period@{Sync\_\-Cycle\_\-Period}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[Sync\_\-Cycle\_\-Period]{\setlength{\rightskip}{0pt plus 5cm}UNS32$\ast$ \hyperlink{structstruct__CO__Data_2dddbef6ce165dca7ff916e2e1409142}{struct\_\-CO\_\-Data::Sync\_\-Cycle\_\-Period}}}
+\label{structstruct__CO__Data_2dddbef6ce165dca7ff916e2e1409142}
+
+
+
+
+Definition at line 80 of file data.h.\hypertarget{structstruct__CO__Data_7eeaefe180dfceca6e829a0a8018f342}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!post_sync@{post\_\-sync}}
+\index{post_sync@{post\_\-sync}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[post\_\-sync]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{sync_8h_8a0b5b8c19b375ef1c985caa120f3274}{post\_\-sync\_\-t} \hyperlink{structstruct__CO__Data_7eeaefe180dfceca6e829a0a8018f342}{struct\_\-CO\_\-Data::post\_\-sync}}}
+\label{structstruct__CO__Data_7eeaefe180dfceca6e829a0a8018f342}
+
+
+
+
+Definition at line 82 of file data.h.\hypertarget{structstruct__CO__Data_0cf540e2e36e14c04e1c783dc88d9a0e}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!post_TPDO@{post\_\-TPDO}}
+\index{post_TPDO@{post\_\-TPDO}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[post\_\-TPDO]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{sync_8h_b9bc4632750ad12f918aa22a1eb7756b}{post\_\-TPDO\_\-t} \hyperlink{structstruct__CO__Data_0cf540e2e36e14c04e1c783dc88d9a0e}{struct\_\-CO\_\-Data::post\_\-TPDO}}}
+\label{structstruct__CO__Data_0cf540e2e36e14c04e1c783dc88d9a0e}
+
+
+
+
+Definition at line 83 of file data.h.\hypertarget{structstruct__CO__Data_26f4d508a9e409f2ace9c8c55d92d826}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!process_var@{process\_\-var}}
+\index{process_var@{process\_\-var}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[process\_\-var]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structstruct__s__process__var}{s\_\-process\_\-var} \hyperlink{structstruct__CO__Data_26f4d508a9e409f2ace9c8c55d92d826}{struct\_\-CO\_\-Data::process\_\-var}}}
+\label{structstruct__CO__Data_26f4d508a9e409f2ace9c8c55d92d826}
+
+
+
+
+Definition at line 86 of file data.h.\hypertarget{structstruct__CO__Data_01f012ef56b614a9519530433b01054f}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!toggle@{toggle}}
+\index{toggle@{toggle}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[toggle]{\setlength{\rightskip}{0pt plus 5cm}UNS8 \hyperlink{structstruct__CO__Data_01f012ef56b614a9519530433b01054f}{struct\_\-CO\_\-Data::toggle}}}
+\label{structstruct__CO__Data_01f012ef56b614a9519530433b01054f}
+
+
+
+
+Definition at line 89 of file data.h.\hypertarget{structstruct__CO__Data_c960c3c56e8389105c2853cfb393de0c}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!canHandle@{canHandle}}
+\index{canHandle@{canHandle}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[canHandle]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{structstruct__CO__Data_c960c3c56e8389105c2853cfb393de0c}{struct\_\-CO\_\-Data::can\-Handle}}}
+\label{structstruct__CO__Data_c960c3c56e8389105c2853cfb393de0c}
+
+
+
+
+Definition at line 90 of file data.h.\hypertarget{structstruct__CO__Data_1863bd74fef91ec89b4c1ff0bee2dfbf}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!scanIndexOD@{scanIndexOD}}
+\index{scanIndexOD@{scanIndexOD}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[scanIndexOD]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{objdictdef_8h_a844575e4d9c9870137121bf0fb241fb}{scan\-Index\-OD\_\-t} \hyperlink{structstruct__CO__Data_1863bd74fef91ec89b4c1ff0bee2dfbf}{struct\_\-CO\_\-Data::scan\-Index\-OD}}}
+\label{structstruct__CO__Data_1863bd74fef91ec89b4c1ff0bee2dfbf}
+
+
+
+
+Definition at line 91 of file data.h.\hypertarget{structstruct__CO__Data_d6cd6ffa658b1ed35d887b6bacb990cf}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!storeODSubIndex@{storeODSubIndex}}
+\index{storeODSubIndex@{storeODSubIndex}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[storeODSubIndex]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}{store\-ODSub\-Index\_\-t} \hyperlink{structstruct__CO__Data_d6cd6ffa658b1ed35d887b6bacb990cf}{struct\_\-CO\_\-Data::store\-ODSub\-Index}}}
+\label{structstruct__CO__Data_d6cd6ffa658b1ed35d887b6bacb990cf}
+
+
+
+
+Definition at line 92 of file data.h.\hypertarget{structstruct__CO__Data_de0a65bcf0cb16fd4dafe4d866655aab}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!dcf_cursor@{dcf\_\-cursor}}
+\index{dcf_cursor@{dcf\_\-cursor}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[dcf\_\-cursor]{\setlength{\rightskip}{0pt plus 5cm}UNS8$\ast$ \hyperlink{structstruct__CO__Data_de0a65bcf0cb16fd4dafe4d866655aab}{struct\_\-CO\_\-Data::dcf\_\-cursor}}}
+\label{structstruct__CO__Data_de0a65bcf0cb16fd4dafe4d866655aab}
+
+
+
+
+Definition at line 95 of file data.h.\hypertarget{structstruct__CO__Data_0a588710c53092b75cfe284ca7d9ccff}{
+\index{struct_CO_Data@{struct\_\-CO\_\-Data}!dcf_count_targets@{dcf\_\-count\_\-targets}}
+\index{dcf_count_targets@{dcf\_\-count\_\-targets}!struct_CO_Data@{struct\_\-CO\_\-Data}}
+\subsubsection[dcf\_\-count\_\-targets]{\setlength{\rightskip}{0pt plus 5cm}UNS32 \hyperlink{structstruct__CO__Data_0a588710c53092b75cfe284ca7d9ccff}{struct\_\-CO\_\-Data::dcf\_\-count\_\-targets}}}
+\label{structstruct__CO__Data_0a588710c53092b75cfe284ca7d9ccff}
+
+
+
+
+Definition at line 96 of file data.h.
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+/home/epimerde/documents/tc11/Can\-Festival-3/include/\hyperlink{data_8h}{data.h}\end{CompactItemize}

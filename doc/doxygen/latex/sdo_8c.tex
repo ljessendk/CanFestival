@@ -1,0 +1,496 @@
+\hypertarget{sdo_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/src/sdo.c File Reference}
+\label{sdo_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/src/sdo.c@{/home/epimerde/documents/tc11/CanFestival-3/src/sdo.c}}
+}
+{\tt \#include \char`\"{}objacces.h\char`\"{}}\par
+{\tt \#include \char`\"{}sdo.h\char`\"{}}\par
+{\tt \#include \char`\"{}canfestival.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{sdo_8c_b5ce7bd7fe4169a9f709815f03f9870b}{NO\_\-INLINE}
+\item 
+\#define \hyperlink{sdo_8c_2eb6f9e0395b47b8d5e3eeae4fe0c116}{INLINE}
+\item 
+\#define \hyperlink{sdo_8c_ce5a1634ff4089db3b228cdd5010c321}{get\-SDOcs}(byte)~(byte $>$$>$ 5)
+\item 
+\#define \hyperlink{sdo_8c_dfd3877d80f6b903b491a115e587bd14}{get\-SDOn2}(byte)~((byte $>$$>$ 2) \& 3)
+\item 
+\#define \hyperlink{sdo_8c_e5677ca12bfb71b06cbd6e99e9be0955}{get\-SDOn3}(byte)~((byte $>$$>$ 1) \& 7)
+\item 
+\#define \hyperlink{sdo_8c_cf60675f20de8746e279dce3a5c8e3c6}{get\-SDOe}(byte)~((byte $>$$>$ 1) \& 1)
+\item 
+\#define \hyperlink{sdo_8c_f7f9e9bc3d59c9772d4c767b199dcf89}{get\-SDOs}(byte)~(byte \& 1)
+\item 
+\#define \hyperlink{sdo_8c_e5a2dafe8497bff1fd88f881ea74414d}{get\-SDOc}(byte)~(byte \& 1)
+\item 
+\#define \hyperlink{sdo_8c_464b29fd628d92426de0a841232bdd12}{get\-SDOt}(byte)~((byte $>$$>$ 4) \& 1)
+\item 
+\#define \hyperlink{sdo_8c_d9b34e26bf67f1251f3bb364756e17f1}{get\-SDOindex}(byte1, byte2)~((byte2 $<$$<$ 8) $|$ (byte1))
+\item 
+\#define \hyperlink{sdo_8c_52a96f6fa6083f6b291133135b7155a8}{get\-SDOsub\-Index}(byte3)~(byte3)
+\item 
+\#define \hyperlink{sdo_8c_b90f05aac908e8eee39a34b3e21e0ea9}{Stop\-SDO\_\-TIMER}(id)
+\item 
+\#define \hyperlink{sdo_8c_c1e9eb7a28803b958d298b6997cc60ca}{Start\-SDO\_\-TIMER}(id)
+\item 
+\#define \hyperlink{sdo_8c_b3938a9884014e96cafc42aeee743c0f}{Restart\-SDO\_\-TIMER}(id)
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+INLINE UNS8 \hyperlink{sdo_8c_3c07605ffe3ea197aa36e583ef87a20a}{\_\-write\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 count, UNS8 data\-Type, void $\ast$data, SDOCallback\_\-t Callback, UNS8 endianize)
+\item 
+INLINE UNS8 \hyperlink{sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270}{\_\-read\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 data\-Type, SDOCallback\_\-t Callback)
+\item 
+void \hyperlink{sdo_8c_9309025e29b59e09026abcd3b45a5b61}{SDOTimeout\-Alarm} (CO\_\-Data $\ast$d, UNS32 id)
+\item 
+void \hyperlink{sdo_8c_1f4f07eccc4890a11ccf4f632da7740b}{reset\-SDO} (CO\_\-Data $\ast$d)
+\item 
+UNS32 \hyperlink{sdo_8c_2eb5309dca3a7363da5e5e7230b85d58}{SDOline\-To\-Objdict} (CO\_\-Data $\ast$d, UNS8 line)
+\item 
+UNS32 \hyperlink{sdo_8c_29427a80fd1aeabff30bf0602fbc220f}{objdict\-To\-SDOline} (CO\_\-Data $\ast$d, UNS8 line)
+\item 
+UNS8 \hyperlink{sdo_8c_ad6eb8be03b832ebba4dfb87aaba4065}{line\-To\-SDO} (CO\_\-Data $\ast$d, UNS8 line, UNS8 nb\-Bytes, UNS8 $\ast$data)
+\item 
+UNS8 \hyperlink{sdo_8c_18b6f7e9c9441640a88ffef1e8720694}{SDOto\-Line} (CO\_\-Data $\ast$d, UNS8 line, UNS8 nb\-Bytes, UNS8 $\ast$data)
+\item 
+UNS8 \hyperlink{sdo_8c_2019db2a4d17e6d29c055cbae173e2b9}{failed\-SDO} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS8 whoami, UNS16 index, UNS8 sub\-Index, UNS32 abort\-Code)
+\item 
+void \hyperlink{sdo_8c_42d33be015d4c4c83c73f1f0e588f481}{reset\-SDOline} (CO\_\-Data $\ast$d, UNS8 line)
+\item 
+UNS8 \hyperlink{sdo_8c_b9c873a15f55b29112b5527a6cc6898d}{init\-SDOline} (CO\_\-Data $\ast$d, UNS8 line, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 state)
+\item 
+UNS8 \hyperlink{sdo_8c_58d1f9691977617601beb9e5b4123252}{get\-SDOfree\-Line} (CO\_\-Data $\ast$d, UNS8 whoami, UNS8 $\ast$line)
+\item 
+UNS8 \hyperlink{sdo_8c_bb0c376b048ab2c6e0524b135b62376f}{get\-SDOline\-On\-Use} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS8 whoami, UNS8 $\ast$line)
+\item 
+UNS8 \hyperlink{sdo_8c_555a772d3a88a29c495f33513f8b2d58}{close\-SDOtransfer} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS8 whoami)
+\item 
+UNS8 \hyperlink{sdo_8c_acceb714c6e457e98deb9ba164ba2a2f}{get\-SDOline\-Rest\-Bytes} (CO\_\-Data $\ast$d, UNS8 line, UNS8 $\ast$nb\-Bytes)
+\item 
+UNS8 \hyperlink{sdo_8c_601a837ecb5f21bf4c66b058c5ae7810}{set\-SDOline\-Rest\-Bytes} (CO\_\-Data $\ast$d, UNS8 line, UNS8 nb\-Bytes)
+\item 
+UNS8 \hyperlink{sdo_8c_c6b5d7d1439d537da992a96644a1ca5d}{send\-SDO} (CO\_\-Data $\ast$d, UNS8 whoami, s\_\-SDO sdo)
+\item 
+UNS8 \hyperlink{sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c}{send\-SDOabort} (CO\_\-Data $\ast$d, UNS8 whoami, UNS16 index, UNS8 sub\-Index, UNS32 abort\-Code)
+\item 
+UNS8 \hyperlink{sdo_8c_2a93a7c780472b1d8666d89aa270f661}{proceed\-SDO} (CO\_\-Data $\ast$d, Message $\ast$m)
+\item 
+UNS8 \hyperlink{sdo_8c_bc20ed246e00053dcf71faa8f45ee39c}{write\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 count, UNS8 data\-Type, void $\ast$data)
+\item 
+UNS8 \hyperlink{sdo_8c_f4ec05293fb8971a1b282994498ed4f5}{write\-Network\-Dict\-Call\-Back} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 count, UNS8 data\-Type, void $\ast$data, SDOCallback\_\-t Callback)
+\item 
+UNS8 \hyperlink{sdo_8c_0e102a0835e4115920cd406e80a8d135}{read\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 data\-Type)
+\item 
+UNS8 \hyperlink{sdo_8c_542a5cdd20c00aa130a39fe68295e769}{read\-Network\-Dict\-Callback} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS16 index, UNS8 sub\-Index, UNS8 data\-Type, SDOCallback\_\-t Callback)
+\item 
+UNS8 \hyperlink{sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533}{get\-Read\-Result\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, void $\ast$data, UNS8 $\ast$size, UNS32 $\ast$abort\-Code)
+\item 
+UNS8 \hyperlink{sdo_8c_8671e306873f19362c60bb50ab930d1d}{get\-Write\-Result\-Network\-Dict} (CO\_\-Data $\ast$d, UNS8 node\-Id, UNS32 $\ast$abort\-Code)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{sdo_8c_e5a2dafe8497bff1fd88f881ea74414d}{
+\index{sdo.c@{sdo.c}!getSDOc@{getSDOc}}
+\index{getSDOc@{getSDOc}!sdo.c@{sdo.c}}
+\subsubsection[getSDOc]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOc(byte)~(byte \& 1)}}
+\label{sdo_8c_e5a2dafe8497bff1fd88f881ea74414d}
+
+
+Returns the indicator of end transmission from the first byte of the SDO 
+
+Definition at line 75 of file sdo.c.\hypertarget{sdo_8c_ce5a1634ff4089db3b228cdd5010c321}{
+\index{sdo.c@{sdo.c}!getSDOcs@{getSDOcs}}
+\index{getSDOcs@{getSDOcs}!sdo.c@{sdo.c}}
+\subsubsection[getSDOcs]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOcs(byte)~(byte $>$$>$ 5)}}
+\label{sdo_8c_ce5a1634ff4089db3b228cdd5010c321}
+
+
+Returns the command specifier (cs, ccs, scs) from the first byte of the SDO 
+
+Definition at line 55 of file sdo.c.\hypertarget{sdo_8c_cf60675f20de8746e279dce3a5c8e3c6}{
+\index{sdo.c@{sdo.c}!getSDOe@{getSDOe}}
+\index{getSDOe@{getSDOe}!sdo.c@{sdo.c}}
+\subsubsection[getSDOe]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOe(byte)~((byte $>$$>$ 1) \& 1)}}
+\label{sdo_8c_cf60675f20de8746e279dce3a5c8e3c6}
+
+
+Returns the transfer type from the first byte of the SDO 
+
+Definition at line 67 of file sdo.c.\hypertarget{sdo_8c_d9b34e26bf67f1251f3bb364756e17f1}{
+\index{sdo.c@{sdo.c}!getSDOindex@{getSDOindex}}
+\index{getSDOindex@{getSDOindex}!sdo.c@{sdo.c}}
+\subsubsection[getSDOindex]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOindex(byte1, byte2)~((byte2 $<$$<$ 8) $|$ (byte1))}}
+\label{sdo_8c_d9b34e26bf67f1251f3bb364756e17f1}
+
+
+Returns the index from the bytes 1 and 2 of the SDO 
+
+Definition at line 83 of file sdo.c.\hypertarget{sdo_8c_dfd3877d80f6b903b491a115e587bd14}{
+\index{sdo.c@{sdo.c}!getSDOn2@{getSDOn2}}
+\index{getSDOn2@{getSDOn2}!sdo.c@{sdo.c}}
+\subsubsection[getSDOn2]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOn2(byte)~((byte $>$$>$ 2) \& 3)}}
+\label{sdo_8c_dfd3877d80f6b903b491a115e587bd14}
+
+
+Returns the number of bytes without data from the first byte of the SDO. Coded in 2 bits 
+
+Definition at line 59 of file sdo.c.\hypertarget{sdo_8c_e5677ca12bfb71b06cbd6e99e9be0955}{
+\index{sdo.c@{sdo.c}!getSDOn3@{getSDOn3}}
+\index{getSDOn3@{getSDOn3}!sdo.c@{sdo.c}}
+\subsubsection[getSDOn3]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOn3(byte)~((byte $>$$>$ 1) \& 7)}}
+\label{sdo_8c_e5677ca12bfb71b06cbd6e99e9be0955}
+
+
+Returns the number of bytes without data from the first byte of the SDO. Coded in 3 bits 
+
+Definition at line 63 of file sdo.c.\hypertarget{sdo_8c_f7f9e9bc3d59c9772d4c767b199dcf89}{
+\index{sdo.c@{sdo.c}!getSDOs@{getSDOs}}
+\index{getSDOs@{getSDOs}!sdo.c@{sdo.c}}
+\subsubsection[getSDOs]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOs(byte)~(byte \& 1)}}
+\label{sdo_8c_f7f9e9bc3d59c9772d4c767b199dcf89}
+
+
+Returns the size indicator from the first byte of the SDO 
+
+Definition at line 71 of file sdo.c.\hypertarget{sdo_8c_52a96f6fa6083f6b291133135b7155a8}{
+\index{sdo.c@{sdo.c}!getSDOsubIndex@{getSDOsubIndex}}
+\index{getSDOsubIndex@{getSDOsubIndex}!sdo.c@{sdo.c}}
+\subsubsection[getSDOsubIndex]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOsub\-Index(byte3)~(byte3)}}
+\label{sdo_8c_52a96f6fa6083f6b291133135b7155a8}
+
+
+Returns the sub\-Index from the byte 3 of the SDO 
+
+Definition at line 88 of file sdo.c.\hypertarget{sdo_8c_464b29fd628d92426de0a841232bdd12}{
+\index{sdo.c@{sdo.c}!getSDOt@{getSDOt}}
+\index{getSDOt@{getSDOt}!sdo.c@{sdo.c}}
+\subsubsection[getSDOt]{\setlength{\rightskip}{0pt plus 5cm}\#define get\-SDOt(byte)~((byte $>$$>$ 4) \& 1)}}
+\label{sdo_8c_464b29fd628d92426de0a841232bdd12}
+
+
+Returns the toggle from the first byte of the SDO 
+
+Definition at line 79 of file sdo.c.\hypertarget{sdo_8c_2eb6f9e0395b47b8d5e3eeae4fe0c116}{
+\index{sdo.c@{sdo.c}!INLINE@{INLINE}}
+\index{INLINE@{INLINE}!sdo.c@{sdo.c}}
+\subsubsection[INLINE]{\setlength{\rightskip}{0pt plus 5cm}\#define INLINE}}
+\label{sdo_8c_2eb6f9e0395b47b8d5e3eeae4fe0c116}
+
+
+
+
+Definition at line 34 of file sdo.c.\hypertarget{sdo_8c_b5ce7bd7fe4169a9f709815f03f9870b}{
+\index{sdo.c@{sdo.c}!NO_INLINE@{NO\_\-INLINE}}
+\index{NO_INLINE@{NO\_\-INLINE}!sdo.c@{sdo.c}}
+\subsubsection[NO\_\-INLINE]{\setlength{\rightskip}{0pt plus 5cm}\#define NO\_\-INLINE}}
+\label{sdo_8c_b5ce7bd7fe4169a9f709815f03f9870b}
+
+
+
+
+Definition at line 31 of file sdo.c.\hypertarget{sdo_8c_b3938a9884014e96cafc42aeee743c0f}{
+\index{sdo.c@{sdo.c}!RestartSDO_TIMER@{RestartSDO\_\-TIMER}}
+\index{RestartSDO_TIMER@{RestartSDO\_\-TIMER}!sdo.c@{sdo.c}}
+\subsubsection[RestartSDO\_\-TIMER]{\setlength{\rightskip}{0pt plus 5cm}\#define Restart\-SDO\_\-TIMER(id)}}
+\label{sdo_8c_b3938a9884014e96cafc42aeee743c0f}
+
+
+\textbf{Value:}
+
+\begin{Code}\begin{verbatim}MSG_WAR(0x3A07, "restartSDO_TIMER for line : ", line);\
+if(d->transfers[id].timer != TIMER_NONE) { StopSDO_TIMER(id) StartSDO_TIMER(id) }
+\end{verbatim}\end{Code}
+
+
+Definition at line 124 of file sdo.c.\hypertarget{sdo_8c_c1e9eb7a28803b958d298b6997cc60ca}{
+\index{sdo.c@{sdo.c}!StartSDO_TIMER@{StartSDO\_\-TIMER}}
+\index{StartSDO_TIMER@{StartSDO\_\-TIMER}!sdo.c@{sdo.c}}
+\subsubsection[StartSDO\_\-TIMER]{\setlength{\rightskip}{0pt plus 5cm}\#define Start\-SDO\_\-TIMER(id)}}
+\label{sdo_8c_c1e9eb7a28803b958d298b6997cc60ca}
+
+
+\textbf{Value:}
+
+\begin{Code}\begin{verbatim}MSG_WAR(0x3A06, "StartSDO_TIMER for line : ", line);\
+d->transfers[id].timer = SetAlarm(d,id,&SDOTimeoutAlarm,MS_TO_TIMEVAL(SDO_TIMEOUT_MS),0);
+\end{verbatim}\end{Code}
+
+
+Definition at line 120 of file sdo.c.\hypertarget{sdo_8c_b90f05aac908e8eee39a34b3e21e0ea9}{
+\index{sdo.c@{sdo.c}!StopSDO_TIMER@{StopSDO\_\-TIMER}}
+\index{StopSDO_TIMER@{StopSDO\_\-TIMER}!sdo.c@{sdo.c}}
+\subsubsection[StopSDO\_\-TIMER]{\setlength{\rightskip}{0pt plus 5cm}\#define Stop\-SDO\_\-TIMER(id)}}
+\label{sdo_8c_b90f05aac908e8eee39a34b3e21e0ea9}
+
+
+\textbf{Value:}
+
+\begin{Code}\begin{verbatim}MSG_WAR(0x3A05, "StopSDO_TIMER for line : ", line);\
+d->transfers[id].timer = DelAlarm(d->transfers[id].timer);
+\end{verbatim}\end{Code}
+
+
+Definition at line 116 of file sdo.c.
+
+\subsection{Function Documentation}
+\hypertarget{sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270}{
+\index{sdo.c@{sdo.c}!_readNetworkDict@{\_\-readNetworkDict}}
+\index{_readNetworkDict@{\_\-readNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[\_\-readNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}INLINE UNS8 \_\-read\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em data\-Type}, SDOCallback\_\-t {\em Callback})}}
+\label{sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270}
+
+
+Called by read\-Network\-Dict 
+
+Definition at line 1198 of file sdo.c.
+
+References get\-SDOfree\-Line(), get\-SDOline\-On\-Use(), init\-SDOline(), reset\-SDOline(), and send\-SDO().\hypertarget{sdo_8c_3c07605ffe3ea197aa36e583ef87a20a}{
+\index{sdo.c@{sdo.c}!_writeNetworkDict@{\_\-writeNetworkDict}}
+\index{_writeNetworkDict@{\_\-writeNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[\_\-writeNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}INLINE UNS8 \_\-write\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em count}, UNS8 {\em data\-Type}, void $\ast$ {\em data}, SDOCallback\_\-t {\em Callback}, UNS8 {\em endianize})}}
+\label{sdo_8c_3c07605ffe3ea197aa36e583ef87a20a}
+
+
+Called by write\-Network\-Dict \hypertarget{sdo_8c_555a772d3a88a29c495f33513f8b2d58}{
+\index{sdo.c@{sdo.c}!closeSDOtransfer@{closeSDOtransfer}}
+\index{closeSDOtransfer@{closeSDOtransfer}!sdo.c@{sdo.c}}
+\subsubsection[closeSDOtransfer]{\setlength{\rightskip}{0pt plus 5cm}UNS8 close\-SDOtransfer (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS8 {\em whoami})}}
+\label{sdo_8c_555a772d3a88a29c495f33513f8b2d58}
+
+
+
+
+Definition at line 318 of file sdo.c.
+
+References get\-SDOline\-On\-Use(), and reset\-SDOline().\hypertarget{sdo_8c_2019db2a4d17e6d29c055cbae173e2b9}{
+\index{sdo.c@{sdo.c}!failedSDO@{failedSDO}}
+\index{failedSDO@{failedSDO}!sdo.c@{sdo.c}}
+\subsubsection[failedSDO]{\setlength{\rightskip}{0pt plus 5cm}UNS8 failed\-SDO (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS8 {\em whoami}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS32 {\em abort\-Code})}}
+\label{sdo_8c_2019db2a4d17e6d29c055cbae173e2b9}
+
+
+
+
+Definition at line 227 of file sdo.c.
+
+References get\-SDOline\-On\-Use(), reset\-SDOline(), send\-SDOabort(), and Stop\-SDO\_\-TIMER.\hypertarget{sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533}{
+\index{sdo.c@{sdo.c}!getReadResultNetworkDict@{getReadResultNetworkDict}}
+\index{getReadResultNetworkDict@{getReadResultNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[getReadResultNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}UNS8 get\-Read\-Result\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, void $\ast$ {\em data}, UNS8 $\ast$ {\em size}, UNS32 $\ast$ {\em abort\-Code})}}
+\label{sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533}
+
+
+
+
+Definition at line 1295 of file sdo.c.
+
+References get\-SDOline\-On\-Use().\hypertarget{sdo_8c_58d1f9691977617601beb9e5b4123252}{
+\index{sdo.c@{sdo.c}!getSDOfreeLine@{getSDOfreeLine}}
+\index{getSDOfreeLine@{getSDOfreeLine}!sdo.c@{sdo.c}}
+\subsubsection[getSDOfreeLine]{\setlength{\rightskip}{0pt plus 5cm}UNS8 get\-SDOfree\-Line (CO\_\-Data $\ast$ {\em d}, UNS8 {\em whoami}, UNS8 $\ast$ {\em line})}}
+\label{sdo_8c_58d1f9691977617601beb9e5b4123252}
+
+
+
+
+Definition at line 284 of file sdo.c.\hypertarget{sdo_8c_bb0c376b048ab2c6e0524b135b62376f}{
+\index{sdo.c@{sdo.c}!getSDOlineOnUse@{getSDOlineOnUse}}
+\index{getSDOlineOnUse@{getSDOlineOnUse}!sdo.c@{sdo.c}}
+\subsubsection[getSDOlineOnUse]{\setlength{\rightskip}{0pt plus 5cm}UNS8 get\-SDOline\-On\-Use (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS8 {\em whoami}, UNS8 $\ast$ {\em line})}}
+\label{sdo_8c_bb0c376b048ab2c6e0524b135b62376f}
+
+
+
+
+Definition at line 301 of file sdo.c.\hypertarget{sdo_8c_acceb714c6e457e98deb9ba164ba2a2f}{
+\index{sdo.c@{sdo.c}!getSDOlineRestBytes@{getSDOlineRestBytes}}
+\index{getSDOlineRestBytes@{getSDOlineRestBytes}!sdo.c@{sdo.c}}
+\subsubsection[getSDOlineRestBytes]{\setlength{\rightskip}{0pt plus 5cm}UNS8 get\-SDOline\-Rest\-Bytes (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line}, UNS8 $\ast$ {\em nb\-Bytes})}}
+\label{sdo_8c_acceb714c6e457e98deb9ba164ba2a2f}
+
+
+
+
+Definition at line 332 of file sdo.c.\hypertarget{sdo_8c_8671e306873f19362c60bb50ab930d1d}{
+\index{sdo.c@{sdo.c}!getWriteResultNetworkDict@{getWriteResultNetworkDict}}
+\index{getWriteResultNetworkDict@{getWriteResultNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[getWriteResultNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}UNS8 get\-Write\-Result\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS32 $\ast$ {\em abort\-Code})}}
+\label{sdo_8c_8671e306873f19362c60bb50ab930d1d}
+
+
+
+
+Definition at line 1329 of file sdo.c.
+
+References get\-SDOline\-On\-Use().\hypertarget{sdo_8c_b9c873a15f55b29112b5527a6cc6898d}{
+\index{sdo.c@{sdo.c}!initSDOline@{initSDOline}}
+\index{initSDOline@{initSDOline}!sdo.c@{sdo.c}}
+\subsubsection[initSDOline]{\setlength{\rightskip}{0pt plus 5cm}UNS8 init\-SDOline (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em state})}}
+\label{sdo_8c_b9c873a15f55b29112b5527a6cc6898d}
+
+
+
+
+Definition at line 263 of file sdo.c.
+
+References Start\-SDO\_\-TIMER, and Stop\-SDO\_\-TIMER.\hypertarget{sdo_8c_ad6eb8be03b832ebba4dfb87aaba4065}{
+\index{sdo.c@{sdo.c}!lineToSDO@{lineToSDO}}
+\index{lineToSDO@{lineToSDO}!sdo.c@{sdo.c}}
+\subsubsection[lineToSDO]{\setlength{\rightskip}{0pt plus 5cm}UNS8 line\-To\-SDO (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line}, UNS8 {\em nb\-Bytes}, UNS8 $\ast$ {\em data})}}
+\label{sdo_8c_ad6eb8be03b832ebba4dfb87aaba4065}
+
+
+
+
+Definition at line 189 of file sdo.c.\hypertarget{sdo_8c_29427a80fd1aeabff30bf0602fbc220f}{
+\index{sdo.c@{sdo.c}!objdictToSDOline@{objdictToSDOline}}
+\index{objdictToSDOline@{objdictToSDOline}!sdo.c@{sdo.c}}
+\subsubsection[objdictToSDOline]{\setlength{\rightskip}{0pt plus 5cm}UNS32 objdict\-To\-SDOline (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line})}}
+\label{sdo_8c_29427a80fd1aeabff30bf0602fbc220f}
+
+
+
+
+Definition at line 157 of file sdo.c.
+
+References get\-ODentry().\hypertarget{sdo_8c_2a93a7c780472b1d8666d89aa270f661}{
+\index{sdo.c@{sdo.c}!proceedSDO@{proceedSDO}}
+\index{proceedSDO@{proceedSDO}!sdo.c@{sdo.c}}
+\subsubsection[proceedSDO]{\setlength{\rightskip}{0pt plus 5cm}UNS8 proceed\-SDO (CO\_\-Data $\ast$ {\em d}, Message $\ast$ {\em m})}}
+\label{sdo_8c_2a93a7c780472b1d8666d89aa270f661}
+
+
+
+
+Definition at line 447 of file sdo.c.
+
+References failed\-SDO(), get\-SDOc, get\-SDOcs, get\-SDOe, get\-SDOfree\-Line(), get\-SDOindex, get\-SDOline\-On\-Use(), get\-SDOline\-Rest\-Bytes(), get\-SDOn2, get\-SDOn3, get\-SDOs, get\-SDOsub\-Index, get\-SDOt, init\-SDOline(), line\-To\-SDO(), objdict\-To\-SDOline(), reset\-SDOline(), Restart\-SDO\_\-TIMER, SDOline\-To\-Objdict(), SDOto\-Line(), send\-SDO(), set\-SDOline\-Rest\-Bytes(), and Stop\-SDO\_\-TIMER.\hypertarget{sdo_8c_0e102a0835e4115920cd406e80a8d135}{
+\index{sdo.c@{sdo.c}!readNetworkDict@{readNetworkDict}}
+\index{readNetworkDict@{readNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[readNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}UNS8 read\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em data\-Type})}}
+\label{sdo_8c_0e102a0835e4115920cd406e80a8d135}
+
+
+
+
+Definition at line 1282 of file sdo.c.
+
+References \_\-read\-Network\-Dict().\hypertarget{sdo_8c_542a5cdd20c00aa130a39fe68295e769}{
+\index{sdo.c@{sdo.c}!readNetworkDictCallback@{readNetworkDictCallback}}
+\index{readNetworkDictCallback@{readNetworkDictCallback}!sdo.c@{sdo.c}}
+\subsubsection[readNetworkDictCallback]{\setlength{\rightskip}{0pt plus 5cm}UNS8 read\-Network\-Dict\-Callback (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em data\-Type}, SDOCallback\_\-t {\em Callback})}}
+\label{sdo_8c_542a5cdd20c00aa130a39fe68295e769}
+
+
+
+
+Definition at line 1288 of file sdo.c.
+
+References \_\-read\-Network\-Dict().\hypertarget{sdo_8c_1f4f07eccc4890a11ccf4f632da7740b}{
+\index{sdo.c@{sdo.c}!resetSDO@{resetSDO}}
+\index{resetSDO@{resetSDO}!sdo.c@{sdo.c}}
+\subsubsection[resetSDO]{\setlength{\rightskip}{0pt plus 5cm}void reset\-SDO (CO\_\-Data $\ast$ {\em d})}}
+\label{sdo_8c_1f4f07eccc4890a11ccf4f632da7740b}
+
+
+Reset all sdo buffers 
+
+Definition at line 131 of file sdo.c.
+
+References reset\-SDOline().\hypertarget{sdo_8c_42d33be015d4c4c83c73f1f0e588f481}{
+\index{sdo.c@{sdo.c}!resetSDOline@{resetSDOline}}
+\index{resetSDOline@{resetSDOline}!sdo.c@{sdo.c}}
+\subsubsection[resetSDOline]{\setlength{\rightskip}{0pt plus 5cm}void reset\-SDOline (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line})}}
+\label{sdo_8c_42d33be015d4c4c83c73f1f0e588f481}
+
+
+
+
+Definition at line 253 of file sdo.c.
+
+References init\-SDOline().\hypertarget{sdo_8c_2eb5309dca3a7363da5e5e7230b85d58}{
+\index{sdo.c@{sdo.c}!SDOlineToObjdict@{SDOlineToObjdict}}
+\index{SDOlineToObjdict@{SDOlineToObjdict}!sdo.c@{sdo.c}}
+\subsubsection[SDOlineToObjdict]{\setlength{\rightskip}{0pt plus 5cm}UNS32 SDOline\-To\-Objdict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line})}}
+\label{sdo_8c_2eb5309dca3a7363da5e5e7230b85d58}
+
+
+
+
+Definition at line 141 of file sdo.c.
+
+References set\-ODentry().\hypertarget{sdo_8c_9309025e29b59e09026abcd3b45a5b61}{
+\index{sdo.c@{sdo.c}!SDOTimeoutAlarm@{SDOTimeoutAlarm}}
+\index{SDOTimeoutAlarm@{SDOTimeoutAlarm}!sdo.c@{sdo.c}}
+\subsubsection[SDOTimeoutAlarm]{\setlength{\rightskip}{0pt plus 5cm}void SDOTimeout\-Alarm (CO\_\-Data $\ast$ {\em d}, UNS32 {\em id})}}
+\label{sdo_8c_9309025e29b59e09026abcd3b45a5b61}
+
+
+
+
+Definition at line 93 of file sdo.c.
+
+References reset\-SDOline(), and send\-SDOabort().\hypertarget{sdo_8c_18b6f7e9c9441640a88ffef1e8720694}{
+\index{sdo.c@{sdo.c}!SDOtoLine@{SDOtoLine}}
+\index{SDOtoLine@{SDOtoLine}!sdo.c@{sdo.c}}
+\subsubsection[SDOtoLine]{\setlength{\rightskip}{0pt plus 5cm}UNS8 SDOto\-Line (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line}, UNS8 {\em nb\-Bytes}, UNS8 $\ast$ {\em data})}}
+\label{sdo_8c_18b6f7e9c9441640a88ffef1e8720694}
+
+
+
+
+Definition at line 210 of file sdo.c.\hypertarget{sdo_8c_c6b5d7d1439d537da992a96644a1ca5d}{
+\index{sdo.c@{sdo.c}!sendSDO@{sendSDO}}
+\index{sendSDO@{sendSDO}!sdo.c@{sdo.c}}
+\subsubsection[sendSDO]{\setlength{\rightskip}{0pt plus 5cm}UNS8 send\-SDO (CO\_\-Data $\ast$ {\em d}, UNS8 {\em whoami}, s\_\-SDO {\em sdo})}}
+\label{sdo_8c_c6b5d7d1439d537da992a96644a1ca5d}
+
+
+
+
+Definition at line 354 of file sdo.c.\hypertarget{sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c}{
+\index{sdo.c@{sdo.c}!sendSDOabort@{sendSDOabort}}
+\index{sendSDOabort@{sendSDOabort}!sdo.c@{sdo.c}}
+\subsubsection[sendSDOabort]{\setlength{\rightskip}{0pt plus 5cm}UNS8 send\-SDOabort (CO\_\-Data $\ast$ {\em d}, UNS8 {\em whoami}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS32 {\em abort\-Code})}}
+\label{sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c}
+
+
+
+
+Definition at line 424 of file sdo.c.
+
+References send\-SDO().\hypertarget{sdo_8c_601a837ecb5f21bf4c66b058c5ae7810}{
+\index{sdo.c@{sdo.c}!setSDOlineRestBytes@{setSDOlineRestBytes}}
+\index{setSDOlineRestBytes@{setSDOlineRestBytes}!sdo.c@{sdo.c}}
+\subsubsection[setSDOlineRestBytes]{\setlength{\rightskip}{0pt plus 5cm}UNS8 set\-SDOline\-Rest\-Bytes (CO\_\-Data $\ast$ {\em d}, UNS8 {\em line}, UNS8 {\em nb\-Bytes})}}
+\label{sdo_8c_601a837ecb5f21bf4c66b058c5ae7810}
+
+
+
+
+Definition at line 342 of file sdo.c.\hypertarget{sdo_8c_bc20ed246e00053dcf71faa8f45ee39c}{
+\index{sdo.c@{sdo.c}!writeNetworkDict@{writeNetworkDict}}
+\index{writeNetworkDict@{writeNetworkDict}!sdo.c@{sdo.c}}
+\subsubsection[writeNetworkDict]{\setlength{\rightskip}{0pt plus 5cm}UNS8 write\-Network\-Dict (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em count}, UNS8 {\em data\-Type}, void $\ast$ {\em data})}}
+\label{sdo_8c_bc20ed246e00053dcf71faa8f45ee39c}
+
+
+
+
+Definition at line 1182 of file sdo.c.
+
+References \_\-write\-Network\-Dict().\hypertarget{sdo_8c_f4ec05293fb8971a1b282994498ed4f5}{
+\index{sdo.c@{sdo.c}!writeNetworkDictCallBack@{writeNetworkDictCallBack}}
+\index{writeNetworkDictCallBack@{writeNetworkDictCallBack}!sdo.c@{sdo.c}}
+\subsubsection[writeNetworkDictCallBack]{\setlength{\rightskip}{0pt plus 5cm}UNS8 write\-Network\-Dict\-Call\-Back (CO\_\-Data $\ast$ {\em d}, UNS8 {\em node\-Id}, UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em count}, UNS8 {\em data\-Type}, void $\ast$ {\em data}, SDOCallback\_\-t {\em Callback})}}
+\label{sdo_8c_f4ec05293fb8971a1b282994498ed4f5}
+
+
+
+
+Definition at line 1190 of file sdo.c.
+
+References \_\-write\-Network\-Dict().

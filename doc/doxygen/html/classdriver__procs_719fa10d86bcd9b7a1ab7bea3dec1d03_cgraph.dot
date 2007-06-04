@@ -1,0 +1,9 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="driver_procs::load_canfestival_driver",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="driver_procs::can_driver_valid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdriver__procs.html#a1e608bb39ab9183961b7ded9f27d193"];
+}

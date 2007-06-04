@@ -1,0 +1,101 @@
+\section{examples/Test\-Master\-Slave/Master.c File Reference}
+\label{Master_8c}\index{examples/TestMasterSlave/Master.c@{examples/TestMasterSlave/Master.c}}
+{\tt \#include \char`\"{}Master.h\char`\"{}}\par
+{\tt \#include \char`\"{}Slave.h\char`\"{}}\par
+{\tt \#include \char`\"{}Test\-Master\-Slave.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void {\bf Test\-Master\_\-heartbeat\-Error} (UNS8 heartbeat\-ID)
+\item 
+void {\bf Test\-Master\_\-initialisation} ()
+\item 
+static void {\bf Configure\-Slave\-Node} ({\bf CO\_\-Data} $\ast$d, UNS8 node\-Id)
+\item 
+static void {\bf Check\-SDOAnd\-Continue} ({\bf CO\_\-Data} $\ast$d, UNS8 node\-Id)
+\item 
+void {\bf Test\-Master\_\-pre\-Operational} ()
+\item 
+void {\bf Test\-Master\_\-operational} ()
+\item 
+void {\bf Test\-Master\_\-stopped} ()
+\item 
+void {\bf Test\-Master\_\-post\_\-sync} ()
+\item 
+void {\bf Test\-Master\_\-post\_\-TPDO} ()
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+static {\bf init\_\-step} = 0
+\item 
+char {\bf query\_\-result} = 0
+\item 
+char {\bf waiting\_\-answer} = 0
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\index{Master.c@{Master.c}!CheckSDOAndContinue@{CheckSDOAndContinue}}
+\index{CheckSDOAndContinue@{CheckSDOAndContinue}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static void Check\-SDOAnd\-Continue ({\bf CO\_\-Data} $\ast$ {\em d}, UNS8 {\em node\-Id})\hspace{0.3cm}{\tt  [static]}}\label{Master_8c_030d780d48bec13bd56374f0c4be26b6}
+
+
+\index{Master.c@{Master.c}!ConfigureSlaveNode@{ConfigureSlaveNode}}
+\index{ConfigureSlaveNode@{ConfigureSlaveNode}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static void Configure\-Slave\-Node ({\bf CO\_\-Data} $\ast$ {\em d}, UNS8 {\em node\-Id})\hspace{0.3cm}{\tt  [static]}}\label{Master_8c_89903ebdfe78bc9cc97e0d142da9b820}
+
+
+\index{Master.c@{Master.c}!TestMaster_heartbeatError@{TestMaster\_\-heartbeatError}}
+\index{TestMaster_heartbeatError@{TestMaster\_\-heartbeatError}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-heartbeat\-Error (UNS8 {\em heartbeat\-ID})}\label{Master_8c_47eb45e75b4db150fb465fcf171ef4b4}
+
+
+\index{Master.c@{Master.c}!TestMaster_initialisation@{TestMaster\_\-initialisation}}
+\index{TestMaster_initialisation@{TestMaster\_\-initialisation}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-initialisation (void)}\label{Master_8c_e08dfb379eebaa62524fac5bba2196d5}
+
+
+\index{Master.c@{Master.c}!TestMaster_operational@{TestMaster\_\-operational}}
+\index{TestMaster_operational@{TestMaster\_\-operational}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-operational (void)}\label{Master_8c_81c297f2b4b9676e906286bf46541fc1}
+
+
+\index{Master.c@{Master.c}!TestMaster_post_sync@{TestMaster\_\-post\_\-sync}}
+\index{TestMaster_post_sync@{TestMaster\_\-post\_\-sync}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-post\_\-sync (void)}\label{Master_8c_9a8f72cab7f649481ca84ab2222dd179}
+
+
+\index{Master.c@{Master.c}!TestMaster_post_TPDO@{TestMaster\_\-post\_\-TPDO}}
+\index{TestMaster_post_TPDO@{TestMaster\_\-post\_\-TPDO}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-post\_\-TPDO (void)}\label{Master_8c_5e466aa03eae00c269cf20359a7ee074}
+
+
+\index{Master.c@{Master.c}!TestMaster_preOperational@{TestMaster\_\-preOperational}}
+\index{TestMaster_preOperational@{TestMaster\_\-preOperational}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-pre\-Operational (void)}\label{Master_8c_8fe2bae5bb407a3a71ee5fa5ea5d617f}
+
+
+\index{Master.c@{Master.c}!TestMaster_stopped@{TestMaster\_\-stopped}}
+\index{TestMaster_stopped@{TestMaster\_\-stopped}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Test\-Master\_\-stopped (void)}\label{Master_8c_897d573cafc13ac80abbc207c0ee41b0}
+
+
+
+
+\subsection{Variable Documentation}
+\index{Master.c@{Master.c}!init_step@{init\_\-step}}
+\index{init_step@{init\_\-step}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf init\_\-step} = 0\hspace{0.3cm}{\tt  [static]}}\label{Master_8c_ef9c66a2e9f5ef9f6475282320a1ebe9}
+
+
+\index{Master.c@{Master.c}!query_result@{query\_\-result}}
+\index{query_result@{query\_\-result}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char {\bf query\_\-result} = 0}\label{Master_8c_14755b0ad32c861583eb69c946f3d9aa}
+
+
+\index{Master.c@{Master.c}!waiting_answer@{waiting\_\-answer}}
+\index{waiting_answer@{waiting\_\-answer}!Master.c@{Master.c}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char {\bf waiting\_\-answer} = 0}\label{Master_8c_5ac78804c899f5179534e6f75346f23c}
+
+

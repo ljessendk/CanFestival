@@ -1,0 +1,141 @@
+\hypertarget{objacces_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/objacces.h File Reference}
+\label{objacces_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/objacces.h@{/home/epimerde/documents/tc11/CanFestival-3/include/objacces.h}}
+}
+Responsible for accessing the object dictionary. 
+
+{\tt \#include $<$applicfg.h$>$}\par
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef UNS32($\ast$) \hyperlink{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}{value\-Range\-Test\_\-t} (UNS8 type\-Value, void $\ast$Value)
+\item 
+typedef void($\ast$) \hyperlink{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}{store\-ODSub\-Index\_\-t} (UNS16 w\-Index, UNS8 b\-Subindex)
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{objacces_8h_43bf8d2616cf3d7d713b4af3d33a139c}{\_\-store\-ODSub\-Index} (UNS16 w\-Index, UNS8 b\-Subindex)
+\item 
+UNS8 \hyperlink{objacces_8h_75d39b2dadcdb48f7321c6f3766aad26}{access\-Dictionary\-Error} (UNS16 index, UNS8 sub\-Index, UNS8 size\-Data\-Dict, UNS8 size\-Data\-Given, UNS32 code)
+\item 
+UNS32 \hyperlink{objacces_8h_39c263a4bc5d2d824fefe22fdb4c2dac}{get\-ODentry} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS16 w\-Index, UNS8 b\-Subindex, void $\ast$p\-Dest\-Data, UNS8 $\ast$p\-Expected\-Size, UNS8 $\ast$p\-Data\-Type, UNS8 check\-Access)
+\item 
+UNS32 \hyperlink{objacces_8h_17e598cc1b2e60380e2e4e75afe9b3b0}{set\-ODentry} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS16 w\-Index, UNS8 b\-Subindex, void $\ast$p\-Source\-Data, UNS8 $\ast$p\-Expected\-Size, UNS8 check\-Access)
+\item 
+UNS32 \hyperlink{objacces_8h_7cc58d6e7711bd0d9fd75e8ff721ce36}{write\-Local\-Dict} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS16 w\-Index, UNS8 b\-Subindex, void $\ast$p\-Source\-Data, UNS8 $\ast$p\-Expected\-Size, UNS8 check\-Access)
+\item 
+const \hyperlink{structtd__indextable}{indextable} $\ast$ \hyperlink{objacces_8h_11e9f24840d05a6a622955b51f91af53}{scan\-Index\-OD} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS16 w\-Index, UNS32 $\ast$error\-Code, \hyperlink{objdictdef_8h_91481b154cacc926ae5824fd121d6b43}{ODCallback\_\-t} $\ast$$\ast$Callback)
+\item 
+UNS32 \hyperlink{objacces_8h_514e7b9c13835a86446b1cd38fa34049}{Register\-Set\-ODentry\-Call\-Back} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS16 w\-Index, UNS8 b\-Subindex, \hyperlink{objdictdef_8h_91481b154cacc926ae5824fd121d6b43}{ODCallback\_\-t} Callback)
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+Responsible for accessing the object dictionary. 
+
+This file contains functions for accessing the object dictionary and variables that are contained by the object dictionary. Accessing the object dictionary contains setting local variables as PDOs and accessing (read/write) all entries of the object dictionary \begin{Desc}
+\item[Warning:]Only the basic entries of an object dictionary are included at the moment. \end{Desc}
+
+
+Definition in file \hyperlink{objacces_8h-source}{objacces.h}.
+
+\subsection{Typedef Documentation}
+\hypertarget{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}{
+\index{objacces.h@{objacces.h}!storeODSubIndex_t@{storeODSubIndex\_\-t}}
+\index{storeODSubIndex_t@{storeODSubIndex\_\-t}!objacces.h@{objacces.h}}
+\subsubsection[storeODSubIndex\_\-t]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$ ) \hyperlink{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}{store\-ODSub\-Index\_\-t}(UNS16 w\-Index, UNS8 b\-Subindex)}}
+\label{objacces_8h_7b55b55a3f5ed8e4b2991cb85c7be7ce}
+
+
+
+
+Definition at line 40 of file objacces.h.\hypertarget{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}{
+\index{objacces.h@{objacces.h}!valueRangeTest_t@{valueRangeTest\_\-t}}
+\index{valueRangeTest_t@{valueRangeTest\_\-t}!objacces.h@{objacces.h}}
+\subsubsection[valueRangeTest\_\-t]{\setlength{\rightskip}{0pt plus 5cm}typedef UNS32($\ast$) \hyperlink{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}{value\-Range\-Test\_\-t}(UNS8 type\-Value, void $\ast$Value)}}
+\label{objacces_8h_270e94e9acf61da8b2f36b3ebdbf2fdd}
+
+
+
+
+Definition at line 39 of file objacces.h.
+
+\subsection{Function Documentation}
+\hypertarget{objacces_8h_43bf8d2616cf3d7d713b4af3d33a139c}{
+\index{objacces.h@{objacces.h}!_storeODSubIndex@{\_\-storeODSubIndex}}
+\index{_storeODSubIndex@{\_\-storeODSubIndex}!objacces.h@{objacces.h}}
+\subsubsection[\_\-storeODSubIndex]{\setlength{\rightskip}{0pt plus 5cm}void \_\-store\-ODSub\-Index (UNS16 {\em w\-Index}, UNS8 {\em b\-Subindex})}}
+\label{objacces_8h_43bf8d2616cf3d7d713b4af3d33a139c}
+
+
+
+
+Definition at line 308 of file objacces.c.\hypertarget{objacces_8h_75d39b2dadcdb48f7321c6f3766aad26}{
+\index{objacces.h@{objacces.h}!accessDictionaryError@{accessDictionaryError}}
+\index{accessDictionaryError@{accessDictionaryError}!objacces.h@{objacces.h}}
+\subsubsection[accessDictionaryError]{\setlength{\rightskip}{0pt plus 5cm}UNS8 access\-Dictionary\-Error (UNS16 {\em index}, UNS8 {\em sub\-Index}, UNS8 {\em size\-Data\-Dict}, UNS8 {\em size\-Data\-Given}, UNS32 {\em code})}}
+\label{objacces_8h_75d39b2dadcdb48f7321c6f3766aad26}
+
+
+
+
+Definition at line 31 of file objacces.c.
+
+References MSG\_\-WAR, OD\_\-LENGTH\_\-DATA\_\-INVALID, OD\_\-NO\_\-SUCH\_\-OBJECT, OD\_\-NO\_\-SUCH\_\-SUBINDEX, OD\_\-NOT\_\-MAPPABLE, OD\_\-VALUE\_\-TOO\_\-HIGH, OD\_\-VALUE\_\-TOO\_\-LOW, and OD\_\-WRITE\_\-NOT\_\-ALLOWED.\hypertarget{objacces_8h_39c263a4bc5d2d824fefe22fdb4c2dac}{
+\index{objacces.h@{objacces.h}!getODentry@{getODentry}}
+\index{getODentry@{getODentry}!objacces.h@{objacces.h}}
+\subsubsection[getODentry]{\setlength{\rightskip}{0pt plus 5cm}UNS32 get\-ODentry (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS16 {\em w\-Index}, UNS8 {\em b\-Subindex}, void $\ast$ {\em p\-Dest\-Data}, UNS8 $\ast$ {\em p\-Expected\-Size}, UNS8 $\ast$ {\em p\-Data\-Type}, UNS8 {\em check\-Access})}}
+\label{objacces_8h_39c263a4bc5d2d824fefe22fdb4c2dac}
+
+
+
+
+Definition at line 145 of file objacces.c.
+
+References \_\-get\-ODentry(), and struct\_\-s\_\-timer\_\-entry::d.\hypertarget{objacces_8h_514e7b9c13835a86446b1cd38fa34049}{
+\index{objacces.h@{objacces.h}!RegisterSetODentryCallBack@{RegisterSetODentryCallBack}}
+\index{RegisterSetODentryCallBack@{RegisterSetODentryCallBack}!objacces.h@{objacces.h}}
+\subsubsection[RegisterSetODentryCallBack]{\setlength{\rightskip}{0pt plus 5cm}UNS32 Register\-Set\-ODentry\-Call\-Back (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS16 {\em w\-Index}, UNS8 {\em b\-Subindex}, \hyperlink{objdictdef_8h_91481b154cacc926ae5824fd121d6b43}{ODCallback\_\-t} {\em Callback})}}
+\label{objacces_8h_514e7b9c13835a86446b1cd38fa34049}
+
+
+
+
+Definition at line 297 of file objacces.c.
+
+References struct\_\-s\_\-timer\_\-entry::d, OD\_\-SUCCESSFUL, scan\-Index\-OD(), and UNS32.\hypertarget{objacces_8h_11e9f24840d05a6a622955b51f91af53}{
+\index{objacces.h@{objacces.h}!scanIndexOD@{scanIndexOD}}
+\index{scanIndexOD@{scanIndexOD}!objacces.h@{objacces.h}}
+\subsubsection[scanIndexOD]{\setlength{\rightskip}{0pt plus 5cm}const \hyperlink{structtd__indextable}{indextable}$\ast$ scan\-Index\-OD (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS16 {\em w\-Index}, UNS32 $\ast$ {\em error\-Code}, \hyperlink{objdictdef_8h_91481b154cacc926ae5824fd121d6b43}{ODCallback\_\-t} $\ast$$\ast$ {\em Callback})}}
+\label{objacces_8h_11e9f24840d05a6a622955b51f91af53}
+
+
+
+
+Definition at line 292 of file objacces.c.
+
+References struct\_\-s\_\-timer\_\-entry::d, and struct\_\-CO\_\-Data::scan\-Index\-OD.\hypertarget{objacces_8h_17e598cc1b2e60380e2e4e75afe9b3b0}{
+\index{objacces.h@{objacces.h}!setODentry@{setODentry}}
+\index{setODentry@{setODentry}!objacces.h@{objacces.h}}
+\subsubsection[setODentry]{\setlength{\rightskip}{0pt plus 5cm}UNS32 set\-ODentry (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS16 {\em w\-Index}, UNS8 {\em b\-Subindex}, void $\ast$ {\em p\-Source\-Data}, UNS8 $\ast$ {\em p\-Expected\-Size}, UNS8 {\em check\-Access})}}
+\label{objacces_8h_17e598cc1b2e60380e2e4e75afe9b3b0}
+
+
+
+
+Definition at line 257 of file objacces.c.
+
+References \_\-set\-ODentry(), and struct\_\-s\_\-timer\_\-entry::d.\hypertarget{objacces_8h_7cc58d6e7711bd0d9fd75e8ff721ce36}{
+\index{objacces.h@{objacces.h}!writeLocalDict@{writeLocalDict}}
+\index{writeLocalDict@{writeLocalDict}!objacces.h@{objacces.h}}
+\subsubsection[writeLocalDict]{\setlength{\rightskip}{0pt plus 5cm}UNS32 write\-Local\-Dict (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS16 {\em w\-Index}, UNS8 {\em b\-Subindex}, void $\ast$ {\em p\-Source\-Data}, UNS8 $\ast$ {\em p\-Expected\-Size}, UNS8 {\em check\-Access})}}
+\label{objacces_8h_7cc58d6e7711bd0d9fd75e8ff721ce36}
+
+
+
+
+Definition at line 273 of file objacces.c.
+
+References \_\-set\-ODentry(), and struct\_\-s\_\-timer\_\-entry::d.

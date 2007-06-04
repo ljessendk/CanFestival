@@ -1,0 +1,220 @@
+\hypertarget{classclass__timers}{
+\section{class\_\-timers Class Reference}
+\label{classclass__timers}\index{class_timers@{class\_\-timers}}
+}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classclass__timers_924a91ae96d721dd432136351c925d9f}{class\_\-timers} ()
+\item 
+\hyperlink{classclass__timers_6fd261041314ddd3ada9537530d02afd}{$\sim$class\_\-timers} ()
+\item 
+void \hyperlink{classclass__timers_d857a63670354f41759f68d4ea29a0f5}{start\_\-timer\_\-thread} ()
+\item 
+void \hyperlink{classclass__timers_e0066fac671c6adb997d6c075487af89}{resume\_\-timer\_\-thread} ()
+\item 
+void \hyperlink{classclass__timers_a78d9f5ab159ec6b11b4dc4c8f351697}{stop\_\-timer\_\-thread} ()
+\item 
+void \hyperlink{classclass__timers_a27df6346a38fb25acc394cb7998a3f8}{set\_\-timer} (TIMEVAL value)
+\item 
+TIMEVAL \hyperlink{classclass__timers_0fa5bd5d1d4012bf9eef3ffabe990dfb}{get\_\-elapsed\_\-time} ()
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+TIMEVAL \hyperlink{classclass__timers_e4fe19b5b56b72ce2601d74f6519bd0b}{get\_\-timer} () const
+\end{CompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{CompactItemize}
+\item 
+static DWORD WINAPI \hyperlink{classclass__timers_a68dd5b6225b3519b4bc2a0280683c87}{timer\_\-loop\_\-thread\_\-proc} (void $\ast$arg)
+\end{CompactItemize}
+\subsection*{Private Attributes}
+\begin{CompactItemize}
+\item 
+TIMEVAL \hyperlink{classclass__timers_01c07cb9949b61fce137e60a54d001b9}{m\_\-last\_\-occured\_\-alarm\_\-time}
+\item 
+volatile TIMEVAL \hyperlink{classclass__timers_d45784e3a40494a35d5684ab8df0bfc9}{m\_\-last\_\-alarm\_\-set\_\-time}
+\item 
+HANDLE \hyperlink{classclass__timers_8d08585f4ba63c21b4636863499b9e05}{m\_\-timer\_\-thread}
+\item 
+volatile bool \hyperlink{classclass__timers_957a0cc71456a57fd5cb640122fe924a}{m\_\-continue\_\-timer\_\-loop}
+\item 
+bool \hyperlink{classclass__timers_5fdc6eb0abb2689d078b333b083bfcb0}{m\_\-use\_\-hi\_\-res\_\-timer}
+\item 
+double \hyperlink{classclass__timers_5bf844fdbe2e70ab6e3e832f688d382b}{m\_\-counts\_\-per\_\-usec}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 94 of file timers\_\-win32.cpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classclass__timers_924a91ae96d721dd432136351c925d9f}{
+\index{class_timers@{class\_\-timers}!class_timers@{class\_\-timers}}
+\index{class_timers@{class\_\-timers}!class_timers@{class\_\-timers}}
+\subsubsection[class\_\-timers]{\setlength{\rightskip}{0pt plus 5cm}class\_\-timers::class\_\-timers ()}}
+\label{classclass__timers_924a91ae96d721dd432136351c925d9f}
+
+
+
+
+Definition at line 116 of file timers\_\-win32.cpp.
+
+References m\_\-counts\_\-per\_\-usec, and m\_\-use\_\-hi\_\-res\_\-timer.\hypertarget{classclass__timers_6fd261041314ddd3ada9537530d02afd}{
+\index{class_timers@{class\_\-timers}!~class_timers@{$\sim$class\_\-timers}}
+\index{~class_timers@{$\sim$class\_\-timers}!class_timers@{class\_\-timers}}
+\subsubsection[$\sim$class\_\-timers]{\setlength{\rightskip}{0pt plus 5cm}class\_\-timers::$\sim$class\_\-timers ()}}
+\label{classclass__timers_6fd261041314ddd3ada9537530d02afd}
+
+
+
+
+Definition at line 133 of file timers\_\-win32.cpp.
+
+References stop\_\-timer\_\-thread().
+
+\subsection{Member Function Documentation}
+\hypertarget{classclass__timers_d857a63670354f41759f68d4ea29a0f5}{
+\index{class_timers@{class\_\-timers}!start_timer_thread@{start\_\-timer\_\-thread}}
+\index{start_timer_thread@{start\_\-timer\_\-thread}!class_timers@{class\_\-timers}}
+\subsubsection[start\_\-timer\_\-thread]{\setlength{\rightskip}{0pt plus 5cm}void class\_\-timers::start\_\-timer\_\-thread ()}}
+\label{classclass__timers_d857a63670354f41759f68d4ea29a0f5}
+
+
+
+
+Definition at line 173 of file timers\_\-win32.cpp.
+
+References get\_\-timer(), m\_\-last\_\-alarm\_\-set\_\-time, m\_\-last\_\-occured\_\-alarm\_\-time, m\_\-timer\_\-thread, timer\_\-loop\_\-thread\_\-proc(), and TIMEVAL\_\-MAX.\hypertarget{classclass__timers_e0066fac671c6adb997d6c075487af89}{
+\index{class_timers@{class\_\-timers}!resume_timer_thread@{resume\_\-timer\_\-thread}}
+\index{resume_timer_thread@{resume\_\-timer\_\-thread}!class_timers@{class\_\-timers}}
+\subsubsection[resume\_\-timer\_\-thread]{\setlength{\rightskip}{0pt plus 5cm}void class\_\-timers::resume\_\-timer\_\-thread ()}}
+\label{classclass__timers_e0066fac671c6adb997d6c075487af89}
+
+
+
+
+Definition at line 184 of file timers\_\-win32.cpp.
+
+References m\_\-continue\_\-timer\_\-loop, and m\_\-timer\_\-thread.\hypertarget{classclass__timers_a78d9f5ab159ec6b11b4dc4c8f351697}{
+\index{class_timers@{class\_\-timers}!stop_timer_thread@{stop\_\-timer\_\-thread}}
+\index{stop_timer_thread@{stop\_\-timer\_\-thread}!class_timers@{class\_\-timers}}
+\subsubsection[stop\_\-timer\_\-thread]{\setlength{\rightskip}{0pt plus 5cm}void class\_\-timers::stop\_\-timer\_\-thread ()}}
+\label{classclass__timers_a78d9f5ab159ec6b11b4dc4c8f351697}
+
+
+
+
+Definition at line 193 of file timers\_\-win32.cpp.
+
+References m\_\-continue\_\-timer\_\-loop, and m\_\-timer\_\-thread.\hypertarget{classclass__timers_a27df6346a38fb25acc394cb7998a3f8}{
+\index{class_timers@{class\_\-timers}!set_timer@{set\_\-timer}}
+\index{set_timer@{set\_\-timer}!class_timers@{class\_\-timers}}
+\subsubsection[set\_\-timer]{\setlength{\rightskip}{0pt plus 5cm}void class\_\-timers::set\_\-timer (TIMEVAL {\em value})}}
+\label{classclass__timers_a27df6346a38fb25acc394cb7998a3f8}
+
+
+
+
+Definition at line 204 of file timers\_\-win32.cpp.
+
+References get\_\-timer(), m\_\-last\_\-alarm\_\-set\_\-time, and TIMEVAL\_\-MAX.\hypertarget{classclass__timers_0fa5bd5d1d4012bf9eef3ffabe990dfb}{
+\index{class_timers@{class\_\-timers}!get_elapsed_time@{get\_\-elapsed\_\-time}}
+\index{get_elapsed_time@{get\_\-elapsed\_\-time}!class_timers@{class\_\-timers}}
+\subsubsection[get\_\-elapsed\_\-time]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL class\_\-timers::get\_\-elapsed\_\-time ()}}
+\label{classclass__timers_0fa5bd5d1d4012bf9eef3ffabe990dfb}
+
+
+
+
+Definition at line 210 of file timers\_\-win32.cpp.
+
+References get\_\-timer(), and m\_\-last\_\-occured\_\-alarm\_\-time.\hypertarget{classclass__timers_e4fe19b5b56b72ce2601d74f6519bd0b}{
+\index{class_timers@{class\_\-timers}!get_timer@{get\_\-timer}}
+\index{get_timer@{get\_\-timer}!class_timers@{class\_\-timers}}
+\subsubsection[get\_\-timer]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL class\_\-timers::get\_\-timer () const\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_e4fe19b5b56b72ce2601d74f6519bd0b}
+
+
+
+
+Definition at line 139 of file timers\_\-win32.cpp.
+
+References m\_\-counts\_\-per\_\-usec, m\_\-use\_\-hi\_\-res\_\-timer, and TIMEVAL.\hypertarget{classclass__timers_a68dd5b6225b3519b4bc2a0280683c87}{
+\index{class_timers@{class\_\-timers}!timer_loop_thread_proc@{timer\_\-loop\_\-thread\_\-proc}}
+\index{timer_loop_thread_proc@{timer\_\-loop\_\-thread\_\-proc}!class_timers@{class\_\-timers}}
+\subsubsection[timer\_\-loop\_\-thread\_\-proc]{\setlength{\rightskip}{0pt plus 5cm}DWORD WINAPI class\_\-timers::timer\_\-loop\_\-thread\_\-proc (void $\ast$ {\em arg})\hspace{0.3cm}{\tt  \mbox{[}static, private\mbox{]}}}}
+\label{classclass__timers_a68dd5b6225b3519b4bc2a0280683c87}
+
+
+
+
+Definition at line 151 of file timers\_\-win32.cpp.
+
+References Enter\-Mutex(), get\_\-timer(), Leave\-Mutex(), m\_\-continue\_\-timer\_\-loop, m\_\-last\_\-alarm\_\-set\_\-time, m\_\-last\_\-occured\_\-alarm\_\-time, Time\-Dispatch(), TIMEVAL, and TIMEVAL\_\-MAX.
+
+\subsection{Field Documentation}
+\hypertarget{classclass__timers_01c07cb9949b61fce137e60a54d001b9}{
+\index{class_timers@{class\_\-timers}!m_last_occured_alarm_time@{m\_\-last\_\-occured\_\-alarm\_\-time}}
+\index{m_last_occured_alarm_time@{m\_\-last\_\-occured\_\-alarm\_\-time}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-last\_\-occured\_\-alarm\_\-time]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL \hyperlink{classclass__timers_01c07cb9949b61fce137e60a54d001b9}{class\_\-timers::m\_\-last\_\-occured\_\-alarm\_\-time}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_01c07cb9949b61fce137e60a54d001b9}
+
+
+
+
+Definition at line 108 of file timers\_\-win32.cpp.\hypertarget{classclass__timers_d45784e3a40494a35d5684ab8df0bfc9}{
+\index{class_timers@{class\_\-timers}!m_last_alarm_set_time@{m\_\-last\_\-alarm\_\-set\_\-time}}
+\index{m_last_alarm_set_time@{m\_\-last\_\-alarm\_\-set\_\-time}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-last\_\-alarm\_\-set\_\-time]{\setlength{\rightskip}{0pt plus 5cm}volatile TIMEVAL \hyperlink{classclass__timers_d45784e3a40494a35d5684ab8df0bfc9}{class\_\-timers::m\_\-last\_\-alarm\_\-set\_\-time}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_d45784e3a40494a35d5684ab8df0bfc9}
+
+
+
+
+Definition at line 109 of file timers\_\-win32.cpp.\hypertarget{classclass__timers_8d08585f4ba63c21b4636863499b9e05}{
+\index{class_timers@{class\_\-timers}!m_timer_thread@{m\_\-timer\_\-thread}}
+\index{m_timer_thread@{m\_\-timer\_\-thread}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-timer\_\-thread]{\setlength{\rightskip}{0pt plus 5cm}HANDLE \hyperlink{classclass__timers_8d08585f4ba63c21b4636863499b9e05}{class\_\-timers::m\_\-timer\_\-thread}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_8d08585f4ba63c21b4636863499b9e05}
+
+
+
+
+Definition at line 110 of file timers\_\-win32.cpp.\hypertarget{classclass__timers_957a0cc71456a57fd5cb640122fe924a}{
+\index{class_timers@{class\_\-timers}!m_continue_timer_loop@{m\_\-continue\_\-timer\_\-loop}}
+\index{m_continue_timer_loop@{m\_\-continue\_\-timer\_\-loop}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-continue\_\-timer\_\-loop]{\setlength{\rightskip}{0pt plus 5cm}volatile bool \hyperlink{classclass__timers_957a0cc71456a57fd5cb640122fe924a}{class\_\-timers::m\_\-continue\_\-timer\_\-loop}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_957a0cc71456a57fd5cb640122fe924a}
+
+
+
+
+Definition at line 111 of file timers\_\-win32.cpp.\hypertarget{classclass__timers_5fdc6eb0abb2689d078b333b083bfcb0}{
+\index{class_timers@{class\_\-timers}!m_use_hi_res_timer@{m\_\-use\_\-hi\_\-res\_\-timer}}
+\index{m_use_hi_res_timer@{m\_\-use\_\-hi\_\-res\_\-timer}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-use\_\-hi\_\-res\_\-timer]{\setlength{\rightskip}{0pt plus 5cm}bool \hyperlink{classclass__timers_5fdc6eb0abb2689d078b333b083bfcb0}{class\_\-timers::m\_\-use\_\-hi\_\-res\_\-timer}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_5fdc6eb0abb2689d078b333b083bfcb0}
+
+
+
+
+Definition at line 112 of file timers\_\-win32.cpp.\hypertarget{classclass__timers_5bf844fdbe2e70ab6e3e832f688d382b}{
+\index{class_timers@{class\_\-timers}!m_counts_per_usec@{m\_\-counts\_\-per\_\-usec}}
+\index{m_counts_per_usec@{m\_\-counts\_\-per\_\-usec}!class_timers@{class\_\-timers}}
+\subsubsection[m\_\-counts\_\-per\_\-usec]{\setlength{\rightskip}{0pt plus 5cm}double \hyperlink{classclass__timers_5bf844fdbe2e70ab6e3e832f688d382b}{class\_\-timers::m\_\-counts\_\-per\_\-usec}\hspace{0.3cm}{\tt  \mbox{[}private\mbox{]}}}}
+\label{classclass__timers_5bf844fdbe2e70ab6e3e832f688d382b}
+
+
+
+
+Definition at line 113 of file timers\_\-win32.cpp.
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+/home/epimerde/documents/tc11/Can\-Festival-3/drivers/win32/\hyperlink{timers__win32_8cpp}{timers\_\-win32.cpp}\end{CompactItemize}

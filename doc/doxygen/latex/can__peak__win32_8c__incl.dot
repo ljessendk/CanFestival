@@ -1,0 +1,26 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="/home/epimerde/documents/tc11/CanFestival-3/drivers/can_peak_win32/can_peak_win32.c",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="stdio.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="string.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="errno.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="fcntl.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node6 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 [label="cancfg.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 [label="can_driver.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$can__driver_8h.html"];
+  Node7 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 [label="applicfg.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$win32_2applicfg_8h.html"];
+  Node8 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 -> Node9 [color="midnightblue",fontsize=10,style="solid"];
+  Node9 [label="can.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$can_8h.html"];
+  Node9 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+}

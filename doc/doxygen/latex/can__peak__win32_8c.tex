@@ -1,0 +1,119 @@
+\hypertarget{can__peak__win32_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-peak\_\-win32/can\_\-peak\_\-win32.c File Reference}
+\label{can__peak__win32_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/can_peak_win32/can_peak_win32.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/can\_\-peak\_\-win32/can\_\-peak\_\-win32.c}}
+}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$string.h$>$}\par
+{\tt \#include $<$errno.h$>$}\par
+{\tt \#include $<$fcntl.h$>$}\par
+{\tt \#include \char`\"{}cancfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{can__peak__win32_8c_6c15c0d426ae2e61f69f3119d3fe486b}{extra\_\-PCAN\_\-init\_\-params}
+\item 
+\#define \hyperlink{can__peak__win32_8c_44ef8a15c3be0d9b410c0c21709a12c2}{CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR}~MSGTYPE\_\-STANDARD $|$ MSGTYPE\_\-RTR
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+int \hyperlink{can__peak__win32_8c_6820d7fa32e6e79d432c6003e4c15c32}{Translate\-Baude\-Rate} (char $\ast$optarg)
+\item 
+void \hyperlink{can__peak__win32_8c_9f623ce2d3a68e90dfdb1ff0d54a9b57}{can\-Init} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+UNS8 \hyperlink{can__peak__win32_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{can\-Receive\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+UNS8 \hyperlink{can__peak__win32_8c_def95aee49efa13dd047d0b3b5507ad3}{can\-Send\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{can__peak__win32_8c_945403aba7f36acbd2e7160ade361bab}{can\-Open\_\-driver} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+int \hyperlink{can__peak__win32_8c_76e6a915d0e40a23b863198b2aaa5545}{can\-Close\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{can__peak__win32_8c_44ef8a15c3be0d9b410c0c21709a12c2}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!CAN_INIT_TYPE_ST_RTR@{CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR}}
+\index{CAN_INIT_TYPE_ST_RTR@{CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR]{\setlength{\rightskip}{0pt plus 5cm}\#define CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR~MSGTYPE\_\-STANDARD $|$ MSGTYPE\_\-RTR}}
+\label{can__peak__win32_8c_44ef8a15c3be0d9b410c0c21709a12c2}
+
+
+
+
+Definition at line 52 of file can\_\-peak\_\-win32.c.\hypertarget{can__peak__win32_8c_6c15c0d426ae2e61f69f3119d3fe486b}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!extra_PCAN_init_params@{extra\_\-PCAN\_\-init\_\-params}}
+\index{extra_PCAN_init_params@{extra\_\-PCAN\_\-init\_\-params}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[extra\_\-PCAN\_\-init\_\-params]{\setlength{\rightskip}{0pt plus 5cm}\#define extra\_\-PCAN\_\-init\_\-params}}
+\label{can__peak__win32_8c_6c15c0d426ae2e61f69f3119d3fe486b}
+
+
+
+
+Definition at line 36 of file can\_\-peak\_\-win32.c.
+
+\subsection{Function Documentation}
+\hypertarget{can__peak__win32_8c_76e6a915d0e40a23b863198b2aaa5545}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!canClose_driver@{canClose\_\-driver}}
+\index{canClose_driver@{canClose\_\-driver}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[canClose\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0})}}
+\label{can__peak__win32_8c_76e6a915d0e40a23b863198b2aaa5545}
+
+
+
+
+Definition at line 237 of file can\_\-peak\_\-win32.c.\hypertarget{can__peak__win32_8c_9f623ce2d3a68e90dfdb1ff0d54a9b57}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!canInit@{canInit}}
+\index{canInit@{canInit}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[canInit]{\setlength{\rightskip}{0pt plus 5cm}void can\-Init (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{can__peak__win32_8c_9f623ce2d3a68e90dfdb1ff0d54a9b57}
+
+
+
+
+Definition at line 70 of file can\_\-peak\_\-win32.c.
+
+References struct\_\-s\_\-BOARD::baudrate, extra\_\-PCAN\_\-init\_\-params, and Translate\-Baude\-Rate().\hypertarget{can__peak__win32_8c_945403aba7f36acbd2e7160ade361bab}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!canOpen_driver@{canOpen\_\-driver}}
+\index{canOpen_driver@{canOpen\_\-driver}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[canOpen\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} can\-Open\_\-driver (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{can__peak__win32_8c_945403aba7f36acbd2e7160ade361bab}
+
+
+
+
+Definition at line 205 of file can\_\-peak\_\-win32.c.
+
+References can\-Init().\hypertarget{can__peak__win32_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!canReceive_driver@{canReceive\_\-driver}}
+\index{canReceive_driver@{canReceive\_\-driver}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[canReceive\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Receive\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__peak__win32_8c_6b3248e95acf2b08d1fd8b42610cc5a6}
+
+
+
+
+Definition at line 89 of file can\_\-peak\_\-win32.c.
+
+References can\-Init(), Message::cob\_\-id, Message::data, Message::len, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{can__peak__win32_8c_def95aee49efa13dd047d0b3b5507ad3}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!canSend_driver@{canSend\_\-driver}}
+\index{canSend_driver@{canSend\_\-driver}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[canSend\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__peak__win32_8c_def95aee49efa13dd047d0b3b5507ad3}
+
+
+
+
+Definition at line 159 of file can\_\-peak\_\-win32.c.
+
+References CAN\_\-INIT\_\-TYPE\_\-ST\_\-RTR, can\-Init(), Message::cob\_\-id, Message::data, Message::len, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{can__peak__win32_8c_6820d7fa32e6e79d432c6003e4c15c32}{
+\index{can_peak_win32.c@{can\_\-peak\_\-win32.c}!TranslateBaudeRate@{TranslateBaudeRate}}
+\index{TranslateBaudeRate@{TranslateBaudeRate}!can_peak_win32.c@{can\_\-peak\_\-win32.c}}
+\subsubsection[TranslateBaudeRate]{\setlength{\rightskip}{0pt plus 5cm}int Translate\-Baude\-Rate (char $\ast$ {\em optarg})}}
+\label{can__peak__win32_8c_6820d7fa32e6e79d432c6003e4c15c32}
+
+
+
+
+Definition at line 55 of file can\_\-peak\_\-win32.c.

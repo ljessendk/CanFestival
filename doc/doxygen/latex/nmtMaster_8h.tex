@@ -1,0 +1,53 @@
+\hypertarget{nmtMaster_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/nmt\-Master.h File Reference}
+\label{nmtMaster_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/nmtMaster.h@{/home/epimerde/documents/tc11/CanFestival-3/include/nmtMaster.h}}
+}
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{nmtMaster_8h_6170d95d9900ef756921a934c5fb37d2}{master\-Send\-NMTstate\-Change} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS8 Node\_\-ID, UNS8 cs)
+\item 
+UNS8 \hyperlink{nmtMaster_8h_f63689baeabb15103c2b7afe8885c5c4}{master\-Send\-NMTnodeguard} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS8 node\-Id)
+\item 
+void \hyperlink{nmtMaster_8h_98bee3f402438056dbd653e752054796}{master\-Request\-Node\-State} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS8 node\-Id)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{nmtMaster_8h_98bee3f402438056dbd653e752054796}{
+\index{nmtMaster.h@{nmt\-Master.h}!masterRequestNodeState@{masterRequestNodeState}}
+\index{masterRequestNodeState@{masterRequestNodeState}!nmtMaster.h@{nmt\-Master.h}}
+\subsubsection[masterRequestNodeState]{\setlength{\rightskip}{0pt plus 5cm}void master\-Request\-Node\-State (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS8 {\em node\-Id})}}
+\label{nmtMaster_8h_98bee3f402438056dbd653e752054796}
+
+
+Prepare a Node\_\-Guard message transmission on the bus number bus\_\-id to the slave whose node\_\-id is node\-Id Put node\-Id = 0 to send an NMT broadcast. This message will ask for the slave, whose node\_\-id is node\-Id, its state bus\_\-id is hardware dependant 
+
+Definition at line 60 of file nmt\-Master.c.
+
+References struct\_\-s\_\-timer\_\-entry::d, master\-Send\-NMTnodeguard(), NMT\_\-MAX\_\-NODE\_\-ID, struct\_\-CO\_\-Data::NMTable, Unknown\_\-state, and UNS8.\hypertarget{nmtMaster_8h_f63689baeabb15103c2b7afe8885c5c4}{
+\index{nmtMaster.h@{nmt\-Master.h}!masterSendNMTnodeguard@{masterSendNMTnodeguard}}
+\index{masterSendNMTnodeguard@{masterSendNMTnodeguard}!nmtMaster.h@{nmt\-Master.h}}
+\subsubsection[masterSendNMTnodeguard]{\setlength{\rightskip}{0pt plus 5cm}UNS8 master\-Send\-NMTnodeguard (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS8 {\em node\-Id})}}
+\label{nmtMaster_8h_f63689baeabb15103c2b7afe8885c5c4}
+
+
+Transmit a Node\_\-Guard message on the bus number bus\_\-id to the slave whose node\_\-id is node\-Id bus\_\-id is hardware dependant return can\-Send(bus\_\-id,\&m) 
+
+Definition at line 45 of file nmt\-Master.c.
+
+References struct\_\-CO\_\-Data::can\-Handle, can\-Send(), Message::cob\_\-id, struct\_\-s\_\-timer\_\-entry::d, Message::len, MSG\_\-WAR, NODE\_\-GUARD, REQUEST, Message::rtr, and SHORT\_\-CAN::w.\hypertarget{nmtMaster_8h_6170d95d9900ef756921a934c5fb37d2}{
+\index{nmtMaster.h@{nmt\-Master.h}!masterSendNMTstateChange@{masterSendNMTstateChange}}
+\index{masterSendNMTstateChange@{masterSendNMTstateChange}!nmtMaster.h@{nmt\-Master.h}}
+\subsubsection[masterSendNMTstateChange]{\setlength{\rightskip}{0pt plus 5cm}UNS8 master\-Send\-NMTstate\-Change (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS8 {\em Node\_\-ID}, UNS8 {\em cs})}}
+\label{nmtMaster_8h_6170d95d9900ef756921a934c5fb37d2}
+
+
+Transmit a NMT message on the bus number bus\_\-id to the slave whose node\_\-id is ID bus\_\-id is hardware dependant cs represents the order of state changement: cs = NMT\_\-Start\_\-Node // Put the node in operational mode cs = NMT\_\-Stop\_\-Node // Put the node in stopped mode cs = NMT\_\-Enter\_\-Pre\-Operational // Put the node in pre\_\-operational mode cs = NMT\_\-Reset\_\-Node // Put the node in initialization mode cs = NMT\_\-Reset\_\-Comunication // Put the node in initialization mode The mode is changed according to the slave state machine mode : initialisation ---$>$ pre-operational (Automatic transition) pre-operational $<$--$>$ operational pre-operational $<$--$>$ stopped pre-operational, operational, stopped -$>$ initialisation
+
+return can\-Send(bus\_\-id,\&m) 
+
+Definition at line 27 of file nmt\-Master.c.
+
+References struct\_\-CO\_\-Data::can\-Handle, can\-Send(), Message::cob\_\-id, struct\_\-s\_\-timer\_\-entry::d, Message::data, Message::len, MSG\_\-WAR, NOT\_\-A\_\-REQUEST, Message::rtr, and SHORT\_\-CAN::w.

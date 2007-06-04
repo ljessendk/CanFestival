@@ -1,0 +1,114 @@
+\hypertarget{sync_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/src/sync.c File Reference}
+\label{sync_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/src/sync.c@{/home/epimerde/documents/tc11/CanFestival-3/src/sync.c}}
+}
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+{\tt \#include \char`\"{}sync.h\char`\"{}}\par
+{\tt \#include \char`\"{}canfestival.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{sync_8c_bbcce7b549414c7bc1aa72fa66258b45}{Sync\-Alarm} (CO\_\-Data $\ast$d, UNS32 id)
+\item 
+UNS32 \hyperlink{sync_8c_82595787f641ab85980d83522f1158b0}{On\-COB\_\-ID\_\-Sync\-Update} (CO\_\-Data $\ast$d, const indextable $\ast$unsused\_\-indextable, UNS8 unsused\_\-b\-Subindex)
+\item 
+void \hyperlink{sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a}{start\-SYNC} (CO\_\-Data $\ast$d)
+\item 
+void \hyperlink{sync_8c_41c47dbd59d22bf9bab6cd288cf27164}{stop\-SYNC} (CO\_\-Data $\ast$d)
+\item 
+UNS8 \hyperlink{sync_8c_0bcc501eb14c12365ffbaa3453905b50}{send\-SYNC} (CO\_\-Data $\ast$d, UNS32 cob\_\-id)
+\item 
+UNS8 \hyperlink{sync_8c_80cadcba23dc859db8a8d3f52789d6d1}{proceed\-SYNC} (CO\_\-Data $\ast$d, Message $\ast$m)
+\item 
+void \hyperlink{sync_8c_a5e0cde14192eb72627526bb75c033c5}{\_\-post\_\-sync} ()
+\item 
+void \hyperlink{sync_8c_c4082a05eed4b4c472f4ff2f7323dd28}{\_\-post\_\-TPDO} ()
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{sync_8c_a5e0cde14192eb72627526bb75c033c5}{
+\index{sync.c@{sync.c}!_post_sync@{\_\-post\_\-sync}}
+\index{_post_sync@{\_\-post\_\-sync}!sync.c@{sync.c}}
+\subsubsection[\_\-post\_\-sync]{\setlength{\rightskip}{0pt plus 5cm}void \_\-post\_\-sync ()}}
+\label{sync_8c_a5e0cde14192eb72627526bb75c033c5}
+
+
+
+
+Definition at line 245 of file sync.c.\hypertarget{sync_8c_c4082a05eed4b4c472f4ff2f7323dd28}{
+\index{sync.c@{sync.c}!_post_TPDO@{\_\-post\_\-TPDO}}
+\index{_post_TPDO@{\_\-post\_\-TPDO}!sync.c@{sync.c}}
+\subsubsection[\_\-post\_\-TPDO]{\setlength{\rightskip}{0pt plus 5cm}void \_\-post\_\-TPDO ()}}
+\label{sync_8c_c4082a05eed4b4c472f4ff2f7323dd28}
+
+
+
+
+Definition at line 246 of file sync.c.\hypertarget{sync_8c_82595787f641ab85980d83522f1158b0}{
+\index{sync.c@{sync.c}!OnCOB_ID_SyncUpdate@{OnCOB\_\-ID\_\-SyncUpdate}}
+\index{OnCOB_ID_SyncUpdate@{OnCOB\_\-ID\_\-SyncUpdate}!sync.c@{sync.c}}
+\subsubsection[OnCOB\_\-ID\_\-SyncUpdate]{\setlength{\rightskip}{0pt plus 5cm}UNS32 On\-COB\_\-ID\_\-Sync\-Update (CO\_\-Data $\ast$ {\em d}, const indextable $\ast$ {\em unsused\_\-indextable}, UNS8 {\em unsused\_\-b\-Subindex})}}
+\label{sync_8c_82595787f641ab85980d83522f1158b0}
+
+
+
+
+Definition at line 43 of file sync.c.
+
+References start\-SYNC().\hypertarget{sync_8c_80cadcba23dc859db8a8d3f52789d6d1}{
+\index{sync.c@{sync.c}!proceedSYNC@{proceedSYNC}}
+\index{proceedSYNC@{proceedSYNC}!sync.c@{sync.c}}
+\subsubsection[proceedSYNC]{\setlength{\rightskip}{0pt plus 5cm}UNS8 proceed\-SYNC (CO\_\-Data $\ast$ {\em d}, Message $\ast$ {\em m})}}
+\label{sync_8c_80cadcba23dc859db8a8d3f52789d6d1}
+
+
+
+
+Definition at line 93 of file sync.c.
+
+References Copy\-Bits(), get\-ODentry(), and PDOm\-GR().\hypertarget{sync_8c_0bcc501eb14c12365ffbaa3453905b50}{
+\index{sync.c@{sync.c}!sendSYNC@{sendSYNC}}
+\index{sendSYNC@{sendSYNC}!sync.c@{sync.c}}
+\subsubsection[sendSYNC]{\setlength{\rightskip}{0pt plus 5cm}UNS8 send\-SYNC (CO\_\-Data $\ast$ {\em d}, UNS32 {\em cob\_\-id})}}
+\label{sync_8c_0bcc501eb14c12365ffbaa3453905b50}
+
+
+
+
+Definition at line 77 of file sync.c.
+
+References proceed\-SYNC().\hypertarget{sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a}{
+\index{sync.c@{sync.c}!startSYNC@{startSYNC}}
+\index{startSYNC@{startSYNC}!sync.c@{sync.c}}
+\subsubsection[startSYNC]{\setlength{\rightskip}{0pt plus 5cm}void start\-SYNC (CO\_\-Data $\ast$ {\em d})}}
+\label{sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a}
+
+
+
+
+Definition at line 50 of file sync.c.
+
+References On\-COB\_\-ID\_\-Sync\-Update(), Register\-Set\-ODentry\-Call\-Back(), Set\-Alarm(), stop\-SYNC(), and Sync\-Alarm().\hypertarget{sync_8c_41c47dbd59d22bf9bab6cd288cf27164}{
+\index{sync.c@{sync.c}!stopSYNC@{stopSYNC}}
+\index{stopSYNC@{stopSYNC}!sync.c@{sync.c}}
+\subsubsection[stopSYNC]{\setlength{\rightskip}{0pt plus 5cm}void stop\-SYNC (CO\_\-Data $\ast$ {\em d})}}
+\label{sync_8c_41c47dbd59d22bf9bab6cd288cf27164}
+
+
+
+
+Definition at line 71 of file sync.c.
+
+References Del\-Alarm().\hypertarget{sync_8c_bbcce7b549414c7bc1aa72fa66258b45}{
+\index{sync.c@{sync.c}!SyncAlarm@{SyncAlarm}}
+\index{SyncAlarm@{SyncAlarm}!sync.c@{sync.c}}
+\subsubsection[SyncAlarm]{\setlength{\rightskip}{0pt plus 5cm}void Sync\-Alarm (CO\_\-Data $\ast$ {\em d}, UNS32 {\em id})}}
+\label{sync_8c_bbcce7b549414c7bc1aa72fa66258b45}
+
+
+
+
+Definition at line 36 of file sync.c.
+
+References send\-SYNC().

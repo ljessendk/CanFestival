@@ -1,0 +1,70 @@
+\hypertarget{can__uvccm__win32_8cpp}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-uvccm\_\-win32/can\_\-uvccm\_\-win32.cpp File Reference}
+\label{can__uvccm__win32_8cpp}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/can_uvccm_win32/can_uvccm_win32.cpp@{/home/epimerde/documents/tc11/CanFestival-3/drivers/can\_\-uvccm\_\-win32/can\_\-uvccm\_\-win32.cpp}}
+}
+{\tt \#include $<$sstream$>$}\par
+{\tt \#include $<$iomanip$>$}\par
+{\tt \#include $<$algorithm$>$}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+class \hyperlink{classcan__uvccm__win32}{can\_\-uvccm\_\-win32}
+\item 
+class \hyperlink{classcan__uvccm__win32_1_1error}{can\_\-uvccm\_\-win32::error}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{can__uvccm__win32_8cpp_6b3248e95acf2b08d1fd8b42610cc5a6}{can\-Receive\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+UNS8 \hyperlink{can__uvccm__win32_8cpp_def95aee49efa13dd047d0b3b5507ad3}{can\-Send\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{can__uvccm__win32_8cpp_945403aba7f36acbd2e7160ade361bab}{can\-Open\_\-driver} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+int \hyperlink{can__uvccm__win32_8cpp_f0856b6c70c571ef7aa4509abf18db6d}{can\-Close\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} inst)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{can__uvccm__win32_8cpp_f0856b6c70c571ef7aa4509abf18db6d}{
+\index{can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}!canClose_driver@{canClose\_\-driver}}
+\index{canClose_driver@{canClose\_\-driver}!can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}}
+\subsubsection[canClose\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em inst})}}
+\label{can__uvccm__win32_8cpp_f0856b6c70c571ef7aa4509abf18db6d}
+
+
+
+
+Definition at line 324 of file can\_\-uvccm\_\-win32.cpp.\hypertarget{can__uvccm__win32_8cpp_945403aba7f36acbd2e7160ade361bab}{
+\index{can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}!canOpen_driver@{canOpen\_\-driver}}
+\index{canOpen_driver@{canOpen\_\-driver}!can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}}
+\subsubsection[canOpen\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} can\-Open\_\-driver (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{can__uvccm__win32_8cpp_945403aba7f36acbd2e7160ade361bab}
+
+
+
+
+Definition at line 311 of file can\_\-uvccm\_\-win32.cpp.\hypertarget{can__uvccm__win32_8cpp_6b3248e95acf2b08d1fd8b42610cc5a6}{
+\index{can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}!canReceive_driver@{canReceive\_\-driver}}
+\index{canReceive_driver@{canReceive\_\-driver}!can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}}
+\subsubsection[canReceive\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Receive\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__uvccm__win32_8cpp_6b3248e95acf2b08d1fd8b42610cc5a6}
+
+
+
+
+Definition at line 299 of file can\_\-uvccm\_\-win32.cpp.
+
+References UNS8.\hypertarget{can__uvccm__win32_8cpp_def95aee49efa13dd047d0b3b5507ad3}{
+\index{can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}!canSend_driver@{canSend\_\-driver}}
+\index{canSend_driver@{canSend\_\-driver}!can_uvccm_win32.cpp@{can\_\-uvccm\_\-win32.cpp}}
+\subsubsection[canSend\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__uvccm__win32_8cpp_def95aee49efa13dd047d0b3b5507ad3}
+
+
+
+
+Definition at line 305 of file can\_\-uvccm\_\-win32.cpp.
+
+References UNS8.

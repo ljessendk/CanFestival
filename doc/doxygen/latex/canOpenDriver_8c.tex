@@ -1,0 +1,437 @@
+\hypertarget{canOpenDriver_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/hcs12/can\-Open\-Driver.c File Reference}
+\label{canOpenDriver_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/hcs12/canOpenDriver.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/hcs12/canOpenDriver.c}}
+}
+{\tt \#include $<$stddef.h$>$}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/portsaccess.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/ports\_\-def.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/asm-m68hc12/ports.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/data.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/applicfg.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/candriver.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/interrupt.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/hcs12/can\-Open\-Driver.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/can.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/objdictdef.h\char`\"{}}\par
+{\tt \#include \char`\"{}../include/timer.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{canOpenDriver_8c_4f52c00ab0d519e2965ebaa533975904}{DEBUG\_\-WAR\_\-CONSOLE\_\-ON}
+\item 
+\#define \hyperlink{canOpenDriver_8c_bb416887a32f7e4333e095356774f07f}{DEBUG\_\-ERR\_\-CONSOLE\_\-ON}
+\item 
+\#define \hyperlink{canOpenDriver_8c_ffe776513b24d84b39af8ab0930fef7f}{max}(a, b)~a$>$b?a:b
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{canOpenDriver_8c_0bf58f014d47581c9ffd1b2db9a858d7}{f\_\-can\_\-receive} (UNS8 notused, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+UNS8 \hyperlink{canOpenDriver_8c_b57b4b3c000e9f61135175495e874977}{can\-Send} (UNS8 notused, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+void \hyperlink{canOpenDriver_8c_445500277ba0e363873b34cffc015745}{\_\-\_\-attribute\_\-\_\-} ((interrupt))
+\item 
+TIMEVAL \hyperlink{canOpenDriver_8c_24dbe63e88d184388542037d16a8208d}{get\-Elapsed\-Time} ()
+\item 
+void \hyperlink{canOpenDriver_8c_339b24f4eee897d3c45d88de9a4901e8}{reset\-Timer} (void)
+\item 
+void \hyperlink{canOpenDriver_8c_02922529b60419a94afe8f369dda070b}{init\-Timer} (void)
+\item 
+void \hyperlink{canOpenDriver_8c_f86db4b817c1a59a819cbdd51779bfaa}{init\-SCI\_\-0} (void)
+\begin{CompactList}\small\item\em Initialisation of the serial port 0. \item\end{CompactList}\item 
+void \hyperlink{canOpenDriver_8c_b56fa1754706a57059103710178bdb68}{init\-SCI\_\-1} (void)
+\begin{CompactList}\small\item\em Initialisation of the serial port 1. \item\end{CompactList}\item 
+char $\ast$ \hyperlink{canOpenDriver_8c_2a9aef0efc98c5b41ef97ef91ad403e5}{hex\_\-convert} (char $\ast$buf, unsigned long value, char last\-Car)
+\item 
+void \hyperlink{canOpenDriver_8c_6e3075ae435e83aefc018e5218c197d0}{print\-SCI\_\-str} (char sci, const char $\ast$str)
+\item 
+void \hyperlink{canOpenDriver_8c_80f5dbbc046cba0e5e9cf2bcc4c1e78e}{print\-SCI\_\-nbr} (char sci, unsigned long nbr, char last\-Car)
+\item 
+void \hyperlink{canOpenDriver_8c_51e71c727eb7a49e2fde962a3d190a6b}{init\-PLL} (void)
+\item 
+void \hyperlink{canOpenDriver_8c_c71399958d35a7f703416f025603ee26}{init\-HCS12} (void)
+\begin{CompactList}\small\item\em Put here all the code to init the HCS12. \item\end{CompactList}\item 
+char \hyperlink{canOpenDriver_8c_acfd181d5b055d1403930442e28ac643}{can\-Add\-Id\-To\-Filter} (UNS16 adr\-CAN, UNS8 n\-Filter, UNS16 id)
+\item 
+char \hyperlink{canOpenDriver_8c_751a41c9747b96ab400b5599370cea83}{can\-Change\-Filter} (UNS16 adr\-CAN, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} fi)
+\item 
+char \hyperlink{canOpenDriver_8c_5a53a89d2e348d70331e6ebe269d155a}{can\-Enable} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_3c4f7a31d94e5e7c7322535467b806de}{can\-Init} (UNS16 adr\-CAN, \hyperlink{structcanBusInit}{can\-Bus\-Init} \hyperlink{candriver_8h_c731fd3e22e0f2c414b1e3f511c85423}{bi})
+\item 
+char \hyperlink{canOpenDriver_8c_6ec3ce6d79012dd8a08fa5aeb6a0489f}{can\-Init\-Clock} (UNS16 adr\-CAN, \hyperlink{structcanBusTime}{can\-Bus\-Time} clk)
+\item 
+char \hyperlink{canOpenDriver_8c_5fb549697afb7918607aa113e01c543d}{can\-Init1Filter} (UNS16 adr\-CAN, UNS8 n\-Filter, UNS16 ar, UNS16 mr)
+\item 
+char \hyperlink{canOpenDriver_8c_b4502eef7616b25c74b1ac5a2245b085}{can\-Init\-Filter} (UNS16 adr\-CAN, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} fi)
+\item 
+char \hyperlink{canOpenDriver_8c_0b98e4800c82d99981833aa4207f1eb9}{can\-Init\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_00ffb46abacfdfa56ebc70e15164113e}{can\-Init\-Mode\-Q} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_2f2d1ed55cfd9d7f85883f8d70d318ba}{can\-Msg\-Transmit} (UNS16 adr\-CAN, \hyperlink{structMessage}{Message} msg)
+\item 
+char \hyperlink{canOpenDriver_8c_5ad8616a3276f7f40149b551f09aa6a1}{can\-Set\-Interrupt} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_c7773223579ec7e0fab5238df214da89}{can\-Sleep\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_a89f28005eea54f5b216eb72a18d45f3}{can\-Sleep\-Mode\-Q} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_1ae1ad5d66ac87085baf5b9d0a4e62ca}{can\-Sleep\-Wup\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_6beefe951b3c9de786c585257488fa82}{can\-Test\-Init\-Mode} (UNS16 adr\-CAN)
+\item 
+char \hyperlink{canOpenDriver_8c_fa79f2ac95a8143c2fb087260df39820}{can\-Test\-Sleep\-Mode} (UNS16 adr\-CAN)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{canOpenDriver_8c_bb416887a32f7e4333e095356774f07f}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!DEBUG_ERR_CONSOLE_ON@{DEBUG\_\-ERR\_\-CONSOLE\_\-ON}}
+\index{DEBUG_ERR_CONSOLE_ON@{DEBUG\_\-ERR\_\-CONSOLE\_\-ON}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[DEBUG\_\-ERR\_\-CONSOLE\_\-ON]{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG\_\-ERR\_\-CONSOLE\_\-ON}}
+\label{canOpenDriver_8c_bb416887a32f7e4333e095356774f07f}
+
+
+
+
+Definition at line 24 of file can\-Open\-Driver.c.\hypertarget{canOpenDriver_8c_4f52c00ab0d519e2965ebaa533975904}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!DEBUG_WAR_CONSOLE_ON@{DEBUG\_\-WAR\_\-CONSOLE\_\-ON}}
+\index{DEBUG_WAR_CONSOLE_ON@{DEBUG\_\-WAR\_\-CONSOLE\_\-ON}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[DEBUG\_\-WAR\_\-CONSOLE\_\-ON]{\setlength{\rightskip}{0pt plus 5cm}\#define DEBUG\_\-WAR\_\-CONSOLE\_\-ON}}
+\label{canOpenDriver_8c_4f52c00ab0d519e2965ebaa533975904}
+
+
+
+
+Definition at line 23 of file can\-Open\-Driver.c.\hypertarget{canOpenDriver_8c_ffe776513b24d84b39af8ab0930fef7f}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!max@{max}}
+\index{max@{max}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[max]{\setlength{\rightskip}{0pt plus 5cm}\#define max(a, b)~a$>$b?a:b}}
+\label{canOpenDriver_8c_ffe776513b24d84b39af8ab0930fef7f}
+
+
+
+
+\subsection{Function Documentation}
+\hypertarget{canOpenDriver_8c_445500277ba0e363873b34cffc015745}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!__attribute__@{\_\-\_\-attribute\_\-\_\-}}
+\index{__attribute__@{\_\-\_\-attribute\_\-\_\-}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[\_\-\_\-attribute\_\-\_\-]{\setlength{\rightskip}{0pt plus 5cm}void \_\-\_\-attribute\_\-\_\- ((interrupt))}}
+\label{canOpenDriver_8c_445500277ba0e363873b34cffc015745}
+
+
+\hyperlink{structMessage}{Message} transmitted on MSCAN 0 
+
+Definition at line 54 of file can\-Open\-Driver.c.
+
+References IO\_\-PORTS\_\-16, and TC4H.\hypertarget{canOpenDriver_8c_acfd181d5b055d1403930442e28ac643}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canAddIdToFilter@{canAddIdToFilter}}
+\index{canAddIdToFilter@{canAddIdToFilter}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canAddIdToFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Add\-Id\-To\-Filter (UNS16 {\em adr\-CAN}, UNS8 {\em n\-Filter}, UNS16 {\em id})}}
+\label{canOpenDriver_8c_acfd181d5b055d1403930442e28ac643}
+
+
+
+
+Definition at line 210 of file can\-Open\-Driver.c.
+
+References CANIDAR0, CANIDAR2, CANIDAR4, CANIDAR6, can\-Test\-Init\-Mode(), IO\_\-PORTS\_\-16, IO\_\-PORTS\_\-8, MSG\_\-WAR, and UNS8.\hypertarget{canOpenDriver_8c_751a41c9747b96ab400b5599370cea83}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canChangeFilter@{canChangeFilter}}
+\index{canChangeFilter@{canChangeFilter}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canChangeFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Change\-Filter (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} {\em fi})}}
+\label{canOpenDriver_8c_751a41c9747b96ab400b5599370cea83}
+
+
+
+
+Definition at line 250 of file can\-Open\-Driver.c.
+
+References can\-Init\-Filter(), can\-Init\-Mode(), can\-Init\-Mode\-Q(), can\-Set\-Interrupt(), can\-Sleep\-Mode(), can\-Sleep\-Mode\-Q(), and can\-Test\-Init\-Mode().\hypertarget{canOpenDriver_8c_5a53a89d2e348d70331e6ebe269d155a}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canEnable@{canEnable}}
+\index{canEnable@{canEnable}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canEnable]{\setlength{\rightskip}{0pt plus 5cm}char can\-Enable (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_5a53a89d2e348d70331e6ebe269d155a}
+
+
+
+
+Definition at line 266 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_3c4f7a31d94e5e7c7322535467b806de}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInit@{canInit}}
+\index{canInit@{canInit}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInit]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusInit}{can\-Bus\-Init} {\em bi})}}
+\label{canOpenDriver_8c_3c4f7a31d94e5e7c7322535467b806de}
+
+
+
+
+Definition at line 277 of file can\-Open\-Driver.c.
+
+References CANCTL0, CANCTL1, can\-Bus\-Init::cane, can\-Enable(), can\-Init\-Clock(), can\-Init\-Filter(), can\-Init\-Mode(), can\-Init\-Mode\-Q(), can\-Set\-Interrupt(), can\-Sleep\-Mode(), can\-Sleep\-Mode\-Q(), can\-Test\-Init\-Mode(), can\-Bus\-Init::clk, can\-Bus\-Init::cswai, can\-Bus\-Init::fi, IO\_\-PORTS\_\-8, can\-Bus\-Init::listen, can\-Bus\-Init::loopb, can\-Bus\-Init::time, and can\-Bus\-Init::wupm.\hypertarget{canOpenDriver_8c_5fb549697afb7918607aa113e01c543d}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInit1Filter@{canInit1Filter}}
+\index{canInit1Filter@{canInit1Filter}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInit1Filter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init1Filter (UNS16 {\em adr\-CAN}, UNS8 {\em n\-Filter}, UNS16 {\em ar}, UNS16 {\em mr})}}
+\label{canOpenDriver_8c_5fb549697afb7918607aa113e01c543d}
+
+
+
+
+Definition at line 335 of file can\-Open\-Driver.c.
+
+References CANIDAR0, CANIDAR2, CANIDAR4, CANIDAR6, can\-Test\-Init\-Mode(), IO\_\-PORTS\_\-8, MSG\_\-WAR, and UNS8.\hypertarget{canOpenDriver_8c_6ec3ce6d79012dd8a08fa5aeb6a0489f}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInitClock@{canInitClock}}
+\index{canInitClock@{canInitClock}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInitClock]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Clock (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusTime}{can\-Bus\-Time} {\em clk})}}
+\label{canOpenDriver_8c_6ec3ce6d79012dd8a08fa5aeb6a0489f}
+
+
+
+
+Definition at line 313 of file can\-Open\-Driver.c.
+
+References can\-Bus\-Time::brp, CANBTR0, CANBTR1, CANCTL1, can\-Test\-Init\-Mode(), can\-Bus\-Time::clksrc, IO\_\-PORTS\_\-8, MSG\_\-WAR, can\-Bus\-Time::samp, can\-Bus\-Time::sjw, can\-Bus\-Time::tseg1, and can\-Bus\-Time::tseg2.\hypertarget{canOpenDriver_8c_b4502eef7616b25c74b1ac5a2245b085}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInitFilter@{canInitFilter}}
+\index{canInitFilter@{canInitFilter}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInitFilter]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Filter (UNS16 {\em adr\-CAN}, \hyperlink{structcanBusFilterInit}{can\-Bus\-Filter\-Init} {\em fi})}}
+\label{canOpenDriver_8c_b4502eef7616b25c74b1ac5a2245b085}
+
+
+
+
+Definition at line 364 of file can\-Open\-Driver.c.
+
+References CANIDAC, CANIDAR0, can\-Bus\-Filter\-Init::canidar0, CANIDAR1, can\-Bus\-Filter\-Init::canidar1, CANIDAR2, can\-Bus\-Filter\-Init::canidar2, CANIDAR3, can\-Bus\-Filter\-Init::canidar3, CANIDAR4, can\-Bus\-Filter\-Init::canidar4, CANIDAR5, can\-Bus\-Filter\-Init::canidar5, CANIDAR6, can\-Bus\-Filter\-Init::canidar6, CANIDAR7, can\-Bus\-Filter\-Init::canidar7, CANIDMR0, can\-Bus\-Filter\-Init::canidmr0, CANIDMR1, can\-Bus\-Filter\-Init::canidmr1, CANIDMR2, can\-Bus\-Filter\-Init::canidmr2, CANIDMR3, can\-Bus\-Filter\-Init::canidmr3, CANIDMR4, can\-Bus\-Filter\-Init::canidmr4, CANIDMR5, can\-Bus\-Filter\-Init::canidmr5, CANIDMR6, can\-Bus\-Filter\-Init::canidmr6, CANIDMR7, can\-Bus\-Filter\-Init::canidmr7, can\-Test\-Init\-Mode(), can\-Bus\-Filter\-Init::idam, IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{canOpenDriver_8c_0b98e4800c82d99981833aa4207f1eb9}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInitMode@{canInitMode}}
+\index{canInitMode@{canInitMode}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInitMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Mode (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_0b98e4800c82d99981833aa4207f1eb9}
+
+
+
+
+Definition at line 392 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_00ffb46abacfdfa56ebc70e15164113e}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canInitModeQ@{canInitModeQ}}
+\index{canInitModeQ@{canInitModeQ}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canInitModeQ]{\setlength{\rightskip}{0pt plus 5cm}char can\-Init\-Mode\-Q (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_00ffb46abacfdfa56ebc70e15164113e}
+
+
+
+
+Definition at line 401 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_2f2d1ed55cfd9d7f85883f8d70d318ba}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canMsgTransmit@{canMsgTransmit}}
+\index{canMsgTransmit@{canMsgTransmit}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canMsgTransmit]{\setlength{\rightskip}{0pt plus 5cm}char can\-Msg\-Transmit (UNS16 {\em adr\-CAN}, \hyperlink{structMessage}{Message} {\em msg})}}
+\label{canOpenDriver_8c_2f2d1ed55cfd9d7f85883f8d70d318ba}
+
+
+
+
+Definition at line 410 of file can\-Open\-Driver.c.
+
+References CANTBSEL, CANTFLG, CANTRSDTA, CANTRSID, CANTRSLEN, CANTRSPRI, Message::cob\_\-id, Message::data, IO\_\-PORTS\_\-8, Message::len, MSG\_\-WAR, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{canOpenDriver_8c_b57b4b3c000e9f61135175495e874977}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canSend@{canSend}}
+\index{canSend@{canSend}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canSend]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send (UNS8 {\em notused}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{canOpenDriver_8c_b57b4b3c000e9f61135175495e874977}
+
+
+
+
+Definition at line 505 of file can\-Open\-Driver.c.
+
+References can\-Msg\-Transmit(), and CANOPEN\_\-LINE\_\-NUMBER\_\-USED.\hypertarget{canOpenDriver_8c_5ad8616a3276f7f40149b551f09aa6a1}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canSetInterrupt@{canSetInterrupt}}
+\index{canSetInterrupt@{canSetInterrupt}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canSetInterrupt]{\setlength{\rightskip}{0pt plus 5cm}char can\-Set\-Interrupt (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_5ad8616a3276f7f40149b551f09aa6a1}
+
+
+
+
+Definition at line 445 of file can\-Open\-Driver.c.
+
+References CANRIER, CANTIER, and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_c7773223579ec7e0fab5238df214da89}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canSleepMode@{canSleepMode}}
+\index{canSleepMode@{canSleepMode}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canSleepMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Mode (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_c7773223579ec7e0fab5238df214da89}
+
+
+
+
+Definition at line 452 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Sleep\-Mode(), and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_a89f28005eea54f5b216eb72a18d45f3}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canSleepModeQ@{canSleepModeQ}}
+\index{canSleepModeQ@{canSleepModeQ}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canSleepModeQ]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Mode\-Q (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_a89f28005eea54f5b216eb72a18d45f3}
+
+
+
+
+Definition at line 466 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), can\-Test\-Sleep\-Mode(), IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{canOpenDriver_8c_1ae1ad5d66ac87085baf5b9d0a4e62ca}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canSleepWupMode@{canSleepWupMode}}
+\index{canSleepWupMode@{canSleepWupMode}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canSleepWupMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Sleep\-Wup\-Mode (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_1ae1ad5d66ac87085baf5b9d0a4e62ca}
+
+
+
+
+Definition at line 480 of file can\-Open\-Driver.c.
+
+References CANCTL0, can\-Test\-Init\-Mode(), can\-Test\-Sleep\-Mode(), IO\_\-PORTS\_\-8, and MSG\_\-WAR.\hypertarget{canOpenDriver_8c_6beefe951b3c9de786c585257488fa82}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canTestInitMode@{canTestInitMode}}
+\index{canTestInitMode@{canTestInitMode}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canTestInitMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Test\-Init\-Mode (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_6beefe951b3c9de786c585257488fa82}
+
+
+
+
+Definition at line 493 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_fa79f2ac95a8143c2fb087260df39820}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!canTestSleepMode@{canTestSleepMode}}
+\index{canTestSleepMode@{canTestSleepMode}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[canTestSleepMode]{\setlength{\rightskip}{0pt plus 5cm}char can\-Test\-Sleep\-Mode (UNS16 {\em adr\-CAN})}}
+\label{canOpenDriver_8c_fa79f2ac95a8143c2fb087260df39820}
+
+
+
+
+Definition at line 499 of file can\-Open\-Driver.c.
+
+References CANCTL1, and IO\_\-PORTS\_\-8.\hypertarget{canOpenDriver_8c_0bf58f014d47581c9ffd1b2db9a858d7}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!f_can_receive@{f\_\-can\_\-receive}}
+\index{f_can_receive@{f\_\-can\_\-receive}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[f\_\-can\_\-receive]{\setlength{\rightskip}{0pt plus 5cm}UNS8 f\_\-can\_\-receive (UNS8 {\em notused}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{canOpenDriver_8c_0bf58f014d47581c9ffd1b2db9a858d7}
+
+
+
+
+Definition at line 513 of file can\-Open\-Driver.c.
+
+References CAN0, CAN1, CAN2, CAN3, CAN4, CANOPEN\_\-LINE\_\-NUMBER\_\-USED, Message::cob\_\-id, Message::data, Message::len, MAX\_\-STACK\_\-MSG\_\-RCV, t\_\-pointer\-Stack::r, Message::rtr, UNS8, and SHORT\_\-CAN::w.\hypertarget{canOpenDriver_8c_24dbe63e88d184388542037d16a8208d}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!getElapsedTime@{getElapsedTime}}
+\index{getElapsedTime@{getElapsedTime}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[getElapsedTime]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL get\-Elapsed\-Time (void)}}
+\label{canOpenDriver_8c_24dbe63e88d184388542037d16a8208d}
+
+
+
+
+Definition at line 66 of file can\-Open\-Driver.c.\hypertarget{canOpenDriver_8c_2a9aef0efc98c5b41ef97ef91ad403e5}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!hex_convert@{hex\_\-convert}}
+\index{hex_convert@{hex\_\-convert}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[hex\_\-convert]{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ hex\_\-convert (char $\ast$ {\em buf}, unsigned long {\em value}, char {\em last\-Car})}}
+\label{canOpenDriver_8c_2a9aef0efc98c5b41ef97ef91ad403e5}
+
+
+Convert an integer to a string in hexadecimal format If you do not wants to use a last\-Car, put last\-Car = '' (end of string) ex : value = 0XABCDEF and last\-Car = '\par
+' buf\mbox{[}0\mbox{]} = '0' buf\mbox{[}1\mbox{]} = 'X' buf\mbox{[}2\mbox{]} = 'A' .... buf\mbox{[}7\mbox{]} = 'F' buf\mbox{[}8\mbox{]} = '\par
+' buf\mbox{[}9\mbox{]} = '' 
+
+Definition at line 135 of file can\-Open\-Driver.c.\hypertarget{canOpenDriver_8c_c71399958d35a7f703416f025603ee26}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!initHCS12@{initHCS12}}
+\index{initHCS12@{initHCS12}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[initHCS12]{\setlength{\rightskip}{0pt plus 5cm}void init\-HCS12 (void)}}
+\label{canOpenDriver_8c_c71399958d35a7f703416f025603ee26}
+
+
+Put here all the code to init the HCS12. 
+
+
+
+Definition at line 199 of file can\-Open\-Driver.c.
+
+References init\-PLL(), and MSG\_\-WAR.\hypertarget{canOpenDriver_8c_51e71c727eb7a49e2fde962a3d190a6b}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!initPLL@{initPLL}}
+\index{initPLL@{initPLL}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[initPLL]{\setlength{\rightskip}{0pt plus 5cm}void init\-PLL (void)}}
+\label{canOpenDriver_8c_51e71c727eb7a49e2fde962a3d190a6b}
+
+
+to start using the PLL. Bus clock becomes 24 MHz if the quartz on the board is at 16 MHz 
+
+Definition at line 188 of file can\-Open\-Driver.c.
+
+References CLKSEL, CRGFLG, IO\_\-PORTS\_\-8, PLLCTL, REFDV, and SYNR.\hypertarget{canOpenDriver_8c_f86db4b817c1a59a819cbdd51779bfaa}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!initSCI_0@{initSCI\_\-0}}
+\index{initSCI_0@{initSCI\_\-0}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[initSCI\_\-0]{\setlength{\rightskip}{0pt plus 5cm}void init\-SCI\_\-0 (void)}}
+\label{canOpenDriver_8c_f86db4b817c1a59a819cbdd51779bfaa}
+
+
+Initialisation of the serial port 0. 
+
+
+
+Definition at line 115 of file can\-Open\-Driver.c.
+
+References BUS\_\-CLOCK, IO\_\-PORTS\_\-16, IO\_\-PORTS\_\-8, SCI0, SCIBDH, SCICR1, SCICR2, and SERIAL\_\-SCI0\_\-BAUD\_\-RATE.\hypertarget{canOpenDriver_8c_b56fa1754706a57059103710178bdb68}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!initSCI_1@{initSCI\_\-1}}
+\index{initSCI_1@{initSCI\_\-1}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[initSCI\_\-1]{\setlength{\rightskip}{0pt plus 5cm}void init\-SCI\_\-1 (void)}}
+\label{canOpenDriver_8c_b56fa1754706a57059103710178bdb68}
+
+
+Initialisation of the serial port 1. 
+
+
+
+Definition at line 124 of file can\-Open\-Driver.c.
+
+References BUS\_\-CLOCK, IO\_\-PORTS\_\-16, IO\_\-PORTS\_\-8, SCI1, SCIBDH, SCICR1, SCICR2, and SERIAL\_\-SCI1\_\-BAUD\_\-RATE.\hypertarget{canOpenDriver_8c_02922529b60419a94afe8f369dda070b}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!initTimer@{initTimer}}
+\index{initTimer@{initTimer}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[initTimer]{\setlength{\rightskip}{0pt plus 5cm}void init\-Timer (void)}}
+\label{canOpenDriver_8c_02922529b60419a94afe8f369dda070b}
+
+
+
+
+Definition at line 79 of file can\-Open\-Driver.c.\hypertarget{canOpenDriver_8c_80f5dbbc046cba0e5e9cf2bcc4c1e78e}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!printSCI_nbr@{printSCI\_\-nbr}}
+\index{printSCI_nbr@{printSCI\_\-nbr}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[printSCI\_\-nbr]{\setlength{\rightskip}{0pt plus 5cm}void print\-SCI\_\-nbr (char {\em sci}, unsigned long {\em nbr}, char {\em last\-Car})}}
+\label{canOpenDriver_8c_80f5dbbc046cba0e5e9cf2bcc4c1e78e}
+
+
+Print the number in hexadecimal to the serial port sci (sci takes the values SCI0 or SCI1) 
+
+Definition at line 179 of file can\-Open\-Driver.c.
+
+References hex\_\-convert(), and print\-SCI\_\-str().\hypertarget{canOpenDriver_8c_6e3075ae435e83aefc018e5218c197d0}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!printSCI_str@{printSCI\_\-str}}
+\index{printSCI_str@{printSCI\_\-str}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[printSCI\_\-str]{\setlength{\rightskip}{0pt plus 5cm}void print\-SCI\_\-str (char {\em sci}, const char $\ast$ {\em str})}}
+\label{canOpenDriver_8c_6e3075ae435e83aefc018e5218c197d0}
+
+
+Print the string to the serial port sci (sci takes the values SCI0 or SCI1) 
+
+Definition at line 162 of file can\-Open\-Driver.c.
+
+References IO\_\-PORTS\_\-8, SCIDRL, and SCISR1.\hypertarget{canOpenDriver_8c_339b24f4eee897d3c45d88de9a4901e8}{
+\index{canOpenDriver.c@{can\-Open\-Driver.c}!resetTimer@{resetTimer}}
+\index{resetTimer@{resetTimer}!canOpenDriver.c@{can\-Open\-Driver.c}}
+\subsubsection[resetTimer]{\setlength{\rightskip}{0pt plus 5cm}void reset\-Timer (void)}}
+\label{canOpenDriver_8c_339b24f4eee897d3c45d88de9a4901e8}
+
+
+
+
+Definition at line 73 of file can\-Open\-Driver.c.

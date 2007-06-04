@@ -1,0 +1,108 @@
+\hypertarget{timer_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/src/timer.c File Reference}
+\label{timer_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/src/timer.c@{/home/epimerde/documents/tc11/CanFestival-3/src/timer.c}}
+}
+{\tt \#include $<$applicfg.h$>$}\par
+{\tt \#include \char`\"{}timer.h\char`\"{}}\par
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{timer_8c_8536312cebeeea3a23dc0027800122c9}{min\_\-val}(a, b)~((a$<$b)?a:b)
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+TIMER\_\-HANDLE \hyperlink{timer_8c_11c2616d78f06ed9144ef662f757b128}{Set\-Alarm} (CO\_\-Data $\ast$d, UNS32 id, Timer\-Callback\_\-t callback, TIMEVAL value, TIMEVAL period)
+\item 
+TIMER\_\-HANDLE \hyperlink{timer_8c_991b3cfaac2f201b14d5530f75985c21}{Del\-Alarm} (TIMER\_\-HANDLE handle)
+\item 
+void \hyperlink{timer_8c_fa75192a3238525618f8cb83004930cc}{Time\-Dispatch} ()
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+s\_\-timer\_\-entry \hyperlink{timer_8c_a74e2cf2504bfd18b12f112c7aaad845}{timers} \mbox{[}MAX\_\-NB\_\-TIMER\mbox{]} = \{\{TIMER\_\-FREE, NULL, NULL, 0, 0, 0\},\}
+\item 
+TIMEVAL \hyperlink{timer_8c_5e9651eed13d70bcce9bdf3489a72a3d}{total\_\-sleep\_\-time} = TIMEVAL\_\-MAX
+\item 
+TIMER\_\-HANDLE \hyperlink{timer_8c_1dab7b9a29bdee8b1931f8ea90685c6f}{last\_\-timer\_\-raw} = -1
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{timer_8c_8536312cebeeea3a23dc0027800122c9}{
+\index{timer.c@{timer.c}!min_val@{min\_\-val}}
+\index{min_val@{min\_\-val}!timer.c@{timer.c}}
+\subsubsection[min\_\-val]{\setlength{\rightskip}{0pt plus 5cm}\#define min\_\-val(a, b)~((a$<$b)?a:b)}}
+\label{timer_8c_8536312cebeeea3a23dc0027800122c9}
+
+
+
+
+Definition at line 35 of file timer.c.
+
+\subsection{Function Documentation}
+\hypertarget{timer_8c_991b3cfaac2f201b14d5530f75985c21}{
+\index{timer.c@{timer.c}!DelAlarm@{DelAlarm}}
+\index{DelAlarm@{DelAlarm}!timer.c@{timer.c}}
+\subsubsection[DelAlarm]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE Del\-Alarm (TIMER\_\-HANDLE {\em handle})}}
+\label{timer_8c_991b3cfaac2f201b14d5530f75985c21}
+
+
+
+
+Definition at line 87 of file timer.c.
+
+References last\_\-timer\_\-raw, and timers.\hypertarget{timer_8c_11c2616d78f06ed9144ef662f757b128}{
+\index{timer.c@{timer.c}!SetAlarm@{SetAlarm}}
+\index{SetAlarm@{SetAlarm}!timer.c@{timer.c}}
+\subsubsection[SetAlarm]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE Set\-Alarm (CO\_\-Data $\ast$ {\em d}, UNS32 {\em id}, Timer\-Callback\_\-t {\em callback}, TIMEVAL {\em value}, TIMEVAL {\em period})}}
+\label{timer_8c_11c2616d78f06ed9144ef662f757b128}
+
+
+
+
+Definition at line 38 of file timer.c.
+
+References last\_\-timer\_\-raw, and timers.\hypertarget{timer_8c_fa75192a3238525618f8cb83004930cc}{
+\index{timer.c@{timer.c}!TimeDispatch@{TimeDispatch}}
+\index{TimeDispatch@{TimeDispatch}!timer.c@{timer.c}}
+\subsubsection[TimeDispatch]{\setlength{\rightskip}{0pt plus 5cm}void Time\-Dispatch ()}}
+\label{timer_8c_fa75192a3238525618f8cb83004930cc}
+
+
+
+
+Definition at line 104 of file timer.c.
+
+References last\_\-timer\_\-raw, min\_\-val, timers, and total\_\-sleep\_\-time.
+
+\subsection{Variable Documentation}
+\hypertarget{timer_8c_1dab7b9a29bdee8b1931f8ea90685c6f}{
+\index{timer.c@{timer.c}!last_timer_raw@{last\_\-timer\_\-raw}}
+\index{last_timer_raw@{last\_\-timer\_\-raw}!timer.c@{timer.c}}
+\subsubsection[last\_\-timer\_\-raw]{\setlength{\rightskip}{0pt plus 5cm}TIMER\_\-HANDLE \hyperlink{timer_8c_1dab7b9a29bdee8b1931f8ea90685c6f}{last\_\-timer\_\-raw} = -1}}
+\label{timer_8c_1dab7b9a29bdee8b1931f8ea90685c6f}
+
+
+
+
+Definition at line 33 of file timer.c.\hypertarget{timer_8c_a74e2cf2504bfd18b12f112c7aaad845}{
+\index{timer.c@{timer.c}!timers@{timers}}
+\index{timers@{timers}!timer.c@{timer.c}}
+\subsubsection[timers]{\setlength{\rightskip}{0pt plus 5cm}s\_\-timer\_\-entry \hyperlink{timer_8c_a74e2cf2504bfd18b12f112c7aaad845}{timers}\mbox{[}MAX\_\-NB\_\-TIMER\mbox{]} = \{\{TIMER\_\-FREE, NULL, NULL, 0, 0, 0\},\}}}
+\label{timer_8c_a74e2cf2504bfd18b12f112c7aaad845}
+
+
+
+
+Definition at line 30 of file timer.c.\hypertarget{timer_8c_5e9651eed13d70bcce9bdf3489a72a3d}{
+\index{timer.c@{timer.c}!total_sleep_time@{total\_\-sleep\_\-time}}
+\index{total_sleep_time@{total\_\-sleep\_\-time}!timer.c@{timer.c}}
+\subsubsection[total\_\-sleep\_\-time]{\setlength{\rightskip}{0pt plus 5cm}TIMEVAL \hyperlink{timer_8c_5e9651eed13d70bcce9bdf3489a72a3d}{total\_\-sleep\_\-time} = TIMEVAL\_\-MAX}}
+\label{timer_8c_5e9651eed13d70bcce9bdf3489a72a3d}
+
+
+
+
+Definition at line 32 of file timer.c.

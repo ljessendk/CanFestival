@@ -1,0 +1,98 @@
+\hypertarget{lifegrd_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/lifegrd.h File Reference}
+\label{lifegrd_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/lifegrd.h@{/home/epimerde/documents/tc11/CanFestival-3/include/lifegrd.h}}
+}
+{\tt \#include $<$applicfg.h$>$}\par
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef void($\ast$) \hyperlink{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}{heartbeat\-Error\_\-t} (UNS8)
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{lifegrd_8h_5249eb891f5677b80ccf01e604748524}{\_\-heartbeat\-Error} (UNS8 heartbeat\-ID)
+\item 
+\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} \hyperlink{lifegrd_8h_627254070e45c23f1776e12c524492ff}{get\-Node\-State} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, UNS8 node\-Id)
+\item 
+void \hyperlink{lifegrd_8h_8896f6846e4d020390f6953f3d98aa21}{heartbeat\-Init} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\item 
+void \hyperlink{lifegrd_8h_1b73047269c2a02065e12af18c6053c7}{heartbeat\-Stop} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\item 
+void \hyperlink{lifegrd_8h_b3248945e06e8b05518beddf665f174d}{proceed\-NODE\_\-GUARD} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d, \hyperlink{structMessage}{Message} $\ast$m)
+\end{CompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}{
+\index{lifegrd.h@{lifegrd.h}!heartbeatError_t@{heartbeatError\_\-t}}
+\index{heartbeatError_t@{heartbeatError\_\-t}!lifegrd.h@{lifegrd.h}}
+\subsubsection[heartbeatError\_\-t]{\setlength{\rightskip}{0pt plus 5cm}typedef void($\ast$) \hyperlink{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}{heartbeat\-Error\_\-t}(UNS8)}}
+\label{lifegrd_8h_eca3959d33fceb33487363a0493d3b7d}
+
+
+
+
+Definition at line 29 of file lifegrd.h.
+
+\subsection{Function Documentation}
+\hypertarget{lifegrd_8h_5249eb891f5677b80ccf01e604748524}{
+\index{lifegrd.h@{lifegrd.h}!_heartbeatError@{\_\-heartbeatError}}
+\index{_heartbeatError@{\_\-heartbeatError}!lifegrd.h@{lifegrd.h}}
+\subsubsection[\_\-heartbeatError]{\setlength{\rightskip}{0pt plus 5cm}void \_\-heartbeat\-Error (UNS8 {\em heartbeat\-ID})}}
+\label{lifegrd_8h_5249eb891f5677b80ccf01e604748524}
+
+
+
+
+Definition at line 184 of file lifegrd.c.\hypertarget{lifegrd_8h_627254070e45c23f1776e12c524492ff}{
+\index{lifegrd.h@{lifegrd.h}!getNodeState@{getNodeState}}
+\index{getNodeState@{getNodeState}!lifegrd.h@{lifegrd.h}}
+\subsubsection[getNodeState]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{states_8h_5891f63a4c9243179838389a93d084e2}{e\_\-node\-State} get\-Node\-State (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, UNS8 {\em node\-Id})}}
+\label{lifegrd_8h_627254070e45c23f1776e12c524492ff}
+
+
+To read the state of a node This can be used by the master after having sent a life guard request, of by any node if it is waiting for heartbeat. 
+
+Definition at line 33 of file lifegrd.c.
+
+References struct\_\-s\_\-timer\_\-entry::d, and struct\_\-CO\_\-Data::NMTable.\hypertarget{lifegrd_8h_8896f6846e4d020390f6953f3d98aa21}{
+\index{lifegrd.h@{lifegrd.h}!heartbeatInit@{heartbeatInit}}
+\index{heartbeatInit@{heartbeatInit}!lifegrd.h@{lifegrd.h}}
+\subsubsection[heartbeatInit]{\setlength{\rightskip}{0pt plus 5cm}void heartbeat\-Init (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{lifegrd_8h_8896f6846e4d020390f6953f3d98aa21}
+
+
+Start heartbeat consumer and producer with respect to 0x1016 and 0x1017 object dictionary entries 
+
+Definition at line 147 of file lifegrd.c.
+
+References Consumer\-Hearbeat\-Alarm(), struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Count, struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Entries, struct\_\-CO\_\-Data::Consumer\-Heart\-Beat\-Timers, struct\_\-s\_\-timer\_\-entry::d, MS\_\-TO\_\-TIMEVAL, On\-Heartbeat\-Producer\-Update(), Producer\-Hearbeat\-Alarm(), struct\_\-CO\_\-Data::Producer\-Heart\-Beat\-Time, struct\_\-CO\_\-Data::Producer\-Heart\-Beat\-Timer, Register\-Set\-ODentry\-Call\-Back(), Set\-Alarm(), TIMEVAL, struct\_\-CO\_\-Data::toggle, UNS16, UNS32, and UNS8.\hypertarget{lifegrd_8h_1b73047269c2a02065e12af18c6053c7}{
+\index{lifegrd.h@{lifegrd.h}!heartbeatStop@{heartbeatStop}}
+\index{heartbeatStop@{heartbeatStop}!lifegrd.h@{lifegrd.h}}
+\subsubsection[heartbeatStop]{\setlength{\rightskip}{0pt plus 5cm}void heartbeat\-Stop (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{lifegrd_8h_1b73047269c2a02065e12af18c6053c7}
+
+
+Stop heartbeat consumer and producer 
+
+Definition at line 173 of file lifegrd.c.
+
+References struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Count, struct\_\-CO\_\-Data::Consumer\-Heart\-Beat\-Timers, struct\_\-s\_\-timer\_\-entry::d, Del\-Alarm(), struct\_\-CO\_\-Data::Producer\-Heart\-Beat\-Timer, and UNS8.\hypertarget{lifegrd_8h_b3248945e06e8b05518beddf665f174d}{
+\index{lifegrd.h@{lifegrd.h}!proceedNODE_GUARD@{proceedNODE\_\-GUARD}}
+\index{proceedNODE_GUARD@{proceedNODE\_\-GUARD}!lifegrd.h@{lifegrd.h}}
+\subsubsection[proceedNODE\_\-GUARD]{\setlength{\rightskip}{0pt plus 5cm}void proceed\-NODE\_\-GUARD (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{lifegrd_8h_b3248945e06e8b05518beddf665f174d}
+
+
+This function is responsible to process a canopen-message which seams to be an NMT Error Control Messages. At them moment we assume that every NMT error control message is a heartbeat message. \begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em \hyperlink{structMessage}{Message}}]The CAN-message which has to be analysed. If a Boot\-Up message is detected, it will return the node\-Id of the Slave who booted up \end{description}
+\end{Desc}
+
+
+Definition at line 50 of file lifegrd.c.
+
+References struct\_\-CO\_\-Data::b\-Device\-Node\-Id, struct\_\-CO\_\-Data::can\-Handle, can\-Send(), Message::cob\_\-id, Consumer\-Hearbeat\-Alarm(), struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Count, struct\_\-CO\_\-Data::Consumer\-Heartbeat\-Entries, struct\_\-CO\_\-Data::Consumer\-Heart\-Beat\-Timers, struct\_\-s\_\-timer\_\-entry::d, Message::data, Del\-Alarm(), GET\_\-NODE\_\-ID, Initialisation, Message::len, MS\_\-TO\_\-TIMEVAL, MSG\_\-WAR, struct\_\-CO\_\-Data::NMTable, struct\_\-CO\_\-Data::node\-State, Message::rtr, Set\-Alarm(), TIMEVAL, struct\_\-CO\_\-Data::toggle, Unknown\_\-state, UNS32, UNS8, and SHORT\_\-CAN::w.

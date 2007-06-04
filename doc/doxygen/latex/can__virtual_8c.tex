@@ -1,0 +1,126 @@
+\hypertarget{can__virtual_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/can\_\-virtual/can\_\-virtual.c File Reference}
+\label{can__virtual_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/can_virtual/can_virtual.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/can\_\-virtual/can\_\-virtual.c}}
+}
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+{\tt \#include \char`\"{}def.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structCANPipe}{CANPipe}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{can__virtual_8c_b2f51095e950bbeab1ea15fac21e6146}{MAX\_\-NB\_\-CAN\_\-PIPES}~16
+\item 
+\#define \hyperlink{can__virtual_8c_124cab530f97a752eb2e110c1b398c11}{My\-Case}(fc)~case fc: printf(\#fc);break;
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{can__virtual_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{can\-Receive\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+void \hyperlink{can__virtual_8c_6baa544d467cbabaf4bacadc74cc6523}{print\_\-message} (\hyperlink{structMessage}{Message} $\ast$m)
+\item 
+UNS8 \hyperlink{can__virtual_8c_def95aee49efa13dd047d0b3b5507ad3}{can\-Send\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} \hyperlink{can__virtual_8c_945403aba7f36acbd2e7160ade361bab}{can\-Open\_\-driver} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board)
+\item 
+int \hyperlink{can__virtual_8c_76e6a915d0e40a23b863198b2aaa5545}{can\-Close\_\-driver} (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} fd0)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+\hyperlink{structCANPipe}{CANPipe} \hyperlink{can__virtual_8c_53fd0e34e8d4d31bf381700a9d8ae72b}{canpipes} \mbox{[}MAX\_\-NB\_\-CAN\_\-PIPES\mbox{]} = \{\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{can__virtual_8c_b2f51095e950bbeab1ea15fac21e6146}{
+\index{can_virtual.c@{can\_\-virtual.c}!MAX_NB_CAN_PIPES@{MAX\_\-NB\_\-CAN\_\-PIPES}}
+\index{MAX_NB_CAN_PIPES@{MAX\_\-NB\_\-CAN\_\-PIPES}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[MAX\_\-NB\_\-CAN\_\-PIPES]{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-NB\_\-CAN\_\-PIPES~16}}
+\label{can__virtual_8c_b2f51095e950bbeab1ea15fac21e6146}
+
+
+
+
+Definition at line 33 of file can\_\-virtual.c.\hypertarget{can__virtual_8c_124cab530f97a752eb2e110c1b398c11}{
+\index{can_virtual.c@{can\_\-virtual.c}!MyCase@{MyCase}}
+\index{MyCase@{MyCase}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[MyCase]{\setlength{\rightskip}{0pt plus 5cm}\#define My\-Case(fc)~case fc: printf(\#fc);break;}}
+\label{can__virtual_8c_124cab530f97a752eb2e110c1b398c11}
+
+
+
+
+Definition at line 52 of file can\_\-virtual.c.
+
+\subsection{Function Documentation}
+\hypertarget{can__virtual_8c_76e6a915d0e40a23b863198b2aaa5545}{
+\index{can_virtual.c@{can\_\-virtual.c}!canClose_driver@{canClose\_\-driver}}
+\index{canClose_driver@{canClose\_\-driver}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[canClose\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0})}}
+\label{can__virtual_8c_76e6a915d0e40a23b863198b2aaa5545}
+
+
+
+
+Definition at line 142 of file can\_\-virtual.c.\hypertarget{can__virtual_8c_945403aba7f36acbd2e7160ade361bab}{
+\index{can_virtual.c@{can\_\-virtual.c}!canOpen_driver@{canOpen\_\-driver}}
+\index{canOpen_driver@{canOpen\_\-driver}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[canOpen\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} can\-Open\_\-driver (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board})}}
+\label{can__virtual_8c_945403aba7f36acbd2e7160ade361bab}
+
+
+
+
+Definition at line 121 of file can\_\-virtual.c.
+
+References canpipes, MAX\_\-NB\_\-CAN\_\-PIPES, and CANPipe::used.\hypertarget{can__virtual_8c_6b3248e95acf2b08d1fd8b42610cc5a6}{
+\index{can_virtual.c@{can\_\-virtual.c}!canReceive_driver@{canReceive\_\-driver}}
+\index{canReceive_driver@{canReceive\_\-driver}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[canReceive\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Receive\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__virtual_8c_6b3248e95acf2b08d1fd8b42610cc5a6}
+
+
+
+
+Definition at line 43 of file can\_\-virtual.c.\hypertarget{can__virtual_8c_def95aee49efa13dd047d0b3b5507ad3}{
+\index{can_virtual.c@{can\_\-virtual.c}!canSend_driver@{canSend\_\-driver}}
+\index{canSend_driver@{canSend\_\-driver}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[canSend\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send\_\-driver (\hyperlink{win32_2applicfg_8h_712c7b28987b12b8d400df19c92d0f5e}{CAN\_\-HANDLE} {\em fd0}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__virtual_8c_def95aee49efa13dd047d0b3b5507ad3}
+
+
+
+
+Definition at line 81 of file can\_\-virtual.c.
+
+References canpipes, MAX\_\-NB\_\-CAN\_\-PIPES, and print\_\-message().\hypertarget{can__virtual_8c_6baa544d467cbabaf4bacadc74cc6523}{
+\index{can_virtual.c@{can\_\-virtual.c}!print_message@{print\_\-message}}
+\index{print_message@{print\_\-message}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[print\_\-message]{\setlength{\rightskip}{0pt plus 5cm}void print\_\-message (\hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{can__virtual_8c_6baa544d467cbabaf4bacadc74cc6523}
+
+
+
+
+Definition at line 53 of file can\_\-virtual.c.
+
+References Message::cob\_\-id, Message::data, Message::len, My\-Case, NMT, NODE\_\-GUARD, PDO1rx, PDO1tx, PDO2rx, PDO2tx, PDO3rx, PDO3tx, PDO4rx, PDO4tx, Message::rtr, SDOrx, SDOtx, SYNC, TIME\_\-STAMP, and SHORT\_\-CAN::w.
+
+\subsection{Variable Documentation}
+\hypertarget{can__virtual_8c_53fd0e34e8d4d31bf381700a9d8ae72b}{
+\index{can_virtual.c@{can\_\-virtual.c}!canpipes@{canpipes}}
+\index{canpipes@{canpipes}!can_virtual.c@{can\_\-virtual.c}}
+\subsubsection[canpipes]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structCANPipe}{CANPipe} \hyperlink{can__virtual_8c_53fd0e34e8d4d31bf381700a9d8ae72b}{canpipes}\mbox{[}MAX\_\-NB\_\-CAN\_\-PIPES\mbox{]} = \{\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\}}}
+\label{can__virtual_8c_53fd0e34e8d4d31bf381700a9d8ae72b}
+
+
+
+
+Definition at line 40 of file can\_\-virtual.c.

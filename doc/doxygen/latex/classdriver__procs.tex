@@ -1,0 +1,136 @@
+\hypertarget{classdriver__procs}{
+\section{driver\_\-procs Class Reference}
+\label{classdriver__procs}\index{driver_procs@{driver\_\-procs}}
+}
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\hyperlink{classdriver__procs_8e3bbe4106667c3c671d24819febd053}{driver\_\-procs} ()
+\item 
+\hyperlink{classdriver__procs_1abda1ff5fd6c82a3549fad6437ac0f7}{$\sim$driver\_\-procs} ()
+\item 
+HMODULE \hyperlink{classdriver__procs_719fa10d86bcd9b7a1ab7bea3dec1d03}{load\_\-canfestival\_\-driver} (LPCTSTR driver\_\-name)
+\item 
+bool \hyperlink{classdriver__procs_a1e608bb39ab9183961b7ded9f27d193}{can\_\-driver\_\-valid} () const
+\end{CompactItemize}
+\subsection*{Data Fields}
+\begin{CompactItemize}
+\item 
+\hyperlink{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}{CANRECEIVE\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_ccb0ced5c9a7e1d9827639892db97917}{m\_\-can\-Receive}
+\item 
+\hyperlink{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}{CANSEND\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_78808f630f632d281a6027f15c3a357f}{m\_\-can\-Send}
+\item 
+\hyperlink{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}{CANOPEN\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_2424edaa753b0dd8406c01e84ef8ddea}{m\_\-can\-Open}
+\item 
+\hyperlink{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}{CANCLOSE\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_d9b6df932422d3d5e20ea185b06e7d44}{m\_\-can\-Close}
+\item 
+HMODULE \hyperlink{classdriver__procs_34bbbadb3938c98bc54f27c827a96a0a}{m\_\-driver\_\-handle}
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+
+
+Definition at line 46 of file drivers\_\-win32.cpp.
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classdriver__procs_8e3bbe4106667c3c671d24819febd053}{
+\index{driver_procs@{driver\_\-procs}!driver_procs@{driver\_\-procs}}
+\index{driver_procs@{driver\_\-procs}!driver_procs@{driver\_\-procs}}
+\subsubsection[driver\_\-procs]{\setlength{\rightskip}{0pt plus 5cm}driver\_\-procs::driver\_\-procs ()}}
+\label{classdriver__procs_8e3bbe4106667c3c671d24819febd053}
+
+
+
+
+Definition at line 66 of file drivers\_\-win32.cpp.\hypertarget{classdriver__procs_1abda1ff5fd6c82a3549fad6437ac0f7}{
+\index{driver_procs@{driver\_\-procs}!~driver_procs@{$\sim$driver\_\-procs}}
+\index{~driver_procs@{$\sim$driver\_\-procs}!driver_procs@{driver\_\-procs}}
+\subsubsection[$\sim$driver\_\-procs]{\setlength{\rightskip}{0pt plus 5cm}driver\_\-procs::$\sim$driver\_\-procs ()}}
+\label{classdriver__procs_1abda1ff5fd6c82a3549fad6437ac0f7}
+
+
+
+
+Definition at line 73 of file drivers\_\-win32.cpp.
+
+References m\_\-driver\_\-handle.
+
+\subsection{Member Function Documentation}
+\hypertarget{classdriver__procs_719fa10d86bcd9b7a1ab7bea3dec1d03}{
+\index{driver_procs@{driver\_\-procs}!load_canfestival_driver@{load\_\-canfestival\_\-driver}}
+\index{load_canfestival_driver@{load\_\-canfestival\_\-driver}!driver_procs@{driver\_\-procs}}
+\subsubsection[load\_\-canfestival\_\-driver]{\setlength{\rightskip}{0pt plus 5cm}HMODULE driver\_\-procs::load\_\-canfestival\_\-driver (LPCTSTR {\em driver\_\-name})}}
+\label{classdriver__procs_719fa10d86bcd9b7a1ab7bea3dec1d03}
+
+
+
+
+Definition at line 94 of file drivers\_\-win32.cpp.
+
+References can\_\-driver\_\-valid(), m\_\-can\-Close, m\_\-can\-Open, m\_\-can\-Receive, m\_\-can\-Send, m\_\-driver\_\-handle, and my\-TEXT.\hypertarget{classdriver__procs_a1e608bb39ab9183961b7ded9f27d193}{
+\index{driver_procs@{driver\_\-procs}!can_driver_valid@{can\_\-driver\_\-valid}}
+\index{can_driver_valid@{can\_\-driver\_\-valid}!driver_procs@{driver\_\-procs}}
+\subsubsection[can\_\-driver\_\-valid]{\setlength{\rightskip}{0pt plus 5cm}bool driver\_\-procs::can\_\-driver\_\-valid () const}}
+\label{classdriver__procs_a1e608bb39ab9183961b7ded9f27d193}
+
+
+
+
+Definition at line 79 of file drivers\_\-win32.cpp.
+
+References m\_\-can\-Close, m\_\-can\-Open, m\_\-can\-Receive, and m\_\-can\-Send.
+
+\subsection{Field Documentation}
+\hypertarget{classdriver__procs_ccb0ced5c9a7e1d9827639892db97917}{
+\index{driver_procs@{driver\_\-procs}!m_canReceive@{m\_\-canReceive}}
+\index{m_canReceive@{m\_\-canReceive}!driver_procs@{driver\_\-procs}}
+\subsubsection[m\_\-canReceive]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{drivers__win32_8cpp_f0240c9d4c35205726e5ae81888327dd}{CANRECEIVE\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_ccb0ced5c9a7e1d9827639892db97917}{driver\_\-procs::m\_\-can\-Receive}}}
+\label{classdriver__procs_ccb0ced5c9a7e1d9827639892db97917}
+
+
+
+
+Definition at line 57 of file drivers\_\-win32.cpp.\hypertarget{classdriver__procs_78808f630f632d281a6027f15c3a357f}{
+\index{driver_procs@{driver\_\-procs}!m_canSend@{m\_\-canSend}}
+\index{m_canSend@{m\_\-canSend}!driver_procs@{driver\_\-procs}}
+\subsubsection[m\_\-canSend]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{drivers__win32_8cpp_90aa70ea2296b46e3fa52ff5e4bbc399}{CANSEND\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_78808f630f632d281a6027f15c3a357f}{driver\_\-procs::m\_\-can\-Send}}}
+\label{classdriver__procs_78808f630f632d281a6027f15c3a357f}
+
+
+
+
+Definition at line 58 of file drivers\_\-win32.cpp.\hypertarget{classdriver__procs_2424edaa753b0dd8406c01e84ef8ddea}{
+\index{driver_procs@{driver\_\-procs}!m_canOpen@{m\_\-canOpen}}
+\index{m_canOpen@{m\_\-canOpen}!driver_procs@{driver\_\-procs}}
+\subsubsection[m\_\-canOpen]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{drivers__win32_8cpp_5db8713e505308b09dbe85ecbe707607}{CANOPEN\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_2424edaa753b0dd8406c01e84ef8ddea}{driver\_\-procs::m\_\-can\-Open}}}
+\label{classdriver__procs_2424edaa753b0dd8406c01e84ef8ddea}
+
+
+
+
+Definition at line 59 of file drivers\_\-win32.cpp.\hypertarget{classdriver__procs_d9b6df932422d3d5e20ea185b06e7d44}{
+\index{driver_procs@{driver\_\-procs}!m_canClose@{m\_\-canClose}}
+\index{m_canClose@{m\_\-canClose}!driver_procs@{driver\_\-procs}}
+\subsubsection[m\_\-canClose]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{drivers__win32_8cpp_5613306de0117eb5242ea9934348eb9f}{CANCLOSE\_\-DRIVER\_\-PROC} \hyperlink{classdriver__procs_d9b6df932422d3d5e20ea185b06e7d44}{driver\_\-procs::m\_\-can\-Close}}}
+\label{classdriver__procs_d9b6df932422d3d5e20ea185b06e7d44}
+
+
+
+
+Definition at line 60 of file drivers\_\-win32.cpp.\hypertarget{classdriver__procs_34bbbadb3938c98bc54f27c827a96a0a}{
+\index{driver_procs@{driver\_\-procs}!m_driver_handle@{m\_\-driver\_\-handle}}
+\index{m_driver_handle@{m\_\-driver\_\-handle}!driver_procs@{driver\_\-procs}}
+\subsubsection[m\_\-driver\_\-handle]{\setlength{\rightskip}{0pt plus 5cm}HMODULE \hyperlink{classdriver__procs_34bbbadb3938c98bc54f27c827a96a0a}{driver\_\-procs::m\_\-driver\_\-handle}}}
+\label{classdriver__procs_34bbbadb3938c98bc54f27c827a96a0a}
+
+
+
+
+Definition at line 63 of file drivers\_\-win32.cpp.
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+/home/epimerde/documents/tc11/Can\-Festival-3/drivers/win32/\hyperlink{drivers__win32_8cpp}{drivers\_\-win32.cpp}\end{CompactItemize}

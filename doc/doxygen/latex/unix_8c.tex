@@ -1,0 +1,167 @@
+\hypertarget{unix_8c}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/drivers/unix/unix.c File Reference}
+\label{unix_8c}\index{/home/epimerde/documents/tc11/CanFestival-3/drivers/unix/unix.c@{/home/epimerde/documents/tc11/CanFestival-3/drivers/unix/unix.c}}
+}
+{\tt \#include $<$unistd.h$>$}\par
+{\tt \#include $<$stdio.h$>$}\par
+{\tt \#include $<$stdlib.h$>$}\par
+{\tt \#include \char`\"{}data.h\char`\"{}}\par
+{\tt \#include \char`\"{}canfestival.h\char`\"{}}\par
+{\tt \#include \char`\"{}timers\_\-driver.h\char`\"{}}\par
+{\tt \#include \char`\"{}can\_\-driver.h\char`\"{}}\par
+\subsection*{Data Structures}
+\begin{CompactItemize}
+\item 
+struct \hyperlink{structCANPort}{CANPort}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define \hyperlink{unix_8c_74c6a27b44fd54de5cb021299ffce612}{DLL\_\-CALL}(funcname)~($\ast$ funcname\#\#\_\-driver)
+\item 
+\#define \hyperlink{unix_8c_7f7ce94bf48fde67f4af7b64c7ca4c85}{FCT\_\-PTR\_\-INIT}~=NULL
+\item 
+\#define \hyperlink{unix_8c_2af8b26c5600696a026aa95fe49b9dc9}{DLSYM}(name)
+\item 
+\#define \hyperlink{unix_8c_c2f10bc5b98269f33af8a74299236e03}{MAX\_\-NB\_\-CAN\_\-PORTS}~16
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+UNS8 \hyperlink{unix_8c_cb4f394ec0e040c5962d3dc1957505fb}{Un\-Load\-Can\-Driver} (\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} handle)
+\item 
+\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} \hyperlink{unix_8c_a6eed61fc15f41f772d4645d7a5edeb5}{Load\-Can\-Driver} (char $\ast$driver\_\-name)
+\item 
+UNS8 \hyperlink{unix_8c_8d1909a09c50c750e4d8626595acd9f6}{can\-Send} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} port, \hyperlink{structMessage}{Message} $\ast$m)
+\item 
+void \hyperlink{unix_8c_45ceca3727c2fb7ac93958a215efb827}{can\-Receive\-Loop} (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} port)
+\item 
+\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} \hyperlink{unix_8c_7476146ad15948a22e7f80a00c89c40a}{can\-Open} (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$board, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\item 
+int \hyperlink{unix_8c_02957f72a9b951603adb98a142bd447b}{can\-Close} (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$d)
+\end{CompactItemize}
+\subsection*{Variables}
+\begin{CompactItemize}
+\item 
+\hyperlink{structCANPort}{CANPort} \hyperlink{unix_8c_0b740cf913752262ceb23d51648da86a}{canports} \mbox{[}MAX\_\-NB\_\-CAN\_\-PORTS\mbox{]} = \{\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\}\}
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{unix_8c_74c6a27b44fd54de5cb021299ffce612}{
+\index{unix.c@{unix.c}!DLL_CALL@{DLL\_\-CALL}}
+\index{DLL_CALL@{DLL\_\-CALL}!unix.c@{unix.c}}
+\subsubsection[DLL\_\-CALL]{\setlength{\rightskip}{0pt plus 5cm}\#define DLL\_\-CALL(funcname)~($\ast$ funcname\#\#\_\-driver)}}
+\label{unix_8c_74c6a27b44fd54de5cb021299ffce612}
+
+
+
+
+Definition at line 27 of file unix.c.\hypertarget{unix_8c_2af8b26c5600696a026aa95fe49b9dc9}{
+\index{unix.c@{unix.c}!DLSYM@{DLSYM}}
+\index{DLSYM@{DLSYM}!unix.c@{unix.c}}
+\subsubsection[DLSYM]{\setlength{\rightskip}{0pt plus 5cm}\#define DLSYM(name)}}
+\label{unix_8c_2af8b26c5600696a026aa95fe49b9dc9}
+
+
+\textbf{Value:}
+
+\begin{Code}\begin{verbatim}*(void **) (&name##_driver) = dlsym(handle, #name"_driver");\
+        if ((error = dlerror()) != NULL)  {\
+                fprintf (stderr, "%s\n", error);\
+                UnLoadCanDriver(handle);\
+                return NULL;\
+        }
+\end{verbatim}\end{Code}
+
+
+Definition at line 30 of file unix.c.\hypertarget{unix_8c_7f7ce94bf48fde67f4af7b64c7ca4c85}{
+\index{unix.c@{unix.c}!FCT_PTR_INIT@{FCT\_\-PTR\_\-INIT}}
+\index{FCT_PTR_INIT@{FCT\_\-PTR\_\-INIT}!unix.c@{unix.c}}
+\subsubsection[FCT\_\-PTR\_\-INIT]{\setlength{\rightskip}{0pt plus 5cm}\#define FCT\_\-PTR\_\-INIT~=NULL}}
+\label{unix_8c_7f7ce94bf48fde67f4af7b64c7ca4c85}
+
+
+
+
+Definition at line 28 of file unix.c.\hypertarget{unix_8c_c2f10bc5b98269f33af8a74299236e03}{
+\index{unix.c@{unix.c}!MAX_NB_CAN_PORTS@{MAX\_\-NB\_\-CAN\_\-PORTS}}
+\index{MAX_NB_CAN_PORTS@{MAX\_\-NB\_\-CAN\_\-PORTS}!unix.c@{unix.c}}
+\subsubsection[MAX\_\-NB\_\-CAN\_\-PORTS]{\setlength{\rightskip}{0pt plus 5cm}\#define MAX\_\-NB\_\-CAN\_\-PORTS~16}}
+\label{unix_8c_c2f10bc5b98269f33af8a74299236e03}
+
+
+
+
+Definition at line 49 of file unix.c.
+
+\subsection{Function Documentation}
+\hypertarget{unix_8c_02957f72a9b951603adb98a142bd447b}{
+\index{unix.c@{unix.c}!canClose@{canClose}}
+\index{canClose@{canClose}!unix.c@{unix.c}}
+\subsubsection[canClose]{\setlength{\rightskip}{0pt plus 5cm}int can\-Close (\hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{unix_8c_02957f72a9b951603adb98a142bd447b}
+
+
+
+
+Definition at line 178 of file unix.c.\hypertarget{unix_8c_7476146ad15948a22e7f80a00c89c40a}{
+\index{unix.c@{unix.c}!canOpen@{canOpen}}
+\index{canOpen@{canOpen}!unix.c@{unix.c}}
+\subsubsection[canOpen]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} can\-Open (\hyperlink{structstruct__s__BOARD}{s\_\-BOARD} $\ast$ {\em board}, \hyperlink{structstruct__CO__Data}{CO\_\-Data} $\ast$ {\em d})}}
+\label{unix_8c_7476146ad15948a22e7f80a00c89c40a}
+
+
+
+
+Definition at line 145 of file unix.c.\hypertarget{unix_8c_45ceca3727c2fb7ac93958a215efb827}{
+\index{unix.c@{unix.c}!canReceiveLoop@{canReceiveLoop}}
+\index{canReceiveLoop@{canReceiveLoop}!unix.c@{unix.c}}
+\subsubsection[canReceiveLoop]{\setlength{\rightskip}{0pt plus 5cm}void can\-Receive\-Loop (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em port})}}
+\label{unix_8c_45ceca3727c2fb7ac93958a215efb827}
+
+
+
+
+Definition at line 132 of file unix.c.
+
+References can\-Dispatch(), can\-Receive(), DLL\_\-CALL, Enter\-Mutex(), and Leave\-Mutex().\hypertarget{unix_8c_8d1909a09c50c750e4d8626595acd9f6}{
+\index{unix.c@{unix.c}!canSend@{canSend}}
+\index{canSend@{canSend}!unix.c@{unix.c}}
+\subsubsection[canSend]{\setlength{\rightskip}{0pt plus 5cm}UNS8 can\-Send (\hyperlink{win32_2applicfg_8h_7ef59f941603c6680e74fc335523f17e}{CAN\_\-PORT} {\em port}, \hyperlink{structMessage}{Message} $\ast$ {\em m})}}
+\label{unix_8c_8d1909a09c50c750e4d8626595acd9f6}
+
+
+
+
+Definition at line 120 of file unix.c.\hypertarget{unix_8c_a6eed61fc15f41f772d4645d7a5edeb5}{
+\index{unix.c@{unix.c}!LoadCanDriver@{LoadCanDriver}}
+\index{LoadCanDriver@{LoadCanDriver}!unix.c@{unix.c}}
+\subsubsection[LoadCanDriver]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} Load\-Can\-Driver (char $\ast$ {\em driver\_\-name})}}
+\label{unix_8c_a6eed61fc15f41f772d4645d7a5edeb5}
+
+
+
+
+Definition at line 84 of file unix.c.\hypertarget{unix_8c_cb4f394ec0e040c5962d3dc1957505fb}{
+\index{unix.c@{unix.c}!UnLoadCanDriver@{UnLoadCanDriver}}
+\index{UnLoadCanDriver@{UnLoadCanDriver}!unix.c@{unix.c}}
+\subsubsection[UnLoadCanDriver]{\setlength{\rightskip}{0pt plus 5cm}UNS8 Un\-Load\-Can\-Driver (\hyperlink{win32_2canfestival_8h_c4a0f44120dee396ab6bb57e23effaa8}{LIB\_\-HANDLE} {\em handle})}}
+\label{unix_8c_cb4f394ec0e040c5962d3dc1957505fb}
+
+
+
+
+Definition at line 71 of file unix.c.
+
+\subsection{Variable Documentation}
+\hypertarget{unix_8c_0b740cf913752262ceb23d51648da86a}{
+\index{unix.c@{unix.c}!canports@{canports}}
+\index{canports@{canports}!unix.c@{unix.c}}
+\subsubsection[canports]{\setlength{\rightskip}{0pt plus 5cm}\hyperlink{structCANPort}{CANPort} \hyperlink{unix_8c_0b740cf913752262ceb23d51648da86a}{canports}\mbox{[}MAX\_\-NB\_\-CAN\_\-PORTS\mbox{]} = \{\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\},\{0,\}\}}}
+\label{unix_8c_0b740cf913752262ceb23d51648da86a}
+
+
+
+
+Definition at line 66 of file unix.c.

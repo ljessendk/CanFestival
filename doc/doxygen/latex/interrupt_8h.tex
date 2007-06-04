@@ -1,0 +1,50 @@
+\hypertarget{interrupt_8h}{
+\section{/home/epimerde/documents/tc11/Can\-Festival-3/include/hcs12/interrupt.h File Reference}
+\label{interrupt_8h}\index{/home/epimerde/documents/tc11/CanFestival-3/include/hcs12/interrupt.h@{/home/epimerde/documents/tc11/CanFestival-3/include/hcs12/interrupt.h}}
+}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+void \hyperlink{interrupt_8h_eb99ff49b4a6d5157416f9b5bd0d9c2c}{lock} (void)
+\item 
+void \hyperlink{interrupt_8h_987ce601d6d4c8eedd68b58db3b7811a}{unlock} (void)
+\item 
+void \hyperlink{interrupt_8h_efecbc6bd7cf74b7c63f446283749344}{\_\-\_\-attribute\_\-\_\-} ((interrupt)) timer\-Ovfl\-Hdl(void)
+\end{CompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{interrupt_8h_efecbc6bd7cf74b7c63f446283749344}{
+\index{interrupt.h@{interrupt.h}!__attribute__@{\_\-\_\-attribute\_\-\_\-}}
+\index{__attribute__@{\_\-\_\-attribute\_\-\_\-}!interrupt.h@{interrupt.h}}
+\subsubsection[\_\-\_\-attribute\_\-\_\-]{\setlength{\rightskip}{0pt plus 5cm}void \_\-\_\-attribute\_\-\_\- ((interrupt))}}
+\label{interrupt_8h_efecbc6bd7cf74b7c63f446283749344}
+
+
+\hyperlink{structMessage}{Message} transmitted on MSCAN 0 
+
+Definition at line 54 of file can\-Open\-Driver.c.
+
+References IO\_\-PORTS\_\-16, and TC4H.\hypertarget{interrupt_8h_eb99ff49b4a6d5157416f9b5bd0d9c2c}{
+\index{interrupt.h@{interrupt.h}!lock@{lock}}
+\index{lock@{lock}!interrupt.h@{interrupt.h}}
+\subsubsection[lock]{\setlength{\rightskip}{0pt plus 5cm}void lock (void)}}
+\label{interrupt_8h_eb99ff49b4a6d5157416f9b5bd0d9c2c}
+
+
+Disable interrupts 
+
+Definition at line 49 of file interrupt.c.
+
+References \_\-\_\-asm\_\-\_\-().\hypertarget{interrupt_8h_987ce601d6d4c8eedd68b58db3b7811a}{
+\index{interrupt.h@{interrupt.h}!unlock@{unlock}}
+\index{unlock@{unlock}!interrupt.h@{interrupt.h}}
+\subsubsection[unlock]{\setlength{\rightskip}{0pt plus 5cm}void unlock (void)}}
+\label{interrupt_8h_987ce601d6d4c8eedd68b58db3b7811a}
+
+
+Enable interrupts 
+
+Definition at line 57 of file interrupt.c.
+
+References \_\-\_\-asm\_\-\_\-().

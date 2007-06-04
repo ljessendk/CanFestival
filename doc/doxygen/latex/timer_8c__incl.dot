@@ -1,0 +1,24 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="/home/epimerde/documents/tc11/CanFestival-3/src/timer.c",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="applicfg.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$win32_2applicfg_8h.html"];
+  Node2 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="windows.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node2 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="string.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node2 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="stdio.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
+  Node1 -> Node6 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 [label="timer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$timer_8h.html"];
+  Node6 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 [label="timerscfg.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$win32_2timerscfg_8h.html"];
+  Node7 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 [label="data.h",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$data_8h.html"];
+  Node8 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+}
