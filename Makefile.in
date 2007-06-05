@@ -30,6 +30,13 @@ documentation:
 	echo Doxygen generation!!
 	doxygen doc/doxygen/Doxyfile
 
+manual:
+	cd doc/manual/en && \
+	pdflatex manual.tex && \
+	pdflatex manual.tex && \
+	rm manual.aux manual.log manual.out manual.toc && \
+	xpdf manual.pdf
+
 objdictgen:
 	$(MAKE) -C objdictgen all
 

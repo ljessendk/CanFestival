@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 PROJECT_NAME = CanFestival
 PROJECT_NUMBER = 3
-OUTPUT_DIRECTORY = 
+OUTPUT_DIRECTORY = ./doc/doxygen
 CREATE_SUBDIRS = NO
 OUTPUT_LANGUAGE = English
 USE_WINDOWS_ENCODING = NO
@@ -72,7 +72,7 @@ WARN_LOGFILE =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT = /home/epimerde/documents/tc11/CanFestival-3/src 
+INPUT = ./src
 FILE_PATTERNS = *.c *.cc *.cxx *.cpp *.c++ *.d *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py *.C *.CC *.C++ *.II *.I++ *.H *.HH *.H++ *.CS *.PHP *.PHP3 *.M *.MM *.PY
 RECURSIVE = YES
 EXCLUDE = 
@@ -88,14 +88,14 @@ FILTER_SOURCE_FILES = NO
 #---------------------------------------------------------------------------
 # configuration options related to source browsing
 #---------------------------------------------------------------------------
-SOURCE_BROWSER = NO
+SOURCE_BROWSER = YES
 INLINE_SOURCES = NO
 STRIP_CODE_COMMENTS = YES
-REFERENCED_BY_RELATION = NO
-REFERENCES_RELATION = NO
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION = YES
 REFERENCES_LINK_SOURCE = YES
 USE_HTAGS = NO
-VERBATIM_HEADERS = NO
+VERBATIM_HEADERS = YES
 #---------------------------------------------------------------------------
 # configuration options related to the alphabetical class index
 #---------------------------------------------------------------------------
@@ -195,9 +195,9 @@ PERL_PATH = /usr/bin/perl
 #---------------------------------------------------------------------------
 # Configuration options related to the dot tool   
 #---------------------------------------------------------------------------
-CLASS_DIAGRAMS = YES
+CLASS_DIAGRAMS = NO
 HIDE_UNDOC_RELATIONS = YES
-HAVE_DOT = NO
+HAVE_DOT = YES
 CLASS_GRAPH = YES
 COLLABORATION_GRAPH = YES
 GROUP_GRAPHS = YES

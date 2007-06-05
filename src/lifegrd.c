@@ -23,7 +23,7 @@
 */
 
 /*!
-** @file   filegrd.c
+** @file   lifegrd.c
 ** @author Edouard TISSERANT
 ** @date   Mon Jun  4 17:19:24 2007
 **
@@ -36,31 +36,12 @@
 #include "lifegrd.h"
 #include "canfestival.h"
 
-/*! Prototypes for internals functions
-**
-**
-** @param d
-** @param id
-**/
+
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
 
-/*!
-**
-**
-** @param d
-** @param id
-**/
+
 void ProducerHearbeatAlarm(CO_Data* d, UNS32 id);
 
-/*!
-**
-**
-** @param d
-** @param unsused_indextable
-** @param unsused_bSubindex
-**
-** @return
-**/
 UNS32 OnHearbeatProducerUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
 
 /*!
@@ -77,8 +58,8 @@ e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
   return networkNodeState;
 }
 
-/*! The Consumer Timer Callback
-**
+/*! 
+** The Consumer Timer Callback
 **
 ** @param d
 ** @param id

@@ -19,23 +19,49 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+/*!
+** @file   states.c
+** @author Edouard TISSERANT and Francis DUPIN
+** @date   Tue Jun  5 09:32:32 2007
+**
+** @brief
+**
+**
+*/
 
 #include "states.h"
 #include "def.h"
 #include "dcf.h"
 #include "nmtSlave.h"
 
-/* Prototypes for internals functions */
+/** Prototypes for internals functions */
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param newCommunicationState                                                                    
+**/     
 void switchCommunicationState(CO_Data* d, 
 	s_state_communication *newCommunicationState);
 	
-/*****************************************************************************/
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+**                                                                                                 
+** @return                                                                                         
+**/    
 e_nodeState getState(CO_Data* d)
 {
   return d->nodeState;
 }
 
-/*****************************************************************************/
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param m                                                                                        
+**/  
 void canDispatch(CO_Data* d, Message *m)
 {
 	 switch(m->cob_id.w >> 7)
@@ -44,7 +70,7 @@ void canDispatch(CO_Data* d, Message *m)
 			if(d->CurrentCommunicationState.csSYNC)
 				proceedSYNC(d,m);
 			break;
-		/* case TIME_STAMP: */
+		/** case TIME_STAMP: */
 		case PDO1tx:
 		case PDO1rx:
 		case PDO2tx:
@@ -84,8 +110,13 @@ void canDispatch(CO_Data* d, Message *m)
 		FuncStop;\
 	}
 #define None
-	
-/*****************************************************************************/
+
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param newCommunicationState                                                                    
+**/  	
 void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicationState)
 {
 	StartOrStop(csSDO,	None,		resetSDO(d))
@@ -96,7 +127,14 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
 
-/*****************************************************************************/
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param newState                                                                                 
+**                                                                                                 
+** @return                                                                                         
+**/  
 UNS8 setState(CO_Data* d, e_nodeState newState)
 {
 	UNS16 wIndex = 0x1F22;
@@ -108,11 +146,11 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Initialisation:
 			{
 				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0};
-				/* This will force a second loop for the state switch */
+				/** This will force a second loop for the state switch */
 				d->nodeState = Initialisation;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				/* call user app related state func. */
+				/** call user app related state func. */
 				(*d->initialisation)();
 				
 			}
@@ -170,37 +208,50 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			
 			default:
 				return 0xFF;
-		}/* end switch case */
+		}/** end switch case */
 	
 	}
 	return 0;
 }
 
-/*****************************************************************************/
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+**                                                                                                 
+** @return                                                                                         
+**/ 
 UNS8 getNodeId(CO_Data* d)
 {
   return *d->bDeviceNodeId;
 }
 
-/*****************************************************************************/
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param nodeId                                                                                   
+**/   
 void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
   if(offset){
-      /* cob_id_client = 0x600 + nodeId; */
+      /** cob_id_client = 0x600 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
-      /* cob_id_server = 0x580 + nodeId; */
+      /** cob_id_server = 0x580 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
-      /* node Id client. As we do not know the value, we put the node Id Server */
-      /* *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
+      /** node Id client. As we do not know the value, we put the node Id Server */
+      /** *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
   }
 
-  /* ** Initialize the server(s) SDO parameters */
-  /* Remember that only one SDO server is allowed, defined at index 0x1200 */
- 
-  /* ** Initialize the client(s) SDO parameters  */
-  /* Nothing to initialize (no default values required by the DS 401) */
-  /* ** Initialize the receive PDO communication parameters. Only for 0x1400 to 0x1403 */
+  /** 
+   	Initialize the server(s) SDO parameters
+  	Remember that only one SDO server is allowed, defined at index 0x1200	
+ 		
+  	Initialize the client(s) SDO parameters 	
+  	Nothing to initialize (no default values required by the DS 401)	
+  	Initialize the receive PDO communication parameters. Only for 0x1400 to 0x1403 
+  */
   {
     UNS8 i = 0;
     UNS16 offset = d->firstIndex->PDO_RCV;
@@ -227,7 +278,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
       offset ++;
     }
   }
-  /* bDeviceNodeId is defined in the object dictionary. */
+  /** bDeviceNodeId is defined in the object dictionary. */
   *d->bDeviceNodeId = nodeId;
 }
 
