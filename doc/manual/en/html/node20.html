@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>CanFestival events scheduling</TITLE>
+<META NAME="description" CONTENT="CanFestival events scheduling">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="previous" HREF="node19.html">
+<LINK REL="up" HREF="node16.html">
+<LINK REL="next" HREF="node21.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html394"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html390"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html386"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html392"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html395"
+  HREF="node21.html">Linux Target</A>
+<B> Up:</B> <A NAME="tex2html391"
+  HREF="node16.html">Understanding Canfestival</A>
+<B> Previous:</B> <A NAME="tex2html387"
+  HREF="node19.html">CanFestival CAN interfaces</A>
+ &nbsp; <B>  <A NAME="tex2html393"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00054000000000000000">
+CanFestival events scheduling</A>
+</H2>
+A CanOpen node must be able to take delayed actions.
+
+<P>
+As exemples, periodic sync emission, heartbeat production or SDO timeout
+need to set some alarms that will be called later and do the job.
+
+<P>
+&#181;C generaly do not have enough free timers to handle all the
+CanOpen needs directly. Moreover, CanFestival internal data may be
+corrupt by reentrant calls. 
+
+<P>
+CanFestival implement a micro-scheduler (timer.c). It uses only one
+timer to mimic many timers. It manage an alarm table, and call alarms
+at desired time.
+
+<P>
+<DIV ALIGN="CENTER">
+<IMG
+  WIDTH="788" HEIGHT="315" ALIGN="BOTTOM" BORDER="0"
+ SRC="./100000000000022C000000DEDAD2140C.png"
+ ALT="Image 100000000000022C000000DEDAD2140C">
+
+</DIV>
+
+<P>
+Scheduler can handle short clock value ranges limitation found on some
+&#181;C. As an example, value range for a 16bit clock counter with
+4&#181;s tick is crossed within 0.26 seconds... Long alarms must be
+segmented.
+
+<P>
+Chronogram illustrate a long alarm (A) and a short periodic alarm (B),
+with a A value &gt; clock range &gt; B value.
+Values t0...t8 are successive setTimer call parameter values. t1
+illustrates an intermediate call to TimeDispatch, caused by a delay
+longer than clock range. Because of long alarm segmentation, at the end
+of t1, TimeDispatch call will not trig any alarm callback.
+
+<P>
+<DIV ALIGN="CENTER">
+<IMG
+  WIDTH="788" HEIGHT="219" ALIGN="BOTTOM" BORDER="0"
+ SRC="./1000000000000396000000FFC42573DA.png"
+ ALT="Image 1000000000000396000000FFC42573DA">
+
+</DIV>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html394"
+  HREF="node21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html390"
+  HREF="node16.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html386"
+  HREF="node19.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html392"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html395"
+  HREF="node21.html">Linux Target</A>
+<B> Up:</B> <A NAME="tex2html391"
+  HREF="node16.html">Understanding Canfestival</A>
+<B> Previous:</B> <A NAME="tex2html387"
+  HREF="node19.html">CanFestival CAN interfaces</A>
+ &nbsp; <B>  <A NAME="tex2html393"
+  HREF="node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+<ADDRESS>
+epimerde
+2007-06-05
+</ADDRESS>
+</BODY>
+</HTML>

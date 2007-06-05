@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------
 PROJECT_NAME = CanFestival
 PROJECT_NUMBER = 3
-OUTPUT_DIRECTORY = ./doc/doxygen
+OUTPUT_DIRECTORY = ./
 CREATE_SUBDIRS = NO
 OUTPUT_LANGUAGE = English
 USE_WINDOWS_ENCODING = NO
@@ -72,7 +72,7 @@ WARN_LOGFILE =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT = ./src
+INPUT = ./../../src
 FILE_PATTERNS = *.c *.cc *.cxx *.cpp *.c++ *.d *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py *.C *.CC *.C++ *.II *.I++ *.H *.HH *.H++ *.CS *.PHP *.PHP3 *.M *.MM *.PY
 RECURSIVE = YES
 EXCLUDE = 
@@ -125,7 +125,7 @@ TREEVIEW_WIDTH = 250
 #---------------------------------------------------------------------------
 # configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
-GENERATE_LATEX = YES
+GENERATE_LATEX = NO
 LATEX_OUTPUT = latex
 LATEX_CMD_NAME = latex
 MAKEINDEX_CMD_NAME = makeindex

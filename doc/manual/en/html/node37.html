@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Two nodes with PcanLight and Peak dual PCMCIA-CAN adapter</TITLE>
+<META NAME="description" CONTENT="Two nodes with PcanLight and Peak dual PCMCIA-CAN adapter">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="previous" HREF="node36.html">
+<LINK REL="up" HREF="node35.html">
+<LINK REL="next" HREF="node38.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html626"
+  HREF="node38.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html622"
+  HREF="node35.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html618"
+  HREF="node36.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html624"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html627"
+  HREF="node38.html">Visual Studio C++</A>
+<B> Up:</B> <A NAME="tex2html623"
+  HREF="node35.html">Cygwin configuration and compilation</A>
+<B> Previous:</B> <A NAME="tex2html619"
+  HREF="node36.html">A single node with</A>
+ &nbsp; <B>  <A NAME="tex2html625"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00072220000000000000">
+Two nodes with PcanLight and Peak dual PCMCIA-CAN adapter</A>
+</H4>
+Download the PCAN-Light Zip file for your HW ( URL from download page
+): 
+
+<P>
+<TT>wget http://www.peak-system.com/files/pccard.zip</TT>
+
+<P>
+Extract its content into your cygwin home (it will create a ``Disk''
+directory):
+
+<P>
+<TT>unzip pccard.zip</TT>
+
+<P>
+The configure CanFestival3 providing path to the desired PcanLight
+implementation:
+
+<P>
+<TT>export PCAN_INCLUDE=~/Disk/PCAN-Light/Api/
+<BR>
+export PCAN_HEADER=Pcan_pcc.h
+<BR>
+export PCAN_LIB=~/Disk/PCAN-Light/Lib/Visual&#92;
+C++/Pcan_pcc.lib
+<BR>
+export PCAN2_HEADER=Pcan_2pcc.
+<BR>
+export PCAN2_LIB=~/Disk/PCAN-Light/Lib/Visual&#92;
+C++/Pcan_2pcc.lib</TT>
+
+<P>
+In order to test, just connect together both CAN ports of the PCMCIA
+card. Dont forget 120ohms terminator.
+
+<P>
+<TT>cp ~/Disk/PCAN-Light/Pcan_pcc.dll .</TT>
+
+<P>
+<TT>cp ~/Disk/PCAN-Light/Pcan_2pcc.dll .</TT>
+
+<P>
+<TT>./examples/TestMasterSlave/TestMasterSlave &#92;</TT>
+
+<P>
+<TT>  -l drivers/can_peak_win32/cygcan_peak_win32.dll</TT>
+
+<P>
+Messages are then exchanged between master and slave node, both inside
+TestMasterSlaves process.
+
+<P>
+<BR><HR>
+<ADDRESS>
+epimerde
+2007-06-05
+</ADDRESS>
+</BODY>
+</HTML>

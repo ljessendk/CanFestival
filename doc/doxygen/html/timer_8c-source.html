@@ -36,153 +36,134 @@
 <a name="l00019"></a>00019 <span class="comment">License along with this library; if not, write to the Free Software</span>
 <a name="l00020"></a>00020 <span class="comment">Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
 <a name="l00021"></a>00021 <span class="comment">*/</span>
-<a name="l00022"></a>00022 
-<a name="l00023"></a>00023 <span class="comment">/* #define DEBUG_WAR_CONSOLE_ON */</span>
-<a name="l00024"></a>00024 <span class="comment">/* #define DEBUG_ERR_CONSOLE_ON */</span>
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="preprocessor">#include &lt;applicfg.h&gt;</span>
-<a name="l00027"></a>00027 <span class="preprocessor">#include "timer.h"</span>
-<a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <span class="comment">/*  ---------  The timer table --------- */</span>
-<a name="l00030"></a><a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">00030</a> s_timer_entry <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[MAX_NB_TIMER] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
-<a name="l00031"></a>00031 
-<a name="l00032"></a><a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">00032</a> TIMEVAL <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = TIMEVAL_MAX;
-<a name="l00033"></a><a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">00033</a> TIMER_HANDLE <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> = -1;
+<a name="l00032"></a>00032 <span class="comment">/* #define DEBUG_WAR_CONSOLE_ON */</span>
+<a name="l00033"></a>00033 <span class="comment">/* #define DEBUG_ERR_CONSOLE_ON */</span>
 <a name="l00034"></a>00034 
-<a name="l00035"></a><a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">00035</a> <span class="preprocessor">#define min_val(a,b) ((a&lt;b)?a:b)</span>
-<a name="l00036"></a>00036 <span class="preprocessor"></span>
-<a name="l00037"></a>00037 <span class="comment">/* ---------  Use this to declare a new alarm --------- */</span>
-<a name="l00038"></a><a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">00038</a> TIMER_HANDLE <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
-<a name="l00039"></a>00039 {
-<a name="l00040"></a>00040         <span class="comment">/*printf("SetAlarm(UNS32 id=%d, TimerCallback_t callback=%x, TIMEVAL value=%d, TIMEVAL period=%d)\n", id, callback, value, period); */</span>
-<a name="l00041"></a>00041         TIMER_HANDLE i;
-<a name="l00042"></a>00042         TIMER_HANDLE row_number = TIMER_NONE;
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;applicfg.h&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include "timer.h"</span>
+<a name="l00037"></a>00037 
+<a name="l00038"></a>00038 <span class="comment">/*  ---------  The timer table --------- */</span>
+<a name="l00039"></a><a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">00039</a> s_timer_entry <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[MAX_NB_TIMER] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
+<a name="l00040"></a>00040 
+<a name="l00041"></a><a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">00041</a> TIMEVAL <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = TIMEVAL_MAX;
+<a name="l00042"></a><a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">00042</a> TIMER_HANDLE <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> = -1;
 <a name="l00043"></a>00043 
-<a name="l00044"></a>00044         <span class="comment">/* in order to decide new timer setting we have to run over all timer rows */</span>
-<a name="l00045"></a>00045         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1 &amp;&amp; i &lt; MAX_NB_TIMER; i++)
-<a name="l00046"></a>00046         {
-<a name="l00047"></a>00047                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
-<a name="l00048"></a>00048 
-<a name="l00049"></a>00049                 <span class="keywordflow">if</span> (callback &amp;&amp;         <span class="comment">/* if something to store */</span>
-<a name="l00050"></a>00050                    row-&gt;state == TIMER_FREE) <span class="comment">/* and empty row */</span>
-<a name="l00051"></a>00051                 {       <span class="comment">/* just store */</span>
-<a name="l00052"></a>00052                         row-&gt;callback = callback;
-<a name="l00053"></a>00053                         row-&gt;d = d;
-<a name="l00054"></a>00054                         row-&gt;id = <span class="keywordtype">id</span>;
-<a name="l00055"></a>00055                         row-&gt;val = value;
-<a name="l00056"></a>00056                         row-&gt;interval = period;
-<a name="l00057"></a>00057                         row-&gt;state = TIMER_ARMED;
-<a name="l00058"></a>00058                         row_number = i;
-<a name="l00059"></a>00059                         <span class="keywordflow">break</span>;
-<a name="l00060"></a>00060                 }
-<a name="l00061"></a>00061         }
-<a name="l00062"></a>00062         
-<a name="l00063"></a>00063         <span class="keywordflow">if</span> (row_number != TIMER_NONE) <span class="comment">/* if successfull **/</span>
-<a name="l00064"></a>00064         {
-<a name="l00065"></a>00065                 TIMEVAL real_timer_value;
-<a name="l00066"></a>00066                 TIMEVAL elapsed_time;
-<a name="l00067"></a>00067                 
-<a name="l00068"></a>00068                 <span class="keywordflow">if</span> (row_number == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1) <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>++;
-<a name="l00069"></a>00069                 
-<a name="l00070"></a>00070                 <span class="comment">/* set next wakeup alarm if new entry is sooner than others, or if it is alone */</span>
-<a name="l00071"></a>00071                 real_timer_value = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(value, TIMEVAL_MAX);
-<a name="l00072"></a>00072                 elapsed_time = getElapsedTime();
-<a name="l00073"></a>00073 
-<a name="l00074"></a>00074                 <span class="comment">/*printf("elapsed_time=%d real_timer_value=%d total_sleep_time=%d\n", elapsed_time, real_timer_value, total_sleep_time); */</span>
-<a name="l00075"></a>00075                 <span class="keywordflow">if</span> (<a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> &gt; elapsed_time &amp;&amp; <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> - elapsed_time &gt; real_timer_value)
-<a name="l00076"></a>00076                 {
-<a name="l00077"></a>00077                         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = elapsed_time + real_timer_value;
-<a name="l00078"></a>00078                         setTimer(real_timer_value);
+<a name="l00044"></a><a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">00044</a> <span class="preprocessor">#define min_val(a,b) ((a&lt;b)?a:b)</span>
+<a name="l00045"></a>00045 <span class="preprocessor"></span>
+<a name="l00057"></a><a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">00057</a> TIMER_HANDLE <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
+<a name="l00058"></a>00058 {
+<a name="l00059"></a>00059         <span class="comment">/*printf("SetAlarm(UNS32 id=%d, TimerCallback_t callback=%x, TIMEVAL value=%d, TIMEVAL period=%d)\n", id, callback, value, period); */</span>
+<a name="l00060"></a>00060         TIMER_HANDLE i;
+<a name="l00061"></a>00061         TIMER_HANDLE row_number = TIMER_NONE;
+<a name="l00062"></a>00062 
+<a name="l00064"></a>00064         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1 &amp;&amp; i &lt; MAX_NB_TIMER; i++)
+<a name="l00065"></a>00065         {
+<a name="l00066"></a>00066                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00067"></a>00067 
+<a name="l00068"></a>00068                 <span class="keywordflow">if</span> (callback &amp;&amp;         
+<a name="l00069"></a>00069                    row-&gt;state == TIMER_FREE) 
+<a name="l00070"></a>00070                 {       
+<a name="l00071"></a>00071                         row-&gt;callback = callback;
+<a name="l00072"></a>00072                         row-&gt;d = d;
+<a name="l00073"></a>00073                         row-&gt;id = <span class="keywordtype">id</span>;
+<a name="l00074"></a>00074                         row-&gt;val = value;
+<a name="l00075"></a>00075                         row-&gt;interval = period;
+<a name="l00076"></a>00076                         row-&gt;state = TIMER_ARMED;
+<a name="l00077"></a>00077                         row_number = i;
+<a name="l00078"></a>00078                         <span class="keywordflow">break</span>;
 <a name="l00079"></a>00079                 }
-<a name="l00080"></a>00080                 <span class="comment">/*printf("SetAlarm() return %d\n", row_number); */</span>
-<a name="l00081"></a>00081                 <span class="keywordflow">return</span> row_number;
-<a name="l00082"></a>00082         }
-<a name="l00083"></a>00083         <span class="keywordflow">return</span> TIMER_NONE;
-<a name="l00084"></a>00084 }
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 <span class="comment">/* ---------  Use this to remove an alarm --------- */</span>
-<a name="l00087"></a><a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">00087</a> TIMER_HANDLE <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(TIMER_HANDLE handle)
-<a name="l00088"></a>00088 {
-<a name="l00089"></a>00089         <span class="comment">/* Quick and dirty. system timer will continue to be trigged, but no action will be preformed. */</span>
-<a name="l00090"></a>00090         MSG_WAR(0x3320, <span class="stringliteral">"DelAlarm. handle = "</span>, handle);
-<a name="l00091"></a>00091         <span class="keywordflow">if</span>(handle != TIMER_NONE)
-<a name="l00092"></a>00092         {
-<a name="l00093"></a>00093                 <span class="keywordflow">if</span>(handle == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>) 
-<a name="l00094"></a>00094                         <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>--;
-<a name="l00095"></a>00095                 <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[handle].state = TIMER_FREE;              
-<a name="l00096"></a>00096         }
-<a name="l00097"></a>00097         <span class="keywordflow">else</span> {
-<a name="l00098"></a>00098         }
-<a name="l00099"></a>00099         <span class="keywordflow">return</span> TIMER_NONE;
-<a name="l00100"></a>00100 }
-<a name="l00101"></a>00101 
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103 <span class="comment">/* ---------  TimeDispatch is called on each timer expiration --------- */</span>
-<a name="l00104"></a><a class="code" href="timer_8c.html#fa75192a3238525618f8cb83004930cc">00104</a> <span class="keywordtype">void</span> <a class="code" href="timer_8c.html#fa75192a3238525618f8cb83004930cc">TimeDispatch</a>()
-<a name="l00105"></a>00105 {
-<a name="l00106"></a>00106         TIMER_HANDLE i;
-<a name="l00107"></a>00107         TIMEVAL next_wakeup = TIMEVAL_MAX; <span class="comment">/* used to compute when should normaly occur next wakeup */</span>
-<a name="l00108"></a>00108         <span class="comment">/* First run : change timer state depending on time */</span>
-<a name="l00109"></a>00109         <span class="comment">/* Get time since timer signal */</span>
-<a name="l00110"></a>00110         TIMEVAL overrun = getElapsedTime();
-<a name="l00111"></a>00111         
-<a name="l00112"></a>00112         TIMEVAL real_total_sleep_time = <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> + overrun;
-<a name="l00113"></a>00113         <span class="comment">/*printf("total_sleep_time %d + overrun %d\n", total_sleep_time , overrun); */</span>
-<a name="l00114"></a>00114 
-<a name="l00115"></a>00115         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
-<a name="l00116"></a>00116         {
-<a name="l00117"></a>00117                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
-<a name="l00118"></a>00118 
-<a name="l00119"></a>00119                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_ARMED) <span class="comment">/* if row is active */</span>
-<a name="l00120"></a>00120                 {
-<a name="l00121"></a>00121                         if (row-&gt;val &lt;= real_total_sleep_time) <span class="comment">/* to be trigged */</span>
-<a name="l00122"></a>00122                         {
-<a name="l00123"></a>00123                                 <span class="comment">/*printf("row-&gt;val(%d) &lt;= (%d)real_total_sleep_time\n", row-&gt;val, real_total_sleep_time); */</span>
-<a name="l00124"></a>00124                                 if (!row-&gt;interval) <span class="comment">/* if simply outdated */</span>
-<a name="l00125"></a>00125                                 {
-<a name="l00126"></a>00126                                         row-&gt;state = TIMER_TRIG; <span class="comment">/* ask for trig */</span>
-<a name="l00127"></a>00127                                 }
-<a name="l00128"></a>00128                                 <span class="keywordflow">else</span> <span class="comment">/* or period have expired */</span>
-<a name="l00129"></a>00129                                 {
-<a name="l00130"></a>00130                                         <span class="comment">/* set val as interval, with overrun correction */</span>
-<a name="l00131"></a>00131                                         row-&gt;val = row-&gt;interval - (overrun % row-&gt;interval);
-<a name="l00132"></a>00132                                         row-&gt;state = TIMER_TRIG_PERIOD; <span class="comment">/* ask for trig, periodic */</span>
-<a name="l00133"></a>00133                                         <span class="comment">/* Check if this new timer value is the soonest */</span>
-<a name="l00134"></a>00134                                         next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
-<a name="l00135"></a>00135                                 }
-<a name="l00136"></a>00136                         }
-<a name="l00137"></a>00137                         <span class="keywordflow">else</span>
-<a name="l00138"></a>00138                         {
-<a name="l00139"></a>00139                                 <span class="comment">/* Each armed timer value in decremented. */</span>
-<a name="l00140"></a>00140                                 row-&gt;val -= real_total_sleep_time;
+<a name="l00080"></a>00080         }
+<a name="l00081"></a>00081         
+<a name="l00082"></a>00082         <span class="keywordflow">if</span> (row_number != TIMER_NONE) 
+<a name="l00083"></a>00083         {
+<a name="l00084"></a>00084                 TIMEVAL real_timer_value;
+<a name="l00085"></a>00085                 TIMEVAL elapsed_time;
+<a name="l00086"></a>00086                 
+<a name="l00087"></a>00087                 <span class="keywordflow">if</span> (row_number == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1) <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>++;
+<a name="l00088"></a>00088                 
+<a name="l00090"></a>00090                 real_timer_value = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(value, TIMEVAL_MAX);
+<a name="l00091"></a>00091                 elapsed_time = getElapsedTime();
+<a name="l00092"></a>00092 
+<a name="l00094"></a>00094                 <span class="keywordflow">if</span> (<a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> &gt; elapsed_time &amp;&amp; <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> - elapsed_time &gt; real_timer_value)
+<a name="l00095"></a>00095                 {
+<a name="l00096"></a>00096                         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = elapsed_time + real_timer_value;
+<a name="l00097"></a>00097                         setTimer(real_timer_value);
+<a name="l00098"></a>00098                 }
+<a name="l00100"></a>00100                 <span class="keywordflow">return</span> row_number;
+<a name="l00101"></a>00101         }
+<a name="l00102"></a>00102         <span class="keywordflow">return</span> TIMER_NONE;
+<a name="l00103"></a>00103 }
+<a name="l00104"></a>00104 
+<a name="l00112"></a><a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">00112</a> TIMER_HANDLE <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(TIMER_HANDLE handle)
+<a name="l00113"></a>00113 {
+<a name="l00115"></a>00115         MSG_WAR(0x3320, <span class="stringliteral">"DelAlarm. handle = "</span>, handle);
+<a name="l00116"></a>00116         <span class="keywordflow">if</span>(handle != TIMER_NONE)
+<a name="l00117"></a>00117         {
+<a name="l00118"></a>00118                 <span class="keywordflow">if</span>(handle == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>) 
+<a name="l00119"></a>00119                         <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>--;
+<a name="l00120"></a>00120                 <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[handle].state = TIMER_FREE;              
+<a name="l00121"></a>00121         }
+<a name="l00122"></a>00122         <span class="keywordflow">else</span> {
+<a name="l00123"></a>00123         }
+<a name="l00124"></a>00124         <span class="keywordflow">return</span> TIMER_NONE;
+<a name="l00125"></a>00125 }
+<a name="l00126"></a>00126 
+<a name="l00131"></a><a class="code" href="timer_8c.html#fa75192a3238525618f8cb83004930cc">00131</a> <span class="keywordtype">void</span> <a class="code" href="timer_8c.html#fa75192a3238525618f8cb83004930cc">TimeDispatch</a>()
+<a name="l00132"></a>00132 {
+<a name="l00133"></a>00133         TIMER_HANDLE i;
+<a name="l00134"></a>00134         TIMEVAL next_wakeup = TIMEVAL_MAX; 
+<a name="l00137"></a>00137         TIMEVAL overrun = getElapsedTime();
+<a name="l00138"></a>00138         
+<a name="l00139"></a>00139         TIMEVAL real_total_sleep_time = <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> + overrun;
+<a name="l00140"></a>00140         <span class="comment">/*printf("total_sleep_time %d + overrun %d\n", total_sleep_time , overrun); */</span>
 <a name="l00141"></a>00141 
-<a name="l00142"></a>00142                                 <span class="comment">/* Check if this new timer value is the soonest */</span>
-<a name="l00143"></a>00143                                 next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
-<a name="l00144"></a>00144                         }
-<a name="l00145"></a>00145                 }
-<a name="l00146"></a>00146         }
-<a name="l00147"></a>00147         
-<a name="l00148"></a>00148         <span class="comment">/* Remember how much time we should sleep. */</span>
-<a name="l00149"></a>00149         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = next_wakeup;
-<a name="l00150"></a>00150 
-<a name="l00151"></a>00151         <span class="comment">/* Set timer to soonest occurence */</span>
-<a name="l00152"></a>00152         setTimer(next_wakeup);
-<a name="l00153"></a>00153 
-<a name="l00154"></a>00154         <span class="comment">/* Then trig them or not. */</span>
-<a name="l00155"></a>00155         <span class="keywordflow">for</span>(i=0; i&lt;=<a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
-<a name="l00156"></a>00156         {
-<a name="l00157"></a>00157                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
-<a name="l00158"></a>00158 
-<a name="l00159"></a>00159                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_TRIG)
-<a name="l00160"></a>00160                 {
-<a name="l00161"></a>00161                         row-&gt;state &amp;= ~TIMER_TRIG; <span class="comment">/* reset trig state (will be free if not periodic) */</span>
-<a name="l00162"></a>00162                         <span class="keywordflow">if</span>(row-&gt;callback)
-<a name="l00163"></a>00163                                 (*row-&gt;callback)(row-&gt;d, row-&gt;id); <span class="comment">/* trig ! */</span>
-<a name="l00164"></a>00164                 }
-<a name="l00165"></a>00165         }
-<a name="l00166"></a>00166 }
-<a name="l00167"></a>00167 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<a name="l00142"></a>00142         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
+<a name="l00143"></a>00143         {
+<a name="l00144"></a>00144                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00145"></a>00145 
+<a name="l00146"></a>00146                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_ARMED) 
+<a name="l00147"></a>00147                 {
+<a name="l00148"></a>00148                         if (row-&gt;val &lt;= real_total_sleep_time) 
+<a name="l00149"></a>00149                         {
+<a name="l00150"></a>00150                                 <span class="comment">/*printf("row-&gt;val(%d) &lt;= (%d)real_total_sleep_time\n", row-&gt;val, real_total_sleep_time); */</span>
+<a name="l00151"></a>00151                                 if (!row-&gt;interval) 
+<a name="l00152"></a>00152                                 {
+<a name="l00153"></a>00153                                         row-&gt;state = TIMER_TRIG; 
+<a name="l00154"></a>00154                                 }
+<a name="l00155"></a>00155                                 <span class="keywordflow">else</span> 
+<a name="l00156"></a>00156                                 {
+<a name="l00158"></a>00158                                         row-&gt;val = row-&gt;interval - (overrun % row-&gt;interval);
+<a name="l00159"></a>00159                                         row-&gt;state = TIMER_TRIG_PERIOD; <span class="comment">/* ask for trig, periodic */</span>
+<a name="l00161"></a>00161                                         next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
+<a name="l00162"></a>00162                                 }
+<a name="l00163"></a>00163                         }
+<a name="l00164"></a>00164                         <span class="keywordflow">else</span>
+<a name="l00165"></a>00165                         {
+<a name="l00167"></a>00167                                 row-&gt;val -= real_total_sleep_time;
+<a name="l00168"></a>00168 
+<a name="l00170"></a>00170                                 next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
+<a name="l00171"></a>00171                         }
+<a name="l00172"></a>00172                 }
+<a name="l00173"></a>00173         }
+<a name="l00174"></a>00174         
+<a name="l00176"></a>00176         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = next_wakeup;
+<a name="l00177"></a>00177 
+<a name="l00179"></a>00179         setTimer(next_wakeup);
+<a name="l00180"></a>00180 
+<a name="l00182"></a>00182         <span class="keywordflow">for</span>(i=0; i&lt;=<a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
+<a name="l00183"></a>00183         {
+<a name="l00184"></a>00184                 s_timer_entry *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00185"></a>00185 
+<a name="l00186"></a>00186                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_TRIG)
+<a name="l00187"></a>00187                 {
+<a name="l00188"></a>00188                         row-&gt;state &amp;= ~TIMER_TRIG; 
+<a name="l00189"></a>00189                         <span class="keywordflow">if</span>(row-&gt;callback)
+<a name="l00190"></a>00190                                 (*row-&gt;callback)(row-&gt;d, row-&gt;id); 
+<a name="l00191"></a>00191                 }
+<a name="l00192"></a>00192         }
+<a name="l00193"></a>00193 }
+<a name="l00194"></a>00194 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

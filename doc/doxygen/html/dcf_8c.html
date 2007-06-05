@@ -15,10 +15,15 @@
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/dcf.c File Reference</h1><code>#include &quot;objacces.h&quot;</code><br>
+<h1>/home/epimerde/documents/tc11/CanFestival-3/src/dcf.c File Reference</h1>EXEMPLE OF SOMMARY. <a href="#_details">More...</a>
+<p>
+<code>#include &quot;objacces.h&quot;</code><br>
 <code>#include &quot;sdo.h&quot;</code><br>
 <code>#include &quot;dcf.h&quot;</code><br>
 <code>#include &quot;sysdep.h&quot;</code><br>
+
+<p>
+Include dependency graph for dcf.c:<p><center><img src="dcf_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/dcf.c_map" alt=""></center>
 
 <p>
 <a href="dcf_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -32,7 +37,14 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">const indextable *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a></td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+EXEMPLE OF SOMMARY. 
+<p>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Mon Jun 4 17:06:12 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="dcf_8c-source.html">dcf.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="3c07605ffe3ea197aa36e583ef87a20a"></a><!-- doxytag: member="dcf.c::_writeNetworkDict" ref="3c07605ffe3ea197aa36e583ef87a20a" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)" -->
 <div class="memitem">
 <div class="memproto">
@@ -101,11 +113,48 @@
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endianize</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01072">1072</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Verify that there is no SDO communication yet.<p>
+Taking the line ...<p>
+Check which SDO to use to communicate with the node<p>
+looking for the nodeId server<p>
+Copy data to transfers structure.<p>
+Send the SDO to the server. Initiate download, cs=1.<p>
+Expedited transfert<p>
+Normal transfert<p>
+nb of byte to transmit. Max = 255. (canfestival2 limitation).<p>
+release the line 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00284">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00263">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00354">sendSDO()</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01247">1247</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>.
+<p>
+Referenced by <a class="el" href="dcf_8c-source.html#l00087">decompo_dcf()</a>, <a class="el" href="sdo_8c-source.html#l01368">writeNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l01388">writeNetworkDictCallBack()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="dcf_8c_3c07605ffe3ea197aa36e583ef87a20a_cgraph.png" border="0" usemap="#dcf_8c_3c07605ffe3ea197aa36e583ef87a20a_cgraph_map" alt=""></center>
+<map name="dcf_8c_3c07605ffe3ea197aa36e583ef87a20a_cgraph_map">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="208,5,336,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="201,53,343,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="393,128,489,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="217,152,327,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="231,200,313,224" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="8452e163e7649968ad6dae1601a5fb0d"></a><!-- doxytag: member="dcf.c::decompo_dcf" ref="8452e163e7649968ad6dae1601a5fb0d" args="(CO_Data *d, UNS8 nodeId)" -->
@@ -134,11 +183,46 @@ References <a class="el" href="sdo_8c-source.html#l00284">getSDOfreeLine()</a>, 
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="dcf_8c-source.html#l00049">49</a> of file <a class="el" href="dcf_8c-source.html">dcf.c</a>.
+Loop on all Nodes supported in DCF subindexes<p>
+condition on consise DCF string for NodeID, if big enough<p>
+pointer to the DCF string for NodeID<p>
+CO_Data* d<p>
+UNS8 nodeId<p>
+UNS16 index<p>
+UNS8 subindex<p>
+UNS8 count<p>
+UNS8 dataType<p>
+void *data<p>
+SDOCallback_t Callback<p>
+no endianize<p>
+Push d-&gt;dcf_cursor to the end of data<p>
+Switch Master to preOperational state 
 <p>
-References <a class="el" href="sdo_8c-source.html#l01072">_writeNetworkDict()</a>, and <a class="el" href="dcf_8c-source.html#l00033">ptrTable</a>.
+Definition at line <a class="el" href="dcf_8c-source.html#l00087">87</a> of file <a class="el" href="dcf_8c-source.html">dcf.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, and <a class="el" href="dcf_8c-source.html#l00057">ptrTable</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00138">setState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="dcf_8c_8452e163e7649968ad6dae1601a5fb0d_cgraph.png" border="0" usemap="#dcf_8c_8452e163e7649968ad6dae1601a5fb0d_cgraph_map" alt=""></center>
+<map name="dcf_8c_8452e163e7649968ad6dae1601a5fb0d_cgraph_map">
+<area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="165,103,312,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="368,5,496,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="361,53,503,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="553,128,649,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="377,152,487,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="391,200,473,224" alt="">
+</map>
+
 </div>
 </div><p>
 <hr><h2>Variable Documentation</h2>
@@ -156,10 +240,12 @@ References <a class="el" href="sdo_8c-source.html#l01072">_writeNetworkDict()</a
 <p>
 
 <p>
-Definition at line <a class="el" href="dcf_8c-source.html#l00033">33</a> of file <a class="el" href="dcf_8c-source.html">dcf.c</a>.
+Definition at line <a class="el" href="dcf_8c-source.html#l00057">57</a> of file <a class="el" href="dcf_8c-source.html">dcf.c</a>.
+<p>
+Referenced by <a class="el" href="objacces_8c-source.html#l00105">_getODentry()</a>, <a class="el" href="objacces_8c-source.html#l00260">_setODentry()</a>, <a class="el" href="dcf_8c-source.html#l00087">decompo_dcf()</a>, and <a class="el" href="states_8c-source.html#l00138">setState()</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

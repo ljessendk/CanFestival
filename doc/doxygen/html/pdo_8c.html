@@ -20,6 +20,9 @@
 <code>#include &quot;canfestival.h&quot;</code><br>
 
 <p>
+Include dependency graph for pdo.c:<p><center><img src="pdo_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/pdo.c_map" alt=""></center>
+
+<p>
 <a href="pdo_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -34,7 +37,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a> (UNS8 NbBits, UNS8 *SrcByteIndex, UNS8 SrcBitIndex, UNS8 SrcBigEndian, UNS8 *DestByteIndex, UNS8 DestBitIndex, UNS8 DestBigEndian)</td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 09:32:32 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="pdo_8c-source.html">pdo.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="e468510c9f77f502207d961d26389918"></a><!-- doxytag: member="pdo.c::CopyBits" ref="e468510c9f77f502207d961d26389918" args="(UNS8 NbBits, UNS8 *SrcByteIndex, UNS8 SrcBitIndex, UNS8 SrcBigEndian, UNS8 *DestByteIndex, UNS8 DestBitIndex, UNS8 DestBigEndian)" -->
 <div class="memitem">
 <div class="memproto">
@@ -91,9 +99,44 @@
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>NbBits</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>SrcByteIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>SrcBitIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>SrcBigEndian</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DestByteIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DestBitIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DestBigEndian</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="pdo_8c-source.html#l00376">376</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+This loop copy as many bits that it can each time, crossing<p>
+successively bytes<p>
+Bit missalignement between src and dest<p>
+We can now get src and align it to dest<p>
+Compute the nb of bit we will be able to copy<p>
+Create a mask that will serve in:<p>
+<ul>
+<li>Filtering src</li></ul>
+<p>
+<ul>
+<li>and erase bits where we write, preserve where we don't</li></ul>
+<p>
+Then write.<p>
+Compute next time cursors for src<p>
+cross boundary ?<p>
+First bit<p>
+Next byte<p>
+Compute next time cursors for dest<p>
+First bit<p>
+Next byte<p>
+And decrement counter. 
+<p>
+Definition at line <a class="el" href="pdo_8c-source.html#l00430">430</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+<p>
+Referenced by <a class="el" href="pdo_8c-source.html#l00221">proceedPDO()</a>, and <a class="el" href="sync_8c-source.html#l00141">proceedSYNC()</a>.
 </div>
 </div><p>
 <a class="anchor" name="298b8291fa35cca22264cf8a70bf138a"></a><!-- doxytag: member="pdo.c::PDOmGR" ref="298b8291fa35cca22264cf8a70bf138a" args="(CO_Data *d, UNS32 cobId)" -->
@@ -122,11 +165,30 @@ Definition at line <a class="el" href="pdo_8c-source.html#l00376">376</a> of fil
 <div class="memdoc">
 
 <p>
+PDO Manager<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cobId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="pdo_8c-source.html#l00061">61</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+if PDO is waiting for transmission, preparation of the message to send<p>
+memcpy(&amp;(pdo.data), &amp;(process_var.data), pdo.len); 
 <p>
-References <a class="el" href="pdo_8c-source.html#l00027">sendPDO()</a>.
+Definition at line <a class="el" href="pdo_8c-source.html#l00079">79</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+<p>
+References <a class="el" href="pdo_8c-source.html#l00037">sendPDO()</a>.
+<p>
+Referenced by <a class="el" href="pdo_8c-source.html#l00221">proceedPDO()</a>, and <a class="el" href="sync_8c-source.html#l00141">proceedSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="pdo_8c_298b8291fa35cca22264cf8a70bf138a_cgraph.png" border="0" usemap="#pdo_8c_298b8291fa35cca22264cf8a70bf138a_cgraph_map" alt=""></center>
+<map name="pdo_8c_298b8291fa35cca22264cf8a70bf138a_cgraph_map">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="140,6,223,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="ae7d661cd3ef7adf93a0d08fdb15b7f2"></a><!-- doxytag: member="pdo.c::proceedPDO" ref="ae7d661cd3ef7adf93a0d08fdb15b7f2" args="(CO_Data *d, Message *m)" -->
@@ -155,11 +217,74 @@ References <a class="el" href="pdo_8c-source.html#l00027">sendPDO()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>m</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="pdo_8c-source.html#l00187">187</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+Number of the mapped varable<p>
+count of mapped objects...<p>
+pointer to the var which is mapped to a pdo...<p>
+void * pMappedAppObject = NULL;<p>
+pointer fo the var which holds the mapping parameter of an mapping entry<p>
+pointer to the transmission type<p>
+The PDO received is not a request.<p>
+study of all the PDO stored in the dictionary<p>
+data are stored in process_var array<p>
+memcpy(&amp;(process_var.data), &amp;m-&gt;data, (*m).len);<p>
+Ce memcpy devrait etre portable<p>
+get CobId of the dictionary correspondant to the received PDO<p>
+check the CobId coherance<p>
+pwCobId is the cobId read in the dictionary at the state 3<p>
+The cobId is recognized<p>
+cobId received does not match with those write in the dictionnary<p>
+Get Mapped Objects Number<p>
+The cobId of the message received has been found in the dictionnary.<p>
+Get the addresse of the mapped variable.<p>
+detail of *pMappingParameter :<p>
+The 16 hight bits contains the index, the medium 8 bits contains the subindex,<p>
+and the lower 8 bits contains the size of the mapped variable.<p>
+copy bit per bit in little endian<p>
+MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject));<p>
+end loop while on mapped variables<p>
+end switch status<p>
+end while<p>
+end if Donnees<p>
+study of all PDO stored in the objects dictionary<p>
+check the CobId<p>
+get CobId of the dictionary which match to the received PDO<p>
+check transmission type (after request?)<p>
+The requested PDO is not to send on request. So, does nothing.<p>
+get mapped objects number<p>
+Get the mapped variable<p>
+end while<p>
+Transmit the PDO<p>
+end switch status<p>
+end while<p>
+end if Requete 
 <p>
-References <a class="el" href="pdo_8c-source.html#l00376">CopyBits()</a>, <a class="el" href="objacces_8c-source.html#l00145">getODentry()</a>, <a class="el" href="pdo_8c-source.html#l00061">PDOmGR()</a>, and <a class="el" href="objacces_8c-source.html#l00257">setODentry()</a>.
+Definition at line <a class="el" href="pdo_8c-source.html#l00221">221</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+<p>
+References <a class="el" href="pdo_8c-source.html#l00430">CopyBits()</a>, <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>, <a class="el" href="pdo_8c-source.html#l00079">PDOmGR()</a>, and <a class="el" href="objacces_8c-source.html#l00350">setODentry()</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="pdo_8c_ae7d661cd3ef7adf93a0d08fdb15b7f2_cgraph.png" border="0" usemap="#pdo_8c_ae7d661cd3ef7adf93a0d08fdb15b7f2_cgraph_map" alt=""></center>
+<map name="pdo_8c_ae7d661cd3ef7adf93a0d08fdb15b7f2_cgraph_map">
+<area href="pdo_8c.html#e468510c9f77f502207d961d26389918" shape="rect" coords="171,6,251,30" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="162,54,260,78" alt="">
+<area href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a" shape="rect" coords="170,102,252,126" alt="">
+<area href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0" shape="rect" coords="162,150,260,174" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="311,54,418,78" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="468,102,636,126" alt="">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="323,102,406,126" alt="">
+<area href="objacces_8c.html#72f69950be4a1352fc78648c71454820" shape="rect" coords="311,150,418,174" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="d9a4a4f0a4ef48866c6184ccbd30f210"></a><!-- doxytag: member="pdo.c::sendPDO" ref="d9a4a4f0a4ef48866c6184ccbd30f210" args="(CO_Data *d, s_PDO pdo, UNS8 req)" -->
@@ -196,7 +321,9 @@ References <a class="el" href="pdo_8c-source.html#l00376">CopyBits()</a>, <a cla
 <p>
 
 <p>
-Definition at line <a class="el" href="pdo_8c-source.html#l00027">27</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+Definition at line <a class="el" href="pdo_8c-source.html#l00037">37</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+<p>
+Referenced by <a class="el" href="pdo_8c-source.html#l00079">PDOmGR()</a>, and <a class="el" href="pdo_8c-source.html#l00181">sendPDOrequest()</a>.
 </div>
 </div><p>
 <a class="anchor" name="cc08547009d3d2755d2291999941694c"></a><!-- doxytag: member="pdo.c::sendPDOrequest" ref="cc08547009d3d2755d2291999941694c" args="(CO_Data *d, UNS32 cobId)" -->
@@ -225,14 +352,31 @@ Definition at line <a class="el" href="pdo_8c-source.html#l00027">27</a> of file
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cobId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="pdo_8c-source.html#l00154">154</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+Sending the request only if the cobid have been found on the PDO receive<p>
+part dictionary<p>
+get the CobId 
 <p>
-References <a class="el" href="pdo_8c-source.html#l00027">sendPDO()</a>.
+Definition at line <a class="el" href="pdo_8c-source.html#l00181">181</a> of file <a class="el" href="pdo_8c-source.html">pdo.c</a>.
+<p>
+References <a class="el" href="pdo_8c-source.html#l00037">sendPDO()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="pdo_8c_cc08547009d3d2755d2291999941694c_cgraph.png" border="0" usemap="#pdo_8c_cc08547009d3d2755d2291999941694c_cgraph_map" alt=""></center>
+<map name="pdo_8c_cc08547009d3d2755d2291999941694c_cgraph_map">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="191,6,273,30" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:07 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

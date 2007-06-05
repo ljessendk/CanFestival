@@ -1,0 +1,50 @@
+app-title:
+python
+
+app-version:
+$Revision$
+
+cwd:
+/home/epimerde/documents/tc11/CanFestival-3/examples/TestMasterMicroMod
+
+date:
+Tue Jun  5 15:25:23 2007
+
+e-type:
+<type 'exceptions.KeyError'>
+
+e-value:
+2
+
+locals:
+    ignore: True
+    self: <nodemanager.NodeManager instance at 0x883248c>
+
+platform:
+Linux-2.6.20-16-generic-i686-with-debian-4.0
+
+python-version:
+2.5.1
+
+self:
+    UndoBuffers: {1: <nodemanager.UndoBuffer instance at 0x8859acc>}
+    NodeIndex: 2
+    CurrentNode: <node.Node instance at 0x8eee5ec>
+    FileNames: {1: 'Unnamed1'}
+    FilePaths: {1: ''}
+    ScriptDirectory: '/home/epimerde/documents/tc11/CanFestival-3/objdictgen'
+    LastNewIndex: 1
+
+traceback:
+  File "./objdictedit.py", line 464, in OnCloseFrame
+    self.Manager.CloseCurrent(True)
+  File "/home/epimerde/documents/tc11/CanFestival-3/objdictgen/nodemanager.py", line 296, in CloseCurrent
+    if self.UndoBuffers[self.NodeIndex].IsCurrentSaved() or ignore:
+<type 'exceptions.KeyError'>: 2
+
+wx-platform:
+__WXGTK__
+
+wx-version:
+2.6.3.2
+

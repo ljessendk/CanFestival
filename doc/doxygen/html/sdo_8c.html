@@ -20,6 +20,9 @@
 <code>#include &quot;canfestival.h&quot;</code><br>
 
 <p>
+Include dependency graph for sdo.c:<p><center><img src="sdo_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/sdo.c_map" alt=""></center>
+
+<p>
 <a href="sdo_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
@@ -103,7 +106,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS32 *abortCode)</td></tr>
 
 </table>
-<hr><h2>Define Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 09:32:32 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="sdo_8c-source.html">sdo.c</a>.<hr><h2>Define Documentation</h2>
 <a class="anchor" name="e5a2dafe8497bff1fd88f881ea74414d"></a><!-- doxytag: member="sdo.c::getSDOc" ref="e5a2dafe8497bff1fd88f881ea74414d" args="(byte)" -->
 <div class="memitem">
 <div class="memproto">
@@ -123,7 +131,9 @@
 <p>
 Returns the indicator of end transmission from the first byte of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00075">75</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00109">109</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="ce5a1634ff4089db3b228cdd5010c321"></a><!-- doxytag: member="sdo.c::getSDOcs" ref="ce5a1634ff4089db3b228cdd5010c321" args="(byte)" -->
@@ -145,7 +155,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00075">75</a> of file
 <p>
 Returns the command specifier (cs, ccs, scs) from the first byte of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00055">55</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00089">89</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="cf60675f20de8746e279dce3a5c8e3c6"></a><!-- doxytag: member="sdo.c::getSDOe" ref="cf60675f20de8746e279dce3a5c8e3c6" args="(byte)" -->
@@ -167,7 +179,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00055">55</a> of file
 <p>
 Returns the transfer type from the first byte of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00067">67</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00101">101</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="d9b34e26bf67f1251f3bb364756e17f1"></a><!-- doxytag: member="sdo.c::getSDOindex" ref="d9b34e26bf67f1251f3bb364756e17f1" args="(byte1, byte2)" -->
@@ -192,7 +206,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00067">67</a> of file
 <p>
 Returns the index from the bytes 1 and 2 of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00083">83</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00117">117</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="dfd3877d80f6b903b491a115e587bd14"></a><!-- doxytag: member="sdo.c::getSDOn2" ref="dfd3877d80f6b903b491a115e587bd14" args="(byte)" -->
@@ -214,7 +230,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00083">83</a> of file
 <p>
 Returns the number of bytes without data from the first byte of the SDO. Coded in 2 bits 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00059">59</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00093">93</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="e5677ca12bfb71b06cbd6e99e9be0955"></a><!-- doxytag: member="sdo.c::getSDOn3" ref="e5677ca12bfb71b06cbd6e99e9be0955" args="(byte)" -->
@@ -236,7 +254,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00059">59</a> of file
 <p>
 Returns the number of bytes without data from the first byte of the SDO. Coded in 3 bits 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00063">63</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00097">97</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="f7f9e9bc3d59c9772d4c767b199dcf89"></a><!-- doxytag: member="sdo.c::getSDOs" ref="f7f9e9bc3d59c9772d4c767b199dcf89" args="(byte)" -->
@@ -258,7 +278,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00063">63</a> of file
 <p>
 Returns the size indicator from the first byte of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00071">71</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00105">105</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="52a96f6fa6083f6b291133135b7155a8"></a><!-- doxytag: member="sdo.c::getSDOsubIndex" ref="52a96f6fa6083f6b291133135b7155a8" args="(byte3)" -->
@@ -280,7 +302,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00071">71</a> of file
 <p>
 Returns the subIndex from the byte 3 of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00088">88</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00121">121</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="464b29fd628d92426de0a841232bdd12"></a><!-- doxytag: member="sdo.c::getSDOt" ref="464b29fd628d92426de0a841232bdd12" args="(byte)" -->
@@ -302,7 +326,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00088">88</a> of file
 <p>
 Returns the toggle from the first byte of the SDO 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00079">79</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00113">113</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="2eb6f9e0395b47b8d5e3eeae4fe0c116"></a><!-- doxytag: member="sdo.c::INLINE" ref="2eb6f9e0395b47b8d5e3eeae4fe0c116" args="" -->
@@ -319,7 +345,7 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00079">79</a> of file
 <p>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00034">34</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00043">43</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="b5ce7bd7fe4169a9f709815f03f9870b"></a><!-- doxytag: member="sdo.c::NO_INLINE" ref="b5ce7bd7fe4169a9f709815f03f9870b" args="" -->
@@ -336,7 +362,7 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00034">34</a> of file
 <p>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00031">31</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00040">40</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="b3938a9884014e96cafc42aeee743c0f"></a><!-- doxytag: member="sdo.c::RestartSDO_TIMER" ref="b3938a9884014e96cafc42aeee743c0f" args="(id)" -->
@@ -360,7 +386,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00031">31</a> of file
 <span class="keywordflow">if</span>(d-&gt;transfers[<span class="keywordtype">id</span>].timer != TIMER_NONE) { <a class="code" href="sdo_8c.html#b90f05aac908e8eee39a34b3e21e0ea9">StopSDO_TIMER</a>(<span class="keywordtype">id</span>) <a class="code" href="sdo_8c.html#c1e9eb7a28803b958d298b6997cc60ca">StartSDO_TIMER</a>(<span class="keywordtype">id</span>) }
 </pre></div>
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00124">124</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00160">160</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="c1e9eb7a28803b958d298b6997cc60ca"></a><!-- doxytag: member="sdo.c::StartSDO_TIMER" ref="c1e9eb7a28803b958d298b6997cc60ca" args="(id)" -->
@@ -384,7 +412,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00124">124</a> of fil
 d-&gt;transfers[id].timer = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(d,<span class="keywordtype">id</span>,&amp;<a class="code" href="sdo_8c.html#9309025e29b59e09026abcd3b45a5b61">SDOTimeoutAlarm</a>,MS_TO_TIMEVAL(SDO_TIMEOUT_MS),0);
 </pre></div>
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00120">120</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00156">156</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>.
 </div>
 </div><p>
 <a class="anchor" name="b90f05aac908e8eee39a34b3e21e0ea9"></a><!-- doxytag: member="sdo.c::StopSDO_TIMER" ref="b90f05aac908e8eee39a34b3e21e0ea9" args="(id)" -->
@@ -408,7 +438,9 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00120">120</a> of fil
 d-&gt;transfers[id].timer = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;transfers[<span class="keywordtype">id</span>].timer);
 </pre></div>
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00116">116</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00152">152</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <hr><h2>Function Documentation</h2>
@@ -462,11 +494,40 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00116">116</a> of fil
 <div class="memdoc">
 
 <p>
-Called by readNetworkDict 
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
+
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01198">1198</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Verify that there is no SDO communication yet.<p>
+Taking the line ...<p>
+Check which SDO to use to communicate with the node<p>
+looking for the nodeId server<p>
+Send the SDO to the server. Initiate upload, cs=2. 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00284">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00263">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00354">sendSDO()</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01406">1406</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01499">readNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l01516">readNetworkDictCallback()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph.png" border="0" usemap="#sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph_map" alt=""></center>
+<map name="sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph_map">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="205,5,333,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="199,53,340,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="391,128,487,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="215,152,324,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="228,200,311,224" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="3c07605ffe3ea197aa36e583ef87a20a"></a><!-- doxytag: member="sdo.c::_writeNetworkDict" ref="3c07605ffe3ea197aa36e583ef87a20a" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)" -->
@@ -537,7 +598,22 @@ References <a class="el" href="sdo_8c-source.html#l00284">getSDOfreeLine()</a>, 
 <div class="memdoc">
 
 <p>
-Called by writeNetworkDict 
+Called by writeNetworkDict<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endianize</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
+
 </div>
 </div><p>
 <a class="anchor" name="555a772d3a88a29c495f33513f8b2d58"></a><!-- doxytag: member="sdo.c::closeSDOtransfer" ref="555a772d3a88a29c495f33513f8b2d58" args="(CO_Data *d, UNS8 nodeId, UNS8 whoami)" -->
@@ -572,11 +648,27 @@ Called by writeNetworkDict
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00318">318</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00439">439</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>, and <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>.
+References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, and <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph.png" border="0" usemap="#sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph_map" alt=""></center>
+<map name="sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph_map">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="196,6,338,30" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="212,54,322,78" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="388,54,484,78" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="2019db2a4d17e6d29c055cbae173e2b9"></a><!-- doxytag: member="sdo.c::failedSDO" ref="2019db2a4d17e6d29c055cbae173e2b9" args="(CO_Data *d, UNS8 nodeId, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)" -->
@@ -629,11 +721,34 @@ References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>,
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>abortCode</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00227">227</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00307">307</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00424">sendSDOabort()</a>, and <a class="el" href="sdo_8c-source.html#l00116">StopSDO_TIMER</a>.
+References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_2019db2a4d17e6d29c055cbae173e2b9_cgraph.png" border="0" usemap="#sdo_8c_2019db2a4d17e6d29c055cbae173e2b9_cgraph_map" alt=""></center>
+<map name="sdo_8c_2019db2a4d17e6d29c055cbae173e2b9_cgraph_map">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="145,6,287,30" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="161,54,271,78" alt="">
+<area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="156,102,276,126" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="337,54,433,78" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="344,102,427,126" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="05b0c8eee1faee3c7a2f6e2ba3a16533"></a><!-- doxytag: member="sdo.c::getReadResultNetworkDict" ref="05b0c8eee1faee3c7a2f6e2ba3a16533" args="(CO_Data *d, UNS8 nodeId, void *data, UNS8 *size, UNS32 *abortCode)" -->
@@ -680,11 +795,30 @@ References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>,
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>size</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>abortCode</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01295">1295</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Looking for the line tranfert.<p>
+Transfert is finished. Put the value in the data. 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01532">1532</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph.png" border="0" usemap="#sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph_map" alt=""></center>
+<map name="sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph_map">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="257,6,399,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="58d1f9691977617601beb9e5b4123252"></a><!-- doxytag: member="sdo.c::getSDOfreeLine" ref="58d1f9691977617601beb9e5b4123252" args="(CO_Data *d, UNS8 whoami, UNS8 *line)" -->
@@ -719,9 +853,19 @@ References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00284">284</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00388">388</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="bb0c376b048ab2c6e0524b135b62376f"></a><!-- doxytag: member="sdo.c::getSDOlineOnUse" ref="bb0c376b048ab2c6e0524b135b62376f" args="(CO_Data *d, UNS8 nodeId, UNS8 whoami, UNS8 *line)" -->
@@ -762,9 +906,20 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00284">284</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00301">301</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00414">414</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00439">closeSDOtransfer()</a>, <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l01532">getReadResultNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01573">getWriteResultNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="acceb714c6e457e98deb9ba164ba2a2f"></a><!-- doxytag: member="sdo.c::getSDOlineRestBytes" ref="acceb714c6e457e98deb9ba164ba2a2f" args="(CO_Data *d, UNS8 line, UNS8 *nbBytes)" -->
@@ -799,9 +954,19 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00301">301</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbBytes</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00332">332</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00461">461</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="8671e306873f19362c60bb50ab930d1d"></a><!-- doxytag: member="sdo.c::getWriteResultNetworkDict" ref="8671e306873f19362c60bb50ab930d1d" args="(CO_Data *d, UNS8 nodeId, UNS32 *abortCode)" -->
@@ -836,11 +1001,27 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00332">332</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>abortCode</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01329">1329</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Looking for the line tranfert. 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01573">1573</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph.png" border="0" usemap="#sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph_map" alt=""></center>
+<map name="sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph_map">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="260,6,401,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="b9c873a15f55b29112b5527a6cc6898d"></a><!-- doxytag: member="sdo.c::initSDOline" ref="b9c873a15f55b29112b5527a6cc6898d" args="(CO_Data *d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 state)" -->
@@ -893,11 +1074,24 @@ References <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>state</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00263">263</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00359">359</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00120">StartSDO_TIMER</a>, and <a class="el" href="sdo_8c-source.html#l00116">StopSDO_TIMER</a>.
+References <a class="el" href="sdo_8c-source.html#l00156">StartSDO_TIMER</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
 </div>
 </div><p>
 <a class="anchor" name="ad6eb8be03b832ebba4dfb87aaba4065"></a><!-- doxytag: member="sdo.c::lineToSDO" ref="ad6eb8be03b832ebba4dfb87aaba4065" args="(CO_Data *d, UNS8 line, UNS8 nbBytes, UNS8 *data)" -->
@@ -938,9 +1132,20 @@ References <a class="el" href="sdo_8c-source.html#l00120">StartSDO_TIMER</a>, an
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbBytes</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00189">189</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00250">250</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="29427a80fd1aeabff30bf0602fbc220f"></a><!-- doxytag: member="sdo.c::objdictToSDOline" ref="29427a80fd1aeabff30bf0602fbc220f" args="(CO_Data *d, UNS8 line)" -->
@@ -969,11 +1174,28 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00189">189</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00157">157</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00209">209</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00145">getODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_29427a80fd1aeabff30bf0602fbc220f_cgraph.png" border="0" usemap="#sdo_8c_29427a80fd1aeabff30bf0602fbc220f_cgraph_map" alt=""></center>
+<map name="sdo_8c_29427a80fd1aeabff30bf0602fbc220f_cgraph_map">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="191,6,289,30" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="340,6,447,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="497,6,665,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="2a93a7c780472b1d8666d89aa270f661"></a><!-- doxytag: member="sdo.c::proceedSDO" ref="2a93a7c780472b1d8666d89aa270f661" args="(CO_Data *d, Message *m)" -->
@@ -1002,11 +1224,175 @@ References <a class="el" href="objacces_8c-source.html#l00145">getODentry()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>m</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00447">447</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+received or to be transmited.<p>
+The node from which the SDO is received<p>
+node id in 32 bits, for temporary use<p>
+SDO_SERVER or SDO_CLIENT.<p>
+while reading or writing in the local object dictionary.<p>
+SDO to transmit<p>
+Looking for the cobId in the object dictionary.<p>
+Am-I a server ?<p>
+In case of server, the node id of the client may be unknown. So we put the index minus offset<p>
+0x1200 where the cobid received is defined.<p>
+end while<p>
+Am-I client ?<p>
+a) Looking for the cobid received.<p>
+b) cobid found, so reading the node id of the server.<p>
+This SDO was not for us !<p>
+Test if the size of the SDO is ok<p>
+Testing the command specifier<p>
+Allowed : cs = 0, 1, 2, 3, 4. (= all except those for block tranfert).<p>
+cs = other : Not allowed -&gt; abort.<p>
+I am SERVER<p>
+Receiving a download segment data.<p>
+A SDO transfert should have been yet initiated.<p>
+Reset the wathdog<p>
+Toggle test.<p>
+Nb of data to be downloaded<p>
+Store the data in the transfert structure.<p>
+Sending the SDO response, CS = 1<p>
+The node id of the server, (here it is the sender).<p>
+Inverting the toggle for the next segment.<p>
+If it was the last segment,<p>
+Transfering line data to object dictionary.<p>
+The code does not use the "d" of initiate frame. So it is safe if e=s=0<p>
+Release of the line<p>
+I am CLIENT<p>
+It is a request for a previous upload segment. We should find a line opened for this.<p>
+Reset the wathdog<p>
+test of the toggle;<p>
+nb of data to be uploaded<p>
+Storing the data in the line structure.<p>
+Inverting the toggle for the next segment.<p>
+If it was the last segment,<p>
+Put in state finished<p>
+The code is safe for the case e=s=0 in initiate frame.<p>
+more segments to receive<p>
+Sending the request for the next segment.<p>
+I am SERVER<p>
+Receive of an initiate download<p>
+Search if a SDO transfert have been yet initiated<p>
+No line on use. Great !<p>
+Try to open a new line.<p>
+If SDO expedited<p>
+nb of data to be downloaded<p>
+Storing the data in the line structure.<p>
+SDO expedited -&gt; transfert finished. Data can be stored in the dictionary.<p>
+The line will be reseted when it is downloading in the dictionary.<p>
+Transfering line data to object dictionary.<p>
+Release of the line.<p>
+So, if it is not an expedited transfert<p>
+TODO : if e and s = 0, not reading m-&gt;data[4] but put nbBytes = 0<p>
+Transfert limited to 255 bytes.<p>
+Sending a SDO, cs=3<p>
+The node id of the server, (here it is the sender).<p>
+I am CLIENT<p>
+It is a response for a previous download segment. We should find a line opened for this.<p>
+Reset the wathdog<p>
+test of the toggle;<p>
+End transmission or downloading next segment. We need to know if it will be the last one.<p>
+At least one transfer to send.<p>
+several segments to download.<p>
+code to send the next segment. (cs = 0; c = 0)<p>
+Last segment.<p>
+code to send the last segment. (cs = 0; c = 1)<p>
+end if I am a CLIENT<p>
+I am SERVER<p>
+Receive of an initiate upload.<p>
+Search if a SDO transfert have been yet initiated<p>
+No line on use. Great !<p>
+Try to open a new line.<p>
+Transfer data from dictionary to the line structure.<p>
+Preparing the response.<p>
+Nb bytes to transfer ?<p>
+The server node Id;<p>
+normal transfert. (segmented).<p>
+code to send the initiate upload response. (cs = 2)<p>
+It takes too much memory to upgrate to 2^32 because the size of data is also coded<p>
+in the object dictionary, at every index and subindex.<p>
+Expedited upload. (cs = 2 ; e = 1)<p>
+Release the line.<p>
+end if I am SERVER<p>
+I am CLIENT<p>
+It is the response for the previous initiate upload request.<p>
+We should find a line opened for this.<p>
+Reset the wathdog<p>
+nb of data to be uploaded<p>
+Storing the data in the line structure.<p>
+SDO expedited -&gt; transfert finished. data are available via <a class="el" href="sdo_8c.html#05b0c8eee1faee3c7a2f6e2ba3a16533">getReadResultNetworkDict()</a>.<p>
+So, if it is not an expedited transfert<p>
+Storing the nb of data to receive.<p>
+Remember the limitation to 255 bytes to transfert<p>
+Requesting next segment. (cs = 3)<p>
+End if CLIENT<p>
+I am SERVER<p>
+Receiving a upload segment.<p>
+A SDO transfert should have been yet initiated.<p>
+Reset the wathdog<p>
+Toggle test.<p>
+Uploading next segment. We need to know if it will be the last one.<p>
+The segment to transfer is not the last one.<p>
+code to send the next segment. (cs = 0; c = 0)<p>
+Inverting the toggle for the next tranfert.<p>
+Last segment.<p>
+code to send the last segment. (cs = 0; c = 1)<p>
+The server node Id;<p>
+Release the line<p>
+I am CLIENT<p>
+It is the response for the previous initiate download request.<p>
+We should find a line opened for this.<p>
+Reset the watchdog<p>
+more than one request to send<p>
+code to send the next segment. (cs = 0; c = 0)<p>
+The server node Id;<p>
+Last segment.<p>
+code to send the last segment. (cs = 0; c = 1)<p>
+The server node Id;<p>
+Received SDO abort.<p>
+Looking for the line concerned.<p>
+Tips : The end user has no way to know that the server node has received an abort SDO.<p>
+Its is ok, I think.<p>
+If I am CLIENT<p>
+The line *must* be released by the core program.<p>
+Error : Unknown cs 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00227">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00075">getSDOc</a>, <a class="el" href="sdo_8c-source.html#l00055">getSDOcs</a>, <a class="el" href="sdo_8c-source.html#l00067">getSDOe</a>, <a class="el" href="sdo_8c-source.html#l00284">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00083">getSDOindex</a>, <a class="el" href="sdo_8c-source.html#l00301">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00332">getSDOlineRestBytes()</a>, <a class="el" href="sdo_8c-source.html#l00059">getSDOn2</a>, <a class="el" href="sdo_8c-source.html#l00063">getSDOn3</a>, <a class="el" href="sdo_8c-source.html#l00071">getSDOs</a>, <a class="el" href="sdo_8c-source.html#l00088">getSDOsubIndex</a>, <a class="el" href="sdo_8c-source.html#l00079">getSDOt</a>, <a class="el" href="sdo_8c-source.html#l00263">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00189">lineToSDO()</a>, <a class="el" href="sdo_8c-source.html#l00157">objdictToSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00124">RestartSDO_TIMER</a>, <a class="el" href="sdo_8c-source.html#l00141">SDOlineToObjdict()</a>, <a class="el" href="sdo_8c-source.html#l00210">SDOtoLine()</a>, <a class="el" href="sdo_8c-source.html#l00354">sendSDO()</a>, <a class="el" href="sdo_8c-source.html#l00342">setSDOlineRestBytes()</a>, and <a class="el" href="sdo_8c-source.html#l00116">StopSDO_TIMER</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00608">608</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00109">getSDOc</a>, <a class="el" href="sdo_8c-source.html#l00089">getSDOcs</a>, <a class="el" href="sdo_8c-source.html#l00101">getSDOe</a>, <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00117">getSDOindex</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00461">getSDOlineRestBytes()</a>, <a class="el" href="sdo_8c-source.html#l00093">getSDOn2</a>, <a class="el" href="sdo_8c-source.html#l00097">getSDOn3</a>, <a class="el" href="sdo_8c-source.html#l00105">getSDOs</a>, <a class="el" href="sdo_8c-source.html#l00121">getSDOsubIndex</a>, <a class="el" href="sdo_8c-source.html#l00113">getSDOt</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00250">lineToSDO()</a>, <a class="el" href="sdo_8c-source.html#l00209">objdictToSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00160">RestartSDO_TIMER</a>, <a class="el" href="sdo_8c-source.html#l00186">SDOlineToObjdict()</a>, <a class="el" href="sdo_8c-source.html#l00279">SDOtoLine()</a>, <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>, <a class="el" href="sdo_8c-source.html#l00479">setSDOlineRestBytes()</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_2a93a7c780472b1d8666d89aa270f661_cgraph.png" border="0" usemap="#sdo_8c_2a93a7c780472b1d8666d89aa270f661_cgraph_map" alt=""></center>
+<map name="sdo_8c_2a93a7c780472b1d8666d89aa270f661_cgraph_map">
+<area href="sdo_8c.html#2019db2a4d17e6d29c055cbae173e2b9" shape="rect" coords="199,140,287,164" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="375,190,516,214" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="391,91,500,115" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="572,66,668,90" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="579,191,662,215" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="179,290,307,314" alt="">
+<area href="sdo_8c.html#acceb714c6e457e98deb9ba164ba2a2f" shape="rect" coords="160,338,326,362" alt="">
+<area href="sdo_8c.html#ad6eb8be03b832ebba4dfb87aaba4065" shape="rect" coords="198,386,288,410" alt="">
+<area href="sdo_8c.html#29427a80fd1aeabff30bf0602fbc220f" shape="rect" coords="175,434,311,458" alt="">
+<area href="sdo_8c.html#2eb5309dca3a7363da5e5e7230b85d58" shape="rect" coords="174,482,312,506" alt="">
+<area href="sdo_8c.html#18b6f7e9c9441640a88ffef1e8720694" shape="rect" coords="196,530,290,554" alt="">
+<area href="sdo_8c.html#601a837ecb5f21bf4c66b058c5ae7810" shape="rect" coords="162,578,324,602" alt="">
+<area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="386,140,506,164" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="396,434,495,458" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="567,434,674,458" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="724,458,892,482" alt="">
+<area href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0" shape="rect" coords="396,482,495,506" alt="">
+<area href="objacces_8c.html#72f69950be4a1352fc78648c71454820" shape="rect" coords="567,482,674,506" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="0e102a0835e4115920cd406e80a8d135"></a><!-- doxytag: member="sdo.c::readNetworkDict" ref="0e102a0835e4115920cd406e80a8d135" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)" -->
@@ -1053,11 +1439,32 @@ References <a class="el" href="sdo_8c-source.html#l00227">failedSDO()</a>, <a cl
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01282">1282</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01499">1499</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01198">_readNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph.png" border="0" usemap="#sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph_map" alt=""></center>
+<map name="sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph_map">
+<area href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270" shape="rect" coords="191,103,332,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="389,5,517,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="383,53,524,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="575,128,671,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="399,152,508,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="412,200,495,224" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="542a5cdd20c00aa130a39fe68295e769"></a><!-- doxytag: member="sdo.c::readNetworkDictCallback" ref="542a5cdd20c00aa130a39fe68295e769" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)" -->
@@ -1110,11 +1517,33 @@ References <a class="el" href="sdo_8c-source.html#l01198">_readNetworkDict()</a>
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01288">1288</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01516">1516</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01198">_readNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph.png" border="0" usemap="#sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph_map" alt=""></center>
+<map name="sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph_map">
+<area href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270" shape="rect" coords="247,103,388,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="445,5,573,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="439,53,580,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="631,128,727,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="455,152,564,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="468,200,551,224" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="1f4f07eccc4890a11ccf4f632da7740b"></a><!-- doxytag: member="sdo.c::resetSDO" ref="1f4f07eccc4890a11ccf4f632da7740b" args="(CO_Data *d)" -->
@@ -1134,11 +1563,28 @@ References <a class="el" href="sdo_8c-source.html#l01198">_readNetworkDict()</a>
 <div class="memdoc">
 
 <p>
-Reset all sdo buffers 
+Reset all sdo buffers<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00131">131</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+transfer structure initialization 
 <p>
-References <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00169">169</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+References <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_1f4f07eccc4890a11ccf4f632da7740b_cgraph.png" border="0" usemap="#sdo_8c_1f4f07eccc4890a11ccf4f632da7740b_cgraph_map" alt=""></center>
+<map name="sdo_8c_1f4f07eccc4890a11ccf4f632da7740b_cgraph_map">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="140,6,250,30" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="300,6,396,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="42d33be015d4c4c83c73f1f0e588f481"></a><!-- doxytag: member="sdo.c::resetSDOline" ref="42d33be015d4c4c83c73f1f0e588f481" args="(CO_Data *d, UNS8 line)" -->
@@ -1167,11 +1613,25 @@ References <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00253">253</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00338">338</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00263">initSDOline()</a>.
+References <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00439">closeSDOtransfer()</a>, <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00169">resetSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00129">SDOTimeoutAlarm()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_42d33be015d4c4c83c73f1f0e588f481_cgraph.png" border="0" usemap="#sdo_8c_42d33be015d4c4c83c73f1f0e588f481_cgraph_map" alt=""></center>
+<map name="sdo_8c_42d33be015d4c4c83c73f1f0e588f481_cgraph_map">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="167,6,263,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="2eb5309dca3a7363da5e5e7230b85d58"></a><!-- doxytag: member="sdo.c::SDOlineToObjdict" ref="2eb5309dca3a7363da5e5e7230b85d58" args="(CO_Data *d, UNS8 line)" -->
@@ -1200,11 +1660,28 @@ References <a class="el" href="sdo_8c-source.html#l00263">initSDOline()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00141">141</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00186">186</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00257">setODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00350">setODentry()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_2eb5309dca3a7363da5e5e7230b85d58_cgraph.png" border="0" usemap="#sdo_8c_2eb5309dca3a7363da5e5e7230b85d58_cgraph_map" alt=""></center>
+<map name="sdo_8c_2eb5309dca3a7363da5e5e7230b85d58_cgraph_map">
+<area href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0" shape="rect" coords="192,6,291,30" alt="">
+<area href="objacces_8c.html#72f69950be4a1352fc78648c71454820" shape="rect" coords="339,6,445,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="495,6,663,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="9309025e29b59e09026abcd3b45a5b61"></a><!-- doxytag: member="sdo.c::SDOTimeoutAlarm" ref="9309025e29b59e09026abcd3b45a5b61" args="(CO_Data *d, UNS32 id)" -->
@@ -1233,11 +1710,26 @@ References <a class="el" href="objacces_8c-source.html#l00257">setODentry()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00093">93</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00129">129</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00424">sendSDOabort()</a>.
+References <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph.png" border="0" usemap="#sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph_map" alt=""></center>
+<map name="sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph_map">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="205,6,315,30" alt="">
+<area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="200,54,320,78" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="369,6,465,30" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="376,54,459,78" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="18b6f7e9c9441640a88ffef1e8720694"></a><!-- doxytag: member="sdo.c::SDOtoLine" ref="18b6f7e9c9441640a88ffef1e8720694" args="(CO_Data *d, UNS8 line, UNS8 nbBytes, UNS8 *data)" -->
@@ -1278,9 +1770,20 @@ References <a class="el" href="sdo_8c-source.html#l00253">resetSDOline()</a>, an
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbBytes</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00210">210</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00279">279</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="c6b5d7d1439d537da992a96644a1ca5d"></a><!-- doxytag: member="sdo.c::sendSDO" ref="c6b5d7d1439d537da992a96644a1ca5d" args="(CO_Data *d, UNS8 whoami, s_SDO sdo)" -->
@@ -1315,9 +1818,28 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00210">210</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sdo</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00354">354</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+get the server-&gt;client cobid<p>
+case server. Easy because today only one server SDO is authorized in CanFestival<p>
+case client<p>
+Get the client-&gt;server cobid.<p>
+First, have to find at the index where is defined the communication with the server node<p>
+Second, read the cobid client-&gt;server<p>
+message copy for sending<p>
+the length of SDO must be 8 
+<p>
+Definition at line <a class="el" href="sdo_8c-source.html#l00498">498</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>.
 </div>
 </div><p>
 <a class="anchor" name="b26c3f2fb63d81055809d6ccaa785b7c"></a><!-- doxytag: member="sdo.c::sendSDOabort" ref="b26c3f2fb63d81055809d6ccaa785b7c" args="(CO_Data *d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)" -->
@@ -1364,11 +1886,29 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00354">354</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>whoami</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>abortCode</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00424">424</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00578">578</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00354">sendSDO()</a>.
+References <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00129">SDOTimeoutAlarm()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph.png" border="0" usemap="#sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph_map" alt=""></center>
+<map name="sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph_map">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="175,6,257,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="601a837ecb5f21bf4c66b058c5ae7810"></a><!-- doxytag: member="sdo.c::setSDOlineRestBytes" ref="601a837ecb5f21bf4c66b058c5ae7810" args="(CO_Data *d, UNS8 line, UNS8 nbBytes)" -->
@@ -1403,9 +1943,19 @@ References <a class="el" href="sdo_8c-source.html#l00354">sendSDO()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>line</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbBytes</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l00342">342</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l00479">479</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
 <a class="anchor" name="bc20ed246e00053dcf71faa8f45ee39c"></a><!-- doxytag: member="sdo.c::writeNetworkDict" ref="bc20ed246e00053dcf71faa8f45ee39c" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)" -->
@@ -1464,11 +2014,34 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00342">342</a> of fil
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01182">1182</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01368">1368</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01072">_writeNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph.png" border="0" usemap="#sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph_map" alt=""></center>
+<map name="sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph_map">
+<area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="192,103,339,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="395,5,523,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="388,53,530,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="580,128,676,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="404,152,514,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="418,200,500,224" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="f4ec05293fb8971a1b282994498ed4f5"></a><!-- doxytag: member="sdo.c::writeNetworkDictCallBack" ref="f4ec05293fb8971a1b282994498ed4f5" args="(CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)" -->
@@ -1533,14 +2106,38 @@ References <a class="el" href="sdo_8c-source.html#l01072">_writeNetworkDict()</a
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>count</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sdo_8c-source.html#l01190">1190</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
+Definition at line <a class="el" href="sdo_8c-source.html#l01388">1388</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01072">_writeNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph.png" border="0" usemap="#sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph_map" alt=""></center>
+<map name="sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph_map">
+<area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="251,103,397,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="453,5,581,29" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="447,53,588,77" alt="">
+<area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="639,128,735,152" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="463,152,572,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="476,200,559,224" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:09 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

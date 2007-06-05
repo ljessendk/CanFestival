@@ -19,6 +19,9 @@
 <code>#include &quot;timer.h&quot;</code><br>
 
 <p>
+Include dependency graph for timer.c:<p><center><img src="timer_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/timer.c_map" alt=""></center>
+
+<p>
 <a href="timer_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
@@ -39,7 +42,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">TIMER_HANDLE&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> = -1</td></tr>
 
 </table>
-<hr><h2>Define Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 09:32:32 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="timer_8c-source.html">timer.c</a>.<hr><h2>Define Documentation</h2>
 <a class="anchor" name="8536312cebeeea3a23dc0027800122c9"></a><!-- doxytag: member="timer.c::min_val" ref="8536312cebeeea3a23dc0027800122c9" args="(a, b)" -->
 <div class="memitem">
 <div class="memproto">
@@ -62,7 +70,9 @@
 <p>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00035">35</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00044">44</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+Referenced by <a class="el" href="timer_8c-source.html#l00131">TimeDispatch()</a>.
 </div>
 </div><p>
 <hr><h2>Function Documentation</h2>
@@ -83,11 +93,22 @@ Definition at line <a class="el" href="timer_8c-source.html#l00035">35</a> of fi
 <div class="memdoc">
 
 <p>
+----- Use this to remove an alarm ----<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>handle</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00087">87</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+Quick and dirty. system timer will continue to be trigged, but no action will be preformed. 
 <p>
-References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, and <a class="el" href="timer_8c-source.html#l00030">timers</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00112">112</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+References <a class="el" href="timer_8c-source.html#l00042">last_timer_raw</a>, and <a class="el" href="timer_8c-source.html#l00039">timers</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00236">heartbeatStop()</a>, <a class="el" href="lifegrd_8c-source.html#l00081">proceedNODE_GUARD()</a>, <a class="el" href="lifegrd_8c-source.html#l00161">ProducerHearbeatAlarm()</a>, and <a class="el" href="sync_8c-source.html#l00105">stopSYNC()</a>.
 </div>
 </div><p>
 <a class="anchor" name="11c2616d78f06ed9144ef662f757b128"></a><!-- doxytag: member="timer.c::SetAlarm" ref="11c2616d78f06ed9144ef662f757b128" args="(CO_Data *d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)" -->
@@ -134,11 +155,33 @@ References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, 
 <div class="memdoc">
 
 <p>
+------- Use this to declare a new alarm ------<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>callback</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>value</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>period</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00038">38</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+in order to decide new timer setting we have to run over all timer rows<p>
+if something to store<p>
+and empty row<p>
+just store<p>
+if successfull<p>
+set next wakeup alarm if new entry is sooner than others, or if it is alone<p>
+printf("elapsed_time=%d real_timer_value=%d total_sleep_time=%d\n", elapsed_time, real_timer_value, total_sleep_time);<p>
+printf("SetAlarm() return %d\n", row_number); 
 <p>
-References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, and <a class="el" href="timer_8c-source.html#l00030">timers</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00057">57</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+References <a class="el" href="timer_8c-source.html#l00042">last_timer_raw</a>, and <a class="el" href="timer_8c-source.html#l00039">timers</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>, <a class="el" href="lifegrd_8c-source.html#l00081">proceedNODE_GUARD()</a>, and <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>.
 </div>
 </div><p>
 <a class="anchor" name="fa75192a3238525618f8cb83004930cc"></a><!-- doxytag: member="timer.c::TimeDispatch" ref="fa75192a3238525618f8cb83004930cc" args="()" -->
@@ -157,11 +200,29 @@ References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, 
 <div class="memdoc">
 
 <p>
-
+------ TimeDispatch is called on each timer expiration ---- 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00104">104</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+used to compute when should normaly occur next wakeup<p>
+First run : change timer state depending on time<p>
+Get time since timer signal<p>
+if row is active<p>
+to be trigged<p>
+if simply outdated<p>
+ask for trig<p>
+or period have expired<p>
+set val as interval, with overrun correction<p>
+Check if this new timer value is the soonest<p>
+Each armed timer value in decremented.<p>
+Check if this new timer value is the soonest<p>
+Remember how much time we should sleep.<p>
+Set timer to soonest occurence<p>
+Then trig them or not.<p>
+reset trig state (will be free if not periodic)<p>
+trig ! 
 <p>
-References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, <a class="el" href="timer_8c-source.html#l00035">min_val</a>, <a class="el" href="timer_8c-source.html#l00030">timers</a>, and <a class="el" href="timer_8c-source.html#l00032">total_sleep_time</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00131">131</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+References <a class="el" href="timer_8c-source.html#l00042">last_timer_raw</a>, <a class="el" href="timer_8c-source.html#l00044">min_val</a>, <a class="el" href="timer_8c-source.html#l00039">timers</a>, and <a class="el" href="timer_8c-source.html#l00041">total_sleep_time</a>.
 </div>
 </div><p>
 <hr><h2>Variable Documentation</h2>
@@ -179,7 +240,9 @@ References <a class="el" href="timer_8c-source.html#l00033">last_timer_raw</a>, 
 <p>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00033">33</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00042">42</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+Referenced by <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>, <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>, and <a class="el" href="timer_8c-source.html#l00131">TimeDispatch()</a>.
 </div>
 </div><p>
 <a class="anchor" name="a74e2cf2504bfd18b12f112c7aaad845"></a><!-- doxytag: member="timer.c::timers" ref="a74e2cf2504bfd18b12f112c7aaad845" args="[MAX_NB_TIMER]" -->
@@ -196,7 +259,9 @@ Definition at line <a class="el" href="timer_8c-source.html#l00033">33</a> of fi
 <p>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00030">30</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00039">39</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+Referenced by <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>, <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>, and <a class="el" href="timer_8c-source.html#l00131">TimeDispatch()</a>.
 </div>
 </div><p>
 <a class="anchor" name="5e9651eed13d70bcce9bdf3489a72a3d"></a><!-- doxytag: member="timer.c::total_sleep_time" ref="5e9651eed13d70bcce9bdf3489a72a3d" args="" -->
@@ -213,10 +278,12 @@ Definition at line <a class="el" href="timer_8c-source.html#l00030">30</a> of fi
 <p>
 
 <p>
-Definition at line <a class="el" href="timer_8c-source.html#l00032">32</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+Definition at line <a class="el" href="timer_8c-source.html#l00041">41</a> of file <a class="el" href="timer_8c-source.html">timer.c</a>.
+<p>
+Referenced by <a class="el" href="timer_8c-source.html#l00131">TimeDispatch()</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:11 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

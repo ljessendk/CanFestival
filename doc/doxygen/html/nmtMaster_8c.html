@@ -19,6 +19,9 @@
 <code>#include &quot;canfestival.h&quot;</code><br>
 
 <p>
+Include dependency graph for nmtMaster.c:<p><center><img src="nmtMaster_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/nmtMaster.c_map" alt=""></center>
+
+<p>
 <a href="nmtMaster_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -29,7 +32,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a> (CO_Data *d, UNS8 nodeId)</td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 08:47:18 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="98bee3f402438056dbd653e752054796"></a><!-- doxytag: member="nmtMaster.c::masterRequestNodeState" ref="98bee3f402438056dbd653e752054796" args="(CO_Data *d, UNS8 nodeId)" -->
 <div class="memitem">
 <div class="memproto">
@@ -56,11 +64,28 @@
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="nmtMaster_8c-source.html#l00060">60</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
+FIXME: should warn for bad toggle bit.<p>
+NMTable configuration to indicate that the master is waiting for a Node_Guard frame from the slave whose node_id is ID<p>
+A state that does not exist<p>
+NMT broadcast 
 <p>
-References <a class="el" href="nmtMaster_8c-source.html#l00045">masterSendNMTnodeguard()</a>.
+Definition at line <a class="el" href="nmtMaster_8c-source.html#l00090">90</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
+<p>
+References <a class="el" href="nmtMaster_8c-source.html#l00070">masterSendNMTnodeguard()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="nmtMaster_8c_98bee3f402438056dbd653e752054796_cgraph.png" border="0" usemap="#nmtMaster_8c_98bee3f402438056dbd653e752054796_cgraph_map" alt=""></center>
+<map name="nmtMaster_8c_98bee3f402438056dbd653e752054796_cgraph_map">
+<area href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4" shape="rect" coords="249,6,455,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="f63689baeabb15103c2b7afe8885c5c4"></a><!-- doxytag: member="nmtMaster.c::masterSendNMTnodeguard" ref="f63689baeabb15103c2b7afe8885c5c4" args="(CO_Data *d, UNS8 nodeId)" -->
@@ -89,9 +114,18 @@ References <a class="el" href="nmtMaster_8c-source.html#l00045">masterSendNMTnod
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="nmtMaster_8c-source.html#l00045">45</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
+Definition at line <a class="el" href="nmtMaster_8c-source.html#l00070">70</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
+<p>
+Referenced by <a class="el" href="nmtMaster_8c-source.html#l00090">masterRequestNodeState()</a>.
 </div>
 </div><p>
 <a class="anchor" name="6170d95d9900ef756921a934c5fb37d2"></a><!-- doxytag: member="nmtMaster.c::masterSendNMTstateChange" ref="6170d95d9900ef756921a934c5fb37d2" args="(CO_Data *d, UNS8 Node_ID, UNS8 cs)" -->
@@ -126,12 +160,22 @@ Definition at line <a class="el" href="nmtMaster_8c-source.html#l00045">45</a> o
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Node_ID</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cs</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="nmtMaster_8c-source.html#l00027">27</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
+message configuration 
+<p>
+Definition at line <a class="el" href="nmtMaster_8c-source.html#l00045">45</a> of file <a class="el" href="nmtMaster_8c-source.html">nmtMaster.c</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:06 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

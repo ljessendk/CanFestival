@@ -20,6 +20,9 @@
 <code>#include &quot;canfestival.h&quot;</code><br>
 
 <p>
+Include dependency graph for lifegrd.c:<p><center><img src="lifegrd_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/lifegrd.c_map" alt=""></center>
+
+<p>
 <a href="lifegrd_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -42,7 +45,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="lifegrd_8c.html#5249eb891f5677b80ccf01e604748524">_heartbeatError</a> (UNS8 heartbeatID)</td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Mon Jun 4 17:19:24 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="5249eb891f5677b80ccf01e604748524"></a><!-- doxytag: member="lifegrd.c::_heartbeatError" ref="5249eb891f5677b80ccf01e604748524" args="(UNS8 heartbeatID)" -->
 <div class="memitem">
 <div class="memproto">
@@ -60,9 +68,14 @@
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>heartbeatID</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00184">184</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00252">252</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="e3cd4656f5b2a37d4b8d364293538198"></a><!-- doxytag: member="lifegrd.c::ConsumerHearbeatAlarm" ref="e3cd4656f5b2a37d4b8d364293538198" args="(CO_Data *d, UNS32 id)" -->
@@ -91,9 +104,20 @@ Definition at line <a class="el" href="lifegrd_8c-source.html#l00184">184</a> of
 <div class="memdoc">
 
 <p>
+The Consumer Timer Callback<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00041">41</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+call heartbeat error with NodeId 
+<p>
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00067">67</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>, and <a class="el" href="lifegrd_8c-source.html#l00081">proceedNODE_GUARD()</a>.
 </div>
 </div><p>
 <a class="anchor" name="627254070e45c23f1776e12c524492ff"></a><!-- doxytag: member="lifegrd.c::getNodeState" ref="627254070e45c23f1776e12c524492ff" args="(CO_Data *d, UNS8 nodeId)" -->
@@ -122,9 +146,16 @@ Definition at line <a class="el" href="lifegrd_8c-source.html#l00041">41</a> of 
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nodeId</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00033">33</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00055">55</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="8896f6846e4d020390f6953f3d98aa21"></a><!-- doxytag: member="lifegrd.c::heartbeatInit" ref="8896f6846e4d020390f6953f3d98aa21" args="(CO_Data *d)" -->
@@ -144,11 +175,34 @@ Definition at line <a class="el" href="lifegrd_8c-source.html#l00033">33</a> of 
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00147">147</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Index to scan the table of heartbeat consumers<p>
+MSG_WAR(0x3121, "should_time : ", should_time ) ; 
 <p>
-References <a class="el" href="lifegrd_8c-source.html#l00041">ConsumerHearbeatAlarm()</a>, <a class="el" href="lifegrd_8c-source.html#l00139">OnHeartbeatProducerUpdate()</a>, <a class="el" href="lifegrd_8c-source.html#l00113">ProducerHearbeatAlarm()</a>, <a class="el" href="objacces_8c-source.html#l00297">RegisterSetODentryCallBack()</a>, and <a class="el" href="timer_8c-source.html#l00038">SetAlarm()</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00206">206</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+<p>
+References <a class="el" href="lifegrd_8c-source.html#l00067">ConsumerHearbeatAlarm()</a>, <a class="el" href="lifegrd_8c-source.html#l00194">OnHeartbeatProducerUpdate()</a>, <a class="el" href="lifegrd_8c-source.html#l00161">ProducerHearbeatAlarm()</a>, <a class="el" href="objacces_8c-source.html#l00419">RegisterSetODentryCallBack()</a>, and <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00194">OnHeartbeatProducerUpdate()</a>, and <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="lifegrd_8c_8896f6846e4d020390f6953f3d98aa21_cgraph.png" border="0" usemap="#lifegrd_8c_8896f6846e4d020390f6953f3d98aa21_cgraph_map" alt=""></center>
+<map name="lifegrd_8c_8896f6846e4d020390f6953f3d98aa21_cgraph_map">
+<area href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198" shape="rect" coords="176,5,368,29" alt="">
+<area href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368" shape="rect" coords="164,53,380,77" alt="">
+<area href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9" shape="rect" coords="429,103,613,127" alt="">
+<area href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049" shape="rect" coords="165,152,379,176" alt="">
+<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="231,200,313,224" alt="">
+<area href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7" shape="rect" coords="463,55,580,79" alt="">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="663,79,745,103" alt="">
+<area href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53" shape="rect" coords="465,152,577,176" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="1b73047269c2a02065e12af18c6053c7"></a><!-- doxytag: member="lifegrd.c::heartbeatStop" ref="1b73047269c2a02065e12af18c6053c7" args="(CO_Data *d)" -->
@@ -168,11 +222,24 @@ References <a class="el" href="lifegrd_8c-source.html#l00041">ConsumerHearbeatAl
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00173">173</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00236">236</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
 <p>
-References <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>.
+References <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00194">OnHeartbeatProducerUpdate()</a>, and <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="lifegrd_8c_1b73047269c2a02065e12af18c6053c7_cgraph.png" border="0" usemap="#lifegrd_8c_1b73047269c2a02065e12af18c6053c7_cgraph_map" alt=""></center>
+<map name="lifegrd_8c_1b73047269c2a02065e12af18c6053c7_cgraph_map">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="175,6,257,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="ec7b3543d04cf7d7098b27fba2510696"></a><!-- doxytag: member="lifegrd.c::OnHearbeatProducerUpdate" ref="ec7b3543d04cf7d7098b27fba2510696" args="(CO_Data *d, const indextable *unsused_indextable, UNS8 unsused_bSubindex)" -->
@@ -242,11 +309,35 @@ References <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>.
 <div class="memdoc">
 
 <p>
+This is called when Index 0x1017 is updated.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unsused_indextable</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unsused_bSubindex</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00139">139</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00194">194</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
 <p>
-References <a class="el" href="lifegrd_8c-source.html#l00147">heartbeatInit()</a>, and <a class="el" href="lifegrd_8c-source.html#l00173">heartbeatStop()</a>.
+References <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>, and <a class="el" href="lifegrd_8c-source.html#l00236">heartbeatStop()</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="lifegrd_8c_098c81fb9326fb2c7b43e88a55ce1368_cgraph.png" border="0" usemap="#lifegrd_8c_098c81fb9326fb2c7b43e88a55ce1368_cgraph_map" alt=""></center>
+<map name="lifegrd_8c_098c81fb9326fb2c7b43e88a55ce1368_cgraph_map">
+<area href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21" shape="rect" coords="278,101,387,125" alt="">
+<area href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7" shape="rect" coords="274,173,391,197" alt="">
+<area href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198" shape="rect" coords="451,101,643,125" alt="">
+<area href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9" shape="rect" coords="455,149,639,173" alt="">
+<area href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049" shape="rect" coords="440,5,654,29" alt="">
+<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="506,53,588,77" alt="">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="716,175,799,199" alt="">
+<area href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53" shape="rect" coords="702,5,814,29" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="b3248945e06e8b05518beddf665f174d"></a><!-- doxytag: member="lifegrd.c::proceedNODE_GUARD" ref="b3248945e06e8b05518beddf665f174d" args="(CO_Data *d, Message *m)" -->
@@ -275,11 +366,36 @@ References <a class="el" href="lifegrd_8c-source.html#l00147">heartbeatInit()</a
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>m</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00050">50</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Notice that only the master can have sent this node guarding request<p>
+Receiving a NMT NodeGuarding (request of the state by the master) Only answer to the NMT NodeGuarding request, the master is not checked (not implemented)<p>
+send the nodeguard response.<p>
+Not a request CAN<p>
+the slave's state receievd is stored in the NMTable<p>
+The state is stored on 7 bit<p>
+Boot-Up frame reception<p>
+The device send the boot-up message (Initialisation) to indicate the master that it is entered in pre_operational mode Because the device enter automaticaly in pre_operational mode, the pre_operational mode is stored NMTable[bus_id][nodeId] = Pre_operational 
 <p>
-References <a class="el" href="lifegrd_8c-source.html#l00041">ConsumerHearbeatAlarm()</a>, <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>, and <a class="el" href="timer_8c-source.html#l00038">SetAlarm()</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00081">81</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+<p>
+References <a class="el" href="lifegrd_8c-source.html#l00067">ConsumerHearbeatAlarm()</a>, <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>, and <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="lifegrd_8c_b3248945e06e8b05518beddf665f174d_cgraph.png" border="0" usemap="#lifegrd_8c_b3248945e06e8b05518beddf665f174d_cgraph_map" alt=""></center>
+<map name="lifegrd_8c_b3248945e06e8b05518beddf665f174d_cgraph_map">
+<area href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198" shape="rect" coords="228,6,420,30" alt="">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="283,54,366,78" alt="">
+<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="283,102,366,126" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="626b7d9e527a898682d9122f91454de9"></a><!-- doxytag: member="lifegrd.c::ProducerHearbeatAlarm" ref="626b7d9e527a898682d9122f91454de9" args="(CO_Data *d, UNS32 id)" -->
@@ -308,14 +424,33 @@ References <a class="el" href="lifegrd_8c-source.html#l00041">ConsumerHearbeatAl
 <div class="memdoc">
 
 <p>
+The Consumer Timer Callback<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="lifegrd_8c-source.html#l00113">113</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+Time expired, the heartbeat must be sent immediately generate the correct node-id: this is done by the offset 1792 (decimal) and additionaly the node-id of this device.<p>
+No toggle for heartbeat !<p>
+send the heartbeat 
 <p>
-References <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>.
+Definition at line <a class="el" href="lifegrd_8c-source.html#l00161">161</a> of file <a class="el" href="lifegrd_8c-source.html">lifegrd.c</a>.
+<p>
+References <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="lifegrd_8c_626b7d9e527a898682d9122f91454de9_cgraph.png" border="0" usemap="#lifegrd_8c_626b7d9e527a898682d9122f91454de9_cgraph_map" alt=""></center>
+<map name="lifegrd_8c_626b7d9e527a898682d9122f91454de9_cgraph_map">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="239,6,321,30" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:06 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

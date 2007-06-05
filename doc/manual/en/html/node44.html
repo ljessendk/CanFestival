@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Motorola HCS12</TITLE>
+<META NAME="description" CONTENT="Motorola HCS12">
+<META NAME="keywords" CONTENT="manual">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="manual.css">
+
+<LINK REL="next" HREF="node52.html">
+<LINK REL="previous" HREF="node31.html">
+<LINK REL="up" HREF="manual.html">
+<LINK REL="next" HREF="node45.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A NAME="tex2html710"
+  HREF="node45.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="/usr/share/latex2html/icons/next.png"></A> 
+<A NAME="tex2html706"
+  HREF="manual.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="/usr/share/latex2html/icons/up.png"></A> 
+<A NAME="tex2html700"
+  HREF="node43.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="/usr/share/latex2html/icons/prev.png"></A> 
+<A NAME="tex2html708"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="/usr/share/latex2html/icons/contents.png"></A>  
+<BR>
+<B> Next:</B> <A NAME="tex2html711"
+  HREF="node45.html">Running a HCS12 node</A>
+<B> Up:</B> <A NAME="tex2html707"
+  HREF="manual.html">Documentation</A>
+<B> Previous:</B> <A NAME="tex2html701"
+  HREF="node43.html">Testing</A>
+ &nbsp; <B>  <A NAME="tex2html709"
+  HREF="node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00080000000000000000">
+Motorola HCS12</A>
+</H1>
+The examples have been tested on a MC9S12DG255 mounted on a
+Elektronikladen HCS12 T-board.
+
+<P>
+Beware that there are a few differences in the MSCAN module of the
+68HC12 and HCS12 microcontroller. For a HC12, you must adapt the driver
+that we provide for HCS12.
+
+<P>
+For the difference MSCAN HC12/HCS12, see the Motorola application note
+AN2011/D.
+
+<P>
+Configure switch:
+
+<P>
+<TT> -target=hcs12</TT>
+
+<P>
+To do a CANopen node running on a microncontroller Motorola MC9S12DP256,
+you need :
+
+<P>
+
+<OL>
+<LI>The compiler GNU gcc for HC11, HC12, HCS12 : m6811-elf. <BR>
+Download the <SPAN  CLASS="textbf">release 3.1</SPAN> at :
+
+<BR>
+hrefhttp://m68hc11.serveftp.org/m68hc11_pkg_rpm.phphttp://m68hc11.serveftp.org/m68hc11_pkg_rpm.php
+
+<P>
+</LI>
+<LI>A board with this chip. We are using the T-board from
+Electronikladden. 
+</LI>
+<LI>At least about 40 kBytes of program memory.
+</LI>
+<LI>A tool to flash the memory. (We are using the hight cost
+Lauterbach debugger).
+</LI>
+</OL>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL CLASS="ChildLinks">
+<LI><A NAME="tex2html712"
+  HREF="node45.html">Running a HCS12 node</A>
+<UL>
+<LI><A NAME="tex2html713"
+  HREF="node46.html">Compiling Canfestival:</A>
+<LI><A NAME="tex2html714"
+  HREF="node47.html">Compiling and building an example</A>
+<LI><A NAME="tex2html715"
+  HREF="node48.html">Flashing the memory :</A>
+<LI><A NAME="tex2html716"
+  HREF="node49.html">Connecting to a serial RS232 console :</A>
+<LI><A NAME="tex2html717"
+  HREF="node50.html">Connecting to the CAN network :</A>
+<LI><A NAME="tex2html718"
+  HREF="node51.html">starting the node :</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+epimerde
+2007-06-05
+</ADDRESS>
+</BODY>
+</HTML>

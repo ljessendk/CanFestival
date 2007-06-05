@@ -18,6 +18,9 @@
 <h1>/home/epimerde/documents/tc11/CanFestival-3/src/objacces.c File Reference</h1><code>#include &quot;objacces.h&quot;</code><br>
 
 <p>
+Include dependency graph for objacces.c:<p><center><img src="objacces_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/objacces.c_map" alt=""></center>
+
+<p>
 <a href="objacces_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -42,7 +45,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="objacces_8c.html#43bf8d2616cf3d7d713b4af3d33a139c">_storeODSubIndex</a> (UNS16 wIndex, UNS8 bSubindex)</td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 08:55:23 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="objacces_8c-source.html">objacces.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="49e9444c8c8d39906a40a153366ed09c"></a><!-- doxytag: member="objacces.c::_getODentry" ref="49e9444c8c8d39906a40a153366ed09c" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pDestData, UNS8 *pExpectedSize, UNS8 *pDataType, UNS8 checkAccess, UNS8 endianize)" -->
 <div class="memitem">
 <div class="memproto">
@@ -105,11 +113,36 @@
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDestData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endianize</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00068">68</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+DO NOT USE MSG_ERR because the macro may send a PDO -&gt; infinite loop if it fails.<p>
+We allow to fetch a shorter string than expected<p>
+Error ! 
 <p>
-References <a class="el" href="objacces_8c-source.html#l00031">accessDictionaryError()</a>, and <a class="el" href="dcf_8c-source.html#l00033">ptrTable</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00105">105</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+<p>
+References <a class="el" href="objacces_8c-source.html#l00055">accessDictionaryError()</a>, and <a class="el" href="dcf_8c-source.html#l00057">ptrTable</a>.
+<p>
+Referenced by <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>, and <a class="el" href="objacces_8c-source.html#l00229">readLocalDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_49e9444c8c8d39906a40a153366ed09c_cgraph.png" border="0" usemap="#objacces_8c_49e9444c8c8d39906a40a153366ed09c_cgraph_map" alt=""></center>
+<map name="objacces_8c_49e9444c8c8d39906a40a153366ed09c_cgraph_map">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="164,6,332,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="72f69950be4a1352fc78648c71454820"></a><!-- doxytag: member="objacces.c::_setODentry" ref="72f69950be4a1352fc78648c71454820" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pSourceData, UNS8 *pExpectedSize, UNS8 checkAccess, UNS8 endianize)" -->
@@ -168,11 +201,35 @@ References <a class="el" href="objacces_8c-source.html#l00031">accessDictionaryE
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pSourceData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endianize</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00181">181</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Subindex not found<p>
+Callbacks<p>
+TODO : Store dans NVRAM 
 <p>
-References <a class="el" href="objacces_8c-source.html#l00031">accessDictionaryError()</a>, and <a class="el" href="dcf_8c-source.html#l00033">ptrTable</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00260">260</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+<p>
+References <a class="el" href="objacces_8c-source.html#l00055">accessDictionaryError()</a>, and <a class="el" href="dcf_8c-source.html#l00057">ptrTable</a>.
+<p>
+Referenced by <a class="el" href="objacces_8c-source.html#l00350">setODentry()</a>, and <a class="el" href="objacces_8c-source.html#l00378">writeLocalDict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_72f69950be4a1352fc78648c71454820_cgraph.png" border="0" usemap="#objacces_8c_72f69950be4a1352fc78648c71454820_cgraph_map" alt=""></center>
+<map name="objacces_8c_72f69950be4a1352fc78648c71454820_cgraph_map">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="161,6,329,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="43bf8d2616cf3d7d713b4af3d33a139c"></a><!-- doxytag: member="objacces.c::_storeODSubIndex" ref="43bf8d2616cf3d7d713b4af3d33a139c" args="(UNS16 wIndex, UNS8 bSubindex)" -->
@@ -201,9 +258,15 @@ References <a class="el" href="objacces_8c-source.html#l00031">accessDictionaryE
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00308">308</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00436">436</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="75d39b2dadcdb48f7321c6f3766aad26"></a><!-- doxytag: member="objacces.c::accessDictionaryError" ref="75d39b2dadcdb48f7321c6f3766aad26" args="(UNS16 index, UNS8 subIndex, UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code)" -->
@@ -250,9 +313,21 @@ Definition at line <a class="el" href="objacces_8c-source.html#l00308">308</a> o
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>index</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>subIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sizeDataDict</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sizeDataGiven</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>code</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00031">31</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00055">55</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+<p>
+Referenced by <a class="el" href="objacces_8c-source.html#l00105">_getODentry()</a>, and <a class="el" href="objacces_8c-source.html#l00260">_setODentry()</a>.
 </div>
 </div><p>
 <a class="anchor" name="39c263a4bc5d2d824fefe22fdb4c2dac"></a><!-- doxytag: member="objacces.c::getODentry" ref="39c263a4bc5d2d824fefe22fdb4c2dac" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pDestData, UNS8 *pExpectedSize, UNS8 *pDataType, UNS8 checkAccess)" -->
@@ -311,11 +386,32 @@ Definition at line <a class="el" href="objacces_8c-source.html#l00031">31</a> of
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDestData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00145">145</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00198">198</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00068">_getODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00105">_getODentry()</a>.
+<p>
+Referenced by <a class="el" href="sdo_8c-source.html#l00209">objdictToSDOline()</a>, <a class="el" href="pdo_8c-source.html#l00221">proceedPDO()</a>, and <a class="el" href="sync_8c-source.html#l00141">proceedSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_39c263a4bc5d2d824fefe22fdb4c2dac_cgraph.png" border="0" usemap="#objacces_8c_39c263a4bc5d2d824fefe22fdb4c2dac_cgraph_map" alt=""></center>
+<map name="objacces_8c_39c263a4bc5d2d824fefe22fdb4c2dac_cgraph_map">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="156,6,263,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="313,6,481,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="ed0728e75c0cf3a68c7c7a52a8148a2e"></a><!-- doxytag: member="objacces.c::readLocalDict" ref="ed0728e75c0cf3a68c7c7a52a8148a2e" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pDestData, UNS8 *pExpectedSize, UNS8 *pDataType, UNS8 checkAccess)" -->
@@ -374,11 +470,30 @@ References <a class="el" href="objacces_8c-source.html#l00068">_getODentry()</a>
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDestData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pDataType</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00163">163</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00229">229</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00068">_getODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00105">_getODentry()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_ed0728e75c0cf3a68c7c7a52a8148a2e_cgraph.png" border="0" usemap="#objacces_8c_ed0728e75c0cf3a68c7c7a52a8148a2e_cgraph_map" alt=""></center>
+<map name="objacces_8c_ed0728e75c0cf3a68c7c7a52a8148a2e_cgraph_map">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="169,6,276,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="327,6,495,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="514e7b9c13835a86446b1cd38fa34049"></a><!-- doxytag: member="objacces.c::RegisterSetODentryCallBack" ref="514e7b9c13835a86446b1cd38fa34049" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)" -->
@@ -419,11 +534,28 @@ References <a class="el" href="objacces_8c-source.html#l00068">_getODentry()</a>
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00297">297</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00419">419</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00292">scanIndexOD()</a>.
+References <a class="el" href="objacces_8c-source.html#l00404">scanIndexOD()</a>.
+<p>
+Referenced by <a class="el" href="lifegrd_8c-source.html#l00206">heartbeatInit()</a>, and <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_514e7b9c13835a86446b1cd38fa34049_cgraph.png" border="0" usemap="#objacces_8c_514e7b9c13835a86446b1cd38fa34049_cgraph_map" alt=""></center>
+<map name="objacces_8c_514e7b9c13835a86446b1cd38fa34049_cgraph_map">
+<area href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53" shape="rect" coords="267,6,379,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="11e9f24840d05a6a622955b51f91af53"></a><!-- doxytag: member="objacces.c::scanIndexOD" ref="11e9f24840d05a6a622955b51f91af53" args="(CO_Data *d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)" -->
@@ -464,9 +596,20 @@ References <a class="el" href="objacces_8c-source.html#l00292">scanIndexOD()</a>
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>errorCode</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>Callback</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00292">292</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00404">404</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+<p>
+Referenced by <a class="el" href="objacces_8c-source.html#l00419">RegisterSetODentryCallBack()</a>.
 </div>
 </div><p>
 <a class="anchor" name="17e598cc1b2e60380e2e4e75afe9b3b0"></a><!-- doxytag: member="objacces.c::setODentry" ref="17e598cc1b2e60380e2e4e75afe9b3b0" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pSourceData, UNS8 *pExpectedSize, UNS8 checkAccess)" -->
@@ -519,11 +662,31 @@ Definition at line <a class="el" href="objacces_8c-source.html#l00292">292</a> o
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pSourceData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00257">257</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00350">350</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00181">_setODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00260">_setODentry()</a>.
+<p>
+Referenced by <a class="el" href="pdo_8c-source.html#l00221">proceedPDO()</a>, and <a class="el" href="sdo_8c-source.html#l00186">SDOlineToObjdict()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_17e598cc1b2e60380e2e4e75afe9b3b0_cgraph.png" border="0" usemap="#objacces_8c_17e598cc1b2e60380e2e4e75afe9b3b0_cgraph_map" alt=""></center>
+<map name="objacces_8c_17e598cc1b2e60380e2e4e75afe9b3b0_cgraph_map">
+<area href="objacces_8c.html#72f69950be4a1352fc78648c71454820" shape="rect" coords="152,6,259,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="308,6,476,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="7cc58d6e7711bd0d9fd75e8ff721ce36"></a><!-- doxytag: member="objacces.c::writeLocalDict" ref="7cc58d6e7711bd0d9fd75e8ff721ce36" args="(CO_Data *d, UNS16 wIndex, UNS8 bSubindex, void *pSourceData, UNS8 *pExpectedSize, UNS8 checkAccess)" -->
@@ -576,14 +739,32 @@ References <a class="el" href="objacces_8c-source.html#l00181">_setODentry()</a>
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>wIndex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>bSubindex</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pSourceData</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pExpectedSize</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>checkAccess</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="objacces_8c-source.html#l00273">273</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
+Definition at line <a class="el" href="objacces_8c-source.html#l00378">378</a> of file <a class="el" href="objacces_8c-source.html">objacces.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00181">_setODentry()</a>.
+References <a class="el" href="objacces_8c-source.html#l00260">_setODentry()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="objacces_8c_7cc58d6e7711bd0d9fd75e8ff721ce36_cgraph.png" border="0" usemap="#objacces_8c_7cc58d6e7711bd0d9fd75e8ff721ce36_cgraph_map" alt=""></center>
+<map name="objacces_8c_7cc58d6e7711bd0d9fd75e8ff721ce36_cgraph_map">
+<area href="objacces_8c.html#72f69950be4a1352fc78648c71454820" shape="rect" coords="171,6,277,30" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="327,6,495,30" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:07 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

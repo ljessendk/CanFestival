@@ -16,90 +16,74 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <h1>/home/epimerde/documents/tc11/CanFestival-3/src/nmtMaster.c</h1><a href="nmtMaster_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
-<a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
-<a name="l00003"></a>00003 <span class="comment"></span>
-<a name="l00004"></a>00004 <span class="comment">Copyright (C): Edouard TISSERANT and Francis DUPIN</span>
-<a name="l00005"></a>00005 <span class="comment"></span>
-<a name="l00006"></a>00006 <span class="comment">See COPYING file for copyrights details.</span>
-<a name="l00007"></a>00007 <span class="comment"></span>
-<a name="l00008"></a>00008 <span class="comment">This library is free software; you can redistribute it and/or</span>
-<a name="l00009"></a>00009 <span class="comment">modify it under the terms of the GNU Lesser General Public</span>
-<a name="l00010"></a>00010 <span class="comment">License as published by the Free Software Foundation; either</span>
-<a name="l00011"></a>00011 <span class="comment">version 2.1 of the License, or (at your option) any later version.</span>
-<a name="l00012"></a>00012 <span class="comment"></span>
-<a name="l00013"></a>00013 <span class="comment">This library is distributed in the hope that it will be useful,</span>
-<a name="l00014"></a>00014 <span class="comment">but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<a name="l00015"></a>00015 <span class="comment">MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
-<a name="l00016"></a>00016 <span class="comment">Lesser General Public License for more details.</span>
-<a name="l00017"></a>00017 <span class="comment"></span>
-<a name="l00018"></a>00018 <span class="comment">You should have received a copy of the GNU Lesser General Public</span>
-<a name="l00019"></a>00019 <span class="comment">License along with this library; if not, write to the Free Software</span>
-<a name="l00020"></a>00020 <span class="comment">Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA</span>
-<a name="l00021"></a>00021 <span class="comment">*/</span>
-<a name="l00022"></a>00022 
-<a name="l00023"></a>00023 <span class="preprocessor">#include "nmtMaster.h"</span>
-<a name="l00024"></a>00024 <span class="preprocessor">#include "canfestival.h"</span>
-<a name="l00025"></a>00025 
-<a name="l00026"></a>00026 <span class="comment">/******************************************************************************/</span>
-<a name="l00027"></a><a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">00027</a> UNS8 <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a>(CO_Data* d, UNS8 Node_ID, UNS8 cs)
-<a name="l00028"></a>00028 {
-<a name="l00029"></a>00029   Message m;
-<a name="l00030"></a>00030 
-<a name="l00031"></a>00031   MSG_WAR(0x3501, <span class="stringliteral">"Send_NMT cs : "</span>, cs);
-<a name="l00032"></a>00032   MSG_WAR(0x3502, <span class="stringliteral">"    to node : "</span>, Node_ID);
-<a name="l00033"></a>00033   <span class="comment">/* message configuration */</span>
-<a name="l00034"></a>00034   m.cob_id.w = 0x0000; <span class="comment">/*(NMT) &lt;&lt; 7*/</span>
-<a name="l00035"></a>00035   m.rtr = NOT_A_REQUEST;
-<a name="l00036"></a>00036   m.len = 2;
-<a name="l00037"></a>00037   m.data[0] = cs;
-<a name="l00038"></a>00038   m.data[1] = Node_ID;
-<a name="l00039"></a>00039   
-<a name="l00040"></a>00040   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
-<a name="l00041"></a>00041 }
-<a name="l00042"></a>00042 
-<a name="l00043"></a>00043 
-<a name="l00044"></a>00044 <span class="comment">/****************************************************************************/</span>
-<a name="l00045"></a><a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">00045</a> UNS8 <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(CO_Data* d, UNS8 nodeId)
+<a name="l00002"></a>00002 <span class="comment">  This file is part of CanFestival, a library implementing CanOpen</span>
+<a name="l00003"></a>00003 <span class="comment">  Stack.</span>
+<a name="l00004"></a>00004 <span class="comment"></span>
+<a name="l00005"></a>00005 <span class="comment">  Copyright (C): Edouard TISSERANT and Francis DUPIN</span>
+<a name="l00006"></a>00006 <span class="comment"></span>
+<a name="l00007"></a>00007 <span class="comment">  See COPYING file for copyrights details.</span>
+<a name="l00008"></a>00008 <span class="comment"></span>
+<a name="l00009"></a>00009 <span class="comment">  This library is free software; you can redistribute it and/or</span>
+<a name="l00010"></a>00010 <span class="comment">  modify it under the terms of the GNU Lesser General Public</span>
+<a name="l00011"></a>00011 <span class="comment">  License as published by the Free Software Foundation; either</span>
+<a name="l00012"></a>00012 <span class="comment">  version 2.1 of the License, or (at your option) any later version.</span>
+<a name="l00013"></a>00013 <span class="comment"></span>
+<a name="l00014"></a>00014 <span class="comment">  This library is distributed in the hope that it will be useful,</span>
+<a name="l00015"></a>00015 <span class="comment">  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<a name="l00016"></a>00016 <span class="comment">  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU</span>
+<a name="l00017"></a>00017 <span class="comment">  Lesser General Public License for more details.</span>
+<a name="l00018"></a>00018 <span class="comment"></span>
+<a name="l00019"></a>00019 <span class="comment">  You should have received a copy of the GNU Lesser General Public</span>
+<a name="l00020"></a>00020 <span class="comment">  License along with this library; if not, write to the Free Software</span>
+<a name="l00021"></a>00021 <span class="comment">  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307</span>
+<a name="l00022"></a>00022 <span class="comment">  USA</span>
+<a name="l00023"></a>00023 <span class="comment">*/</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include "nmtMaster.h"</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include "canfestival.h"</span>
+<a name="l00035"></a>00035 
+<a name="l00045"></a><a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">00045</a> UNS8 <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a>(CO_Data* d, UNS8 Node_ID, UNS8 cs)
 <a name="l00046"></a>00046 {
 <a name="l00047"></a>00047   Message m;
-<a name="l00048"></a>00048   
-<a name="l00049"></a>00049   MSG_WAR(0x3503, <span class="stringliteral">"Send_NODE_GUARD to node : "</span>, nodeId);
-<a name="l00050"></a>00050         
-<a name="l00051"></a>00051   <span class="comment">/* message configuration */</span>
-<a name="l00052"></a>00052   m.cob_id.w = nodeId | (NODE_GUARD &lt;&lt; 7);
-<a name="l00053"></a>00053   m.rtr = REQUEST;
-<a name="l00054"></a>00054   m.len = 1;
-<a name="l00055"></a>00055   
-<a name="l00056"></a>00056   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
-<a name="l00057"></a>00057 }
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059 <span class="comment">/******************************************************************************/</span>
-<a name="l00060"></a><a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">00060</a> <span class="keywordtype">void</span> <a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a>(CO_Data* d, UNS8 nodeId)
-<a name="l00061"></a>00061 {
-<a name="l00062"></a>00062   <span class="comment">/* FIXME: should warn for bad toggle bit. */</span>
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064   <span class="comment">/* NMTable configuration to indicate that the master is waiting</span>
-<a name="l00065"></a>00065 <span class="comment">   * for a Node_Guard frame from the slave whose node_id is ID */</span>
-<a name="l00066"></a>00066   d-&gt;NMTable[nodeId] = Unknown_state; <span class="comment">/* A state that does not exist */</span>
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068   <span class="keywordflow">if</span> (nodeId == 0) { <span class="comment">/* NMT broadcast */</span>
-<a name="l00069"></a>00069     UNS8 i = 0;
-<a name="l00070"></a>00070     <span class="keywordflow">for</span> (i = 0 ; i &lt; NMT_MAX_NODE_ID ; i++) {
-<a name="l00071"></a>00071       d-&gt;NMTable[i] = Unknown_state;
-<a name="l00072"></a>00072     }
-<a name="l00073"></a>00073   }
-<a name="l00074"></a>00074   <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(d,nodeId);
-<a name="l00075"></a>00075 }
-<a name="l00076"></a>00076 
-<a name="l00077"></a>00077 
-<a name="l00078"></a>00078 
-<a name="l00079"></a>00079 
+<a name="l00048"></a>00048 
+<a name="l00049"></a>00049   MSG_WAR(0x3501, <span class="stringliteral">"Send_NMT cs : "</span>, cs);
+<a name="l00050"></a>00050   MSG_WAR(0x3502, <span class="stringliteral">"    to node : "</span>, Node_ID);
+<a name="l00052"></a>00052   m.cob_id.w = 0x0000; <span class="comment">/*(NMT) &lt;&lt; 7*/</span>
+<a name="l00053"></a>00053   m.rtr = NOT_A_REQUEST;
+<a name="l00054"></a>00054   m.len = 2;
+<a name="l00055"></a>00055   m.data[0] = cs;
+<a name="l00056"></a>00056   m.data[1] = Node_ID;
+<a name="l00057"></a>00057 
+<a name="l00058"></a>00058   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
+<a name="l00059"></a>00059 }
+<a name="l00060"></a>00060 
+<a name="l00061"></a>00061 
+<a name="l00070"></a><a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">00070</a> UNS8 <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(CO_Data* d, UNS8 nodeId)
+<a name="l00071"></a>00071 {
+<a name="l00072"></a>00072   Message m;
+<a name="l00073"></a>00073 
+<a name="l00074"></a>00074   MSG_WAR(0x3503, <span class="stringliteral">"Send_NODE_GUARD to node : "</span>, nodeId);
+<a name="l00075"></a>00075 
+<a name="l00076"></a>00076   <span class="comment">/* message configuration */</span>
+<a name="l00077"></a>00077   m.cob_id.w = nodeId | (NODE_GUARD &lt;&lt; 7);
+<a name="l00078"></a>00078   m.rtr = REQUEST;
+<a name="l00079"></a>00079   m.len = 1;
 <a name="l00080"></a>00080 
-<a name="l00081"></a>00081 
-<a name="l00082"></a>00082 
+<a name="l00081"></a>00081   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
+<a name="l00082"></a>00082 }
 <a name="l00083"></a>00083 
-<a name="l00084"></a>00084 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:26 2007 for CanFestival by&nbsp;
+<a name="l00090"></a><a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">00090</a> <span class="keywordtype">void</span> <a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a>(CO_Data* d, UNS8 nodeId)
+<a name="l00091"></a>00091 {
+<a name="l00097"></a>00097   d-&gt;NMTable[nodeId] = Unknown_state; 
+<a name="l00100"></a>00100   <span class="keywordflow">if</span> (nodeId == 0) { 
+<a name="l00101"></a>00101     UNS8 i = 0;
+<a name="l00102"></a>00102     <span class="keywordflow">for</span> (i = 0 ; i &lt; NMT_MAX_NODE_ID ; i++) {
+<a name="l00103"></a>00103       d-&gt;NMTable[i] = Unknown_state;
+<a name="l00104"></a>00104     }
+<a name="l00105"></a>00105   }
+<a name="l00106"></a>00106   <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(d,nodeId);
+<a name="l00107"></a>00107 }
+<a name="l00108"></a>00108 
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

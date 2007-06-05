@@ -20,6 +20,9 @@
 <code>#include &quot;canfestival.h&quot;</code><br>
 
 <p>
+Include dependency graph for sync.c:<p><center><img src="sync_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/sync.c_map" alt=""></center>
+
+<p>
 <a href="sync_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
@@ -40,7 +43,12 @@
 <tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sync_8c.html#c4082a05eed4b4c472f4ff2f7323dd28">_post_TPDO</a> ()</td></tr>
 
 </table>
-<hr><h2>Function Documentation</h2>
+<hr><a name="_details"></a><h2>Detailed Description</h2>
+<dl class="author" compact><dt><b>Author:</b></dt><dd>Edouard TISSERANT and Francis DUPIN </dd></dl>
+<dl class="date" compact><dt><b>Date:</b></dt><dd>Tue Jun 5 09:32:32 2007 </dd></dl>
+
+<p>
+Definition in file <a class="el" href="sync_8c-source.html">sync.c</a>.<hr><h2>Function Documentation</h2>
 <a class="anchor" name="a5e0cde14192eb72627526bb75c033c5"></a><!-- doxytag: member="sync.c::_post_sync" ref="a5e0cde14192eb72627526bb75c033c5" args="()" -->
 <div class="memitem">
 <div class="memproto">
@@ -59,7 +67,7 @@
 <p>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00245">245</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00293">293</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="c4082a05eed4b4c472f4ff2f7323dd28"></a><!-- doxytag: member="sync.c::_post_TPDO" ref="c4082a05eed4b4c472f4ff2f7323dd28" args="()" -->
@@ -80,7 +88,7 @@ Definition at line <a class="el" href="sync_8c-source.html#l00245">245</a> of fi
 <p>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00246">246</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00294">294</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 </div>
 </div><p>
 <a class="anchor" name="82595787f641ab85980d83522f1158b0"></a><!-- doxytag: member="sync.c::OnCOB_ID_SyncUpdate" ref="82595787f641ab85980d83522f1158b0" args="(CO_Data *d, const indextable *unsused_indextable, UNS8 unsused_bSubindex)" -->
@@ -115,11 +123,36 @@ Definition at line <a class="el" href="sync_8c-source.html#l00246">246</a> of fi
 <div class="memdoc">
 
 <p>
+This is called when Index 0x1005 is updated.<p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unsused_indextable</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>unsused_bSubindex</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00043">43</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00069">69</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 <p>
-References <a class="el" href="sync_8c-source.html#l00050">startSYNC()</a>.
+References <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>.
+<p>
+Referenced by <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_82595787f641ab85980d83522f1158b0_cgraph.png" border="0" usemap="#sync_8c_82595787f641ab85980d83522f1158b0_cgraph_map" alt=""></center>
+<map name="sync_8c_82595787f641ab85980d83522f1158b0_cgraph_map">
+<area href="sync_8c.html#2e0bf669f5b40dfbdda0f12a5ae3631a" shape="rect" coords="236,78,324,102" alt="">
+<area href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049" shape="rect" coords="374,6,587,30" alt="">
+<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="439,54,522,78" alt="">
+<area href="sync_8c.html#41c47dbd59d22bf9bab6cd288cf27164" shape="rect" coords="436,102,524,126" alt="">
+<area href="sync_8c.html#bbcce7b549414c7bc1aa72fa66258b45" shape="rect" coords="434,150,527,174" alt="">
+<area href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53" shape="rect" coords="635,6,747,30" alt="">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="650,102,732,126" alt="">
+<area href="sync_8c.html#0bcc501eb14c12365ffbaa3453905b50" shape="rect" coords="646,150,736,174" alt="">
+<area href="sync_8c.html#80cadcba23dc859db8a8d3f52789d6d1" shape="rect" coords="796,150,908,174" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="80cadcba23dc859db8a8d3f52789d6d1"></a><!-- doxytag: member="sync.c::proceedSYNC" ref="80cadcba23dc859db8a8d3f52789d6d1" args="(CO_Data *d, Message *m)" -->
@@ -148,11 +181,47 @@ References <a class="el" href="sync_8c-source.html#l00050">startSYNC()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>m</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00093">93</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+pointer to the var which is mapped to a pdo<p>
+pointer fo the var which holds the mapping parameter of an mapping entry<p>
+pointer to the transmissiontype...<p>
+only operational state allows PDO transmission<p>
+So, the node is in operational state<p>
+study all PDO stored in the objects dictionary<p>
+get the PDO transmission type<p>
+check if transmission type is after (this) SYNC<p>
+The message may not be transmited every SYNC but every n SYNC<p>
+get PDO CobId<p>
+get mapped objects number to transmit with this PDO<p>
+get mapping parameters<p>
+get data to transmit<p>
+copy bit per bit in little endian<p>
+loop to get all the data to transmit 
 <p>
-References <a class="el" href="pdo_8c-source.html#l00376">CopyBits()</a>, <a class="el" href="objacces_8c-source.html#l00145">getODentry()</a>, and <a class="el" href="pdo_8c-source.html#l00061">PDOmGR()</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00141">141</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+<p>
+References <a class="el" href="pdo_8c-source.html#l00430">CopyBits()</a>, <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>, and <a class="el" href="pdo_8c-source.html#l00079">PDOmGR()</a>.
+<p>
+Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>, and <a class="el" href="sync_8c-source.html#l00118">sendSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_80cadcba23dc859db8a8d3f52789d6d1_cgraph.png" border="0" usemap="#sync_8c_80cadcba23dc859db8a8d3f52789d6d1_cgraph_map" alt=""></center>
+<map name="sync_8c_80cadcba23dc859db8a8d3f52789d6d1_cgraph_map">
+<area href="pdo_8c.html#e468510c9f77f502207d961d26389918" shape="rect" coords="179,6,259,30" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="170,54,268,78" alt="">
+<area href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a" shape="rect" coords="178,102,260,126" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="319,54,426,78" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="476,54,644,78" alt="">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="331,102,414,126" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="0bcc501eb14c12365ffbaa3453905b50"></a><!-- doxytag: member="sync.c::sendSYNC" ref="0bcc501eb14c12365ffbaa3453905b50" args="(CO_Data *d, UNS32 cob_id)" -->
@@ -181,11 +250,32 @@ References <a class="el" href="pdo_8c-source.html#l00376">CopyBits()</a>, <a cla
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cob_id</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
+<dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00077">77</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00118">118</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 <p>
-References <a class="el" href="sync_8c-source.html#l00093">proceedSYNC()</a>.
+References <a class="el" href="sync_8c-source.html#l00141">proceedSYNC()</a>.
+<p>
+Referenced by <a class="el" href="sync_8c-source.html#l00055">SyncAlarm()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_0bcc501eb14c12365ffbaa3453905b50_cgraph.png" border="0" usemap="#sync_8c_0bcc501eb14c12365ffbaa3453905b50_cgraph_map" alt=""></center>
+<map name="sync_8c_0bcc501eb14c12365ffbaa3453905b50_cgraph_map">
+<area href="sync_8c.html#80cadcba23dc859db8a8d3f52789d6d1" shape="rect" coords="145,54,257,78" alt="">
+<area href="pdo_8c.html#e468510c9f77f502207d961d26389918" shape="rect" coords="317,6,397,30" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="308,54,407,78" alt="">
+<area href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a" shape="rect" coords="316,102,399,126" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="457,54,564,78" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="615,54,783,78" alt="">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="469,102,552,126" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="2e0bf669f5b40dfbdda0f12a5ae3631a"></a><!-- doxytag: member="sync.c::startSYNC" ref="2e0bf669f5b40dfbdda0f12a5ae3631a" args="(CO_Data *d)" -->
@@ -205,11 +295,37 @@ References <a class="el" href="sync_8c-source.html#l00093">proceedSYNC()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00050">50</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00080">80</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 <p>
-References <a class="el" href="sync_8c-source.html#l00043">OnCOB_ID_SyncUpdate()</a>, <a class="el" href="objacces_8c-source.html#l00297">RegisterSetODentryCallBack()</a>, <a class="el" href="timer_8c-source.html#l00038">SetAlarm()</a>, <a class="el" href="sync_8c-source.html#l00071">stopSYNC()</a>, and <a class="el" href="sync_8c-source.html#l00036">SyncAlarm()</a>.
+References <a class="el" href="sync_8c-source.html#l00069">OnCOB_ID_SyncUpdate()</a>, <a class="el" href="objacces_8c-source.html#l00419">RegisterSetODentryCallBack()</a>, <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>, <a class="el" href="sync_8c-source.html#l00105">stopSYNC()</a>, and <a class="el" href="sync_8c-source.html#l00055">SyncAlarm()</a>.
+<p>
+Referenced by <a class="el" href="sync_8c-source.html#l00069">OnCOB_ID_SyncUpdate()</a>, and <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a_cgraph.png" border="0" usemap="#sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a_cgraph_map" alt=""></center>
+<map name="sync_8c_2e0bf669f5b40dfbdda0f12a5ae3631a_cgraph_map">
+<area href="sync_8c.html#82595787f641ab85980d83522f1158b0" shape="rect" coords="161,6,340,30" alt="">
+<area href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049" shape="rect" coords="144,54,357,78" alt="">
+<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="209,102,292,126" alt="">
+<area href="sync_8c.html#41c47dbd59d22bf9bab6cd288cf27164" shape="rect" coords="207,150,295,174" alt="">
+<area href="sync_8c.html#bbcce7b549414c7bc1aa72fa66258b45" shape="rect" coords="204,198,297,222" alt="">
+<area href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53" shape="rect" coords="405,54,517,78" alt="">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="420,150,503,174" alt="">
+<area href="sync_8c.html#0bcc501eb14c12365ffbaa3453905b50" shape="rect" coords="416,198,507,222" alt="">
+<area href="sync_8c.html#80cadcba23dc859db8a8d3f52789d6d1" shape="rect" coords="567,198,679,222" alt="">
+<area href="pdo_8c.html#e468510c9f77f502207d961d26389918" shape="rect" coords="739,150,819,174" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="729,198,828,222" alt="">
+<area href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a" shape="rect" coords="737,246,820,270" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="879,198,985,222" alt="">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="891,246,973,270" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="41c47dbd59d22bf9bab6cd288cf27164"></a><!-- doxytag: member="sync.c::stopSYNC" ref="41c47dbd59d22bf9bab6cd288cf27164" args="(CO_Data *d)" -->
@@ -229,11 +345,24 @@ References <a class="el" href="sync_8c-source.html#l00043">OnCOB_ID_SyncUpdate()
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00071">71</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00105">105</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 <p>
-References <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>.
+References <a class="el" href="timer_8c-source.html#l00112">DelAlarm()</a>.
+<p>
+Referenced by <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>, and <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_41c47dbd59d22bf9bab6cd288cf27164_cgraph.png" border="0" usemap="#sync_8c_41c47dbd59d22bf9bab6cd288cf27164_cgraph_map" alt=""></center>
+<map name="sync_8c_41c47dbd59d22bf9bab6cd288cf27164_cgraph_map">
+<area href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21" shape="rect" coords="143,6,225,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="bbcce7b549414c7bc1aa72fa66258b45"></a><!-- doxytag: member="sync.c::SyncAlarm" ref="bbcce7b549414c7bc1aa72fa66258b45" args="(CO_Data *d, UNS32 id)" -->
@@ -262,14 +391,35 @@ References <a class="el" href="timer_8c-source.html#l00087">DelAlarm()</a>.
 <div class="memdoc">
 
 <p>
+<dl compact><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>d</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+  </table>
+</dl>
 
 <p>
-Definition at line <a class="el" href="sync_8c-source.html#l00036">36</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
+Definition at line <a class="el" href="sync_8c-source.html#l00055">55</a> of file <a class="el" href="sync_8c-source.html">sync.c</a>.
 <p>
-References <a class="el" href="sync_8c-source.html#l00077">sendSYNC()</a>.
+References <a class="el" href="sync_8c-source.html#l00118">sendSYNC()</a>.
+<p>
+Referenced by <a class="el" href="sync_8c-source.html#l00080">startSYNC()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sync_8c_bbcce7b549414c7bc1aa72fa66258b45_cgraph.png" border="0" usemap="#sync_8c_bbcce7b549414c7bc1aa72fa66258b45_cgraph_map" alt=""></center>
+<map name="sync_8c_bbcce7b549414c7bc1aa72fa66258b45_cgraph_map">
+<area href="sync_8c.html#0bcc501eb14c12365ffbaa3453905b50" shape="rect" coords="149,54,240,78" alt="">
+<area href="sync_8c.html#80cadcba23dc859db8a8d3f52789d6d1" shape="rect" coords="289,54,401,78" alt="">
+<area href="pdo_8c.html#e468510c9f77f502207d961d26389918" shape="rect" coords="461,6,541,30" alt="">
+<area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="452,54,551,78" alt="">
+<area href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a" shape="rect" coords="460,102,543,126" alt="">
+<area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="601,54,708,78" alt="">
+<area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="759,54,927,78" alt="">
+<area href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210" shape="rect" coords="613,102,696,126" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Mon Jun 4 17:09:27 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:11 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>
