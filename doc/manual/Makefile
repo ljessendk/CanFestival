@@ -21,14 +21,18 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
+all: manual
 
-manual:
+clean:
+	cd en && \
+	rm -f manual.aux manual.log manual.out manual.toc manual.pdf && \
+	rm -rf html && \
+	mkdir html
+
+manual: clean
 	cd en && \
 	pdflatex manual.tex && \
 	pdflatex manual.tex && \
 	cp manual.pdf ../../../objdictgen/doc/manual_en.pdf && \
-	rm manual.aux manual.log manual.out manual.toc && \
-	rm -rf html && \
-	mkdir html && \
 	latex2html -dir html manual.tex && \
 	xpdf manual.pdf

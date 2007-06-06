@@ -15,7 +15,7 @@ ABBREVIATE_BRIEF = "The $name class" "The $name widget" "The $name file" is prov
 ALWAYS_DETAILED_SEC = NO
 INLINE_INHERITED_MEMB = NO
 FULL_PATH_NAMES = YES
-STRIP_FROM_PATH = .
+STRIP_FROM_PATH = ../../
 STRIP_FROM_INC_PATH = 
 SHORT_NAMES = NO
 JAVADOC_AUTOBRIEF = NO
@@ -57,7 +57,7 @@ GENERATE_DEPRECATEDLIST = YES
 ENABLED_SECTIONS = 
 MAX_INITIALIZER_LINES = 30
 SHOW_USED_FILES = YES
-SHOW_DIRECTORIES = NO
+SHOW_DIRECTORIES = YES
 FILE_VERSION_FILTER = 
 #---------------------------------------------------------------------------
 # configuration options related to warning and progress messages
@@ -72,7 +72,10 @@ WARN_LOGFILE =
 #---------------------------------------------------------------------------
 # configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT = ./../../src
+INPUT = ../../src ../../drivers/can_lincan ../../drivers/can_peak_linux ../../drivers/can_peak_win32 ../../drivers/can_socket ../../drivers/can_uvccm_win32 ../../drivers/can_virtual ../../drivers/hcs12 ../../drivers/timers_unix ../../drivers/timers_xeno ../../drivers/unix ../../drivers/win32 ../../examples/gene_SYNC_HCS12 ../../examples/TestMasterSlave ../../examples/TestMasterMicroMod ../../examples/win32test ../../include 
+
+
+ 
 FILE_PATTERNS = *.c *.cc *.cxx *.cpp *.c++ *.d *.java *.ii *.ixx *.ipp *.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php *.php3 *.inc *.m *.mm *.dox *.py *.C *.CC *.C++ *.II *.I++ *.H *.HH *.H++ *.CS *.PHP *.PHP3 *.M *.MM *.PY
 RECURSIVE = YES
 EXCLUDE = 

@@ -20,10 +20,14 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
+all: documentation
 
-documentation: 
-	echo "Doxygen generation!!"
+clean:
 	rm -rf html
+
+
+documentation: clean
+	echo "Doxygen generation!!"
 	doxygen Doxyfile
-	firefox html/index.html&
+	#firefox html/index.html&
 
