@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/pdo.c Source File</title>
+<title>CanFestival: src/pdo.c Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,14 +8,18 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/pdo.c</h1><a href="pdo_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>pdo.c</h1><a href="pdo_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">  This file is part of CanFestival, a library implementing CanOpen</span>
 <a name="l00003"></a>00003 <span class="comment">  Stack.</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
@@ -38,55 +42,62 @@
 <a name="l00021"></a>00021 <span class="comment">  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307</span>
 <a name="l00022"></a>00022 <span class="comment">  USA</span>
 <a name="l00023"></a>00023 <span class="comment">*/</span>
-<a name="l00024"></a>00024 <span class="preprocessor">#include "pdo.h"</span>
-<a name="l00025"></a>00025 <span class="preprocessor">#include "objacces.h"</span>
-<a name="l00026"></a>00026 <span class="preprocessor">#include "canfestival.h"</span>
+<a name="l00024"></a>00024 <span class="preprocessor">#include "<a class="code" href="pdo_8h.html">pdo.h</a>"</span>
+<a name="l00025"></a>00025 <span class="preprocessor">#include "<a class="code" href="objacces_8h.html">objacces.h</a>"</span>
+<a name="l00026"></a>00026 <span class="preprocessor">#include "<a class="code" href="win32_2canfestival_8h.html">canfestival.h</a>"</span>
 <a name="l00027"></a>00027 
-<a name="l00037"></a><a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">00037</a> UNS8 <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(CO_Data* d, s_PDO pdo, UNS8 req)
+<a name="l00037"></a><a class="code" href="pdo_8h.html#a6774c219dc64c1cec4b4721ba23e15a">00037</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="structstruct__s__PDO.html">s_PDO</a> pdo, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> req)
 <a name="l00038"></a>00038 {
-<a name="l00039"></a>00039   UNS8 i;
-<a name="l00040"></a>00040   <span class="keywordflow">if</span>( d-&gt;nodeState == Operational ) {
-<a name="l00041"></a>00041     Message m;
+<a name="l00039"></a>00039   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> i;
+<a name="l00040"></a>00040   <span class="keywordflow">if</span>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a> == <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a> ) {
+<a name="l00041"></a>00041     <a class="code" href="structMessage.html">Message</a> m;
 <a name="l00042"></a>00042 
-<a name="l00044"></a>00044     m.cob_id.w = pdo.cobId &amp; 0x7FF; 
-<a name="l00046"></a>00046     <span class="keywordflow">if</span> ( req == NOT_A_REQUEST ) {
-<a name="l00047"></a>00047       UNS8 i;
-<a name="l00048"></a>00048       m.rtr = NOT_A_REQUEST;
-<a name="l00049"></a>00049       m.len = pdo.len;
-<a name="l00052"></a>00052       <span class="keywordflow">for</span> (i = 0 ; i &lt; pdo.len ; i++)
-<a name="l00053"></a>00053         m.data[i] = pdo.data[i];
+<a name="l00043"></a>00043     <span class="comment">/* Message copy for sending */</span>
+<a name="l00044"></a>00044     m.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = pdo.<a class="code" href="structstruct__s__PDO.html#79a70c0ef320cc4c939f825e83e3d5b2">cobId</a> &amp; 0x7FF; <span class="comment">/* Because the cobId is 11 bytes</span>
+<a name="l00045"></a>00045 <span class="comment">                                      length */</span>
+<a name="l00046"></a>00046     <span class="keywordflow">if</span> ( req == <a class="code" href="def_8h.html#0c43b00ce49efc3586ad17dd80d73940">NOT_A_REQUEST</a> ) {
+<a name="l00047"></a>00047       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> i;
+<a name="l00048"></a>00048       m.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = <a class="code" href="def_8h.html#0c43b00ce49efc3586ad17dd80d73940">NOT_A_REQUEST</a>;
+<a name="l00049"></a>00049       m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = pdo.<a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a>;
+<a name="l00050"></a>00050       <span class="comment">/* memcpy(&amp;m.data, &amp;pdo.data, m.len); */</span>
+<a name="l00051"></a>00051       <span class="comment">/* This Memcpy depends on packing structure. Avoid */</span>
+<a name="l00052"></a>00052       <span class="keywordflow">for</span> (i = 0 ; i &lt; pdo.<a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a> ; i++)
+<a name="l00053"></a>00053         m.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[i] = pdo.<a class="code" href="structstruct__s__PDO.html#34fdcefa8119162840bccf2d67b5c6c0">data</a>[i];
 <a name="l00054"></a>00054     }
 <a name="l00055"></a>00055     <span class="keywordflow">else</span> {
-<a name="l00056"></a>00056       m.rtr = REQUEST;
-<a name="l00057"></a>00057       m.len = 0;
+<a name="l00056"></a>00056       m.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = <a class="code" href="def_8h.html#6baece8be8f9ab55223d41b535511b6f">REQUEST</a>;
+<a name="l00057"></a>00057       m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = 0;
 <a name="l00058"></a>00058     }
 <a name="l00059"></a>00059 
-<a name="l00060"></a>00060     MSG_WAR(0x3901, <span class="stringliteral">"sendPDO cobId :"</span>, m.cob_id.w);
-<a name="l00061"></a>00061     MSG_WAR(0x3902,  <span class="stringliteral">"     Nb octets  : "</span>,  m.len);
-<a name="l00062"></a>00062     <span class="keywordflow">for</span> (i = 0 ; i &lt; m.len ; i++) {
-<a name="l00063"></a>00063       MSG_WAR(0x3903,<span class="stringliteral">"           data : "</span>, m.data[i]);
+<a name="l00060"></a>00060     <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3901, <span class="stringliteral">"sendPDO cobId :"</span>, m.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a>);
+<a name="l00061"></a>00061     <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3902,  <span class="stringliteral">"     Nb octets  : "</span>,  m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a>);
+<a name="l00062"></a>00062     <span class="keywordflow">for</span> (i = 0 ; i &lt; m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> ; i++) {
+<a name="l00063"></a>00063       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3903,<span class="stringliteral">"           data : "</span>, m.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[i]);
 <a name="l00064"></a>00064     }
 <a name="l00065"></a>00065 
-<a name="l00066"></a>00066     <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
-<a name="l00067"></a>00067   } 
+<a name="l00066"></a>00066     <span class="keywordflow">return</span> <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>,&amp;m);
+<a name="l00067"></a>00067   } <span class="comment">/* end if */</span>
 <a name="l00068"></a>00068   <span class="keywordflow">return</span> 0xFF;
 <a name="l00069"></a>00069 }
 <a name="l00070"></a>00070 
-<a name="l00079"></a><a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">00079</a> UNS8 <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>(CO_Data* d, UNS32 cobId)
+<a name="l00079"></a><a class="code" href="pdo_8h.html#298b8291fa35cca22264cf8a70bf138a">00079</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> cobId)
 <a name="l00080"></a>00080 {
-<a name="l00081"></a>00081   UNS8 res;
-<a name="l00082"></a>00082   UNS8 i;
-<a name="l00083"></a>00083   s_PDO pdo;
+<a name="l00081"></a>00081   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> res;
+<a name="l00082"></a>00082   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> i;
+<a name="l00083"></a>00083   <a class="code" href="structstruct__s__PDO.html">s_PDO</a> pdo;
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085   MSG_WAR(0x3905, <span class="stringliteral">"PDOmGR"</span>,0);
+<a name="l00085"></a>00085   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3905, <span class="stringliteral">"PDOmGR"</span>,0);
 <a name="l00086"></a>00086 
-<a name="l00089"></a>00089   pdo.cobId = cobId;
-<a name="l00090"></a>00090   pdo.len =  d-&gt;process_var.count;
+<a name="l00087"></a>00087   <span class="comment">/* if PDO is waiting for transmission,</span>
+<a name="l00088"></a>00088 <span class="comment">    preparation of the message to send */</span>
+<a name="l00089"></a>00089   pdo.<a class="code" href="structstruct__s__PDO.html#79a70c0ef320cc4c939f825e83e3d5b2">cobId</a> = cobId;
+<a name="l00090"></a>00090   pdo.<a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a> =  <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">count</a>;
+<a name="l00091"></a>00091   <span class="comment">/* memcpy(&amp;(pdo.data), &amp;(process_var.data), pdo.len); */</span>
 <a name="l00092"></a>00092      <span class="comment">/* Ce memcpy devrait tre portable */</span>
-<a name="l00093"></a>00093     <span class="keywordflow">for</span> ( i = 0 ; i &lt; pdo.len ; i++) 
-<a name="l00094"></a>00094       pdo.data[i] = d-&gt;process_var.data[i];
+<a name="l00093"></a>00093     <span class="keywordflow">for</span> ( i = 0 ; i &lt; pdo.<a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a> ; i++) 
+<a name="l00094"></a>00094       pdo.<a class="code" href="structstruct__s__PDO.html#34fdcefa8119162840bccf2d67b5c6c0">data</a>[i] = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[i];
 <a name="l00095"></a>00095 
-<a name="l00096"></a>00096     res = <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(d, pdo, NOT_A_REQUEST);
+<a name="l00096"></a>00096     res = <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, pdo, <a class="code" href="def_8h.html#0c43b00ce49efc3586ad17dd80d73940">NOT_A_REQUEST</a>);
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098     <span class="keywordflow">return</span> res;
 <a name="l00099"></a>00099 }
@@ -96,291 +107,348 @@
 <a name="l00103"></a>00103 <span class="comment">/* TODO : implement bit mapping                                                  */</span>
 <a name="l00104"></a>00104 <span class="comment">/*********************************************************************/</span>
 <a name="l00105"></a>00105 
-<a name="l00106"></a>00106 UNS8 buildPDO(CO_Data* d, UNS16 index)
+<a name="l00106"></a>00106 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8h.html#b9c82d949045cb7f52ed40d0ee8c7bf1">buildPDO</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> index)
 <a name="l00107"></a>00107 { <span class="comment">/* DO NOT USE MSG_ERR because the macro may send a PDO -&gt; infinite loop if it fails. */</span>       
-<a name="l00108"></a>00108   UNS16 ind;
-<a name="l00109"></a>00109   UNS8      subInd;
+<a name="l00108"></a>00108   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> ind;
+<a name="l00109"></a>00109   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>      subInd;
 <a name="l00110"></a>00110 
-<a name="l00111"></a>00111   UNS8 *     pMappingCount = NULL;      <span class="comment">/* count of mapped objects... */</span>
+<a name="l00111"></a>00111   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> *     pMappingCount = NULL;      <span class="comment">/* count of mapped objects... */</span>
 <a name="l00112"></a>00112   <span class="comment">/* pointer to the var which is mapped to a pdo */</span>
 <a name="l00113"></a>00113 <span class="comment">/*  void *     pMappedAppObject = NULL;  */</span>
 <a name="l00114"></a>00114   <span class="comment">/* pointer fo the var which holds the mapping parameter of an mapping entry  */</span> 
 <a name="l00115"></a>00115  
-<a name="l00116"></a>00116   UNS32 *    pMappingParameter = NULL;
+<a name="l00116"></a>00116   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *    pMappingParameter = NULL;
 <a name="l00117"></a>00117 
-<a name="l00118"></a>00118   UNS8      Size;
-<a name="l00119"></a>00119   UNS8      dataType;
-<a name="l00120"></a>00120   UNS8      offset;
-<a name="l00121"></a>00121   UNS16     offsetObjdict;
-<a name="l00122"></a>00122   UNS16     offsetObjdictPrm;
-<a name="l00123"></a>00123   UNS32     objDict;
+<a name="l00118"></a>00118   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>      Size;
+<a name="l00119"></a>00119   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>      dataType;
+<a name="l00120"></a>00120   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>      offset;
+<a name="l00121"></a>00121   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>     offsetObjdict;
+<a name="l00122"></a>00122   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>     offsetObjdictPrm;
+<a name="l00123"></a>00123   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>     objDict;
 <a name="l00124"></a>00124 
-<a name="l00125"></a>00125   subInd=(UNS8)0x00;
+<a name="l00125"></a>00125   subInd=(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x00;
 <a name="l00126"></a>00126   offset = 0x00;
 <a name="l00127"></a>00127   ind = index - 0x1800;
 <a name="l00128"></a>00128 
-<a name="l00129"></a>00129   MSG_WAR(0x3910,<span class="stringliteral">"Prepare PDO to send index :"</span>, index);
+<a name="l00129"></a>00129   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3910,<span class="stringliteral">"Prepare PDO to send index :"</span>, index);
 <a name="l00130"></a>00130 
-<a name="l00132"></a>00132   <span class="keywordflow">if</span>( d-&gt;nodeState != Operational ) {
-<a name="l00133"></a>00133     MSG_WAR(0x2911, <span class="stringliteral">"Unable to send the PDO (node not in OPERATIONAL mode). Node : "</span>, index);
+<a name="l00131"></a>00131   <span class="comment">/* only operational state allows PDO transmission */</span>
+<a name="l00132"></a>00132   <span class="keywordflow">if</span>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a> != <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a> ) {
+<a name="l00133"></a>00133     <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2911, <span class="stringliteral">"Unable to send the PDO (node not in OPERATIONAL mode). Node : "</span>, index);
 <a name="l00134"></a>00134     <span class="keywordflow">return</span> 0xFF;
 <a name="l00135"></a>00135   }
-<a name="l00136"></a>00136   offsetObjdictPrm = d-&gt;firstIndex-&gt;PDO_TRS;
-<a name="l00137"></a>00137   offsetObjdict = d-&gt;firstIndex-&gt;PDO_TRS_MAP;
+<a name="l00136"></a>00136   offsetObjdictPrm = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#48e0ba31ff7746f1fa63f240a132a906">PDO_TRS</a>;
+<a name="l00137"></a>00137   offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#c91a86195b3615a98f7b07e0c51ac75f">PDO_TRS_MAP</a>;
 <a name="l00138"></a>00138 
 <a name="l00139"></a>00139   <span class="keywordflow">if</span> (offsetObjdictPrm &amp;&amp; offsetObjdict)
 <a name="l00140"></a>00140     {
-<a name="l00142"></a>00142       pMappingCount = (d-&gt;objdict + offsetObjdict + ind)-&gt;pSubindex[0].pObject;
-<a name="l00143"></a>00143       MSG_WAR(0x3912, <span class="stringliteral">"Nb maped objects : "</span>,* pMappingCount);
-<a name="l00144"></a>00144       MSG_WAR(0x3913, <span class="stringliteral">"        at index : "</span>, 0x1A00 + ind);
-<a name="l00145"></a>00145       <span class="keywordflow">while</span> (subInd &lt; *pMappingCount) { 
-<a name="l00147"></a>00147         pMappingParameter = (d-&gt;objdict + offsetObjdict + ind)-&gt;pSubindex[subInd + 1].pObject;
-<a name="l00148"></a>00148         MSG_WAR(0x3914, <span class="stringliteral">"Get the mapping      at index : "</span>, (UNS16)0x1A00 + ind);
-<a name="l00149"></a>00149         MSG_WAR(0x3915, <span class="stringliteral">"                     subIndex : "</span>, subInd + 1);
-<a name="l00150"></a>00150         MSG_WAR(0x3916, <span class="stringliteral">"                     value    : "</span>, *(UNS32 *)pMappingParameter);
-<a name="l00152"></a>00152         Size = ((UNS8)(((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3));
-<a name="l00153"></a>00153         objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>(d, (UNS16)((*pMappingParameter) &gt;&gt; 16),
-<a name="l00154"></a>00154                              (UNS8)(((*pMappingParameter) &gt;&gt; 8 ) &amp; 0x000000FF),
-<a name="l00155"></a>00155                              (<span class="keywordtype">void</span> *)&amp;d-&gt;process_var.data[offset], &amp;Size, &amp;dataType, 0 );
+<a name="l00141"></a>00141       <span class="comment">/* get mapped objects number to transmit with this PDO */</span>
+<a name="l00142"></a>00142       pMappingCount = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + ind)-&gt;pSubindex[0].pObject;
+<a name="l00143"></a>00143       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3912, <span class="stringliteral">"Nb maped objects : "</span>,* pMappingCount);
+<a name="l00144"></a>00144       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3913, <span class="stringliteral">"        at index : "</span>, 0x1A00 + ind);
+<a name="l00145"></a>00145       <span class="keywordflow">while</span> (subInd &lt; *pMappingCount) { <span class="comment">/* Loop on mapped variables */</span>
+<a name="l00146"></a>00146         <span class="comment">/* get mapping parameters */</span>
+<a name="l00147"></a>00147         pMappingParameter = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + ind)-&gt;pSubindex[subInd + 1].pObject;
+<a name="l00148"></a>00148         <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3914, <span class="stringliteral">"Get the mapping      at index : "</span>, (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>)0x1A00 + ind);
+<a name="l00149"></a>00149         <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3915, <span class="stringliteral">"                     subIndex : "</span>, subInd + 1);
+<a name="l00150"></a>00150         <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3916, <span class="stringliteral">"                     value    : "</span>, *(<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *)pMappingParameter);
+<a name="l00151"></a>00151         <span class="comment">/* Get the mapped variable */</span>
+<a name="l00152"></a>00152         Size = ((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3));
+<a name="l00153"></a>00153         objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>)((*pMappingParameter) &gt;&gt; 16),
+<a name="l00154"></a>00154                              (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(((*pMappingParameter) &gt;&gt; 8 ) &amp; 0x000000FF),
+<a name="l00155"></a>00155                              (<span class="keywordtype">void</span> *)&amp;<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[offset], &amp;Size, &amp;dataType, 0 );
 <a name="l00156"></a>00156 
-<a name="l00157"></a>00157         <span class="keywordflow">if</span> (objDict != OD_SUCCESSFUL) {
-<a name="l00158"></a>00158           MSG_WAR(0x2919, <span class="stringliteral">"error accessing to the mapped var : "</span>, subInd + 1);
-<a name="l00159"></a>00159           MSG_WAR(0x2920, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
-<a name="l00160"></a>00160           MSG_WAR(0x2921, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
+<a name="l00157"></a>00157         <span class="keywordflow">if</span> (objDict != <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a>) {
+<a name="l00158"></a>00158           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2919, <span class="stringliteral">"error accessing to the mapped var : "</span>, subInd + 1);
+<a name="l00159"></a>00159           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2920, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
+<a name="l00160"></a>00160           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2921, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
 <a name="l00161"></a>00161           <span class="keywordflow">return</span> 0xFF;
 <a name="l00162"></a>00162         }
 <a name="l00163"></a>00163 
 <a name="l00164"></a>00164         offset += Size;
-<a name="l00165"></a>00165         d-&gt;process_var.count = offset;
+<a name="l00165"></a>00165         <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">count</a> = offset;
 <a name="l00166"></a>00166         subInd++;
-<a name="l00167"></a>00167       }
+<a name="l00167"></a>00167       }<span class="comment">/* end Loop on mapped variables  */</span>
 <a name="l00168"></a>00168     }
 <a name="l00169"></a>00169   <span class="keywordflow">return</span> 0;
 <a name="l00170"></a>00170 }
 <a name="l00171"></a>00171 <span class="preprocessor">#endif</span>
 <a name="l00172"></a>00172 <span class="preprocessor"></span>
-<a name="l00181"></a><a class="code" href="pdo_8c.html#cc08547009d3d2755d2291999941694c">00181</a> UNS8 <a class="code" href="pdo_8c.html#cc08547009d3d2755d2291999941694c">sendPDOrequest</a>( CO_Data* d, UNS32 cobId )
+<a name="l00181"></a><a class="code" href="pdo_8h.html#cc08547009d3d2755d2291999941694c">00181</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#cc08547009d3d2755d2291999941694c">sendPDOrequest</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> cobId )
 <a name="l00182"></a>00182 {
-<a name="l00183"></a>00183   UNS32 * pwCobId;
-<a name="l00184"></a>00184   UNS16          offset;
-<a name="l00185"></a>00185   UNS16          lastIndex;
-<a name="l00186"></a>00186   UNS8           err;
+<a name="l00183"></a>00183   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> * pwCobId;
+<a name="l00184"></a>00184   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>          offset;
+<a name="l00185"></a>00185   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>          lastIndex;
+<a name="l00186"></a>00186   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>           err;
 <a name="l00187"></a>00187 
-<a name="l00188"></a>00188   MSG_WAR(0x3930, <span class="stringliteral">"sendPDOrequest "</span>,0);
-<a name="l00192"></a>00192   offset = d-&gt;firstIndex-&gt;PDO_RCV;
-<a name="l00193"></a>00193   lastIndex = d-&gt;lastIndex-&gt;PDO_RCV;
+<a name="l00188"></a>00188   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3930, <span class="stringliteral">"sendPDOrequest "</span>,0);
+<a name="l00189"></a>00189   <span class="comment">/* Sending the request only if the cobid have been found on the PDO</span>
+<a name="l00190"></a>00190 <span class="comment">     receive */</span>
+<a name="l00191"></a>00191   <span class="comment">/* part dictionary */</span>
+<a name="l00192"></a>00192   offset = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#cadbae6acd5ded4e8eebf0ce88c2ec55">PDO_RCV</a>;
+<a name="l00193"></a>00193   lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#cadbae6acd5ded4e8eebf0ce88c2ec55">PDO_RCV</a>;
 <a name="l00194"></a>00194   <span class="keywordflow">if</span> (offset)
 <a name="l00195"></a>00195     <span class="keywordflow">while</span> (offset &lt;= lastIndex) {
-<a name="l00197"></a>00197       pwCobId = d-&gt;objdict[offset].pSubindex[1].pObject;
+<a name="l00196"></a>00196       <span class="comment">/* get the CobId*/</span>
+<a name="l00197"></a>00197       pwCobId = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offset].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[1].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
 <a name="l00198"></a>00198 
 <a name="l00199"></a>00199       <span class="keywordflow">if</span> ( *pwCobId  == cobId ) {
-<a name="l00200"></a>00200         s_PDO pdo;
-<a name="l00201"></a>00201         pdo.cobId = *pwCobId;
-<a name="l00202"></a>00202         pdo.len = 0;
-<a name="l00203"></a>00203         err  = <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(d, pdo, REQUEST);
+<a name="l00200"></a>00200         <a class="code" href="structstruct__s__PDO.html">s_PDO</a> pdo;
+<a name="l00201"></a>00201         pdo.<a class="code" href="structstruct__s__PDO.html#79a70c0ef320cc4c939f825e83e3d5b2">cobId</a> = *pwCobId;
+<a name="l00202"></a>00202         pdo.<a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a> = 0;
+<a name="l00203"></a>00203         err  = <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, pdo, <a class="code" href="def_8h.html#6baece8be8f9ab55223d41b535511b6f">REQUEST</a>);
 <a name="l00204"></a>00204         <span class="keywordflow">return</span> err;
 <a name="l00205"></a>00205       }
 <a name="l00206"></a>00206       offset++;
 <a name="l00207"></a>00207     }
-<a name="l00208"></a>00208   MSG_WAR(0x1931, <span class="stringliteral">"sendPDOrequest : COBID not found : "</span>, cobId);
+<a name="l00208"></a>00208   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x1931, <span class="stringliteral">"sendPDOrequest : COBID not found : "</span>, cobId);
 <a name="l00209"></a>00209   <span class="keywordflow">return</span> 0xFF;
 <a name="l00210"></a>00210 }
 <a name="l00211"></a>00211 
 <a name="l00212"></a>00212 
-<a name="l00221"></a><a class="code" href="pdo_8c.html#ae7d661cd3ef7adf93a0d08fdb15b7f2">00221</a> UNS8 <a class="code" href="pdo_8c.html#ae7d661cd3ef7adf93a0d08fdb15b7f2">proceedPDO</a>(CO_Data* d, Message *m)
+<a name="l00221"></a><a class="code" href="pdo_8h.html#ae7d661cd3ef7adf93a0d08fdb15b7f2">00221</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#ae7d661cd3ef7adf93a0d08fdb15b7f2">proceedPDO</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="structMessage.html">Message</a> *m)
 <a name="l00222"></a>00222 {
-<a name="l00223"></a>00223   UNS8   numPdo;
-<a name="l00224"></a>00224   UNS8   numMap;  
-<a name="l00225"></a>00225   UNS8 i;
-<a name="l00226"></a>00226   UNS8 *     pMappingCount = NULL;    
-<a name="l00231"></a>00231   UNS32 *    pMappingParameter = NULL;
-<a name="l00232"></a>00232   UNS8  *    pTransmissionType = NULL; 
-<a name="l00234"></a>00234   UNS32 *    pwCobId = NULL;
-<a name="l00235"></a>00235   UNS8       Size;
-<a name="l00236"></a>00236   UNS8       dataType;
-<a name="l00237"></a>00237   UNS8       offset;
-<a name="l00238"></a>00238   UNS8       status;
-<a name="l00239"></a>00239   UNS32      objDict;
-<a name="l00240"></a>00240   UNS16      offsetObjdict;
-<a name="l00241"></a>00241   UNS16      lastIndex;
-<a name="l00242"></a>00242   status = state1;
+<a name="l00223"></a>00223   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>   numPdo;
+<a name="l00224"></a>00224   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>   numMap;  <span class="comment">/* Number of the mapped varable */</span>
+<a name="l00225"></a>00225   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> i;
+<a name="l00226"></a>00226   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> *     pMappingCount = NULL;    <span class="comment">/* count of mapped objects... */</span>
+<a name="l00227"></a>00227   <span class="comment">/* pointer to the var which is mapped to a pdo... */</span>
+<a name="l00228"></a>00228   <span class="comment">/*  void *     pMappedAppObject = NULL;   */</span>
+<a name="l00229"></a>00229   <span class="comment">/* pointer fo the var which holds the mapping parameter of an</span>
+<a name="l00230"></a>00230 <span class="comment">     mapping entry */</span>
+<a name="l00231"></a>00231   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *    pMappingParameter = NULL;
+<a name="l00232"></a>00232   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  *    pTransmissionType = NULL; <span class="comment">/* pointer to the transmission</span>
+<a name="l00233"></a>00233 <span class="comment">                                         type */</span>
+<a name="l00234"></a>00234   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *    pwCobId = NULL;
+<a name="l00235"></a>00235   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       Size;
+<a name="l00236"></a>00236   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       dataType;
+<a name="l00237"></a>00237   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       offset;
+<a name="l00238"></a>00238   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       status;
+<a name="l00239"></a>00239   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>      objDict;
+<a name="l00240"></a>00240   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>      offsetObjdict;
+<a name="l00241"></a>00241   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>      lastIndex;
+<a name="l00242"></a>00242   status = <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>;
 <a name="l00243"></a>00243 
-<a name="l00244"></a>00244   MSG_WAR(0x3935, <span class="stringliteral">"proceedPDO, cobID : "</span>, ((*m).cob_id.w &amp; 0x7ff));
+<a name="l00244"></a>00244   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3935, <span class="stringliteral">"proceedPDO, cobID : "</span>, ((*m).cob_id.w &amp; 0x7ff));
 <a name="l00245"></a>00245   offset = 0x00;
 <a name="l00246"></a>00246   numPdo = 0;
 <a name="l00247"></a>00247   numMap = 0;
-<a name="l00248"></a>00248   <span class="keywordflow">if</span>((*m).rtr == NOT_A_REQUEST ) { 
-<a name="l00250"></a>00250     offsetObjdict = d-&gt;firstIndex-&gt;PDO_RCV;
-<a name="l00251"></a>00251     lastIndex = d-&gt;lastIndex-&gt;PDO_RCV;
+<a name="l00248"></a>00248   <span class="keywordflow">if</span>((*m).rtr == <a class="code" href="def_8h.html#0c43b00ce49efc3586ad17dd80d73940">NOT_A_REQUEST</a> ) { <span class="comment">/* The PDO received is not a</span>
+<a name="l00249"></a>00249 <span class="comment">                                     request. */</span>
+<a name="l00250"></a>00250     offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#cadbae6acd5ded4e8eebf0ce88c2ec55">PDO_RCV</a>;
+<a name="l00251"></a>00251     lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#cadbae6acd5ded4e8eebf0ce88c2ec55">PDO_RCV</a>;
 <a name="l00252"></a>00252 
+<a name="l00253"></a>00253     <span class="comment">/* study of all the PDO stored in the dictionary */</span>
 <a name="l00254"></a>00254     <span class="keywordflow">if</span>(offsetObjdict)
 <a name="l00255"></a>00255       <span class="keywordflow">while</span> (offsetObjdict &lt;= lastIndex) {
 <a name="l00256"></a>00256 
 <a name="l00257"></a>00257         <span class="keywordflow">switch</span>( status ) {
 <a name="l00258"></a>00258 
-<a name="l00259"></a>00259         <span class="keywordflow">case</span> state1:
-<a name="l00262"></a>00262           <span class="keywordflow">for</span> ( i = 0 ; i &lt; m-&gt;len ; i++)
-<a name="l00263"></a>00263             d-&gt;process_var.data[i] = m-&gt;data[i];
-<a name="l00264"></a>00264           d-&gt;process_var.count = (*m).len;
+<a name="l00259"></a>00259         <span class="keywordflow">case</span> <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>:<span class="comment">/* data are stored in process_var array */</span>
+<a name="l00260"></a>00260           <span class="comment">/* memcpy(&amp;(process_var.data), &amp;m-&gt;data, (*m).len); */</span>
+<a name="l00261"></a>00261           <span class="comment">/* Ce memcpy devrait etre portable */</span>
+<a name="l00262"></a>00262           <span class="keywordflow">for</span> ( i = 0 ; i &lt; m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> ; i++)
+<a name="l00263"></a>00263             <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[i] = m-&gt;<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[i];
+<a name="l00264"></a>00264           <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">count</a> = (*m).len;
 <a name="l00265"></a>00265 
-<a name="l00266"></a>00266           status = state2;
+<a name="l00266"></a>00266           status = <a class="code" href="def_8h.html#9f640b93661d9249bd7bd6559f397ca5">state2</a>;
 <a name="l00267"></a>00267           <span class="keywordflow">break</span>;
 <a name="l00268"></a>00268 
-<a name="l00269"></a>00269         <span class="keywordflow">case</span> state2:
-<a name="l00272"></a>00272           pwCobId = d-&gt;objdict[offsetObjdict].pSubindex[1].pObject;
+<a name="l00269"></a>00269         <span class="keywordflow">case</span> <a class="code" href="def_8h.html#9f640b93661d9249bd7bd6559f397ca5">state2</a>:
+<a name="l00270"></a>00270           <span class="comment">/* get CobId of the dictionary correspondant to the received</span>
+<a name="l00271"></a>00271 <span class="comment">             PDO */</span>
+<a name="l00272"></a>00272           pwCobId = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdict].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[1].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00273"></a>00273           <span class="comment">/* check the CobId coherance */</span>
+<a name="l00274"></a>00274           <span class="comment">/*pwCobId is the cobId read in the dictionary at the state 3</span>
+<a name="l00275"></a>00275 <span class="comment">            */</span>
 <a name="l00276"></a>00276           if ( *pwCobId == (*m).cob_id.w ){
-<a name="l00278"></a>00278             status = state4;
-<a name="l00279"></a>00279             MSG_WAR(0x3936, <span class="stringliteral">"cobId found at index "</span>, 0x1400 + numPdo);
+<a name="l00277"></a>00277             <span class="comment">/* The cobId is recognized */</span>
+<a name="l00278"></a>00278             status = <a class="code" href="def_8h.html#b92f9ec8f5b287c274ebe9c91fda5154">state4</a>;
+<a name="l00279"></a>00279             <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3936, <span class="stringliteral">"cobId found at index "</span>, 0x1400 + numPdo);
 <a name="l00280"></a>00280             <span class="keywordflow">break</span>;
 <a name="l00281"></a>00281           }
 <a name="l00282"></a>00282           <span class="keywordflow">else</span> {
+<a name="l00283"></a>00283             <span class="comment">/* cobId received does not match with those write in the</span>
+<a name="l00284"></a>00284 <span class="comment">              dictionnary */</span>
 <a name="l00285"></a>00285             numPdo++;
 <a name="l00286"></a>00286             offsetObjdict++;
-<a name="l00287"></a>00287             status = state2;
+<a name="l00287"></a>00287             status = <a class="code" href="def_8h.html#9f640b93661d9249bd7bd6559f397ca5">state2</a>;
 <a name="l00288"></a>00288             <span class="keywordflow">break</span>;
 <a name="l00289"></a>00289           }
 <a name="l00290"></a>00290 
-<a name="l00291"></a>00291             <span class="keywordflow">case</span> state4:
-<a name="l00294"></a>00294                offsetObjdict = d-&gt;firstIndex-&gt;PDO_RCV_MAP;
-<a name="l00295"></a>00295              lastIndex = d-&gt;lastIndex-&gt;PDO_RCV_MAP;
-<a name="l00296"></a>00296              pMappingCount = (d-&gt;objdict + offsetObjdict + numPdo)-&gt;pSubindex[0].pObject;
+<a name="l00291"></a>00291             <span class="keywordflow">case</span> <a class="code" href="def_8h.html#b92f9ec8f5b287c274ebe9c91fda5154">state4</a>:<span class="comment">/* Get Mapped Objects Number */</span>
+<a name="l00292"></a>00292                <span class="comment">/* The cobId of the message received has been found in the</span>
+<a name="l00293"></a>00293 <span class="comment">                 dictionnary. */</span>
+<a name="l00294"></a>00294                offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#9a83f9efff533e71d580fda6118b101e">PDO_RCV_MAP</a>;
+<a name="l00295"></a>00295              lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#9a83f9efff533e71d580fda6118b101e">PDO_RCV_MAP</a>;
+<a name="l00296"></a>00296              pMappingCount = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + numPdo)-&gt;pSubindex[0].pObject;
 <a name="l00297"></a>00297              numMap = 0;
 <a name="l00298"></a>00298              <span class="keywordflow">while</span> (numMap &lt; *pMappingCount) {
-<a name="l00299"></a>00299                UNS8 tmp[]= {0,0,0,0,0,0,0,0};
-<a name="l00300"></a>00300                UNS8 ByteSize;
-<a name="l00301"></a>00301                pMappingParameter = (d-&gt;objdict + offsetObjdict + numPdo)-&gt;pSubindex[numMap + 1].pObject;
+<a name="l00299"></a>00299                <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> tmp[]= {0,0,0,0,0,0,0,0};
+<a name="l00300"></a>00300                <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> ByteSize;
+<a name="l00301"></a>00301                pMappingParameter = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + numPdo)-&gt;pSubindex[numMap + 1].pObject;
 <a name="l00302"></a>00302                <span class="keywordflow">if</span> (pMappingParameter == NULL) {
-<a name="l00303"></a>00303                  MSG_ERR(0x1937, <span class="stringliteral">"Couldn't get mapping parameter : "</span>, numMap + 1);
+<a name="l00303"></a>00303                  <a class="code" href="hcs12_2applicfg_8h.html#99178e2619db849578b20df5aa241844">MSG_ERR</a>(0x1937, <span class="stringliteral">"Couldn't get mapping parameter : "</span>, numMap + 1);
 <a name="l00304"></a>00304                  <span class="keywordflow">return</span> 0xFF;
 <a name="l00305"></a>00305                }
-<a name="l00313"></a>00313                Size = (UNS8)(*pMappingParameter);
+<a name="l00306"></a>00306                <span class="comment">/* Get the addresse of the mapped variable. */</span>
+<a name="l00307"></a>00307                <span class="comment">/* detail of *pMappingParameter : */</span>
+<a name="l00308"></a>00308                <span class="comment">/* The 16 hight bits contains the index, the medium 8 bits</span>
+<a name="l00309"></a>00309 <span class="comment">                 contains the subindex, */</span>
+<a name="l00310"></a>00310                <span class="comment">/* and the lower 8 bits contains the size of the mapped</span>
+<a name="l00311"></a>00311 <span class="comment">                 variable. */</span>
+<a name="l00312"></a>00312 
+<a name="l00313"></a>00313                Size = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(*pMappingParameter);
 <a name="l00314"></a>00314 
-<a name="l00316"></a>00316                <a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a>(Size, (UNS8*)&amp;d-&gt;process_var.data[offset&gt;&gt;3], offset%8, 0, ((UNS8*)tmp), 0, 0);
+<a name="l00315"></a>00315                <span class="comment">/* copy bit per bit in little endian */</span>
+<a name="l00316"></a>00316                <a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a>(Size, (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)&amp;<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[offset&gt;&gt;3], offset%8, 0, ((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)tmp), 0, 0);
 <a name="l00317"></a>00317 
 <a name="l00318"></a>00318                ByteSize = 1 + ((Size - 1) &gt;&gt; 3); <span class="comment">/*1-&gt;8 =&gt; 1 ; 9-&gt;16 =&gt;</span>
 <a name="l00319"></a>00319 <span class="comment">                                                   2, ... */</span>
 <a name="l00320"></a>00320 
-<a name="l00321"></a>00321                objDict = <a class="code" href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0">setODentry</a>(d, (UNS16)((*pMappingParameter) &gt;&gt; 16),
-<a name="l00322"></a>00322                                     (UNS8)(((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF),
+<a name="l00321"></a>00321                objDict = <a class="code" href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0">setODentry</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>)((*pMappingParameter) &gt;&gt; 16),
+<a name="l00322"></a>00322                                     (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF),
 <a name="l00323"></a>00323                                  tmp, &amp;ByteSize, 0 );
 <a name="l00324"></a>00324 
-<a name="l00325"></a>00325                <span class="keywordflow">if</span>(objDict != OD_SUCCESSFUL) {
-<a name="l00326"></a>00326                  MSG_ERR(0x1938, <span class="stringliteral">"error accessing to the mapped var : "</span>, numMap + 1);
-<a name="l00327"></a>00327                  MSG_WAR(0x2939, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
-<a name="l00328"></a>00328                  MSG_WAR(0x2940, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
+<a name="l00325"></a>00325                <span class="keywordflow">if</span>(objDict != <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a>) {
+<a name="l00326"></a>00326                  <a class="code" href="hcs12_2applicfg_8h.html#99178e2619db849578b20df5aa241844">MSG_ERR</a>(0x1938, <span class="stringliteral">"error accessing to the mapped var : "</span>, numMap + 1);
+<a name="l00327"></a>00327                  <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2939, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
+<a name="l00328"></a>00328                  <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2940, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
 <a name="l00329"></a>00329                  <span class="keywordflow">return</span> 0xFF;
 <a name="l00330"></a>00330                }
 <a name="l00331"></a>00331 
-<a name="l00332"></a>00332                MSG_WAR(0x3942, <span class="stringliteral">"Variable updated with value received by PDO cobid : "</span>, m-&gt;cob_id.w);
-<a name="l00333"></a>00333                MSG_WAR(0x3943, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
-<a name="l00334"></a>00334                MSG_WAR(0x3944, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
+<a name="l00332"></a>00332                <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3942, <span class="stringliteral">"Variable updated with value received by PDO cobid : "</span>, m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a>);
+<a name="l00333"></a>00333                <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3943, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
+<a name="l00334"></a>00334                <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3944, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
+<a name="l00335"></a>00335                <span class="comment">/* MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject)); */</span>
 <a name="l00336"></a>00336                offset += Size;
 <a name="l00337"></a>00337                numMap++;
-<a name="l00338"></a>00338              } 
+<a name="l00338"></a>00338              } <span class="comment">/* end loop while on mapped variables */</span>
+<a name="l00339"></a>00339 
 <a name="l00340"></a>00340              offset=0x00;
 <a name="l00341"></a>00341              numMap = 0;
 <a name="l00342"></a>00342              <span class="keywordflow">return</span> 0;
 <a name="l00343"></a>00343 
-<a name="l00344"></a>00344         }
-<a name="l00345"></a>00345       }
-<a name="l00346"></a>00346   }
-<a name="l00347"></a>00347   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((*m).rtr == REQUEST ){
-<a name="l00348"></a>00348     MSG_WAR(0x3946, <span class="stringliteral">"Receive a PDO request cobId : "</span>, m-&gt;cob_id.w);
-<a name="l00349"></a>00349     status = state1;
-<a name="l00350"></a>00350     offsetObjdict = d-&gt;firstIndex-&gt;PDO_TRS;
-<a name="l00351"></a>00351     lastIndex = d-&gt;lastIndex-&gt;PDO_TRS;
+<a name="l00344"></a>00344         }<span class="comment">/* end switch status*/</span>
+<a name="l00345"></a>00345       }<span class="comment">/* end while*/</span>
+<a name="l00346"></a>00346   }<span class="comment">/* end if Donnees */</span>
+<a name="l00347"></a>00347   <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((*m).rtr == <a class="code" href="def_8h.html#6baece8be8f9ab55223d41b535511b6f">REQUEST</a> ){
+<a name="l00348"></a>00348     <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3946, <span class="stringliteral">"Receive a PDO request cobId : "</span>, m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a>);
+<a name="l00349"></a>00349     status = <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>;
+<a name="l00350"></a>00350     offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#48e0ba31ff7746f1fa63f240a132a906">PDO_TRS</a>;
+<a name="l00351"></a>00351     lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#48e0ba31ff7746f1fa63f240a132a906">PDO_TRS</a>;
 <a name="l00352"></a>00352     <span class="keywordflow">if</span>(offsetObjdict) <span class="keywordflow">while</span>( offsetObjdict  &lt;= lastIndex ){
+<a name="l00353"></a>00353       <span class="comment">/* study of all PDO stored in the objects dictionary */</span>
+<a name="l00354"></a>00354 
 <a name="l00355"></a>00355       <span class="keywordflow">switch</span>( status ){
 <a name="l00356"></a>00356 
-<a name="l00357"></a>00357       <span class="keywordflow">case</span> state1:
-<a name="l00360"></a>00360         pwCobId = (d-&gt;objdict + offsetObjdict)-&gt;pSubindex[1].pObject;
+<a name="l00357"></a>00357       <span class="keywordflow">case</span> <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>:<span class="comment">/* check the CobId */</span>
+<a name="l00358"></a>00358         <span class="comment">/* get CobId of the dictionary which match to the received PDO</span>
+<a name="l00359"></a>00359 <span class="comment">         */</span>
+<a name="l00360"></a>00360         pwCobId = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict)-&gt;pSubindex[1].pObject;
 <a name="l00361"></a>00361         <span class="keywordflow">if</span> ( *pwCobId == (*m).cob_id.w ) {
-<a name="l00362"></a>00362           status = state4;
+<a name="l00362"></a>00362           status = <a class="code" href="def_8h.html#b92f9ec8f5b287c274ebe9c91fda5154">state4</a>;
 <a name="l00363"></a>00363           <span class="keywordflow">break</span>;
 <a name="l00364"></a>00364         }
 <a name="l00365"></a>00365         <span class="keywordflow">else</span> {
 <a name="l00366"></a>00366           numPdo++;
 <a name="l00367"></a>00367           offsetObjdict++;
 <a name="l00368"></a>00368         }
-<a name="l00369"></a>00369         status = state1;
+<a name="l00369"></a>00369         status = <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>;
 <a name="l00370"></a>00370         <span class="keywordflow">break</span>;
 <a name="l00371"></a>00371 
 <a name="l00372"></a>00372 
-<a name="l00373"></a>00373       <span class="keywordflow">case</span> state4:
-<a name="l00374"></a>00374         pTransmissionType = d-&gt;objdict[offsetObjdict].pSubindex[2].pObject;
-<a name="l00375"></a>00375         <span class="keywordflow">if</span> ( (*pTransmissionType == TRANS_RTR) || (*pTransmissionType == TRANS_RTR_SYNC ) || (*pTransmissionType == TRANS_EVENT) ) {
-<a name="l00376"></a>00376           status = state5;
+<a name="l00373"></a>00373       <span class="keywordflow">case</span> <a class="code" href="def_8h.html#b92f9ec8f5b287c274ebe9c91fda5154">state4</a>:<span class="comment">/* check transmission type (after request?) */</span>
+<a name="l00374"></a>00374         pTransmissionType = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdict].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[2].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00375"></a>00375         <span class="keywordflow">if</span> ( (*pTransmissionType == <a class="code" href="objdictdef_8h.html#1a9dbd29fbf815b9f24dd8e177cfecdb">TRANS_RTR</a>) || (*pTransmissionType == <a class="code" href="objdictdef_8h.html#1796da41c02afb8d119aa2a103cebbc2">TRANS_RTR_SYNC</a> ) || (*pTransmissionType == <a class="code" href="objdictdef_8h.html#85c21667cdfc019327398abd11cf30b4">TRANS_EVENT</a>) ) {
+<a name="l00376"></a>00376           status = <a class="code" href="def_8h.html#9c791e43dcf77cb119f7d79db324d1f8">state5</a>;
 <a name="l00377"></a>00377           <span class="keywordflow">break</span>;
 <a name="l00378"></a>00378         }
 <a name="l00379"></a>00379         <span class="keywordflow">else</span> {
-<a name="l00382"></a>00382           MSG_WAR(0x2947, <span class="stringliteral">"PDO is not to send on request : "</span>, m-&gt;cob_id.w);
+<a name="l00380"></a>00380           <span class="comment">/* The requested PDO is not to send on request. So, does</span>
+<a name="l00381"></a>00381 <span class="comment">            nothing. */</span>
+<a name="l00382"></a>00382           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2947, <span class="stringliteral">"PDO is not to send on request : "</span>, m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a>);
 <a name="l00383"></a>00383           <span class="keywordflow">return</span> 0xFF;
 <a name="l00384"></a>00384         }
 <a name="l00385"></a>00385 
-<a name="l00386"></a>00386       <span class="keywordflow">case</span> state5:
-<a name="l00387"></a>00387         offsetObjdict = d-&gt;firstIndex-&gt;PDO_TRS_MAP;
-<a name="l00388"></a>00388         lastIndex = d-&gt;lastIndex-&gt;PDO_TRS_MAP;
-<a name="l00389"></a>00389         pMappingCount = (d-&gt;objdict + offsetObjdict + numPdo)-&gt;pSubindex[0].pObject;
+<a name="l00386"></a>00386       <span class="keywordflow">case</span> <a class="code" href="def_8h.html#9c791e43dcf77cb119f7d79db324d1f8">state5</a>:<span class="comment">/* get mapped objects number */</span>
+<a name="l00387"></a>00387         offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#c91a86195b3615a98f7b07e0c51ac75f">PDO_TRS_MAP</a>;
+<a name="l00388"></a>00388         lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#c91a86195b3615a98f7b07e0c51ac75f">PDO_TRS_MAP</a>;
+<a name="l00389"></a>00389         pMappingCount = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + numPdo)-&gt;pSubindex[0].pObject;
 <a name="l00390"></a>00390         numMap = 0;
 <a name="l00391"></a>00391         <span class="keywordflow">while</span> (numMap &lt; *pMappingCount) {
-<a name="l00392"></a>00392           pMappingParameter = (d-&gt;objdict + offsetObjdict + numPdo)-&gt;pSubindex[numMap + 1].pObject;
-<a name="l00394"></a>00394           Size = ((UNS8)(((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3));
-<a name="l00395"></a>00395           objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>( d, (UNS16)((*pMappingParameter) &gt;&gt; (UNS8)16),
-<a name="l00396"></a>00396                                 (UNS8)(( (*pMappingParameter) &gt;&gt; (UNS8)8 ) &amp; 0xFF),
-<a name="l00397"></a>00397                                 (<span class="keywordtype">void</span> *)&amp;d-&gt;process_var.data[offset], &amp;Size, &amp;dataType, 0 );
-<a name="l00398"></a>00398           <span class="keywordflow">if</span> (objDict != OD_SUCCESSFUL) {
-<a name="l00399"></a>00399             MSG_ERR(0x1948, <span class="stringliteral">"error accessing to the mapped var : "</span>, numMap + 1);
-<a name="l00400"></a>00400             MSG_WAR(0x2949, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
-<a name="l00401"></a>00401             MSG_WAR(0x2950, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
+<a name="l00392"></a>00392           pMappingParameter = (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a> + offsetObjdict + numPdo)-&gt;pSubindex[numMap + 1].pObject;
+<a name="l00393"></a>00393           <span class="comment">/* Get the mapped variable */</span>
+<a name="l00394"></a>00394           Size = ((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3));
+<a name="l00395"></a>00395           objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>)((*pMappingParameter) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)16),
+<a name="l00396"></a>00396                                 (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(( (*pMappingParameter) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)8 ) &amp; 0xFF),
+<a name="l00397"></a>00397                                 (<span class="keywordtype">void</span> *)&amp;<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[offset], &amp;Size, &amp;dataType, 0 );
+<a name="l00398"></a>00398           <span class="keywordflow">if</span> (objDict != <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a>) {
+<a name="l00399"></a>00399             <a class="code" href="hcs12_2applicfg_8h.html#99178e2619db849578b20df5aa241844">MSG_ERR</a>(0x1948, <span class="stringliteral">"error accessing to the mapped var : "</span>, numMap + 1);
+<a name="l00400"></a>00400             <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2949, <span class="stringliteral">"         Mapped at index : "</span>, (*pMappingParameter) &gt;&gt; 16);
+<a name="l00401"></a>00401             <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2950, <span class="stringliteral">"                subindex : "</span>, ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0xFF);
 <a name="l00402"></a>00402             <span class="keywordflow">return</span> 0xFF;
 <a name="l00403"></a>00403           }
-<a name="l00404"></a>00404           offset += (UNS8) (((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3);
-<a name="l00405"></a>00405           d-&gt;process_var.count = offset;
+<a name="l00404"></a>00404           offset += (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>) (((*pMappingParameter) &amp; 0xFF) &gt;&gt; 3);
+<a name="l00405"></a>00405           <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#26f4d508a9e409f2ace9c8c55d92d826">process_var</a>.<a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">count</a> = offset;
 <a name="l00406"></a>00406           numMap++;
 <a name="l00407"></a>00407 
-<a name="l00408"></a>00408         } 
-<a name="l00409"></a>00409         <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>( d, *pwCobId ); 
+<a name="l00408"></a>00408         } <span class="comment">/* end while */</span>
+<a name="l00409"></a>00409         <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, *pwCobId ); <span class="comment">/* Transmit the PDO */</span>
 <a name="l00410"></a>00410         <span class="keywordflow">return</span> 0;
 <a name="l00411"></a>00411 
-<a name="l00412"></a>00412       }
-<a name="l00413"></a>00413     }
-<a name="l00414"></a>00414   }
+<a name="l00412"></a>00412       }<span class="comment">/* end switch status */</span>
+<a name="l00413"></a>00413     }<span class="comment">/* end while */</span>
+<a name="l00414"></a>00414   }<span class="comment">/* end if Requete */</span>
+<a name="l00415"></a>00415 
 <a name="l00416"></a>00416   <span class="keywordflow">return</span> 0;
 <a name="l00417"></a>00417 }
 <a name="l00418"></a>00418 
-<a name="l00430"></a><a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">00430</a> <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a>(UNS8 NbBits, UNS8* SrcByteIndex, UNS8 SrcBitIndex, UNS8 SrcBigEndian, UNS8* DestByteIndex, UNS8 DestBitIndex, UNS8 DestBigEndian)
+<a name="l00430"></a><a class="code" href="pdo_8h.html#e468510c9f77f502207d961d26389918">00430</a> <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> NbBits, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* SrcByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> SrcBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> SrcBigEndian, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* DestByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> DestBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> DestBigEndian)
 <a name="l00431"></a>00431 {
+<a name="l00432"></a>00432   <span class="comment">/* This loop copy as many bits that it can each time, crossing*/</span>
+<a name="l00433"></a>00433   <span class="comment">/* successively bytes*/</span>
 <a name="l00434"></a>00434   <span class="comment">// boundaries from LSB to MSB.</span>
 <a name="l00435"></a>00435   <span class="keywordflow">while</span>(NbBits &gt; 0)
 <a name="l00436"></a>00436     {
-<a name="l00438"></a>00438       INTEGER8 Vect = DestBitIndex - SrcBitIndex;
+<a name="l00437"></a>00437       <span class="comment">/* Bit missalignement between src and dest*/</span>
+<a name="l00438"></a>00438       <a class="code" href="hcs12_2applicfg_8h.html#662ebb8e51dc6acbd8850e22f172c5bf">INTEGER8</a> Vect = DestBitIndex - SrcBitIndex;
 <a name="l00439"></a>00439 
-<a name="l00441"></a>00441       UNS8 Aligned = Vect&gt;0 ? *SrcByteIndex &lt;&lt; Vect : *SrcByteIndex &gt;&gt; -Vect;
+<a name="l00440"></a>00440       <span class="comment">/* We can now get src and align it to dest*/</span>
+<a name="l00441"></a>00441       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Aligned = Vect&gt;0 ? *SrcByteIndex &lt;&lt; Vect : *SrcByteIndex &gt;&gt; -Vect;
 <a name="l00442"></a>00442 
-<a name="l00444"></a>00444       UNS8 BoudaryLimit = (Vect&gt;0 ? 8 - DestBitIndex :  8 - SrcBitIndex );
-<a name="l00445"></a>00445       UNS8 BitsToCopy = BoudaryLimit &gt; NbBits ? NbBits : BoudaryLimit;
+<a name="l00443"></a>00443       <span class="comment">/* Compute the nb of bit we will be able to copy*/</span>
+<a name="l00444"></a>00444       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> BoudaryLimit = (Vect&gt;0 ? 8 - DestBitIndex :  8 - SrcBitIndex );
+<a name="l00445"></a>00445       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> BitsToCopy = BoudaryLimit &gt; NbBits ? NbBits : BoudaryLimit;
 <a name="l00446"></a>00446 
-<a name="l00448"></a>00448       UNS8 Mask = ((0xff &lt;&lt; (DestBitIndex + BitsToCopy)) | (0xff &gt;&gt; (8 - DestBitIndex)));
+<a name="l00447"></a>00447       <span class="comment">/* Create a mask that will serve in:*/</span>
+<a name="l00448"></a>00448       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Mask = ((0xff &lt;&lt; (DestBitIndex + BitsToCopy)) | (0xff &gt;&gt; (8 - DestBitIndex)));
 <a name="l00449"></a>00449 
-<a name="l00451"></a>00451       UNS8 Filtered = Aligned &amp; ~Mask;
+<a name="l00450"></a>00450       <span class="comment">/* - Filtering src*/</span>
+<a name="l00451"></a>00451       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Filtered = Aligned &amp; ~Mask;
 <a name="l00452"></a>00452 
+<a name="l00453"></a>00453       <span class="comment">/* - and erase bits where we write, preserve where we don't*/</span>
 <a name="l00454"></a>00454       *DestByteIndex &amp;= Mask;
 <a name="l00455"></a>00455 
+<a name="l00456"></a>00456       <span class="comment">/* Then write.*/</span>
 <a name="l00457"></a>00457       *DestByteIndex |= Filtered ;
 <a name="l00458"></a>00458 
-<a name="l00460"></a>00460       <span class="keywordflow">if</span>((SrcBitIndex += BitsToCopy)&gt;7)
+<a name="l00459"></a>00459       <span class="comment">/*Compute next time cursors for src*/</span>
+<a name="l00460"></a>00460       <span class="keywordflow">if</span>((SrcBitIndex += BitsToCopy)&gt;7)<span class="comment">/* cross boundary ?*/</span>
 <a name="l00461"></a>00461         {
-<a name="l00462"></a>00462           SrcBitIndex = 0;
-<a name="l00463"></a>00463           SrcByteIndex += (SrcBigEndian ? -1 : 1);
+<a name="l00462"></a>00462           SrcBitIndex = 0;<span class="comment">/* First bit*/</span>
+<a name="l00463"></a>00463           SrcByteIndex += (SrcBigEndian ? -1 : 1);<span class="comment">/* Next byte*/</span>
 <a name="l00464"></a>00464         }
 <a name="l00465"></a>00465 
 <a name="l00466"></a>00466 
+<a name="l00467"></a>00467       <span class="comment">/*Compute next time cursors for dest*/</span>
 <a name="l00468"></a>00468       <span class="keywordflow">if</span>((DestBitIndex += BitsToCopy)&gt;7)
 <a name="l00469"></a>00469         {
-<a name="l00470"></a>00470           DestBitIndex = 0;
-<a name="l00471"></a>00471           DestByteIndex += (DestBigEndian ? -1 : 1);
+<a name="l00470"></a>00470           DestBitIndex = 0;<span class="comment">/* First bit*/</span>
+<a name="l00471"></a>00471           DestByteIndex += (DestBigEndian ? -1 : 1);<span class="comment">/* Next byte*/</span>
 <a name="l00472"></a>00472         }
 <a name="l00473"></a>00473 
+<a name="l00474"></a>00474       <span class="comment">/*And decrement counter.*/</span>
 <a name="l00475"></a>00475       NbBits -= BitsToCopy;
 <a name="l00476"></a>00476     }
 <a name="l00477"></a>00477 
@@ -393,79 +461,89 @@
 <a name="l00484"></a>00484 <span class="comment"> */</span>
 <a name="l00485"></a>00485 <span class="comment">/*********************************************************************/</span>
 <a name="l00486"></a>00486 
-<a name="l00495"></a>00495 UNS8 sendPDOevent( CO_Data* d, <span class="keywordtype">void</span> * variable )
-<a name="l00496"></a>00496 { 
-<a name="l00498"></a>00498   UNS32           objDict = 0;
-<a name="l00499"></a>00499   UNS8            ind, sub_ind;
-<a name="l00500"></a>00500   UNS8            status;
-<a name="l00501"></a>00501   UNS8            offset;
-<a name="l00502"></a>00502   UNS8 *     pMappingCount = NULL;
-<a name="l00503"></a>00503   UNS32 *    pMappingParameter = NULL;
+<a name="l00495"></a>00495 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8h.html#07ff33d0d2e6b1070bf3c27578006e8d">sendPDOevent</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <span class="keywordtype">void</span> * variable )
+<a name="l00496"></a>00496 { <span class="comment">/* DO NOT USE MSG_ERR because the macro may send a PDO -&gt; infinite</span>
+<a name="l00497"></a>00497 <span class="comment">    loop if it fails.*/</span>
+<a name="l00498"></a>00498   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>           objDict = 0;
+<a name="l00499"></a>00499   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>            ind, sub_ind;
+<a name="l00500"></a>00500   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>            status;
+<a name="l00501"></a>00501   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>            offset;
+<a name="l00502"></a>00502   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> *     pMappingCount = NULL;
+<a name="l00503"></a>00503   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *    pMappingParameter = NULL;
 <a name="l00504"></a>00504   <span class="keywordtype">void</span> *     pMappedAppObject = NULL;
-<a name="l00505"></a>00505   UNS8 *     pTransmissionType = NULL; 
-<a name="l00507"></a>00507   UNS32 *    pwCobId = NULL;
-<a name="l00508"></a>00508   UNS8 *     pSize;
-<a name="l00509"></a>00509   UNS8       size;
-<a name="l00510"></a>00510   UNS8       dataType;
-<a name="l00511"></a>00511   UNS16      offsetObjdict;
-<a name="l00512"></a>00512   UNS16      offsetObjdictPrm;
-<a name="l00513"></a>00513   UNS16      lastIndex;
-<a name="l00514"></a>00514   UNS8       numMap;
+<a name="l00505"></a>00505   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> *     pTransmissionType = NULL; <span class="comment">/* pointer to the transmission</span>
+<a name="l00506"></a>00506 <span class="comment">                                         type */</span>
+<a name="l00507"></a>00507   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *    pwCobId = NULL;
+<a name="l00508"></a>00508   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> *     pSize;
+<a name="l00509"></a>00509   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       size;
+<a name="l00510"></a>00510   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       dataType;
+<a name="l00511"></a>00511   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>      offsetObjdict;
+<a name="l00512"></a>00512   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>      offsetObjdictPrm;
+<a name="l00513"></a>00513   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>      lastIndex;
+<a name="l00514"></a>00514   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>       numMap;
 <a name="l00515"></a>00515   ind     = 0x00;
 <a name="l00516"></a>00516   sub_ind = 1;
 <a name="l00517"></a>00517   offset  = 0x00;
 <a name="l00518"></a>00518   pSize   = &amp;size;
-<a name="l00519"></a>00519   status  = state1;
+<a name="l00519"></a>00519   status  = <a class="code" href="def_8h.html#5191a3bccf57126087e6ec2cca448c32">state1</a>;
 <a name="l00520"></a>00520 
 <a name="l00521"></a>00521 
-<a name="l00525"></a>00525   MSG_WAR (0x3960, <span class="stringliteral">"sendPDOevent"</span>, 0);
-<a name="l00526"></a>00526   offsetObjdictPrm = d-&gt;firstIndex-&gt;PDO_TRS;
+<a name="l00522"></a>00522   <span class="comment">/* look for the index and subindex where the variable is mapped */</span>
+<a name="l00523"></a>00523   <span class="comment">/* Then, send the pdo which contains the variable. */</span>
+<a name="l00524"></a>00524 
+<a name="l00525"></a>00525   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a> (0x3960, <span class="stringliteral">"sendPDOevent"</span>, 0);
+<a name="l00526"></a>00526   offsetObjdictPrm = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#48e0ba31ff7746f1fa63f240a132a906">PDO_TRS</a>;
 <a name="l00527"></a>00527 
-<a name="l00528"></a>00528   offsetObjdict = d-&gt;firstIndex-&gt;PDO_TRS_MAP;
-<a name="l00529"></a>00529   lastIndex = d-&gt;lastIndex-&gt;PDO_TRS_MAP;
+<a name="l00528"></a>00528   offsetObjdict = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#f26b0fce2ed684c5983aa658efd6c52e">firstIndex</a>-&gt;<a class="code" href="structs__quick__index.html#c91a86195b3615a98f7b07e0c51ac75f">PDO_TRS_MAP</a>;
+<a name="l00529"></a>00529   lastIndex = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#96d334a4fc8c304826b053681ccbf0d1">lastIndex</a>-&gt;<a class="code" href="structs__quick__index.html#c91a86195b3615a98f7b07e0c51ac75f">PDO_TRS_MAP</a>;
 <a name="l00530"></a>00530 
 <a name="l00531"></a>00531   <span class="keywordflow">if</span> (offsetObjdictPrm &amp;&amp; offsetObjdict)
+<a name="l00532"></a>00532     <span class="comment">/* Loop on PDO Transmit */</span>
 <a name="l00533"></a>00533     <span class="keywordflow">while</span>(offsetObjdict &lt;= lastIndex){
-<a name="l00535"></a>00535       pTransmissionType = d-&gt;objdict[offsetObjdictPrm].pSubindex[2].pObject;
-<a name="l00536"></a>00536       <span class="keywordflow">if</span> (*pTransmissionType != TRANS_EVENT) {
+<a name="l00534"></a>00534       <span class="comment">/* Check the transmission mode */</span>
+<a name="l00535"></a>00535       pTransmissionType = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdictPrm].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[2].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00536"></a>00536       <span class="keywordflow">if</span> (*pTransmissionType != <a class="code" href="objdictdef_8h.html#85c21667cdfc019327398abd11cf30b4">TRANS_EVENT</a>) {
 <a name="l00537"></a>00537         ind++;
 <a name="l00538"></a>00538         offsetObjdict++;
 <a name="l00539"></a>00539         offsetObjdictPrm++;
 <a name="l00540"></a>00540         <span class="keywordflow">continue</span>;
 <a name="l00541"></a>00541       }
-<a name="l00542"></a>00542       pMappingCount = d-&gt;objdict[offsetObjdict].pSubindex[0].pObject;
-<a name="l00543"></a>00543       numMap = 1; 
+<a name="l00542"></a>00542       pMappingCount = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdict].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[0].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00543"></a>00543       numMap = 1; <span class="comment">/* mapped variable */</span>
 <a name="l00544"></a>00544       <span class="keywordflow">while</span> (numMap &lt;= *pMappingCount) {
-<a name="l00545"></a>00545         pMappingParameter = d-&gt;objdict[offsetObjdict].pSubindex[numMap].pObject;
-<a name="l00547"></a>00547         objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>( d,
-<a name="l00548"></a>00548                               (UNS16)((*pMappingParameter) &gt;&gt; 16),
-<a name="l00549"></a>00549                               (UNS8)(( (*pMappingParameter) &gt;&gt; (UNS8)8 ) &amp; (UNS32)0x000000FF),
+<a name="l00545"></a>00545         pMappingParameter = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdict].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[numMap].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00546"></a>00546         <span class="comment">/* Get the variable */</span>
+<a name="l00547"></a>00547         objDict = <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>,
+<a name="l00548"></a>00548                               (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>)((*pMappingParameter) &gt;&gt; 16),
+<a name="l00549"></a>00549                               (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)(( (*pMappingParameter) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)8 ) &amp; (<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>)0x000000FF),
 <a name="l00550"></a>00550                               (<span class="keywordtype">void</span> * *)&amp;pMappedAppObject, pSize, &amp;dataType, 0 );
-<a name="l00551"></a>00551         <span class="keywordflow">if</span>( objDict != OD_SUCCESSFUL ) {
-<a name="l00552"></a>00552           MSG_WAR(0x2961, <span class="stringliteral">"Error in dict. at index : "</span>,
-<a name="l00553"></a>00553                   (*pMappingParameter) &gt;&gt; (UNS8)16);
+<a name="l00551"></a>00551         <span class="keywordflow">if</span>( objDict != <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a> ) {
+<a name="l00552"></a>00552           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2961, <span class="stringliteral">"Error in dict. at index : "</span>,
+<a name="l00553"></a>00553                   (*pMappingParameter) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)16);
 <a name="l00554"></a>00554 
-<a name="l00555"></a>00555           MSG_WAR(0x2962, <span class="stringliteral">"               subindex : "</span>,
-<a name="l00556"></a>00556                   ((*pMappingParameter) &gt;&gt; (UNS8)8 ) &amp; (UNS32)0x000000FF);
+<a name="l00555"></a>00555           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2962, <span class="stringliteral">"               subindex : "</span>,
+<a name="l00556"></a>00556                   ((*pMappingParameter) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)8 ) &amp; (UNS32)0x000000FF);
 <a name="l00557"></a>00557           <span class="keywordflow">return</span> 0xFF;
 <a name="l00558"></a>00558         }
 <a name="l00559"></a>00559         <span class="keywordflow">if</span> (pMappedAppObject == variable) { <span class="comment">// Variable found !</span>
-<a name="l00560"></a>00560           MSG_WAR(0x3963, <span class="stringliteral">"Variable to send found at index : "</span>,
+<a name="l00560"></a>00560           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3963, <span class="stringliteral">"Variable to send found at index : "</span>,
 <a name="l00561"></a>00561                   (*pMappingParameter) &gt;&gt; 16);
-<a name="l00562"></a>00562           MSG_WAR(0x3964, <span class="stringliteral">"                       subIndex : "</span>,
+<a name="l00562"></a>00562           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3964, <span class="stringliteral">"                       subIndex : "</span>,
 <a name="l00563"></a>00563                   ((*pMappingParameter) &gt;&gt; 8 ) &amp; 0x000000FF);
-<a name="l00564"></a>00564           buildPDO(d, 0x1800 + ind);
-<a name="l00566"></a>00566           pwCobId = d-&gt;objdict[offsetObjdictPrm].pSubindex[1].pObject;
-<a name="l00567"></a>00567           <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>( d, *pwCobId ); 
+<a name="l00564"></a>00564           <a class="code" href="pdo_8h.html#b9c82d949045cb7f52ed40d0ee8c7bf1">buildPDO</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, 0x1800 + ind);
+<a name="l00565"></a>00565           <span class="comment">/* Get the cobId */</span>
+<a name="l00566"></a>00566           pwCobId = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a766a4db603786bffdd609817048ef04">objdict</a>[offsetObjdictPrm].<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[1].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>;
+<a name="l00567"></a>00567           <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, *pwCobId ); <span class="comment">/* Send the PDO */</span>
 <a name="l00568"></a>00568           <span class="keywordflow">return</span> 0;
 <a name="l00569"></a>00569         }
 <a name="l00570"></a>00570         numMap++;
-<a name="l00571"></a>00571       } 
+<a name="l00571"></a>00571       } <span class="comment">/* End loop on mapped variable */</span>
 <a name="l00572"></a>00572       ind++;
 <a name="l00573"></a>00573       offsetObjdict++;
 <a name="l00574"></a>00574       offsetObjdictPrm++;
-<a name="l00575"></a>00575     } 
-<a name="l00577"></a>00577   MSG_WAR(0x2965, <span class="stringliteral">"Variable not found in a PDO to send on event"</span>, 0);
+<a name="l00575"></a>00575     } <span class="comment">/* End loop while on PDO */</span>
+<a name="l00576"></a>00576 
+<a name="l00577"></a>00577   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2965, <span class="stringliteral">"Variable not found in a PDO to send on event"</span>, 0);
 <a name="l00578"></a>00578   <span class="keywordflow">return</span> 0xFF;
 <a name="l00579"></a>00579 
 <a name="l00580"></a>00580 }
@@ -473,7 +551,7 @@
 <a name="l00582"></a>00582 <span class="preprocessor"></span>
 <a name="l00583"></a>00583 
 <a name="l00584"></a>00584 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

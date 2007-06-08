@@ -1,0 +1,5 @@
+base referer
+rect $win32_2canfestival_8h.html 383,80 489,104
+rect $win32_2timerscfg_8h.html 541,5 640,29
+rect $can__driver_8h.html 539,104 643,128
+rect $data_8h.html 559,152 623,176

@@ -1,0 +1,5 @@
+base referer
+rect $timer_8h.html 293,5 416,29
+rect $timers__driver_8h.html 508,55 684,79
+rect $unix_2canfestival_8h.html 735,80 929,104
+rect $win32_2canfestival_8h.html 251,155 459,179

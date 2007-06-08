@@ -1,0 +1,16 @@
+base referer
+rect $win32_2applicfg_8h.html 600,345 688,369
+rect $data_8h.html 209,299 273,323
+rect $def_8h.html 484,496 540,520
+rect $can_8h.html 483,125 541,149
+rect $objdictdef_8h.html 325,107 427,131
+rect $objacces_8h.html 329,251 423,275
+rect $sdo_8h.html 347,544 405,568
+rect $pdo_8h.html 347,445 405,469
+rect $states_8h.html 339,299 413,323
+rect $lifegrd_8h.html 337,347 415,371
+rect $sync_8h.html 343,155 409,179
+rect $nmtMaster_8h.html 323,203 429,227
+rect $config_8h.html 607,496 681,520
+rect $timer_8h.html 477,544 547,568
+rect $win32_2timerscfg_8h.html 595,544 693,568

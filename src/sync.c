@@ -145,11 +145,11 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
         prp_j;
 
   const UNS8 *     pMappingCount = NULL;      /* count of mapped objects...*/
-  /** pointer to the var which is mapped to a pdo */
+  /* pointer to the var which is mapped to a pdo */
   /* void *     pMappedAppObject = NULL; */
-  /** pointer fo the var which holds the mapping parameter of an mapping entry  */
+  /* pointer fo the var which holds the mapping parameter of an mapping entry  */
   UNS32 *    pMappingParameter = NULL;  
-  /** pointer to the transmissiontype...*/
+  /* pointer to the transmissiontype...*/
   UNS8 *     pTransmissionType = NULL;  
   UNS32 *    pwCobId = NULL;	
 
@@ -173,12 +173,12 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   
   (*d->post_sync)();
 
-  /** only operational state allows PDO transmission */
+  /* only operational state allows PDO transmission */
   if( d->nodeState != Operational ) 
     return 0;
   
-  /** So, the node is in operational state */
-  /** study all PDO stored in the objects dictionary */	
+  /* So, the node is in operational state */
+  /* study all PDO stored in the objects dictionary */	
  
   offsetObjdict = d->firstIndex->PDO_TRS;
   lastIndex = d->lastIndex->PDO_TRS;
@@ -187,7 +187,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   if(offsetObjdict) while( offsetObjdict <= lastIndex) {  
     switch( status ) {
                     
-    case state3:    /** get the PDO transmission type */
+    case state3:    /* get the PDO transmission type */
       if (d->objdict[offsetObjdict].bSubCount <= 2) {
 	  MSG_ERR(0x1004, "Subindex 2  not found at index ", 0x1800 + pdoNum);
 	  return 0xFF;
@@ -196,8 +196,8 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
       MSG_WAR(0x3005, "Reading PDO at index : ", 0x1800 + pdoNum);
       status = state4; 
       break;     
-    case state4:	/** check if transmission type is after (this) SYNC */
-                        /** The message may not be transmited every SYNC but every n SYNC */      
+    case state4:	/* check if transmission type is after (this) SYNC */
+                        /* The message may not be transmited every SYNC but every n SYNC */      
       if( (*pTransmissionType >= TRANS_SYNC_MIN) && (*pTransmissionType <= TRANS_SYNC_MAX) &&
           (++d->count_sync[pdoNum] == *pTransmissionType) ) {	
 	d->count_sync[pdoNum] = 0;
@@ -214,23 +214,23 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 	status = state11;
 	break;
       }      
-    case state5:	/** get PDO CobId */
+    case state5:	/* get PDO CobId */
         pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;     
 	MSG_WAR(0x3009, "  PDO CobId is : ", *pwCobId);
 	status = state7;
 	break;     
-    case state7:  /** get mapped objects number to transmit with this PDO */
+    case state7:  /* get mapped objects number to transmit with this PDO */
       pMappingCount = d->objdict[offsetObjdictMap].pSubindex[0].pObject;
 	MSG_WAR(0x300D, "  Number of objects mapped : ",*pMappingCount );
 	status = state8;
-    case state8:	/** get mapping parameters */
+    case state8:	/* get mapping parameters */
       pMappingParameter = d->objdict[offsetObjdictMap].pSubindex[prp_j + 1].pObject;
 	MSG_WAR(0x300F, "  got mapping parameter : ", *pMappingParameter);
 	MSG_WAR(0x3050, "    at index : ", 0x1A00 + pdoNum);
 	MSG_WAR(0x3051, "    sub-index : ", prp_j + 1);
 	status = state9;
     
-    case state9:	/** get data to transmit */ 
+    case state9:	/* get data to transmit */ 
 	{
 	  UNS8 ByteSize;
 	  UNS8 tmp[]= {0,0,0,0,0,0,0,0};
@@ -239,7 +239,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 	  Size = (UNS8)(*pMappingParameter); /* Size in bits */
 	  ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 => 2, ... */
 	  objDict = getODentry(d, index, subIndex, tmp, &ByteSize, &dataType, 0 );
-	  /** copy bit per bit in little endian*/
+	  /* copy bit per bit in little endian*/
 	  CopyBits(Size, ((UNS8*)tmp), 0 , 0, (UNS8*)&d->process_var.data[offset>>3], offset%8, 0);
 	}   
         if( objDict != OD_SUCCESSFUL ){
@@ -253,7 +253,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 	status = state10;	 
 	break;					
       
-    case state10:	/** loop to get all the data to transmit */
+    case state10:	/* loop to get all the data to transmit */
       if( prp_j < *pMappingCount ){
 	MSG_WAR(0x3014, "  next variable mapped : ", prp_j);
 	status = state8;

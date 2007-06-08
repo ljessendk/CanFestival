@@ -1,0 +1,7 @@
+base referer
+rect $structtd__indextable.html 5,97 120,121
+rect $structtd__subindex.html 11,7 115,31
+rect $structs__quick__index.html 144,97 259,121
+rect $structstruct__s__process__var.html 283,97 443,121
+rect $structs__state__communication.html 467,97 648,121
+rect $structstruct__s__transfer.html 693,97 827,121

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/sdo.c File Reference</title>
+<title>CanFestival: src/sdo.c File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,19 +8,42 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/sdo.c File Reference</h1><code>#include &quot;objacces.h&quot;</code><br>
-<code>#include &quot;sdo.h&quot;</code><br>
-<code>#include &quot;canfestival.h&quot;</code><br>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>sdo.c File Reference</h1><code>#include &quot;<a class="el" href="objacces_8h-source.html">objacces.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="sdo_8h-source.html">sdo.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="win32_2canfestival_8h-source.html">canfestival.h</a>&quot;</code><br>
 
 <p>
-Include dependency graph for sdo.c:<p><center><img src="sdo_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/sdo.c_map" alt=""></center>
+Include dependency graph for sdo.c:<p><center><img src="sdo_8c__incl.png" border="0" usemap="#src/sdo.c_map" alt=""></center>
+<map name="src/sdo.c_map">
+<area href="objacces_8h.html" shape="rect" coords="144,299,238,323" alt="">
+<area href="sdo_8h.html" shape="rect" coords="470,496,528,520" alt="">
+<area href="win32_2canfestival_8h.html" shape="rect" coords="138,569,244,593" alt="">
+<area href="win32_2applicfg_8h.html" shape="rect" coords="723,399,811,423" alt="">
+<area href="data_8h.html" shape="rect" coords="314,299,378,323" alt="">
+<area href="def_8h.html" shape="rect" coords="607,112,663,136" alt="">
+<area href="can_8h.html" shape="rect" coords="470,544,528,568" alt="">
+<area href="objdictdef_8h.html" shape="rect" coords="448,299,550,323" alt="">
+<area href="pdo_8h.html" shape="rect" coords="470,203,528,227" alt="">
+<area href="states_8h.html" shape="rect" coords="462,397,536,421" alt="">
+<area href="lifegrd_8h.html" shape="rect" coords="460,251,538,275" alt="">
+<area href="sync_8h.html" shape="rect" coords="466,107,532,131" alt="">
+<area href="nmtMaster_8h.html" shape="rect" coords="446,155,552,179" alt="">
+<area href="config_8h.html" shape="rect" coords="730,112,804,136" alt="">
+<area href="timer_8h.html" shape="rect" coords="600,471,670,495" alt="">
+<area href="win32_2timerscfg_8h.html" shape="rect" coords="718,545,816,569" alt="">
+<area href="can__driver_8h.html" shape="rect" coords="294,569,398,593" alt="">
+</map>
 
 <p>
 <a href="sdo_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
@@ -55,55 +78,55 @@ Include dependency graph for sdo.c:<p><center><img src="sdo_8c__incl.png" border
 <tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#b3938a9884014e96cafc42aeee743c0f">RestartSDO_TIMER</a>(id)</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">INLINE UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">INLINE UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, <a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a> Callback, UNS8 endianize)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">INLINE UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270">_readNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">INLINE UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270">_readNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, <a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a> Callback)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#9309025e29b59e09026abcd3b45a5b61">SDOTimeoutAlarm</a> (CO_Data *d, UNS32 id)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#9309025e29b59e09026abcd3b45a5b61">SDOTimeoutAlarm</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS32 id)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#1f4f07eccc4890a11ccf4f632da7740b">resetSDO</a> (CO_Data *d)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#1f4f07eccc4890a11ccf4f632da7740b">resetSDO</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2eb5309dca3a7363da5e5e7230b85d58">SDOlineToObjdict</a> (CO_Data *d, UNS8 line)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2eb5309dca3a7363da5e5e7230b85d58">SDOlineToObjdict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#29427a80fd1aeabff30bf0602fbc220f">objdictToSDOline</a> (CO_Data *d, UNS8 line)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#29427a80fd1aeabff30bf0602fbc220f">objdictToSDOline</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#ad6eb8be03b832ebba4dfb87aaba4065">lineToSDO</a> (CO_Data *d, UNS8 line, UNS8 nbBytes, UNS8 *data)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#ad6eb8be03b832ebba4dfb87aaba4065">lineToSDO</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line, UNS8 nbBytes, UNS8 *data)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#18b6f7e9c9441640a88ffef1e8720694">SDOtoLine</a> (CO_Data *d, UNS8 line, UNS8 nbBytes, UNS8 *data)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#18b6f7e9c9441640a88ffef1e8720694">SDOtoLine</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line, UNS8 nbBytes, UNS8 *data)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2019db2a4d17e6d29c055cbae173e2b9">failedSDO</a> (CO_Data *d, UNS8 nodeId, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2019db2a4d17e6d29c055cbae173e2b9">failedSDO</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481">resetSDOline</a> (CO_Data *d, UNS8 line)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481">resetSDOline</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d">initSDOline</a> (CO_Data *d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 state)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d">initSDOline</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 state)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#58d1f9691977617601beb9e5b4123252">getSDOfreeLine</a> (CO_Data *d, UNS8 whoami, UNS8 *line)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#58d1f9691977617601beb9e5b4123252">getSDOfreeLine</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 whoami, UNS8 *line)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f">getSDOlineOnUse</a> (CO_Data *d, UNS8 nodeId, UNS8 whoami, UNS8 *line)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f">getSDOlineOnUse</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS8 whoami, UNS8 *line)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a> (CO_Data *d, UNS8 nodeId, UNS8 whoami)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS8 whoami)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#acceb714c6e457e98deb9ba164ba2a2f">getSDOlineRestBytes</a> (CO_Data *d, UNS8 line, UNS8 *nbBytes)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#acceb714c6e457e98deb9ba164ba2a2f">getSDOlineRestBytes</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line, UNS8 *nbBytes)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#601a837ecb5f21bf4c66b058c5ae7810">setSDOlineRestBytes</a> (CO_Data *d, UNS8 line, UNS8 nbBytes)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#601a837ecb5f21bf4c66b058c5ae7810">setSDOlineRestBytes</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 line, UNS8 nbBytes)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d">sendSDO</a> (CO_Data *d, UNS8 whoami, s_SDO sdo)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d">sendSDO</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 whoami, <a class="el" href="structstruct__s__SDO.html">s_SDO</a> sdo)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c">sendSDOabort</a> (CO_Data *d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c">sendSDOabort</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2a93a7c780472b1d8666d89aa270f661">proceedSDO</a> (CO_Data *d, Message *m)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#2a93a7c780472b1d8666d89aa270f661">proceedSDO</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, <a class="el" href="structMessage.html">Message</a> *m)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#bc20ed246e00053dcf71faa8f45ee39c">writeNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#bc20ed246e00053dcf71faa8f45ee39c">writeNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, <a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a> Callback)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#0e102a0835e4115920cd406e80a8d135">readNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#0e102a0835e4115920cd406e80a8d135">readNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#542a5cdd20c00aa130a39fe68295e769">readNetworkDictCallback</a> (CO_Data *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#542a5cdd20c00aa130a39fe68295e769">readNetworkDictCallback</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, <a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a> Callback)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#05b0c8eee1faee3c7a2f6e2ba3a16533">getReadResultNetworkDict</a> (CO_Data *d, UNS8 nodeId, void *data, UNS8 *size, UNS32 *abortCode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#05b0c8eee1faee3c7a2f6e2ba3a16533">getReadResultNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, void *data, UNS8 *size, UNS32 *abortCode)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (CO_Data *d, UNS8 nodeId, UNS32 *abortCode)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, UNS8 nodeId, UNS32 *abortCode)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -382,8 +405,8 @@ Definition at line <a class="el" href="sdo_8c-source.html#l00040">40</a> of file
 <div class="memdoc">
 
 <p>
-<b>Value:</b><div class="fragment"><pre class="fragment">MSG_WAR(0x3A07, <span class="stringliteral">"restartSDO_TIMER for line : "</span>, line);\
-<span class="keywordflow">if</span>(d-&gt;transfers[<span class="keywordtype">id</span>].timer != TIMER_NONE) { <a class="code" href="sdo_8c.html#b90f05aac908e8eee39a34b3e21e0ea9">StopSDO_TIMER</a>(<span class="keywordtype">id</span>) <a class="code" href="sdo_8c.html#c1e9eb7a28803b958d298b6997cc60ca">StartSDO_TIMER</a>(<span class="keywordtype">id</span>) }
+<b>Value:</b><div class="fragment"><pre class="fragment"><a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3A07, <span class="stringliteral">"restartSDO_TIMER for line : "</span>, line);\
+<span class="keywordflow">if</span>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a7fda2c6f5815323c3d79efb4641c465">transfers</a>[<span class="keywordtype">id</span>].<a class="code" href="structstruct__s__transfer.html#5ef26fb9ec5de7702471923586933a1a">timer</a> != TIMER_NONE) { <a class="code" href="sdo_8c.html#b90f05aac908e8eee39a34b3e21e0ea9">StopSDO_TIMER</a>(<span class="keywordtype">id</span>) <a class="code" href="sdo_8c.html#c1e9eb7a28803b958d298b6997cc60ca">StartSDO_TIMER</a>(<span class="keywordtype">id</span>) }
 </pre></div>
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00160">160</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
@@ -408,8 +431,8 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <div class="memdoc">
 
 <p>
-<b>Value:</b><div class="fragment"><pre class="fragment">MSG_WAR(0x3A06, <span class="stringliteral">"StartSDO_TIMER for line : "</span>, line);\
-d-&gt;transfers[id].timer = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(d,<span class="keywordtype">id</span>,&amp;<a class="code" href="sdo_8c.html#9309025e29b59e09026abcd3b45a5b61">SDOTimeoutAlarm</a>,MS_TO_TIMEVAL(SDO_TIMEOUT_MS),0);
+<b>Value:</b><div class="fragment"><pre class="fragment"><a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3A06, <span class="stringliteral">"StartSDO_TIMER for line : "</span>, line);\
+<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a7fda2c6f5815323c3d79efb4641c465">transfers</a>[<a class="code" href="structstruct__s__timer__entry.html#aaaa1955d3358bf87060856bdf834b61">id</a>].<a class="code" href="structstruct__s__transfer.html#5ef26fb9ec5de7702471923586933a1a">timer</a> = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>,<span class="keywordtype">id</span>,&amp;<a class="code" href="sdo_8c.html#9309025e29b59e09026abcd3b45a5b61">SDOTimeoutAlarm</a>,<a class="code" href="hcs12_2applicfg_8h.html#ee85d2eeabff670269ebc2e00251ac6d">MS_TO_TIMEVAL</a>(<a class="code" href="config_8h.html#956e31a1db6da1196b002038478a5b15">SDO_TIMEOUT_MS</a>),0);
 </pre></div>
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00156">156</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
@@ -434,8 +457,8 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>.
 <div class="memdoc">
 
 <p>
-<b>Value:</b><div class="fragment"><pre class="fragment">MSG_WAR(0x3A05, <span class="stringliteral">"StopSDO_TIMER for line : "</span>, line);\
-d-&gt;transfers[id].timer = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;transfers[<span class="keywordtype">id</span>].timer);
+<b>Value:</b><div class="fragment"><pre class="fragment"><a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3A05, <span class="stringliteral">"StopSDO_TIMER for line : "</span>, line);\
+<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a7fda2c6f5815323c3d79efb4641c465">transfers</a>[<a class="code" href="structstruct__s__timer__entry.html#aaaa1955d3358bf87060856bdf834b61">id</a>].<a class="code" href="structstruct__s__transfer.html#5ef26fb9ec5de7702471923586933a1a">timer</a> = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a7fda2c6f5815323c3d79efb4641c465">transfers</a>[<span class="keywordtype">id</span>].<a class="code" href="structstruct__s__transfer.html#5ef26fb9ec5de7702471923586933a1a">timer</a>);
 </pre></div>
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00152">152</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
@@ -451,7 +474,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a
         <tr>
           <td class="memname">INLINE UNS8 _readNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -481,7 +504,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SDOCallback_t&nbsp;</td>
+          <td class="paramtype"><a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a>&nbsp;</td>
           <td class="paramname"> <em>Callback</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -507,25 +530,21 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Verify that there is no SDO communication yet.<p>
-Taking the line ...<p>
-Check which SDO to use to communicate with the node<p>
-looking for the nodeId server<p>
-Send the SDO to the server. Initiate upload, cs=2. 
-<p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01406">1406</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>.
+References <a class="el" href="sdo_8h-source.html#l00082">struct_s_SDO::body</a>, <a class="el" href="objdictdef_8h-source.html#l00108">td_indextable::bSubCount</a>, <a class="el" href="sdo_8h-source.html#l00067">struct_s_transfer::Callback</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00076">BODY::data</a>, <a class="el" href="sdo_8h-source.html#l00057">struct_s_transfer::dataType</a>, <a class="el" href="data_8h-source.html#l00050">struct_CO_Data::firstIndex</a>, <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="data_8h-source.html#l00051">struct_CO_Data::lastIndex</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00081">struct_s_SDO::nodeId</a>, <a class="el" href="data_8h-source.html#l00048">struct_CO_Data::objdict</a>, <a class="el" href="objdictdef_8h-source.html#l00100">td_subindex::pObject</a>, <a class="el" href="objdictdef_8h-source.html#l00107">td_indextable::pSubindex</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="def_8h-source.html#l00079">SDO_CLIENT</a>, <a class="el" href="objdictdef_8h-source.html#l00117">s_quick_index::SDO_CLT</a>, <a class="el" href="def_8h-source.html#l00075">SDO_UPLOAD_IN_PROGRESS</a>, <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00140">UNS16</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00141">UNS32</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01499">readNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l01516">readNetworkDictCallback()</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph.png" border="0" usemap="#sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph_map" alt=""></center>
 <map name="sdo_8c_4bb4b3cd35af7e7580cffde23e9d3270_cgraph_map">
-<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="205,5,333,29" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="206,5,334,29" alt="">
 <area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="199,53,340,77" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="391,128,487,152" alt="">
 <area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="215,152,324,176" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="228,200,311,224" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="399,200,479,224" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="538,200,668,224" alt="">
 </map>
 
 </div>
@@ -537,7 +556,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_4bb4b3cd35a
         <tr>
           <td class="memname">INLINE UNS8 _writeNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -579,7 +598,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_4bb4b3cd35a
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SDOCallback_t&nbsp;</td>
+          <td class="paramtype"><a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a>&nbsp;</td>
           <td class="paramname"> <em>Callback</em>, </td>
         </tr>
         <tr>
@@ -623,7 +642,7 @@ Called by writeNetworkDict<p>
         <tr>
           <td class="memname">UNS8 closeSDOtransfer           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -660,7 +679,9 @@ Called by writeNetworkDict<p>
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00439">439</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, and <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
+<p>
+Referenced by <a class="el" href="main_8c-source.html#l00057">ReadSDO()</a>, and <a class="el" href="Master_8c-source.html#l00173">TestMaster_post_TPDO()</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph.png" border="0" usemap="#sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph_map" alt=""></center>
 <map name="sdo_8c_555a772d3a88a29c495f33513f8b2d58_cgraph_map">
@@ -678,7 +699,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_555a772d3a8
         <tr>
           <td class="memname">UNS8 failedSDO           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -736,7 +757,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_555a772d3a8
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00307">307</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="def_8h-source.html#l00073">SDO_ABORTED_INTERNAL</a>, <a class="el" href="def_8h-source.html#l00079">SDO_CLIENT</a>, <a class="el" href="def_8h-source.html#l00078">SDO_SERVER</a>, <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <p>
@@ -747,6 +768,8 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2019db2a4d1
 <area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="156,102,276,126" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="337,54,433,78" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="344,102,427,126" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="484,102,564,126" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="615,102,745,126" alt="">
 </map>
 
 </div>
@@ -758,7 +781,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2019db2a4d1
         <tr>
           <td class="memname">UNS8 getReadResultNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -807,12 +830,11 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2019db2a4d1
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Looking for the line tranfert.<p>
-Transfert is finished. Put the value in the data. 
-<p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01532">1532</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>.
+References <a class="el" href="hcs12_2applicfg_8h-source.html#l00055">CANOPEN_BIG_ENDIAN</a>, <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="sdo_8h-source.html#l00057">struct_s_transfer::dataType</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="def_8h-source.html#l00073">SDO_ABORTED_INTERNAL</a>, <a class="el" href="def_8h-source.html#l00079">SDO_CLIENT</a>, <a class="el" href="def_8h-source.html#l00071">SDO_FINISHED</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>, and <a class="el" href="objdictdef_8h-source.html#l00040">visible_string</a>.
+<p>
+Referenced by <a class="el" href="main_8c-source.html#l00057">ReadSDO()</a>, and <a class="el" href="Master_8c-source.html#l00173">TestMaster_post_TPDO()</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph.png" border="0" usemap="#sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph_map" alt=""></center>
 <map name="sdo_8c_05b0c8eee1faee3c7a2f6e2ba3a16533_cgraph_map">
@@ -828,7 +850,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_05b0c8eee1f
         <tr>
           <td class="memname">UNS8 getSDOfreeLine           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -865,6 +887,8 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_05b0c8eee1f
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00388">388</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="config_8h-source.html#l00029">SDO_MAX_SIMULTANEOUS_TRANSFERTS</a>, <a class="el" href="def_8h-source.html#l00070">SDO_RESET</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>, and <a class="el" href="sdo_8h-source.html#l00041">struct_s_transfer::whoami</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -875,7 +899,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
         <tr>
           <td class="memname">UNS8 getSDOlineOnUse           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -919,6 +943,8 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00414">414</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00039">struct_s_transfer::nodeId</a>, <a class="el" href="config_8h-source.html#l00029">SDO_MAX_SIMULTANEOUS_TRANSFERTS</a>, <a class="el" href="def_8h-source.html#l00070">SDO_RESET</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>, and <a class="el" href="sdo_8h-source.html#l00041">struct_s_transfer::whoami</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00439">closeSDOtransfer()</a>, <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l01532">getReadResultNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01573">getWriteResultNetworkDict()</a>, and <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -929,7 +955,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
         <tr>
           <td class="memname">UNS8 getSDOlineRestBytes           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -966,6 +992,8 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00461">461</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00050">struct_s_transfer::offset</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -976,7 +1004,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
         <tr>
           <td class="memname">UNS8 getWriteResultNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1011,11 +1039,9 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-Looking for the line tranfert. 
-<p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01573">1573</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>.
+References <a class="el" href="sdo_8h-source.html#l00044">struct_s_transfer::abortCode</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="def_8h-source.html#l00073">SDO_ABORTED_INTERNAL</a>, <a class="el" href="def_8h-source.html#l00079">SDO_CLIENT</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph.png" border="0" usemap="#sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph_map" alt=""></center>
 <map name="sdo_8c_8671e306873f19362c60bb50ab930d1d_cgraph_map">
@@ -1031,7 +1057,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_8671e306873
         <tr>
           <td class="memname">UNS8 initSDOline           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1089,7 +1115,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_8671e306873
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00359">359</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00156">StartSDO_TIMER</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+References <a class="el" href="sdo_8h-source.html#l00067">struct_s_transfer::Callback</a>, <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00057">struct_s_transfer::dataType</a>, <a class="el" href="sdo_8h-source.html#l00047">struct_s_transfer::index</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00039">struct_s_transfer::nodeId</a>, <a class="el" href="sdo_8h-source.html#l00050">struct_s_transfer::offset</a>, <a class="el" href="def_8h-source.html#l00074">SDO_DOWNLOAD_IN_PROGRESS</a>, <a class="el" href="def_8h-source.html#l00075">SDO_UPLOAD_IN_PROGRESS</a>, <a class="el" href="sdo_8c-source.html#l00156">StartSDO_TIMER</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>, <a class="el" href="sdo_8h-source.html#l00048">struct_s_transfer::subIndex</a>, <a class="el" href="sdo_8h-source.html#l00043">struct_s_transfer::toggle</a>, and <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
 </div>
@@ -1101,7 +1127,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
         <tr>
           <td class="memname">UNS8 lineToSDO           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1145,6 +1171,8 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00250">250</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="sdo_8h-source.html#l00050">struct_s_transfer::offset</a>, <a class="el" href="config_8h-source.html#l00028">SDO_MAX_LENGTH_TRANSFERT</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -1155,7 +1183,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
         <tr>
           <td class="memname">UNS32 objdictToSDOline           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1185,7 +1213,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00209">209</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>.
+References <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="objacces_8c-source.html#l00198">getODentry()</a>, <a class="el" href="sdo_8h-source.html#l00047">struct_s_transfer::index</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="def_8h-source.html#l00031">OD_SUCCESSFUL</a>, <a class="el" href="sdo_8h-source.html#l00050">struct_s_transfer::offset</a>, <a class="el" href="sdo_8h-source.html#l00048">struct_s_transfer::subIndex</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00141">UNS32</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <p>
@@ -1205,13 +1233,13 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_29427a80fd1
         <tr>
           <td class="memname">UNS8 proceedSDO           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Message *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structMessage.html">Message</a> *&nbsp;</td>
           <td class="paramname"> <em>m</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1233,141 +1261,12 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_29427a80fd1
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-received or to be transmited.<p>
-The node from which the SDO is received<p>
-node id in 32 bits, for temporary use<p>
-SDO_SERVER or SDO_CLIENT.<p>
-while reading or writing in the local object dictionary.<p>
-SDO to transmit<p>
-Looking for the cobId in the object dictionary.<p>
-Am-I a server ?<p>
-In case of server, the node id of the client may be unknown. So we put the index minus offset<p>
-0x1200 where the cobid received is defined.<p>
-end while<p>
-Am-I client ?<p>
-a) Looking for the cobid received.<p>
-b) cobid found, so reading the node id of the server.<p>
-This SDO was not for us !<p>
-Test if the size of the SDO is ok<p>
-Testing the command specifier<p>
-Allowed : cs = 0, 1, 2, 3, 4. (= all except those for block tranfert).<p>
-cs = other : Not allowed -&gt; abort.<p>
-I am SERVER<p>
-Receiving a download segment data.<p>
-A SDO transfert should have been yet initiated.<p>
-Reset the wathdog<p>
-Toggle test.<p>
-Nb of data to be downloaded<p>
-Store the data in the transfert structure.<p>
-Sending the SDO response, CS = 1<p>
-The node id of the server, (here it is the sender).<p>
-Inverting the toggle for the next segment.<p>
-If it was the last segment,<p>
-Transfering line data to object dictionary.<p>
-The code does not use the "d" of initiate frame. So it is safe if e=s=0<p>
-Release of the line<p>
-I am CLIENT<p>
-It is a request for a previous upload segment. We should find a line opened for this.<p>
-Reset the wathdog<p>
-test of the toggle;<p>
-nb of data to be uploaded<p>
-Storing the data in the line structure.<p>
-Inverting the toggle for the next segment.<p>
-If it was the last segment,<p>
-Put in state finished<p>
-The code is safe for the case e=s=0 in initiate frame.<p>
-more segments to receive<p>
-Sending the request for the next segment.<p>
-I am SERVER<p>
-Receive of an initiate download<p>
-Search if a SDO transfert have been yet initiated<p>
-No line on use. Great !<p>
-Try to open a new line.<p>
-If SDO expedited<p>
-nb of data to be downloaded<p>
-Storing the data in the line structure.<p>
-SDO expedited -&gt; transfert finished. Data can be stored in the dictionary.<p>
-The line will be reseted when it is downloading in the dictionary.<p>
-Transfering line data to object dictionary.<p>
-Release of the line.<p>
-So, if it is not an expedited transfert<p>
-TODO : if e and s = 0, not reading m-&gt;data[4] but put nbBytes = 0<p>
-Transfert limited to 255 bytes.<p>
-Sending a SDO, cs=3<p>
-The node id of the server, (here it is the sender).<p>
-I am CLIENT<p>
-It is a response for a previous download segment. We should find a line opened for this.<p>
-Reset the wathdog<p>
-test of the toggle;<p>
-End transmission or downloading next segment. We need to know if it will be the last one.<p>
-At least one transfer to send.<p>
-several segments to download.<p>
-code to send the next segment. (cs = 0; c = 0)<p>
-Last segment.<p>
-code to send the last segment. (cs = 0; c = 1)<p>
-end if I am a CLIENT<p>
-I am SERVER<p>
-Receive of an initiate upload.<p>
-Search if a SDO transfert have been yet initiated<p>
-No line on use. Great !<p>
-Try to open a new line.<p>
-Transfer data from dictionary to the line structure.<p>
-Preparing the response.<p>
-Nb bytes to transfer ?<p>
 The server node Id;<p>
-normal transfert. (segmented).<p>
-code to send the initiate upload response. (cs = 2)<p>
-It takes too much memory to upgrate to 2^32 because the size of data is also coded<p>
-in the object dictionary, at every index and subindex.<p>
-Expedited upload. (cs = 2 ; e = 1)<p>
-Release the line.<p>
-end if I am SERVER<p>
-I am CLIENT<p>
-It is the response for the previous initiate upload request.<p>
-We should find a line opened for this.<p>
-Reset the wathdog<p>
-nb of data to be uploaded<p>
-Storing the data in the line structure.<p>
-SDO expedited -&gt; transfert finished. data are available via <a class="el" href="sdo_8c.html#05b0c8eee1faee3c7a2f6e2ba3a16533">getReadResultNetworkDict()</a>.<p>
-So, if it is not an expedited transfert<p>
-Storing the nb of data to receive.<p>
-Remember the limitation to 255 bytes to transfert<p>
-Requesting next segment. (cs = 3)<p>
-End if CLIENT<p>
-I am SERVER<p>
-Receiving a upload segment.<p>
-A SDO transfert should have been yet initiated.<p>
-Reset the wathdog<p>
-Toggle test.<p>
-Uploading next segment. We need to know if it will be the last one.<p>
-The segment to transfer is not the last one.<p>
-code to send the next segment. (cs = 0; c = 0)<p>
-Inverting the toggle for the next tranfert.<p>
-Last segment.<p>
-code to send the last segment. (cs = 0; c = 1)<p>
-The server node Id;<p>
-Release the line<p>
-I am CLIENT<p>
-It is the response for the previous initiate download request.<p>
-We should find a line opened for this.<p>
-Reset the watchdog<p>
-more than one request to send<p>
-code to send the next segment. (cs = 0; c = 0)<p>
-The server node Id;<p>
-Last segment.<p>
-code to send the last segment. (cs = 0; c = 1)<p>
-The server node Id;<p>
-Received SDO abort.<p>
-Looking for the line concerned.<p>
-Tips : The end user has no way to know that the server node has received an abort SDO.<p>
-Its is ok, I think.<p>
-If I am CLIENT<p>
-The line *must* be released by the core program.<p>
-Error : Unknown cs 
+The server node Id; 
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00608">608</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00109">getSDOc</a>, <a class="el" href="sdo_8c-source.html#l00089">getSDOcs</a>, <a class="el" href="sdo_8c-source.html#l00101">getSDOe</a>, <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00117">getSDOindex</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00461">getSDOlineRestBytes()</a>, <a class="el" href="sdo_8c-source.html#l00093">getSDOn2</a>, <a class="el" href="sdo_8c-source.html#l00097">getSDOn3</a>, <a class="el" href="sdo_8c-source.html#l00105">getSDOs</a>, <a class="el" href="sdo_8c-source.html#l00121">getSDOsubIndex</a>, <a class="el" href="sdo_8c-source.html#l00113">getSDOt</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00250">lineToSDO()</a>, <a class="el" href="sdo_8c-source.html#l00209">objdictToSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00160">RestartSDO_TIMER</a>, <a class="el" href="sdo_8c-source.html#l00186">SDOlineToObjdict()</a>, <a class="el" href="sdo_8c-source.html#l00279">SDOtoLine()</a>, <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>, <a class="el" href="sdo_8c-source.html#l00479">setSDOlineRestBytes()</a>, and <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>.
+References <a class="el" href="sdo_8h-source.html#l00044">struct_s_transfer::abortCode</a>, <a class="el" href="data_8h-source.html#l00047">struct_CO_Data::bDeviceNodeId</a>, <a class="el" href="sdo_8h-source.html#l00082">struct_s_SDO::body</a>, <a class="el" href="objdictdef_8h-source.html#l00108">td_indextable::bSubCount</a>, <a class="el" href="sdo_8h-source.html#l00067">struct_s_transfer::Callback</a>, <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="can_8h-source.html#l00046">Message::data</a>, <a class="el" href="sdo_8h-source.html#l00076">BODY::data</a>, <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="data_8h-source.html#l00050">struct_CO_Data::firstIndex</a>, <a class="el" href="sdo_8c-source.html#l00109">getSDOc</a>, <a class="el" href="sdo_8c-source.html#l00089">getSDOcs</a>, <a class="el" href="sdo_8c-source.html#l00101">getSDOe</a>, <a class="el" href="sdo_8c-source.html#l00388">getSDOfreeLine()</a>, <a class="el" href="sdo_8c-source.html#l00117">getSDOindex</a>, <a class="el" href="sdo_8c-source.html#l00414">getSDOlineOnUse()</a>, <a class="el" href="sdo_8c-source.html#l00461">getSDOlineRestBytes()</a>, <a class="el" href="sdo_8c-source.html#l00093">getSDOn2</a>, <a class="el" href="sdo_8c-source.html#l00097">getSDOn3</a>, <a class="el" href="sdo_8c-source.html#l00105">getSDOs</a>, <a class="el" href="sdo_8c-source.html#l00121">getSDOsubIndex</a>, <a class="el" href="sdo_8c-source.html#l00113">getSDOt</a>, <a class="el" href="sdo_8h-source.html#l00047">struct_s_transfer::index</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="data_8h-source.html#l00051">struct_CO_Data::lastIndex</a>, <a class="el" href="sdo_8c-source.html#l00250">lineToSDO()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00081">struct_s_SDO::nodeId</a>, <a class="el" href="data_8h-source.html#l00048">struct_CO_Data::objdict</a>, <a class="el" href="sdo_8c-source.html#l00209">objdictToSDOline()</a>, <a class="el" href="objdictdef_8h-source.html#l00100">td_subindex::pObject</a>, <a class="el" href="objdictdef_8h-source.html#l00107">td_indextable::pSubindex</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="sdo_8c-source.html#l00160">RestartSDO_TIMER</a>, <a class="el" href="def_8h-source.html#l00072">SDO_ABORTED_RCV</a>, <a class="el" href="def_8h-source.html#l00079">SDO_CLIENT</a>, <a class="el" href="objdictdef_8h-source.html#l00117">s_quick_index::SDO_CLT</a>, <a class="el" href="def_8h-source.html#l00074">SDO_DOWNLOAD_IN_PROGRESS</a>, <a class="el" href="def_8h-source.html#l00071">SDO_FINISHED</a>, <a class="el" href="def_8h-source.html#l00078">SDO_SERVER</a>, <a class="el" href="objdictdef_8h-source.html#l00116">s_quick_index::SDO_SVR</a>, <a class="el" href="def_8h-source.html#l00080">SDO_UNKNOWN</a>, <a class="el" href="def_8h-source.html#l00075">SDO_UPLOAD_IN_PROGRESS</a>, <a class="el" href="def_8h-source.html#l00045">SDOABT_GENERAL_ERROR</a>, <a class="el" href="def_8h-source.html#l00046">SDOABT_LOCAL_CTRL_ERROR</a>, <a class="el" href="def_8h-source.html#l00042">SDOABT_TOGGLE_NOT_ALTERNED</a>, <a class="el" href="sdo_8c-source.html#l00186">SDOlineToObjdict()</a>, <a class="el" href="sdo_8c-source.html#l00279">SDOtoLine()</a>, <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>, <a class="el" href="sdo_8c-source.html#l00479">setSDOlineRestBytes()</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="sdo_8c-source.html#l00152">StopSDO_TIMER</a>, <a class="el" href="sdo_8h-source.html#l00048">struct_s_transfer::subIndex</a>, <a class="el" href="sdo_8h-source.html#l00043">struct_s_transfer::toggle</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00140">UNS16</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00141">UNS32</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>.
 <p>
@@ -1386,6 +1285,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2a93a7c7804
 <area href="sdo_8c.html#18b6f7e9c9441640a88ffef1e8720694" shape="rect" coords="196,530,290,554" alt="">
 <area href="sdo_8c.html#601a837ecb5f21bf4c66b058c5ae7810" shape="rect" coords="162,578,324,602" alt="">
 <area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="386,140,506,164" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="768,191,848,215" alt="">
 <area href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac" shape="rect" coords="396,434,495,458" alt="">
 <area href="objacces_8c.html#49e9444c8c8d39906a40a153366ed09c" shape="rect" coords="567,434,674,458" alt="">
 <area href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26" shape="rect" coords="724,458,892,482" alt="">
@@ -1402,7 +1302,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2a93a7c7804
         <tr>
           <td class="memname">UNS8 readNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1453,16 +1353,20 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2a93a7c7804
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01499">1499</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, and <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>.
+<p>
+Referenced by <a class="el" href="main_8c-source.html#l00057">ReadSDO()</a>, and <a class="el" href="Master_8c-source.html#l00173">TestMaster_post_TPDO()</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph.png" border="0" usemap="#sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph_map" alt=""></center>
 <map name="sdo_8c_0e102a0835e4115920cd406e80a8d135_cgraph_map">
 <area href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270" shape="rect" coords="191,103,332,127" alt="">
-<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="389,5,517,29" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="390,5,518,29" alt="">
 <area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="383,53,524,77" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="575,128,671,152" alt="">
 <area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="399,152,508,176" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="412,200,495,224" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="583,200,663,224" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="722,200,852,224" alt="">
 </map>
 
 </div>
@@ -1474,7 +1378,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_0e102a0835e
         <tr>
           <td class="memname">UNS8 readNetworkDictCallback           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1504,7 +1408,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_0e102a0835e
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SDOCallback_t&nbsp;</td>
+          <td class="paramtype"><a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a>&nbsp;</td>
           <td class="paramname"> <em>Callback</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1532,16 +1436,18 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_0e102a0835e
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01516">1516</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, and <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph.png" border="0" usemap="#sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph_map" alt=""></center>
 <map name="sdo_8c_542a5cdd20c00aa130a39fe68295e769_cgraph_map">
 <area href="sdo_8c.html#4bb4b3cd35af7e7580cffde23e9d3270" shape="rect" coords="247,103,388,127" alt="">
-<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="445,5,573,29" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="446,5,574,29" alt="">
 <area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="439,53,580,77" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="631,128,727,152" alt="">
 <area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="455,152,564,176" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="468,200,551,224" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="639,200,719,224" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="778,200,908,224" alt="">
 </map>
 
 </div>
@@ -1553,7 +1459,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_542a5cdd20c
         <tr>
           <td class="memname">void resetSDO           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
@@ -1571,11 +1477,9 @@ Reset all sdo buffers<p>
 </dl>
 
 <p>
-transfer structure initialization 
-<p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00169">169</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>.
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="config_8h-source.html#l00029">SDO_MAX_SIMULTANEOUS_TRANSFERTS</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
 <p>
@@ -1594,7 +1498,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_1f4f07eccc4
         <tr>
           <td class="memname">void resetSDOline           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1623,7 +1527,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_1f4f07eccc4
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00338">338</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>.
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="sdo_8c-source.html#l00359">initSDOline()</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="config_8h-source.html#l00028">SDO_MAX_LENGTH_TRANSFERT</a>, <a class="el" href="def_8h-source.html#l00070">SDO_RESET</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00439">closeSDOtransfer()</a>, <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, <a class="el" href="sdo_8c-source.html#l00169">resetSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00129">SDOTimeoutAlarm()</a>.
 <p>
@@ -1641,7 +1545,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_42d33be015d
         <tr>
           <td class="memname">UNS32 SDOlineToObjdict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1671,7 +1575,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_42d33be015d
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00186">186</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="objacces_8c-source.html#l00350">setODentry()</a>.
+References <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="sdo_8h-source.html#l00047">struct_s_transfer::index</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="def_8h-source.html#l00031">OD_SUCCESSFUL</a>, <a class="el" href="objacces_8c-source.html#l00350">setODentry()</a>, <a class="el" href="sdo_8h-source.html#l00048">struct_s_transfer::subIndex</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00141">UNS32</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <p>
@@ -1691,7 +1595,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2eb5309dca3
         <tr>
           <td class="memname">void SDOTimeoutAlarm           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1720,7 +1624,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_2eb5309dca3
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00129">129</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, and <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>.
+References <a class="el" href="sdo_8h-source.html#l00044">struct_s_transfer::abortCode</a>, <a class="el" href="sdo_8h-source.html#l00067">struct_s_transfer::Callback</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00047">struct_s_transfer::index</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00039">struct_s_transfer::nodeId</a>, <a class="el" href="sdo_8c-source.html#l00338">resetSDOline()</a>, <a class="el" href="def_8h-source.html#l00073">SDO_ABORTED_INTERNAL</a>, <a class="el" href="def_8h-source.html#l00078">SDO_SERVER</a>, <a class="el" href="def_8h-source.html#l00043">SDOABT_TIMED_OUT</a>, <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>, <a class="el" href="sdo_8h-source.html#l00042">struct_s_transfer::state</a>, <a class="el" href="sdo_8h-source.html#l00048">struct_s_transfer::subIndex</a>, <a class="el" href="sdo_8h-source.html#l00061">struct_s_transfer::timer</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>, and <a class="el" href="sdo_8h-source.html#l00041">struct_s_transfer::whoami</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph.png" border="0" usemap="#sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph_map" alt=""></center>
 <map name="sdo_8c_9309025e29b59e09026abcd3b45a5b61_cgraph_map">
@@ -1728,6 +1632,8 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_9309025e29b
 <area href="sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c" shape="rect" coords="200,54,320,78" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="369,6,465,30" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="376,54,459,78" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="516,54,596,78" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="647,54,777,78" alt="">
 </map>
 
 </div>
@@ -1739,7 +1645,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_9309025e29b
         <tr>
           <td class="memname">UNS8 SDOtoLine           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1783,6 +1689,8 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_9309025e29b
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00279">279</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00056">struct_s_transfer::data</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="sdo_8h-source.html#l00050">struct_s_transfer::offset</a>, <a class="el" href="config_8h-source.html#l00028">SDO_MAX_LENGTH_TRANSFERT</a>, <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -1793,7 +1701,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
         <tr>
           <td class="memname">UNS8 sendSDO           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1805,7 +1713,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">s_SDO&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__s__SDO.html">s_SDO</a>&nbsp;</td>
           <td class="paramname"> <em>sdo</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -1828,18 +1736,18 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-get the server-&gt;client cobid<p>
-case server. Easy because today only one server SDO is authorized in CanFestival<p>
-case client<p>
-Get the client-&gt;server cobid.<p>
-First, have to find at the index where is defined the communication with the server node<p>
-Second, read the cobid client-&gt;server<p>
-message copy for sending<p>
-the length of SDO must be 8 
-<p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00498">498</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="sdo_8h-source.html#l00082">struct_s_SDO::body</a>, <a class="el" href="objdictdef_8h-source.html#l00108">td_indextable::bSubCount</a>, <a class="el" href="data_8h-source.html#l00090">struct_CO_Data::canHandle</a>, <a class="el" href="canOpenDriver_8c-source.html#l00505">canSend()</a>, <a class="el" href="can_8h-source.html#l00042">Message::cob_id</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="can_8h-source.html#l00046">Message::data</a>, <a class="el" href="sdo_8h-source.html#l00076">BODY::data</a>, <a class="el" href="data_8h-source.html#l00050">struct_CO_Data::firstIndex</a>, <a class="el" href="data_8h-source.html#l00051">struct_CO_Data::lastIndex</a>, <a class="el" href="can_8h-source.html#l00045">Message::len</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00081">struct_s_SDO::nodeId</a>, <a class="el" href="data_8h-source.html#l00061">struct_CO_Data::nodeState</a>, <a class="el" href="def_8h-source.html#l00055">NOT_A_REQUEST</a>, <a class="el" href="data_8h-source.html#l00048">struct_CO_Data::objdict</a>, <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>, <a class="el" href="objdictdef_8h-source.html#l00100">td_subindex::pObject</a>, <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646c747c16a9c4d7dec65cdab6e38df99b7">Pre_operational</a>, <a class="el" href="objdictdef_8h-source.html#l00107">td_indextable::pSubindex</a>, <a class="el" href="can_8h-source.html#l00043">Message::rtr</a>, <a class="el" href="objdictdef_8h-source.html#l00117">s_quick_index::SDO_CLT</a>, <a class="el" href="def_8h-source.html#l00078">SDO_SERVER</a>, <a class="el" href="objdictdef_8h-source.html#l00116">s_quick_index::SDO_SVR</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00140">UNS16</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00141">UNS32</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>, and <a class="el" href="can_8h-source.html#l00036">SHORT_CAN::w</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00578">sendSDOabort()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="sdo_8c_c6b5d7d1439d537da992a96644a1ca5d_cgraph.png" border="0" usemap="#sdo_8c_c6b5d7d1439d537da992a96644a1ca5d_cgraph_map" alt=""></center>
+<map name="sdo_8c_c6b5d7d1439d537da992a96644a1ca5d_cgraph_map">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="140,6,220,30" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="271,6,401,30" alt="">
+</map>
+
 </div>
 </div><p>
 <a class="anchor" name="b26c3f2fb63d81055809d6ccaa785b7c"></a><!-- doxytag: member="sdo.c::sendSDOabort" ref="b26c3f2fb63d81055809d6ccaa785b7c" args="(CO_Data *d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)" -->
@@ -1849,7 +1757,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
         <tr>
           <td class="memname">UNS8 sendSDOabort           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1900,13 +1808,15 @@ Referenced by <a class="el" href="sdo_8c-source.html#l01406">_readNetworkDict()<
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00578">578</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>.
+References <a class="el" href="data_8h-source.html#l00047">struct_CO_Data::bDeviceNodeId</a>, <a class="el" href="sdo_8h-source.html#l00082">struct_s_SDO::body</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="sdo_8h-source.html#l00076">BODY::data</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="sdo_8h-source.html#l00081">struct_s_SDO::nodeId</a>, <a class="el" href="sdo_8c-source.html#l00498">sendSDO()</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00139">UNS8</a>.
 <p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00307">failedSDO()</a>, and <a class="el" href="sdo_8c-source.html#l00129">SDOTimeoutAlarm()</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph.png" border="0" usemap="#sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph_map" alt=""></center>
 <map name="sdo_8c_b26c3f2fb63d81055809d6ccaa785b7c_cgraph_map">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="175,6,257,30" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="308,6,388,30" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="439,6,569,30" alt="">
 </map>
 
 </div>
@@ -1918,7 +1828,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_b26c3f2fb63
         <tr>
           <td class="memname">UNS8 setSDOlineRestBytes           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -1955,6 +1865,8 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_b26c3f2fb63
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l00479">479</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
+References <a class="el" href="sdo_8h-source.html#l00049">struct_s_transfer::count</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00177">MSG_ERR</a>, <a class="el" href="config_8h-source.html#l00028">SDO_MAX_LENGTH_TRANSFERT</a>, and <a class="el" href="data_8h-source.html#l00057">struct_CO_Data::transfers</a>.
+<p>
 Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 </div>
 </div><p>
@@ -1965,7 +1877,7 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
         <tr>
           <td class="memname">UNS8 writeNetworkDict           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -2030,16 +1942,18 @@ Referenced by <a class="el" href="sdo_8c-source.html#l00608">proceedSDO()</a>.
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01368">1368</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, and <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph.png" border="0" usemap="#sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph_map" alt=""></center>
 <map name="sdo_8c_bc20ed246e00053dcf71faa8f45ee39c_cgraph_map">
 <area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="192,103,339,127" alt="">
 <area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="395,5,523,29" alt="">
-<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="388,53,530,77" alt="">
+<area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="388,53,529,77" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="580,128,676,152" alt="">
-<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="404,152,514,176" alt="">
-<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="418,200,500,224" alt="">
+<area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="404,152,513,176" alt="">
+<area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="417,200,500,224" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="588,200,668,224" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="727,200,857,224" alt="">
 </map>
 
 </div>
@@ -2051,7 +1965,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_bc20ed246e0
         <tr>
           <td class="memname">UNS8 writeNetworkDictCallBack           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
@@ -2093,7 +2007,7 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_bc20ed246e0
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">SDOCallback_t&nbsp;</td>
+          <td class="paramtype"><a class="el" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a>&nbsp;</td>
           <td class="paramname"> <em>Callback</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -2123,21 +2037,23 @@ Here is the call graph for this function:<p><center><img src="sdo_8c_bc20ed246e0
 <p>
 Definition at line <a class="el" href="sdo_8c-source.html#l01388">1388</a> of file <a class="el" href="sdo_8c-source.html">sdo.c</a>.
 <p>
-References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>.
+References <a class="el" href="sdo_8c-source.html#l01247">_writeNetworkDict()</a>, and <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>.
 <p>
 Here is the call graph for this function:<p><center><img src="sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph.png" border="0" usemap="#sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph_map" alt=""></center>
 <map name="sdo_8c_f4ec05293fb8971a1b282994498ed4f5_cgraph_map">
-<area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="251,103,397,127" alt="">
-<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="453,5,581,29" alt="">
+<area href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a" shape="rect" coords="251,103,398,127" alt="">
+<area href="sdo_8c.html#58d1f9691977617601beb9e5b4123252" shape="rect" coords="454,5,582,29" alt="">
 <area href="sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f" shape="rect" coords="447,53,588,77" alt="">
 <area href="sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d" shape="rect" coords="639,128,735,152" alt="">
 <area href="sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481" shape="rect" coords="463,152,572,176" alt="">
 <area href="sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d" shape="rect" coords="476,200,559,224" alt="">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="647,200,727,224" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="786,200,916,224" alt="">
 </map>
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:09 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:52:14 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

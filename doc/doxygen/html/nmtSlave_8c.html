@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/nmtSlave.c File Reference</title>
+<title>CanFestival: src/nmtSlave.c File Reference</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,27 +8,51 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/nmtSlave.c File Reference</h1><code>#include &quot;nmtSlave.h&quot;</code><br>
-<code>#include &quot;states.h&quot;</code><br>
-<code>#include &quot;canfestival.h&quot;</code><br>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>nmtSlave.c File Reference</h1><code>#include &quot;<a class="el" href="nmtSlave_8h-source.html">nmtSlave.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="states_8h-source.html">states.h</a>&quot;</code><br>
+<code>#include &quot;<a class="el" href="win32_2canfestival_8h-source.html">canfestival.h</a>&quot;</code><br>
 
 <p>
-Include dependency graph for nmtSlave.c:<p><center><img src="nmtSlave_8c__incl.png" border="0" usemap="#/home/epimerde/documents/tc11/CanFestival-3/src/nmtSlave.c_map" alt=""></center>
+Include dependency graph for nmtSlave.c:<p><center><img src="nmtSlave_8c__incl.png" border="0" usemap="#src/nmtSlave.c_map" alt=""></center>
+<map name="src/nmtSlave.c_map">
+<area href="nmtSlave_8h.html" shape="rect" coords="182,251,280,275" alt="">
+<area href="states_8h.html" shape="rect" coords="502,56,576,80" alt="">
+<area href="win32_2canfestival_8h.html" shape="rect" coords="178,616,284,640" alt="">
+<area href="win32_2applicfg_8h.html" shape="rect" coords="763,432,851,456" alt="">
+<area href="data_8h.html" shape="rect" coords="354,299,418,323" alt="">
+<area href="def_8h.html" shape="rect" coords="647,143,703,167" alt="">
+<area href="can_8h.html" shape="rect" coords="510,592,568,616" alt="">
+<area href="objdictdef_8h.html" shape="rect" coords="488,347,590,371" alt="">
+<area href="objacces_8h.html" shape="rect" coords="492,203,586,227" alt="">
+<area href="sdo_8h.html" shape="rect" coords="510,493,568,517" alt="">
+<area href="pdo_8h.html" shape="rect" coords="510,155,568,179" alt="">
+<area href="lifegrd_8h.html" shape="rect" coords="500,395,578,419" alt="">
+<area href="sync_8h.html" shape="rect" coords="506,251,572,275" alt="">
+<area href="nmtMaster_8h.html" shape="rect" coords="486,299,592,323" alt="">
+<area href="config_8h.html" shape="rect" coords="770,143,844,167" alt="">
+<area href="timer_8h.html" shape="rect" coords="640,516,710,540" alt="">
+<area href="win32_2timerscfg_8h.html" shape="rect" coords="758,585,856,609" alt="">
+<area href="can__driver_8h.html" shape="rect" coords="334,616,438,640" alt="">
+</map>
 
 <p>
 <a href="nmtSlave_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="nmtSlave_8c.html#97d175ea168c149c99b01dcde0989743">proceedNMTstateChange</a> (CO_Data *d, Message *m)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="nmtSlave_8c.html#97d175ea168c149c99b01dcde0989743">proceedNMTstateChange</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d, <a class="el" href="structMessage.html">Message</a> *m)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="nmtSlave_8c.html#aced28a97b2c256320dfde3c4b36a7d5">slaveSendBootUp</a> (CO_Data *d)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="nmtSlave_8c.html#aced28a97b2c256320dfde3c4b36a7d5">slaveSendBootUp</a> (<a class="el" href="structstruct__CO__Data.html">CO_Data</a> *d)</td></tr>
 
 </table>
 <hr><a name="_details"></a><h2>Detailed Description</h2>
@@ -44,13 +68,13 @@ Definition in file <a class="el" href="nmtSlave_8c-source.html">nmtSlave.c</a>.<
         <tr>
           <td class="memname">void proceedNMTstateChange           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Message *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structMessage.html">Message</a> *&nbsp;</td>
           <td class="paramname"> <em>m</em></td><td>&nbsp;</td>
         </tr>
         <tr>
@@ -72,15 +96,9 @@ put the slave in the state wanted by the master<p>
 </dl>
 
 <p>
-Check if this NMT-message is for this node<p>
-byte 1 = 0 : all the nodes are concerned (broadcast)<p>
-command specifier (cs)<p>
-end switch<p>
-end if( ( (*m).data[1] == 0 ) || ( (*m).data[1] == bDeviceNodeId ) ) 
-<p>
 Definition at line <a class="el" href="nmtSlave_8c-source.html#l00043">43</a> of file <a class="el" href="nmtSlave_8c-source.html">nmtSlave.c</a>.
 <p>
-References <a class="el" href="states_8c-source.html#l00138">setState()</a>.
+References <a class="el" href="data_8h-source.html#l00047">struct_CO_Data::bDeviceNodeId</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646eb3ae26d7a1629aa0fc6c83f46306cf5">Initialisation</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="def_8h-source.html#l00106">NMT_Enter_PreOperational</a>, <a class="el" href="def_8h-source.html#l00108">NMT_Reset_Comunication</a>, <a class="el" href="def_8h-source.html#l00107">NMT_Reset_Node</a>, <a class="el" href="def_8h-source.html#l00104">NMT_Start_Node</a>, <a class="el" href="def_8h-source.html#l00105">NMT_Stop_Node</a>, <a class="el" href="data_8h-source.html#l00061">struct_CO_Data::nodeState</a>, <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>, <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646c747c16a9c4d7dec65cdab6e38df99b7">Pre_operational</a>, <a class="el" href="states_8c-source.html#l00138">setState()</a>, and <a class="el" href="states_8h.html#3136d2815abe9d284f985e0a7ec686464d049c6d45e08a294523df186ad77a75">Stopped</a>.
 <p>
 Referenced by <a class="el" href="states_8c-source.html#l00065">canDispatch()</a>.
 <p>
@@ -107,7 +125,7 @@ Here is the call graph for this function:<p><center><img src="nmtSlave_8c_97d175
         <tr>
           <td class="memname">UNS8 slaveSendBootUp           </td>
           <td>(</td>
-          <td class="paramtype">CO_Data *&nbsp;</td>
+          <td class="paramtype"><a class="el" href="structstruct__CO__Data.html">CO_Data</a> *&nbsp;</td>
           <td class="paramname"> <em>d</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
@@ -125,14 +143,21 @@ Here is the call graph for this function:<p><center><img src="nmtSlave_8c_97d175
 <dl class="return" compact><dt><b>Returns:</b></dt><dd></dd></dl>
 
 <p>
-message configuration 
-<p>
 Definition at line <a class="el" href="nmtSlave_8c-source.html#l00097">97</a> of file <a class="el" href="nmtSlave_8c-source.html">nmtSlave.c</a>.
 <p>
+References <a class="el" href="data_8h-source.html#l00047">struct_CO_Data::bDeviceNodeId</a>, <a class="el" href="data_8h-source.html#l00090">struct_CO_Data::canHandle</a>, <a class="el" href="canOpenDriver_8c-source.html#l00505">canSend()</a>, <a class="el" href="can_8h-source.html#l00042">Message::cob_id</a>, <a class="el" href="timer_8h-source.html#l00045">struct_s_timer_entry::d</a>, <a class="el" href="can_8h-source.html#l00046">Message::data</a>, <a class="el" href="can_8h-source.html#l00045">Message::len</a>, <a class="el" href="hcs12_2applicfg_8h-source.html#l00190">MSG_WAR</a>, <a class="el" href="def_8h-source.html#l00099">NODE_GUARD</a>, <a class="el" href="def_8h-source.html#l00055">NOT_A_REQUEST</a>, <a class="el" href="can_8h-source.html#l00043">Message::rtr</a>, and <a class="el" href="can_8h-source.html#l00036">SHORT_CAN::w</a>.
+<p>
 Referenced by <a class="el" href="states_8c-source.html#l00120">switchCommunicationState()</a>.
+<p>
+Here is the call graph for this function:<p><center><img src="nmtSlave_8c_aced28a97b2c256320dfde3c4b36a7d5_cgraph.png" border="0" usemap="#nmtSlave_8c_aced28a97b2c256320dfde3c4b36a7d5_cgraph_map" alt=""></center>
+<map name="nmtSlave_8c_aced28a97b2c256320dfde3c4b36a7d5_cgraph_map">
+<area href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977" shape="rect" coords="196,6,276,30" alt="">
+<area href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba" shape="rect" coords="327,6,457,30" alt="">
+</map>
+
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:06 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:52:11 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

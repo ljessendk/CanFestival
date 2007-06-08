@@ -1,0 +1,4 @@
+base referer
+rect $Master_8c.html 343,6 604,30
+rect $Slave_8c.html 347,54 600,78
+rect $TestMasterSlave_8c.html 311,102 636,126

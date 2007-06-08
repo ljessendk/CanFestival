@@ -1,0 +1,4 @@
+base referer
+rect $can_8h.html 272,54 331,78
+rect $objdictdef_8h.html 251,102 352,126
+rect $win32_2applicfg_8h.html 401,54 489,78

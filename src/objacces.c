@@ -110,7 +110,7 @@ UNS32 _getODentry( CO_Data* d,
                    UNS8 * pDataType,
                    UNS8 checkAccess,
                    UNS8 endianize)
-{ /*! DO NOT USE MSG_ERR because the macro may send a PDO -> infinite
+{ /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite
     loop if it fails. */
   UNS32 errorCode;
   UNS8 szData;
@@ -139,12 +139,12 @@ UNS32 _getODentry( CO_Data* d,
   if(*pExpectedSize == 0 ||
      *pExpectedSize == szData ||
      (*pDataType == visible_string && *pExpectedSize < szData)) {
-    /*! We
+    /* We
       allow to fetch a shorter string than expected */
 
 #  ifdef CANOPEN_BIG_ENDIAN
     if(endianize && *pDataType > boolean && *pDataType < visible_string) {
-      /*! data must be transmited with low byte first */
+      /* data must be transmited with low byte first */
       UNS8 i, j = 0;
       MSG_WAR(boolean, "data type ", *pDataType);
       MSG_WAR(visible_string, "data type ", *pDataType);
@@ -154,7 +154,7 @@ UNS32 _getODentry( CO_Data* d,
           ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
       }
     }
-    else /*! It it is a visible string no endianisation to perform */
+    else /* It it is a visible string no endianisation to perform */
       memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
 #  else
     memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
@@ -162,7 +162,7 @@ UNS32 _getODentry( CO_Data* d,
 
     *pExpectedSize = szData;
 #if 0
-    /*! Me laisser a, please ! (FD) */
+    /* Me laisser a, please ! (FD) */
     {
       UNS8 i;
       for (i = 0 ; i < 10 ; i++) {
@@ -174,7 +174,7 @@ UNS32 _getODentry( CO_Data* d,
 #endif
     return OD_SUCCESSFUL;
   }
-  else { /*! Error ! */
+  else { /* Error ! */
     *pExpectedSize = szData;
     accessDictionaryError(wIndex, bSubindex, szData,
                           *pExpectedSize, OD_LENGTH_DATA_INVALID);
@@ -276,7 +276,7 @@ UNS32 _setODentry( CO_Data* d,
     return errorCode;
 
   if( ptrTable->bSubCount <= bSubindex ) {
-    /*! Subindex not found */
+    /* Subindex not found */
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_NO_SUCH_SUBINDEX);
     return OD_NO_SUCH_SUBINDEX;
   }
@@ -298,9 +298,9 @@ UNS32 _setODentry( CO_Data* d,
 #ifdef CANOPEN_BIG_ENDIAN
       if(endianize && dataType > boolean && dataType < visible_string)
         {
-          /*! we invert the data source directly. This let us do range
+          /* we invert the data source directly. This let us do range
             testing without */
-          /*! additional temp variable */
+          /* additional temp variable */
           UNS8 i;
           for ( i = 0 ; i < ( ptrTable->pSubindex[bSubindex].size >> 1)  ; i++)
             {
@@ -318,12 +318,12 @@ UNS32 _setODentry( CO_Data* d,
       memcpy(ptrTable->pSubindex[bSubindex].pObject,pSourceData, *pExpectedSize);
       *pExpectedSize = szData;
 
-      /*! Callbacks */
+      /* Callbacks */
       if(Callback && Callback[bSubindex]){
         (*Callback[bSubindex])(d, ptrTable, bSubindex);
       }
 
-      /*! TODO : Store dans NVRAM */
+      /* TODO : Store dans NVRAM */
       if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
         (*d->storeODSubIndex)(wIndex, bSubindex);
       }

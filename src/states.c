@@ -70,7 +70,7 @@ void canDispatch(CO_Data* d, Message *m)
 			if(d->CurrentCommunicationState.csSYNC)
 				proceedSYNC(d,m);
 			break;
-		/** case TIME_STAMP: */
+		/* case TIME_STAMP: */
 		case PDO1tx:
 		case PDO1rx:
 		case PDO2tx:
@@ -146,11 +146,11 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Initialisation:
 			{
 				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0};
-				/** This will force a second loop for the state switch */
+				/* This will force a second loop for the state switch */
 				d->nodeState = Initialisation;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				/** call user app related state func. */
+				/* call user app related state func. */
 				(*d->initialisation)();
 				
 			}
@@ -208,7 +208,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			
 			default:
 				return 0xFF;
-		}/** end switch case */
+		}/* end switch case */
 	
 	}
 	return 0;
@@ -236,15 +236,15 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
   if(offset){
-      /** cob_id_client = 0x600 + nodeId; */
+      /* cob_id_client = 0x600 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
-      /** cob_id_server = 0x580 + nodeId; */
+      /* cob_id_server = 0x580 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
-      /** node Id client. As we do not know the value, we put the node Id Server */
-      /** *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
+      /* node Id client. As we do not know the value, we put the node Id Server */
+      /* *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
   }
 
-  /** 
+  /* 
    	Initialize the server(s) SDO parameters
   	Remember that only one SDO server is allowed, defined at index 0x1200	
  		
@@ -278,7 +278,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
       offset ++;
     }
   }
-  /** bDeviceNodeId is defined in the object dictionary. */
+  /* bDeviceNodeId is defined in the object dictionary. */
   *d->bDeviceNodeId = nodeId;
 }
 

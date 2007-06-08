@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/nmtMaster.c Source File</title>
+<title>CanFestival: src/nmtMaster.c Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,14 +8,18 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/nmtMaster.c</h1><a href="nmtMaster_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>nmtMaster.c</h1><a href="nmtMaster_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">  This file is part of CanFestival, a library implementing CanOpen</span>
 <a name="l00003"></a>00003 <span class="comment">  Stack.</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
@@ -38,52 +42,60 @@
 <a name="l00021"></a>00021 <span class="comment">  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307</span>
 <a name="l00022"></a>00022 <span class="comment">  USA</span>
 <a name="l00023"></a>00023 <span class="comment">*/</span>
-<a name="l00033"></a>00033 <span class="preprocessor">#include "nmtMaster.h"</span>
-<a name="l00034"></a>00034 <span class="preprocessor">#include "canfestival.h"</span>
+<a name="l00033"></a>00033 <span class="preprocessor">#include "<a class="code" href="nmtMaster_8h.html">nmtMaster.h</a>"</span>
+<a name="l00034"></a>00034 <span class="preprocessor">#include "<a class="code" href="win32_2canfestival_8h.html">canfestival.h</a>"</span>
 <a name="l00035"></a>00035 
-<a name="l00045"></a><a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">00045</a> UNS8 <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a>(CO_Data* d, UNS8 Node_ID, UNS8 cs)
+<a name="l00045"></a><a class="code" href="nmtMaster_8h.html#6170d95d9900ef756921a934c5fb37d2">00045</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Node_ID, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> cs)
 <a name="l00046"></a>00046 {
-<a name="l00047"></a>00047   Message m;
+<a name="l00047"></a>00047   <a class="code" href="structMessage.html">Message</a> m;
 <a name="l00048"></a>00048 
-<a name="l00049"></a>00049   MSG_WAR(0x3501, <span class="stringliteral">"Send_NMT cs : "</span>, cs);
-<a name="l00050"></a>00050   MSG_WAR(0x3502, <span class="stringliteral">"    to node : "</span>, Node_ID);
-<a name="l00052"></a>00052   m.cob_id.w = 0x0000; <span class="comment">/*(NMT) &lt;&lt; 7*/</span>
-<a name="l00053"></a>00053   m.rtr = NOT_A_REQUEST;
-<a name="l00054"></a>00054   m.len = 2;
-<a name="l00055"></a>00055   m.data[0] = cs;
-<a name="l00056"></a>00056   m.data[1] = Node_ID;
+<a name="l00049"></a>00049   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3501, <span class="stringliteral">"Send_NMT cs : "</span>, cs);
+<a name="l00050"></a>00050   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3502, <span class="stringliteral">"    to node : "</span>, Node_ID);
+<a name="l00051"></a>00051   <span class="comment">/* message configuration */</span>
+<a name="l00052"></a>00052   m.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = 0x0000; <span class="comment">/*(NMT) &lt;&lt; 7*/</span>
+<a name="l00053"></a>00053   m.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = <a class="code" href="def_8h.html#0c43b00ce49efc3586ad17dd80d73940">NOT_A_REQUEST</a>;
+<a name="l00054"></a>00054   m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = 2;
+<a name="l00055"></a>00055   m.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[0] = cs;
+<a name="l00056"></a>00056   m.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[1] = Node_ID;
 <a name="l00057"></a>00057 
-<a name="l00058"></a>00058   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
+<a name="l00058"></a>00058   <span class="keywordflow">return</span> <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>,&amp;m);
 <a name="l00059"></a>00059 }
 <a name="l00060"></a>00060 
 <a name="l00061"></a>00061 
-<a name="l00070"></a><a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">00070</a> UNS8 <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(CO_Data* d, UNS8 nodeId)
+<a name="l00070"></a><a class="code" href="nmtMaster_8h.html#f63689baeabb15103c2b7afe8885c5c4">00070</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
 <a name="l00071"></a>00071 {
-<a name="l00072"></a>00072   Message m;
+<a name="l00072"></a>00072   <a class="code" href="structMessage.html">Message</a> m;
 <a name="l00073"></a>00073 
-<a name="l00074"></a>00074   MSG_WAR(0x3503, <span class="stringliteral">"Send_NODE_GUARD to node : "</span>, nodeId);
+<a name="l00074"></a>00074   <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3503, <span class="stringliteral">"Send_NODE_GUARD to node : "</span>, nodeId);
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076   <span class="comment">/* message configuration */</span>
-<a name="l00077"></a>00077   m.cob_id.w = nodeId | (NODE_GUARD &lt;&lt; 7);
-<a name="l00078"></a>00078   m.rtr = REQUEST;
-<a name="l00079"></a>00079   m.len = 1;
+<a name="l00077"></a>00077   m.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = nodeId | (<a class="code" href="def_8h.html#78d5d3f71db9f360c9e3d3953707b0c1">NODE_GUARD</a> &lt;&lt; 7);
+<a name="l00078"></a>00078   m.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = <a class="code" href="def_8h.html#6baece8be8f9ab55223d41b535511b6f">REQUEST</a>;
+<a name="l00079"></a>00079   m.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = 1;
 <a name="l00080"></a>00080 
-<a name="l00081"></a>00081   <span class="keywordflow">return</span> canSend(d-&gt;canHandle,&amp;m);
+<a name="l00081"></a>00081   <span class="keywordflow">return</span> <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>,&amp;m);
 <a name="l00082"></a>00082 }
 <a name="l00083"></a>00083 
-<a name="l00090"></a><a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">00090</a> <span class="keywordtype">void</span> <a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a>(CO_Data* d, UNS8 nodeId)
+<a name="l00090"></a><a class="code" href="nmtMaster_8h.html#98bee3f402438056dbd653e752054796">00090</a> <span class="keywordtype">void</span> <a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
 <a name="l00091"></a>00091 {
-<a name="l00097"></a>00097   d-&gt;NMTable[nodeId] = Unknown_state; 
-<a name="l00100"></a>00100   <span class="keywordflow">if</span> (nodeId == 0) { 
-<a name="l00101"></a>00101     UNS8 i = 0;
-<a name="l00102"></a>00102     <span class="keywordflow">for</span> (i = 0 ; i &lt; NMT_MAX_NODE_ID ; i++) {
-<a name="l00103"></a>00103       d-&gt;NMTable[i] = Unknown_state;
+<a name="l00092"></a>00092   <span class="comment">/* FIXME: should warn for bad toggle bit. */</span>
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094   <span class="comment">/* NMTable configuration to indicate that the master is waiting</span>
+<a name="l00095"></a>00095 <span class="comment">    for a Node_Guard frame from the slave whose node_id is ID</span>
+<a name="l00096"></a>00096 <span class="comment">  */</span>
+<a name="l00097"></a>00097   <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[nodeId] = <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646cb4b5cb64be091d76f846380eb0afe59">Unknown_state</a>; <span class="comment">/* A state that does not exist</span>
+<a name="l00098"></a>00098 <span class="comment">                                       */</span>
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100   <span class="keywordflow">if</span> (nodeId == 0) { <span class="comment">/* NMT broadcast */</span>
+<a name="l00101"></a>00101     <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> i = 0;
+<a name="l00102"></a>00102     <span class="keywordflow">for</span> (i = 0 ; i &lt; <a class="code" href="config_8h.html#89f774dfdb67cc1f78c7e7d457a16fdc">NMT_MAX_NODE_ID</a> ; i++) {
+<a name="l00103"></a>00103       <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[i] = <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646cb4b5cb64be091d76f846380eb0afe59">Unknown_state</a>;
 <a name="l00104"></a>00104     }
 <a name="l00105"></a>00105   }
-<a name="l00106"></a>00106   <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(d,nodeId);
+<a name="l00106"></a>00106   <a class="code" href="nmtMaster_8c.html#f63689baeabb15103c2b7afe8885c5c4">masterSendNMTnodeguard</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>,nodeId);
 <a name="l00107"></a>00107 }
 <a name="l00108"></a>00108 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

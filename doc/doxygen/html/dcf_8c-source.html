@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/dcf.c Source File</title>
+<title>CanFestival: src/dcf.c Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,14 +8,18 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/dcf.c</h1><a href="dcf_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>dcf.c</h1><a href="dcf_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">  This file is part of CanFestival, a library implementing CanOpen</span>
 <a name="l00003"></a>00003 <span class="comment">  Stack.</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
@@ -40,91 +44,97 @@
 <a name="l00023"></a>00023 <span class="comment">*/</span>
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 
-<a name="l00035"></a>00035 <span class="preprocessor">#include "objacces.h"</span>
-<a name="l00036"></a>00036 <span class="preprocessor">#include "sdo.h"</span>
-<a name="l00037"></a>00037 <span class="preprocessor">#include "dcf.h"</span>
-<a name="l00038"></a>00038 <span class="preprocessor">#include "sysdep.h"</span>
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 
-<a name="l00054"></a>00054 <span class="keyword">extern</span> UNS8 <a class="code" href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a> (CO_Data* d, UNS8 nodeId, UNS16 index,
-<a name="l00055"></a>00055                                UNS8 subIndex, UNS8 count, UNS8 dataType, <span class="keywordtype">void</span> *data, SDOCallback_t Callback, UNS8 endianize);
+<a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="objacces_8h.html">objacces.h</a>"</span>
+<a name="l00038"></a>00038 <span class="preprocessor">#include "<a class="code" href="sdo_8h.html">sdo.h</a>"</span>
+<a name="l00039"></a>00039 <span class="preprocessor">#include "<a class="code" href="dcf_8h.html">dcf.h</a>"</span>
+<a name="l00040"></a>00040 <span class="preprocessor">#include "<a class="code" href="sysdep_8h.html">sysdep.h</a>"</span>
+<a name="l00041"></a>00041 
+<a name="l00042"></a>00042 <span class="keyword">extern</span> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> index,
+<a name="l00043"></a>00043                                <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> subIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> count, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> dataType, <span class="keywordtype">void</span> *data, <a class="code" href="sdo_8h.html#606eccfef67e572723e1efba3f0d87ba">SDOCallback_t</a> Callback, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> endianize);
+<a name="l00044"></a>00044 
+<a name="l00045"></a><a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">00045</a> <span class="keyword">const</span> <a class="code" href="structtd__indextable.html">indextable</a> *<a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>;
+<a name="l00046"></a>00046 
+<a name="l00053"></a>00053 <span class="keyword">static</span> <span class="keywordtype">void</span> CheckSDOAndContinue(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
+<a name="l00054"></a>00054 {
+<a name="l00055"></a>00055   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> abortCode;
 <a name="l00056"></a>00056 
-<a name="l00057"></a><a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">00057</a> <span class="keyword">const</span> indextable *<a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>;
-<a name="l00058"></a>00058 
-<a name="l00065"></a>00065 <span class="keyword">static</span> <span class="keywordtype">void</span> CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
-<a name="l00066"></a>00066 {
-<a name="l00067"></a>00067   UNS32 abortCode;
-<a name="l00068"></a>00068 
-<a name="l00069"></a>00069   <span class="keywordflow">if</span>(<a class="code" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (d, nodeId, &amp;abortCode) != SDO_FINISHED)
-<a name="l00070"></a>00070     {
-<a name="l00071"></a>00071       MSG_ERR(0x1A01, <span class="stringliteral">"SDO error in consise DCF"</span>, abortCode);
-<a name="l00072"></a>00072       MSG_WAR(0x2A02, <span class="stringliteral">"server node : "</span>, nodeId);
-<a name="l00073"></a>00073     }
-<a name="l00074"></a>00074 
-<a name="l00075"></a>00075   <a class="code" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a>(d, nodeId, SDO_CLIENT);
-<a name="l00076"></a>00076   <a class="code" href="dcf_8c.html#8452e163e7649968ad6dae1601a5fb0d">decompo_dcf</a>(d,nodeId);
-<a name="l00077"></a>00077 }
-<a name="l00078"></a>00078 
-<a name="l00087"></a><a class="code" href="dcf_8c.html#8452e163e7649968ad6dae1601a5fb0d">00087</a> UNS32 <a class="code" href="dcf_8c.html#8452e163e7649968ad6dae1601a5fb0d">decompo_dcf</a>(CO_Data* d,UNS8 nodeId)
-<a name="l00088"></a>00088 {
-<a name="l00089"></a>00089   UNS32 errorCode;
-<a name="l00090"></a>00090   UNS16 target_Index;
-<a name="l00091"></a>00091   UNS8 target_Subindex;
-<a name="l00092"></a>00092   UNS32 target_Size;
-<a name="l00093"></a>00093   UNS32 res;
-<a name="l00094"></a>00094   ODCallback_t *Callback;
-<a name="l00095"></a>00095 
-<a name="l00096"></a>00096   <a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a> = (*d-&gt;scanIndexOD)(0x1F22, &amp;errorCode, &amp;Callback);
-<a name="l00097"></a>00097   <span class="keywordflow">if</span> (errorCode != OD_SUCCESSFUL)
-<a name="l00098"></a>00098     {
-<a name="l00099"></a>00099       <span class="keywordflow">return</span> errorCode;
-<a name="l00100"></a>00100     }
-<a name="l00101"></a>00101 
-<a name="l00103"></a>00103   <span class="keywordflow">while</span> (nodeId &lt; ptrTable-&gt;bSubCount){
-<a name="l00104"></a>00104     UNS32 nb_targets;
-<a name="l00105"></a>00105 
-<a name="l00106"></a>00106     UNS8 szData = <a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>-&gt;pSubindex[nodeId].size;
-<a name="l00107"></a>00107     UNS8* dcfend;
-<a name="l00108"></a>00108 
-<a name="l00109"></a>00109     {
-<a name="l00110"></a>00110       UNS8* dcf = *((UNS8**)<a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>-&gt;pSubindex[nodeId].pObject);
-<a name="l00111"></a>00111       dcfend = dcf + szData;
-<a name="l00112"></a>00112       <span class="keywordflow">if</span> (!d-&gt;dcf_cursor){
-<a name="l00113"></a>00113         d-&gt;dcf_cursor = (UNS8*)dcf + 4;
-<a name="l00114"></a>00114         d-&gt;dcf_count_targets = 0;
-<a name="l00115"></a>00115       }
-<a name="l00116"></a>00116       nb_targets = UNS32_LE(*((UNS32*)dcf));
-<a name="l00117"></a>00117     }
-<a name="l00118"></a>00118 
-<a name="l00120"></a>00120     <span class="keywordflow">if</span>((UNS8*)d-&gt;dcf_cursor + 7 &lt; (UNS8*)dcfend &amp;&amp; d-&gt;dcf_count_targets &lt; nb_targets)
-<a name="l00121"></a>00121       {
-<a name="l00123"></a>00123         target_Index = UNS16_LE(*((UNS16*)(d-&gt;dcf_cursor))); d-&gt;dcf_cursor += 2;
-<a name="l00124"></a>00124         target_Subindex = *((UNS8*)(((UNS8*)d-&gt;dcf_cursor)++));
-<a name="l00125"></a>00125         target_Size = UNS32_LE(*((UNS32*)(d-&gt;dcf_cursor))); d-&gt;dcf_cursor += 4;
-<a name="l00126"></a>00126 
-<a name="l00127"></a>00127         <span class="comment">/* printf("Master : ConfigureSlaveNode %2.2x (Concise</span>
-<a name="l00128"></a>00128 <span class="comment">          DCF)\n",nodeId);*/</span>
-<a name="l00129"></a>00129         res = <a class="code" href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a>(d, 
-<a name="l00130"></a>00130                                 nodeId, 
-<a name="l00131"></a>00131                                 target_Index, 
-<a name="l00132"></a>00132                                 target_Subindex, 
-<a name="l00133"></a>00133                                 target_Size, 
-<a name="l00134"></a>00134                                 0, 
-<a name="l00135"></a>00135                                 d-&gt;dcf_cursor,
-<a name="l00136"></a>00136                                 CheckSDOAndContinue,
-<a name="l00138"></a>00138                                 0); 
-<a name="l00141"></a>00141         d-&gt;dcf_cursor += target_Size;
-<a name="l00142"></a>00142         d-&gt;dcf_count_targets++;
-<a name="l00143"></a>00143 
-<a name="l00144"></a>00144         return ;
-<a name="l00145"></a>00145       }
-<a name="l00146"></a>00146     nodeId++;
-<a name="l00147"></a>00147     d-&gt;dcf_cursor = NULL;
-<a name="l00148"></a>00148   }
-<a name="l00150"></a>00150   (*d-&gt;preOperational)();
-<a name="l00151"></a>00151 
-<a name="l00152"></a>00152 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
+<a name="l00057"></a>00057   <span class="keywordflow">if</span>(<a class="code" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, nodeId, &amp;abortCode) != <a class="code" href="def_8h.html#7d9dad1485ed532424092d21b1e22ad2">SDO_FINISHED</a>)
+<a name="l00058"></a>00058     {
+<a name="l00059"></a>00059       <a class="code" href="hcs12_2applicfg_8h.html#99178e2619db849578b20df5aa241844">MSG_ERR</a>(0x1A01, <span class="stringliteral">"SDO error in consise DCF"</span>, abortCode);
+<a name="l00060"></a>00060       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x2A02, <span class="stringliteral">"server node : "</span>, nodeId);
+<a name="l00061"></a>00061     }
+<a name="l00062"></a>00062 
+<a name="l00063"></a>00063   <a class="code" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a>(d, nodeId, <a class="code" href="def_8h.html#b1dccfddc653c2a7c4eaf3e1cc8d8e57">SDO_CLIENT</a>);
+<a name="l00064"></a>00064   <a class="code" href="dcf_8c.html#8452e163e7649968ad6dae1601a5fb0d">decompo_dcf</a>(d,nodeId);
+<a name="l00065"></a>00065 }
+<a name="l00066"></a>00066 
+<a name="l00075"></a><a class="code" href="dcf_8h.html#8452e163e7649968ad6dae1601a5fb0d">00075</a> <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="dcf_8c.html#8452e163e7649968ad6dae1601a5fb0d">decompo_dcf</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>,<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
+<a name="l00076"></a>00076 {
+<a name="l00077"></a>00077   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> errorCode;
+<a name="l00078"></a>00078   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> target_Index;
+<a name="l00079"></a>00079   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> target_Subindex;
+<a name="l00080"></a>00080   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> target_Size;
+<a name="l00081"></a>00081   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> res;
+<a name="l00082"></a>00082   <a class="code" href="objdictdef_8h.html#91481b154cacc926ae5824fd121d6b43">ODCallback_t</a> *Callback;
+<a name="l00083"></a>00083 
+<a name="l00084"></a>00084   <a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a> = (*<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#1863bd74fef91ec89b4c1ff0bee2dfbf">scanIndexOD</a>)(0x1F22, &amp;errorCode, &amp;Callback);
+<a name="l00085"></a>00085   <span class="keywordflow">if</span> (errorCode != <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a>)
+<a name="l00086"></a>00086     {
+<a name="l00087"></a>00087       <span class="keywordflow">return</span> errorCode;
+<a name="l00088"></a>00088     }
+<a name="l00089"></a>00089 
+<a name="l00090"></a>00090   <span class="comment">/* Loop on all Nodes supported in DCF subindexes*/</span>
+<a name="l00091"></a>00091   <span class="keywordflow">while</span> (nodeId &lt; ptrTable-&gt;bSubCount){
+<a name="l00092"></a>00092     <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> nb_targets;
+<a name="l00093"></a>00093 
+<a name="l00094"></a>00094     <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> szData = <a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>-&gt;<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[nodeId].<a class="code" href="structtd__subindex.html#660ca8ed5b240340229cfd07c6700d1b">size</a>;
+<a name="l00095"></a>00095     <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* dcfend;
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097     {
+<a name="l00098"></a>00098       <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* dcf = *((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>**)<a class="code" href="dcf_8c.html#8bddcdce84393146515136d33d063060">ptrTable</a>-&gt;<a class="code" href="structtd__indextable.html#fdd93efce94f77d57c5778e04a6a225c">pSubindex</a>[nodeId].<a class="code" href="structtd__subindex.html#6c83d4e45acd437dcd6746fcf9b7495a">pObject</a>);
+<a name="l00099"></a>00099       dcfend = dcf + szData;
+<a name="l00100"></a>00100       <span class="keywordflow">if</span> (!<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a>){
+<a name="l00101"></a>00101         <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)dcf + 4;
+<a name="l00102"></a>00102         <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#0a588710c53092b75cfe284ca7d9ccff">dcf_count_targets</a> = 0;
+<a name="l00103"></a>00103       }
+<a name="l00104"></a>00104       nb_targets = <a class="code" href="sysdep_8h.html#24e48010face63118a10d3131d3aff62">UNS32_LE</a>(*((<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>*)dcf));
+<a name="l00105"></a>00105     }
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107     <span class="comment">/* condition on consise DCF string for NodeID, if big enough */</span>
+<a name="l00108"></a>00108     <span class="keywordflow">if</span>((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> + 7 &lt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)dcfend &amp;&amp; <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#0a588710c53092b75cfe284ca7d9ccff">dcf_count_targets</a> &lt; nb_targets)
+<a name="l00109"></a>00109       {
+<a name="l00110"></a>00110         <span class="comment">/* pointer to the DCF string for NodeID */</span>
+<a name="l00111"></a>00111         target_Index = <a class="code" href="sysdep_8h.html#7a262e4934564880db4adc361da54d59">UNS16_LE</a>(*((<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>*)(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a>))); <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> += 2;
+<a name="l00112"></a>00112         target_Subindex = *((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)(((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>*)<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a>)++));
+<a name="l00113"></a>00113         target_Size = <a class="code" href="sysdep_8h.html#24e48010face63118a10d3131d3aff62">UNS32_LE</a>(*((<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>*)(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a>))); <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> += 4;
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115         <span class="comment">/* printf("Master : ConfigureSlaveNode %2.2x (Concise</span>
+<a name="l00116"></a>00116 <span class="comment">          DCF)\n",nodeId);*/</span>
+<a name="l00117"></a>00117         res = <a class="code" href="dcf_8c.html#3c07605ffe3ea197aa36e583ef87a20a">_writeNetworkDict</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <span class="comment">/* CO_Data* d*/</span>
+<a name="l00118"></a>00118                                 nodeId, <span class="comment">/* UNS8 nodeId*/</span>
+<a name="l00119"></a>00119                                 target_Index, <span class="comment">/* UNS16 index*/</span>
+<a name="l00120"></a>00120                                 target_Subindex, <span class="comment">/* UNS8 subindex*/</span>
+<a name="l00121"></a>00121                                 target_Size, <span class="comment">/* UNS8 count*/</span>
+<a name="l00122"></a>00122                                 0, <span class="comment">/* UNS8 dataType*/</span>
+<a name="l00123"></a>00123                                 <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a>,<span class="comment">/* void *data*/</span>
+<a name="l00124"></a>00124                                 CheckSDOAndContinue,<span class="comment">/* SDOCallback_t</span>
+<a name="l00125"></a>00125 <span class="comment">                                                      Callback*/</span>
+<a name="l00126"></a>00126                                 0); <span class="comment">/* no endianize*/</span>
+<a name="l00127"></a>00127         <span class="comment">/* Push d-&gt;dcf_cursor to the end of data*/</span>
+<a name="l00128"></a>00128 
+<a name="l00129"></a>00129         <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> += target_Size;
+<a name="l00130"></a>00130         <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#0a588710c53092b75cfe284ca7d9ccff">dcf_count_targets</a>++;
+<a name="l00131"></a>00131 
+<a name="l00132"></a>00132         return ;
+<a name="l00133"></a>00133       }
+<a name="l00134"></a>00134     nodeId++;
+<a name="l00135"></a>00135     <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#de0a65bcf0cb16fd4dafe4d866655aab">dcf_cursor</a> = NULL;
+<a name="l00136"></a>00136   }
+<a name="l00137"></a>00137   <span class="comment">/*  Switch Master to preOperational state */</span>
+<a name="l00138"></a>00138   (*<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#d7c66fb721e3f6279a6ff03bf91d82e2">preOperational</a>)();
+<a name="l00139"></a>00139 
+<a name="l00140"></a>00140 }
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

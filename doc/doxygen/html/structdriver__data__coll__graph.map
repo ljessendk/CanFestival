@@ -1,0 +1,8 @@
+base referer
+rect $structstruct__CO__Data.html 300,202 425,226
+rect $structtd__indextable.html 5,98 120,122
+rect $structtd__subindex.html 11,7 115,31
+rect $structs__quick__index.html 144,98 259,122
+rect $structstruct__s__process__var.html 283,98 443,122
+rect $structs__state__communication.html 467,98 648,122
+rect $structstruct__s__transfer.html 693,98 827,122

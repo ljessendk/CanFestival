@@ -108,22 +108,22 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
             }
           else
             d->toggle = 1 ;
-          /*! send the nodeguard response. */
+          /* send the nodeguard response. */
           MSG_WAR(0x3130, "Sending NMT Nodeguard to master, state: ", d->nodeState);
           canSend(d->canHandle,&msg );
         }
 
-    }else{ /*! Not a request CAN */
+    }else{ /* Not a request CAN */
 
       MSG_WAR(0x3110, "Received NMT nodeId : ", nodeId);
-      /*! the slave's state receievd is stored in the NMTable */
-      /*! The state is stored on 7 bit */
+      /* the slave's state receievd is stored in the NMTable */
+      /* The state is stored on 7 bit */
       d->NMTable[nodeId] = (e_nodeState) ((*m).data[0] & 0x7F) ;
 
-      /*! Boot-Up frame reception */
+      /* Boot-Up frame reception */
       if ( d->NMTable[nodeId] == Initialisation)
         {
-          /*!
+          /*
           ** The device send the boot-up message (Initialisation)
           ** to indicate the master that it is entered in
           ** pre_operational mode
@@ -163,7 +163,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
   if(*d->ProducerHeartBeatTime)
     {
       Message msg;
-      /*! Time expired, the heartbeat must be sent immediately
+      /* Time expired, the heartbeat must be sent immediately
       ** generate the correct node-id: this is done by the offset 1792
       ** (decimal) and additionaly
       ** the node-id of this device.
@@ -172,8 +172,8 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
       msg.cob_id.w = *d->bDeviceNodeId + 0x700;
       msg.len = (UNS8)0x01;
       msg.rtr = 0;
-      msg.data[0] = d->nodeState; /*! No toggle for heartbeat !*/
-      /*! send the heartbeat */
+      msg.data[0] = d->nodeState; /* No toggle for heartbeat !*/
+      /* send the heartbeat */
       MSG_WAR(0x3130, "Producing heartbeat: ", d->nodeState);
       canSend(d->canHandle,&msg );
 
@@ -206,7 +206,7 @@ UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unsused_indextabl
 void heartbeatInit(CO_Data* d)
 {
 
-  UNS8 index; /*! Index to scan the table of heartbeat consumers */
+  UNS8 index; /* Index to scan the table of heartbeat consumers */
   RegisterSetODentryCallBack(d, 0x1017, 0x00, &OnHeartbeatProducerUpdate);
 
   d->toggle = 0;
@@ -214,7 +214,7 @@ void heartbeatInit(CO_Data* d)
   for( index = (UNS8)0x00; index < *d->ConsumerHeartbeatCount; index++ )
     {
       TIMEVAL time = (UNS16) ( (d->ConsumerHeartbeatEntries[index]) & (UNS32)0x0000FFFF ) ;
-      /*! MSG_WAR(0x3121, "should_time : ", should_time ) ; */
+      /* MSG_WAR(0x3121, "should_time : ", should_time ) ; */
       if ( time )
         {
           d->ConsumerHeartBeatTimers[index] = SetAlarm(d, index, &ConsumerHearbeatAlarm, MS_TO_TIMEVAL(time), 0);

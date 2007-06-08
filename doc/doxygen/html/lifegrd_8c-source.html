@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head><meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1">
-<title>CanFestival: /home/epimerde/documents/tc11/CanFestival-3/src/lifegrd.c Source File</title>
+<title>CanFestival: src/lifegrd.c Source File</title>
 <link href="doxygen.css" rel="stylesheet" type="text/css">
 <link href="tabs.css" rel="stylesheet" type="text/css">
 </head><body>
@@ -8,14 +8,18 @@
 <div class="tabs">
   <ul>
     <li><a href="main.html"><span>Main&nbsp;Page</span></a></li>
+    <li><a href="annotated.html"><span>Data&nbsp;Structures</span></a></li>
     <li id="current"><a href="files.html"><span>Files</span></a></li>
+    <li><a href="dirs.html"><span>Directories</span></a></li>
   </ul></div>
 <div class="tabs">
   <ul>
     <li><a href="files.html"><span>File&nbsp;List</span></a></li>
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
-<h1>/home/epimerde/documents/tc11/CanFestival-3/src/lifegrd.c</h1><a href="lifegrd_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
+<div class="nav">
+<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<h1>lifegrd.c</h1><a href="lifegrd_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">  This file is part of CanFestival, a library implementing CanOpen</span>
 <a name="l00003"></a>00003 <span class="comment">  Stack.</span>
 <a name="l00004"></a>00004 <span class="comment"></span>
@@ -39,142 +43,164 @@
 <a name="l00022"></a>00022 <span class="comment">  USA</span>
 <a name="l00023"></a>00023 <span class="comment">*/</span>
 <a name="l00024"></a>00024 
-<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;data.h&gt;</span>
-<a name="l00036"></a>00036 <span class="preprocessor">#include "lifegrd.h"</span>
-<a name="l00037"></a>00037 <span class="preprocessor">#include "canfestival.h"</span>
+<a name="l00035"></a>00035 <span class="preprocessor">#include &lt;<a class="code" href="data_8h.html">data.h</a>&gt;</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#include "<a class="code" href="lifegrd_8h.html">lifegrd.h</a>"</span>
+<a name="l00037"></a>00037 <span class="preprocessor">#include "<a class="code" href="win32_2canfestival_8h.html">canfestival.h</a>"</span>
 <a name="l00038"></a>00038 
 <a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>);
+<a name="l00040"></a>00040 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>);
 <a name="l00041"></a>00041 
 <a name="l00042"></a>00042 
-<a name="l00043"></a>00043 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>);
+<a name="l00043"></a>00043 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>);
 <a name="l00044"></a>00044 
-<a name="l00045"></a>00045 UNS32 <a class="code" href="lifegrd_8c.html#ec7b3543d04cf7d7098b27fba2510696">OnHearbeatProducerUpdate</a>(CO_Data* d, <span class="keyword">const</span> indextable * unsused_indextable, UNS8 unsused_bSubindex);
+<a name="l00045"></a>00045 <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="lifegrd_8c.html#ec7b3543d04cf7d7098b27fba2510696">OnHearbeatProducerUpdate</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <span class="keyword">const</span> <a class="code" href="structtd__indextable.html">indextable</a> * unsused_indextable, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> unsused_bSubindex);
 <a name="l00046"></a>00046 
-<a name="l00055"></a><a class="code" href="lifegrd_8c.html#627254070e45c23f1776e12c524492ff">00055</a> e_nodeState <a class="code" href="lifegrd_8c.html#627254070e45c23f1776e12c524492ff">getNodeState</a> (CO_Data* d, UNS8 nodeId)
+<a name="l00055"></a><a class="code" href="lifegrd_8h.html#627254070e45c23f1776e12c524492ff">00055</a> <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a> <a class="code" href="lifegrd_8c.html#627254070e45c23f1776e12c524492ff">getNodeState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
 <a name="l00056"></a>00056 {
-<a name="l00057"></a>00057   e_nodeState networkNodeState = d-&gt;NMTable[nodeId];
+<a name="l00057"></a>00057   <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a> networkNodeState = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[nodeId];
 <a name="l00058"></a>00058   <span class="keywordflow">return</span> networkNodeState;
 <a name="l00059"></a>00059 }
 <a name="l00060"></a>00060 
-<a name="l00067"></a><a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">00067</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>)
+<a name="l00067"></a><a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">00067</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>)
 <a name="l00068"></a>00068 {
 <a name="l00069"></a>00069   <span class="comment">/*MSG_WAR(0x00, "ConsumerHearbeatAlarm", 0x00);*/</span>
 <a name="l00070"></a>00070 
-<a name="l00072"></a>00072   (*d-&gt;heartbeatError)((UNS8)( ((d-&gt;ConsumerHeartbeatEntries[<span class="keywordtype">id</span>]) &amp; (UNS32)0x00FF0000) &gt;&gt; (UNS8)16 ));
+<a name="l00072"></a>00072   (*<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#2ec2bc87656945d2c7dda7ebe662b245">heartbeatError</a>)((<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)( ((<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#928052654c25135aab556909845fa8ea">ConsumerHeartbeatEntries</a>[<span class="keywordtype">id</span>]) &amp; (<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>)0x00FF0000) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)16 ));
 <a name="l00073"></a>00073 }
 <a name="l00074"></a>00074 
-<a name="l00081"></a><a class="code" href="lifegrd_8c.html#b3248945e06e8b05518beddf665f174d">00081</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#b3248945e06e8b05518beddf665f174d">proceedNODE_GUARD</a>(CO_Data* d, Message* m )
+<a name="l00081"></a><a class="code" href="lifegrd_8h.html#b3248945e06e8b05518beddf665f174d">00081</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#b3248945e06e8b05518beddf665f174d">proceedNODE_GUARD</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="structMessage.html">Message</a>* m )
 <a name="l00082"></a>00082 {
-<a name="l00083"></a>00083   UNS8 nodeId = (UNS8) GET_NODE_ID((*m));
+<a name="l00083"></a>00083   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>) <a class="code" href="objdictdef_8h.html#9a52aa7b754f95659a55cdc46370c588">GET_NODE_ID</a>((*m));
 <a name="l00084"></a>00084 
-<a name="l00085"></a>00085   <span class="keywordflow">if</span>((m-&gt;rtr == 1) )
+<a name="l00085"></a>00085   <span class="keywordflow">if</span>((m-&gt;<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> == 1) )
 <a name="l00090"></a>00090     {
-<a name="l00097"></a>00097       <span class="keywordflow">if</span> (nodeId == *d-&gt;bDeviceNodeId )
+<a name="l00097"></a>00097       <span class="keywordflow">if</span> (nodeId == *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e5c35e97a1061bb9737359cc12192269">bDeviceNodeId</a> )
 <a name="l00098"></a>00098         {
-<a name="l00099"></a>00099           Message msg;
-<a name="l00100"></a>00100           msg.cob_id.w = *d-&gt;bDeviceNodeId + 0x700;
-<a name="l00101"></a>00101           msg.len = (UNS8)0x01;
-<a name="l00102"></a>00102           msg.rtr = 0;
-<a name="l00103"></a>00103           msg.data[0] = d-&gt;nodeState;
-<a name="l00104"></a>00104           <span class="keywordflow">if</span> (d-&gt;toggle)
+<a name="l00099"></a>00099           <a class="code" href="structMessage.html">Message</a> msg;
+<a name="l00100"></a>00100           msg.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e5c35e97a1061bb9737359cc12192269">bDeviceNodeId</a> + 0x700;
+<a name="l00101"></a>00101           msg.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x01;
+<a name="l00102"></a>00102           msg.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = 0;
+<a name="l00103"></a>00103           msg.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[0] = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a>;
+<a name="l00104"></a>00104           <span class="keywordflow">if</span> (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#01f012ef56b614a9519530433b01054f">toggle</a>)
 <a name="l00105"></a>00105             {
-<a name="l00106"></a>00106               msg.data[0] |= 0x80 ;
-<a name="l00107"></a>00107               d-&gt;toggle = 0 ;
+<a name="l00106"></a>00106               msg.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[0] |= 0x80 ;
+<a name="l00107"></a>00107               <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#01f012ef56b614a9519530433b01054f">toggle</a> = 0 ;
 <a name="l00108"></a>00108             }
 <a name="l00109"></a>00109           <span class="keywordflow">else</span>
-<a name="l00110"></a>00110             d-&gt;toggle = 1 ;
-<a name="l00112"></a>00112           MSG_WAR(0x3130, <span class="stringliteral">"Sending NMT Nodeguard to master, state: "</span>, d-&gt;nodeState);
-<a name="l00113"></a>00113           canSend(d-&gt;canHandle,&amp;msg );
+<a name="l00110"></a>00110             <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#01f012ef56b614a9519530433b01054f">toggle</a> = 1 ;
+<a name="l00111"></a>00111           <span class="comment">/* send the nodeguard response. */</span>
+<a name="l00112"></a>00112           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3130, <span class="stringliteral">"Sending NMT Nodeguard to master, state: "</span>, <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a>);
+<a name="l00113"></a>00113           <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>,&amp;msg );
 <a name="l00114"></a>00114         }
 <a name="l00115"></a>00115 
-<a name="l00116"></a>00116     }<span class="keywordflow">else</span>{ 
-<a name="l00118"></a>00118       MSG_WAR(0x3110, <span class="stringliteral">"Received NMT nodeId : "</span>, nodeId);
-<a name="l00121"></a>00121       d-&gt;NMTable[nodeId] = (e_nodeState) ((*m).data[0] &amp; 0x7F) ;
+<a name="l00116"></a>00116     }<span class="keywordflow">else</span>{ <span class="comment">/* Not a request CAN */</span>
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3110, <span class="stringliteral">"Received NMT nodeId : "</span>, nodeId);
+<a name="l00119"></a>00119       <span class="comment">/* the slave's state receievd is stored in the NMTable */</span>
+<a name="l00120"></a>00120       <span class="comment">/* The state is stored on 7 bit */</span>
+<a name="l00121"></a>00121       <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[nodeId] = (<a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a>) ((*m).data[0] &amp; 0x7F) ;
 <a name="l00122"></a>00122 
-<a name="l00124"></a>00124       <span class="keywordflow">if</span> ( d-&gt;NMTable[nodeId] == Initialisation)
+<a name="l00123"></a>00123       <span class="comment">/* Boot-Up frame reception */</span>
+<a name="l00124"></a>00124       <span class="keywordflow">if</span> ( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[nodeId] == <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646eb3ae26d7a1629aa0fc6c83f46306cf5">Initialisation</a>)
 <a name="l00125"></a>00125         {
-<a name="l00135"></a>00135           MSG_WAR(0x3100, <span class="stringliteral">"The NMT is a bootup from node : "</span>, nodeId);
+<a name="l00126"></a>00126           <span class="comment">/*</span>
+<a name="l00127"></a>00127 <span class="comment">          ** The device send the boot-up message (Initialisation)</span>
+<a name="l00128"></a>00128 <span class="comment">          ** to indicate the master that it is entered in</span>
+<a name="l00129"></a>00129 <span class="comment">          ** pre_operational mode</span>
+<a name="l00130"></a>00130 <span class="comment">          ** Because the  device enter automaticaly in pre_operational</span>
+<a name="l00131"></a>00131 <span class="comment">          ** mode,</span>
+<a name="l00132"></a>00132 <span class="comment">          ** the pre_operational mode is stored</span>
+<a name="l00133"></a>00133 <span class="comment">          ** NMTable[bus_id][nodeId] = Pre_operational</span>
+<a name="l00134"></a>00134 <span class="comment">          */</span>
+<a name="l00135"></a>00135           <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3100, <span class="stringliteral">"The NMT is a bootup from node : "</span>, nodeId);
 <a name="l00136"></a>00136         }
 <a name="l00137"></a>00137 
-<a name="l00138"></a>00138       <span class="keywordflow">if</span>( d-&gt;NMTable[nodeId] != Unknown_state ) {
-<a name="l00139"></a>00139         UNS8 index, ConsummerHeartBeat_nodeId ;
-<a name="l00140"></a>00140         <span class="keywordflow">for</span>( index = (UNS8)0x00; index &lt; *d-&gt;ConsumerHeartbeatCount; index++ )
+<a name="l00138"></a>00138       <span class="keywordflow">if</span>( <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[nodeId] != <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646cb4b5cb64be091d76f846380eb0afe59">Unknown_state</a> ) {
+<a name="l00139"></a>00139         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> index, ConsummerHeartBeat_nodeId ;
+<a name="l00140"></a>00140         <span class="keywordflow">for</span>( index = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x00; index &lt; *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#51a0927cdf730eca5661d2d1a26b9e43">ConsumerHeartbeatCount</a>; index++ )
 <a name="l00141"></a>00141           {
-<a name="l00142"></a>00142             ConsummerHeartBeat_nodeId = (UNS8)( ((d-&gt;ConsumerHeartbeatEntries[index]) &amp; (UNS32)0x00FF0000) &gt;&gt; (UNS8)16 );
+<a name="l00142"></a>00142             ConsummerHeartBeat_nodeId = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)( ((<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#928052654c25135aab556909845fa8ea">ConsumerHeartbeatEntries</a>[index]) &amp; (<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>)0x00FF0000) &gt;&gt; (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)16 );
 <a name="l00143"></a>00143             if ( nodeId == ConsummerHeartBeat_nodeId )
 <a name="l00144"></a>00144               {
-<a name="l00145"></a>00145                 TIMEVAL time = ( (d-&gt;ConsumerHeartbeatEntries[index]) &amp; (UNS32)0x0000FFFF ) ;
+<a name="l00145"></a>00145                 <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> time = ( (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#928052654c25135aab556909845fa8ea">ConsumerHeartbeatEntries</a>[index]) &amp; (UNS32)0x0000FFFF ) ;
 <a name="l00146"></a>00146                 <span class="comment">/* Renew alarm for next heartbeat. */</span>
-<a name="l00147"></a>00147                 <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;ConsumerHeartBeatTimers[index]);
-<a name="l00148"></a>00148                 d-&gt;ConsumerHeartBeatTimers[index] = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(d, index, &amp;<a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>, MS_TO_TIMEVAL(time), 0);
+<a name="l00147"></a>00147                 <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e0b1fd1bec517c2bc12c5a4fd72adca6">ConsumerHeartBeatTimers</a>[index]);
+<a name="l00148"></a>00148                 <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e0b1fd1bec517c2bc12c5a4fd72adca6">ConsumerHeartBeatTimers</a>[index] = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, index, &amp;<a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>, <a class="code" href="hcs12_2applicfg_8h.html#ee85d2eeabff670269ebc2e00251ac6d">MS_TO_TIMEVAL</a>(time), 0);
 <a name="l00149"></a>00149               }
 <a name="l00150"></a>00150           }
 <a name="l00151"></a>00151       }
 <a name="l00152"></a>00152     }
 <a name="l00153"></a>00153 }
 <a name="l00154"></a>00154 
-<a name="l00161"></a><a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">00161</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>(CO_Data* d, UNS32 <span class="keywordtype">id</span>)
+<a name="l00161"></a><a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">00161</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>)
 <a name="l00162"></a>00162 {
-<a name="l00163"></a>00163   <span class="keywordflow">if</span>(*d-&gt;ProducerHeartBeatTime)
+<a name="l00163"></a>00163   <span class="keywordflow">if</span>(*<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#61d5500b982867b523baf6668a2c377d">ProducerHeartBeatTime</a>)
 <a name="l00164"></a>00164     {
-<a name="l00165"></a>00165       Message msg;
-<a name="l00172"></a>00172       msg.cob_id.w = *d-&gt;bDeviceNodeId + 0x700;
-<a name="l00173"></a>00173       msg.len = (UNS8)0x01;
-<a name="l00174"></a>00174       msg.rtr = 0;
-<a name="l00175"></a>00175       msg.data[0] = d-&gt;nodeState; 
-<a name="l00177"></a>00177       MSG_WAR(0x3130, <span class="stringliteral">"Producing heartbeat: "</span>, d-&gt;nodeState);
-<a name="l00178"></a>00178       canSend(d-&gt;canHandle,&amp;msg );
+<a name="l00165"></a>00165       <a class="code" href="structMessage.html">Message</a> msg;
+<a name="l00166"></a>00166       <span class="comment">/* Time expired, the heartbeat must be sent immediately</span>
+<a name="l00167"></a>00167 <span class="comment">      ** generate the correct node-id: this is done by the offset 1792</span>
+<a name="l00168"></a>00168 <span class="comment">      ** (decimal) and additionaly</span>
+<a name="l00169"></a>00169 <span class="comment">      ** the node-id of this device.</span>
+<a name="l00170"></a>00170 <span class="comment">      */</span>
+<a name="l00171"></a>00171 
+<a name="l00172"></a>00172       msg.<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e5c35e97a1061bb9737359cc12192269">bDeviceNodeId</a> + 0x700;
+<a name="l00173"></a>00173       msg.<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x01;
+<a name="l00174"></a>00174       msg.<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = 0;
+<a name="l00175"></a>00175       msg.<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[0] = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a>; <span class="comment">/* No toggle for heartbeat !*/</span>
+<a name="l00176"></a>00176       <span class="comment">/* send the heartbeat */</span>
+<a name="l00177"></a>00177       <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3130, <span class="stringliteral">"Producing heartbeat: "</span>, <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#a03a5121facf5b21d541f8566a8345d6">nodeState</a>);
+<a name="l00178"></a>00178       <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>,&amp;msg );
 <a name="l00179"></a>00179 
 <a name="l00180"></a>00180     }<span class="keywordflow">else</span>{
-<a name="l00181"></a>00181       d-&gt;ProducerHeartBeatTimer = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;ProducerHeartBeatTimer);
+<a name="l00181"></a>00181       <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#914dd3ff14e15217fe67c0804200a200">ProducerHeartBeatTimer</a> = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#914dd3ff14e15217fe67c0804200a200">ProducerHeartBeatTimer</a>);
 <a name="l00182"></a>00182     }
 <a name="l00183"></a>00183 }
 <a name="l00184"></a>00184 
-<a name="l00194"></a><a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">00194</a> UNS32 <a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">OnHeartbeatProducerUpdate</a>(CO_Data* d, <span class="keyword">const</span> indextable * unsused_indextable, UNS8 unsused_bSubindex)
+<a name="l00194"></a><a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">00194</a> <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">OnHeartbeatProducerUpdate</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <span class="keyword">const</span> <a class="code" href="structtd__indextable.html">indextable</a> * unsused_indextable, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> unsused_bSubindex)
 <a name="l00195"></a>00195 {
-<a name="l00196"></a>00196   <a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">heartbeatStop</a>(d);
-<a name="l00197"></a>00197   <a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">heartbeatInit</a>(d);
+<a name="l00196"></a>00196   <a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">heartbeatStop</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>);
+<a name="l00197"></a>00197   <a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">heartbeatInit</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>);
 <a name="l00198"></a>00198   <span class="keywordflow">return</span> 0;
 <a name="l00199"></a>00199 }
 <a name="l00200"></a>00200 
-<a name="l00206"></a><a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">00206</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">heartbeatInit</a>(CO_Data* d)
+<a name="l00206"></a><a class="code" href="lifegrd_8h.html#8896f6846e4d020390f6953f3d98aa21">00206</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">heartbeatInit</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>)
 <a name="l00207"></a>00207 {
 <a name="l00208"></a>00208 
-<a name="l00209"></a>00209   UNS8 index; 
-<a name="l00210"></a>00210   <a class="code" href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049">RegisterSetODentryCallBack</a>(d, 0x1017, 0x00, &amp;<a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">OnHeartbeatProducerUpdate</a>);
+<a name="l00209"></a>00209   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> index; <span class="comment">/* Index to scan the table of heartbeat consumers */</span>
+<a name="l00210"></a>00210   <a class="code" href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049">RegisterSetODentryCallBack</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, 0x1017, 0x00, &amp;<a class="code" href="lifegrd_8c.html#098c81fb9326fb2c7b43e88a55ce1368">OnHeartbeatProducerUpdate</a>);
 <a name="l00211"></a>00211 
-<a name="l00212"></a>00212   d-&gt;toggle = 0;
+<a name="l00212"></a>00212   <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#01f012ef56b614a9519530433b01054f">toggle</a> = 0;
 <a name="l00213"></a>00213 
-<a name="l00214"></a>00214   <span class="keywordflow">for</span>( index = (UNS8)0x00; index &lt; *d-&gt;ConsumerHeartbeatCount; index++ )
+<a name="l00214"></a>00214   <span class="keywordflow">for</span>( index = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x00; index &lt; *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#51a0927cdf730eca5661d2d1a26b9e43">ConsumerHeartbeatCount</a>; index++ )
 <a name="l00215"></a>00215     {
-<a name="l00216"></a>00216       TIMEVAL time = (UNS16) ( (d-&gt;ConsumerHeartbeatEntries[index]) &amp; (UNS32)0x0000FFFF ) ;
+<a name="l00216"></a>00216       <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> time = (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a>) ( (<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#928052654c25135aab556909845fa8ea">ConsumerHeartbeatEntries</a>[index]) &amp; (<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>)0x0000FFFF ) ;
+<a name="l00217"></a>00217       <span class="comment">/* MSG_WAR(0x3121, "should_time : ", should_time ) ; */</span>
 <a name="l00218"></a>00218       if ( time )
 <a name="l00219"></a>00219         {
-<a name="l00220"></a>00220           d-&gt;ConsumerHeartBeatTimers[index] = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(d, index, &amp;<a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>, MS_TO_TIMEVAL(time), 0);
+<a name="l00220"></a>00220           <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e0b1fd1bec517c2bc12c5a4fd72adca6">ConsumerHeartBeatTimers</a>[index] = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, index, &amp;<a class="code" href="lifegrd_8c.html#e3cd4656f5b2a37d4b8d364293538198">ConsumerHearbeatAlarm</a>, <a class="code" href="hcs12_2applicfg_8h.html#ee85d2eeabff670269ebc2e00251ac6d">MS_TO_TIMEVAL</a>(time), 0);
 <a name="l00221"></a>00221         }
 <a name="l00222"></a>00222     }
 <a name="l00223"></a>00223 
-<a name="l00224"></a>00224   <span class="keywordflow">if</span> ( *d-&gt;ProducerHeartBeatTime )
+<a name="l00224"></a>00224   <span class="keywordflow">if</span> ( *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#61d5500b982867b523baf6668a2c377d">ProducerHeartBeatTime</a> )
 <a name="l00225"></a>00225     {
-<a name="l00226"></a>00226       TIMEVAL time = *d-&gt;ProducerHeartBeatTime;
-<a name="l00227"></a>00227       d-&gt;ProducerHeartBeatTimer = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(d, 0, &amp;<a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>, MS_TO_TIMEVAL(time), MS_TO_TIMEVAL(time));
+<a name="l00226"></a>00226       <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> time = *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#61d5500b982867b523baf6668a2c377d">ProducerHeartBeatTime</a>;
+<a name="l00227"></a>00227       <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#914dd3ff14e15217fe67c0804200a200">ProducerHeartBeatTimer</a> = <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, 0, &amp;<a class="code" href="lifegrd_8c.html#626b7d9e527a898682d9122f91454de9">ProducerHearbeatAlarm</a>, <a class="code" href="hcs12_2applicfg_8h.html#ee85d2eeabff670269ebc2e00251ac6d">MS_TO_TIMEVAL</a>(time), <a class="code" href="hcs12_2applicfg_8h.html#ee85d2eeabff670269ebc2e00251ac6d">MS_TO_TIMEVAL</a>(time));
 <a name="l00228"></a>00228     }
 <a name="l00229"></a>00229 }
 <a name="l00230"></a>00230 
-<a name="l00236"></a><a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">00236</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">heartbeatStop</a>(CO_Data* d)
+<a name="l00236"></a><a class="code" href="lifegrd_8h.html#1b73047269c2a02065e12af18c6053c7">00236</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">heartbeatStop</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>)
 <a name="l00237"></a>00237 {
-<a name="l00238"></a>00238   UNS8 index;
-<a name="l00239"></a>00239   <span class="keywordflow">for</span>( index = (UNS8)0x00; index &lt; *d-&gt;ConsumerHeartbeatCount; index++ )
+<a name="l00238"></a>00238   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> index;
+<a name="l00239"></a>00239   <span class="keywordflow">for</span>( index = (<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>)0x00; index &lt; *<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#51a0927cdf730eca5661d2d1a26b9e43">ConsumerHeartbeatCount</a>; index++ )
 <a name="l00240"></a>00240     {
-<a name="l00241"></a>00241       d-&gt;ConsumerHeartBeatTimers[index + 1] = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;ConsumerHeartBeatTimers[index + 1]);;
+<a name="l00241"></a>00241       <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e0b1fd1bec517c2bc12c5a4fd72adca6">ConsumerHeartBeatTimers</a>[index + 1] = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#e0b1fd1bec517c2bc12c5a4fd72adca6">ConsumerHeartBeatTimers</a>[index + 1]);;
 <a name="l00242"></a>00242     }
 <a name="l00243"></a>00243 
-<a name="l00244"></a>00244   d-&gt;ProducerHeartBeatTimer = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(d-&gt;ProducerHeartBeatTimer);;
+<a name="l00244"></a>00244   <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#914dd3ff14e15217fe67c0804200a200">ProducerHeartBeatTimer</a> = <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>-&gt;<a class="code" href="structstruct__CO__Data.html#914dd3ff14e15217fe67c0804200a200">ProducerHeartBeatTimer</a>);;
 <a name="l00245"></a>00245 }
 <a name="l00246"></a>00246 
-<a name="l00252"></a><a class="code" href="lifegrd_8c.html#5249eb891f5677b80ccf01e604748524">00252</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#5249eb891f5677b80ccf01e604748524">_heartbeatError</a>(UNS8 heartbeatID){}
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Tue Jun 5 18:32:05 2007 for CanFestival by&nbsp;
+<a name="l00252"></a><a class="code" href="lifegrd_8h.html#5249eb891f5677b80ccf01e604748524">00252</a> <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#5249eb891f5677b80ccf01e604748524">_heartbeatError</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> heartbeatID){}
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>
