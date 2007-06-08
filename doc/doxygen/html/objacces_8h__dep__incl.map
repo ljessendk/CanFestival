@@ -1,6 +1,0 @@
-base referer
-rect $dcf_8c.html 224,6 301,30
-rect $objacces_8c.html 204,54 321,78
-rect $pdo_8c.html 221,102 304,126
-rect $sdo_8c.html 223,150 303,174
-rect $data_8h.html 204,198 321,222

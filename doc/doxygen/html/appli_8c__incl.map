@@ -1,7 +1,0 @@
-base referer
-rect $portsaccess_8h.html 342,53 558,77
-rect $ports__def_8h.html 623,128 820,152
-rect $ports_8h.html 364,152 535,176
-rect $interrupt_8h.html 403,200 496,224
-rect $win32_2applicfg_8h.html 406,296 494,320
-rect $objdict_8h.html 410,920 490,944

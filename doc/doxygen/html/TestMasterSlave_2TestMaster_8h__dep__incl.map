@@ -1,6 +1,0 @@
-base referer
-rect $Master_8h.html 357,54 619,78
-rect $TestMasterSlave_2TestMaster_8c.html 344,102 632,126
-rect $Master_8c.html 713,6 975,30
-rect $Slave_8c.html 717,54 971,78
-rect $TestMasterSlave_8c.html 681,102 1007,126

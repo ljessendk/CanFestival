@@ -1,7 +1,0 @@
-base referer
-rect $win32_2canfestival_8h.html 468,104 575,128
-rect $timer_8h.html 487,56 556,80
-rect $timers__driver_8h.html 296,7 419,31
-rect $win32_2timerscfg_8h.html 627,8 726,32
-rect $can__driver_8h.html 624,104 728,128
-rect $data_8h.html 644,56 708,80

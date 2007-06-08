@@ -1,8 +1,0 @@
-base referer
-rect $unix_8c.html#02957f72a9b951603adb98a142bd447b 270,6 352,30
-rect $unix_8c.html#7476146ad15948a22e7f80a00c89c40a 270,54 352,78
-rect $drivers__win32_8cpp.html#c608a4ba478a809fd963a342a24226fd 262,102 360,126
-rect $canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977 271,150 351,174
-rect $classdriver__procs.html#719fa10d86bcd9b7a1ab7bea3dec1d03 176,198 446,222
-rect $canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba 540,150 671,174
-rect $classdriver__procs.html#a1e608bb39ab9183961b7ded9f27d193 494,198 718,222

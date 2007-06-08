@@ -1,8 +1,0 @@
-base referer
-rect $sdo_8c.html#bb0c376b048ab2c6e0524b135b62376f 145,6 287,30
-rect $sdo_8c.html#42d33be015d4c4c83c73f1f0e588f481 161,54 271,78
-rect $sdo_8c.html#b26c3f2fb63d81055809d6ccaa785b7c 156,102 276,126
-rect $sdo_8c.html#b9c873a15f55b29112b5527a6cc6898d 337,54 433,78
-rect $sdo_8c.html#c6b5d7d1439d537da992a96644a1ca5d 344,102 427,126
-rect $canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977 484,102 564,126
-rect $canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba 615,102 745,126
