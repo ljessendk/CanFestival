@@ -192,7 +192,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 	  MSG_ERR(0x1004, "Subindex 2  not found at index ", 0x1800 + pdoNum);
 	  return 0xFF;
 	}
-      pTransmissionType = d->objdict[offsetObjdict].pSubindex[2].pObject;    
+      pTransmissionType = (UNS8*) d->objdict[offsetObjdict].pSubindex[2].pObject;    
       MSG_WAR(0x3005, "Reading PDO at index : ", 0x1800 + pdoNum);
       status = state4; 
       break;     
@@ -215,16 +215,16 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
 	break;
       }      
     case state5:	/* get PDO CobId */
-        pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;     
+        pwCobId = (UNS32*) d->objdict[offsetObjdict].pSubindex[1].pObject;     
 	MSG_WAR(0x3009, "  PDO CobId is : ", *pwCobId);
 	status = state7;
 	break;     
     case state7:  /* get mapped objects number to transmit with this PDO */
-      pMappingCount = d->objdict[offsetObjdictMap].pSubindex[0].pObject;
+      pMappingCount = (UNS8*) d->objdict[offsetObjdictMap].pSubindex[0].pObject;
 	MSG_WAR(0x300D, "  Number of objects mapped : ",*pMappingCount );
 	status = state8;
     case state8:	/* get mapping parameters */
-      pMappingParameter = d->objdict[offsetObjdictMap].pSubindex[prp_j + 1].pObject;
+      pMappingParameter = (UNS32*) d->objdict[offsetObjdictMap].pSubindex[prp_j + 1].pObject;
 	MSG_WAR(0x300F, "  got mapping parameter : ", *pMappingParameter);
 	MSG_WAR(0x3050, "    at index : ", 0x1A00 + pdoNum);
 	MSG_WAR(0x3051, "    sub-index : ", prp_j + 1);

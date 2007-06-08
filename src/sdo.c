@@ -518,7 +518,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       MSG_ERR(0x1A42, "SendSDO : No SDO server found", 0); 
       return 0xFF;
     }
-    pwCobId = d->objdict[offset].pSubindex[2].pObject;
+    pwCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
     MSG_WAR(0x3A41, "I am server. cobId : ", *pwCobId); 
   }
   else {			/*case client*/
@@ -537,7 +537,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
 	MSG_ERR(0x1A28, "Subindex 3  not found at index ", 0x1280 + sdoNum);
 	return 0xFF;
       }
-      pwNodeId = d->objdict[offset].pSubindex[3].pObject;
+      pwNodeId = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
       MSG_WAR(0x3A44, "Found nodeId server = ", *pwNodeId);	
       if(*pwNodeId == sdo.nodeId) {
 	found = 1;
@@ -551,7 +551,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       return 0xFF;
     }
     /* Second, read the cobid client->server */
-    pwCobId = d->objdict[offset].pSubindex[1].pObject;
+    pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
   m.cob_id.w = *pwCobId;
@@ -636,7 +636,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	  MSG_ERR(0x1A61, "Subindex 1  not found at index ", 0x1200 + j);
 	  return 0xFF;
 	}
-      pCobId = d->objdict[offset].pSubindex[1].pObject;
+      pCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
       if ( *pCobId == (*m).cob_id.w ) {
 	whoami = SDO_SERVER;
 	MSG_WAR(0x3A62, "proceedSDO. I am server. index : ", 0x1200 + j);
@@ -659,10 +659,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	 return 0xFF;
        }
        /* a) Looking for the cobid received. */
-       pCobId = d->objdict[offset].pSubindex[2].pObject;
+       pCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
        if (*pCobId == (*m).cob_id.w ) {
 	 /* b) cobid found, so reading the node id of the server. */
-	 pNodeId = d->objdict[offset].pSubindex[3].pObject;
+	 pNodeId = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
 	 whoami = SDO_CLIENT;
 	 nodeId_32 = *pNodeId;
 	 nodeId = (UNS8)nodeId_32;
@@ -1288,7 +1288,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 	 return 0xFF;
      }
      /* looking for the nodeId server */
-     pNodeIdServer = d->objdict[offset].pSubindex[3].pObject;
+     pNodeIdServer = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
      nodeIdServer = *pNodeIdServer;
      MSG_WAR(0x1AD2, "index : ", 0x1280 + i);
      MSG_WAR(0x1AD3, "nodeIdServer : ", nodeIdServer);
@@ -1448,7 +1448,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 	 return 0xFF;
      }
      /* looking for the nodeId server */
-     pNodeIdServer = d->objdict[offset].pSubindex[3].pObject;
+     pNodeIdServer = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
      nodeIdServer = *pNodeIdServer;
    
     if(nodeIdServer == (UNS32)nodeId) {

@@ -194,7 +194,7 @@ UNS8 sendPDOrequest( CO_Data* d, UNS32 cobId )
   if (offset)
     while (offset <= lastIndex) {
       /* get the CobId*/
-      pwCobId = d->objdict[offset].pSubindex[1].pObject;
+      pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
 
       if ( *pwCobId  == cobId ) {
         s_PDO pdo;
@@ -269,7 +269,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
         case state2:
           /* get CobId of the dictionary correspondant to the received
              PDO */
-          pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;
+          pwCobId = (UNS32*) d->objdict[offsetObjdict].pSubindex[1].pObject;
           /* check the CobId coherance */
           /*pwCobId is the cobId read in the dictionary at the state 3
             */
@@ -293,12 +293,12 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
                  dictionnary. */
                offsetObjdict = d->firstIndex->PDO_RCV_MAP;
              lastIndex = d->lastIndex->PDO_RCV_MAP;
-             pMappingCount = (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;
+             pMappingCount = (UNS8*) (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;
              numMap = 0;
              while (numMap < *pMappingCount) {
                UNS8 tmp[]= {0,0,0,0,0,0,0,0};
                UNS8 ByteSize;
-               pMappingParameter = (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
+               pMappingParameter = (UNS32*) (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
                if (pMappingParameter == NULL) {
                  MSG_ERR(0x1937, "Couldn't get mapping parameter : ", numMap + 1);
                  return 0xFF;
@@ -357,7 +357,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
       case state1:/* check the CobId */
         /* get CobId of the dictionary which match to the received PDO
          */
-        pwCobId = (d->objdict + offsetObjdict)->pSubindex[1].pObject;
+        pwCobId = (UNS32*) (d->objdict + offsetObjdict)->pSubindex[1].pObject;
         if ( *pwCobId == (*m).cob_id.w ) {
           status = state4;
           break;
@@ -371,7 +371,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 
 
       case state4:/* check transmission type (after request?) */
-        pTransmissionType = d->objdict[offsetObjdict].pSubindex[2].pObject;
+        pTransmissionType = (UNS8*) d->objdict[offsetObjdict].pSubindex[2].pObject;
         if ( (*pTransmissionType == TRANS_RTR) || (*pTransmissionType == TRANS_RTR_SYNC ) || (*pTransmissionType == TRANS_EVENT) ) {
           status = state5;
           break;
@@ -386,10 +386,10 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
       case state5:/* get mapped objects number */
         offsetObjdict = d->firstIndex->PDO_TRS_MAP;
         lastIndex = d->lastIndex->PDO_TRS_MAP;
-        pMappingCount = (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;
+        pMappingCount = (UNS8*) (d->objdict + offsetObjdict + numPdo)->pSubindex[0].pObject;
         numMap = 0;
         while (numMap < *pMappingCount) {
-          pMappingParameter = (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
+          pMappingParameter = (UNS32*) (d->objdict + offsetObjdict + numPdo)->pSubindex[numMap + 1].pObject;
           /* Get the mapped variable */
           Size = ((UNS8)(((*pMappingParameter) & 0xFF) >> 3));
           objDict = getODentry( d, (UNS16)((*pMappingParameter) >> (UNS8)16),
