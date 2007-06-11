@@ -839,7 +839,6 @@ class objdictedit(wx.Frame):
                 if index not in new_profile:
                     removinglist.append(index)
             self.Manager.ManageEntriesOfCurrent(addinglist, removinglist)
-            self.Manager.GenerateMapList()
             self.Manager.BufferCurrentNode()
             self.RefreshBufferState()
             self.RefreshCurrentIndexList()
