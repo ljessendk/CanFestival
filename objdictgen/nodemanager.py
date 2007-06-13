@@ -1065,7 +1065,7 @@ class NodeManager:
 
     def GetMandatoryIndexes(self, node = None):
         if self.CurrentNode:
-            return self.CurrentNode.GetMapVariableList()
+            return self.CurrentNode.GetMandatoryIndexes()
         else:
             return FindMandatoryIndexes(MappingDictionary)
     
