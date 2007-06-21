@@ -164,6 +164,9 @@ def GenerateFileContent(Manager, headerfilepath):
             if typeinfos[2] == "visible_string":
                 texts["value"] = "\"%s\""%values
                 texts["comment"] = ""
+            elif typeinfos[2] == "domain":
+                texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
+                texts["comment"] = ""
             else:
                 texts["value"] = "0x%X"%values
                 texts["comment"] = "\t/* %s */"%str(values)
@@ -206,7 +209,9 @@ def GenerateFileContent(Manager, headerfilepath):
                                 sep = ""
                             if typeinfos[2] == "visible_string":
                                 value = "\"%s\""%value
-                            else:
+                            elif typeinfos[2] == "domain":
+                                value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
+			    else:
                                 comment = "\t/* %s */"%str(value)
                                 value = "0x%X"%value
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
@@ -243,7 +248,10 @@ def GenerateFileContent(Manager, headerfilepath):
                         if typeinfos[2] == "visible_string":
                             texts["value"] = "\"%s\""%value
                             texts["comment"] = ""
-                        else:
+                        elif typeinfos[2] == "domain":
+                            texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
+                            texts["comment"] = ""			
+			else:
                             texts["value"] = "0x%X"%value
                             texts["comment"] = "\t/* %s */"%str(value)
                         texts["name"] = FormatName(subentry_infos["name"])
@@ -463,7 +471,11 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 #                          Write Header File Content
 #-------------------------------------------------------------------------------
 
+    texts["file_include_name"] = headerfilepath.replace(".", "_").upper()
     HeaderFileContent = generated_tag + """
+#ifdef %(file_include_name)s
+#define %(file_include_name)s
+
 #include "data.h"
 
 /* Prototypes of function provided by object dictionnary */
@@ -472,9 +484,10 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
 
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;
-
 """%texts
     HeaderFileContent += strDeclareHeader
+    
+    HeaderFileContent += "\n#endif // %(file_include_name)s\n"%texts
     
     return fileContent,HeaderFileContent
 

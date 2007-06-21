@@ -395,10 +395,11 @@ class objdictedit(wx.Frame):
         # At init selected = -1
         if selected >= 0:
             window = self.FileOpened.GetPage(selected)
-            self.Manager.ChangeCurrentNode(window.GetIndex())
-            self.RefreshBufferState()
-            self.RefreshStatusBar()
-            self.RefreshProfileMenu()
+            if window:
+                self.Manager.ChangeCurrentNode(window.GetIndex())
+                self.RefreshBufferState()
+                self.RefreshStatusBar()
+                self.RefreshProfileMenu()
         event.Skip()
 
     def OnHelpDS301Menu(self, event):
@@ -453,6 +454,8 @@ class objdictedit(wx.Frame):
             if answer == wxID_YES:
                 self.Manager.ChangeCurrentNode(0)
                 for i in xrange(self.FileOpened.GetPageCount()):
+                    window = self.FileOpened.GetPage(i)
+                    self.Manager.ChangeCurrentNode(window.GetIndex())
                     if self.Manager.CurrentIsSaved():
                         self.Manager.CloseCurrent()
                     else:

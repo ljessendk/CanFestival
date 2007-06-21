@@ -306,9 +306,8 @@ class NodeManager:
         result = eds_utils.GenerateNode(filepath, self.ScriptDirectory)
         if isinstance(result, Node):
             self.CurrentNode = result
-            if len(self.UndoBuffers) == 0:
-                index = self.AddNodeBuffer()
-                self.SetCurrentFilePath("")
+            index = self.AddNodeBuffer()
+            self.SetCurrentFilePath("")
             self.BufferCurrentNode()
             return index
         else:
