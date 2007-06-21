@@ -473,7 +473,7 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
     texts["file_include_name"] = headerfilepath.replace(".", "_").upper()
     HeaderFileContent = generated_tag + """
-#ifdef %(file_include_name)s
+#ifndef %(file_include_name)s
 #define %(file_include_name)s
 
 #include "data.h"
