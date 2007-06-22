@@ -76,3 +76,4 @@ EXPORTS
         _initialisation
         writeNetworkDictCallBack
         _storeODSubIndex
+        decompo_dcf
