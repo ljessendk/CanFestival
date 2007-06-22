@@ -62,13 +62,13 @@ ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, "PARAMETERNAME" : is_string,
 
 # Define entry parameters by entry ObjectType number
 ENTRY_TYPES = {7 : {"name" : " VAR",
-                    "require" : ["PARAMETERNAME", "OBJECTTYPE", "DATATYPE", "ACCESSTYPE", "PDOMAPPING"],
-                    "optional" : ["LOWLIMIT", "HIGHLIMIT", "DEFAULTVALUE", "OBJFLAGS"]},
+                    "require" : ["PARAMETERNAME", "DATATYPE", "ACCESSTYPE"],
+                    "optional" : ["OBJECTTYPE", "DEFAULTVALUE", "PDOMAPPING", "LOWLIMIT", "HIGHLIMIT", "OBJFLAGS"]},
                8 : {"name" : "n ARRAY",
-                    "require" : ["SUBNUMBER", "PARAMETERNAME", "OBJECTTYPE"],
+                    "require" : ["PARAMETERNAME", "OBJECTTYPE", "SUBNUMBER"],
                     "optional" : ["OBJFLAGS"]},
                9 : {"name" : " RECORD",
-                    "require" : ["SUBNUMBER", "PARAMETERNAME", "OBJECTTYPE"],
+                    "require" : ["PARAMETERNAME", "OBJECTTYPE", "SUBNUMBER"],
                     "optional" : ["OBJFLAGS"]}}
 
 
@@ -117,9 +117,9 @@ def ExtractSections(file):
     return [(blocktuple[0],                # EntryName : Assignements dict
              blocktuple[-1].splitlines())  # all the lines
              for blocktuple in [           # Split the eds files into
-             block.split("]")              # (EntryName,Assignements) tuple
+             block.split("]", 1)              # (EntryName,Assignements) tuple
              for block in                  # for each blocks staring with '['
-             file.split("[")]
+             ("\n"+file).split("\n[")]
              if blocktuple[0].isalnum()]   # if EntryName exists
     
 
@@ -145,11 +145,7 @@ def ParseCPJFile(filepath):
                 # Verify that line is a valid assignment
                 elif assignment.find('=') > 0:
                     # Split assignment into the two values keyname and value
-                    # Verify that there is only one '=' character in the line
-                    try:
-                        keyname, value = assignment.split("=")
-                    except:
-                        raise SyntaxError, "\"%s\" is not a valid EDS line"%assignment.strip()
+                    keyname, value = assignment.split("=", 1)
                     
                     # keyname must be immediately followed by the "=" sign, so we
                     # verify that there is no whitespace into keyname
@@ -301,11 +297,8 @@ def ParseEDSFile(filepath):
             # Verify that line is a valid assignment
             elif assignment.find('=') > 0:
                 # Split assignment into the two values keyname and value
-                # Verify that there is only one '=' character in the line
-                try:
-                    keyname, value = assignment.split("=")
-                except:
-                    raise SyntaxError, "\"%s\" is not a valid EDS line"%assignment.strip()
+                keyname, value = assignment.split("=", 1)
+                
                 # keyname must be immediately followed by the "=" sign, so we
                 # verify that there is no whitespace into keyname
                 if keyname.isalnum():
@@ -359,30 +352,31 @@ def ParseEDSFile(filepath):
             if "OBJECTTYPE" in values.keys():
                 # Extract entry ObjectType
                 objecttype = values["OBJECTTYPE"]
-                # Extract parameters defined
-                keys = Set(values.keys())
-                keys.discard("subindexes")
-                # Extract possible parameters and parameters required
-                possible = Set(ENTRY_TYPES[objecttype]["require"] + ENTRY_TYPES[objecttype]["optional"])
-                required = Set(ENTRY_TYPES[objecttype]["require"])
-                # Verify that parameters defined contains all the parameters required
-                if not keys.issuperset(required):
-                    missing = required.difference(keys)._data.keys()
-                    if len(missing) > 1:
-                        attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in missing])
-                    else:
-                        attributes = "Attribute \"%s\" is"%missing[0]
-                    raise SyntaxError, "Error on section \"[%s]\":\n%s required for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
-                # Verify that parameters defined are all in the possible parameters
-                if not keys.issubset(possible):
-                    unsupported = keys.difference(possible)._data.keys()
-                    if len(unsupported) > 1:
-                        attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in unsupported])
-                    else:
-                        attributes = "Attribute \"%s\" is"%unsupported[0]
-                    raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
             else:
-                raise SyntaxError, "Error on section \"[%s]\":\nAttribute OBJECTTYPE is required"%section_name
+                # Set ObjectType to VAR by default
+                objecttype = 7
+            # Extract parameters defined
+            keys = Set(values.keys())
+            keys.discard("subindexes")
+            # Extract possible parameters and parameters required
+            possible = Set(ENTRY_TYPES[objecttype]["require"] + ENTRY_TYPES[objecttype]["optional"])
+            required = Set(ENTRY_TYPES[objecttype]["require"])
+            # Verify that parameters defined contains all the parameters required
+            if not keys.issuperset(required):
+                missing = required.difference(keys)._data.keys()
+                if len(missing) > 1:
+                    attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in missing])
+                else:
+                    attributes = "Attribute \"%s\" is"%missing[0]
+                raise SyntaxError, "Error on section \"[%s]\":\n%s required for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
+            # Verify that parameters defined are all in the possible parameters
+            if not keys.issubset(possible):
+                unsupported = keys.difference(possible)._data.keys()
+                if len(unsupported) > 1:
+                    attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in unsupported])
+                else:
+                    attributes = "Attribute \"%s\" is"%unsupported[0]
+                raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
         
     return eds_dict
 
@@ -649,7 +643,7 @@ def GenerateNode(filepath, cwd, nodeID = 0):
                         Node.AddMappingEntry(entry, 0, values = {"name" : values["PARAMETERNAME"], 
                                                                  "type" : values["DATATYPE"], 
                                                                  "access" : ACCESS_TRANSLATE[values["ACCESSTYPE"]], 
-                                                                 "pdo" : values["PDOMAPPING"] == 1})
+                                                                 "pdo" : values.get("PDOMAPPING", 0) == 1})
                     # Second case, entry is an ARRAY
                     elif values["OBJECTTYPE"] == 8:
                         # Extract maximum subindex number defined
@@ -668,7 +662,7 @@ def GenerateNode(filepath, cwd, nodeID = 0):
                                 Node.AddMappingEntry(entry, subindex, values = {"name" : values["subindexes"][subindex]["PARAMETERNAME"], 
                                                                                 "type" : values["subindexes"][subindex]["DATATYPE"], 
                                                                                 "access" : ACCESS_TRANSLATE[values["subindexes"][subindex]["ACCESSTYPE"]], 
-                                                                                "pdo" : values["subindexes"][subindex]["PDOMAPPING"] == 1})
+                                                                                "pdo" : values["subindexes"][subindex].get("PDOMAPPING", 0) == 1})
                             # if not, we add a mapping for compatibility 
                             else:
                                 Node.AddMappingEntry(entry, subindex, values = {"name" : "Compatibility Entry", "type" : 0x05, "access" : "rw", "pdo" : False})
@@ -686,7 +680,7 @@ def GenerateNode(filepath, cwd, nodeID = 0):
                             Node.AddMappingEntry(entry, 1, values = {"name" : values["PARAMETERNAME"] + " %d[(sub)]", 
                                                                      "type" : values["subindexes"][1]["DATATYPE"], 
                                                                      "access" : ACCESS_TRANSLATE[values["subindexes"][1]["ACCESSTYPE"]], 
-                                                                     "pdo" : values["subindexes"][1]["PDOMAPPING"] == 1})
+                                                                     "pdo" : values["subindexes"][1].get("PDOMAPPING", 0) == 1})
                         else:
                             raise SyntaxError, "Error on entry 0x%4.4X:\nA RECORD entry must have at least 2 subindexes"%entry
                 
