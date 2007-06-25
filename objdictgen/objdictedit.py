@@ -782,7 +782,7 @@ class objdictedit(wx.Frame):
         event.Skip()
 
     def OnExportCMenu(self, event):
-        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival OD files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
+        dialog = wxFileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival C files (*.c)|*.c|All files|*.*", wxSAVE|wxOVERWRITE_PROMPT|wxCHANGE_DIR)
         if dialog.ShowModal() == wxID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):

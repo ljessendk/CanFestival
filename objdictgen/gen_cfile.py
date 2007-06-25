@@ -42,12 +42,7 @@ internal_types = {}
 # Format a string for making a C++ variable
 def FormatName(name):
     wordlist = [word for word in word_model.findall(name) if word != '']
-    result = ''
-    sep = ''
-    for word in wordlist:
-        result += "%s%s"%(sep,word)
-        sep = '_'
-    return result
+    return "_".join(wordlist)
 
 # Extract the informations from a given type name
 def GetValidTypeInfos(typename):
@@ -142,11 +137,12 @@ def GenerateFileContent(Manager, headerfilepath):
     strDeclareCallback = ""
     indexContents = {}
     indexCallbacks = {}
+    translate_characters = "".join([chr(i) for i in xrange(128)] + ["_" for i in xrange(128)])
     for index in listIndex:
         texts["index"] = index
         strIndex = ""
         entry_infos = Manager.GetEntryInfos(index)
-        texts["EntryName"] = entry_infos["name"]
+        texts["EntryName"] = entry_infos["name"].translate(translate_characters)
         values = Manager.GetCurrentEntry(index)
         callbacks = Manager.HasCurrentEntryCallbacks(index)
         if index in variablelist:
@@ -211,7 +207,7 @@ def GenerateFileContent(Manager, headerfilepath):
                                 value = "\"%s\""%value
                             elif typeinfos[2] == "domain":
                                 value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
-			    else:
+                            else:
                                 comment = "\t/* %s */"%str(value)
                                 value = "0x%X"%value
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
@@ -251,7 +247,7 @@ def GenerateFileContent(Manager, headerfilepath):
                         elif typeinfos[2] == "domain":
                             texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
                             texts["comment"] = ""			
-			else:
+                        else:
                             texts["value"] = "0x%X"%value
                             texts["comment"] = "\t/* %s */"%str(value)
                         texts["name"] = FormatName(subentry_infos["name"])

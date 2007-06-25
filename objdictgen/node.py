@@ -625,7 +625,7 @@ class Node:
                         values.append(self.CompileValue(value, index))
                     return values
                 else:
-                    return self.Dictionary[index]
+                    return self.CompileValue(self.Dictionary[index], index)
             elif subIndex == 0:
                 if type(self.Dictionary[index]) == ListType:
                     return len(self.Dictionary[index])
@@ -834,10 +834,10 @@ class Node:
         for mapping in self.GetMappings():
             result = FindIndex(index, mapping)
             if result != None:
-                return (index - result) / mapping[result]["incr"]
+                return (index - result) / mapping[result].get("incr", 1)
         result = FindIndex(index, MappingDictionary)
         if result != None:
-            return (index - result) / MappingDictionary[result]["incr"]
+            return (index - result) / MappingDictionary[result].get("incr", 1)
         return 0
 
     def GetCustomisedTypeValues(self, index):

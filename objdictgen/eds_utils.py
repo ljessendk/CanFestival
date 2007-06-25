@@ -377,7 +377,21 @@ def ParseEDSFile(filepath):
                 else:
                     attributes = "Attribute \"%s\" is"%unsupported[0]
                 raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
-        
+            
+            if "DEFAULTVALUE" in values:
+                try:
+                    if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
+                        values["DEFAULTVALUE"] = str(values["DEFAULTVALUE"])
+                    elif values["DATATYPE"] in (0x08, 0x11):
+                        values["DEFAULTVALUE"] = float(values["DEFAULTVALUE"])
+                    elif values["DATATYPE"] == 0x01:
+                        values["DEFAULTVALUE"] = {0 : True, 1 : False}[values["DEFAULTVALUE"]]
+                    else:
+                        if type(values["DEFAULTVALUE"]) != IntType and values["DEFAULTVALUE"].find("self.ID") == -1:
+                            raise
+                except:
+                    raise SyntaxError, "Error on section \"[%s]\":\nDefaultValue incompatible with DataType"%section_name
+            
     return eds_dict
 
 
