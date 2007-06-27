@@ -48,22 +48,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Integers */
 #define INTEGER8 char
 #define INTEGER16 short
-#define INTEGER24
+#define INTEGER24 long
 #define INTEGER32 long
-#define INTEGER40
-#define INTEGER48
-#define INTEGER56
-#define INTEGER64
+#define INTEGER40 long long
+#define INTEGER48 long long
+#define INTEGER56 long long
+#define INTEGER64 long long
 
 /* Unsigned integers */
 #define UNS8   unsigned char
 #define UNS16  unsigned short
 #define UNS32  unsigned long
-#define UNS24
-#define UNS40
-#define UNS48
-#define UNS56
-#define UNS64 
+#define UNS24  unsigned long
+#define UNS40  unsigned long long
+#define UNS48  unsigned long long
+#define UNS56  unsigned long long
+#define UNS64  unsigned long long
 
 /* Reals */
 #define REAL32	float
