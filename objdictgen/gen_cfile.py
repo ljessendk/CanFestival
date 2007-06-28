@@ -137,12 +137,11 @@ def GenerateFileContent(Manager, headerfilepath):
     strDeclareCallback = ""
     indexContents = {}
     indexCallbacks = {}
-    translate_characters = "".join([chr(i) for i in xrange(128)] + ["_" for i in xrange(128)])
     for index in listIndex:
         texts["index"] = index
         strIndex = ""
         entry_infos = Manager.GetEntryInfos(index)
-        texts["EntryName"] = entry_infos["name"].translate(translate_characters)
+        texts["EntryName"] = entry_infos["name"].encode('ascii','replace')
         values = Manager.GetCurrentEntry(index)
         callbacks = Manager.HasCurrentEntryCallbacks(index)
         if index in variablelist:
