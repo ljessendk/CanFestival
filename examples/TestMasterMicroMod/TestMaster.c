@@ -129,7 +129,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */
                     UNS8 TestMaster_highestSubIndex_obj1400 = 5; /* number of subindex - 1*/
-                    UNS32 TestMaster_obj1400_COB_ID_used_by_PDO = 0x220;	/* 544 */
+                    UNS32 TestMaster_obj1400_COB_ID_used_by_PDO = 0x1C0;	/* 448 */
                     UNS8 TestMaster_obj1400_Transmission_Type = 0x1;	/* 1 */
                     UNS16 TestMaster_obj1400_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestMaster_obj1400_Compatibility_Entry = 0x0;	/* 0 */
