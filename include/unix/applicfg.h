@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <string.h>
 #include <stdio.h>
+#include <sys/types.h>
 
 /*  Define the architecture : little_endian or big_endian
  -----------------------------------------------------
@@ -46,24 +47,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /* Integers */
-#define INTEGER8 char
-#define INTEGER16 short
-#define INTEGER24 long
-#define INTEGER32 long
-#define INTEGER40 long long
-#define INTEGER48 long long
-#define INTEGER56 long long
-#define INTEGER64 long long
+#define INTEGER8 int8_t
+#define INTEGER16 int16_t
+#define INTEGER24 int32_t
+#define INTEGER32 int32_t
+#define INTEGER40 int64_t
+#define INTEGER48 int64_t
+#define INTEGER56 int64_t
+#define INTEGER64 int64_t
 
 /* Unsigned integers */
-#define UNS8   unsigned char
-#define UNS16  unsigned short
-#define UNS32  unsigned long
-#define UNS24  unsigned long
-#define UNS40  unsigned long long
-#define UNS48  unsigned long long
-#define UNS56  unsigned long long
-#define UNS64  unsigned long long
+#define UNS8   u_int8_t
+#define UNS16  u_int16_t
+#define UNS32  u_int32_t
+#define UNS24  u_int32_t
+#define UNS40  u_int64_t
+#define UNS48  u_int64_t
+#define UNS56  u_int64_t
+#define UNS64  u_int64_t
 
 /* Reals */
 #define REAL32	float
