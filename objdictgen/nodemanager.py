@@ -631,7 +631,10 @@ class NodeManager:
                         type = self.CurrentNode.GetEntry(type)[1]
                     if dic[type] == 0:
                         try:
-                            value = int(value, 16)
+                            if value.startswith("0x"):
+                                value = int(value, 16)
+                            else:
+                                value = int(value)
                             self.CurrentNode.SetEntry(index, subIndex, value)
                         except:
                             pass
