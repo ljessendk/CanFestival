@@ -38,11 +38,6 @@ OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o\
 
 # # # # Target specific paramters # # # #
 
-ifeq ($(TARGET),ecos_lpc2138_sja1000)
-ECOS_GLOBAL_CFLAGS=-mcpu=arm7tdmi -Wall -Wpointer-arith -Wstrict-prototypes -Winline -Wundef -Os -ffunction-sections -fdata-sections -fno-exceptions -finline-functions
-ECOS_GLOBAL_LDFLAGS=-mcpu=arm7tdmi -Wl,--gc-sections -Wl,-static -nostdlib
-endif
-
 ifeq ($(TARGET),hcs12)
 OPT_CFLAGS = -Os
 PROGDEFINES = -mnoshort -Wall -Wmissing-prototypes -fno-strict-aliasing

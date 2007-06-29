@@ -119,7 +119,6 @@ while [ $# -ge 1 ]; do
 		echo	"               \"unix\" for unix-like systems"
 		echo	"               \"win32\" for win32 systems"
 		echo	"               \"hcs12\" for HCS12 micro-controller"
-		echo	"               \"ecos_lpc2138_sja1000\" for eCOS + Philips ARM LPC21381 + Philips SJA1000" 
 		echo 	" --can=foo	Use 'foo' as CAN driver"
 		echo	"               \"peak_linux\" use Linux build host installed Peak driver and library"
 		echo	"                                please see http://www.peak-system.com/linux/"
