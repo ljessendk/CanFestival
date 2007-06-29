@@ -341,10 +341,15 @@ class objdictedit(wx.Frame):
         
         self.Manager = NodeManager(ScriptDirectory)
         for filepath in filesOpen:
-            self.Manager.OpenFileInCurrent(filepath)
-            new_editingpanel = EditingPanel(self, self.Manager)
-            self.FileOpened.AddPage(new_editingpanel, "")
-            self.FileOpened.SetSelection(self.Manager.GetCurrentNodeIndex())
+            result = self.Manager.OpenFileInCurrent(filepath)
+            if type(result) == IntType:
+                new_editingpanel = EditingPanel(self, self.Manager)
+                new_editingpanel.SetIndex(result)
+                self.FileOpened.AddPage(new_editingpanel, "")
+            window = self.FileOpened.GetPage(0)
+            if window:
+                self.Manager.ChangeCurrentNode(window.GetIndex())
+                self.FileOpened.SetSelection(0)
         if self.Manager.CurrentDS302Defined(): 
             self.EditMenu.Enable(wxID_OBJDICTEDITEDITMENUITEMS8, True)
         else:
