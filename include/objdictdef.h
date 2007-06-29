@@ -67,18 +67,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 
-
-/** definitions of the different types of PDOs' transmission
- * 
- * SYNCHRO(n) means that the PDO will be transmited every n SYNC signal.
- */
-#define TRANS_EVERY_N_SYNC(n) (n) /*n = 1 to 240 */
-#define TRANS_SYNC_MIN        1    /* Trans after reception of n SYNC. n = 1 to 240 */
-#define TRANS_SYNC_MAX        240  /* Trans after reception of n SYNC. n = 1 to 240 */
-#define TRANS_RTR_SYNC        252  /* Transmission on request */
-#define TRANS_RTR             253  /* Transmission on request */
-#define TRANS_EVENT           255  /* Transmission on event */
-
 /** Each entry of the object dictionary can be READONLY (RO), READ/WRITE (RW),
  *  WRITE-ONLY (WO)
  */

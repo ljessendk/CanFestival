@@ -62,9 +62,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define TRUE  1
 #define FALSE 0
 
-/* TODO: remove this limitation. do bit granularity mapping */
-#define PDO_MAX_LEN 8    
-                               
+    
 /** Status of the SDO transmission
  */
 #define SDO_RESET                0x0      /* Transmission not started. Init state. */

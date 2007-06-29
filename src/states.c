@@ -123,7 +123,7 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
 	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
 /*	StartOrStop(Emergency,,) */
-	StartOrStop(csPDO,	None,	None)
+	StartOrStop(csPDO,	PDOInit(d),	PDOStop(d))
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }
 

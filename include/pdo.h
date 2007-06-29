@@ -26,49 +26,46 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <applicfg.h>
 #include <def.h>
 
-/* The process_var structure
- Used to store the PDO before the transmission or the reception.
-*/
-typedef struct struct_s_process_var {
-  UNS8 count; /* Size of data. Ex : for a PDO of 6 bytes of data, count = 6 */
-  /* WARNING s_process_var.data is subject to ENDIANISATION 
-   * (with respect to CANOPEN_BIG_ENDIAN)
-   */
-  UNS8 data[PDO_MAX_LEN];
-}s_process_var;
+#include "can.h"
+
+typedef struct struct_s_PDO_status s_PDO_status;
 
 #include "data.h"
 
+/* Status of the TPDO : */
+#define PDO_INHIBITED 0x01
+
 /** The PDO structure */
-typedef struct struct_s_PDO {
-  UNS32 cobId;	  /* COB-ID */
-  UNS8           len;	  /* Number of data transmitted (in data[]) */
-  UNS8           data[8]; /* Contain the data */
-}s_PDO;
+struct struct_s_PDO_status {
+  UNS8 transmit_type_parameter;
+  TIMER_HANDLE event_timer;
+  TIMER_HANDLE inhibit_timer;
+  Message last_message;
+};
 
-/** Transmit a PDO data frame on the bus bus_id
- * pdo is a structure which contains the pdo to transmit
- * bus_id is hardware dependant
- * return canSend(bus_id,&m) or 0xFF if error
- * request can take the value  REQUEST or NOT_A_REQUEST
+#define s_PDO_staus_Initializer {0, TIMER_NONE, TIMER_NONE, Message_Initializer}
+
+/** definitions of the different types of PDOs' transmission
+ * 
+ * SYNCHRO(n) means that the PDO will be transmited every n SYNC signal.
  */
-UNS8 sendPDO (CO_Data* d, s_PDO pdo, UNS8 request);
+#define TRANS_EVERY_N_SYNC(n) (n) /*n = 1 to 240 */
+#define TRANS_SYNC_MIN        1    /* Trans after reception of n SYNC. n = 1 to 240 */
+#define TRANS_SYNC_MAX        240  /* Trans after reception of n SYNC. n = 1 to 240 */
+#define TRANS_RTR_SYNC        252  /* Transmission on request */
+#define TRANS_RTR             253  /* Transmission on request */
+#define TRANS_EVENT_SPECIFIC  254  /* Transmission on event */
+#define TRANS_EVENT_PROFILE   255  /* Transmission on event */
 
-/** Prepare a PDO frame transmission, 
- * whose different parameters are stored in process_var table,
- * to the slave.
- * bus_id is hardware dependant
- * call the function sendPDO
- * return the result of the function sendPDO or 0xFF if error
- */
-UNS8 PDOmGR (CO_Data* d, UNS32 cobId);
-
-/** Prepare the PDO defined at index to be sent by  PDOmGR
+/** Prepare the PDO defined at index to be sent 
+ * 
+ * 
+ * 
  * Copy all the data to transmit in process_var
  * *pwCobId : returns the value of the cobid. (subindex 1)
  * Return 0 or 0xFF if error.
  */
-UNS8 buildPDO (CO_Data* d, UNS16 index);
+UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo);
 
 /** Transmit a PDO request frame on the bus bus_id
  * to the slave.
@@ -83,16 +80,24 @@ UNS8 sendPDOrequest (CO_Data* d, UNS32 cobId);
  */
 UNS8 proceedPDO (CO_Data* d, Message *m);
 
-/* used by the application to send a variable by PDO.
- * Check in which PDO the variable is mapped, and send the PDO. 
- * of course, the others variables mapped in the PDO are also sent !
- * ( ie when a specific event occured)
- * bus_id is hardware dependant
- * variable is a pointer to the variable which has to be sent. Must be
- * defined in the object dictionary
- * return 0xFF if error, else return 0
+/** Used by the application to signal changes in process data
+ * that could be mapped to some TPDO.
+ * This do not necessarily imply PDO emission.
+ * Function iterates on all TPDO and look TPDO transmit 
+ * type and content change before sending it.    
  */
-UNS8 sendPDOevent (CO_Data* d, void * variable);
+UNS8 sendPDOevent (CO_Data* d);
+
+/** Function iterates on all TPDO and look TPDO transmit 
+ * type and content change before sending it.
+ */
+UNS8 _sendPDOevent(CO_Data* d, UNS8 isSyncEvent);
+
+
+void PDOInit(CO_Data* d);
+void PDOStop(CO_Data* d);
+void PDOEventTimerAlarm(CO_Data* d, UNS32 pdoNum);
+void PDOInhibitTimerAlarm(CO_Data* d, UNS32 pdoNum);
 
 /* copy bit per bit in little endian */
 void CopyBits(UNS8 NbBits, UNS8* SrcByteIndex, UNS8 SrcBitIndex, UNS8 SrcBigEndian, UNS8* DestByteIndex, UNS8 DestBitIndex, UNS8 DestBigEndian);

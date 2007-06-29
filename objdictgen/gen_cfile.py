@@ -448,12 +448,16 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
 	return &%(NodeName)s_objdict[i];
 }
 
-/* To count at which received SYNC a PDO must be sent.
+/* 
+ * To count at which received SYNC a PDO must be sent.
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-UNS8 %(NodeName)s_count_sync[%(maxPDOtransmit)d] = {0,};
-"""%texts
+s_PDO_status %(NodeName)s_PDO_status[%(maxPDOtransmit)d] = {"""%texts
+
+    fileContent += ",".join(["s_PDO_staus_Initializer"]*texts["maxPDOtransmit"]) + """};
+"""
+
     fileContent += strQuickIndex
     fileContent += """
 UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]); 

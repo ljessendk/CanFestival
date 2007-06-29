@@ -46,6 +46,7 @@ typedef struct {
   UNS8 data[8]; /* data */
 } Message;
 
+#define Message_Initializer {0,0,0,{0,0,0,0,0,0,0,0}}
 
 typedef UNS8 (*canSend_t)(Message *);
 

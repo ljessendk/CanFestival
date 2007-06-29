@@ -46,7 +46,7 @@ struct struct_CO_Data {
 	/* Object dictionary */
 	UNS8 *bDeviceNodeId;
 	const indextable *objdict;
-	UNS8 *count_sync;
+	s_PDO_status *PDO_status;
 	quick_index *firstIndex;
 	quick_index *lastIndex;
 	UNS16 *ObjdictSize;
@@ -81,9 +81,6 @@ struct struct_CO_Data {
 	/*UNS32 *Sync_window_length;;*/
 	post_sync_t post_sync;
 	post_TPDO_t post_TPDO;
-	
-	/* PDO */
-	s_process_var process_var;
 	
 	/* General */
 	UNS8 toggle;
@@ -121,7 +118,7 @@ struct struct_CO_Data {
 	/* Object dictionary*/\
 	& NODE_PREFIX ## _bDeviceNodeId,     /* bDeviceNodeId */\
 	NODE_PREFIX ## _objdict,             /* objdict  */\
-	NODE_PREFIX ## _count_sync,          /* count_sync */\
+	NODE_PREFIX ## _PDO_status,          /* PDO_status */\
 	& NODE_PREFIX ## _firstIndex,        /* firstIndex */\
 	& NODE_PREFIX ## _lastIndex,         /* lastIndex */\
 	& NODE_PREFIX ## _ObjdictSize,       /* ObjdictSize */\
@@ -168,12 +165,6 @@ struct struct_CO_Data {
 	_post_sync,                 /* post_sync */\
 	_post_TPDO,                 /* post_TPDO */\
 	\
-	/* PDO, structure s_process_var */\
-        {\
-		0,          /* count */\
-		{0}         /* data (static use, so that all the table is initialize at 0)*/\
-        },\
-        \
 	/* General */\
 	0,                                         /* toggle */\
 	NULL,                   /* canSend */\

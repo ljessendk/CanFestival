@@ -382,11 +382,12 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 	return &TestMaster_objdict[i];
 }
 
-/* To count at which received SYNC a PDO must be sent.
+/* 
+ * To count at which received SYNC a PDO must be sent.
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-UNS8 TestMaster_count_sync[1] = {0,};
+s_PDO_status TestMaster_PDO_status[1] = {s_PDO_staus_Initializer};
 
 quick_index TestMaster_firstIndex = {
   0, /* SDO_SVR */

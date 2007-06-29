@@ -39,20 +39,11 @@ void _post_TPDO(void);
  */
 UNS8 sendSYNC (CO_Data* d, UNS32 cob_id);
 
-/** This function is called when the node is receiving a SYNC 
- * message (cob-id = 0x80).
- * What does the function :
- * check if the node is in OERATIONAL mode. (other mode : return 0 but does nothing).
- * Get the SYNC cobId by reading the dictionary index 1005. (Return -1 if it does not correspond 
- * to the cobId received).
- * Scan the dictionary from index 0x1800 to the last PDO defined (dict_cstes.max_count_of_PDO_transmit)
- *   for each PDO whose transmission type is on synchro (transmission type < 241) and if the msg must
- *   be send at this SYNC. read the COBID. Verify that the nodeId inside the 
- *   nodeId correspond to bDeviceNodeId. (Assume that the cobId of a PDO Transmit is made 
- *   with the node id of the node who transmit), get the mapping, launch PDOmGR to send the PDO
- * *m is a pointer to the message received
- * bus_id is hardware dependant
- * return 0 if OK, 0xFF if error
+/** This function is called when the node is receiving a SYNC message (cob-id = 0x80).
+ *  - check if the node is in OERATIONAL mode. (other mode : return 0 but does nothing).
+ *  - Get the SYNC cobId by reading the dictionary index 1005, check it does correspond to the received cobId
+ *  - Trigger sync TPDO emission 
+ *  - return 0 if OK, 0xFF if error
  */
 UNS8 proceedSYNC (CO_Data* d, Message * m);
 
