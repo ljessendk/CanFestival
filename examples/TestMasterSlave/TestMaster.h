@@ -23,5 +23,7 @@ extern UNS8 MasterMap8;		/* Mapped at index 0x2007, subindex 0x00*/
 extern UNS8 MasterMap9;		/* Mapped at index 0x2008, subindex 0x00*/
 extern UNS32 MasterMap10;		/* Mapped at index 0x2009, subindex 0x00*/
 extern UNS16 MasterMap11;		/* Mapped at index 0x200A, subindex 0x00*/
+extern INTEGER16 MasterMap12;		/* Mapped at index 0x200B, subindex 0x00*/
+extern INTEGER16 MasterMap13;		/* Mapped at index 0x200C, subindex 0x00*/
 
 #endif // TESTMASTER_H

@@ -34,6 +34,7 @@ typedef struct struct_s_PDO_status s_PDO_status;
 
 /* Status of the TPDO : */
 #define PDO_INHIBITED 0x01
+#define PDO_RTR_SYNC_READY 0x01
 
 /** The PDO structure */
 struct struct_s_PDO_status {
@@ -72,7 +73,7 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo);
  * bus_id is hardware dependant
  * Returns 0xFF if error, other in success.
  */
-UNS8 sendPDOrequest (CO_Data* d, UNS32 cobId);
+UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex );
 
 /** Compute a PDO frame reception
  * bus_id is hardware dependant

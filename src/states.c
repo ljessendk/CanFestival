@@ -258,7 +258,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS16 lastIndex = d->lastIndex->PDO_RCV;
     UNS32 cobID[] = {0x200, 0x300, 0x400, 0x500};
     if( offset ) while( (offset <= lastIndex) && (i < 4)) {
-      //if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
+      if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
 	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
       i ++;
       offset ++;
@@ -272,7 +272,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS32 cobID[] = {0x180, 0x280, 0x380, 0x480};
     i = 0;
     if( offset ) while ((offset <= lastIndex) && (i < 4)) {
-      //if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
+      if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
 	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
       i ++;
       offset ++;

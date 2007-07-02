@@ -148,7 +148,7 @@ UNS8 proceedSYNC(CO_Data* d, Message *m)
   (*d->post_sync)();
 
   /* only operational state allows PDO transmission */
-  if( d->nodeState != Operational ) 
+  if(! d->CurrentCommunicationState.csPDO) 
     return 0;
 
   res = _sendPDOevent(d, 1 /*isSyncEvent*/ );

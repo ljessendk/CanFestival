@@ -213,7 +213,7 @@ MappingDictionary = {
     0x1600 : {"name" : "Receive PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
-    0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
+    0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "callback" : True, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:self.ID+(base+1)*0x100+0x80,False:0}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},

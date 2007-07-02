@@ -65,11 +65,26 @@ void TestSlave_post_sync()
       SlaveMap9=16;
       SlaveMap10 = 0xff00ff00;
       SlaveMap11 = 0xabcd;
-      eprintf("Slave: %d %d %d %d %d %d %d %d %d %x %x\n",SlaveMap1, SlaveMap2, SlaveMap3, SlaveMap4, SlaveMap5, SlaveMap6, SlaveMap7, SlaveMap8, SlaveMap9, SlaveMap10,SlaveMap11);
+      SlaveMap12 += SlaveMap12 > 0x80 ? 0 : 1;
+      eprintf("Slave: %d %d %d %d %d %d %d %d %d %x %x %d %d \n",
+      	SlaveMap1, 
+      	SlaveMap2, 
+      	SlaveMap3, 
+      	SlaveMap4, 
+      	SlaveMap5, 
+      	SlaveMap6, 
+      	SlaveMap7, 
+      	SlaveMap8, 
+      	SlaveMap9, 
+      	SlaveMap10,
+      	SlaveMap11, 
+      	SlaveMap12,
+      	SlaveMap13);
 }
 
 void TestSlave_post_TPDO()
 {
+        SlaveMap13 += 1;
 	eprintf("TestSlave_post_TPDO\n");
 }
 
