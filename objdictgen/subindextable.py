@@ -249,8 +249,8 @@ class SubindexTable(wxPyGridTableBase):
  wxID_EDITINGPANELINDEXLISTMENUITEMS2, 
 ] = [wx.NewId() for _init_coll_IndexListMenu_Items in range(3)]
 
-[wxID_EDITINGPANELMENU1ITEMS0, wxID_EDITINGPANELMENU1ITEMS1, 
-] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(2)]
+[wxID_EDITINGPANELMENU1ITEMS0, wxID_EDITINGPANELMENU1ITEMS1, wxID_EDITINGPANELMENU1ITEMS2,
+] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(3)]
 
 class EditingPanel(wx.SplitterWindow):
     def _init_coll_AddToListSizer_Items(self, parent):
@@ -295,10 +295,14 @@ class EditingPanel(wx.SplitterWindow):
               kind=wx.ITEM_NORMAL, text='Add')
         parent.Append(help='', id=wxID_EDITINGPANELMENU1ITEMS1,
               kind=wx.ITEM_NORMAL, text='Delete')
+        parent.Append(help='', id=wxID_EDITINGPANELMENU1ITEMS2,
+              kind=wx.ITEM_NORMAL, text='Default Value')
         self.Bind(wx.EVT_MENU, self.OnAddSubindexMenu,
               id=wxID_EDITINGPANELMENU1ITEMS0)
         self.Bind(wx.EVT_MENU, self.OnDeleteSubindexMenu,
               id=wxID_EDITINGPANELMENU1ITEMS1)
+        self.Bind(wx.EVT_MENU, self.OnDefaultValueSubindexMenu,
+              id=wxID_EDITINGPANELMENU1ITEMS2)
 
     def _init_coll_IndexListMenu_Items(self, parent):
         # generated method, don't edit
@@ -632,8 +636,16 @@ class EditingPanel(wx.SplitterWindow):
                 index = self.ListIndex[selected]
                 if self.Manager.IsCurrentEntry(index):
                     infos = self.Manager.GetEntryInfos(index)
-                    if index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
-                        self.PopupMenu(self.SubindexGridMenu)
+                    if 0x5fff >= index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
+                        # enable add and delet entries
+                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS0).Enable(True)
+                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS1).Enable(True)
+                    else:
+                        # disable add and delet entries
+                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS0).Enable(False)
+                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS1).Enable(False)
+                    self.SubindexGrid.SetGridCursor(event.GetRow(), event.GetCol())
+                    wxCallAfter(self.PopupMenu,self.SubindexGridMenu)
         event.Skip()
 
     def OnRenameIndexMenu(self, event):
@@ -723,5 +735,16 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
+        event.Skip()
+
+    def OnDefaultValueSubindexMenu(self, event):
+        if self.Editable:
+            selected = self.IndexList.GetSelection()
+            if selected != wxNOT_FOUND:
+                index = self.ListIndex[selected]
+                if self.Manager.IsCurrentEntry(index):
+                    self.Manager.ResetCurrentDefaultValue(index,self.SubindexGrid.GetGridCursorRow())
+                    self.Parent.RefreshBufferState()
+                    self.RefreshIndexList()
         event.Skip()
 

@@ -596,6 +596,15 @@ class NodeManager:
                 self.CurrentNode.SetParamsEntry(index, None, callback = value)
                 self.BufferCurrentNode()
 
+    def ResetCurrentDefaultValue(self, index, subIndex):
+        subentry_infos = self.GetSubentryInfos(index, subIndex)
+        if "default" in subentry_infos:
+            default = subentry_infos["default"]
+        else:
+            default = self.GetTypeDefaultValue(subentry_infos["type"])
+        self.CurrentNode.SetEntry(index, subIndex, default)
+        
+
     def SetCurrentEntry(self, index, subIndex, value, name, editor):
         if self.CurrentNode and self.CurrentNode.IsEntry(index):
             if name == "value":
