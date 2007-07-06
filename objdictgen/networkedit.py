@@ -37,6 +37,7 @@ from nodemanager import *
 from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
+from config_utils import *
 
 def create(parent):
     return networkedit(parent)
@@ -266,8 +267,8 @@ class networkedit(wx.Frame):
               id=wxID_NETWORKEDITNETWORKMENUITEMS0)
         self.Bind(wx.EVT_MENU, self.OnRemoveSlaveMenu,
               id=wxID_NETWORKEDITNETWORKMENUITEMS1)
-##        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
-##              id=wxID_NETWORKEDITNETWORKMENUITEMS3)
+        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
+              id=wxID_NETWORKEDITNETWORKMENUITEMS3)
     
     def _init_coll_AddMenu_Items(self, parent):
         # generated method, don't edit
@@ -492,6 +493,38 @@ class networkedit(wx.Frame):
             message.Destroy()
         event.Skip()
 
+    def OnBuildMasterMenu(self, event):
+        if self.NodeList:
+            dialog = wxFileDialog(self, "Choose a locations file", os.getcwd(), "",  "text files (*.txt)|*.od|All files|*.*", wxOPEN|wxCHANGE_DIR)
+            if dialog.ShowModal() == wxID_OK:
+                filepath = dialog.GetPath()
+                dialog.Destroy()
+                if os.path.isfile(filepath):
+                    dialog = wxTextEntryDialog(self, "Busname selection", "Please enter the bus number", "", wxOK|wxCANCEL)
+                    if dialog.ShowModal() == wxID_OK:
+                        busname = None
+                        try:
+                            busname = int(dialog.GetValue())
+                        except:
+                            pass
+                        if busname:
+                            file = open(filepath, "r")
+                            locations = [(elements[0], elements[1]) for elements in [line.strip().split(" ") for line in file.readlines()]]
+                            GenerateConciseDCF(locations, busname, self.NodeList)
+                            message = wxMessageDialog(self, "Master node generation successful!", "Error", wxOK|wxICON_ERROR)
+                            message.ShowModal()
+                            message.Destroy()
+                        else:
+                            message = wxMessageDialog(self, "Busname must be a number!", "Error", wxOK|wxICON_ERROR)
+                            message.ShowModal()
+                            message.Destroy()
+                else:
+                    message = wxMessageDialog(self, "\"%s\" isn't a valid file!"%filepath, "Error", wxOK|wxICON_ERROR)
+                    message.ShowModal()
+                    message.Destroy()
+        event.Skip()
+        
+
 #-------------------------------------------------------------------------------
 #                             Slave Nodes Management
 #-------------------------------------------------------------------------------
@@ -607,8 +640,8 @@ class networkedit(wx.Frame):
 
     def RefreshMainMenu(self):
         if self.menuBar1:
-            self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, False)
             if self.NodeList == None:
+                self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, False)
                 if self.Mode == "solo":
                     self.menuBar1.EnableTop(1, False)
                     self.menuBar1.EnableTop(2, False)
@@ -621,11 +654,12 @@ class networkedit(wx.Frame):
                     self.menuBar1.EnableTop(1, False)
                     self.menuBar1.EnableTop(2, False)
             else:
+                self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, True)
                 if self.Mode == "solo":
                     self.menuBar1.EnableTop(1, True)
                     if self.FileMenu:
                         self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS1, True)
-                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS2, False)
+                        self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS2, True)
                     if self.NetworkNodes.GetSelection() == 0:
                         self.menuBar1.EnableTop(2, True)
                         self.menuBar1.EnableTop(3, True)
@@ -661,6 +695,14 @@ class networkedit(wx.Frame):
                 else:
                     edititem.SetText("Other Profile")
                     edititem.Enable(False)
+
+    def GetProfileCallBack(self, text):
+        def ProfileCallBack(event):
+            self.Manager.AddSpecificEntryToCurrent(text)
+            self.RefreshBufferState()
+            self.RefreshCurrentIndexList()
+            event.Skip()
+        return ProfileCallBack
 
 #-------------------------------------------------------------------------------
 #                              Buffer Functions
