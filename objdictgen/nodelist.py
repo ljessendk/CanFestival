@@ -29,9 +29,11 @@ from node import *
 import eds_utils
 import os, shutil
 
+
 #-------------------------------------------------------------------------------
 #                          Definition of NodeList Object
 #-------------------------------------------------------------------------------
+
 
 """
 Class recording a node list for a CANOpen network.
@@ -250,29 +252,27 @@ class NodeList:
     def GetCurrentEntryValues(self, index):
         if self.CurrentSelected != None:
             node = self.SlaveNodes[self.CurrentSelected]["Node"]
+            node.SetNodeID(self.CurrentSelected)
             if node:
                 return self.Manager.GetNodeEntryValues(node, index)
             else:
                 print "Can't find node"
         return [], []
-    
+
 if __name__ == "__main__":
     from nodemanager import *
     import os, sys, shutil
     
     manager = NodeManager(sys.path[0])
-    
     nodelist = NodeList(manager)
-    
-    result = nodelist.LoadProject("/home/laurent/test_nodelist")
+    #result = nodelist.LoadProject("/home/deobox/beremiz/test_nodelist")
+    result = nodelist.LoadProject("/home/deobox/Desktop/TestMapping")
     if result != None:
         print result
     else:
         print "MasterNode :"
         manager.CurrentNode.Print()
-        print 
         for nodeid, node in nodelist.SlaveNodes.items():
             print "SlaveNode name=%s id=0x%2.2X :"%(node["Name"], nodeid)
             node["Node"].Print()
-            print
 

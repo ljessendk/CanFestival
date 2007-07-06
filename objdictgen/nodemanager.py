@@ -608,7 +608,9 @@ class NodeManager:
     def SetCurrentEntry(self, index, subIndex, value, name, editor):
         if self.CurrentNode and self.CurrentNode.IsEntry(index):
             if name == "value":
-                if editor == "map":
+                if editor == None:
+                    self.CurrentNode.SetEntry(index, subIndex, value)
+                elif editor == "map":
                     value = self.CurrentNode.GetMapValue(value)
                     if value:
                         self.CurrentNode.SetEntry(index, subIndex, value)
@@ -750,6 +752,11 @@ class NodeManager:
     
     def GetCurrentNodeIndex(self):
         return self.NodeIndex
+    
+    def GetCurrentNode(self):
+        if self.NodeIndex:
+            return self.CurrentNode
+        return None
     
     def GetCurrentFilename(self):
         return self.GetFilename(self.NodeIndex)

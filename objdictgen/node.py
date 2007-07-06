@@ -814,7 +814,14 @@ class Node:
         listindex = self.Dictionary.keys()
         listindex.sort()
         for index in listindex:
-            print "%04X : %s"%(index, self.Dictionary[index])    
+            values = self.Dictionary[index]
+            if index != 0x1F22 and type(values) != IntType:
+                values = [i for i in values]
+                for i, value in enumerate(values):
+                    if type(value) == IntType:
+                        values[i] = "%X"%value
+                values = "[" + ",".join(values) + "]"
+            print "%04X : %s"%(index, values)
 
     def CompileValue(self, value, index):
         if type(value) == StringType and value.find("self.ID") != -1:
