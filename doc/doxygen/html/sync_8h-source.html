@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>sync.h</h1><a href="sync_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -44,22 +44,22 @@
 <a name="l00023"></a>00023 <span class="preprocessor">#ifndef __SYNC_h__</span>
 <a name="l00024"></a>00024 <span class="preprocessor"></span><span class="preprocessor">#define __SYNC_h__</span>
 <a name="l00025"></a>00025 <span class="preprocessor"></span>
-<a name="l00026"></a>00026 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#2e0bf669f5b40dfbdda0f12a5ae3631a">startSYNC</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00026"></a>00026 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#4a5d93c6c2b82b6449519b1143437ee9">startSYNC</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00027"></a>00027 
-<a name="l00028"></a>00028 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#41c47dbd59d22bf9bab6cd288cf27164">stopSYNC</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00028"></a>00028 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#3b95ed533faac10bd1f2eabc649e92f4">stopSYNC</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00029"></a>00029 
-<a name="l00030"></a><a class="code" href="sync_8h.html#8a0b5b8c19b375ef1c985caa120f3274">00030</a> <span class="keyword">typedef</span> void (*<a class="code" href="sync_8h.html#8a0b5b8c19b375ef1c985caa120f3274">post_sync_t</a>)(void);
-<a name="l00031"></a>00031 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#a5e0cde14192eb72627526bb75c033c5">_post_sync</a>(<span class="keywordtype">void</span>);
+<a name="l00030"></a><a class="code" href="sync_8h.html#d1f283a688067376cc96b22f2d106a2e">00030</a> <span class="keyword">typedef</span> void (*<a class="code" href="sync_8h.html#d1f283a688067376cc96b22f2d106a2e">post_sync_t</a>)(void);
+<a name="l00031"></a>00031 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#4361c24679b77c8c1466f0357fabaa6d">_post_sync</a>(<span class="keywordtype">void</span>);
 <a name="l00032"></a>00032 
-<a name="l00033"></a><a class="code" href="sync_8h.html#b9bc4632750ad12f918aa22a1eb7756b">00033</a> <span class="keyword">typedef</span> void (*<a class="code" href="sync_8h.html#b9bc4632750ad12f918aa22a1eb7756b">post_TPDO_t</a>)(void);
-<a name="l00034"></a>00034 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#c4082a05eed4b4c472f4ff2f7323dd28">_post_TPDO</a>(<span class="keywordtype">void</span>);
+<a name="l00033"></a><a class="code" href="sync_8h.html#7b223c31d7930e0d899991b613251155">00033</a> <span class="keyword">typedef</span> void (*<a class="code" href="sync_8h.html#7b223c31d7930e0d899991b613251155">post_TPDO_t</a>)(void);
+<a name="l00034"></a>00034 <span class="keywordtype">void</span> <a class="code" href="sync_8c.html#8098c6d131b8c2b779a8e06070c818da">_post_TPDO</a>(<span class="keywordtype">void</span>);
 <a name="l00035"></a>00035 
-<a name="l00040"></a>00040 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="sync_8c.html#0bcc501eb14c12365ffbaa3453905b50">sendSYNC</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> cob_id);
+<a name="l00040"></a>00040 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="sync_8c.html#9d242846e77a0792d2db7a455c4b955e">sendSYNC</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> cob_id);
 <a name="l00041"></a>00041 
-<a name="l00057"></a>00057 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="sync_8c.html#80cadcba23dc859db8a8d3f52789d6d1">proceedSYNC</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> * m);
-<a name="l00058"></a>00058 
-<a name="l00059"></a>00059 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+<a name="l00048"></a>00048 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="sync_8c.html#89ae8cfbfc53c26248d5d91f689c7197">proceedSYNC</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> * m);
+<a name="l00049"></a>00049 
+<a name="l00050"></a>00050 <span class="preprocessor">#endif</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

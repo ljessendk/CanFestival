@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_d58fb241e647de6212c31ecccf9cbace.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_2f1d38949ead60c979d76e04f3273800.html">can_virtual</a></div>
+<a class="el" href="dir_65dd258ff9b9ef4cd7bd0d22f5e58dba.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_e214fcc19be6ea390978e8fc1683888c.html">can_virtual</a></div>
 <h1>can_virtual.c</h1><a href="can__virtual_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -51,17 +51,17 @@
 <a name="l00030"></a>00030 <span class="preprocessor">#include "<a class="code" href="can__driver_8h.html">can_driver.h</a>"</span>
 <a name="l00031"></a>00031 <span class="preprocessor">#include "<a class="code" href="def_8h.html">def.h</a>"</span>
 <a name="l00032"></a>00032 
-<a name="l00033"></a><a class="code" href="can__virtual_8c.html#b2f51095e950bbeab1ea15fac21e6146">00033</a> <span class="preprocessor">#define MAX_NB_CAN_PIPES 16</span>
+<a name="l00033"></a><a class="code" href="can__virtual_8c.html#722407e147a7e12159a03b4d7ce8e389">00033</a> <span class="preprocessor">#define MAX_NB_CAN_PIPES 16</span>
 <a name="l00034"></a>00034 <span class="preprocessor"></span>
 <a name="l00035"></a><a class="code" href="structCANPipe.html">00035</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00036"></a><a class="code" href="structCANPipe.html#86b7d0cf232b1b6b687c19b61434aa2f">00036</a>   <span class="keywordtype">char</span> used;
-<a name="l00037"></a><a class="code" href="structCANPipe.html#e9844050beddb410380d91715c53debc">00037</a>   <span class="keywordtype">int</span> pipe[2];
+<a name="l00036"></a><a class="code" href="structCANPipe.html#46897ae7bcc29d077bc394d3369a4f6b">00036</a>   <span class="keywordtype">char</span> used;
+<a name="l00037"></a><a class="code" href="structCANPipe.html#90d2509d623c873ab944860877db8fb1">00037</a>   <span class="keywordtype">int</span> pipe[2];
 <a name="l00038"></a>00038 } <a class="code" href="structCANPipe.html">CANPipe</a>;
 <a name="l00039"></a>00039 
-<a name="l00040"></a><a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">00040</a> <a class="code" href="structCANPipe.html">CANPipe</a> <a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[<a class="code" href="can__virtual_8c.html#b2f51095e950bbeab1ea15fac21e6146">MAX_NB_CAN_PIPES</a>] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},};
+<a name="l00040"></a><a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">00040</a> <a class="code" href="structCANPipe.html">CANPipe</a> <a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[<a class="code" href="can__virtual_8c.html#722407e147a7e12159a03b4d7ce8e389">MAX_NB_CAN_PIPES</a>] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},};
 <a name="l00041"></a>00041 
 <a name="l00042"></a>00042 <span class="comment">/*********functions which permit to communicate with the board****************/</span>
-<a name="l00043"></a><a class="code" href="can__virtual_8c.html#6b3248e95acf2b08d1fd8b42610cc5a6">00043</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="can__lincan_8c.html#6b3248e95acf2b08d1fd8b42610cc5a6">canReceive_driver</a>(<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> *m)
+<a name="l00043"></a><a class="code" href="can__virtual_8c.html#b0b7065be05f6d53009b7bd46626e2c0">00043</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="can__lincan_8c.html#b0b7065be05f6d53009b7bd46626e2c0">canReceive_driver</a>(<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> *m)
 <a name="l00044"></a>00044 {
 <a name="l00045"></a>00045         <span class="keywordflow">if</span>(read(((<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)-&gt;pipe[0], m, <span class="keyword">sizeof</span>(<a class="code" href="structMessage.html">Message</a>)) != (ssize_t)<span class="keyword">sizeof</span>(Message))
 <a name="l00046"></a>00046         {
@@ -70,56 +70,56 @@
 <a name="l00049"></a>00049         <span class="keywordflow">return</span> 0;
 <a name="l00050"></a>00050 }
 <a name="l00051"></a>00051 
-<a name="l00052"></a><a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">00052</a> <span class="preprocessor">#define MyCase(fc) case fc: printf(#fc);break;</span>
-<a name="l00053"></a><a class="code" href="TestMasterSlave_8h.html#6baa544d467cbabaf4bacadc74cc6523">00053</a> <span class="preprocessor"></span><span class="keywordtype">void</span> <a class="code" href="can__virtual_8c.html#6baa544d467cbabaf4bacadc74cc6523">print_message</a>(<a class="code" href="structMessage.html">Message</a> *m)
+<a name="l00052"></a><a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">00052</a> <span class="preprocessor">#define MyCase(fc) case fc: printf(#fc);break;</span>
+<a name="l00053"></a><a class="code" href="TestMasterSlave_8h.html#d1dd3b302365b1f2bd0ce49f3db780d8">00053</a> <span class="preprocessor"></span><span class="keywordtype">void</span> <a class="code" href="can__virtual_8c.html#d1dd3b302365b1f2bd0ce49f3db780d8">print_message</a>(<a class="code" href="structMessage.html">Message</a> *m)
 <a name="l00054"></a>00054 {
 <a name="l00055"></a>00055         <span class="keywordtype">int</span> i;
-<a name="l00056"></a>00056         <span class="keywordflow">switch</span>(m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> &gt;&gt; 7)
+<a name="l00056"></a>00056         <span class="keywordflow">switch</span>(m-&gt;<a class="code" href="structMessage.html#21cda7edcf0800d296151c83e7f9948e">cob_id</a>.<a class="code" href="structSHORT__CAN.html#e77854035fa72dc0769724a2d056bc9d">w</a> &gt;&gt; 7)
 <a name="l00057"></a>00057         {
-<a name="l00058"></a>00058                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#9ac82e856c7683e23553431e5224d5f4">SYNC</a>)
-<a name="l00059"></a>00059                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#5a63bf5566f66e30f56bc17eea0e5e4b">TIME_STAMP</a>)
-<a name="l00060"></a>00060                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#0a250614ba4dca3e87f768efcb58f238">PDO1tx</a>)
-<a name="l00061"></a>00061                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#17c7ee302d491b1ef74d2a4a795f82c6">PDO1rx</a>)
-<a name="l00062"></a>00062                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#67f4224b2c072a82b37a4835ca1c75e1">PDO2tx</a>)
-<a name="l00063"></a>00063                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#b23848999420738438097816fee3f25d">PDO2rx</a>)
-<a name="l00064"></a>00064                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#00ef0f6ae698f9cb944b4302e66e6c83">PDO3tx</a>)
-<a name="l00065"></a>00065                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#239d135abea5ec798461cad43f9286b5">PDO3rx</a>)
-<a name="l00066"></a>00066                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#bda4cc9ec44d1fc524bfdcae030df4be">PDO4tx</a>)
-<a name="l00067"></a>00067                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#282f714f745dd28e9a017044020aa3dc">PDO4rx</a>)
-<a name="l00068"></a>00068                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#74331e9b1d102bd0a3d5d9c1fc4f8212">SDOtx</a>)
-<a name="l00069"></a>00069                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#44318f0cf5176db0eedd1c8519bd8f35">SDOrx</a>)
-<a name="l00070"></a>00070                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#78d5d3f71db9f360c9e3d3953707b0c1">NODE_GUARD</a>)
-<a name="l00071"></a>00071                 <a class="code" href="can__virtual_8c.html#124cab530f97a752eb2e110c1b398c11">MyCase</a>(<a class="code" href="def_8h.html#adbe0bb038acafa1c8adb0f98c870233">NMT</a>)
+<a name="l00058"></a>00058                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#5121852019ece0964262f0cb39506843">SYNC</a>)
+<a name="l00059"></a>00059                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#41e214ed6a29870a04c9857cec4a0194">TIME_STAMP</a>)
+<a name="l00060"></a>00060                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#1893e40a0e6bbfe4b1770cb62046c042">PDO1tx</a>)
+<a name="l00061"></a>00061                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#511f4300ca65ce23d8a1c4ec3b4e2076">PDO1rx</a>)
+<a name="l00062"></a>00062                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#e9ee8504cd9f462f20ad5af48eeb22ac">PDO2tx</a>)
+<a name="l00063"></a>00063                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#1cc8839690c21f2c76ea549ac8e5d05c">PDO2rx</a>)
+<a name="l00064"></a>00064                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#c063668bc1bd4b58d153b4819c4983a1">PDO3tx</a>)
+<a name="l00065"></a>00065                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#56e948b5cab3f8b3ff5adca55f6a6c3d">PDO3rx</a>)
+<a name="l00066"></a>00066                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#dfa635524047b4d8c6fce22469d7a2e8">PDO4tx</a>)
+<a name="l00067"></a>00067                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#d3a50d56c7316cb4a669766d7d36f6fc">PDO4rx</a>)
+<a name="l00068"></a>00068                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#ee708deff7d007a1fe37091c13e0e897">SDOtx</a>)
+<a name="l00069"></a>00069                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#5ff06ebb22799a706652d981570159d9">SDOrx</a>)
+<a name="l00070"></a>00070                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#e7e02f70bb48a2747c6496fdcf0f1b95">NODE_GUARD</a>)
+<a name="l00071"></a>00071                 <a class="code" href="can__virtual_8c.html#303cb6e9adb33087e17f29b9a75ba379">MyCase</a>(<a class="code" href="def_8h.html#d21112faeaa2f64d69dd82ff3f80fa76">NMT</a>)
 <a name="l00072"></a>00072         }
-<a name="l00073"></a>00073         printf(<span class="stringliteral">" rtr:%d"</span>, m-&gt;<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a>);
-<a name="l00074"></a>00074         printf(<span class="stringliteral">" len:%d"</span>, m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a>);
-<a name="l00075"></a>00075         <span class="keywordflow">for</span> (i = 0 ; i &lt; m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> ; i++)
-<a name="l00076"></a>00076                 printf(<span class="stringliteral">" %02x"</span>, m-&gt;<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[i]);
+<a name="l00073"></a>00073         printf(<span class="stringliteral">" rtr:%d"</span>, m-&gt;<a class="code" href="structMessage.html#4fea58e2ceec365228be253ba3d8bdba">rtr</a>);
+<a name="l00074"></a>00074         printf(<span class="stringliteral">" len:%d"</span>, m-&gt;<a class="code" href="structMessage.html#a8c32de83f67079897508203c8e2198c">len</a>);
+<a name="l00075"></a>00075         <span class="keywordflow">for</span> (i = 0 ; i &lt; m-&gt;<a class="code" href="structMessage.html#a8c32de83f67079897508203c8e2198c">len</a> ; i++)
+<a name="l00076"></a>00076                 printf(<span class="stringliteral">" %02x"</span>, m-&gt;<a class="code" href="structMessage.html#9f53ff2fea190c14dd66e2c92a32ec45">data</a>[i]);
 <a name="l00077"></a>00077         printf(<span class="stringliteral">"\n"</span>);
 <a name="l00078"></a>00078 }
 <a name="l00079"></a>00079 
 <a name="l00080"></a>00080 <span class="comment">/***************************************************************************/</span>
-<a name="l00081"></a><a class="code" href="can__virtual_8c.html#def95aee49efa13dd047d0b3b5507ad3">00081</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="can__lincan_8c.html#def95aee49efa13dd047d0b3b5507ad3">canSend_driver</a>(<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> *m)
+<a name="l00081"></a><a class="code" href="can__virtual_8c.html#36327c9e0ec6d284b346963a321e3c2b">00081</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="can__lincan_8c.html#36327c9e0ec6d284b346963a321e3c2b">canSend_driver</a>(<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> *m)
 <a name="l00082"></a>00082 {
 <a name="l00083"></a>00083   <span class="keywordtype">int</span> i;
 <a name="l00084"></a>00084   
-<a name="l00085"></a>00085   printf(<span class="stringliteral">"%x-&gt;[ "</span>, (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0 - &amp;<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[0]); 
-<a name="l00086"></a>00086   <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="can__virtual_8c.html#b2f51095e950bbeab1ea15fac21e6146">MAX_NB_CAN_PIPES</a>; i++)
+<a name="l00085"></a>00085   printf(<span class="stringliteral">"%x-&gt;[ "</span>, (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0 - &amp;<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[0]); 
+<a name="l00086"></a>00086   <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="can__virtual_8c.html#722407e147a7e12159a03b4d7ce8e389">MAX_NB_CAN_PIPES</a>; i++)
 <a name="l00087"></a>00087   {
-<a name="l00088"></a>00088         <span class="keywordflow">if</span>(<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].used &amp;&amp; &amp;<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i] != (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)
+<a name="l00088"></a>00088         <span class="keywordflow">if</span>(<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].used &amp;&amp; &amp;<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i] != (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)
 <a name="l00089"></a>00089         {
 <a name="l00090"></a>00090                 printf(<span class="stringliteral">"%x "</span>,i);        
 <a name="l00091"></a>00091         }
 <a name="l00092"></a>00092   }
 <a name="l00093"></a>00093   printf(<span class="stringliteral">" ]"</span>); 
-<a name="l00094"></a>00094   <a class="code" href="can__virtual_8c.html#6baa544d467cbabaf4bacadc74cc6523">print_message</a>(m);
+<a name="l00094"></a>00094   <a class="code" href="can__virtual_8c.html#d1dd3b302365b1f2bd0ce49f3db780d8">print_message</a>(m);
 <a name="l00095"></a>00095   
 <a name="l00096"></a>00096   <span class="comment">// Send to all readers, except myself</span>
 <a name="l00097"></a>00097   <span class="keywordflow">for</span>(i=0; i &lt; MAX_NB_CAN_PIPES; i++)
 <a name="l00098"></a>00098   {
-<a name="l00099"></a>00099         <span class="keywordflow">if</span>(<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].used &amp;&amp; &amp;<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i] != (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)
+<a name="l00099"></a>00099         <span class="keywordflow">if</span>(<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].used &amp;&amp; &amp;<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i] != (<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)
 <a name="l00100"></a>00100         {
-<a name="l00101"></a>00101                 write(<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].pipe[1], m, <span class="keyword">sizeof</span>(<a class="code" href="structMessage.html">Message</a>));
+<a name="l00101"></a>00101                 write(<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].pipe[1], m, <span class="keyword">sizeof</span>(<a class="code" href="structMessage.html">Message</a>));
 <a name="l00102"></a>00102         }
 <a name="l00103"></a>00103   }
 <a name="l00104"></a>00104   <span class="keywordflow">return</span> 0;
@@ -139,28 +139,28 @@
 <a name="l00118"></a>00118 <span class="comment">        return 0;</span>
 <a name="l00119"></a>00119 <span class="comment">}*/</span>
 <a name="l00120"></a>00120 <span class="comment">/***************************************************************************/</span>
-<a name="l00121"></a><a class="code" href="can__virtual_8c.html#945403aba7f36acbd2e7160ade361bab">00121</a> <a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> <a class="code" href="can__lincan_8c.html#945403aba7f36acbd2e7160ade361bab">canOpen_driver</a>(<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board)
+<a name="l00121"></a><a class="code" href="can__virtual_8c.html#a91c5884b47322592815c82427be3fac">00121</a> <a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> <a class="code" href="can__lincan_8c.html#a91c5884b47322592815c82427be3fac">canOpen_driver</a>(<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board)
 <a name="l00122"></a>00122 {
 <a name="l00123"></a>00123   <span class="keywordtype">int</span> i;  
-<a name="l00124"></a>00124   <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="can__virtual_8c.html#b2f51095e950bbeab1ea15fac21e6146">MAX_NB_CAN_PIPES</a>; i++)
+<a name="l00124"></a>00124   <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="can__virtual_8c.html#722407e147a7e12159a03b4d7ce8e389">MAX_NB_CAN_PIPES</a>; i++)
 <a name="l00125"></a>00125   {
-<a name="l00126"></a>00126         <span class="keywordflow">if</span>(!<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].used)
+<a name="l00126"></a>00126         <span class="keywordflow">if</span>(!<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].used)
 <a name="l00127"></a>00127                 <span class="keywordflow">break</span>;
 <a name="l00128"></a>00128   }
 <a name="l00129"></a>00129 
 <a name="l00130"></a>00130   <span class="comment">/* Create the pipe.  */</span>
-<a name="l00131"></a>00131   <span class="keywordflow">if</span> (i==MAX_NB_CAN_PIPES || pipe(<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].pipe))
+<a name="l00131"></a>00131   <span class="keywordflow">if</span> (i==MAX_NB_CAN_PIPES || pipe(<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].pipe))
 <a name="l00132"></a>00132     {
 <a name="l00133"></a>00133       fprintf (stderr, <span class="stringliteral">"Open failed.\n"</span>);
-<a name="l00134"></a>00134       <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a>)NULL;
+<a name="l00134"></a>00134       <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a>)NULL;
 <a name="l00135"></a>00135     }
 <a name="l00136"></a>00136 
-<a name="l00137"></a>00137    <a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i].<a class="code" href="structCANPipe.html#86b7d0cf232b1b6b687c19b61434aa2f">used</a> = 1;
-<a name="l00138"></a>00138    <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a>) &amp;<a class="code" href="can__virtual_8c.html#53fd0e34e8d4d31bf381700a9d8ae72b">canpipes</a>[i];
+<a name="l00137"></a>00137    <a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i].<a class="code" href="structCANPipe.html#46897ae7bcc29d077bc394d3369a4f6b">used</a> = 1;
+<a name="l00138"></a>00138    <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a>) &amp;<a class="code" href="can__virtual_8c.html#a13bbe9d129fed0a2f43085698c79e3e">canpipes</a>[i];
 <a name="l00139"></a>00139 }
 <a name="l00140"></a>00140 
 <a name="l00141"></a>00141 <span class="comment">/***************************************************************************/</span>
-<a name="l00142"></a><a class="code" href="can__virtual_8c.html#76e6a915d0e40a23b863198b2aaa5545">00142</a> <span class="keywordtype">int</span> <a class="code" href="can__lincan_8c.html#76e6a915d0e40a23b863198b2aaa5545">canClose_driver</a>(<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0)
+<a name="l00142"></a><a class="code" href="can__virtual_8c.html#d2f4803f3a623c82a4c3e92d4e75e5a5">00142</a> <span class="keywordtype">int</span> <a class="code" href="can__lincan_8c.html#d2f4803f3a623c82a4c3e92d4e75e5a5">canClose_driver</a>(<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0)
 <a name="l00143"></a>00143 {
 <a name="l00144"></a>00144   close(((<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)-&gt;pipe[0]);
 <a name="l00145"></a>00145   close(((<a class="code" href="structCANPipe.html">CANPipe</a>*)fd0)-&gt;pipe[1]);
@@ -169,7 +169,7 @@
 <a name="l00148"></a>00148 }
 <a name="l00149"></a>00149 
 <a name="l00150"></a>00150 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:38 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

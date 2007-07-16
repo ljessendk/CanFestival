@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>objacces.h</h1><a href="objacces_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -46,9 +46,9 @@
 <a name="l00036"></a>00036 <span class="preprocessor"></span>
 <a name="l00037"></a>00037 <span class="preprocessor">#include &lt;<a class="code" href="win32_2applicfg_8h.html">applicfg.h</a>&gt;</span>
 <a name="l00038"></a>00038 
-<a name="l00039"></a><a class="code" href="objacces_8h.html#270e94e9acf61da8b2f36b3ebdbf2fdd">00039</a> <span class="keyword">typedef</span> <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> (*<a class="code" href="objacces_8h.html#270e94e9acf61da8b2f36b3ebdbf2fdd">valueRangeTest_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> typeValue, <span class="keywordtype">void</span> *Value);
-<a name="l00040"></a><a class="code" href="objacces_8h.html#7b55b55a3f5ed8e4b2991cb85c7be7ce">00040</a> <span class="keyword">typedef</span> void (* <a class="code" href="objacces_8h.html#7b55b55a3f5ed8e4b2991cb85c7be7ce">storeODSubIndex_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex);
-<a name="l00041"></a>00041 <span class="keywordtype">void</span> <a class="code" href="objacces_8c.html#43bf8d2616cf3d7d713b4af3d33a139c">_storeODSubIndex</a> (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex);
+<a name="l00039"></a><a class="code" href="objacces_8h.html#0c04a935735f5dbc8466f6e0a981723b">00039</a> <span class="keyword">typedef</span> <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> (*<a class="code" href="objacces_8h.html#0c04a935735f5dbc8466f6e0a981723b">valueRangeTest_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> typeValue, <span class="keywordtype">void</span> *Value);
+<a name="l00040"></a><a class="code" href="objacces_8h.html#0fffa15168046a1e8231be4c80aa4ac4">00040</a> <span class="keyword">typedef</span> void (* <a class="code" href="objacces_8h.html#0fffa15168046a1e8231be4c80aa4ac4">storeODSubIndex_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex);
+<a name="l00041"></a>00041 <span class="keywordtype">void</span> <a class="code" href="objacces_8c.html#8c45d7c0745b490ef4ea58f09bae358f">_storeODSubIndex</a> (<a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex);
 <a name="l00042"></a>00042 
 <a name="l00043"></a>00043 <span class="preprocessor">#include "<a class="code" href="data_8h.html">data.h</a>"</span>
 <a name="l00044"></a>00044 
@@ -69,8 +69,8 @@
 <a name="l00059"></a>00059 <span class="comment">getSDOerror(). So do not take attention to these variables if they are null.</span>
 <a name="l00060"></a>00060 <span class="comment">*/</span>
 <a name="l00061"></a>00061 
-<a name="l00062"></a>00062 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="objacces_8c.html#75d39b2dadcdb48f7321c6f3766aad26">accessDictionaryError</a>(<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> index, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> subIndex, 
-<a name="l00063"></a>00063                            <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> sizeDataDict, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> sizeDataGiven, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> code);
+<a name="l00062"></a>00062 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="objacces_8c.html#8577ef029b11faa6cfd1102f6bb10f59">accessDictionaryError</a>(<a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> index, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> subIndex, 
+<a name="l00063"></a>00063                            <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> sizeDataDict, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> sizeDataGiven, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> code);
 <a name="l00064"></a>00064 
 <a name="l00065"></a>00065 
 <a name="l00066"></a>00066 <span class="comment">/* Reads an entry from the object dictionary.\n</span>
@@ -102,13 +102,13 @@
 <a name="l00092"></a>00092 <span class="comment"> *                     [Not used today. Put always 0].</span>
 <a name="l00093"></a>00093 <span class="comment"> *  \return OD_SUCCESSFUL or SDO abort code. (See file def.h)</span>
 <a name="l00094"></a>00094 <span class="comment"> */</span>
-<a name="l00095"></a>00095 <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="objacces_8c.html#39c263a4bc5d2d824fefe22fdb4c2dac">getODentry</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
-<a name="l00096"></a>00096                   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex,
-<a name="l00097"></a>00097                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex,
+<a name="l00095"></a>00095 <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <a class="code" href="objacces_8c.html#cad0c118b1e06230c9cceb8e3985822b">getODentry</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
+<a name="l00096"></a>00096                   <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex,
+<a name="l00097"></a>00097                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex,
 <a name="l00098"></a>00098                   <span class="keywordtype">void</span> * pDestData,
-<a name="l00099"></a>00099                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> * pExpectedSize,
-<a name="l00100"></a>00100                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> * pDataType,
-<a name="l00101"></a>00101                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> checkAccess);
+<a name="l00099"></a>00099                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> * pExpectedSize,
+<a name="l00100"></a>00100                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> * pDataType,
+<a name="l00101"></a>00101                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> checkAccess);
 <a name="l00102"></a>00102 
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104 <span class="comment">/* By this function you can write an entry into the object dictionary\n</span>
@@ -131,32 +131,32 @@
 <a name="l00121"></a>00121 <span class="comment"> *  \param CheckAccess if other than 0, do not read if the data is Read Only or Constant</span>
 <a name="l00122"></a>00122 <span class="comment"> *  \return OD_SUCCESSFUL or SDO abort code. (See file def.h)</span>
 <a name="l00123"></a>00123 <span class="comment"> */</span>
-<a name="l00124"></a>00124 <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="objacces_8c.html#17e598cc1b2e60380e2e4e75afe9b3b0">setODentry</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
-<a name="l00125"></a>00125                   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex,
-<a name="l00126"></a>00126                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex, 
+<a name="l00124"></a>00124 <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <a class="code" href="objacces_8c.html#dad5d2f7890168cade2fbb7e0e4c6200">setODentry</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
+<a name="l00125"></a>00125                   <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex,
+<a name="l00126"></a>00126                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex, 
 <a name="l00127"></a>00127                   <span class="keywordtype">void</span> * pSourceData, 
-<a name="l00128"></a>00128                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> * pExpectedSize, 
-<a name="l00129"></a>00129                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> checkAccess);
+<a name="l00128"></a>00128                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> * pExpectedSize, 
+<a name="l00129"></a>00129                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> checkAccess);
 <a name="l00130"></a>00130 
 <a name="l00131"></a>00131 <span class="comment">/*The same, without endianisation*/</span>
-<a name="l00132"></a>00132 <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
-<a name="l00133"></a>00133                   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex,
-<a name="l00134"></a>00134                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex, 
+<a name="l00132"></a>00132 <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, 
+<a name="l00133"></a>00133                   <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex,
+<a name="l00134"></a>00134                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex, 
 <a name="l00135"></a>00135                   <span class="keywordtype">void</span> * pSourceData, 
-<a name="l00136"></a>00136                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> * pExpectedSize, 
-<a name="l00137"></a>00137                   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> checkAccess);
+<a name="l00136"></a>00136                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> * pExpectedSize, 
+<a name="l00137"></a>00137                   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> checkAccess);
 <a name="l00138"></a>00138 
 <a name="l00139"></a>00139 
 <a name="l00140"></a>00140 <span class="comment">/* Scan the index of object dictionary. Used only by setODentry and getODentry.</span>
 <a name="l00141"></a>00141 <span class="comment"> *  *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)</span>
 <a name="l00142"></a>00142 <span class="comment"> *  Return NULL if index not found. Else : return the table part of the object dictionary.</span>
 <a name="l00143"></a>00143 <span class="comment"> */</span>
-<a name="l00144"></a>00144  <span class="keyword">const</span> <a class="code" href="structtd__indextable.html">indextable</a> * <a class="code" href="objacces_8c.html#11e9f24840d05a6a622955b51f91af53">scanIndexOD</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> *errorCode, <a class="code" href="objdictdef_8h.html#91481b154cacc926ae5824fd121d6b43">ODCallback_t</a> **Callback);
+<a name="l00144"></a>00144  <span class="keyword">const</span> <a class="code" href="structtd__indextable.html">indextable</a> * <a class="code" href="objacces_8c.html#b2839d53051e322c12605c1d7f3dc4e5">scanIndexOD</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> *errorCode, <a class="code" href="objdictdef_8h.html#01303c7a6ee17ba5678931e2756dd5e6">ODCallback_t</a> **Callback);
 <a name="l00145"></a>00145 
-<a name="l00146"></a>00146 <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="objacces_8c.html#514e7b9c13835a86446b1cd38fa34049">RegisterSetODentryCallBack</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> bSubindex, <a class="code" href="objdictdef_8h.html#91481b154cacc926ae5824fd121d6b43">ODCallback_t</a> Callback);
+<a name="l00146"></a>00146 <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <a class="code" href="objacces_8c.html#9a512a966532e40f35d3a4201bf54ead">RegisterSetODentryCallBack</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> wIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> bSubindex, <a class="code" href="objdictdef_8h.html#01303c7a6ee17ba5678931e2756dd5e6">ODCallback_t</a> Callback);
 <a name="l00147"></a>00147 
 <a name="l00148"></a>00148 <span class="preprocessor">#endif </span><span class="comment">/* __objacces_h__ */</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

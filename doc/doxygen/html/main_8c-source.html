@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_fc8d77725c328f9de5a130dceab5a508.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9da286b31cfbba48738c6a19280b9fcf.html">win32test</a></div>
+<a class="el" href="dir_aa575cee5acc3b84cc5b4489187a1fd3.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_2141e986c2caba396c3501b692c2793f.html">win32test</a></div>
 <h1>main.c</h1><a href="main_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/**************************************************************************</span>
 <a name="l00002"></a>00002 <span class="comment">CanFestival3 win32 port example</span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -51,56 +51,56 @@
 <a name="l00030"></a>00030 <span class="preprocessor"></span><span class="preprocessor">#define uptime_ms_proc() GetTickCount()</span>
 <a name="l00031"></a>00031 <span class="preprocessor"></span><span class="preprocessor">#else</span>
 <a name="l00032"></a>00032 <span class="preprocessor"></span><span class="preprocessor">#include &lt;time.h&gt;</span> 
-<a name="l00033"></a><a class="code" href="main_8c.html#912c62bad87e954cee4b1733111a420b">00033</a> <span class="preprocessor">#define sleep_proc(ms)</span>
-<a name="l00034"></a><a class="code" href="main_8c.html#6faddd33869dd1ccf360315b1f11b554">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define uptime_ms_proc (1000*(time()%86400))  // TOD</span>
+<a name="l00033"></a><a class="code" href="main_8c.html#6383650a87aa7d2a6d496d13afb24d8b">00033</a> <span class="preprocessor">#define sleep_proc(ms)</span>
+<a name="l00034"></a><a class="code" href="main_8c.html#01197732573264a33297a95c9e7ec100">00034</a> <span class="preprocessor"></span><span class="preprocessor">#define uptime_ms_proc (1000*(time()%86400))  // TOD</span>
 <a name="l00035"></a>00035 <span class="preprocessor"></span><span class="preprocessor">#endif</span>
 <a name="l00036"></a>00036 <span class="preprocessor"></span>
-<a name="l00037"></a><a class="code" href="main_8c.html#b324a2fad227690e3da744b69f7a8119">00037</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="main_8c.html#b324a2fad227690e3da744b69f7a8119">GetChangeStateResults</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> node_id, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> expected_state, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> timeout_ms)
+<a name="l00037"></a><a class="code" href="main_8c.html#3ed72783d02c7dd8e2527fa95eecf9b7">00037</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="main_8c.html#3ed72783d02c7dd8e2527fa95eecf9b7">GetChangeStateResults</a>(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> node_id, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> expected_state, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> timeout_ms)
 <a name="l00038"></a>00038    {
 <a name="l00039"></a>00039    <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> start_time = 0;
 <a name="l00040"></a>00040    
 <a name="l00041"></a>00041    <span class="comment">// reset nodes state</span>
-<a name="l00042"></a>00042    <a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>.<a class="code" href="structstruct__CO__Data.html#40414cf320a3c3d6236790bd10b4301a">NMTable</a>[node_id] = <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646cb4b5cb64be091d76f846380eb0afe59">Unknown_state</a>;
+<a name="l00042"></a>00042    <a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>.<a class="code" href="structstruct__CO__Data.html#9b11cedeb5f46378c752f68a997e0903">NMTable</a>[node_id] = <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538c10f9d2ed7c3268d46023240e3bef9b9">Unknown_state</a>;
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044    <span class="comment">// request node state</span>
-<a name="l00045"></a>00045    <a class="code" href="nmtMaster_8c.html#98bee3f402438056dbd653e752054796">masterRequestNodeState</a>(&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, node_id);
+<a name="l00045"></a>00045    <a class="code" href="nmtMaster_8c.html#ed4b5c5175612deb4d3e9c328a645cfb">masterRequestNodeState</a>(&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, node_id);
 <a name="l00046"></a>00046    
-<a name="l00047"></a>00047    start_time = <a class="code" href="main_8c.html#6faddd33869dd1ccf360315b1f11b554">uptime_ms_proc</a>();
-<a name="l00048"></a>00048    <span class="keywordflow">while</span>(<a class="code" href="main_8c.html#6faddd33869dd1ccf360315b1f11b554">uptime_ms_proc</a>() - start_time &lt; timeout_ms)
+<a name="l00047"></a>00047    start_time = <a class="code" href="main_8c.html#01197732573264a33297a95c9e7ec100">uptime_ms_proc</a>();
+<a name="l00048"></a>00048    <span class="keywordflow">while</span>(<a class="code" href="main_8c.html#01197732573264a33297a95c9e7ec100">uptime_ms_proc</a>() - start_time &lt; timeout_ms)
 <a name="l00049"></a>00049       {
-<a name="l00050"></a>00050       <span class="keywordflow">if</span> (<a class="code" href="lifegrd_8c.html#627254070e45c23f1776e12c524492ff">getNodeState</a>(&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, node_id) == expected_state)
+<a name="l00050"></a>00050       <span class="keywordflow">if</span> (<a class="code" href="lifegrd_8c.html#efc37a2f9a8c56f18d7569bfb0f02554">getNodeState</a>(&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, node_id) == expected_state)
 <a name="l00051"></a>00051          <span class="keywordflow">return</span> 0;
-<a name="l00052"></a>00052       <a class="code" href="main_8c.html#912c62bad87e954cee4b1733111a420b">sleep_proc</a>(1);   
+<a name="l00052"></a>00052       <a class="code" href="main_8c.html#6383650a87aa7d2a6d496d13afb24d8b">sleep_proc</a>(1);   
 <a name="l00053"></a>00053       }
 <a name="l00054"></a>00054    <span class="keywordflow">return</span> 0xFF;
 <a name="l00055"></a>00055    }
 <a name="l00056"></a>00056 
-<a name="l00057"></a><a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">00057</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> index, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> subIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> dataType, <span class="keywordtype">void</span>* data, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* size)
+<a name="l00057"></a><a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">00057</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId, <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> index, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> subIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> dataType, <span class="keywordtype">void</span>* data, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>* size)
 <a name="l00058"></a>00058    {
-<a name="l00059"></a>00059    <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> abortCode = 0;
-<a name="l00060"></a>00060    <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> res = <a class="code" href="def_8h.html#f05e95a564b579b94d14a218264d13e1">SDO_UPLOAD_IN_PROGRESS</a>;
+<a name="l00059"></a>00059    <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> abortCode = 0;
+<a name="l00060"></a>00060    <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> res = <a class="code" href="def_8h.html#2b7ba4e769b81e1ec7ca14f011ab908f">SDO_UPLOAD_IN_PROGRESS</a>;
 <a name="l00061"></a>00061    <span class="comment">// Read SDO</span>
-<a name="l00062"></a>00062    <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> err = <a class="code" href="sdo_8c.html#0e102a0835e4115920cd406e80a8d135">readNetworkDict</a> (&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, nodeId, index, subIndex, dataType);
+<a name="l00062"></a>00062    <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> err = <a class="code" href="sdo_8c.html#dbc2fd49f1f126684922973871e337aa">readNetworkDict</a> (&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, nodeId, index, subIndex, dataType);
 <a name="l00063"></a>00063    <span class="keywordflow">if</span> (err)
 <a name="l00064"></a>00064       <span class="keywordflow">return</span> 0xFF;
 <a name="l00065"></a>00065    <span class="keywordflow">for</span>(;;)
 <a name="l00066"></a>00066       {
-<a name="l00067"></a>00067       res = <a class="code" href="sdo_8c.html#05b0c8eee1faee3c7a2f6e2ba3a16533">getReadResultNetworkDict</a> (&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, nodeId, data, size, &amp;abortCode);
-<a name="l00068"></a>00068       <span class="keywordflow">if</span> (res != <a class="code" href="def_8h.html#f05e95a564b579b94d14a218264d13e1">SDO_UPLOAD_IN_PROGRESS</a>)
+<a name="l00067"></a>00067       res = <a class="code" href="sdo_8c.html#bec7a9f46a1ddda9fed0c0e7c61558fc">getReadResultNetworkDict</a> (&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, nodeId, data, size, &amp;abortCode);
+<a name="l00068"></a>00068       <span class="keywordflow">if</span> (res != <a class="code" href="def_8h.html#2b7ba4e769b81e1ec7ca14f011ab908f">SDO_UPLOAD_IN_PROGRESS</a>)
 <a name="l00069"></a>00069          <span class="keywordflow">break</span>;   
-<a name="l00070"></a>00070       <a class="code" href="main_8c.html#912c62bad87e954cee4b1733111a420b">sleep_proc</a>(1);
+<a name="l00070"></a>00070       <a class="code" href="main_8c.html#6383650a87aa7d2a6d496d13afb24d8b">sleep_proc</a>(1);
 <a name="l00071"></a>00071       <span class="keywordflow">continue</span>;
 <a name="l00072"></a>00072       }
-<a name="l00073"></a>00073    <a class="code" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a>(&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, nodeId, <a class="code" href="def_8h.html#b1dccfddc653c2a7c4eaf3e1cc8d8e57">SDO_CLIENT</a>);
-<a name="l00074"></a>00074    <span class="keywordflow">if</span> (res == <a class="code" href="def_8h.html#7d9dad1485ed532424092d21b1e22ad2">SDO_FINISHED</a>)
+<a name="l00073"></a>00073    <a class="code" href="sdo_8c.html#df77b984822a5cec9782ebd6bc64e700">closeSDOtransfer</a>(&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, nodeId, <a class="code" href="def_8h.html#9643ba6f5821c05629c3d60f1f911e88">SDO_CLIENT</a>);
+<a name="l00074"></a>00074    <span class="keywordflow">if</span> (res == <a class="code" href="def_8h.html#12966f6991bcd2a375fafc8c7c877c04">SDO_FINISHED</a>)
 <a name="l00075"></a>00075       <span class="keywordflow">return</span> 0;
 <a name="l00076"></a>00076    <span class="keywordflow">return</span> 0xFF;   
 <a name="l00077"></a>00077    }
 <a name="l00078"></a>00078 
-<a name="l00079"></a><a class="code" href="main_8c.html#0ddf1224851353fc92bfbff6f499fa97">00079</a> <span class="keywordtype">int</span> <a class="code" href="appli_8c.html#ef83014be811ae964a5ef7f0af7b46a2">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])
+<a name="l00079"></a><a class="code" href="main_8c.html#28052c36c3b61c6c0eaa18f5d226118f">00079</a> <span class="keywordtype">int</span> <a class="code" href="appli_8c.html#35d180f652ecf52603a5e9d7e891665f">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])
 <a name="l00080"></a>00080   {
-<a name="l00081"></a>00081    <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> node_id = 0;
-<a name="l00082"></a>00082    <a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> <a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a> = {<span class="stringliteral">"1"</span>, <span class="stringliteral">"125K"</span>};
+<a name="l00081"></a>00081    <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> node_id = 0;
+<a name="l00082"></a>00082    <a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> <a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a> = {<span class="stringliteral">"1"</span>, <span class="stringliteral">"125K"</span>};
 <a name="l00083"></a>00083    <span class="keywordtype">char</span>* dll_file_name;
 <a name="l00084"></a>00084 
 <a name="l00085"></a>00085    <span class="comment">/* process command line arguments */</span>
@@ -123,81 +123,81 @@
 <a name="l00102"></a>00102                 dll_file_name = <span class="stringliteral">"can_uvccm_win32.dll"</span>;
 <a name="l00103"></a>00103 
 <a name="l00104"></a>00104    <span class="comment">// load can driver</span>
-<a name="l00105"></a>00105    <span class="keywordflow">if</span> (!<a class="code" href="unix_8c.html#a6eed61fc15f41f772d4645d7a5edeb5">LoadCanDriver</a>(dll_file_name))
+<a name="l00105"></a>00105    <span class="keywordflow">if</span> (!<a class="code" href="unix_8c.html#0012a2aa42ef694bd275c6b5be5c89c7">LoadCanDriver</a>(dll_file_name))
 <a name="l00106"></a>00106       {
 <a name="l00107"></a>00107       printf(<span class="stringliteral">"ERROR: could not load diver %s\n"</span>, dll_file_name);
 <a name="l00108"></a>00108       <span class="keywordflow">return</span> 1;
 <a name="l00109"></a>00109       }
 <a name="l00110"></a>00110    
-<a name="l00111"></a>00111    <span class="keywordflow">if</span> (<a class="code" href="unix_8c.html#7476146ad15948a22e7f80a00c89c40a">canOpen</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>,&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>))
+<a name="l00111"></a>00111    <span class="keywordflow">if</span> (<a class="code" href="unix_8c.html#c32083e9caa1b02f7726a8b87d10ce33">canOpen</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>,&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>))
 <a name="l00112"></a>00112       {
 <a name="l00113"></a>00113       <span class="comment">/* Defining the node Id */</span>
-<a name="l00114"></a>00114       <a class="code" href="states_8c.html#d47a53979b9311a374d029f7923abbe1">setNodeId</a>(&amp;<a class="code" href="win32test_8c.html#b45e9f10c9200481b97d9c2c0c3396b0">win32test_Data</a>, 0x01);
+<a name="l00114"></a>00114       <a class="code" href="states_8c.html#191c0cad67e093ea44285c9acd187513">setNodeId</a>(&amp;<a class="code" href="win32test_8c.html#3d4a5690ea87cdfa730cc6acb933c068">win32test_Data</a>, 0x01);
 <a name="l00115"></a>00115 
 <a name="l00116"></a>00116       <span class="comment">/* init */</span>
-<a name="l00117"></a>00117       <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646eb3ae26d7a1629aa0fc6c83f46306cf5">Initialisation</a>);
+<a name="l00117"></a>00117       <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538de69e6bdd47a9d7dae023237acdaad5e">Initialisation</a>);
 <a name="l00118"></a>00118 
 <a name="l00119"></a>00119       <span class="comment">/****************************** START *******************************/</span>
 <a name="l00120"></a>00120       <span class="comment">/* Put the master in operational mode */</span>
-<a name="l00121"></a>00121       <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>);
+<a name="l00121"></a>00121       <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053824952153680b2c826995af50d0b16aea">Operational</a>);
 <a name="l00122"></a>00122 
 <a name="l00123"></a>00123       <span class="comment">/* Ask slave node to go in operational mode */</span>
-<a name="l00124"></a>00124       <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a> (&amp;win32test_Data, 0, <a class="code" href="def_8h.html#9654207fdc32413aa792c8a2dc9d414f">NMT_Start_Node</a>);
+<a name="l00124"></a>00124       <a class="code" href="nmtMaster_8c.html#c1ba0feb792adfae21a4adb96593ab3b">masterSendNMTstateChange</a> (&amp;win32test_Data, 0, <a class="code" href="def_8h.html#4467d5b0f948367d4ecf26aa2a98c221">NMT_Start_Node</a>);
 <a name="l00125"></a>00125 
 <a name="l00126"></a>00126       printf(<span class="stringliteral">"\nStarting node %d (%xh) ...\n"</span>,(<span class="keywordtype">int</span>)node_id,(<span class="keywordtype">int</span>)node_id);
 <a name="l00127"></a>00127       
 <a name="l00128"></a>00128       <span class="comment">/* wait untill mode will switch to operational state*/</span>
-<a name="l00129"></a>00129       <span class="keywordflow">if</span> (<a class="code" href="main_8c.html#b324a2fad227690e3da744b69f7a8119">GetChangeStateResults</a>(node_id, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>, 3000) != 0xFF)
+<a name="l00129"></a>00129       <span class="keywordflow">if</span> (<a class="code" href="main_8c.html#3ed72783d02c7dd8e2527fa95eecf9b7">GetChangeStateResults</a>(node_id, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053824952153680b2c826995af50d0b16aea">Operational</a>, 3000) != 0xFF)
 <a name="l00130"></a>00130          {
 <a name="l00131"></a>00131          <span class="comment">/* modify Client SDO 1 Parameter */</span>
-<a name="l00132"></a>00132          <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> COB_ID_Client_to_Server_Transmit_SDO = 0x600 + node_id;
-<a name="l00133"></a>00133          <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> COB_ID_Server_to_Client_Receive_SDO  = 0x580 + node_id;
-<a name="l00134"></a>00134          <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> Node_ID_of_the_SDO_Server = node_id;
-<a name="l00135"></a>00135          <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> ExpectedSize = <span class="keyword">sizeof</span> (<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>);
+<a name="l00132"></a>00132          <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> COB_ID_Client_to_Server_Transmit_SDO = 0x600 + node_id;
+<a name="l00133"></a>00133          <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> COB_ID_Server_to_Client_Receive_SDO  = 0x580 + node_id;
+<a name="l00134"></a>00134          <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> Node_ID_of_the_SDO_Server = node_id;
+<a name="l00135"></a>00135          <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> ExpectedSize = <span class="keyword">sizeof</span> (<a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a>);
 <a name="l00136"></a>00136 
-<a name="l00137"></a>00137          <span class="keywordflow">if</span> (<a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 1, &amp;COB_ID_Client_to_Server_Transmit_SDO, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#fc4ded33ac0ca43defcce639e965748a">RW</a>) 
-<a name="l00138"></a>00138               &amp;&amp; <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 2, &amp;COB_ID_Server_to_Client_Receive_SDO, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#fc4ded33ac0ca43defcce639e965748a">RW</a>) 
-<a name="l00139"></a>00139               &amp;&amp; <a class="code" href="def_8h.html#cb82b94eb8e368e8c347b2273b6e514e">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 3, &amp;Node_ID_of_the_SDO_Server, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#fc4ded33ac0ca43defcce639e965748a">RW</a>))
+<a name="l00137"></a>00137          <span class="keywordflow">if</span> (<a class="code" href="def_8h.html#a07aae3570321186b5b2233f4f8a9bbe">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 1, &amp;COB_ID_Client_to_Server_Transmit_SDO, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#ad0aec3e0810593c9047b44d01209927">RW</a>) 
+<a name="l00138"></a>00138               &amp;&amp; <a class="code" href="def_8h.html#a07aae3570321186b5b2233f4f8a9bbe">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 2, &amp;COB_ID_Server_to_Client_Receive_SDO, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#ad0aec3e0810593c9047b44d01209927">RW</a>) 
+<a name="l00139"></a>00139               &amp;&amp; <a class="code" href="def_8h.html#a07aae3570321186b5b2233f4f8a9bbe">OD_SUCCESSFUL</a> ==  <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>(&amp;win32test_Data, 0x1280, 3, &amp;Node_ID_of_the_SDO_Server, &amp;ExpectedSize, <a class="code" href="objdictdef_8h.html#ad0aec3e0810593c9047b44d01209927">RW</a>))
 <a name="l00140"></a>00140             {
-<a name="l00141"></a>00141             <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> dev_type = 0;
+<a name="l00141"></a>00141             <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> dev_type = 0;
 <a name="l00142"></a>00142             <span class="keywordtype">char</span> device_name[64]=<span class="stringliteral">""</span>;
 <a name="l00143"></a>00143             <span class="keywordtype">char</span> hw_ver[64]=<span class="stringliteral">""</span>;
 <a name="l00144"></a>00144             <span class="keywordtype">char</span> sw_ver[64]=<span class="stringliteral">""</span>;   
-<a name="l00145"></a>00145             <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> vendor_id = 0;            
-<a name="l00146"></a>00146             <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> prod_code = 0;
-<a name="l00147"></a>00147             <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> ser_num = 0;
-<a name="l00148"></a>00148             <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> size;
-<a name="l00149"></a>00149             <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> res;
+<a name="l00145"></a>00145             <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> vendor_id = 0;            
+<a name="l00146"></a>00146             <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> prod_code = 0;
+<a name="l00147"></a>00147             <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> ser_num = 0;
+<a name="l00148"></a>00148             <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> size;
+<a name="l00149"></a>00149             <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> res;
 <a name="l00150"></a>00150 
 <a name="l00151"></a>00151             printf(<span class="stringliteral">"\nnode_id: %d (%xh) info\n"</span>,(<span class="keywordtype">int</span>)node_id,(<span class="keywordtype">int</span>)node_id);
 <a name="l00152"></a>00152             printf(<span class="stringliteral">"********************************************\n"</span>);
 <a name="l00153"></a>00153 
 <a name="l00154"></a>00154             size = <span class="keyword">sizeof</span> (dev_type);
-<a name="l00155"></a>00155             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1000, 0, <a class="code" href="objdictdef_8h.html#9695cf1104606879c5d3f0221635a069">uint32</a>, &amp;dev_type, &amp;size);
+<a name="l00155"></a>00155             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1000, 0, <a class="code" href="objdictdef_8h.html#c94de30d6b6063024e06de2cdabc7674">uint32</a>, &amp;dev_type, &amp;size);
 <a name="l00156"></a>00156             printf(<span class="stringliteral">"device type: %d\n"</span>,dev_type &amp; 0xFFFF);
 <a name="l00157"></a>00157            
 <a name="l00158"></a>00158             size = <span class="keyword">sizeof</span> (device_name);
-<a name="l00159"></a>00159             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1008, 0, <a class="code" href="objdictdef_8h.html#6a4b5f93c378207aee7ea8f8397d1fc9">visible_string</a>, device_name, &amp;size);
+<a name="l00159"></a>00159             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1008, 0, <a class="code" href="objdictdef_8h.html#851e2f30538bfdede632203997bf1b39">visible_string</a>, device_name, &amp;size);
 <a name="l00160"></a>00160             printf(<span class="stringliteral">"device name: %s\n"</span>,device_name);
 <a name="l00161"></a>00161 
 <a name="l00162"></a>00162             size = <span class="keyword">sizeof</span> (hw_ver);
-<a name="l00163"></a>00163             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1009, 0, <a class="code" href="objdictdef_8h.html#6a4b5f93c378207aee7ea8f8397d1fc9">visible_string</a>, hw_ver, &amp;size);
+<a name="l00163"></a>00163             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1009, 0, <a class="code" href="objdictdef_8h.html#851e2f30538bfdede632203997bf1b39">visible_string</a>, hw_ver, &amp;size);
 <a name="l00164"></a>00164             printf(<span class="stringliteral">"HW version: %s\n"</span>,hw_ver);
 <a name="l00165"></a>00165 
 <a name="l00166"></a>00166             size = <span class="keyword">sizeof</span> (sw_ver);
-<a name="l00167"></a>00167             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x100A, 0, <a class="code" href="objdictdef_8h.html#6a4b5f93c378207aee7ea8f8397d1fc9">visible_string</a>, sw_ver, &amp;size);
+<a name="l00167"></a>00167             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x100A, 0, <a class="code" href="objdictdef_8h.html#851e2f30538bfdede632203997bf1b39">visible_string</a>, sw_ver, &amp;size);
 <a name="l00168"></a>00168             printf(<span class="stringliteral">"SW version: %s\n"</span>,sw_ver);            
 <a name="l00169"></a>00169             
 <a name="l00170"></a>00170             size = <span class="keyword">sizeof</span> (vendor_id);
-<a name="l00171"></a>00171             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1018, 1, <a class="code" href="objdictdef_8h.html#9695cf1104606879c5d3f0221635a069">uint32</a>, &amp;vendor_id, &amp;size);
+<a name="l00171"></a>00171             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1018, 1, <a class="code" href="objdictdef_8h.html#c94de30d6b6063024e06de2cdabc7674">uint32</a>, &amp;vendor_id, &amp;size);
 <a name="l00172"></a>00172             printf(<span class="stringliteral">"vendor id: %d\n"</span>,vendor_id);
 <a name="l00173"></a>00173 
 <a name="l00174"></a>00174             size = <span class="keyword">sizeof</span> (prod_code);
-<a name="l00175"></a>00175             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1018, 2, <a class="code" href="objdictdef_8h.html#9695cf1104606879c5d3f0221635a069">uint32</a>, &amp;prod_code, &amp;size);
+<a name="l00175"></a>00175             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1018, 2, <a class="code" href="objdictdef_8h.html#c94de30d6b6063024e06de2cdabc7674">uint32</a>, &amp;prod_code, &amp;size);
 <a name="l00176"></a>00176             printf(<span class="stringliteral">"product code: %d\n"</span>,prod_code);
 <a name="l00177"></a>00177 
 <a name="l00178"></a>00178             size = <span class="keyword">sizeof</span> (ser_num);
-<a name="l00179"></a>00179             res = <a class="code" href="main_8c.html#d4427585d0ce571277ff22b72adce526">ReadSDO</a>(node_id, 0x1018, 4, <a class="code" href="objdictdef_8h.html#9695cf1104606879c5d3f0221635a069">uint32</a>, &amp;ser_num, &amp;size);
+<a name="l00179"></a>00179             res = <a class="code" href="main_8c.html#595acfd379e20a2f1c112860f9371ce3">ReadSDO</a>(node_id, 0x1018, 4, <a class="code" href="objdictdef_8h.html#c94de30d6b6063024e06de2cdabc7674">uint32</a>, &amp;ser_num, &amp;size);
 <a name="l00180"></a>00180             printf(<span class="stringliteral">"serial number: %d\n"</span>,ser_num);
 <a name="l00181"></a>00181             
 <a name="l00182"></a>00182             printf(<span class="stringliteral">"********************************************\n"</span>);
@@ -212,17 +212,17 @@
 <a name="l00191"></a>00191          printf(<span class="stringliteral">"ERROR: node_id %d (%xh) is not responding\n"</span>,(<span class="keywordtype">int</span>)node_id,(<span class="keywordtype">int</span>)node_id);
 <a name="l00192"></a>00192          }
 <a name="l00193"></a>00193          
-<a name="l00194"></a>00194       <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a> (&amp;win32test_Data, 0x02, <a class="code" href="def_8h.html#7aae99c67e9ebd9491a246baf92570fa">NMT_Stop_Node</a>);
+<a name="l00194"></a>00194       <a class="code" href="nmtMaster_8c.html#c1ba0feb792adfae21a4adb96593ab3b">masterSendNMTstateChange</a> (&amp;win32test_Data, 0x02, <a class="code" href="def_8h.html#0d1997bb9a500ca3e400bf4ca6428044">NMT_Stop_Node</a>);
 <a name="l00195"></a>00195 
-<a name="l00196"></a>00196       <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec686464d049c6d45e08a294523df186ad77a75">Stopped</a>);
+<a name="l00196"></a>00196       <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(&amp;win32test_Data, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053853c74ac440bbf6af2cb67759d3cd8f0a">Stopped</a>);
 <a name="l00197"></a>00197       
-<a name="l00198"></a>00198       <a class="code" href="unix_8c.html#02957f72a9b951603adb98a142bd447b">canClose</a>(&amp;win32test_Data);
+<a name="l00198"></a>00198       <a class="code" href="unix_8c.html#6d6b692e726dee0a5726e6d3db1b1693">canClose</a>(&amp;win32test_Data);
 <a name="l00199"></a>00199       }
 <a name="l00200"></a>00200    <span class="keywordflow">return</span> 0;
 <a name="l00201"></a>00201   }
 <a name="l00202"></a>00202   
 <a name="l00203"></a>00203   
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

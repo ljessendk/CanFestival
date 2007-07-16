@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_d58fb241e647de6212c31ecccf9cbace.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_6da7fb7606ab88af9c782bbceb5cfb77.html">unix</a></div>
+<a class="el" href="dir_65dd258ff9b9ef4cd7bd0d22f5e58dba.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_29af917da4a435c30076aa14c4557ac5.html">unix</a></div>
 <h1>unix.c</h1><a href="unix_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -45,10 +45,10 @@
 <a name="l00024"></a>00024 <span class="preprocessor">#include &lt;stdlib.h&gt;</span>
 <a name="l00025"></a>00025 
 <a name="l00026"></a>00026 <span class="preprocessor">#ifndef NOT_USE_DYNAMIC_LOADING</span>
-<a name="l00027"></a><a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define DLL_CALL(funcname) (* funcname##_driver)</span>
-<a name="l00028"></a><a class="code" href="unix_8c.html#7f7ce94bf48fde67f4af7b64c7ca4c85">00028</a> <span class="preprocessor"></span><span class="preprocessor">#define FCT_PTR_INIT =NULL</span>
+<a name="l00027"></a><a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">00027</a> <span class="preprocessor"></span><span class="preprocessor">#define DLL_CALL(funcname) (* funcname##_driver)</span>
+<a name="l00028"></a><a class="code" href="unix_8c.html#7e34e187b01b3c6623af4ea0344ac92f">00028</a> <span class="preprocessor"></span><span class="preprocessor">#define FCT_PTR_INIT =NULL</span>
 <a name="l00029"></a>00029 <span class="preprocessor"></span>
-<a name="l00030"></a><a class="code" href="unix_8c.html#2af8b26c5600696a026aa95fe49b9dc9">00030</a> <span class="preprocessor">#define DLSYM(name)\</span>
+<a name="l00030"></a><a class="code" href="unix_8c.html#1063d59b6536410ef364b464fb114244">00030</a> <span class="preprocessor">#define DLSYM(name)\</span>
 <a name="l00031"></a>00031 <span class="preprocessor">        *(void **) (&amp;name##_driver) = dlsym(handle, #name"_driver");\</span>
 <a name="l00032"></a>00032 <span class="preprocessor">        if ((error = dlerror()) != NULL)  {\</span>
 <a name="l00033"></a>00033 <span class="preprocessor">                fprintf (stderr, "%s\n", error);\</span>
@@ -67,13 +67,13 @@
 <a name="l00046"></a>00046 <span class="preprocessor">#include "<a class="code" href="win32_2canfestival_8h.html">canfestival.h</a>"</span>
 <a name="l00047"></a>00047 <span class="preprocessor">#include "<a class="code" href="timers__driver_8h.html">timers_driver.h</a>"</span>
 <a name="l00048"></a>00048 
-<a name="l00049"></a><a class="code" href="unix_8c.html#c2f10bc5b98269f33af8a74299236e03">00049</a> <span class="preprocessor">#define MAX_NB_CAN_PORTS 16</span>
+<a name="l00049"></a><a class="code" href="unix_8c.html#e3eca11cd1b49149bf430038ec9d8db7">00049</a> <span class="preprocessor">#define MAX_NB_CAN_PORTS 16</span>
 <a name="l00050"></a>00050 <span class="preprocessor"></span>
 <a name="l00051"></a><a class="code" href="structCANPort.html">00051</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00052"></a><a class="code" href="structCANPort.html#9282729cb1b89dd5594435fbaf162e11">00052</a>   <span class="keywordtype">char</span> used;
-<a name="l00053"></a><a class="code" href="structCANPort.html#79262404ede9b4eb131a84b49454b7e7">00053</a>   <a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd;
-<a name="l00054"></a><a class="code" href="structCANPort.html#c9022d9f15fbff963b1bdb1e914dc871">00054</a>   <a class="code" href="timers__unix_2timerscfg_8h.html#07c1b78efc83716fac9e31b9862f7e60">TASK_HANDLE</a> receiveTask;
-<a name="l00055"></a><a class="code" href="structCANPort.html#45112279ca87924f3ecfc9fdb019cd69">00055</a>   <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d;
+<a name="l00052"></a><a class="code" href="structCANPort.html#34d80f45e6a0b0fa0cb02cdc5d7ffbec">00052</a>   <span class="keywordtype">char</span> used;
+<a name="l00053"></a><a class="code" href="structCANPort.html#9a0a5b7bd265a69dcce3a6277038439f">00053</a>   <a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd;
+<a name="l00054"></a><a class="code" href="structCANPort.html#038b3a99d94386e53e278a06beb8132b">00054</a>   <a class="code" href="timers__unix_2timerscfg_8h.html#69c1aff70ae463b42314dc6689cb7400">TASK_HANDLE</a> receiveTask;
+<a name="l00055"></a><a class="code" href="structCANPort.html#a6d2cbd1cebf1532772d5ef45182a772">00055</a>   <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d;
 <a name="l00056"></a>00056 } <a class="code" href="structCANPort.html">CANPort</a>;
 <a name="l00057"></a>00057 
 <a name="l00058"></a>00058 <span class="preprocessor">#include "<a class="code" href="can__driver_8h.html">can_driver.h</a>"</span>
@@ -84,12 +84,12 @@
 <a name="l00063"></a>00063 <span class="comment">CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *);</span>
 <a name="l00064"></a>00064 <span class="comment">int DLL_CALL(canClose)(CAN_HANDLE);</span>
 <a name="l00065"></a>00065 <span class="comment">*/</span>
-<a name="l00066"></a><a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">00066</a> <a class="code" href="structCANPort.html">CANPort</a> <a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[<a class="code" href="unix_8c.html#c2f10bc5b98269f33af8a74299236e03">MAX_NB_CAN_PORTS</a>] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,}};
+<a name="l00066"></a><a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">00066</a> <a class="code" href="structCANPort.html">CANPort</a> <a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[<a class="code" href="unix_8c.html#e3eca11cd1b49149bf430038ec9d8db7">MAX_NB_CAN_PORTS</a>] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,}};
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068 <span class="preprocessor">#ifndef NOT_USE_DYNAMIC_LOADING</span>
 <a name="l00069"></a>00069 <span class="preprocessor"></span>
 <a name="l00070"></a>00070 <span class="comment">/*UnLoads the dll*/</span>
-<a name="l00071"></a><a class="code" href="win32_2canfestival_8h.html#cb4f394ec0e040c5962d3dc1957505fb">00071</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="unix_8c.html#cb4f394ec0e040c5962d3dc1957505fb">UnLoadCanDriver</a>(<a class="code" href="unix_2canfestival_8h.html#99960198cd610250fc7ab4c8351ad9de">LIB_HANDLE</a> handle)
+<a name="l00071"></a><a class="code" href="win32_2canfestival_8h.html#a6bd04d2ce9d3601ce0430fa39d7e971">00071</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="unix_8c.html#a6bd04d2ce9d3601ce0430fa39d7e971">UnLoadCanDriver</a>(<a class="code" href="unix_2canfestival_8h.html#82365a7646f33bc8ac026b9977e53a15">LIB_HANDLE</a> handle)
 <a name="l00072"></a>00072 {
 <a name="l00073"></a>00073         <span class="keywordflow">if</span>(handle!=NULL)
 <a name="l00074"></a>00074         {
@@ -102,9 +102,9 @@
 <a name="l00081"></a>00081 }
 <a name="l00082"></a>00082 
 <a name="l00083"></a>00083 <span class="comment">/*Loads the dll and get funcs ptr*/</span>
-<a name="l00084"></a><a class="code" href="win32_2canfestival_8h.html#a6eed61fc15f41f772d4645d7a5edeb5">00084</a> <a class="code" href="unix_2canfestival_8h.html#99960198cd610250fc7ab4c8351ad9de">LIB_HANDLE</a> <a class="code" href="unix_8c.html#a6eed61fc15f41f772d4645d7a5edeb5">LoadCanDriver</a>(<span class="keywordtype">char</span>* driver_name)
+<a name="l00084"></a><a class="code" href="win32_2canfestival_8h.html#0012a2aa42ef694bd275c6b5be5c89c7">00084</a> <a class="code" href="unix_2canfestival_8h.html#82365a7646f33bc8ac026b9977e53a15">LIB_HANDLE</a> <a class="code" href="unix_8c.html#0012a2aa42ef694bd275c6b5be5c89c7">LoadCanDriver</a>(<span class="keywordtype">char</span>* driver_name)
 <a name="l00085"></a>00085 {
-<a name="l00086"></a>00086         <a class="code" href="unix_2canfestival_8h.html#99960198cd610250fc7ab4c8351ad9de">LIB_HANDLE</a> handle = NULL;
+<a name="l00086"></a>00086         <a class="code" href="unix_2canfestival_8h.html#82365a7646f33bc8ac026b9977e53a15">LIB_HANDLE</a> handle = NULL;
 <a name="l00087"></a>00087         <span class="keywordtype">char</span> *error;
 <a name="l00088"></a>00088         
 <a name="l00089"></a>00089 
@@ -119,10 +119,10 @@
 <a name="l00098"></a>00098         }
 <a name="l00099"></a>00099  
 <a name="l00100"></a>00100         <span class="comment">/*Get function ptr*/</span>
-<a name="l00101"></a>00101         <a class="code" href="unix_8c.html#2af8b26c5600696a026aa95fe49b9dc9">DLSYM</a>(<a class="code" href="drivers__win32_8cpp.html#c608a4ba478a809fd963a342a24226fd">canReceive</a>)
-<a name="l00102"></a>00102         <a class="code" href="unix_8c.html#2af8b26c5600696a026aa95fe49b9dc9">DLSYM</a>(<a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>)
-<a name="l00103"></a>00103         <a class="code" href="unix_8c.html#2af8b26c5600696a026aa95fe49b9dc9">DLSYM</a>(<a class="code" href="unix_8c.html#7476146ad15948a22e7f80a00c89c40a">canOpen</a>)
-<a name="l00104"></a>00104         <a class="code" href="unix_8c.html#2af8b26c5600696a026aa95fe49b9dc9">DLSYM</a>(<a class="code" href="unix_8c.html#02957f72a9b951603adb98a142bd447b">canClose</a>)
+<a name="l00101"></a>00101         <a class="code" href="unix_8c.html#1063d59b6536410ef364b464fb114244">DLSYM</a>(<a class="code" href="drivers__win32_8cpp.html#3fcc13134ab40e532057273c24fadeb3">canReceive</a>)
+<a name="l00102"></a>00102         <a class="code" href="unix_8c.html#1063d59b6536410ef364b464fb114244">DLSYM</a>(<a class="code" href="canOpenDriver_8c.html#fab789b9b2ee0ab6c6f27e67d6c03661">canSend</a>)
+<a name="l00103"></a>00103         <a class="code" href="unix_8c.html#1063d59b6536410ef364b464fb114244">DLSYM</a>(<a class="code" href="unix_8c.html#c32083e9caa1b02f7726a8b87d10ce33">canOpen</a>)
+<a name="l00104"></a>00104         <a class="code" href="unix_8c.html#1063d59b6536410ef364b464fb114244">DLSYM</a>(<a class="code" href="unix_8c.html#6d6b692e726dee0a5726e6d3db1b1693">canClose</a>)
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106         <span class="keywordflow">return</span> handle;
 <a name="l00107"></a>00107 }
@@ -138,78 +138,78 @@
 <a name="l00117"></a>00117 <span class="comment">}</span>
 <a name="l00118"></a>00118 <span class="comment">*/</span>
 <a name="l00119"></a>00119 
-<a name="l00120"></a><a class="code" href="win32_2canfestival_8h.html#8d1909a09c50c750e4d8626595acd9f6">00120</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>(<a class="code" href="unix_2applicfg_8h.html#7ef59f941603c6680e74fc335523f17e">CAN_PORT</a> port, <a class="code" href="structMessage.html">Message</a> *m)
+<a name="l00120"></a><a class="code" href="win32_2canfestival_8h.html#b510ea6afa8fdc7c55b3fd875c9f5209">00120</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="canOpenDriver_8c.html#fab789b9b2ee0ab6c6f27e67d6c03661">canSend</a>(<a class="code" href="unix_2applicfg_8h.html#c5a917a8cacf5edd42ba6486c0c8a243">CAN_PORT</a> port, <a class="code" href="structMessage.html">Message</a> *m)
 <a name="l00121"></a>00121 {
 <a name="l00122"></a>00122         <span class="keywordflow">if</span>(port){
-<a name="l00123"></a>00123                 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> res;
+<a name="l00123"></a>00123                 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> res;
 <a name="l00124"></a>00124                 <span class="comment">//LeaveMutex();</span>
-<a name="l00125"></a>00125                 res = <a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">DLL_CALL</a>(<a class="code" href="canOpenDriver_8c.html#b57b4b3c000e9f61135175495e874977">canSend</a>)(((<a class="code" href="structCANPort.html">CANPort</a>*)port)-&gt;fd, m);
+<a name="l00125"></a>00125                 res = <a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">DLL_CALL</a>(<a class="code" href="canOpenDriver_8c.html#fab789b9b2ee0ab6c6f27e67d6c03661">canSend</a>)(((<a class="code" href="structCANPort.html">CANPort</a>*)port)-&gt;fd, m);
 <a name="l00126"></a>00126                 <span class="comment">//EnterMutex();</span>
 <a name="l00127"></a>00127                 <span class="keywordflow">return</span> res;
 <a name="l00128"></a>00128         }               
 <a name="l00129"></a>00129         <span class="keywordflow">return</span> -1;
 <a name="l00130"></a>00130 }
 <a name="l00131"></a>00131 
-<a name="l00132"></a><a class="code" href="unix_8c.html#45ceca3727c2fb7ac93958a215efb827">00132</a> <span class="keywordtype">void</span> <a class="code" href="unix_8c.html#45ceca3727c2fb7ac93958a215efb827">canReceiveLoop</a>(<a class="code" href="unix_2applicfg_8h.html#7ef59f941603c6680e74fc335523f17e">CAN_PORT</a> port)
+<a name="l00132"></a><a class="code" href="unix_8c.html#f6396866bcbfb45d7272b70731ab39cf">00132</a> <span class="keywordtype">void</span> <a class="code" href="unix_8c.html#f6396866bcbfb45d7272b70731ab39cf">canReceiveLoop</a>(<a class="code" href="unix_2applicfg_8h.html#c5a917a8cacf5edd42ba6486c0c8a243">CAN_PORT</a> port)
 <a name="l00133"></a>00133 {
 <a name="l00134"></a>00134        <a class="code" href="structMessage.html">Message</a> m;
 <a name="l00135"></a>00135 
 <a name="l00136"></a>00136        <span class="keywordflow">while</span> (1) {
-<a name="l00137"></a>00137                <span class="keywordflow">if</span> (<a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">DLL_CALL</a>(<a class="code" href="drivers__win32_8cpp.html#c608a4ba478a809fd963a342a24226fd">canReceive</a>)(((<a class="code" href="structCANPort.html">CANPort</a>*)port)-&gt;fd, &amp;m) != 0)
+<a name="l00137"></a>00137                <span class="keywordflow">if</span> (<a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">DLL_CALL</a>(<a class="code" href="drivers__win32_8cpp.html#3fcc13134ab40e532057273c24fadeb3">canReceive</a>)(((<a class="code" href="structCANPort.html">CANPort</a>*)port)-&gt;fd, &amp;m) != 0)
 <a name="l00138"></a>00138                        <span class="keywordflow">break</span>;
 <a name="l00139"></a>00139 
-<a name="l00140"></a>00140                <a class="code" href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037">EnterMutex</a>();
-<a name="l00141"></a>00141                <a class="code" href="states_8c.html#3f8975650604cc23582f19a43fd4e518">canDispatch</a>(((CANPort*)port)-&gt;d, &amp;m);
-<a name="l00142"></a>00142                <a class="code" href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b">LeaveMutex</a>();
+<a name="l00140"></a>00140                <a class="code" href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8">EnterMutex</a>();
+<a name="l00141"></a>00141                <a class="code" href="states_8c.html#5903338b79e219eeb27f61974419fc12">canDispatch</a>(((CANPort*)port)-&gt;d, &amp;m);
+<a name="l00142"></a>00142                <a class="code" href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7">LeaveMutex</a>();
 <a name="l00143"></a>00143        }
 <a name="l00144"></a>00144 }
-<a name="l00145"></a><a class="code" href="win32_2canfestival_8h.html#7476146ad15948a22e7f80a00c89c40a">00145</a> <a class="code" href="unix_2applicfg_8h.html#7ef59f941603c6680e74fc335523f17e">CAN_PORT</a> <a class="code" href="unix_8c.html#7476146ad15948a22e7f80a00c89c40a">canOpen</a>(<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board, <a class="code" href="structstruct__CO__Data.html">CO_Data</a> * d)
+<a name="l00145"></a><a class="code" href="win32_2canfestival_8h.html#c32083e9caa1b02f7726a8b87d10ce33">00145</a> <a class="code" href="unix_2applicfg_8h.html#c5a917a8cacf5edd42ba6486c0c8a243">CAN_PORT</a> <a class="code" href="unix_8c.html#c32083e9caa1b02f7726a8b87d10ce33">canOpen</a>(<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board, <a class="code" href="structstruct__CO__Data.html">CO_Data</a> * d)
 <a name="l00146"></a>00146 {
 <a name="l00147"></a>00147         <span class="keywordtype">int</span> i;
-<a name="l00148"></a>00148         <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="unix_8c.html#c2f10bc5b98269f33af8a74299236e03">MAX_NB_CAN_PORTS</a>; i++)
+<a name="l00148"></a>00148         <span class="keywordflow">for</span>(i=0; i &lt; <a class="code" href="unix_8c.html#e3eca11cd1b49149bf430038ec9d8db7">MAX_NB_CAN_PORTS</a>; i++)
 <a name="l00149"></a>00149         {
-<a name="l00150"></a>00150                 <span class="keywordflow">if</span>(!<a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i].used)
+<a name="l00150"></a>00150                 <span class="keywordflow">if</span>(!<a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i].used)
 <a name="l00151"></a>00151                 <span class="keywordflow">break</span>;
 <a name="l00152"></a>00152         }
 <a name="l00153"></a>00153         
 <a name="l00154"></a>00154 <span class="preprocessor">#ifndef NOT_USE_DYNAMIC_LOADING</span>
-<a name="l00155"></a>00155 <span class="preprocessor"></span>        <span class="keywordflow">if</span> (&amp;<a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">DLL_CALL</a>(<a class="code" href="unix_8c.html#7476146ad15948a22e7f80a00c89c40a">canOpen</a>)==NULL) {
+<a name="l00155"></a>00155 <span class="preprocessor"></span>        <span class="keywordflow">if</span> (&amp;<a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">DLL_CALL</a>(<a class="code" href="unix_8c.html#c32083e9caa1b02f7726a8b87d10ce33">canOpen</a>)==NULL) {
 <a name="l00156"></a>00156                 fprintf(stderr,<span class="stringliteral">"CanOpen : Can Driver dll not loaded\n"</span>);
 <a name="l00157"></a>00157                 <span class="keywordflow">return</span> NULL;
 <a name="l00158"></a>00158         }
 <a name="l00159"></a>00159 <span class="preprocessor">#endif  </span>
-<a name="l00160"></a>00160 <span class="preprocessor"></span>        <a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0 = <a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">DLL_CALL</a>(canOpen)(board);
+<a name="l00160"></a>00160 <span class="preprocessor"></span>        <a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0 = <a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">DLL_CALL</a>(canOpen)(board);
 <a name="l00161"></a>00161         <span class="keywordflow">if</span>(fd0){
-<a name="l00162"></a>00162                 <a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i].<a class="code" href="structCANPort.html#9282729cb1b89dd5594435fbaf162e11">used</a> = 1;
-<a name="l00163"></a>00163                 <a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i].<a class="code" href="structCANPort.html#79262404ede9b4eb131a84b49454b7e7">fd</a> = fd0;
-<a name="l00164"></a>00164                 <a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i].<a class="code" href="structCANPort.html#45112279ca87924f3ecfc9fdb019cd69">d</a> = d;
+<a name="l00162"></a>00162                 <a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i].<a class="code" href="structCANPort.html#34d80f45e6a0b0fa0cb02cdc5d7ffbec">used</a> = 1;
+<a name="l00163"></a>00163                 <a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i].<a class="code" href="structCANPort.html#9a0a5b7bd265a69dcce3a6277038439f">fd</a> = fd0;
+<a name="l00164"></a>00164                 <a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i].<a class="code" href="structCANPort.html#a6d2cbd1cebf1532772d5ef45182a772">d</a> = d;
 <a name="l00165"></a>00165         
-<a name="l00166"></a>00166                 <a class="code" href="timers__unix_8c.html#a3a7df911baa20b01c4374a9677a154a">CreateReceiveTask</a>(&amp;(<a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i]), &amp;<a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i].receiveTask, &amp;<a class="code" href="unix_8c.html#45ceca3727c2fb7ac93958a215efb827">canReceiveLoop</a>);
+<a name="l00166"></a>00166                 <a class="code" href="timers__unix_8c.html#09c921f9537f26895843a3c21620855b">CreateReceiveTask</a>(&amp;(<a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i]), &amp;<a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i].receiveTask, &amp;<a class="code" href="unix_8c.html#f6396866bcbfb45d7272b70731ab39cf">canReceiveLoop</a>);
 <a name="l00167"></a>00167                 
-<a name="l00168"></a>00168                 <a class="code" href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037">EnterMutex</a>();
-<a name="l00169"></a>00169                 d-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a> = (<a class="code" href="unix_2applicfg_8h.html#7ef59f941603c6680e74fc335523f17e">CAN_PORT</a>)&amp;<a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i];
-<a name="l00170"></a>00170                 <a class="code" href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b">LeaveMutex</a>();
-<a name="l00171"></a>00171                 <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#7ef59f941603c6680e74fc335523f17e">CAN_PORT</a>)&amp;<a class="code" href="unix_8c.html#0b740cf913752262ceb23d51648da86a">canports</a>[i];
+<a name="l00168"></a>00168                 <a class="code" href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8">EnterMutex</a>();
+<a name="l00169"></a>00169                 d-&gt;<a class="code" href="structstruct__CO__Data.html#05c8d7a0518b95971818a9c612f8b9c0">canHandle</a> = (<a class="code" href="unix_2applicfg_8h.html#c5a917a8cacf5edd42ba6486c0c8a243">CAN_PORT</a>)&amp;<a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i];
+<a name="l00170"></a>00170                 <a class="code" href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7">LeaveMutex</a>();
+<a name="l00171"></a>00171                 <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#c5a917a8cacf5edd42ba6486c0c8a243">CAN_PORT</a>)&amp;<a class="code" href="unix_8c.html#95675d510c00ac25dd7cac0d50ce29e2">canports</a>[i];
 <a name="l00172"></a>00172         }<span class="keywordflow">else</span>{
-<a name="l00173"></a>00173                 fprintf(stderr,<span class="stringliteral">"CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n"</span>,board-&gt;<a class="code" href="structstruct__s__BOARD.html#fb28847fd702021b624afe1f7d4b25b2">busname</a>, board-&gt;<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a>);
+<a name="l00173"></a>00173                 fprintf(stderr,<span class="stringliteral">"CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n"</span>,board-&gt;<a class="code" href="structstruct__s__BOARD.html#83944366d00f1fbb0ab61e6532a4e9f2">busname</a>, board-&gt;<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a>);
 <a name="l00174"></a>00174                 <span class="keywordflow">return</span> NULL;
 <a name="l00175"></a>00175         }
 <a name="l00176"></a>00176 }
 <a name="l00177"></a>00177 
-<a name="l00178"></a><a class="code" href="win32_2canfestival_8h.html#02957f72a9b951603adb98a142bd447b">00178</a> <span class="keywordtype">int</span> <a class="code" href="unix_8c.html#02957f72a9b951603adb98a142bd447b">canClose</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a> * d)
+<a name="l00178"></a><a class="code" href="win32_2canfestival_8h.html#6d6b692e726dee0a5726e6d3db1b1693">00178</a> <span class="keywordtype">int</span> <a class="code" href="unix_8c.html#6d6b692e726dee0a5726e6d3db1b1693">canClose</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a> * d)
 <a name="l00179"></a>00179 {
-<a name="l00180"></a>00180         <a class="code" href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037">EnterMutex</a>();
-<a name="l00181"></a>00181         ((<a class="code" href="structCANPort.html">CANPort</a>*)d-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>)-&gt;used = 0;
-<a name="l00182"></a>00182         <a class="code" href="structCANPort.html">CANPort</a>* tmp = (<a class="code" href="structCANPort.html">CANPort</a>*)d-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a>;
-<a name="l00183"></a>00183         d-&gt;<a class="code" href="structstruct__CO__Data.html#c960c3c56e8389105c2853cfb393de0c">canHandle</a> = NULL;
-<a name="l00184"></a>00184         <a class="code" href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b">LeaveMutex</a>();
+<a name="l00180"></a>00180         <a class="code" href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8">EnterMutex</a>();
+<a name="l00181"></a>00181         ((<a class="code" href="structCANPort.html">CANPort</a>*)d-&gt;<a class="code" href="structstruct__CO__Data.html#05c8d7a0518b95971818a9c612f8b9c0">canHandle</a>)-&gt;used = 0;
+<a name="l00182"></a>00182         <a class="code" href="structCANPort.html">CANPort</a>* tmp = (<a class="code" href="structCANPort.html">CANPort</a>*)d-&gt;<a class="code" href="structstruct__CO__Data.html#05c8d7a0518b95971818a9c612f8b9c0">canHandle</a>;
+<a name="l00183"></a>00183         d-&gt;<a class="code" href="structstruct__CO__Data.html#05c8d7a0518b95971818a9c612f8b9c0">canHandle</a> = NULL;
+<a name="l00184"></a>00184         <a class="code" href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7">LeaveMutex</a>();
 <a name="l00185"></a>00185         
-<a name="l00186"></a>00186         <span class="keywordtype">int</span> res = <a class="code" href="unix_8c.html#74c6a27b44fd54de5cb021299ffce612">DLL_CALL</a>(<a class="code" href="unix_8c.html#02957f72a9b951603adb98a142bd447b">canClose</a>)(tmp-&gt;<a class="code" href="structCANPort.html#79262404ede9b4eb131a84b49454b7e7">fd</a>);
+<a name="l00186"></a>00186         <span class="keywordtype">int</span> res = <a class="code" href="unix_8c.html#89cf6df671ff9d1386748dfd3efe3675">DLL_CALL</a>(<a class="code" href="unix_8c.html#6d6b692e726dee0a5726e6d3db1b1693">canClose</a>)(tmp-&gt;<a class="code" href="structCANPort.html#9a0a5b7bd265a69dcce3a6277038439f">fd</a>);
 <a name="l00187"></a>00187         
-<a name="l00188"></a>00188         <a class="code" href="timers__unix_8c.html#4b2486891ee01e06e2deead4cf963727">WaitReceiveTaskEnd</a>(tmp-&gt;<a class="code" href="structCANPort.html#c9022d9f15fbff963b1bdb1e914dc871">receiveTask</a>);
+<a name="l00188"></a>00188         <a class="code" href="timers__unix_8c.html#b21b041545f4dfc5660514fbc3c2f89c">WaitReceiveTaskEnd</a>(tmp-&gt;<a class="code" href="structCANPort.html#038b3a99d94386e53e278a06beb8132b">receiveTask</a>);
 <a name="l00189"></a>00189         <span class="keywordflow">return</span> res;
 <a name="l00190"></a>00190 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:38 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

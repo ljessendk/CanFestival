@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_fc8d77725c328f9de5a130dceab5a508.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_a7260e1e7d8c32b9634bb52472535efa.html">TestMasterMicroMod</a></div>
+<a class="el" href="dir_aa575cee5acc3b84cc5b4489187a1fd3.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_c6ec2311b9c3220564f22df7a614280d.html">TestMasterMicroMod</a></div>
 <h1>TestMasterMicroMod.c</h1><a href="TestMasterMicroMod_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -59,13 +59,13 @@
 <a name="l00038"></a>00038 <span class="preprocessor">#include "<a class="code" href="win32_2canfestival_8h.html">canfestival.h</a>"</span>
 <a name="l00039"></a>00039 <span class="preprocessor">#include "<a class="code" href="TestMasterMicroMod_8h.html">TestMasterMicroMod.h</a>"</span>
 <a name="l00040"></a>00040 <span class="preprocessor">#include "<a class="code" href="TestMasterMicroMod_2TestMaster_8h.html">TestMaster.h</a>"</span>
-<a name="l00041"></a><a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">00041</a> <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>;
+<a name="l00041"></a><a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">00041</a> <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>;
 <a name="l00042"></a>00042 
 <a name="l00043"></a>00043 
 <a name="l00044"></a>00044 <span class="comment">/*****************************************************************************/</span>
-<a name="l00045"></a><a class="code" href="TestMasterMicroMod_8c.html#47eb45e75b4db150fb465fcf171ef4b4">00045</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#47eb45e75b4db150fb465fcf171ef4b4">TestMaster_heartbeatError</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> heartbeatID)
+<a name="l00045"></a><a class="code" href="TestMasterMicroMod_8c.html#ab44b8110510c170a1075227cf400caf">00045</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#ab44b8110510c170a1075227cf400caf">TestMaster_heartbeatError</a>(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> heartbeatID)
 <a name="l00046"></a>00046 {
-<a name="l00047"></a>00047         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"TestMaster_heartbeatError %d\n"</span>, heartbeatID);
+<a name="l00047"></a>00047         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"TestMaster_heartbeatError %d\n"</span>, heartbeatID);
 <a name="l00048"></a>00048 }
 <a name="l00049"></a>00049 
 <a name="l00050"></a>00050 <span class="comment">/********************************************************</span>
@@ -73,51 +73,51 @@
 <a name="l00052"></a>00052 <span class="comment"> *  - setup master RPDO 1 to receive TPDO 1 from id 0x40</span>
 <a name="l00053"></a>00053 <span class="comment"> *  - setup master TPDO 1 to send RPDO 1 to id 0x40</span>
 <a name="l00054"></a>00054 <span class="comment"> ********************************************************/</span>
-<a name="l00055"></a><a class="code" href="TestMasterMicroMod_8c.html#e08dfb379eebaa62524fac5bba2196d5">00055</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#e08dfb379eebaa62524fac5bba2196d5">TestMaster_initialisation</a>()
+<a name="l00055"></a><a class="code" href="TestMasterMicroMod_8c.html#173d54878164bf1ef49845c8fffbf19f">00055</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#173d54878164bf1ef49845c8fffbf19f">TestMaster_initialisation</a>()
 <a name="l00056"></a>00056 {
-<a name="l00057"></a>00057         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> PDO1_COBID = 0x0180 + <a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>; 
-<a name="l00058"></a>00058         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> PDO2_COBID = 0x0200 + <a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>;
-<a name="l00059"></a>00059         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> size = <span class="keyword">sizeof</span>(<a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a>); 
+<a name="l00057"></a>00057         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> PDO1_COBID = 0x0180 + <a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>; 
+<a name="l00058"></a>00058         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> PDO2_COBID = 0x0200 + <a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>;
+<a name="l00059"></a>00059         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> size = <span class="keyword">sizeof</span>(<a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a>); 
 <a name="l00060"></a>00060 
-<a name="l00061"></a>00061         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"TestMaster_initialisation\n"</span>);
+<a name="l00061"></a>00061         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"TestMaster_initialisation\n"</span>);
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063         <span class="comment">/*****************************************</span>
 <a name="l00064"></a>00064 <span class="comment">         * Define RPDOs to match slave ID=0x40 TPDOs*</span>
 <a name="l00065"></a>00065 <span class="comment">         *****************************************/</span>
-<a name="l00066"></a>00066         <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>( &amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00066"></a>00066         <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>( &amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00067"></a>00067                         0x1400, <span class="comment">/*UNS16 index*/</span>
 <a name="l00068"></a>00068                         0x01, <span class="comment">/*UNS8 subind*/</span> 
 <a name="l00069"></a>00069                         &amp;PDO1_COBID, <span class="comment">/*void * pSourceData,*/</span> 
 <a name="l00070"></a>00070                         &amp;size, <span class="comment">/* UNS8 * pExpectedSize*/</span>
-<a name="l00071"></a>00071                         <a class="code" href="objdictdef_8h.html#fc4ded33ac0ca43defcce639e965748a">RW</a>);  <span class="comment">/* UNS8 checkAccess */</span>
+<a name="l00071"></a>00071                         <a class="code" href="objdictdef_8h.html#ad0aec3e0810593c9047b44d01209927">RW</a>);  <span class="comment">/* UNS8 checkAccess */</span>
 <a name="l00072"></a>00072                         
 <a name="l00073"></a>00073 
 <a name="l00074"></a>00074         <span class="comment">/*****************************************</span>
 <a name="l00075"></a>00075 <span class="comment">         * Define TPDOs to match slave ID=0x40 RPDOs*</span>
 <a name="l00076"></a>00076 <span class="comment">         *****************************************/</span>
-<a name="l00077"></a>00077         <a class="code" href="objacces_8c.html#7cc58d6e7711bd0d9fd75e8ff721ce36">writeLocalDict</a>( &amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00077"></a>00077         <a class="code" href="objacces_8c.html#205ea90bcc1c528d291fb60102f19451">writeLocalDict</a>( &amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00078"></a>00078                         0x1800, <span class="comment">/*UNS16 index*/</span>
 <a name="l00079"></a>00079                         0x01, <span class="comment">/*UNS8 subind*/</span> 
 <a name="l00080"></a>00080                         &amp;PDO2_COBID, <span class="comment">/*void * pSourceData,*/</span> 
 <a name="l00081"></a>00081                         &amp;size, <span class="comment">/* UNS8 * pExpectedSize*/</span>
-<a name="l00082"></a>00082                         <a class="code" href="objdictdef_8h.html#fc4ded33ac0ca43defcce639e965748a">RW</a>);  <span class="comment">/* UNS8 checkAccess */</span>
+<a name="l00082"></a>00082                         <a class="code" href="objdictdef_8h.html#ad0aec3e0810593c9047b44d01209927">RW</a>);  <span class="comment">/* UNS8 checkAccess */</span>
 <a name="l00083"></a>00083 }
 <a name="l00084"></a>00084 
 <a name="l00085"></a>00085 <span class="keyword">static</span> init_step = 0;
 <a name="l00086"></a>00086 
 <a name="l00087"></a>00087 <span class="comment">/*Froward declaration*/</span>
-<a name="l00088"></a>00088 <span class="keyword">static</span> <span class="keywordtype">void</span> ConfigureSlaveNode(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId);
+<a name="l00088"></a>00088 <span class="keyword">static</span> <span class="keywordtype">void</span> ConfigureSlaveNode(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId);
 <a name="l00089"></a>00089 
 <a name="l00090"></a>00090 
-<a name="l00091"></a>00091 <span class="keyword">static</span> <span class="keywordtype">void</span> CheckSDOAndContinue(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
+<a name="l00091"></a>00091 <span class="keyword">static</span> <span class="keywordtype">void</span> CheckSDOAndContinue(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId)
 <a name="l00092"></a>00092 {
-<a name="l00093"></a>00093         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> abortCode;
+<a name="l00093"></a>00093         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> abortCode;
 <a name="l00094"></a>00094 
-<a name="l00095"></a>00095         <span class="keywordflow">if</span>(<a class="code" href="sdo_8c.html#8671e306873f19362c60bb50ab930d1d">getWriteResultNetworkDict</a> (d, nodeId, &amp;abortCode) != <a class="code" href="def_8h.html#7d9dad1485ed532424092d21b1e22ad2">SDO_FINISHED</a>)
-<a name="l00096"></a>00096                 <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : Failed in initializing slave %2.2x, step %d, AbortCode :%4.4x \n"</span>, nodeId, init_step, abortCode);
+<a name="l00095"></a>00095         <span class="keywordflow">if</span>(<a class="code" href="sdo_8c.html#b5b66393347520874a551ca2ec53f673">getWriteResultNetworkDict</a> (d, nodeId, &amp;abortCode) != <a class="code" href="def_8h.html#12966f6991bcd2a375fafc8c7c877c04">SDO_FINISHED</a>)
+<a name="l00096"></a>00096                 <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : Failed in initializing slave %2.2x, step %d, AbortCode :%4.4x \n"</span>, nodeId, init_step, abortCode);
 <a name="l00097"></a>00097 
 <a name="l00098"></a>00098         <span class="comment">/* Finalise last SDO transfer with this node */</span>
-<a name="l00099"></a>00099         <a class="code" href="sdo_8c.html#555a772d3a88a29c495f33513f8b2d58">closeSDOtransfer</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, nodeId, <a class="code" href="def_8h.html#b1dccfddc653c2a7c4eaf3e1cc8d8e57">SDO_CLIENT</a>);
+<a name="l00099"></a>00099         <a class="code" href="sdo_8c.html#df77b984822a5cec9782ebd6bc64e700">closeSDOtransfer</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, nodeId, <a class="code" href="def_8h.html#9643ba6f5821c05629c3d60f1f911e88">SDO_CLIENT</a>);
 <a name="l00100"></a>00100 
 <a name="l00101"></a>00101         ConfigureSlaveNode(d, nodeId);
 <a name="l00102"></a>00102 }
@@ -138,17 +138,17 @@
 <a name="l00117"></a>00117 <span class="comment"> * then it called again each time a SDO exchange is</span>
 <a name="l00118"></a>00118 <span class="comment"> * finished.</span>
 <a name="l00119"></a>00119 <span class="comment"> ********************************************************/</span>
-<a name="l00120"></a>00120 <span class="keyword">static</span> <span class="keywordtype">void</span> ConfigureSlaveNode(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId)
+<a name="l00120"></a>00120 <span class="keyword">static</span> <span class="keywordtype">void</span> ConfigureSlaveNode(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId)
 <a name="l00121"></a>00121 {
-<a name="l00122"></a>00122         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> res;
-<a name="l00123"></a>00123         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : ConfigureSlaveNode %2.2x\n"</span>, nodeId);
+<a name="l00122"></a>00122         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> res;
+<a name="l00123"></a>00123         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : ConfigureSlaveNode %2.2x\n"</span>, nodeId);
 <a name="l00124"></a>00124         <span class="keywordflow">switch</span>(++init_step){
 <a name="l00125"></a>00125                 <span class="keywordflow">case</span> 1: 
 <a name="l00126"></a>00126                 {       <span class="comment">/*disable Slave's TPDO 1 */</span>
-<a name="l00127"></a>00127                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x80000180 + nodeId;
+<a name="l00127"></a>00127                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x80000180 + nodeId;
 <a name="l00128"></a>00128                         
-<a name="l00129"></a>00129                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 1 \n"</span>, nodeId);
-<a name="l00130"></a>00130                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00129"></a>00129                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 1 \n"</span>, nodeId);
+<a name="l00130"></a>00130                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00132"></a>00132                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00133"></a>00133                                         0x1800, <span class="comment">/*UNS16 index*/</span>
 <a name="l00134"></a>00134                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -161,10 +161,10 @@
 <a name="l00141"></a>00141 
 <a name="l00142"></a>00142                 <span class="keywordflow">case</span> 2: 
 <a name="l00143"></a>00143                 {       <span class="comment">/*setup Slave's TPDO 1 to be transmitted on SYNC*/</span>
-<a name="l00144"></a>00144                         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Transmission_Type = 0x01;
+<a name="l00144"></a>00144                         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> Transmission_Type = 0x01;
 <a name="l00145"></a>00145                         
-<a name="l00146"></a>00146                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x TPDO 1 transmit type\n"</span>, nodeId);
-<a name="l00147"></a>00147                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00146"></a>00146                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x TPDO 1 transmit type\n"</span>, nodeId);
+<a name="l00147"></a>00147                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00149"></a>00149                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00150"></a>00150                                         0x1800, <span class="comment">/*UNS16 index*/</span>
 <a name="l00151"></a>00151                                         0x02, <span class="comment">/*UNS8 subindex*/</span>
@@ -177,10 +177,10 @@
 <a name="l00158"></a>00158 
 <a name="l00159"></a>00159                 <span class="keywordflow">case</span> 3: 
 <a name="l00160"></a>00160                 {       <span class="comment">/*re-enable Slave's TPDO 1 */</span>
-<a name="l00161"></a>00161                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x00000180 + nodeId;
+<a name="l00161"></a>00161                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x00000180 + nodeId;
 <a name="l00162"></a>00162                         
-<a name="l00163"></a>00163                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : re-enable slave %2.2x TPDO 1\n"</span>, nodeId);
-<a name="l00164"></a>00164                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00163"></a>00163                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : re-enable slave %2.2x TPDO 1\n"</span>, nodeId);
+<a name="l00164"></a>00164                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00166"></a>00166                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00167"></a>00167                                         0x1800, <span class="comment">/*UNS16 index*/</span>
 <a name="l00168"></a>00168                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -193,10 +193,10 @@
 <a name="l00175"></a>00175                                         
 <a name="l00176"></a>00176                 <span class="keywordflow">case</span> 4: 
 <a name="l00177"></a>00177                 {       <span class="comment">/*disable Slave's TPDO 2 */</span>
-<a name="l00178"></a>00178                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x80000200 + nodeId;
+<a name="l00178"></a>00178                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x80000200 + nodeId;
 <a name="l00179"></a>00179                         
-<a name="l00180"></a>00180                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x RPDO 1\n"</span>, nodeId);
-<a name="l00181"></a>00181                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00180"></a>00180                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x RPDO 1\n"</span>, nodeId);
+<a name="l00181"></a>00181                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00183"></a>00183                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00184"></a>00184                                         0x1400, <span class="comment">/*UNS16 index*/</span>
 <a name="l00185"></a>00185                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -210,10 +210,10 @@
 <a name="l00193"></a>00193                                         
 <a name="l00194"></a>00194                 <span class="keywordflow">case</span> 5:
 <a name="l00195"></a>00195                 {       
-<a name="l00196"></a>00196                         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> Transmission_Type = 0x01;
+<a name="l00196"></a>00196                         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> Transmission_Type = 0x01;
 <a name="l00197"></a>00197                         
-<a name="l00198"></a>00198                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x RPDO 1 receive type\n"</span>, nodeId);
-<a name="l00199"></a>00199                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00198"></a>00198                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x RPDO 1 receive type\n"</span>, nodeId);
+<a name="l00199"></a>00199                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00201"></a>00201                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00202"></a>00202                                         0x1400, <span class="comment">/*UNS16 index*/</span>
 <a name="l00203"></a>00203                                         0x02, <span class="comment">/*UNS8 subindex*/</span>
@@ -226,10 +226,10 @@
 <a name="l00210"></a>00210 
 <a name="l00211"></a>00211                 <span class="keywordflow">case</span> 6: 
 <a name="l00212"></a>00212                 {       <span class="comment">/*re-enable Slave's TPDO 1 */</span>
-<a name="l00213"></a>00213                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x00000200 + nodeId;
+<a name="l00213"></a>00213                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x00000200 + nodeId;
 <a name="l00214"></a>00214                         
-<a name="l00215"></a>00215                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : re-enable %2.2x RPDO 1\n"</span>, nodeId);
-<a name="l00216"></a>00216                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00215"></a>00215                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : re-enable %2.2x RPDO 1\n"</span>, nodeId);
+<a name="l00216"></a>00216                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00218"></a>00218                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00219"></a>00219                                         0x1400, <span class="comment">/*UNS16 index*/</span>
 <a name="l00220"></a>00220                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -242,9 +242,9 @@
 <a name="l00227"></a>00227                 
 <a name="l00228"></a>00228                 <span class="keywordflow">case</span> 7: 
 <a name="l00229"></a>00229                 {
-<a name="l00230"></a>00230                         <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> Heartbeat_Producer_Time = 0x03E8; 
-<a name="l00231"></a>00231                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x heartbeat producer time \n"</span>, nodeId);
-<a name="l00232"></a>00232                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00230"></a>00230                         <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> Heartbeat_Producer_Time = 0x03E8; 
+<a name="l00231"></a>00231                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : set slave %2.2x heartbeat producer time \n"</span>, nodeId);
+<a name="l00232"></a>00232                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00234"></a>00234                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00235"></a>00235                                         0x1017, <span class="comment">/*UNS16 index*/</span>
 <a name="l00236"></a>00236                                         0x00, <span class="comment">/*UNS8 subindex*/</span>
@@ -257,10 +257,10 @@
 <a name="l00243"></a>00243 
 <a name="l00244"></a>00244                 <span class="keywordflow">case</span> 8: 
 <a name="l00245"></a>00245                 {       <span class="comment">/*disable Slave's TPDO 2 */</span>
-<a name="l00246"></a>00246                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x80000280 + nodeId;
+<a name="l00246"></a>00246                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x80000280 + nodeId;
 <a name="l00247"></a>00247                         
-<a name="l00248"></a>00248                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 2 \n"</span>, nodeId);
-<a name="l00249"></a>00249                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00248"></a>00248                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 2 \n"</span>, nodeId);
+<a name="l00249"></a>00249                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00251"></a>00251                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00252"></a>00252                                         0x1801, <span class="comment">/*UNS16 index*/</span>
 <a name="l00253"></a>00253                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -273,10 +273,10 @@
 <a name="l00260"></a>00260 
 <a name="l00261"></a>00261                 <span class="keywordflow">case</span> 9: 
 <a name="l00262"></a>00262                 {       <span class="comment">/*disable Slave's TPDO 3 */</span>
-<a name="l00263"></a>00263                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x80000380 + nodeId;
+<a name="l00263"></a>00263                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x80000380 + nodeId;
 <a name="l00264"></a>00264                         
-<a name="l00265"></a>00265                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 3 \n"</span>, nodeId);
-<a name="l00266"></a>00266                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00265"></a>00265                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 3 \n"</span>, nodeId);
+<a name="l00266"></a>00266                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00268"></a>00268                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00269"></a>00269                                         0x1802, <span class="comment">/*UNS16 index*/</span>
 <a name="l00270"></a>00270                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -289,10 +289,10 @@
 <a name="l00277"></a>00277 
 <a name="l00278"></a>00278                 <span class="keywordflow">case</span> 10: 
 <a name="l00279"></a>00279                 {       <span class="comment">/*disable Slave's TPDO 2 */</span>
-<a name="l00280"></a>00280                         <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> TPDO_COBId = 0x80000480 + nodeId;
+<a name="l00280"></a>00280                         <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> TPDO_COBId = 0x80000480 + nodeId;
 <a name="l00281"></a>00281                         
-<a name="l00282"></a>00282                         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 4 \n"</span>, nodeId);
-<a name="l00283"></a>00283                         res = <a class="code" href="sdo_8c.html#f4ec05293fb8971a1b282994498ed4f5">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
+<a name="l00282"></a>00282                         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Master : disable slave %2.2x TPDO 4 \n"</span>, nodeId);
+<a name="l00283"></a>00283                         res = <a class="code" href="sdo_8c.html#f0491ff0ed4a472e54de7f24c4e8457a">writeNetworkDictCallBack</a> (d, <span class="comment">/*CO_Data* d*/</span>
 <a name="l00285"></a>00285                                         nodeId, <span class="comment">/*UNS8 nodeId*/</span>
 <a name="l00286"></a>00286                                         0x1803, <span class="comment">/*UNS16 index*/</span>
 <a name="l00287"></a>00287                                         0x01, <span class="comment">/*UNS8 subindex*/</span>
@@ -305,58 +305,58 @@
 <a name="l00294"></a>00294                 
 <a name="l00295"></a>00295                 <span class="keywordflow">case</span> 11:
 <a name="l00296"></a>00296                         <span class="comment">/* Put the master in operational mode */</span>
-<a name="l00297"></a>00297                         <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(d, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>);
+<a name="l00297"></a>00297                         <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(d, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053824952153680b2c826995af50d0b16aea">Operational</a>);
 <a name="l00298"></a>00298                           
 <a name="l00299"></a>00299                         <span class="comment">/* Ask slave node to go in operational mode */</span>
-<a name="l00300"></a>00300                         <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a> (d, nodeId, <a class="code" href="def_8h.html#9654207fdc32413aa792c8a2dc9d414f">NMT_Start_Node</a>);
+<a name="l00300"></a>00300                         <a class="code" href="nmtMaster_8c.html#c1ba0feb792adfae21a4adb96593ab3b">masterSendNMTstateChange</a> (d, nodeId, <a class="code" href="def_8h.html#4467d5b0f948367d4ecf26aa2a98c221">NMT_Start_Node</a>);
 <a name="l00301"></a>00301         }
 <a name="l00302"></a>00302                         
 <a name="l00303"></a>00303 }
 <a name="l00304"></a>00304 
-<a name="l00305"></a><a class="code" href="TestMasterMicroMod_8c.html#8fe2bae5bb407a3a71ee5fa5ea5d617f">00305</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#8fe2bae5bb407a3a71ee5fa5ea5d617f">TestMaster_preOperational</a>()
+<a name="l00305"></a><a class="code" href="TestMasterMicroMod_8c.html#9d3d58aa8fa14fe445f0fa13be678d2a">00305</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#9d3d58aa8fa14fe445f0fa13be678d2a">TestMaster_preOperational</a>()
 <a name="l00306"></a>00306 {
 <a name="l00307"></a>00307 
-<a name="l00308"></a>00308         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"TestMaster_preOperational\n"</span>);
-<a name="l00309"></a>00309         ConfigureSlaveNode(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>);
+<a name="l00308"></a>00308         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"TestMaster_preOperational\n"</span>);
+<a name="l00309"></a>00309         ConfigureSlaveNode(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>);
 <a name="l00310"></a>00310         
 <a name="l00311"></a>00311 }
 <a name="l00312"></a>00312 
-<a name="l00313"></a><a class="code" href="TestMasterMicroMod_8c.html#81c297f2b4b9676e906286bf46541fc1">00313</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#81c297f2b4b9676e906286bf46541fc1">TestMaster_operational</a>()
+<a name="l00313"></a><a class="code" href="TestMasterMicroMod_8c.html#c7ed44191510ba965044b347870c4ebf">00313</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#c7ed44191510ba965044b347870c4ebf">TestMaster_operational</a>()
 <a name="l00314"></a>00314 {
-<a name="l00315"></a>00315         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"TestMaster_operational\n"</span>);
+<a name="l00315"></a>00315         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"TestMaster_operational\n"</span>);
 <a name="l00316"></a>00316 }
 <a name="l00317"></a>00317 
-<a name="l00318"></a><a class="code" href="TestMasterMicroMod_8c.html#897d573cafc13ac80abbc207c0ee41b0">00318</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#897d573cafc13ac80abbc207c0ee41b0">TestMaster_stopped</a>()
+<a name="l00318"></a><a class="code" href="TestMasterMicroMod_8c.html#85ea45ff95b4b9520cc73920d08232a8">00318</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#85ea45ff95b4b9520cc73920d08232a8">TestMaster_stopped</a>()
 <a name="l00319"></a>00319 {
-<a name="l00320"></a>00320         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"TestMaster_stopped\n"</span>);
+<a name="l00320"></a>00320         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"TestMaster_stopped\n"</span>);
 <a name="l00321"></a>00321 }
 <a name="l00322"></a>00322 
-<a name="l00323"></a><a class="code" href="TestMasterMicroMod_8c.html#9a8f72cab7f649481ca84ab2222dd179">00323</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#9a8f72cab7f649481ca84ab2222dd179">TestMaster_post_sync</a>()
+<a name="l00323"></a><a class="code" href="TestMasterMicroMod_8c.html#3f440fb00a4dddf2fde3349c2bc8b2d4">00323</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#3f440fb00a4dddf2fde3349c2bc8b2d4">TestMaster_post_sync</a>()
 <a name="l00324"></a>00324 {
-<a name="l00325"></a>00325         <a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#0f3fc8fd8c6e5e90bd27d90173313c5a">DO</a>++;
-<a name="l00326"></a>00326         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"MicroMod Digital Out: %2.2x\n"</span>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#0f3fc8fd8c6e5e90bd27d90173313c5a">DO</a>);
-<a name="l00327"></a>00327         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"MicroMod Digital In (by bit): DI1: %2.2x DI2: %2.2x DI3: %2.2x DI4: %2.2x DI5: %2.2x DI6: %2.2x DI7: %2.2x DI8: %2.2x\n"</span>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#7da56ff4d171b28e13107db1644f22cd">DI1</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#a13d657655f5e7e284cc71bf17422f89">DI2</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#e28ac010ddba987ed2c6d787ddedc6de">DI3</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#acdd17be31428ac56c25129bbf2a7a99">DI4</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#86ae52f9103ebedc7966fbc749968d8b">DI5</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#dc4a7539d04dd740bb3cb2e85a3a39ba">DI6</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#92bd70c6064c5c14d1fe9dfa3010e60f">DI7</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#143c1ddeb1107fd8f9dbcfed8ff6c03b">DI8</a>);
+<a name="l00325"></a>00325         <a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#e15951070a2426e615aaa69f4e5a1e37">DO</a>++;
+<a name="l00326"></a>00326         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"MicroMod Digital Out: %2.2x\n"</span>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#e15951070a2426e615aaa69f4e5a1e37">DO</a>);
+<a name="l00327"></a>00327         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"MicroMod Digital In (by bit): DI1: %2.2x DI2: %2.2x DI3: %2.2x DI4: %2.2x DI5: %2.2x DI6: %2.2x DI7: %2.2x DI8: %2.2x\n"</span>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#f5828ae21cbd031f96f0790293ab5b7a">DI1</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#43615fda703a88e8bf10bdc71d8046c0">DI2</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#ce703640e2a429a0ea382f495c5142df">DI3</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#9c05bab52d4bbda91c866a65d024255d">DI4</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#fa1a74b950cb403cbd9dc52563246061">DI5</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#b153fbd14a4a24799fec1e75d203d774">DI6</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#f9e3ddd5349c02d058c3027cfa627a3d">DI7</a>,<a class="code" href="TestMasterMicroMod_2TestMaster_8c.html#dcd633386ca9ca30f64ee51a0a087d92">DI8</a>);
 <a name="l00328"></a>00328 }
 <a name="l00329"></a>00329 
-<a name="l00330"></a><a class="code" href="TestMasterMicroMod_8c.html#5e466aa03eae00c269cf20359a7ee074">00330</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#5e466aa03eae00c269cf20359a7ee074">TestMaster_post_TPDO</a>()
+<a name="l00330"></a><a class="code" href="TestMasterMicroMod_8c.html#dc95bf1be3ee99722ed0cb2009c38b18">00330</a> <span class="keywordtype">void</span> <a class="code" href="Master_8c.html#dc95bf1be3ee99722ed0cb2009c38b18">TestMaster_post_TPDO</a>()
 <a name="l00331"></a>00331 {
 <a name="l00332"></a>00332 <span class="comment">//      eprintf("TestMaster_post_TPDO\n");      </span>
 <a name="l00333"></a>00333 }
 <a name="l00334"></a>00334 
 <a name="l00335"></a>00335 <span class="comment">//s_BOARD SlaveBoard = {"0", "500K"};</span>
-<a name="l00336"></a><a class="code" href="TestMasterMicroMod_8c.html#460b5e3b15bb47df23119998ea0fbd31">00336</a> <a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> <a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a> = {<span class="stringliteral">"32"</span>, <span class="stringliteral">"125K"</span>};
+<a name="l00336"></a><a class="code" href="TestMasterMicroMod_8c.html#217fe3316775036170f547ceafe4bfca">00336</a> <a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> <a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a> = {<span class="stringliteral">"32"</span>, <span class="stringliteral">"125K"</span>};
 <a name="l00337"></a>00337 
 <a name="l00338"></a>00338 <span class="preprocessor">#if !defined(WIN32) || defined(__CYGWIN__)</span>
-<a name="l00339"></a><a class="code" href="TestMasterMicroMod_8c.html#f2dc378d0481adcc49b61efb98493a9b">00339</a> <span class="preprocessor"></span><span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#f2dc378d0481adcc49b61efb98493a9b">catch_signal</a>(<span class="keywordtype">int</span> sig)
+<a name="l00339"></a><a class="code" href="TestMasterMicroMod_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">00339</a> <span class="preprocessor"></span><span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">catch_signal</a>(<span class="keywordtype">int</span> sig)
 <a name="l00340"></a>00340 {
-<a name="l00341"></a>00341   signal(SIGTERM, <a class="code" href="TestMasterSlave_8c.html#f2dc378d0481adcc49b61efb98493a9b">catch_signal</a>);
-<a name="l00342"></a>00342   signal(SIGINT, <a class="code" href="TestMasterSlave_8c.html#f2dc378d0481adcc49b61efb98493a9b">catch_signal</a>);
+<a name="l00341"></a>00341   signal(SIGTERM, <a class="code" href="TestMasterSlave_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">catch_signal</a>);
+<a name="l00342"></a>00342   signal(SIGINT, <a class="code" href="TestMasterSlave_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">catch_signal</a>);
 <a name="l00343"></a>00343   
-<a name="l00344"></a>00344   <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Got Signal %d\n"</span>,sig);
+<a name="l00344"></a>00344   <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Got Signal %d\n"</span>,sig);
 <a name="l00345"></a>00345 }
 <a name="l00346"></a>00346 <span class="preprocessor">#endif</span>
 <a name="l00347"></a>00347 <span class="preprocessor"></span>
-<a name="l00348"></a><a class="code" href="TestMasterMicroMod_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">00348</a> <span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>()
+<a name="l00348"></a><a class="code" href="TestMasterMicroMod_8c.html#c26945a412008c505d56d9c43688813c">00348</a> <span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>()
 <a name="l00349"></a>00349 {
 <a name="l00350"></a>00350   printf(<span class="stringliteral">"**************************************************************\n"</span>);
 <a name="l00351"></a>00351   printf(<span class="stringliteral">"*  TestMasterMicroMod                                        *\n"</span>);
@@ -390,52 +390,52 @@
 <a name="l00379"></a>00379 }
 <a name="l00380"></a>00380 
 <a name="l00381"></a>00381 <span class="comment">/***************************  INIT  *****************************************/</span>
-<a name="l00382"></a><a class="code" href="TestMasterMicroMod_8c.html#8a51032f7610fe37c131376e5a392fd5">00382</a> <span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#8a51032f7610fe37c131376e5a392fd5">InitNodes</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>)
+<a name="l00382"></a><a class="code" href="TestMasterMicroMod_8c.html#5c2037498a2c950d815a9ad8c4ad1a51">00382</a> <span class="keywordtype">void</span> <a class="code" href="TestMasterSlave_8c.html#5c2037498a2c950d815a9ad8c4ad1a51">InitNodes</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <span class="keywordtype">id</span>)
 <a name="l00383"></a>00383 {
 <a name="l00384"></a>00384         <span class="comment">/****************************** INITIALISATION MASTER *******************************/</span>
-<a name="l00385"></a>00385         <span class="keywordflow">if</span>(<a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a>){
+<a name="l00385"></a>00385         <span class="keywordflow">if</span>(<a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a>){
 <a name="l00386"></a>00386                 <span class="comment">/* Defining the node Id */</span>
-<a name="l00387"></a>00387                 <a class="code" href="states_8c.html#d47a53979b9311a374d029f7923abbe1">setNodeId</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, 0x01);
+<a name="l00387"></a>00387                 <a class="code" href="states_8c.html#191c0cad67e093ea44285c9acd187513">setNodeId</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, 0x01);
 <a name="l00388"></a>00388 
 <a name="l00389"></a>00389                 <span class="comment">/* init */</span>
-<a name="l00390"></a>00390                 <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646eb3ae26d7a1629aa0fc6c83f46306cf5">Initialisation</a>);
+<a name="l00390"></a>00390                 <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538de69e6bdd47a9d7dae023237acdaad5e">Initialisation</a>);
 <a name="l00391"></a>00391         }
 <a name="l00392"></a>00392 }
 <a name="l00393"></a>00393 
 <a name="l00394"></a>00394 <span class="comment">/****************************************************************************/</span>
 <a name="l00395"></a>00395 <span class="comment">/***************************  MAIN  *****************************************/</span>
 <a name="l00396"></a>00396 <span class="comment">/****************************************************************************/</span>
-<a name="l00397"></a><a class="code" href="TestMasterMicroMod_8c.html#3c04138a5bfe5d72780bb7e82a18e627">00397</a> <span class="keywordtype">int</span> <a class="code" href="appli_8c.html#ef83014be811ae964a5ef7f0af7b46a2">main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv)
+<a name="l00397"></a><a class="code" href="TestMasterMicroMod_8c.html#24e6ce6d053864cf5fb7af941457bb0e">00397</a> <span class="keywordtype">int</span> <a class="code" href="appli_8c.html#35d180f652ecf52603a5e9d7e891665f">main</a>(<span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv)
 <a name="l00398"></a>00398 {
 <a name="l00399"></a>00399 
 <a name="l00400"></a>00400   <span class="keywordtype">int</span> c;
-<a name="l00401"></a>00401   <span class="keyword">extern</span> <span class="keywordtype">char</span> *<a class="code" href="TestMasterSlave_2getopt_8c.html#db50a0eab9fed92fc3bfc7dfa4f2c410">optarg</a>;
+<a name="l00401"></a>00401   <span class="keyword">extern</span> <span class="keywordtype">char</span> *<a class="code" href="TestMasterSlave_2getopt_8c.html#a2d33a77952a7e6973146c1284042818">optarg</a>;
 <a name="l00402"></a>00402   <span class="keywordtype">char</span>* LibraryPath=<span class="stringliteral">"libcanfestival_can_virtual.so"</span>;
 <a name="l00403"></a>00403   <span class="keywordtype">char</span> *snodeid;
-<a name="l00404"></a>00404   <span class="keywordflow">while</span> ((c = <a class="code" href="TestMasterSlave_2getopt_8c.html#1b2ada39ab92162c6ec9c67c8093fa2e">getopt</a>(argc, argv, <span class="stringliteral">"-m:s:M:S:l:i:"</span>)) != EOF)
+<a name="l00404"></a>00404   <span class="keywordflow">while</span> ((c = <a class="code" href="TestMasterSlave_2getopt_8c.html#afdf882e55974b727c64559defdc4326">getopt</a>(argc, argv, <span class="stringliteral">"-m:s:M:S:l:i:"</span>)) != EOF)
 <a name="l00405"></a>00405   {
 <a name="l00406"></a>00406     <span class="keywordflow">switch</span>(c)
 <a name="l00407"></a>00407     {
 <a name="l00408"></a>00408       <span class="keywordflow">case</span> <span class="charliteral">'m'</span> :
 <a name="l00409"></a>00409         <span class="keywordflow">if</span> (optarg[0] == 0)
 <a name="l00410"></a>00410         {
-<a name="l00411"></a>00411           <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>();
+<a name="l00411"></a>00411           <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>();
 <a name="l00412"></a>00412           exit(1);
 <a name="l00413"></a>00413         }
-<a name="l00414"></a>00414         <a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#fb28847fd702021b624afe1f7d4b25b2">busname</a> = optarg;
+<a name="l00414"></a>00414         <a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#83944366d00f1fbb0ab61e6532a4e9f2">busname</a> = optarg;
 <a name="l00415"></a>00415         <span class="keywordflow">break</span>;
 <a name="l00416"></a>00416       <span class="keywordflow">case</span> <span class="charliteral">'M'</span> :
 <a name="l00417"></a>00417         <span class="keywordflow">if</span> (optarg[0] == 0)
 <a name="l00418"></a>00418         {
-<a name="l00419"></a>00419           <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>();
+<a name="l00419"></a>00419           <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>();
 <a name="l00420"></a>00420           exit(1);
 <a name="l00421"></a>00421         }
-<a name="l00422"></a>00422         <a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a> = optarg;
+<a name="l00422"></a>00422         <a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a> = optarg;
 <a name="l00423"></a>00423         <span class="keywordflow">break</span>;
 <a name="l00424"></a>00424       <span class="keywordflow">case</span> <span class="charliteral">'l'</span> :
 <a name="l00425"></a>00425         <span class="keywordflow">if</span> (optarg[0] == 0)
 <a name="l00426"></a>00426         {
-<a name="l00427"></a>00427           <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>();
+<a name="l00427"></a>00427           <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>();
 <a name="l00428"></a>00428           exit(1);
 <a name="l00429"></a>00429         }
 <a name="l00430"></a>00430         LibraryPath = optarg;
@@ -443,65 +443,65 @@
 <a name="l00432"></a>00432       <span class="keywordflow">case</span> <span class="charliteral">'i'</span> :
 <a name="l00433"></a>00433         <span class="keywordflow">if</span> (optarg[0] == 0)
 <a name="l00434"></a>00434         {
-<a name="l00435"></a>00435           <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>();
+<a name="l00435"></a>00435           <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>();
 <a name="l00436"></a>00436           exit(1);
 <a name="l00437"></a>00437         }
 <a name="l00438"></a>00438         snodeid = optarg;
-<a name="l00439"></a>00439                 sscanf(snodeid,<span class="stringliteral">"%x"</span>,&amp;<a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>);
+<a name="l00439"></a>00439                 sscanf(snodeid,<span class="stringliteral">"%x"</span>,&amp;<a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>);
 <a name="l00440"></a>00440         <span class="keywordflow">break</span>;
 <a name="l00441"></a>00441       <span class="keywordflow">default</span>:
-<a name="l00442"></a>00442         <a class="code" href="TestMasterSlave_8c.html#97ee70a8770dc30d06c744b24eb2fcfc">help</a>();
+<a name="l00442"></a>00442         <a class="code" href="TestMasterSlave_8c.html#c26945a412008c505d56d9c43688813c">help</a>();
 <a name="l00443"></a>00443         exit(1);
 <a name="l00444"></a>00444     }
 <a name="l00445"></a>00445   }
 <a name="l00446"></a>00446 
 <a name="l00447"></a>00447 <span class="preprocessor">#if !defined(WIN32) || defined(__CYGWIN__)</span>
 <a name="l00448"></a>00448 <span class="preprocessor"></span>  <span class="comment">/* install signal handler for manual break */</span>
-<a name="l00449"></a>00449         signal(SIGTERM, <a class="code" href="TestMasterSlave_8c.html#f2dc378d0481adcc49b61efb98493a9b">catch_signal</a>);
-<a name="l00450"></a>00450         signal(SIGINT, <a class="code" href="TestMasterSlave_8c.html#f2dc378d0481adcc49b61efb98493a9b">catch_signal</a>);
+<a name="l00449"></a>00449         signal(SIGTERM, <a class="code" href="TestMasterSlave_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">catch_signal</a>);
+<a name="l00450"></a>00450         signal(SIGINT, <a class="code" href="TestMasterSlave_8c.html#3ce141bc870bf5a7cb52fa529ef2ad52">catch_signal</a>);
 <a name="l00451"></a>00451 <span class="preprocessor">#endif</span>
 <a name="l00452"></a>00452 <span class="preprocessor"></span>
 <a name="l00453"></a>00453 <span class="preprocessor">#ifndef NOT_USE_DYNAMIC_LOADING</span>
-<a name="l00454"></a>00454 <span class="preprocessor"></span>        <a class="code" href="unix_8c.html#a6eed61fc15f41f772d4645d7a5edeb5">LoadCanDriver</a>(LibraryPath);
+<a name="l00454"></a>00454 <span class="preprocessor"></span>        <a class="code" href="unix_8c.html#0012a2aa42ef694bd275c6b5be5c89c7">LoadCanDriver</a>(LibraryPath);
 <a name="l00455"></a>00455 <span class="preprocessor">#endif          </span>
 <a name="l00456"></a>00456 <span class="preprocessor"></span>
-<a name="l00457"></a>00457         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#2ec2bc87656945d2c7dda7ebe662b245">heartbeatError</a> = <a class="code" href="Master_8c.html#47eb45e75b4db150fb465fcf171ef4b4">TestMaster_heartbeatError</a>;
-<a name="l00458"></a>00458         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#b45e9ca46cffe7924c35ae136db6a2b6">initialisation</a> = <a class="code" href="Master_8c.html#e08dfb379eebaa62524fac5bba2196d5">TestMaster_initialisation</a>;
-<a name="l00459"></a>00459         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#d7c66fb721e3f6279a6ff03bf91d82e2">preOperational</a> = <a class="code" href="Master_8c.html#8fe2bae5bb407a3a71ee5fa5ea5d617f">TestMaster_preOperational</a>;
-<a name="l00460"></a>00460         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#432ddce132ec2f7473064e4fa8ef3f9a">operational</a> = <a class="code" href="Master_8c.html#81c297f2b4b9676e906286bf46541fc1">TestMaster_operational</a>;
-<a name="l00461"></a>00461         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#89dd7dd17f9dd16b7a06c3cf30c2ca02">stopped</a> = <a class="code" href="Master_8c.html#897d573cafc13ac80abbc207c0ee41b0">TestMaster_stopped</a>;
-<a name="l00462"></a>00462         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#7eeaefe180dfceca6e829a0a8018f342">post_sync</a> = <a class="code" href="Master_8c.html#9a8f72cab7f649481ca84ab2222dd179">TestMaster_post_sync</a>;
-<a name="l00463"></a>00463         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#0cf540e2e36e14c04e1c783dc88d9a0e">post_TPDO</a> = <a class="code" href="Master_8c.html#5e466aa03eae00c269cf20359a7ee074">TestMaster_post_TPDO</a>;
+<a name="l00457"></a>00457         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#79effaec98b98fcda7d2e9ba987c3b34">heartbeatError</a> = <a class="code" href="Master_8c.html#ab44b8110510c170a1075227cf400caf">TestMaster_heartbeatError</a>;
+<a name="l00458"></a>00458         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#1d171d82b1e6ed1eb1e936f23e44b680">initialisation</a> = <a class="code" href="Master_8c.html#173d54878164bf1ef49845c8fffbf19f">TestMaster_initialisation</a>;
+<a name="l00459"></a>00459         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#617bf112ab2cd668a8aa35f350a6456b">preOperational</a> = <a class="code" href="Master_8c.html#9d3d58aa8fa14fe445f0fa13be678d2a">TestMaster_preOperational</a>;
+<a name="l00460"></a>00460         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#78f4481967d34a40cf253a19170234b2">operational</a> = <a class="code" href="Master_8c.html#c7ed44191510ba965044b347870c4ebf">TestMaster_operational</a>;
+<a name="l00461"></a>00461         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#2d3862c6f89d6f8d849bafdd7167276f">stopped</a> = <a class="code" href="Master_8c.html#85ea45ff95b4b9520cc73920d08232a8">TestMaster_stopped</a>;
+<a name="l00462"></a>00462         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#f51d3f1c7af9ab07bed3a8c28e3e2162">post_sync</a> = <a class="code" href="Master_8c.html#3f440fb00a4dddf2fde3349c2bc8b2d4">TestMaster_post_sync</a>;
+<a name="l00463"></a>00463         <a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>.<a class="code" href="structstruct__CO__Data.html#ebb8649e117348c6cc94cd6f86684747">post_TPDO</a> = <a class="code" href="Master_8c.html#dc95bf1be3ee99722ed0cb2009c38b18">TestMaster_post_TPDO</a>;
 <a name="l00464"></a>00464         
-<a name="l00465"></a>00465         <span class="keywordflow">if</span>(!<a class="code" href="unix_8c.html#7476146ad15948a22e7f80a00c89c40a">canOpen</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>,&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>)){
-<a name="l00466"></a>00466                 <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Cannot open Master Board\n"</span>);
+<a name="l00465"></a>00465         <span class="keywordflow">if</span>(!<a class="code" href="unix_8c.html#c32083e9caa1b02f7726a8b87d10ce33">canOpen</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>,&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>)){
+<a name="l00466"></a>00466                 <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Cannot open Master Board\n"</span>);
 <a name="l00467"></a>00467                 <span class="keywordflow">goto</span> fail_master;
 <a name="l00468"></a>00468         }
 <a name="l00469"></a>00469         
 <a name="l00470"></a>00470         <span class="comment">// Start timer thread</span>
-<a name="l00471"></a>00471         <a class="code" href="timers__unix_8c.html#c9e1731843825eb55e7a94894e6a8ec5">StartTimerLoop</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#8a51032f7610fe37c131376e5a392fd5">InitNodes</a>);
+<a name="l00471"></a>00471         <a class="code" href="timers__unix_8c.html#dd08f21a7c3fcbcd53a2c41b00879fdd">StartTimerLoop</a>(&amp;<a class="code" href="TestMasterSlave_8c.html#5c2037498a2c950d815a9ad8c4ad1a51">InitNodes</a>);
 <a name="l00472"></a>00472 
 <a name="l00473"></a>00473         <span class="comment">// wait Ctrl-C</span>
 <a name="l00474"></a>00474         pause();
-<a name="l00475"></a>00475         <a class="code" href="TestMasterSlave_8h.html#82f06ace20f96f70bc165247e69fac57">eprintf</a>(<span class="stringliteral">"Finishing.\n"</span>);
+<a name="l00475"></a>00475         <a class="code" href="TestMasterSlave_8h.html#1d11de6c74e6c32fa27bcde825414a00">eprintf</a>(<span class="stringliteral">"Finishing.\n"</span>);
 <a name="l00476"></a>00476         
 <a name="l00477"></a>00477         <span class="comment">// Reset the slave node for next use (will stop emitting heartbeat)</span>
-<a name="l00478"></a>00478         <a class="code" href="nmtMaster_8c.html#6170d95d9900ef756921a934c5fb37d2">masterSendNMTstateChange</a> (&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <a class="code" href="TestMasterMicroMod_8c.html#65effe41fa5288e7ab03a431d0c42b31">slavenodeid</a>, <a class="code" href="def_8h.html#b349b5574a1ea67ff0ef76b9f9b6319e">NMT_Reset_Node</a>);
+<a name="l00478"></a>00478         <a class="code" href="nmtMaster_8c.html#c1ba0feb792adfae21a4adb96593ab3b">masterSendNMTstateChange</a> (&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <a class="code" href="TestMasterMicroMod_8c.html#3794b1f9e4a985f1df9a12af1c458e98">slavenodeid</a>, <a class="code" href="def_8h.html#a74bd7065a5e72d9fefb3b24c239bcab">NMT_Reset_Node</a>);
 <a name="l00479"></a>00479         
 <a name="l00480"></a>00480         <span class="comment">// Stop master</span>
-<a name="l00481"></a>00481         <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>, <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec686464d049c6d45e08a294523df186ad77a75">Stopped</a>);
+<a name="l00481"></a>00481         <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>, <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053853c74ac440bbf6af2cb67759d3cd8f0a">Stopped</a>);
 <a name="l00482"></a>00482         
 <a name="l00483"></a>00483         <span class="comment">// Stop timer thread</span>
-<a name="l00484"></a>00484         <a class="code" href="timers__unix_8c.html#8758484f3cebb0cd44bb247c3f23d5e3">StopTimerLoop</a>();
+<a name="l00484"></a>00484         <a class="code" href="timers__unix_8c.html#8d52f2db8b505e53ace5dd1c2a789d94">StopTimerLoop</a>();
 <a name="l00485"></a>00485         
 <a name="l00486"></a>00486 fail_master:
-<a name="l00487"></a>00487         <span class="keywordflow">if</span>(<a class="code" href="TestMasterSlave_8c.html#460b5e3b15bb47df23119998ea0fbd31">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a>) <a class="code" href="unix_8c.html#02957f72a9b951603adb98a142bd447b">canClose</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#ed10e5c829f0ea258ebc67896842cabe">TestMaster_Data</a>);    
+<a name="l00487"></a>00487         <span class="keywordflow">if</span>(<a class="code" href="TestMasterSlave_8c.html#217fe3316775036170f547ceafe4bfca">MasterBoard</a>.<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a>) <a class="code" href="unix_8c.html#6d6b692e726dee0a5726e6d3db1b1693">canClose</a>(&amp;<a class="code" href="TestMasterSlave_2TestMaster_8c.html#3a8f0f252681df21db87f6d2066def8c">TestMaster_Data</a>);    
 <a name="l00488"></a>00488 
 <a name="l00489"></a>00489   <span class="keywordflow">return</span> 0;
 <a name="l00490"></a>00490 }
 <a name="l00491"></a>00491 
 <a name="l00492"></a>00492 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

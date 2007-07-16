@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9b4fbd1818b4be2ef59811982235911e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_0bb6a295f3bedefe1e3a430a1a424e0b.html">asm-m68hc12</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_d760eeaaeddcf24a708a1307f60f8f4e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_f50f21e7c9491da7555e4cb6512d498e.html">asm-m68hc12</a></div>
 <h1>portsaccess.h</h1><a href="portsaccess_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -54,21 +54,21 @@
 <a name="l00033"></a>00033 <span class="comment">*/</span>
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 
-<a name="l00036"></a>00036 <span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="portsaccess_8h.html#cb39c27c5b828bb40948690ed0fc9462">_io_ports</a>[];
+<a name="l00036"></a>00036 <span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <a class="code" href="portsaccess_8h.html#3ff97cc4d692e20bf82d84ddadc93c55">_io_ports</a>[];
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038 <span class="comment">/* To use for a 8 bits access */</span>
-<a name="l00039"></a><a class="code" href="portsaccess_8h.html#cdf97ea78c88c125dbbe6f2409de6ec1">00039</a> <span class="preprocessor">#define IO_PORTS_8(adr) \</span>
+<a name="l00039"></a><a class="code" href="portsaccess_8h.html#404819ab4502022c4943f130d7756ab8">00039</a> <span class="preprocessor">#define IO_PORTS_8(adr) \</span>
 <a name="l00040"></a>00040 <span class="preprocessor">_io_ports[adr]</span>
 <a name="l00041"></a>00041 <span class="preprocessor"></span>
 <a name="l00042"></a>00042 <span class="comment">/* To use for a 16 bits access */</span>
 <a name="l00043"></a>00043 <span class="comment">/* Example : IO_PORTS_16(CAN0IDAR1)= 0xABCD;</span>
 <a name="l00044"></a>00044 <span class="comment">will put AB at @CAN0IDAR1 and CD at  @CAN0IDAR1 + 1</span>
 <a name="l00045"></a>00045 <span class="comment">*/</span>
-<a name="l00046"></a><a class="code" href="portsaccess_8h.html#05c3e46f52e97cb343d4a18d3dbe2eba">00046</a> <span class="preprocessor">#define IO_PORTS_16(adr) \</span>
+<a name="l00046"></a><a class="code" href="portsaccess_8h.html#211ed1d0a2f0d5a31298728d8241fe08">00046</a> <span class="preprocessor">#define IO_PORTS_16(adr) \</span>
 <a name="l00047"></a>00047 <span class="preprocessor">*((unsigned volatile short*) (_io_ports + (adr)))</span>
 <a name="l00048"></a>00048 <span class="preprocessor"></span>
 <a name="l00049"></a>00049 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_fc8d77725c328f9de5a130dceab5a508.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_cb9d6d827bc8780b4808994475b6fec1.html">TestMasterSlave</a></div>
+<a class="el" href="dir_aa575cee5acc3b84cc5b4489187a1fd3.html">examples</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_4f45567b048264117a95e53b67d9aefb.html">TestMasterSlave</a></div>
 <h1>getopt.c File Reference</h1><code>#include &lt;stdio.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="TestMasterSlave_2getopt_8h-source.html">getopt.h</a>&quot;</code><br>
 <code>#include &lt;strings.h&gt;</code><br>
@@ -26,48 +26,48 @@
 <p>
 Include dependency graph for getopt.c:<p><center><img src="TestMasterSlave_2getopt_8c__incl.png" border="0" usemap="#examples/TestMasterSlave/getopt.c_map" alt=""></center>
 <map name="examples/TestMasterSlave/getopt.c_map">
-<area href="TestMasterSlave_2getopt_8h.html" shape="rect" coords="318,54,395,78" alt="">
+<area href="TestMasterSlave_2getopt_8h.html" shape="rect" coords="265,56,329,83" alt="">
 </map>
 
 <p>
 <a href="TestMasterSlave_2getopt_8c-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Defines</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#5325c715897861c318d3ae312ac452cc">GETOPT_INTERFACE_VERSION</a>&nbsp;&nbsp;&nbsp;2</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#6ba4529b087522128cc7bcce0849d32b">GETOPT_INTERFACE_VERSION</a>&nbsp;&nbsp;&nbsp;2</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#86a239addea586602343007a370bf8ad">_</a>(msgid)&nbsp;&nbsp;&nbsp;(msgid)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#5f89d3f05faaa6e056f725126282a799">_</a>(msgid)&nbsp;&nbsp;&nbsp;(msgid)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#6e06e56c5fa96faaf47f3b231e015e35">SWAP_FLAGS</a>(ch1, ch2)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#73b41d63a0123651c8a92f0474c5e70b">SWAP_FLAGS</a>(ch1, ch2)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#71ceb8911d64b39b402041ba5ea8453c">NONOPTION_P</a>&nbsp;&nbsp;&nbsp;(argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a>][0] != '-' || argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a>][1] == '\0')</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#60fb2ef5fa72a6e2f2f62c0d6158f94c">NONOPTION_P</a>&nbsp;&nbsp;&nbsp;(argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a>][0] != '-' || argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a>][1] == '\0')</td></tr>
 
 <tr><td colspan="2"><br><h2>Enumerations</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="TestMasterSlave_2getopt_8c.html#06fc87d81c62e9abb8790b6e5713c55b0e73a0691c110b1442d8364d1d12eccc">REQUIRE_ORDER</a>, 
-<a class="el" href="TestMasterSlave_2getopt_8c.html#06fc87d81c62e9abb8790b6e5713c55bcfdde4b47c27f4efbd832e1ac7f8a8fc">PERMUTE</a>, 
-<a class="el" href="TestMasterSlave_2getopt_8c.html#06fc87d81c62e9abb8790b6e5713c55b3c56550bfafe809d9214b863b69c31c5">RETURN_IN_ORDER</a>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="TestMasterSlave_2getopt_8c.html#2e520baeab5e72a8cd84e00dce61684fe9f3d62b95878d3ab723990312fda0bb">REQUIRE_ORDER</a>, 
+<a class="el" href="TestMasterSlave_2getopt_8c.html#2e520baeab5e72a8cd84e00dce61684fd3b1ba5acb926eca92e0a5784f911df0">PERMUTE</a>, 
+<a class="el" href="TestMasterSlave_2getopt_8c.html#2e520baeab5e72a8cd84e00dce61684fec304c31a5e271b98a946742b81ee5cb">RETURN_IN_ORDER</a>
  }</td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#ee28fd8a0e40b6d958f7d20348e45368">getenv</a> ()</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#d371de5388fe5b7a20882a85a670c3fc">getenv</a> ()</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#0df92a0ae8fe1fd43268c738f548674f">_getopt_internal</a> (int argc, char *const *argv, const char *optstring, const struct <a class="el" href="structoption.html">option</a> *longopts, int *longind, int long_only)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#ca624a08c8860a96fd9afd064ff1e598">_getopt_internal</a> (int argc, char *const *argv, const char *optstring, const struct <a class="el" href="structoption.html">option</a> *longopts, int *longind, int long_only)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#1b2ada39ab92162c6ec9c67c8093fa2e">getopt</a> (int argc, char *const *argv, const char *optstring)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#afdf882e55974b727c64559defdc4326">getopt</a> (int argc, char *const *argv, const char *optstring)</td></tr>
 
 <tr><td colspan="2"><br><h2>Variables</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#db50a0eab9fed92fc3bfc7dfa4f2c410">optarg</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">char *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#a2d33a77952a7e6973146c1284042818">optarg</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a> = 1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a> = 1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#28286be757527aeb1db951b5da9aeec1">__getopt_initialized</a></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#43b2a4340a24537cc6364835f9d73fb5">__getopt_initialized</a></td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#e30f05ee1e2e5652f174a35c7875d25e">opterr</a> = 1</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#2d5d57aa71d16b312a92ac70f91c44f1">opterr</a> = 1</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#475b8db98445da73e5f62a1ef6324b95">optopt</a> = '?'</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="TestMasterSlave_2getopt_8c.html#b3d1db20633bdbad253accdec2f9477f">optopt</a> = '?'</td></tr>
 
 </table>
 <hr><h2>Define Documentation</h2>
-<a class="anchor" name="86a239addea586602343007a370bf8ad"></a><!-- doxytag: member="getopt.c::_" ref="86a239addea586602343007a370bf8ad" args="(msgid)" -->
+<a class="anchor" name="5f89d3f05faaa6e056f725126282a799"></a><!-- doxytag: member="getopt.c::_" ref="5f89d3f05faaa6e056f725126282a799" args="(msgid)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -89,7 +89,7 @@ Include dependency graph for getopt.c:<p><center><img src="TestMasterSlave_2geto
 Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00089">89</a> of file <a class="el" href="TestMasterSlave_2getopt_8c-source.html">getopt.c</a>.
 </div>
 </div><p>
-<a class="anchor" name="5325c715897861c318d3ae312ac452cc"></a><!-- doxytag: member="getopt.c::GETOPT_INTERFACE_VERSION" ref="5325c715897861c318d3ae312ac452cc" args="" -->
+<a class="anchor" name="6ba4529b087522128cc7bcce0849d32b"></a><!-- doxytag: member="getopt.c::GETOPT_INTERFACE_VERSION" ref="6ba4529b087522128cc7bcce0849d32b" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -106,12 +106,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00054">54</a> of file <a class="el" href="TestMasterSlave_2getopt_8c-source.html">getopt.c</a>.
 </div>
 </div><p>
-<a class="anchor" name="71ceb8911d64b39b402041ba5ea8453c"></a><!-- doxytag: member="getopt.c::NONOPTION_P" ref="71ceb8911d64b39b402041ba5ea8453c" args="" -->
+<a class="anchor" name="60fb2ef5fa72a6e2f2f62c0d6158f94c"></a><!-- doxytag: member="getopt.c::NONOPTION_P" ref="60fb2ef5fa72a6e2f2f62c0d6158f94c" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define NONOPTION_P&nbsp;&nbsp;&nbsp;(argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a>][0] != '-' || argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a>][1] == '\0')          </td>
+          <td class="memname">#define NONOPTION_P&nbsp;&nbsp;&nbsp;(argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a>][0] != '-' || argv[<a class="el" href="TestMasterMicroMod_2getopt_8h.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a>][1] == '\0')          </td>
         </tr>
       </table>
 </div>
@@ -123,7 +123,7 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_getopt_internal()</a>.
 </div>
 </div><p>
-<a class="anchor" name="6e06e56c5fa96faaf47f3b231e015e35"></a><!-- doxytag: member="getopt.c::SWAP_FLAGS" ref="6e06e56c5fa96faaf47f3b231e015e35" args="(ch1, ch2)" -->
+<a class="anchor" name="73b41d63a0123651c8a92f0474c5e70b"></a><!-- doxytag: member="getopt.c::SWAP_FLAGS" ref="73b41d63a0123651c8a92f0474c5e70b" args="(ch1, ch2)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -149,7 +149,7 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 </div>
 </div><p>
 <hr><h2>Enumeration Type Documentation</h2>
-<a class="anchor" name="06fc87d81c62e9abb8790b6e5713c55b"></a><!-- doxytag: member="getopt.c::@0" ref="06fc87d81c62e9abb8790b6e5713c55b" args="" -->
+<a class="anchor" name="2e520baeab5e72a8cd84e00dce61684f"></a><!-- doxytag: member="getopt.c::@0" ref="2e520baeab5e72a8cd84e00dce61684f" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -163,11 +163,11 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 <p>
 <dl compact><dt><b>Enumerator: </b></dt><dd>
 <table border="0" cellspacing="2" cellpadding="0">
-<tr><td valign="top"><em><a class="anchor" name="06fc87d81c62e9abb8790b6e5713c55b0e73a0691c110b1442d8364d1d12eccc"></a><!-- doxytag: member="REQUIRE_ORDER" ref="06fc87d81c62e9abb8790b6e5713c55b0e73a0691c110b1442d8364d1d12eccc" args="" -->REQUIRE_ORDER</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="2e520baeab5e72a8cd84e00dce61684fe9f3d62b95878d3ab723990312fda0bb"></a><!-- doxytag: member="REQUIRE_ORDER" ref="2e520baeab5e72a8cd84e00dce61684fe9f3d62b95878d3ab723990312fda0bb" args="" -->REQUIRE_ORDER</em>&nbsp;</td><td>
 </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="06fc87d81c62e9abb8790b6e5713c55bcfdde4b47c27f4efbd832e1ac7f8a8fc"></a><!-- doxytag: member="PERMUTE" ref="06fc87d81c62e9abb8790b6e5713c55bcfdde4b47c27f4efbd832e1ac7f8a8fc" args="" -->PERMUTE</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="2e520baeab5e72a8cd84e00dce61684fd3b1ba5acb926eca92e0a5784f911df0"></a><!-- doxytag: member="PERMUTE" ref="2e520baeab5e72a8cd84e00dce61684fd3b1ba5acb926eca92e0a5784f911df0" args="" -->PERMUTE</em>&nbsp;</td><td>
 </td></tr>
-<tr><td valign="top"><em><a class="anchor" name="06fc87d81c62e9abb8790b6e5713c55b3c56550bfafe809d9214b863b69c31c5"></a><!-- doxytag: member="RETURN_IN_ORDER" ref="06fc87d81c62e9abb8790b6e5713c55b3c56550bfafe809d9214b863b69c31c5" args="" -->RETURN_IN_ORDER</em>&nbsp;</td><td>
+<tr><td valign="top"><em><a class="anchor" name="2e520baeab5e72a8cd84e00dce61684fec304c31a5e271b98a946742b81ee5cb"></a><!-- doxytag: member="RETURN_IN_ORDER" ref="2e520baeab5e72a8cd84e00dce61684fec304c31a5e271b98a946742b81ee5cb" args="" -->RETURN_IN_ORDER</em>&nbsp;</td><td>
 </td></tr>
 </table>
 </dl>
@@ -177,7 +177,7 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 </div>
 </div><p>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="0df92a0ae8fe1fd43268c738f548674f"></a><!-- doxytag: member="getopt.c::_getopt_internal" ref="0df92a0ae8fe1fd43268c738f548674f" args="(int argc, char *const *argv, const char *optstring, const struct option *longopts, int *longind, int long_only)" -->
+<a class="anchor" name="ca624a08c8860a96fd9afd064ff1e598"></a><!-- doxytag: member="getopt.c::_getopt_internal" ref="ca624a08c8860a96fd9afd064ff1e598" args="(int argc, char *const *argv, const char *optstring, const struct option *longopts, int *longind, int long_only)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -231,12 +231,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 <p>
 Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">511</a> of file <a class="el" href="TestMasterSlave_2getopt_8c-source.html">getopt.c</a>.
 <p>
-References <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00139">__getopt_initialized</a>, <a class="el" href="TestMasterSlave_2getopt_8h-source.html#l00108">option::name</a>, <a class="el" href="TestMasterSlave_2getopt_8c.html#71ceb8911d64b39b402041ba5ea8453c">NONOPTION_P</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00118">optarg</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00153">opterr</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00133">optind</a>, <a class="el" href="TestMasterSlave_2getopt_8c.html#06fc87d81c62e9abb8790b6e5713c55bcfdde4b47c27f4efbd832e1ac7f8a8fc">PERMUTE</a>, and <a class="el" href="TestMasterSlave_2getopt_8c.html#06fc87d81c62e9abb8790b6e5713c55b0e73a0691c110b1442d8364d1d12eccc">REQUIRE_ORDER</a>.
+References <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00139">__getopt_initialized</a>, <a class="el" href="TestMasterSlave_2getopt_8h-source.html#l00108">option::name</a>, <a class="el" href="TestMasterSlave_2getopt_8c.html#60fb2ef5fa72a6e2f2f62c0d6158f94c">NONOPTION_P</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00118">optarg</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00153">opterr</a>, <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00133">optind</a>, <a class="el" href="TestMasterSlave_2getopt_8c.html#2e520baeab5e72a8cd84e00dce61684fd3b1ba5acb926eca92e0a5784f911df0">PERMUTE</a>, and <a class="el" href="TestMasterSlave_2getopt_8c.html#2e520baeab5e72a8cd84e00dce61684fe9f3d62b95878d3ab723990312fda0bb">REQUIRE_ORDER</a>.
 <p>
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l01171">getopt()</a>.
 </div>
 </div><p>
-<a class="anchor" name="ee28fd8a0e40b6d958f7d20348e45368"></a><!-- doxytag: member="getopt.c::getenv" ref="ee28fd8a0e40b6d958f7d20348e45368" args="()" -->
+<a class="anchor" name="d371de5388fe5b7a20882a85a670c3fc"></a><!-- doxytag: member="getopt.c::getenv" ref="d371de5388fe5b7a20882a85a670c3fc" args="()" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -255,7 +255,7 @@ Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l01171"
 
 </div>
 </div><p>
-<a class="anchor" name="1b2ada39ab92162c6ec9c67c8093fa2e"></a><!-- doxytag: member="getopt.c::getopt" ref="1b2ada39ab92162c6ec9c67c8093fa2e" args="(int argc, char *const *argv, const char *optstring)" -->
+<a class="anchor" name="afdf882e55974b727c64559defdc4326"></a><!-- doxytag: member="getopt.c::getopt" ref="afdf882e55974b727c64559defdc4326" args="(int argc, char *const *argv, const char *optstring)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -295,20 +295,20 @@ References <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_g
 <p>
 Referenced by <a class="el" href="TestMasterMicroMod_8c-source.html#l00397">main()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="TestMasterSlave_2getopt_8c_1b2ada39ab92162c6ec9c67c8093fa2e_cgraph.png" border="0" usemap="#TestMasterSlave_2getopt_8c_1b2ada39ab92162c6ec9c67c8093fa2e_cgraph_map" alt=""></center>
-<map name="TestMasterSlave_2getopt_8c_1b2ada39ab92162c6ec9c67c8093fa2e_cgraph_map">
-<area href="TestMasterSlave_2getopt_8c.html#0df92a0ae8fe1fd43268c738f548674f" shape="rect" coords="120,6,254,30" alt="">
+Here is the call graph for this function:<p><center><img src="TestMasterSlave_2getopt_8c_afdf882e55974b727c64559defdc4326_cgraph.png" border="0" usemap="#TestMasterSlave_2getopt_8c_afdf882e55974b727c64559defdc4326_cgraph_map" alt=""></center>
+<map name="TestMasterSlave_2getopt_8c_afdf882e55974b727c64559defdc4326_cgraph_map">
+<area href="TestMasterSlave_2getopt_8c.html#ca624a08c8860a96fd9afd064ff1e598" shape="rect" coords="109,5,219,32" alt="">
 </map>
 
 </div>
 </div><p>
 <hr><h2>Variable Documentation</h2>
-<a class="anchor" name="28286be757527aeb1db951b5da9aeec1"></a><!-- doxytag: member="getopt.c::__getopt_initialized" ref="28286be757527aeb1db951b5da9aeec1" args="" -->
+<a class="anchor" name="43b2a4340a24537cc6364835f9d73fb5"></a><!-- doxytag: member="getopt.c::__getopt_initialized" ref="43b2a4340a24537cc6364835f9d73fb5" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8c.html#28286be757527aeb1db951b5da9aeec1">__getopt_initialized</a>          </td>
+          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8c.html#43b2a4340a24537cc6364835f9d73fb5">__getopt_initialized</a>          </td>
         </tr>
       </table>
 </div>
@@ -322,12 +322,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_getopt_internal()</a>.
 </div>
 </div><p>
-<a class="anchor" name="db50a0eab9fed92fc3bfc7dfa4f2c410"></a><!-- doxytag: member="getopt.c::optarg" ref="db50a0eab9fed92fc3bfc7dfa4f2c410" args="" -->
+<a class="anchor" name="a2d33a77952a7e6973146c1284042818"></a><!-- doxytag: member="getopt.c::optarg" ref="a2d33a77952a7e6973146c1284042818" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">char* <a class="el" href="TestMasterMicroMod_2getopt_8h.html#db50a0eab9fed92fc3bfc7dfa4f2c410">optarg</a>          </td>
+          <td class="memname">char* <a class="el" href="TestMasterMicroMod_2getopt_8h.html#a2d33a77952a7e6973146c1284042818">optarg</a>          </td>
         </tr>
       </table>
 </div>
@@ -341,12 +341,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_getopt_internal()</a>, and <a class="el" href="TestMasterMicroMod_8c-source.html#l00397">main()</a>.
 </div>
 </div><p>
-<a class="anchor" name="e30f05ee1e2e5652f174a35c7875d25e"></a><!-- doxytag: member="getopt.c::opterr" ref="e30f05ee1e2e5652f174a35c7875d25e" args="" -->
+<a class="anchor" name="2d5d57aa71d16b312a92ac70f91c44f1"></a><!-- doxytag: member="getopt.c::opterr" ref="2d5d57aa71d16b312a92ac70f91c44f1" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#e30f05ee1e2e5652f174a35c7875d25e">opterr</a> = 1          </td>
+          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#2d5d57aa71d16b312a92ac70f91c44f1">opterr</a> = 1          </td>
         </tr>
       </table>
 </div>
@@ -360,12 +360,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_getopt_internal()</a>.
 </div>
 </div><p>
-<a class="anchor" name="d5e1c16213bbee2d5e8cc363309f418c"></a><!-- doxytag: member="getopt.c::optind" ref="d5e1c16213bbee2d5e8cc363309f418c" args="" -->
+<a class="anchor" name="87eb6bb97b34e1d4c6b85f8a23db5858"></a><!-- doxytag: member="getopt.c::optind" ref="87eb6bb97b34e1d4c6b85f8a23db5858" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#d5e1c16213bbee2d5e8cc363309f418c">optind</a> = 1          </td>
+          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#87eb6bb97b34e1d4c6b85f8a23db5858">optind</a> = 1          </td>
         </tr>
       </table>
 </div>
@@ -379,12 +379,12 @@ Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l0
 Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511">_getopt_internal()</a>.
 </div>
 </div><p>
-<a class="anchor" name="475b8db98445da73e5f62a1ef6324b95"></a><!-- doxytag: member="getopt.c::optopt" ref="475b8db98445da73e5f62a1ef6324b95" args="" -->
+<a class="anchor" name="b3d1db20633bdbad253accdec2f9477f"></a><!-- doxytag: member="getopt.c::optopt" ref="b3d1db20633bdbad253accdec2f9477f" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#475b8db98445da73e5f62a1ef6324b95">optopt</a> = '?'          </td>
+          <td class="memname">int <a class="el" href="TestMasterMicroMod_2getopt_8h.html#b3d1db20633bdbad253accdec2f9477f">optopt</a> = '?'          </td>
         </tr>
       </table>
 </div>
@@ -396,7 +396,7 @@ Referenced by <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00511"
 Definition at line <a class="el" href="TestMasterSlave_2getopt_8c-source.html#l00159">159</a> of file <a class="el" href="TestMasterSlave_2getopt_8c-source.html">getopt.c</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:48 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:23 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

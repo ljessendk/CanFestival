@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_c0a169d39c08973f879fd54f07b9e9f7.html">src</a></div>
+<a class="el" href="dir_0aa10e4f705947227e11e7ccb081fbe4.html">src</a></div>
 <h1>timer.c</h1><a href="timer_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -47,29 +47,29 @@
 <a name="l00036"></a>00036 <span class="preprocessor">#include "<a class="code" href="timer_8h.html">timer.h</a>"</span>
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038 <span class="comment">/*  ---------  The timer table --------- */</span>
-<a name="l00039"></a><a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">00039</a> <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[<a class="code" href="config_8h.html#cbb0f0858383466430c5fcd448391d16">MAX_NB_TIMER</a>] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
+<a name="l00039"></a><a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">00039</a> <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> <a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">timers</a>[<a class="code" href="config_8h.html#893c52ed173989613d09770db8b9f294">MAX_NB_TIMER</a>] = {{TIMER_FREE, NULL, NULL, 0, 0, 0},};
 <a name="l00040"></a>00040 
-<a name="l00041"></a><a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">00041</a> <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = <a class="code" href="hcs12_2applicfg_8h.html#35b2fd1a5f6b88bf3842ba3663e6f85e">TIMEVAL_MAX</a>;
-<a name="l00042"></a><a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">00042</a> <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> = -1;
+<a name="l00041"></a><a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">00041</a> <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> <a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> = <a class="code" href="hcs12_2applicfg_8h.html#9b8b68779cc690a9f699155420328d0f">TIMEVAL_MAX</a>;
+<a name="l00042"></a><a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">00042</a> <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a> = -1;
 <a name="l00043"></a>00043 
-<a name="l00044"></a><a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">00044</a> <span class="preprocessor">#define min_val(a,b) ((a&lt;b)?a:b)</span>
+<a name="l00044"></a><a class="code" href="timer_8c.html#d2d95744d6e355721e7bbc2c07d934a4">00044</a> <span class="preprocessor">#define min_val(a,b) ((a&lt;b)?a:b)</span>
 <a name="l00045"></a>00045 <span class="preprocessor"></span>
-<a name="l00057"></a><a class="code" href="timer_8h.html#11c2616d78f06ed9144ef662f757b128">00057</a> <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#11c2616d78f06ed9144ef662f757b128">SetAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <span class="keywordtype">id</span>, <a class="code" href="timer_8h.html#f7d102e060339d3730ceae5fea03691b">TimerCallback_t</a> <a class="code" href="structstruct__s__timer__entry.html#3aaad06b3f938b7af91b790a4dd30669">callback</a>, <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> value, <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> period)
+<a name="l00057"></a><a class="code" href="timer_8h.html#956b22f24089db4c367f40199f838a20">00057</a> <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#956b22f24089db4c367f40199f838a20">SetAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* <a class="code" href="structstruct__s__timer__entry.html#1f47508e63fb89e692b98e178a78268f">d</a>, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> <span class="keywordtype">id</span>, <a class="code" href="timer_8h.html#c8436e7543fa1329b00e570246071313">TimerCallback_t</a> <a class="code" href="structstruct__s__timer__entry.html#692e4f379d9b3976895df243e12ccacb">callback</a>, <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> value, <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> period)
 <a name="l00058"></a>00058 {
 <a name="l00059"></a>00059         <span class="comment">/*printf("SetAlarm(UNS32 id=%d, TimerCallback_t callback=%x, TIMEVAL value=%d, TIMEVAL period=%d)\n", id, callback, value, period); */</span>
-<a name="l00060"></a>00060         <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> i;
-<a name="l00061"></a>00061         <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> row_number = TIMER_NONE;
+<a name="l00060"></a>00060         <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> i;
+<a name="l00061"></a>00061         <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> row_number = TIMER_NONE;
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063         <span class="comment">/* in order to decide new timer setting we have to run over all timer rows */</span>
-<a name="l00064"></a>00064         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1 &amp;&amp; i &lt; <a class="code" href="config_8h.html#cbb0f0858383466430c5fcd448391d16">MAX_NB_TIMER</a>; i++)
+<a name="l00064"></a>00064         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a> + 1 &amp;&amp; i &lt; <a class="code" href="config_8h.html#893c52ed173989613d09770db8b9f294">MAX_NB_TIMER</a>; i++)
 <a name="l00065"></a>00065         {
-<a name="l00066"></a>00066                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00066"></a>00066                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">timers</a>+i);
 <a name="l00067"></a>00067 
 <a name="l00068"></a>00068                 <span class="keywordflow">if</span> (callback &amp;&amp;         <span class="comment">/* if something to store */</span>
 <a name="l00069"></a>00069                    row-&gt;state == TIMER_FREE) <span class="comment">/* and empty row */</span>
 <a name="l00070"></a>00070                 {       <span class="comment">/* just store */</span>
 <a name="l00071"></a>00071                         row-&gt;callback = callback;
-<a name="l00072"></a>00072                         row-&gt;d = <a class="code" href="structstruct__s__timer__entry.html#c08f4de0f4a517ce2bb72f18251cd13c">d</a>;
+<a name="l00072"></a>00072                         row-&gt;d = <a class="code" href="structstruct__s__timer__entry.html#1f47508e63fb89e692b98e178a78268f">d</a>;
 <a name="l00073"></a>00073                         row-&gt;id = <span class="keywordtype">id</span>;
 <a name="l00074"></a>00074                         row-&gt;val = value;
 <a name="l00075"></a>00075                         row-&gt;interval = period;
@@ -81,20 +81,20 @@
 <a name="l00081"></a>00081         
 <a name="l00082"></a>00082         <span class="keywordflow">if</span> (row_number != TIMER_NONE) <span class="comment">/* if successfull **/</span>
 <a name="l00083"></a>00083         {
-<a name="l00084"></a>00084                 <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> real_timer_value;
-<a name="l00085"></a>00085                 <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> elapsed_time;
+<a name="l00084"></a>00084                 <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> real_timer_value;
+<a name="l00085"></a>00085                 <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> elapsed_time;
 <a name="l00086"></a>00086                 
-<a name="l00087"></a>00087                 <span class="keywordflow">if</span> (row_number == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a> + 1) <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>++;
+<a name="l00087"></a>00087                 <span class="keywordflow">if</span> (row_number == <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a> + 1) <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a>++;
 <a name="l00088"></a>00088                 
 <a name="l00089"></a>00089                 <span class="comment">/* set next wakeup alarm if new entry is sooner than others, or if it is alone */</span>
-<a name="l00090"></a>00090                 real_timer_value = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(value, <a class="code" href="hcs12_2applicfg_8h.html#35b2fd1a5f6b88bf3842ba3663e6f85e">TIMEVAL_MAX</a>);
-<a name="l00091"></a>00091                 elapsed_time = <a class="code" href="canOpenDriver_8c.html#24dbe63e88d184388542037d16a8208d">getElapsedTime</a>();
+<a name="l00090"></a>00090                 real_timer_value = <a class="code" href="timer_8c.html#d2d95744d6e355721e7bbc2c07d934a4">min_val</a>(value, <a class="code" href="hcs12_2applicfg_8h.html#9b8b68779cc690a9f699155420328d0f">TIMEVAL_MAX</a>);
+<a name="l00091"></a>00091                 elapsed_time = <a class="code" href="canOpenDriver_8c.html#38b23a8ee3748bca3415967b90df1e15">getElapsedTime</a>();
 <a name="l00092"></a>00092 
 <a name="l00093"></a>00093                 <span class="comment">/*printf("elapsed_time=%d real_timer_value=%d total_sleep_time=%d\n", elapsed_time, real_timer_value, total_sleep_time); */</span>
-<a name="l00094"></a>00094                 <span class="keywordflow">if</span> (<a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> &gt; elapsed_time &amp;&amp; <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> - elapsed_time &gt; real_timer_value)
+<a name="l00094"></a>00094                 <span class="keywordflow">if</span> (<a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> &gt; elapsed_time &amp;&amp; <a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> - elapsed_time &gt; real_timer_value)
 <a name="l00095"></a>00095                 {
-<a name="l00096"></a>00096                         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = elapsed_time + real_timer_value;
-<a name="l00097"></a>00097                         <a class="code" href="timers__unix_8c.html#b8d05dee70f04b5c5190ab00e84da106">setTimer</a>(real_timer_value);
+<a name="l00096"></a>00096                         <a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> = elapsed_time + real_timer_value;
+<a name="l00097"></a>00097                         <a class="code" href="timers__unix_8c.html#7996006c628d2df030b9684d7a86acd1">setTimer</a>(real_timer_value);
 <a name="l00098"></a>00098                 }
 <a name="l00099"></a>00099                 <span class="comment">/*printf("SetAlarm() return %d\n", row_number); */</span>
 <a name="l00100"></a>00100                 <span class="keywordflow">return</span> row_number;
@@ -102,35 +102,35 @@
 <a name="l00102"></a>00102         <span class="keywordflow">return</span> TIMER_NONE;
 <a name="l00103"></a>00103 }
 <a name="l00104"></a>00104 
-<a name="l00112"></a><a class="code" href="timer_8h.html#991b3cfaac2f201b14d5530f75985c21">00112</a> <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#991b3cfaac2f201b14d5530f75985c21">DelAlarm</a>(<a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> handle)
+<a name="l00112"></a><a class="code" href="timer_8h.html#12fe6467e1df03cc40dd6f76123c99f6">00112</a> <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> <a class="code" href="timer_8c.html#12fe6467e1df03cc40dd6f76123c99f6">DelAlarm</a>(<a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> handle)
 <a name="l00113"></a>00113 {
 <a name="l00114"></a>00114         <span class="comment">/* Quick and dirty. system timer will continue to be trigged, but no action will be preformed. */</span>
-<a name="l00115"></a>00115         <a class="code" href="hcs12_2applicfg_8h.html#5f4e5133c4c3113931684d3aba518bba">MSG_WAR</a>(0x3320, <span class="stringliteral">"DelAlarm. handle = "</span>, handle);
+<a name="l00115"></a>00115         <a class="code" href="hcs12_2applicfg_8h.html#d5dffc889e623fbc4f635e69276cdf20">MSG_WAR</a>(0x3320, <span class="stringliteral">"DelAlarm. handle = "</span>, handle);
 <a name="l00116"></a>00116         <span class="keywordflow">if</span>(handle != TIMER_NONE)
 <a name="l00117"></a>00117         {
-<a name="l00118"></a>00118                 <span class="keywordflow">if</span>(handle == <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>) 
-<a name="l00119"></a>00119                         <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>--;
-<a name="l00120"></a>00120                 <a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>[handle].<a class="code" href="structstruct__s__timer__entry.html#a58939661154282941a8b289d6019064">state</a> = TIMER_FREE;              
+<a name="l00118"></a>00118                 <span class="keywordflow">if</span>(handle == <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a>) 
+<a name="l00119"></a>00119                         <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a>--;
+<a name="l00120"></a>00120                 <a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">timers</a>[handle].<a class="code" href="structstruct__s__timer__entry.html#48f463cd0804517aeb60b27979143c56">state</a> = TIMER_FREE;              
 <a name="l00121"></a>00121         }
 <a name="l00122"></a>00122         <span class="keywordflow">else</span> {
 <a name="l00123"></a>00123         }
 <a name="l00124"></a>00124         <span class="keywordflow">return</span> TIMER_NONE;
 <a name="l00125"></a>00125 }
 <a name="l00126"></a>00126 
-<a name="l00131"></a><a class="code" href="timer_8h.html#9e5fb60f13faab8705899c5806754864">00131</a> <span class="keywordtype">void</span> <a class="code" href="timer_8c.html#fa75192a3238525618f8cb83004930cc">TimeDispatch</a>()
+<a name="l00131"></a><a class="code" href="timer_8h.html#cfbb167cb53b81998c9a6f5af0c93c13">00131</a> <span class="keywordtype">void</span> <a class="code" href="timer_8c.html#7a5a515821c2e4fb2f66bac72389da00">TimeDispatch</a>()
 <a name="l00132"></a>00132 {
-<a name="l00133"></a>00133         <a class="code" href="timer_8h.html#146f546340de2a44ab2f63681d40de95">TIMER_HANDLE</a> i;
-<a name="l00134"></a>00134         <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> next_wakeup = <a class="code" href="hcs12_2applicfg_8h.html#35b2fd1a5f6b88bf3842ba3663e6f85e">TIMEVAL_MAX</a>; <span class="comment">/* used to compute when should normaly occur next wakeup */</span>
+<a name="l00133"></a>00133         <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> i;
+<a name="l00134"></a>00134         <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> next_wakeup = <a class="code" href="hcs12_2applicfg_8h.html#9b8b68779cc690a9f699155420328d0f">TIMEVAL_MAX</a>; <span class="comment">/* used to compute when should normaly occur next wakeup */</span>
 <a name="l00135"></a>00135         <span class="comment">/* First run : change timer state depending on time */</span>
 <a name="l00136"></a>00136         <span class="comment">/* Get time since timer signal */</span>
-<a name="l00137"></a>00137         <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> overrun = <a class="code" href="canOpenDriver_8c.html#24dbe63e88d184388542037d16a8208d">getElapsedTime</a>();
+<a name="l00137"></a>00137         <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> overrun = <a class="code" href="canOpenDriver_8c.html#38b23a8ee3748bca3415967b90df1e15">getElapsedTime</a>();
 <a name="l00138"></a>00138         
-<a name="l00139"></a>00139         <a class="code" href="hcs12_2applicfg_8h.html#6ae11f09e1ebf40f3562857272fab8bf">TIMEVAL</a> real_total_sleep_time = <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> + overrun;
+<a name="l00139"></a>00139         <a class="code" href="hcs12_2applicfg_8h.html#dea5fb459bddd6fd539cdf665dd657e6">TIMEVAL</a> real_total_sleep_time = <a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> + overrun;
 <a name="l00140"></a>00140         <span class="comment">/*printf("total_sleep_time %d + overrun %d\n", total_sleep_time , overrun); */</span>
 <a name="l00141"></a>00141 
-<a name="l00142"></a>00142         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
+<a name="l00142"></a>00142         <span class="keywordflow">for</span>(i=0; i &lt;= <a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a>; i++)
 <a name="l00143"></a>00143         {
-<a name="l00144"></a>00144                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00144"></a>00144                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">timers</a>+i);
 <a name="l00145"></a>00145 
 <a name="l00146"></a>00146                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_ARMED) <span class="comment">/* if row is active */</span>
 <a name="l00147"></a>00147                 {
@@ -147,7 +147,7 @@
 <a name="l00158"></a>00158                                         row-&gt;val = row-&gt;interval - (overrun % row-&gt;interval);
 <a name="l00159"></a>00159                                         row-&gt;state = TIMER_TRIG_PERIOD; <span class="comment">/* ask for trig, periodic */</span>
 <a name="l00160"></a>00160                                         <span class="comment">/* Check if this new timer value is the soonest */</span>
-<a name="l00161"></a>00161                                         next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
+<a name="l00161"></a>00161                                         next_wakeup = <a class="code" href="timer_8c.html#d2d95744d6e355721e7bbc2c07d934a4">min_val</a>(row-&gt;val,next_wakeup);
 <a name="l00162"></a>00162                                 }
 <a name="l00163"></a>00163                         }
 <a name="l00164"></a>00164                         <span class="keywordflow">else</span>
@@ -156,21 +156,21 @@
 <a name="l00167"></a>00167                                 row-&gt;val -= real_total_sleep_time;
 <a name="l00168"></a>00168 
 <a name="l00169"></a>00169                                 <span class="comment">/* Check if this new timer value is the soonest */</span>
-<a name="l00170"></a>00170                                 next_wakeup = <a class="code" href="timer_8c.html#8536312cebeeea3a23dc0027800122c9">min_val</a>(row-&gt;val,next_wakeup);
+<a name="l00170"></a>00170                                 next_wakeup = <a class="code" href="timer_8c.html#d2d95744d6e355721e7bbc2c07d934a4">min_val</a>(row-&gt;val,next_wakeup);
 <a name="l00171"></a>00171                         }
 <a name="l00172"></a>00172                 }
 <a name="l00173"></a>00173         }
 <a name="l00174"></a>00174         
 <a name="l00175"></a>00175         <span class="comment">/* Remember how much time we should sleep. */</span>
-<a name="l00176"></a>00176         <a class="code" href="timer_8c.html#5e9651eed13d70bcce9bdf3489a72a3d">total_sleep_time</a> = next_wakeup;
+<a name="l00176"></a>00176         <a class="code" href="timer_8c.html#242986a224c5a02d6341dd5bfdf71008">total_sleep_time</a> = next_wakeup;
 <a name="l00177"></a>00177 
 <a name="l00178"></a>00178         <span class="comment">/* Set timer to soonest occurence */</span>
-<a name="l00179"></a>00179         <a class="code" href="timers__unix_8c.html#b8d05dee70f04b5c5190ab00e84da106">setTimer</a>(next_wakeup);
+<a name="l00179"></a>00179         <a class="code" href="timers__unix_8c.html#7996006c628d2df030b9684d7a86acd1">setTimer</a>(next_wakeup);
 <a name="l00180"></a>00180 
 <a name="l00181"></a>00181         <span class="comment">/* Then trig them or not. */</span>
-<a name="l00182"></a>00182         <span class="keywordflow">for</span>(i=0; i&lt;=<a class="code" href="timer_8c.html#1dab7b9a29bdee8b1931f8ea90685c6f">last_timer_raw</a>; i++)
+<a name="l00182"></a>00182         <span class="keywordflow">for</span>(i=0; i&lt;=<a class="code" href="timer_8c.html#4afd63ff2f23fe7cd60f0d82e78c4426">last_timer_raw</a>; i++)
 <a name="l00183"></a>00183         {
-<a name="l00184"></a>00184                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#a74e2cf2504bfd18b12f112c7aaad845">timers</a>+i);
+<a name="l00184"></a>00184                 <a class="code" href="structstruct__s__timer__entry.html">s_timer_entry</a> *row = (<a class="code" href="timer_8c.html#adb4c8d5876b377463d33bdeda56b575">timers</a>+i);
 <a name="l00185"></a>00185 
 <a name="l00186"></a>00186                 <span class="keywordflow">if</span> (row-&gt;state &amp; TIMER_TRIG)
 <a name="l00187"></a>00187                 {
@@ -181,7 +181,7 @@
 <a name="l00192"></a>00192         }
 <a name="l00193"></a>00193 }
 <a name="l00194"></a>00194 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

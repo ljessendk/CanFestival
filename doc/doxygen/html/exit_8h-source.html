@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9b4fbd1818b4be2ef59811982235911e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_4b2c04d6d15a0af1e05b62dc9a95ef0e.html">board</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_792ecdda7baed8c627cc0bbb8f0a21d1.html">arch</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_d760eeaaeddcf24a708a1307f60f8f4e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_492ba3b4a3e8d135741e941fef850e68.html">board</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_be7cfe688862b37e418cdc1915652b03.html">arch</a></div>
 <h1>exit.h</h1><a href="exit_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -71,26 +71,26 @@
 <a name="l00050"></a>00050 <span class="preprocessor">#ifndef _M68HC11_ARCH_32K_EXIT_H</span>
 <a name="l00051"></a>00051 <span class="preprocessor"></span><span class="preprocessor">#define _M68HC11_ARCH_32K_EXIT_H</span>
 <a name="l00052"></a>00052 <span class="preprocessor"></span>
-<a name="l00053"></a>00053 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="exit_8h.html#584550ef7e16ebfa0823064d45816b8e">_exit</a> (<span class="keywordtype">short</span> status) <a class="code" href="canOpenDriver_8c.html#445500277ba0e363873b34cffc015745">__attribute__</a>((noreturn));
+<a name="l00053"></a>00053 <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code" href="exit_8h.html#fa7b0c784115079006c17f59d8e757d5">_exit</a> (<span class="keywordtype">short</span> status) <a class="code" href="canOpenDriver_8c.html#9d1d38ef63c4a40d5e7eabf64f332590">__attribute__</a>((noreturn));
 <a name="l00054"></a>00054 
 <a name="l00055"></a>00055 <span class="comment">/* For the simulator, the wai stops everything and exits with the</span>
 <a name="l00056"></a>00056 <span class="comment">   error code stored in register d.</span>
 <a name="l00057"></a>00057 <span class="comment"></span>
 <a name="l00058"></a>00058 <span class="comment">   For a real 68HC11, enable interrupts and wait forever.  */</span>
 <a name="l00059"></a>00059 <span class="keyword">extern</span> <span class="keyword">inline</span> <span class="keywordtype">void</span>
-<a name="l00060"></a><a class="code" href="exit_8h.html#584550ef7e16ebfa0823064d45816b8e">00060</a> <a class="code" href="exit_8h.html#584550ef7e16ebfa0823064d45816b8e">_exit</a> (<span class="keywordtype">short</span> status)
+<a name="l00060"></a><a class="code" href="exit_8h.html#fa7b0c784115079006c17f59d8e757d5">00060</a> <a class="code" href="exit_8h.html#fa7b0c784115079006c17f59d8e757d5">_exit</a> (<span class="keywordtype">short</span> status)
 <a name="l00061"></a>00061 {
 <a name="l00062"></a>00062   <span class="comment">/* Use 'd' constraint to force the status to be in the D</span>
 <a name="l00063"></a>00063 <span class="comment">     register before execution of the asm.  */</span>
 <a name="l00064"></a>00064   <span class="keywordflow">while</span> (1)
 <a name="l00065"></a>00065     {
-<a name="l00066"></a>00066       <a class="code" href="regs_8h.html#b1b104e72affb247e036289d0fc18ac7">__asm__</a> __volatile__ (<span class="stringliteral">"cli\n"</span>
+<a name="l00066"></a>00066       <a class="code" href="regs_8h.html#d28436d08fab91f8bebd7fd082b3f757">__asm__</a> __volatile__ (<span class="stringliteral">"cli\n"</span>
 <a name="l00067"></a>00067                             <span class="stringliteral">"wai"</span> : : <span class="stringliteral">"d"</span>(status));
 <a name="l00068"></a>00068     }
 <a name="l00069"></a>00069 }
 <a name="l00070"></a>00070 
 <a name="l00071"></a>00071 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

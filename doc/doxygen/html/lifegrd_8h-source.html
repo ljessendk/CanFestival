@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>lifegrd.h</h1><a href="lifegrd_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -47,8 +47,8 @@
 <a name="l00026"></a>00026 
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;<a class="code" href="win32_2applicfg_8h.html">applicfg.h</a>&gt;</span>
 <a name="l00028"></a>00028 
-<a name="l00029"></a><a class="code" href="lifegrd_8h.html#eca3959d33fceb33487363a0493d3b7d">00029</a> <span class="keyword">typedef</span> void (*<a class="code" href="lifegrd_8h.html#eca3959d33fceb33487363a0493d3b7d">heartbeatError_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>);
-<a name="l00030"></a>00030 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#5249eb891f5677b80ccf01e604748524">_heartbeatError</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> heartbeatID);
+<a name="l00029"></a><a class="code" href="lifegrd_8h.html#be9b176eba3a70d52f86faf32db79f30">00029</a> <span class="keyword">typedef</span> void (*<a class="code" href="lifegrd_8h.html#be9b176eba3a70d52f86faf32db79f30">heartbeatError_t</a>)(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>);
+<a name="l00030"></a>00030 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#9f9eaba98473f87f91bb8bc9654a0351">_heartbeatError</a>(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> heartbeatID);
 <a name="l00031"></a>00031 
 <a name="l00032"></a>00032 <span class="preprocessor">#include "<a class="code" href="data_8h.html">data.h</a>"</span>
 <a name="l00033"></a>00033 
@@ -57,16 +57,16 @@
 <a name="l00036"></a>00036 <span class="comment"> *************************************************************************/</span>
 <a name="l00037"></a>00037 
 <a name="l00038"></a>00038 
-<a name="l00043"></a>00043 <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a> <a class="code" href="lifegrd_8c.html#627254070e45c23f1776e12c524492ff">getNodeState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId);
+<a name="l00043"></a>00043 <a class="code" href="states_8h.html#424131de4b91e21fa281d2c8913d9282">e_nodeState</a> <a class="code" href="lifegrd_8c.html#efc37a2f9a8c56f18d7569bfb0f02554">getNodeState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId);
 <a name="l00044"></a>00044 
-<a name="l00049"></a>00049 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#8896f6846e4d020390f6953f3d98aa21">heartbeatInit</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00049"></a>00049 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#03fbd3b6910b8058535d3e94242cb80e">heartbeatInit</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00050"></a>00050 
-<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#1b73047269c2a02065e12af18c6053c7">heartbeatStop</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00053"></a>00053 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#007b1f27fd9f0d6814498093f424f82e">heartbeatStop</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00054"></a>00054 
-<a name="l00061"></a>00061 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#b3248945e06e8b05518beddf665f174d">proceedNODE_GUARD</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a>* m);
+<a name="l00061"></a>00061 <span class="keywordtype">void</span> <a class="code" href="lifegrd_8c.html#5b34a311b7b97bb79db8e729c2dcbf36">proceedNODE_GUARD</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a>* m);
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063 <span class="preprocessor">#endif </span><span class="comment">/*__lifegrd_h__ */</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

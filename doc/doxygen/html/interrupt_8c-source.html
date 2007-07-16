@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_d58fb241e647de6212c31ecccf9cbace.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_db1ed8bc1b9755aa465fb1d5c578dab2.html">hcs12</a></div>
+<a class="el" href="dir_65dd258ff9b9ef4cd7bd0d22f5e58dba.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_2d4bff0e9225ea81eb175e376cee668f.html">hcs12</a></div>
 <h1>interrupt.c</h1><a href="interrupt_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -60,30 +60,30 @@
 <a name="l00039"></a>00039 <span class="preprocessor">#include "../include/hcs12/asm-m68hc12/ports.h"</span>
 <a name="l00040"></a>00040 <span class="preprocessor">#include "../include/hcs12/interrupt.h"</span>
 <a name="l00041"></a>00041 
-<a name="l00042"></a>00042 <span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">char</span> <a class="code" href="interrupt_8c.html#9c5b421f784338eb10343d2724c56706">msgRecu</a>;
-<a name="l00043"></a>00043 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="interrupt_8c.html#d91f20f7aab1f9071e2378a8696db736">canMsgRcv</a>;
+<a name="l00042"></a>00042 <span class="keyword">extern</span> <span class="keyword">volatile</span> <span class="keywordtype">char</span> <a class="code" href="interrupt_8c.html#82f85514c94b93d15115bdfc37d97a9c">msgRecu</a>;
+<a name="l00043"></a>00043 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="interrupt_8c.html#4e6c77881895c0ebe596db34649d642d">canMsgRcv</a>;
 <a name="l00044"></a>00044 
 <a name="l00045"></a>00045 
 <a name="l00046"></a>00046 
 <a name="l00047"></a>00047 <span class="comment">/* Inhibe les interruptions */</span>
 <a name="l00048"></a>00048 
-<a name="l00049"></a><a class="code" href="interrupt_8h.html#eb99ff49b4a6d5157416f9b5bd0d9c2c">00049</a> <span class="keywordtype">void</span> <a class="code" href="interrupt_8c.html#eb99ff49b4a6d5157416f9b5bd0d9c2c">lock</a> (<span class="keywordtype">void</span>)
+<a name="l00049"></a><a class="code" href="interrupt_8h.html#a86d31d31831be20de69b1533b4acc5b">00049</a> <span class="keywordtype">void</span> <a class="code" href="interrupt_8c.html#a86d31d31831be20de69b1533b4acc5b">lock</a> (<span class="keywordtype">void</span>)
 <a name="l00050"></a>00050 {
 <a name="l00051"></a>00051    <span class="keywordtype">unsigned</span> <span class="keywordtype">short</span> mask;
-<a name="l00052"></a>00052    <a class="code" href="regs_8h.html#b1b104e72affb247e036289d0fc18ac7">__asm__</a> __volatile__ (<span class="stringliteral">"tpa\n\tsei"</span> : <span class="stringliteral">"=d"</span>(mask));
+<a name="l00052"></a>00052    <a class="code" href="regs_8h.html#d28436d08fab91f8bebd7fd082b3f757">__asm__</a> __volatile__ (<span class="stringliteral">"tpa\n\tsei"</span> : <span class="stringliteral">"=d"</span>(mask));
 <a name="l00053"></a>00053 
 <a name="l00054"></a>00054 }
 <a name="l00055"></a>00055 
 <a name="l00056"></a>00056 <span class="comment">/* Autorise les interruptions */</span>
-<a name="l00057"></a><a class="code" href="interrupt_8h.html#987ce601d6d4c8eedd68b58db3b7811a">00057</a> <span class="keywordtype">void</span> <a class="code" href="interrupt_8c.html#987ce601d6d4c8eedd68b58db3b7811a">unlock</a> (<span class="keywordtype">void</span>)
+<a name="l00057"></a><a class="code" href="interrupt_8h.html#8704c06a2936e68f7c25dc0c1d335cca">00057</a> <span class="keywordtype">void</span> <a class="code" href="interrupt_8c.html#8704c06a2936e68f7c25dc0c1d335cca">unlock</a> (<span class="keywordtype">void</span>)
 <a name="l00058"></a>00058 { 
-<a name="l00059"></a>00059    <a class="code" href="regs_8h.html#b1b104e72affb247e036289d0fc18ac7">__asm__</a> __volatile__ (<span class="stringliteral">"cli"</span>);
+<a name="l00059"></a>00059    <a class="code" href="regs_8h.html#d28436d08fab91f8bebd7fd082b3f757">__asm__</a> __volatile__ (<span class="stringliteral">"cli"</span>);
 <a name="l00060"></a>00060 }
 <a name="l00061"></a>00061 
 <a name="l00062"></a>00062 
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:38 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

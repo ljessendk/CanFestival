@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>pdo.h</h1><a href="pdo_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -47,50 +47,53 @@
 <a name="l00026"></a>00026 <span class="preprocessor">#include &lt;<a class="code" href="win32_2applicfg_8h.html">applicfg.h</a>&gt;</span>
 <a name="l00027"></a>00027 <span class="preprocessor">#include &lt;<a class="code" href="def_8h.html">def.h</a>&gt;</span>
 <a name="l00028"></a>00028 
-<a name="l00029"></a>00029 <span class="comment">/* The process_var structure</span>
-<a name="l00030"></a>00030 <span class="comment"> Used to store the PDO before the transmission or the reception.</span>
-<a name="l00031"></a>00031 <span class="comment">*/</span>
-<a name="l00032"></a><a class="code" href="structstruct__s__process__var.html">00032</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structstruct__s__process__var.html">struct_s_process_var</a> {
-<a name="l00033"></a><a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">00033</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="structstruct__s__process__var.html#f5110cf5f12faa435cb992cc96e7ff6b">count</a>; <span class="comment">/* Size of data. Ex : for a PDO of 6 bytes of data, count = 6 */</span>
-<a name="l00034"></a>00034   <span class="comment">/* WARNING s_process_var.data is subject to ENDIANISATION </span>
-<a name="l00035"></a>00035 <span class="comment">   * (with respect to CANOPEN_BIG_ENDIAN)</span>
-<a name="l00036"></a>00036 <span class="comment">   */</span>
-<a name="l00037"></a><a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">00037</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="structstruct__s__process__var.html#8790415d8a6886dadbb02c5f145bb543">data</a>[<a class="code" href="def_8h.html#53c0d55da6d9ed06d7f55c595611eccc">PDO_MAX_LEN</a>];
-<a name="l00038"></a>00038 }<a class="code" href="structstruct__s__process__var.html">s_process_var</a>;
-<a name="l00039"></a>00039 
-<a name="l00040"></a>00040 <span class="preprocessor">#include "<a class="code" href="data_8h.html">data.h</a>"</span>
-<a name="l00041"></a>00041 
-<a name="l00043"></a><a class="code" href="structstruct__s__PDO.html">00043</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structstruct__s__PDO.html">struct_s_PDO</a> {
-<a name="l00044"></a><a class="code" href="structstruct__s__PDO.html#79a70c0ef320cc4c939f825e83e3d5b2">00044</a>   <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> <a class="code" href="structstruct__s__PDO.html#79a70c0ef320cc4c939f825e83e3d5b2">cobId</a>;    <span class="comment">/* COB-ID */</span>
-<a name="l00045"></a><a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">00045</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>           <a class="code" href="structstruct__s__PDO.html#49db07106430da9b89ec526e8ec1573d">len</a>;     <span class="comment">/* Number of data transmitted (in data[]) */</span>
-<a name="l00046"></a><a class="code" href="structstruct__s__PDO.html#34fdcefa8119162840bccf2d67b5c6c0">00046</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>           <a class="code" href="structstruct__s__PDO.html#34fdcefa8119162840bccf2d67b5c6c0">data</a>[8]; <span class="comment">/* Contain the data */</span>
-<a name="l00047"></a>00047 }<a class="code" href="structstruct__s__PDO.html">s_PDO</a>;
-<a name="l00048"></a>00048 
-<a name="l00055"></a>00055 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#d9a4a4f0a4ef48866c6184ccbd30f210">sendPDO</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structstruct__s__PDO.html">s_PDO</a> pdo, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> request);
-<a name="l00056"></a>00056 
-<a name="l00064"></a>00064 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#298b8291fa35cca22264cf8a70bf138a">PDOmGR</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> cobId);
-<a name="l00065"></a>00065 
-<a name="l00071"></a>00071 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8h.html#b9c82d949045cb7f52ed40d0ee8c7bf1">buildPDO</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> index);
-<a name="l00072"></a>00072 
-<a name="l00078"></a>00078 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#cc08547009d3d2755d2291999941694c">sendPDOrequest</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#889a782714194ae2f780002d25d6e0be">UNS32</a> cobId);
-<a name="l00079"></a>00079 
-<a name="l00084"></a>00084 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8c.html#ae7d661cd3ef7adf93a0d08fdb15b7f2">proceedPDO</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> *m);
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 <span class="comment">/* used by the application to send a variable by PDO.</span>
-<a name="l00087"></a>00087 <span class="comment"> * Check in which PDO the variable is mapped, and send the PDO. </span>
-<a name="l00088"></a>00088 <span class="comment"> * of course, the others variables mapped in the PDO are also sent !</span>
-<a name="l00089"></a>00089 <span class="comment"> * ( ie when a specific event occured)</span>
-<a name="l00090"></a>00090 <span class="comment"> * bus_id is hardware dependant</span>
-<a name="l00091"></a>00091 <span class="comment"> * variable is a pointer to the variable which has to be sent. Must be</span>
-<a name="l00092"></a>00092 <span class="comment"> * defined in the object dictionary</span>
-<a name="l00093"></a>00093 <span class="comment"> * return 0xFF if error, else return 0</span>
-<a name="l00094"></a>00094 <span class="comment"> */</span>
-<a name="l00095"></a>00095 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="pdo_8h.html#07ff33d0d2e6b1070bf3c27578006e8d">sendPDOevent</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <span class="keywordtype">void</span> * variable);
+<a name="l00029"></a>00029 <span class="preprocessor">#include "<a class="code" href="can_8h.html">can.h</a>"</span>
+<a name="l00030"></a>00030 
+<a name="l00031"></a><a class="code" href="pdo_8h.html#ab5d5210d82e2226ffe237e54d2fc91a">00031</a> <span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structstruct__s__PDO__status.html">struct_s_PDO_status</a> <a class="code" href="pdo_8h.html#ab5d5210d82e2226ffe237e54d2fc91a">s_PDO_status</a>;
+<a name="l00032"></a>00032 
+<a name="l00033"></a>00033 <span class="preprocessor">#include "<a class="code" href="data_8h.html">data.h</a>"</span>
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035 <span class="comment">/* Status of the TPDO : */</span>
+<a name="l00036"></a>00036 <span class="preprocessor">#define PDO_INHIBITED 0x01</span>
+<a name="l00037"></a>00037 <span class="preprocessor"></span><span class="preprocessor">#define PDO_RTR_SYNC_READY 0x01</span>
+<a name="l00038"></a>00038 <span class="preprocessor"></span>
+<a name="l00040"></a><a class="code" href="structstruct__s__PDO__status.html">00040</a> <span class="keyword">struct </span><a class="code" href="structstruct__s__PDO__status.html">struct_s_PDO_status</a> {
+<a name="l00041"></a><a class="code" href="structstruct__s__PDO__status.html#f9e27232316e15b6bc6465a9e5513d2f">00041</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="structstruct__s__PDO__status.html#f9e27232316e15b6bc6465a9e5513d2f">transmit_type_parameter</a>;
+<a name="l00042"></a><a class="code" href="structstruct__s__PDO__status.html#17af26b615c0fd36a11d2a637b88e2fc">00042</a>   <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> <a class="code" href="structstruct__s__PDO__status.html#17af26b615c0fd36a11d2a637b88e2fc">event_timer</a>;
+<a name="l00043"></a><a class="code" href="structstruct__s__PDO__status.html#7443e5ea0b56fb7de4c70b38dd722bca">00043</a>   <a class="code" href="timer_8h.html#92d252e2b6f4cf50c0e7450c20d5db48">TIMER_HANDLE</a> <a class="code" href="structstruct__s__PDO__status.html#7443e5ea0b56fb7de4c70b38dd722bca">inhibit_timer</a>;
+<a name="l00044"></a><a class="code" href="structstruct__s__PDO__status.html#931e8bae4199cd2374f585d6fb073356">00044</a>   <a class="code" href="structMessage.html">Message</a> <a class="code" href="structstruct__s__PDO__status.html#931e8bae4199cd2374f585d6fb073356">last_message</a>;
+<a name="l00045"></a>00045 };
+<a name="l00046"></a>00046 
+<a name="l00047"></a>00047 <span class="preprocessor">#define s_PDO_staus_Initializer {0, TIMER_NONE, TIMER_NONE, Message_Initializer}</span>
+<a name="l00048"></a>00048 <span class="preprocessor"></span>
+<a name="l00053"></a>00053 <span class="preprocessor">#define TRANS_EVERY_N_SYNC(n) (n) </span><span class="comment">/*n = 1 to 240 */</span>
+<a name="l00054"></a>00054 <span class="preprocessor">#define TRANS_SYNC_MIN        1    </span><span class="comment">/* Trans after reception of n SYNC. n = 1 to 240 */</span>
+<a name="l00055"></a>00055 <span class="preprocessor">#define TRANS_SYNC_MAX        240  </span><span class="comment">/* Trans after reception of n SYNC. n = 1 to 240 */</span>
+<a name="l00056"></a>00056 <span class="preprocessor">#define TRANS_RTR_SYNC        252  </span><span class="comment">/* Transmission on request */</span>
+<a name="l00057"></a>00057 <span class="preprocessor">#define TRANS_RTR             253  </span><span class="comment">/* Transmission on request */</span>
+<a name="l00058"></a>00058 <span class="preprocessor">#define TRANS_EVENT_SPECIFIC  254  </span><span class="comment">/* Transmission on event */</span>
+<a name="l00059"></a>00059 <span class="preprocessor">#define TRANS_EVENT_PROFILE   255  </span><span class="comment">/* Transmission on event */</span>
+<a name="l00060"></a>00060 
+<a name="l00069"></a>00069 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="pdo_8c.html#06b1b812ca18d3167243fb2b2acb6414">buildPDO</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> numPdo, <a class="code" href="structMessage.html">Message</a> *pdo);
+<a name="l00070"></a>00070 
+<a name="l00076"></a>00076 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="pdo_8c.html#2a4d6e86bc4447a3c45c9b96bd61f995">sendPDOrequest</a>( <a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> RPDOIndex );
+<a name="l00077"></a>00077 
+<a name="l00082"></a>00082 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="pdo_8c.html#f653b9e9cc46d8290b3ce2d6392b5a52">proceedPDO</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> *m);
+<a name="l00083"></a>00083 
+<a name="l00090"></a>00090 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="pdo_8c.html#adaae758ac4e9333eec59ff123ba98ad">sendPDOevent</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00091"></a>00091 
+<a name="l00095"></a>00095 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="pdo_8c.html#fbf33713253ccf33f9277e31c78a6cb5">_sendPDOevent</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> isSyncEvent);
 <a name="l00096"></a>00096 
-<a name="l00097"></a>00097 <span class="comment">/* copy bit per bit in little endian */</span>
-<a name="l00098"></a>00098 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#e468510c9f77f502207d961d26389918">CopyBits</a>(<a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> NbBits, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* SrcByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> SrcBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> SrcBigEndian, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>* DestByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> DestBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> DestBigEndian);
-<a name="l00099"></a>00099 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+<a name="l00097"></a>00097 
+<a name="l00098"></a>00098 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#858b6c5fcf09d0c6c9cdd67f92bcd8f9">PDOInit</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00099"></a>00099 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#e31b98506e436ee213de906c19cc59f1">PDOStop</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00100"></a>00100 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#1e6f0540474e95f2928151efec83ccb6">PDOEventTimerAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> pdoNum);
+<a name="l00101"></a>00101 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#adf6445208b9af9b11f66f66a5d1f1f9">PDOInhibitTimerAlarm</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#a6a1b7af83d4106c1d1621bdb28d9c48">UNS32</a> pdoNum);
+<a name="l00102"></a>00102 
+<a name="l00103"></a>00103 <span class="comment">/* copy bit per bit in little endian */</span>
+<a name="l00104"></a>00104 <span class="keywordtype">void</span> <a class="code" href="pdo_8c.html#ad755ad656fe0f661ca6bd17acb1245a">CopyBits</a>(<a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> NbBits, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>* SrcByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> SrcBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> SrcBigEndian, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>* DestByteIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> DestBitIndex, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> DestBigEndian);
+<a name="l00105"></a>00105 <span class="preprocessor">#endif</span>
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

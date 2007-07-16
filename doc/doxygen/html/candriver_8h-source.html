@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9b4fbd1818b4be2ef59811982235911e.html">hcs12</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_d760eeaaeddcf24a708a1307f60f8f4e.html">hcs12</a></div>
 <h1>candriver.h</h1><a href="candriver_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -56,7 +56,7 @@
 <a name="l00035"></a>00035 <span class="comment">*/</span>
 <a name="l00036"></a>00036 
 <a name="l00037"></a>00037 <span class="comment">/* Be free to change this value */</span>
-<a name="l00038"></a><a class="code" href="candriver_8h.html#604df069233e19d5960b444524a43042">00038</a> <span class="preprocessor">#define MAX_STACK_MSG_RCV 5</span>
+<a name="l00038"></a><a class="code" href="candriver_8h.html#12ae319363148d264184861475351e3c">00038</a> <span class="preprocessor">#define MAX_STACK_MSG_RCV 5</span>
 <a name="l00039"></a>00039 <span class="preprocessor"></span>
 <a name="l00040"></a>00040 <span class="comment">/* Number of incomings and outcomings CAN Line. The layer CanOpen must be</span>
 <a name="l00041"></a>00041 <span class="comment">used only for ONE line CAN. But you may used one or more CAN drivers, without</span>
@@ -64,35 +64,35 @@
 <a name="l00043"></a>00043 <span class="comment">Only 2 lines are implemented. If more lines are needed, copy void __attribute__((interrupt)) can0HdlRcv (void) to void __attribute__((interrupt)) canXHdlRcv (void) and make </span>
 <a name="l00044"></a>00044 <span class="comment">changes : [0] to [x], CAN0 to CANX, etc</span>
 <a name="l00045"></a>00045 <span class="comment">*/</span>
-<a name="l00046"></a><a class="code" href="candriver_8h.html#08b16baaf10a1b7fb8a3569a6c0f67ff">00046</a> <span class="preprocessor">#define NB_LINE_CAN 1</span>
+<a name="l00046"></a><a class="code" href="candriver_8h.html#e815437e20b35852b381f41b5b3feca3">00046</a> <span class="preprocessor">#define NB_LINE_CAN 1</span>
 <a name="l00047"></a>00047 <span class="preprocessor"></span>
 <a name="l00048"></a>00048 <span class="comment">/* Whose hardware HCS12 CAN block is used for CanOpen ? Chose between CAN0, ..., CAN4</span>
 <a name="l00049"></a>00049 <span class="comment">If you use CANOPEN_LINE_NUMBER_USED = CANI, the value of NB_LINE_CAN must be</span>
 <a name="l00050"></a>00050 <span class="comment">more or equal to I + 1</span>
 <a name="l00051"></a>00051 <span class="comment">Value other than CAN0 not tested, but should work fine.</span>
 <a name="l00052"></a>00052 <span class="comment"> */</span>
-<a name="l00053"></a><a class="code" href="candriver_8h.html#aec12501ba547723b21fd74636ea045a">00053</a> <span class="preprocessor">#define CANOPEN_LINE_NUMBER_USED CAN0</span>
+<a name="l00053"></a><a class="code" href="candriver_8h.html#b790d6b6969e61da0bab8965d9b2a59e">00053</a> <span class="preprocessor">#define CANOPEN_LINE_NUMBER_USED CAN0</span>
 <a name="l00054"></a>00054 <span class="preprocessor"></span>
 <a name="l00055"></a>00055 <span class="comment">/* Stack of received messages </span>
 <a name="l00056"></a>00056 <span class="comment">MSG received on CAN0 module is stored in stackMsgRcv[0], etc</span>
 <a name="l00057"></a>00057 <span class="comment">*/</span>
-<a name="l00058"></a>00058 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="candriver_8h.html#1858449b5bfa9aa019aa643f8453d1c8">stackMsgRcv</a>[<a class="code" href="candriver_8h.html#08b16baaf10a1b7fb8a3569a6c0f67ff">NB_LINE_CAN</a>][<a class="code" href="candriver_8h.html#604df069233e19d5960b444524a43042">MAX_STACK_MSG_RCV</a>];
+<a name="l00058"></a>00058 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="candriver_8h.html#40054ae396fb4eedbac1ad9f9dd1a028">stackMsgRcv</a>[<a class="code" href="candriver_8h.html#e815437e20b35852b381f41b5b3feca3">NB_LINE_CAN</a>][<a class="code" href="candriver_8h.html#12ae319363148d264184861475351e3c">MAX_STACK_MSG_RCV</a>];
 <a name="l00059"></a>00059 
 <a name="l00060"></a>00060 
 <a name="l00061"></a>00061 <span class="comment">/* Copy from the stack of the message to treat */</span>
-<a name="l00062"></a>00062 <span class="keyword">extern</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="candriver_8h.html#54c57753f0e749e7ca14315c745bc8d9">msgRcv</a>;
+<a name="l00062"></a>00062 <span class="keyword">extern</span> <a class="code" href="structMessage.html">Message</a> <a class="code" href="candriver_8h.html#22740559e49d224a83022bf4e082b26f">msgRcv</a>;
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064 
 <a name="l00065"></a>00065 <span class="comment">/* To move on the stack of messages </span>
 <a name="l00066"></a>00066 <span class="comment"> */</span>
 <a name="l00067"></a><a class="code" href="structt__pointerStack.html">00067</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00068"></a><a class="code" href="structt__pointerStack.html#2932da8af07722bab7bb70042bca9e55">00068</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> w ; <span class="comment">/* received */</span>
-<a name="l00069"></a><a class="code" href="structt__pointerStack.html#828854582cfd2d911935d50deec2f89e">00069</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> r ; <span class="comment">/* To transmit */</span>
+<a name="l00068"></a><a class="code" href="structt__pointerStack.html#b07f5d836a93a8aabc84ce62b55d8aeb">00068</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> w ; <span class="comment">/* received */</span>
+<a name="l00069"></a><a class="code" href="structt__pointerStack.html#a276e252993440068b1bc44faaa53fd7">00069</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> r ; <span class="comment">/* To transmit */</span>
 <a name="l00070"></a>00070 } <a class="code" href="structt__pointerStack.html">t_pointerStack</a>;
 <a name="l00071"></a>00071 
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 <span class="comment">/* Pointer for write or read a message in/from the reception stack */</span>
-<a name="l00074"></a>00074 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structt__pointerStack.html">t_pointerStack</a> <a class="code" href="candriver_8h.html#509b5bc79f44e93ccb86d970a3aab01c">ptrMsgRcv</a>[<a class="code" href="candriver_8h.html#08b16baaf10a1b7fb8a3569a6c0f67ff">NB_LINE_CAN</a>];
+<a name="l00074"></a>00074 <span class="keyword">extern</span> <span class="keyword">volatile</span> <a class="code" href="structt__pointerStack.html">t_pointerStack</a> <a class="code" href="candriver_8h.html#ec01c7792152a9bc4620413f77df3c21">ptrMsgRcv</a>[<a class="code" href="candriver_8h.html#e815437e20b35852b381f41b5b3feca3">NB_LINE_CAN</a>];
 <a name="l00075"></a>00075 
 <a name="l00076"></a>00076 <span class="comment">/* </span>
 <a name="l00077"></a>00077 <span class="comment">Parameters to define the  clock system for the CAN bus</span>
@@ -118,35 +118,35 @@
 <a name="l00097"></a>00097 <span class="comment">  };</span>
 <a name="l00098"></a>00098 <span class="comment">*/</span>
 <a name="l00099"></a><a class="code" href="structcanBusTime.html">00099</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00100"></a><a class="code" href="structcanBusTime.html#04e7cf483b29918f0da5c562400e6071">00100</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  clksrc;     <span class="comment">/* use of internal clock  or clock bus        */</span>
-<a name="l00101"></a><a class="code" href="structcanBusTime.html#f2230f4eeb1d12dd051e7f6369cb1ebb">00101</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  brp;        <span class="comment">/* define the bus speed                       */</span>
-<a name="l00102"></a><a class="code" href="structcanBusTime.html#deeefef09ef47dba2df92b45e563368f">00102</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  sjw;        <span class="comment">/* Number of time quantum for synchro - 1     */</span>
-<a name="l00103"></a><a class="code" href="structcanBusTime.html#a14822cbe84c152c1c79901f0c4fd0f1">00103</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  samp;       <span class="comment">/* Number of sample per bit (1 or 3)          */</span>
-<a name="l00104"></a><a class="code" href="structcanBusTime.html#7bafebcf05024a19e463f29b1c09c390">00104</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  tseg2;      <span class="comment">/* Width of the time segment 2 (in tq) - 1    */</span>
-<a name="l00105"></a><a class="code" href="structcanBusTime.html#3532d6d7cd2b1f3980b82dfce78f0fe9">00105</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  tseg1;      <span class="comment">/* Width of the time segment 1 (in tq) - 1    */</span>
+<a name="l00100"></a><a class="code" href="structcanBusTime.html#97e1ad879dbd38f6726eacb704121930">00100</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  clksrc;     <span class="comment">/* use of internal clock  or clock bus        */</span>
+<a name="l00101"></a><a class="code" href="structcanBusTime.html#f0662795b937b5c54451aa845a980c0d">00101</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  brp;        <span class="comment">/* define the bus speed                       */</span>
+<a name="l00102"></a><a class="code" href="structcanBusTime.html#71915957851eb44a3dbdb5fb0cad45ff">00102</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  sjw;        <span class="comment">/* Number of time quantum for synchro - 1     */</span>
+<a name="l00103"></a><a class="code" href="structcanBusTime.html#14a31c3c0d6d2ea48ce1c0d00db2724c">00103</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  samp;       <span class="comment">/* Number of sample per bit (1 or 3)          */</span>
+<a name="l00104"></a><a class="code" href="structcanBusTime.html#1dfb7aa14ba56f5a73715f4d8c6befc9">00104</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  tseg2;      <span class="comment">/* Width of the time segment 2 (in tq) - 1    */</span>
+<a name="l00105"></a><a class="code" href="structcanBusTime.html#6187a598266f497d7ecd897af3fd0139">00105</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  tseg1;      <span class="comment">/* Width of the time segment 1 (in tq) - 1    */</span>
 <a name="l00106"></a>00106 } <a class="code" href="structcanBusTime.html">canBusTime</a>;
 <a name="l00107"></a>00107 
 <a name="l00108"></a>00108 <span class="comment">/* </span>
 <a name="l00109"></a>00109 <span class="comment">Parameters to init the filters for received messages</span>
 <a name="l00110"></a>00110 <span class="comment">*/</span>
 <a name="l00111"></a><a class="code" href="structcanBusFilterInit.html">00111</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00112"></a><a class="code" href="structcanBusFilterInit.html#bd65e55b40839cc85917717124ba8ff7">00112</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  idam;        <span class="comment">/* Put 0x01 for 16 bits acceptance filter    */</span>
-<a name="l00113"></a><a class="code" href="structcanBusFilterInit.html#e73e4472088781055b2c634529a6c91e">00113</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar0;
-<a name="l00114"></a><a class="code" href="structcanBusFilterInit.html#73219612204df8b0eece12ebf4fbb491">00114</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr0;
-<a name="l00115"></a><a class="code" href="structcanBusFilterInit.html#c78d28e662944187916a14991d118dda">00115</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar1;
-<a name="l00116"></a><a class="code" href="structcanBusFilterInit.html#612d35c1dda338351f6da31935ff95fd">00116</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr1; 
-<a name="l00117"></a><a class="code" href="structcanBusFilterInit.html#a16d44afd060e1c3ebf5cf66b2e8f9c4">00117</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar2;
-<a name="l00118"></a><a class="code" href="structcanBusFilterInit.html#c5f7826dc1ec90e292f04ab1cb073a38">00118</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr2;
-<a name="l00119"></a><a class="code" href="structcanBusFilterInit.html#0fd991a6f82c304f53acf589d4057133">00119</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar3;
-<a name="l00120"></a><a class="code" href="structcanBusFilterInit.html#b4edcd131fa7b019f6dff0c1a5b68ce3">00120</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr3;
-<a name="l00121"></a><a class="code" href="structcanBusFilterInit.html#083024dc3a47331c1d8914d863fa6d87">00121</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar4;
-<a name="l00122"></a><a class="code" href="structcanBusFilterInit.html#a8615d16f68111163e5175543135b896">00122</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr4;
-<a name="l00123"></a><a class="code" href="structcanBusFilterInit.html#8498a6166aa348baa5d5cc32e07bffb9">00123</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar5;
-<a name="l00124"></a><a class="code" href="structcanBusFilterInit.html#5f0904c30b658b4a4ad59a8414df2e93">00124</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr5; 
-<a name="l00125"></a><a class="code" href="structcanBusFilterInit.html#2194ca3ae6d6613b4f9a0db939661f0b">00125</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar6;
-<a name="l00126"></a><a class="code" href="structcanBusFilterInit.html#590926f6af0adac2fdce41d43d77fc61">00126</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr6;
-<a name="l00127"></a><a class="code" href="structcanBusFilterInit.html#5c00e7405a498d9eb55816573f12c125">00127</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidar7;
-<a name="l00128"></a><a class="code" href="structcanBusFilterInit.html#cde13291ed4cd72f9818efeb50a254fd">00128</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  canidmr7;  
+<a name="l00112"></a><a class="code" href="structcanBusFilterInit.html#5da0d810ad7e2e35a34737ba969caf39">00112</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  idam;        <span class="comment">/* Put 0x01 for 16 bits acceptance filter    */</span>
+<a name="l00113"></a><a class="code" href="structcanBusFilterInit.html#f999163cff995179c6ff8d24e0278fac">00113</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar0;
+<a name="l00114"></a><a class="code" href="structcanBusFilterInit.html#02ae05657cd22560f8a41a491f57d204">00114</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr0;
+<a name="l00115"></a><a class="code" href="structcanBusFilterInit.html#08dcbd19479f3a54e2a42a3d9ec9a255">00115</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar1;
+<a name="l00116"></a><a class="code" href="structcanBusFilterInit.html#ced1e6e7a19564d3ea5228bd61b6f235">00116</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr1; 
+<a name="l00117"></a><a class="code" href="structcanBusFilterInit.html#c124ee6cf0d365b7b4a36b60a7527191">00117</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar2;
+<a name="l00118"></a><a class="code" href="structcanBusFilterInit.html#49dc105feb71df50a0af58069789f886">00118</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr2;
+<a name="l00119"></a><a class="code" href="structcanBusFilterInit.html#c72887349184517379bb501c5f554c96">00119</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar3;
+<a name="l00120"></a><a class="code" href="structcanBusFilterInit.html#08039c51e6ced8e7f58de19092126158">00120</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr3;
+<a name="l00121"></a><a class="code" href="structcanBusFilterInit.html#464b3b7f0e07f2ffc00becab1455a427">00121</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar4;
+<a name="l00122"></a><a class="code" href="structcanBusFilterInit.html#b9a81efcfccd87a948d62bd769b26b61">00122</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr4;
+<a name="l00123"></a><a class="code" href="structcanBusFilterInit.html#1279a3436781a76dabb1258b53a83e6c">00123</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar5;
+<a name="l00124"></a><a class="code" href="structcanBusFilterInit.html#afce7265d09631e57c049f90437f5708">00124</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr5; 
+<a name="l00125"></a><a class="code" href="structcanBusFilterInit.html#3bb15152e7d9411fa8af42e856901670">00125</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar6;
+<a name="l00126"></a><a class="code" href="structcanBusFilterInit.html#544b671460d71c1cdf601cc5c357d43c">00126</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr6;
+<a name="l00127"></a><a class="code" href="structcanBusFilterInit.html#10efad1ba33abe4fbc25f36abc169364">00127</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidar7;
+<a name="l00128"></a><a class="code" href="structcanBusFilterInit.html#56f25088d33f0cb1c0e305683c8235e1">00128</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  canidmr7;  
 <a name="l00129"></a>00129 } <a class="code" href="structcanBusFilterInit.html">canBusFilterInit</a>;
 <a name="l00130"></a>00130 
 <a name="l00131"></a>00131 <span class="comment">/*</span>
@@ -172,21 +172,21 @@
 <a name="l00151"></a>00151 <span class="comment">*/</span>
 <a name="l00152"></a>00152 
 <a name="l00153"></a><a class="code" href="structcanBusInit.html">00153</a> <span class="keyword">typedef</span> <span class="keyword">struct </span>{
-<a name="l00154"></a><a class="code" href="structcanBusInit.html#28a919ea372601ea997ffd7665a31300">00154</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  cswai;      <span class="comment">/* Low power/normal in wait mode   (1/0)      */</span>
-<a name="l00155"></a><a class="code" href="structcanBusInit.html#85a64136e89c9106116e635487c8dbf8">00155</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  time;       <span class="comment">/* Timer for time-stamp enable/disable (1/0)  */</span>
-<a name="l00156"></a><a class="code" href="structcanBusInit.html#89208e27db0d71c7b4c34b396d8e4494">00156</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  cane;       <span class="comment">/* Enable MSCAN (yes=1) Do it !               */</span>
-<a name="l00157"></a><a class="code" href="structcanBusInit.html#15fa5be003dd5961e7926d75bd405058">00157</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  clksrc;     <span class="comment">/* clock source bus/oscillator (1/0)          */</span>
-<a name="l00158"></a><a class="code" href="structcanBusInit.html#b12f39cd4161fdc5ad130b4bb8e4a484">00158</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  loopb;      <span class="comment">/* loop back mode for test (yes=1/no=0)       */</span>
-<a name="l00159"></a><a class="code" href="structcanBusInit.html#9b6d43ba9be72e1f21e234d50a1676d6">00159</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  listen;     <span class="comment">/* MSCAN is listen only (yes=1/no=0 ie normal)*/</span>
-<a name="l00160"></a><a class="code" href="structcanBusInit.html#ae0d3c3a91c165a0d782ff40be2e8e29">00160</a>   <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>  wupm;       <span class="comment">/* low pas filter for wake up (yes=1/no=0)    */</span>
+<a name="l00154"></a><a class="code" href="structcanBusInit.html#e55fa49debf408530d0e02e046c78fc2">00154</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  cswai;      <span class="comment">/* Low power/normal in wait mode   (1/0)      */</span>
+<a name="l00155"></a><a class="code" href="structcanBusInit.html#b2d867e2d4c69932e82294affc065529">00155</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  time;       <span class="comment">/* Timer for time-stamp enable/disable (1/0)  */</span>
+<a name="l00156"></a><a class="code" href="structcanBusInit.html#94b6d65fade44b397c1e48e658e7bffe">00156</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  cane;       <span class="comment">/* Enable MSCAN (yes=1) Do it !               */</span>
+<a name="l00157"></a><a class="code" href="structcanBusInit.html#a795e561857d0643cb7912ed92ab5268">00157</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  clksrc;     <span class="comment">/* clock source bus/oscillator (1/0)          */</span>
+<a name="l00158"></a><a class="code" href="structcanBusInit.html#c8a539634dabd6c10519a59480cb250c">00158</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  loopb;      <span class="comment">/* loop back mode for test (yes=1/no=0)       */</span>
+<a name="l00159"></a><a class="code" href="structcanBusInit.html#3576034b380091818fc88fb22aa408f2">00159</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  listen;     <span class="comment">/* MSCAN is listen only (yes=1/no=0 ie normal)*/</span>
+<a name="l00160"></a><a class="code" href="structcanBusInit.html#acf29b4229abadb3f5ab7a6524b406e7">00160</a>   <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>  wupm;       <span class="comment">/* low pas filter for wake up (yes=1/no=0)    */</span>
 <a name="l00161"></a>00161   <a class="code" href="structcanBusTime.html">canBusTime</a> 
-<a name="l00162"></a><a class="code" href="structcanBusInit.html#fc9eb7ca2f89001dca552e3f956beb73">00162</a>         clk;        <span class="comment">/* Values for clock system init               */</span>
+<a name="l00162"></a><a class="code" href="structcanBusInit.html#3416d1e391b6ced43c74c1a28d473b7c">00162</a>         clk;        <span class="comment">/* Values for clock system init               */</span>
 <a name="l00163"></a>00163   <a class="code" href="structcanBusFilterInit.html">canBusFilterInit</a>
-<a name="l00164"></a><a class="code" href="structcanBusInit.html#ea84b860ae3e0e636b78d1c83e916ea0">00164</a>   fi;               <span class="comment">/* Values for filter acceptance msg init      */</span>
+<a name="l00164"></a><a class="code" href="structcanBusInit.html#3311c0959bc93dedb5bd13fb653eab7c">00164</a>   fi;               <span class="comment">/* Values for filter acceptance msg init      */</span>
 <a name="l00165"></a>00165   
 <a name="l00166"></a>00166 } <a class="code" href="structcanBusInit.html">canBusInit</a>;
 <a name="l00167"></a>00167 
-<a name="l00168"></a>00168 <span class="keyword">extern</span> <a class="code" href="structcanBusInit.html">canBusInit</a> <a class="code" href="candriver_8h.html#c731fd3e22e0f2c414b1e3f511c85423">bi</a>;
+<a name="l00168"></a>00168 <span class="keyword">extern</span> <a class="code" href="structcanBusInit.html">canBusInit</a> <a class="code" href="candriver_8h.html#0324c271e4c71a8b96af194e6310a792">bi</a>;
 <a name="l00169"></a>00169 
 <a name="l00170"></a>00170 
 <a name="l00171"></a>00171 
@@ -204,16 +204,16 @@
 <a name="l00183"></a>00183 <span class="comment">nFilter : 0 to 3</span>
 <a name="l00184"></a>00184 <span class="comment">Must be in init mode before.</span>
 <a name="l00185"></a>00185 <span class="comment">*/</span>
-<a name="l00186"></a>00186 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#acfd181d5b055d1403930442e28ac643">canAddIdToFilter</a> (
-<a name="l00187"></a>00187                        <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN,
-<a name="l00188"></a>00188                        <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nFilter,
-<a name="l00189"></a>00189                        <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> <span class="keywordtype">id</span> <span class="comment">/* 11 bits, the 5 msb not used */</span>
+<a name="l00186"></a>00186 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#9579ae456a8ee9cee1ae777a4a0ee3ac">canAddIdToFilter</a> (
+<a name="l00187"></a>00187                        <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN,
+<a name="l00188"></a>00188                        <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nFilter,
+<a name="l00189"></a>00189                        <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> <span class="keywordtype">id</span> <span class="comment">/* 11 bits, the 5 msb not used */</span>
 <a name="l00190"></a>00190                        );
 <a name="l00191"></a>00191 
 <a name="l00192"></a>00192 <span class="comment">/*</span>
 <a name="l00193"></a>00193 <span class="comment"> Use this function to change the CAN message acceptance filters and masks.</span>
 <a name="l00194"></a>00194 <span class="comment"> */</span>
-<a name="l00195"></a>00195 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#751a41c9747b96ab400b5599370cea83">canChangeFilter</a> (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN, <a class="code" href="structcanBusFilterInit.html">canBusFilterInit</a> fi);
+<a name="l00195"></a>00195 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#7fd72f38fd09b6e79a50ac32d8cc0629">canChangeFilter</a> (<a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN, <a class="code" href="structcanBusFilterInit.html">canBusFilterInit</a> fi);
 <a name="l00196"></a>00196 
 <a name="l00197"></a>00197 
 <a name="l00198"></a>00198 <span class="comment">/*</span>
@@ -221,8 +221,8 @@
 <a name="l00200"></a>00200 <span class="comment">Must be done only one time after a reset of the CPU.</span>
 <a name="l00201"></a>00201 <span class="comment">To do before any CAN initialisation</span>
 <a name="l00202"></a>00202 <span class="comment">*/</span>
-<a name="l00203"></a>00203 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#5a53a89d2e348d70331e6ebe269d155a">canEnable</a> (
-<a name="l00204"></a>00204                 <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00203"></a>00203 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#bf55daf34be2503cf0414e15abf2c69c">canEnable</a> (
+<a name="l00204"></a>00204                 <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00205"></a>00205                 );
 <a name="l00206"></a>00206 
 <a name="l00207"></a>00207 
@@ -234,8 +234,8 @@
 <a name="l00213"></a>00213 <span class="comment">mscan is on sleep mode with wake up disabled.</span>
 <a name="l00214"></a>00214 <span class="comment">      is not on init mode</span>
 <a name="l00215"></a>00215 <span class="comment">*/</span>
-<a name="l00216"></a>00216 <span class="keywordtype">char</span> <a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">canInit</a> (
-<a name="l00217"></a>00217               <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN,   <span class="comment">/* First address of MSCANx registers  */</span>
+<a name="l00216"></a>00216 <span class="keywordtype">char</span> <a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">canInit</a> (
+<a name="l00217"></a>00217               <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN,   <span class="comment">/* First address of MSCANx registers  */</span>
 <a name="l00218"></a>00218               <a class="code" href="structcanBusInit.html">canBusInit</a> 
 <a name="l00219"></a>00219               bi       <span class="comment">/* All the parameters to init the bus */</span>
 <a name="l00220"></a>00220               );
@@ -245,8 +245,8 @@
 <a name="l00224"></a>00224 <span class="comment">Return 0 : OK</span>
 <a name="l00225"></a>00225 <span class="comment">       1 : Not in sleep mode. Unable to init MSCAN </span>
 <a name="l00226"></a>00226 <span class="comment">*/</span>
-<a name="l00227"></a>00227 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#6ec3ce6d79012dd8a08fa5aeb6a0489f">canInitClock</a> (
-<a name="l00228"></a>00228                    <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN, <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00227"></a>00227 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#83ad789afb5a949c85f8998b40d651c3">canInitClock</a> (
+<a name="l00228"></a>00228                    <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN, <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00229"></a>00229                    <a class="code" href="structcanBusTime.html">canBusTime</a> clk);
 <a name="l00230"></a>00230 
 <a name="l00231"></a>00231 <span class="comment">/* </span>
@@ -265,11 +265,11 @@
 <a name="l00244"></a>00244 <span class="comment">     for example if nFilter = 2, hight byte of ar -&gt; CANIDMR4</span>
 <a name="l00245"></a>00245 <span class="comment">                                 low   byte of ar -&gt; CANIDMR5</span>
 <a name="l00246"></a>00246 <span class="comment">*/</span>
-<a name="l00247"></a>00247 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#5fb549697afb7918607aa113e01c543d">canInit1Filter</a> (
-<a name="l00248"></a>00248                      <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN, 
-<a name="l00249"></a>00249                      <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nFilter,
-<a name="l00250"></a>00250                      <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> ar,
-<a name="l00251"></a>00251                      <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> mr
+<a name="l00247"></a>00247 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#d5f0fc801fc795c7911fb7dc4f403428">canInit1Filter</a> (
+<a name="l00248"></a>00248                      <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN, 
+<a name="l00249"></a>00249                      <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nFilter,
+<a name="l00250"></a>00250                      <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> ar,
+<a name="l00251"></a>00251                      <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> mr
 <a name="l00252"></a>00252                      );
 <a name="l00253"></a>00253 
 <a name="l00254"></a>00254 <span class="comment">/*</span>
@@ -279,16 +279,16 @@
 <a name="l00258"></a>00258 <span class="comment">       1 : Not in init mode. Unable to init MSCAN </span>
 <a name="l00259"></a>00259 <span class="comment">*/</span>
 <a name="l00260"></a>00260 
-<a name="l00261"></a>00261 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#b4502eef7616b25c74b1ac5a2245b085">canInitFilter</a> (
-<a name="l00262"></a>00262                     <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN, <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00261"></a>00261 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#437cf0f7cee6930bc4d6f4743999e4f2">canInitFilter</a> (
+<a name="l00262"></a>00262                     <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN, <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00263"></a>00263                     <a class="code" href="structcanBusFilterInit.html">canBusFilterInit</a> fi);
 <a name="l00264"></a>00264 <span class="comment">/*</span>
 <a name="l00265"></a>00265 <span class="comment">Put one of the 5 mscan in Init mode</span>
 <a name="l00266"></a>00266 <span class="comment">Loop until init mode is reached.</span>
 <a name="l00267"></a>00267 <span class="comment">*/</span>
 <a name="l00268"></a>00268 
-<a name="l00269"></a>00269 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#0b98e4800c82d99981833aa4207f1eb9">canInitMode</a> (
-<a name="l00270"></a>00270                   <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00269"></a>00269 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#daff5eaa25245bff93a854283e2e0cb2">canInitMode</a> (
+<a name="l00270"></a>00270                   <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00271"></a>00271                   );    
 <a name="l00272"></a>00272 
 <a name="l00273"></a>00273 <span class="comment">/*</span>
@@ -296,8 +296,8 @@
 <a name="l00275"></a>00275 <span class="comment">loop until init mode leaved.</span>
 <a name="l00276"></a>00276 <span class="comment">*/</span>
 <a name="l00277"></a>00277 
-<a name="l00278"></a>00278 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#00ffb46abacfdfa56ebc70e15164113e">canInitModeQ</a> (
-<a name="l00279"></a>00279                    <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00278"></a>00278 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#a619f965cc88e08dec28de4833bfe50a">canInitModeQ</a> (
+<a name="l00279"></a>00279                    <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00280"></a>00280                    );
 <a name="l00281"></a>00281 
 <a name="l00282"></a>00282 
@@ -308,15 +308,15 @@
 <a name="l00287"></a>00287 <span class="comment">         other  error : no buffer available to make the transmission</span>
 <a name="l00288"></a>00288 <span class="comment">*/</span>      
 <a name="l00289"></a>00289 
-<a name="l00290"></a>00290 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#2f2d1ed55cfd9d7f85883f8d70d318ba">canMsgTransmit</a> (
-<a name="l00291"></a>00291                      <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN,  <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00290"></a>00290 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#cd855997446329e6b6338fe8644edf11">canMsgTransmit</a> (
+<a name="l00291"></a>00291                      <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN,  <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00292"></a>00292                      <a class="code" href="structMessage.html">Message</a> msg  <span class="comment">/* Message to transmit                */</span>
 <a name="l00293"></a>00293                      );
 <a name="l00294"></a>00294 
 <a name="l00295"></a>00295 <span class="comment">/*</span>
 <a name="l00296"></a>00296 <span class="comment"> Set the interruptions. Must be call just after having left the init mode.</span>
 <a name="l00297"></a>00297 <span class="comment"> */</span>          
-<a name="l00298"></a>00298 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#5ad8616a3276f7f40149b551f09aa6a1">canSetInterrupt</a> (<a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN);                 
+<a name="l00298"></a>00298 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#946843a5bc1823243b5120d57785f0ec">canSetInterrupt</a> (<a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN);                 
 <a name="l00299"></a>00299 
 <a name="l00300"></a>00300 <span class="comment">/*</span>
 <a name="l00301"></a>00301 <span class="comment">Put one of the 5 mscan in sleep mode</span>
@@ -329,8 +329,8 @@
 <a name="l00308"></a>00308 <span class="comment">Stay in this function until the sleep mode</span>
 <a name="l00309"></a>00309 <span class="comment">is reached.</span>
 <a name="l00310"></a>00310 <span class="comment">*/</span>
-<a name="l00311"></a>00311 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#c7773223579ec7e0fab5238df214da89">canSleepMode</a> (
-<a name="l00312"></a>00312                    <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00311"></a>00311 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#ce25028cdf7de7a16b2762cb3846ddd4">canSleepMode</a> (
+<a name="l00312"></a>00312                    <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00313"></a>00313                    );   
 <a name="l00314"></a>00314 
 <a name="l00315"></a>00315 <span class="comment">/*</span>
@@ -339,8 +339,8 @@
 <a name="l00318"></a>00318 <span class="comment">return 0 : OK</span>
 <a name="l00319"></a>00319 <span class="comment">return 1 : error : in init mode</span>
 <a name="l00320"></a>00320 <span class="comment">*/</span>
-<a name="l00321"></a>00321 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#a89f28005eea54f5b216eb72a18d45f3">canSleepModeQ</a> (
-<a name="l00322"></a>00322                     <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00321"></a>00321 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#e147ca22aacafc3fa806f32f3f3577cb">canSleepModeQ</a> (
+<a name="l00322"></a>00322                     <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00323"></a>00323                     );  
 <a name="l00324"></a>00324 
 <a name="l00325"></a>00325 <span class="comment">/*</span>
@@ -353,8 +353,8 @@
 <a name="l00332"></a>00332 <span class="comment">Loop until sleep mode reached.</span>
 <a name="l00333"></a>00333 <span class="comment">return 0 if 0K, other if error</span>
 <a name="l00334"></a>00334 <span class="comment">*/</span>
-<a name="l00335"></a>00335 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#1ae1ad5d66ac87085baf5b9d0a4e62ca">canSleepWupMode</a> (
-<a name="l00336"></a>00336                       <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00335"></a>00335 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#bb8b891e76257224f7c2e20d273c72a5">canSleepWupMode</a> (
+<a name="l00336"></a>00336                       <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00337"></a>00337                       );        
 <a name="l00338"></a>00338 
 <a name="l00339"></a>00339 <span class="comment">/*</span>
@@ -363,8 +363,8 @@
 <a name="l00342"></a>00342 <span class="comment">       0     -&gt; Not in init mode</span>
 <a name="l00343"></a>00343 <span class="comment">       other -&gt; In init mode</span>
 <a name="l00344"></a>00344 <span class="comment">*/</span>
-<a name="l00345"></a>00345 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#6beefe951b3c9de786c585257488fa82">canTestInitMode</a> (
-<a name="l00346"></a>00346                       <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00345"></a>00345 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#101ff5d32d811e558e601083c84989fc">canTestInitMode</a> (
+<a name="l00346"></a>00346                       <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00347"></a>00347                       );   
 <a name="l00348"></a>00348 
 <a name="l00349"></a>00349 <span class="comment">/*</span>
@@ -373,15 +373,15 @@
 <a name="l00352"></a>00352 <span class="comment">       0     -&gt; Not in sleep mode</span>
 <a name="l00353"></a>00353 <span class="comment">       other -&gt; In sleep mode</span>
 <a name="l00354"></a>00354 <span class="comment">*/</span>
-<a name="l00355"></a>00355 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#fa79f2ac95a8143c2fb087260df39820">canTestSleepMode</a> (
-<a name="l00356"></a>00356                        <a class="code" href="hcs12_2applicfg_8h.html#5528eeccf214bfe021532622d78c6a96">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
+<a name="l00355"></a>00355 <span class="keywordtype">char</span> <a class="code" href="canOpenDriver_8c.html#008cc4a90d79b5ef1169d32a83947142">canTestSleepMode</a> (
+<a name="l00356"></a>00356                        <a class="code" href="hcs12_2applicfg_8h.html#14fad477a4a001f547db2731eaaaa1dc">UNS16</a> adrCAN <span class="comment">/* First address of MSCANx registers */</span>
 <a name="l00357"></a>00357                        );   
 <a name="l00358"></a>00358 
 <a name="l00359"></a>00359 
 <a name="l00360"></a>00360 
 <a name="l00361"></a>00361 <span class="preprocessor">#endif </span><span class="comment">/*__CANDRIVER__*/</span>
 <a name="l00362"></a>00362 
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

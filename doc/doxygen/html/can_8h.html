@@ -18,22 +18,23 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>can.h File Reference</h1><code>#include &quot;<a class="el" href="win32_2applicfg_8h-source.html">applicfg.h</a>&quot;</code><br>
 
 <p>
 Include dependency graph for can.h:<p><center><img src="can_8h__incl.png" border="0" usemap="#include/can.h_map" alt=""></center>
 <map name="include/can.h_map">
-<area href="win32_2applicfg_8h.html" shape="rect" coords="169,54,257,78" alt="">
+<area href="win32_2applicfg_8h.html" shape="rect" coords="147,56,221,83" alt="">
 </map>
 
 <p>
 This graph shows which files directly or indirectly include this file:<p><center><img src="can_8h__dep__incl.png" border="0" usemap="#include/can.hdep_map" alt=""></center>
 <map name="include/can.hdep_map">
-<area href="can__driver_8h.html" shape="rect" coords="188,6,346,30" alt="">
-<area href="data_8h.html" shape="rect" coords="208,54,326,78" alt="">
-<area href="hcs12_2applicfg_8h.html" shape="rect" coords="174,102,360,126" alt="">
-<area href="candriver_8h.html" shape="rect" coords="170,150,364,174" alt="">
+<area href="can__driver_8h.html" shape="rect" coords="161,5,292,32" alt="">
+<area href="data_8h.html" shape="rect" coords="179,56,275,83" alt="">
+<area href="pdo_8h.html" shape="rect" coords="356,56,449,83" alt="">
+<area href="hcs12_2applicfg_8h.html" shape="rect" coords="151,157,303,184" alt="">
+<area href="candriver_8h.html" shape="rect" coords="147,208,307,235" alt="">
 </map>
 
 <p>
@@ -44,17 +45,20 @@ This graph shows which files directly or indirectly include this file:<p><center
 
 <tr><td class="memItemLeft" nowrap align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMessage.html">Message</a></td></tr>
 
+<tr><td colspan="2"><br><h2>Defines</h2></td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">#define&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="can_8h.html#b122f3ecb2013e301feedf9a39479c15">Message_Initializer</a>&nbsp;&nbsp;&nbsp;{0,0,0,{0,0,0,0,0,0,0,0}}</td></tr>
+
 <tr><td colspan="2"><br><h2>Typedefs</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef UNS8(*)&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="can_8h.html#ab68cb1246530af4589c866438430d29">canSend_t</a> (<a class="el" href="structMessage.html">Message</a> *)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">typedef UNS8(*)&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="can_8h.html#21a9d3a4c1c6ecaef7012af414acfbb6">canSend_t</a> (<a class="el" href="structMessage.html">Message</a> *)</td></tr>
 
 </table>
-<hr><h2>Typedef Documentation</h2>
-<a class="anchor" name="ab68cb1246530af4589c866438430d29"></a><!-- doxytag: member="can.h::canSend_t" ref="ab68cb1246530af4589c866438430d29" args="(Message *)" -->
+<hr><h2>Define Documentation</h2>
+<a class="anchor" name="b122f3ecb2013e301feedf9a39479c15"></a><!-- doxytag: member="can.h::Message_Initializer" ref="b122f3ecb2013e301feedf9a39479c15" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef UNS8(*) <a class="el" href="can_8h.html#ab68cb1246530af4589c866438430d29">canSend_t</a>(<a class="el" href="structMessage.html">Message</a> *)          </td>
+          <td class="memname">#define Message_Initializer&nbsp;&nbsp;&nbsp;{0,0,0,{0,0,0,0,0,0,0,0}}          </td>
         </tr>
       </table>
 </div>
@@ -63,10 +67,30 @@ This graph shows which files directly or indirectly include this file:<p><center
 <p>
 
 <p>
-Definition at line <a class="el" href="can_8h-source.html#l00050">50</a> of file <a class="el" href="can_8h-source.html">can.h</a>.
+Definition at line <a class="el" href="can_8h-source.html#l00049">49</a> of file <a class="el" href="can_8h-source.html">can.h</a>.
+<p>
+Referenced by <a class="el" href="pdo_8c-source.html#l00442">_sendPDOevent()</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:55 2007 for CanFestival by&nbsp;
+<hr><h2>Typedef Documentation</h2>
+<a class="anchor" name="21a9d3a4c1c6ecaef7012af414acfbb6"></a><!-- doxytag: member="can.h::canSend_t" ref="21a9d3a4c1c6ecaef7012af414acfbb6" args="(Message *)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef UNS8(*) <a class="el" href="can_8h.html#21a9d3a4c1c6ecaef7012af414acfbb6">canSend_t</a>(<a class="el" href="structMessage.html">Message</a> *)          </td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>
+
+<p>
+Definition at line <a class="el" href="can_8h-source.html#l00051">51</a> of file <a class="el" href="can_8h-source.html">can.h</a>.
+</div>
+</div><p>
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:26 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

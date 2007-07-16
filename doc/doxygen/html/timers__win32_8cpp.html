@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_d58fb241e647de6212c31ecccf9cbace.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_e67188945a11754d0713bc6f89228027.html">win32</a></div>
+<a class="el" href="dir_65dd258ff9b9ef4cd7bd0d22f5e58dba.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_b3944654cff8658babe25b47a3a522e3.html">win32</a></div>
 <h1>timers_win32.cpp File Reference</h1><code>#include &lt;windows.h&gt;</code><br>
 <code>#include &lt;stdlib.h&gt;</code><br>
 <code>#include &quot;<a class="el" href="win32_2applicfg_8h-source.html">applicfg.h</a>&quot;</code><br>
@@ -29,10 +29,13 @@
 <p>
 Include dependency graph for timers_win32.cpp:<p><center><img src="timers__win32_8cpp__incl.png" border="0" usemap="#drivers/win32/timers_win32.cpp_map" alt=""></center>
 <map name="drivers/win32/timers_win32.cpp_map">
-<area href="win32_2applicfg_8h.html" shape="rect" coords="615,133,703,157" alt="">
-<area href="can__driver_8h.html" shape="rect" coords="462,157,566,181" alt="">
-<area href="timer_8h.html" shape="rect" coords="479,209,548,233" alt="">
-<area href="timers__driver_8h.html" shape="rect" coords="291,259,414,283" alt="">
+<area href="win32_2applicfg_8h.html" shape="rect" coords="744,195,819,221" alt="">
+<area href="can__driver_8h.html" shape="rect" coords="509,271,597,297" alt="">
+<area href="timer_8h.html" shape="rect" coords="401,169,460,196" alt="">
+<area href="timers__driver_8h.html" shape="rect" coords="249,119,351,145" alt="">
+<area href="can_8h.html" shape="rect" coords="647,271,695,297" alt="">
+<area href="win32_2timerscfg_8h.html" shape="rect" coords="513,119,593,145" alt="">
+<area href="data_8h.html" shape="rect" coords="527,220,580,247" alt="">
 </map>
 
 <p>
@@ -44,32 +47,32 @@ Include dependency graph for timers_win32.cpp:<p><center><img src="timers__win32
 <tr><td class="memItemLeft" nowrap align="right" valign="top">class &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classclass__timers.html">class_timers</a></td></tr>
 
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#d7fee43b8a44cf8b7036853593044037">EnterMutex</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#aa3c568288a54a9398524255602bbce8">EnterMutex</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#73d9a4eb941fb20cf6b597840510394b">LeaveMutex</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#887d197b991c23bc11f626ae688abec7">LeaveMutex</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#998a8436651e6990d3922ebdc3eebf8b">CreateReceiveTask</a> (<a class="el" href="win32_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0, TASK_HANDLE *Thread, void *ReceiveLoopPtr)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#ae6d0bd37de8ee577d755d89ae99e931">CreateReceiveTask</a> (<a class="el" href="win32_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0, TASK_HANDLE *Thread, void *ReceiveLoopPtr)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#4b2486891ee01e06e2deead4cf963727">WaitReceiveTaskEnd</a> (TASK_HANDLE Thread)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#b21b041545f4dfc5660514fbc3c2f89c">WaitReceiveTaskEnd</a> (TASK_HANDLE Thread)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#c9e1731843825eb55e7a94894e6a8ec5">StartTimerLoop</a> (<a class="el" href="timer_8h.html#f7d102e060339d3730ceae5fea03691b">TimerCallback_t</a> init_callback)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#dd08f21a7c3fcbcd53a2c41b00879fdd">StartTimerLoop</a> (<a class="el" href="timer_8h.html#c8436e7543fa1329b00e570246071313">TimerCallback_t</a> init_callback)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#8758484f3cebb0cd44bb247c3f23d5e3">StopTimerLoop</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#8d52f2db8b505e53ace5dd1c2a789d94">StopTimerLoop</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#b8d05dee70f04b5c5190ab00e84da106">setTimer</a> (TIMEVAL value)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#7996006c628d2df030b9684d7a86acd1">setTimer</a> (TIMEVAL value)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">TIMEVAL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#4dccc204d52176bd547ab34d6858f5ba">getElapsedTime</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">TIMEVAL&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="timers__win32_8cpp.html#75efe30105165658d05d871255f8c0a2">getElapsedTime</a> (void)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="998a8436651e6990d3922ebdc3eebf8b"></a><!-- doxytag: member="timers_win32.cpp::CreateReceiveTask" ref="998a8436651e6990d3922ebdc3eebf8b" args="(CAN_HANDLE fd0, TASK_HANDLE *Thread, void *ReceiveLoopPtr)" -->
+<a class="anchor" name="ae6d0bd37de8ee577d755d89ae99e931"></a><!-- doxytag: member="timers_win32.cpp::CreateReceiveTask" ref="ae6d0bd37de8ee577d755d89ae99e931" args="(CAN_HANDLE fd0, TASK_HANDLE *Thread, void *ReceiveLoopPtr)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void CreateReceiveTask           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="win32_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a>&nbsp;</td>
+          <td class="paramtype"><a class="el" href="win32_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a>&nbsp;</td>
           <td class="paramname"> <em>fd0</em>, </td>
         </tr>
         <tr>
@@ -99,7 +102,7 @@ Include dependency graph for timers_win32.cpp:<p><center><img src="timers__win32
 Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00078">78</a> of file <a class="el" href="timers__win32_8cpp-source.html">timers_win32.cpp</a>.
 </div>
 </div><p>
-<a class="anchor" name="d7fee43b8a44cf8b7036853593044037"></a><!-- doxytag: member="timers_win32.cpp::EnterMutex" ref="d7fee43b8a44cf8b7036853593044037" args="(void)" -->
+<a class="anchor" name="aa3c568288a54a9398524255602bbce8"></a><!-- doxytag: member="timers_win32.cpp::EnterMutex" ref="aa3c568288a54a9398524255602bbce8" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -122,14 +125,14 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00064">64
 <p>
 References <a class="el" href="timers__unix_8c-source.html#l00010">CanFestival_mutex</a>, and <a class="el" href="timers__win32_8cpp-source.html#l00049">ccritical_section::enter()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_d7fee43b8a44cf8b7036853593044037_cgraph.png" border="0" usemap="#timers__win32_8cpp_d7fee43b8a44cf8b7036853593044037_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_d7fee43b8a44cf8b7036853593044037_cgraph_map">
-<area href="classccritical__section.html#94af8f7f73229ecc82a303be7e2b0ad0" shape="rect" coords="156,6,329,30" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_aa3c568288a54a9398524255602bbce8_cgraph.png" border="0" usemap="#timers__win32_8cpp_aa3c568288a54a9398524255602bbce8_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_aa3c568288a54a9398524255602bbce8_cgraph_map">
+<area href="classccritical__section.html#17e0ee402444af5d8832a009180f5889" shape="rect" coords="140,5,281,32" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="4dccc204d52176bd547ab34d6858f5ba"></a><!-- doxytag: member="timers_win32.cpp::getElapsedTime" ref="4dccc204d52176bd547ab34d6858f5ba" args="(void)" -->
+<a class="anchor" name="75efe30105165658d05d871255f8c0a2"></a><!-- doxytag: member="timers_win32.cpp::getElapsedTime" ref="75efe30105165658d05d871255f8c0a2" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -152,15 +155,15 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00238">23
 <p>
 References <a class="el" href="timers__win32_8cpp-source.html#l00210">class_timers::get_elapsed_time()</a>, <a class="el" href="portsaccess_8h-source.html#l00046">IO_PORTS_16</a>, and <a class="el" href="ports__def_8h-source.html#l00119">TC4H</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_4dccc204d52176bd547ab34d6858f5ba_cgraph.png" border="0" usemap="#timers__win32_8cpp_4dccc204d52176bd547ab34d6858f5ba_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_4dccc204d52176bd547ab34d6858f5ba_cgraph_map">
-<area href="classclass__timers.html#0fa5bd5d1d4012bf9eef3ffabe990dfb" shape="rect" coords="186,6,418,30" alt="">
-<area href="classclass__timers.html#e4fe19b5b56b72ce2601d74f6519bd0b" shape="rect" coords="467,6,646,30" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_75efe30105165658d05d871255f8c0a2_cgraph.png" border="0" usemap="#timers__win32_8cpp_75efe30105165658d05d871255f8c0a2_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_75efe30105165658d05d871255f8c0a2_cgraph_map">
+<area href="classclass__timers.html#25c83088f9f63dfd9b1c79c471edf1ef" shape="rect" coords="164,5,351,32" alt="">
+<area href="classclass__timers.html#0c90706e338a7167cfd38a5e8c3e03d6" shape="rect" coords="401,5,545,32" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="73d9a4eb941fb20cf6b597840510394b"></a><!-- doxytag: member="timers_win32.cpp::LeaveMutex" ref="73d9a4eb941fb20cf6b597840510394b" args="(void)" -->
+<a class="anchor" name="887d197b991c23bc11f626ae688abec7"></a><!-- doxytag: member="timers_win32.cpp::LeaveMutex" ref="887d197b991c23bc11f626ae688abec7" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -183,14 +186,14 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00069">69
 <p>
 References <a class="el" href="timers__unix_8c-source.html#l00010">CanFestival_mutex</a>, and <a class="el" href="timers__win32_8cpp-source.html#l00053">ccritical_section::leave()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_73d9a4eb941fb20cf6b597840510394b_cgraph.png" border="0" usemap="#timers__win32_8cpp_73d9a4eb941fb20cf6b597840510394b_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_73d9a4eb941fb20cf6b597840510394b_cgraph_map">
-<area href="classccritical__section.html#e1f542404005a2f0696ced6c52a8ce3b" shape="rect" coords="158,6,334,30" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_887d197b991c23bc11f626ae688abec7_cgraph.png" border="0" usemap="#timers__win32_8cpp_887d197b991c23bc11f626ae688abec7_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_887d197b991c23bc11f626ae688abec7_cgraph_map">
+<area href="classccritical__section.html#19dfa90f87f31c901c6e476221100724" shape="rect" coords="144,5,288,32" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="b8d05dee70f04b5c5190ab00e84da106"></a><!-- doxytag: member="timers_win32.cpp::setTimer" ref="b8d05dee70f04b5c5190ab00e84da106" args="(TIMEVAL value)" -->
+<a class="anchor" name="7996006c628d2df030b9684d7a86acd1"></a><!-- doxytag: member="timers_win32.cpp::setTimer" ref="7996006c628d2df030b9684d7a86acd1" args="(TIMEVAL value)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -213,22 +216,22 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00233">23
 <p>
 References <a class="el" href="timers__unix_8c-source.html#l00082">maxval</a>, <a class="el" href="timers__win32_8cpp-source.html#l00204">class_timers::set_timer()</a>, and <a class="el" href="timers__unix_8c-source.html#l00018">timer</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_b8d05dee70f04b5c5190ab00e84da106_cgraph.png" border="0" usemap="#timers__win32_8cpp_b8d05dee70f04b5c5190ab00e84da106_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_b8d05dee70f04b5c5190ab00e84da106_cgraph_map">
-<area href="classclass__timers.html#a27df6346a38fb25acc394cb7998a3f8" shape="rect" coords="138,6,314,30" alt="">
-<area href="classclass__timers.html#e4fe19b5b56b72ce2601d74f6519bd0b" shape="rect" coords="363,6,542,30" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_7996006c628d2df030b9684d7a86acd1_cgraph.png" border="0" usemap="#timers__win32_8cpp_7996006c628d2df030b9684d7a86acd1_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_7996006c628d2df030b9684d7a86acd1_cgraph_map">
+<area href="classclass__timers.html#1f14efc280b93b373f5831cc9123ab63" shape="rect" coords="123,5,267,32" alt="">
+<area href="classclass__timers.html#0c90706e338a7167cfd38a5e8c3e03d6" shape="rect" coords="316,5,460,32" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="c9e1731843825eb55e7a94894e6a8ec5"></a><!-- doxytag: member="timers_win32.cpp::StartTimerLoop" ref="c9e1731843825eb55e7a94894e6a8ec5" args="(TimerCallback_t init_callback)" -->
+<a class="anchor" name="dd08f21a7c3fcbcd53a2c41b00879fdd"></a><!-- doxytag: member="timers_win32.cpp::StartTimerLoop" ref="dd08f21a7c3fcbcd53a2c41b00879fdd" args="(TimerCallback_t init_callback)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void StartTimerLoop           </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="timer_8h.html#f7d102e060339d3730ceae5fea03691b">TimerCallback_t</a>&nbsp;</td>
+          <td class="paramtype"><a class="el" href="timer_8h.html#c8436e7543fa1329b00e570246071313">TimerCallback_t</a>&nbsp;</td>
           <td class="paramname"> <em>init_callback</em>          </td>
           <td>&nbsp;)&nbsp;</td>
           <td width="100%"></td>
@@ -244,22 +247,23 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00219">21
 <p>
 References <a class="el" href="timers__unix_8c-source.html#l00020">EnterMutex()</a>, <a class="el" href="canOpenDriver_8c-source.html#l00079">initTimer()</a>, <a class="el" href="timers__unix_8c-source.html#l00025">LeaveMutex()</a>, <a class="el" href="timers__win32_8cpp-source.html#l00184">class_timers::resume_timer_thread()</a>, <a class="el" href="timer_8c-source.html#l00057">SetAlarm()</a>, <a class="el" href="timers__win32_8cpp-source.html#l00173">class_timers::start_timer_thread()</a>, and <a class="el" href="hcs12_2applicfg_8h-source.html#l00150">TIMEVAL</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_c9e1731843825eb55e7a94894e6a8ec5_cgraph.png" border="0" usemap="#timers__win32_8cpp_c9e1731843825eb55e7a94894e6a8ec5_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_c9e1731843825eb55e7a94894e6a8ec5_cgraph_map">
-<area href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037" shape="rect" coords="848,27,947,51" alt="">
-<area href="canOpenDriver_8c.html#02922529b60419a94afe8f369dda070b" shape="rect" coords="267,224,349,248" alt="">
-<area href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b" shape="rect" coords="845,173,949,197" alt="">
-<area href="classclass__timers.html#e0066fac671c6adb997d6c075487af89" shape="rect" coords="179,272,437,296" alt="">
-<area href="timer_8c.html#11c2616d78f06ed9144ef662f757b128" shape="rect" coords="267,320,349,344" alt="">
-<area href="classclass__timers.html#d857a63670354f41759f68d4ea29a0f5" shape="rect" coords="189,124,427,148" alt="">
-<area href="classclass__timers.html#e4fe19b5b56b72ce2601d74f6519bd0b" shape="rect" coords="808,124,987,148" alt="">
-<area href="classclass__timers.html#a68dd5b6225b3519b4bc2a0280683c87" shape="rect" coords="487,75,759,99" alt="">
-<area href="timer_8c.html#fa75192a3238525618f8cb83004930cc" shape="rect" coords="840,75,955,99" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_dd08f21a7c3fcbcd53a2c41b00879fdd_cgraph.png" border="0" usemap="#timers__win32_8cpp_dd08f21a7c3fcbcd53a2c41b00879fdd_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_dd08f21a7c3fcbcd53a2c41b00879fdd_cgraph_map">
+<area href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8" shape="rect" coords="719,12,804,39" alt="">
+<area href="canOpenDriver_8c.html#607bd2711b85a87fce51334bb36bad1a" shape="rect" coords="228,215,300,241" alt="">
+<area href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7" shape="rect" coords="717,164,805,191" alt="">
+<area href="classclass__timers.html#04b480308ab6441248d5890997740cd5" shape="rect" coords="160,265,368,292" alt="">
+<area href="timer_8c.html#956b22f24089db4c367f40199f838a20" shape="rect" coords="228,316,300,343" alt="">
+<area href="classclass__timers.html#f126a78002e4ac8c105ae782b7a1efbf" shape="rect" coords="168,113,360,140" alt="">
+<area href="classclass__timers.html#0c90706e338a7167cfd38a5e8c3e03d6" shape="rect" coords="689,113,833,140" alt="">
+<area href="classclass__timers.html#e54913c9e9072df64466d314b5505bc7" shape="rect" coords="416,63,640,89" alt="">
+<area href="timer_8c.html#7a5a515821c2e4fb2f66bac72389da00" shape="rect" coords="713,63,809,89" alt="">
+<area href="canOpenDriver_8c.html#38b23a8ee3748bca3415967b90df1e15" shape="rect" coords="884,63,991,89" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="8758484f3cebb0cd44bb247c3f23d5e3"></a><!-- doxytag: member="timers_win32.cpp::StopTimerLoop" ref="8758484f3cebb0cd44bb247c3f23d5e3" args="(void)" -->
+<a class="anchor" name="8d52f2db8b505e53ace5dd1c2a789d94"></a><!-- doxytag: member="timers_win32.cpp::StopTimerLoop" ref="8d52f2db8b505e53ace5dd1c2a789d94" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -282,16 +286,16 @@ Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00228">22
 <p>
 References <a class="el" href="timers__unix_8c-source.html#l00020">EnterMutex()</a>, <a class="el" href="timers__unix_8c-source.html#l00025">LeaveMutex()</a>, <a class="el" href="timers__win32_8cpp-source.html#l00193">class_timers::stop_timer_thread()</a>, and <a class="el" href="timers__unix_8c-source.html#l00018">timer</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_8758484f3cebb0cd44bb247c3f23d5e3_cgraph.png" border="0" usemap="#timers__win32_8cpp_8758484f3cebb0cd44bb247c3f23d5e3_cgraph_map" alt=""></center>
-<map name="timers__win32_8cpp_8758484f3cebb0cd44bb247c3f23d5e3_cgraph_map">
-<area href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037" shape="rect" coords="248,6,347,30" alt="">
-<area href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b" shape="rect" coords="245,54,349,78" alt="">
-<area href="classclass__timers.html#a78d9f5ab159ec6b11b4dc4c8f351697" shape="rect" coords="179,102,416,126" alt="">
+Here is the call graph for this function:<p><center><img src="timers__win32_8cpp_8d52f2db8b505e53ace5dd1c2a789d94_cgraph.png" border="0" usemap="#timers__win32_8cpp_8d52f2db8b505e53ace5dd1c2a789d94_cgraph_map" alt=""></center>
+<map name="timers__win32_8cpp_8d52f2db8b505e53ace5dd1c2a789d94_cgraph_map">
+<area href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8" shape="rect" coords="213,5,299,32" alt="">
+<area href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7" shape="rect" coords="212,56,300,83" alt="">
+<area href="classclass__timers.html#afe8ebe1021bb60687f8cab05a18d34a" shape="rect" coords="160,107,352,133" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="4b2486891ee01e06e2deead4cf963727"></a><!-- doxytag: member="timers_win32.cpp::WaitReceiveTaskEnd" ref="4b2486891ee01e06e2deead4cf963727" args="(TASK_HANDLE Thread)" -->
+<a class="anchor" name="b21b041545f4dfc5660514fbc3c2f89c"></a><!-- doxytag: member="timers_win32.cpp::WaitReceiveTaskEnd" ref="b21b041545f4dfc5660514fbc3c2f89c" args="(TASK_HANDLE Thread)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -313,7 +317,7 @@ Here is the call graph for this function:<p><center><img src="timers__win32_8cpp
 Definition at line <a class="el" href="timers__win32_8cpp-source.html#l00084">84</a> of file <a class="el" href="timers__win32_8cpp-source.html">timers_win32.cpp</a>.
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:45 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:20 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

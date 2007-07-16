@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9b4fbd1818b4be2ef59811982235911e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_4b2c04d6d15a0af1e05b62dc9a95ef0e.html">board</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_792ecdda7baed8c627cc0bbb8f0a21d1.html">arch</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_d760eeaaeddcf24a708a1307f60f8f4e.html">hcs12</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_492ba3b4a3e8d135741e941fef850e68.html">board</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_be7cfe688862b37e418cdc1915652b03.html">arch</a></div>
 <h1>param.h</h1><a href="param_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -71,25 +71,25 @@
 <a name="l00050"></a>00050 <span class="preprocessor"></span><span class="preprocessor">#define _M68HC11_ARCH_32K_PARAM_H</span>
 <a name="l00051"></a>00051 <span class="preprocessor"></span>
 <a name="l00052"></a>00052 <span class="comment">/* Generic 32K board.  */</span>
-<a name="l00053"></a><a class="code" href="param_8h.html#b1bf3be1865d30f8010eb223be3584ce">00053</a> <span class="preprocessor">#define M6811_ARCH_32K</span>
+<a name="l00053"></a><a class="code" href="param_8h.html#21f8df2e6625c93f6f5163f34827edce">00053</a> <span class="preprocessor">#define M6811_ARCH_32K</span>
 <a name="l00054"></a>00054 <span class="preprocessor"></span>
 <a name="l00055"></a>00055 <span class="preprocessor">#undef M6811_DEF_BAUD</span>
-<a name="l00056"></a><a class="code" href="param_8h.html#e377e8f315ba31f0f0835f4781d98f27">00056</a> <span class="preprocessor"></span><span class="preprocessor">#define M6811_DEF_BAUD 0x30            </span><span class="comment">/* 9600 baud.  */</span>
+<a name="l00056"></a><a class="code" href="param_8h.html#55137ebf6fce9a20d44fd2cb3d144ae7">00056</a> <span class="preprocessor"></span><span class="preprocessor">#define M6811_DEF_BAUD 0x30            </span><span class="comment">/* 9600 baud.  */</span>
 <a name="l00057"></a>00057 
 <a name="l00058"></a>00058 <span class="preprocessor">#undef RAM_SIZE</span>
-<a name="l00059"></a><a class="code" href="param_8h.html#b82dd208a7e716e09a3f8c229bfe78d7">00059</a> <span class="preprocessor"></span><span class="preprocessor">#define RAM_SIZE       32768           </span><span class="comment">/* 32Kb of memory.  */</span>
+<a name="l00059"></a><a class="code" href="param_8h.html#acc040ec2e3da44debe43437fcbfedb4">00059</a> <span class="preprocessor"></span><span class="preprocessor">#define RAM_SIZE       32768           </span><span class="comment">/* 32Kb of memory.  */</span>
 <a name="l00060"></a>00060 
 <a name="l00061"></a>00061 <span class="preprocessor">#undef ROM_SIZE</span>
-<a name="l00062"></a><a class="code" href="param_8h.html#d9e53d1418399b36953a40395ac1384d">00062</a> <span class="preprocessor"></span><span class="preprocessor">#define ROM_SIZE       32768           </span><span class="comment">/* 32Kb of rom.  */</span>
+<a name="l00062"></a><a class="code" href="param_8h.html#6a0a1987cf91de8c75c7e9750c99010f">00062</a> <span class="preprocessor"></span><span class="preprocessor">#define ROM_SIZE       32768           </span><span class="comment">/* 32Kb of rom.  */</span>
 <a name="l00063"></a>00063 
 <a name="l00064"></a>00064 <span class="preprocessor">#undef DATA_SIZE</span>
-<a name="l00065"></a><a class="code" href="param_8h.html#f55149bc1f05cf18af067a302e31e3f9">00065</a> <span class="preprocessor"></span><span class="preprocessor">#define DATA_SIZE      (0x8000-0x1040) </span><span class="comment">/* Data section size.  */</span>
+<a name="l00065"></a><a class="code" href="param_8h.html#da659e6fcc514f4198425d8ac8f6e601">00065</a> <span class="preprocessor"></span><span class="preprocessor">#define DATA_SIZE      (0x8000-0x1040) </span><span class="comment">/* Data section size.  */</span>
 <a name="l00066"></a>00066 
 <a name="l00067"></a>00067 <span class="preprocessor">#undef TEXT_SIZE</span>
-<a name="l00068"></a><a class="code" href="param_8h.html#fb6f36d91ffbf947cfa3f1114ca79764">00068</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_SIZE      ROM_SIZE        </span><span class="comment">/* Text section size.  */</span>
+<a name="l00068"></a><a class="code" href="param_8h.html#fc7aa952a93bfe8248ed0a7ca08496fb">00068</a> <span class="preprocessor"></span><span class="preprocessor">#define TEXT_SIZE      ROM_SIZE        </span><span class="comment">/* Text section size.  */</span>
 <a name="l00069"></a>00069 
 <a name="l00070"></a>00070 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

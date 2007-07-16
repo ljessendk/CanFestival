@@ -18,23 +18,23 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_9b4fbd1818b4be2ef59811982235911e.html">hcs12</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_d760eeaaeddcf24a708a1307f60f8f4e.html">hcs12</a></div>
 <h1>canOpenDriver.h File Reference</h1>
 <p>
 <a href="canOpenDriver_8h-source.html">Go to the source code of this file.</a><table border="0" cellpadding="0" cellspacing="0">
 <tr><td></td></tr>
 <tr><td colspan="2"><br><h2>Functions</h2></td></tr>
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#02922529b60419a94afe8f369dda070b">initTimer</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#607bd2711b85a87fce51334bb36bad1a">initTimer</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#339b24f4eee897d3c45d88de9a4901e8">resetTimer</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#bf5784dcd21f08822e6c0f39d363e77c">resetTimer</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#a62e79c9fd21304aef6aed4a2732bfbe">TimerLoop</a> (void)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#8531a6f26ddb090f238b8edef15d0c69">TimerLoop</a> (void)</td></tr>
 
-<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#0bf58f014d47581c9ffd1b2db9a858d7">f_can_receive</a> (UNS8 notused, <a class="el" href="structMessage.html">Message</a> *m)</td></tr>
+<tr><td class="memItemLeft" nowrap align="right" valign="top">UNS8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="canOpenDriver_8h.html#e9619ed76d03ed5c17ec07267bb61f4a">f_can_receive</a> (UNS8 notused, <a class="el" href="structMessage.html">Message</a> *m)</td></tr>
 
 </table>
 <hr><h2>Function Documentation</h2>
-<a class="anchor" name="0bf58f014d47581c9ffd1b2db9a858d7"></a><!-- doxytag: member="canOpenDriver.h::f_can_receive" ref="0bf58f014d47581c9ffd1b2db9a858d7" args="(UNS8 notused, Message *m)" -->
+<a class="anchor" name="e9619ed76d03ed5c17ec07267bb61f4a"></a><!-- doxytag: member="canOpenDriver.h::f_can_receive" ref="e9619ed76d03ed5c17ec07267bb61f4a" args="(UNS8 notused, Message *m)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -63,7 +63,7 @@
 Returns 0 if no message received, 0xFF if the receiving stack is not empty. May be call in polling. You can also call canDispatch(...) in void __attribute__((interrupt)) can0HdlRcv (void) (see include/hcs12/canOpenDriver.c) 
 </div>
 </div><p>
-<a class="anchor" name="02922529b60419a94afe8f369dda070b"></a><!-- doxytag: member="canOpenDriver.h::initTimer" ref="02922529b60419a94afe8f369dda070b" args="(void)" -->
+<a class="anchor" name="607bd2711b85a87fce51334bb36bad1a"></a><!-- doxytag: member="canOpenDriver.h::initTimer" ref="607bd2711b85a87fce51334bb36bad1a" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -86,21 +86,21 @@ Definition at line <a class="el" href="canOpenDriver_8c-source.html#l00079">79</
 <p>
 References <a class="el" href="portsaccess_8h-source.html#l00039">IO_PORTS_8</a>, <a class="el" href="timers__unix_8c-source.html#l00016">last_sig</a>, <a class="el" href="interrupt_8c-source.html#l00049">lock()</a>, <a class="el" href="ports__def_8h-source.html#l00103">TCTL1</a>, <a class="el" href="ports__def_8h-source.html#l00107">TIE</a>, <a class="el" href="timers__unix_8c-source.html#l00018">timer</a>, <a class="el" href="timers__unix_8c-source.html#l00030">timer_notify()</a>, <a class="el" href="ports__def_8h-source.html#l00095">TIOS</a>, <a class="el" href="ports__def_8h-source.html#l00101">TSCR1</a>, <a class="el" href="ports__def_8h-source.html#l00108">TSCR2</a>, and <a class="el" href="interrupt_8c-source.html#l00057">unlock()</a>.
 <p>
-Here is the call graph for this function:<p><center><img src="canOpenDriver_8h_02922529b60419a94afe8f369dda070b_cgraph.png" border="0" usemap="#canOpenDriver_8h_02922529b60419a94afe8f369dda070b_cgraph_map" alt=""></center>
-<map name="canOpenDriver_8h_02922529b60419a94afe8f369dda070b_cgraph_map">
-<area href="interrupt_8c.html#eb99ff49b4a6d5157416f9b5bd0d9c2c" shape="rect" coords="164,6,212,30" alt="">
-<area href="timers__unix_8c.html#4cd19302f57b08fc0403a05017332735" shape="rect" coords="137,102,239,126" alt="">
-<area href="interrupt_8c.html#987ce601d6d4c8eedd68b58db3b7811a" shape="rect" coords="155,54,221,78" alt="">
-<area href="regs_8h.html#b1b104e72affb247e036289d0fc18ac7" shape="rect" coords="308,6,385,30" alt="">
-<area href="timers__unix_8c.html#d7fee43b8a44cf8b7036853593044037" shape="rect" coords="297,54,396,78" alt="">
-<area href="timers__unix_8c.html#73d9a4eb941fb20cf6b597840510394b" shape="rect" coords="295,102,399,126" alt="">
-<area href="timer_8c.html#fa75192a3238525618f8cb83004930cc" shape="rect" coords="289,150,404,174" alt="">
-<area href="canOpenDriver_8c.html#24dbe63e88d184388542037d16a8208d" shape="rect" coords="453,150,584,174" alt="">
+Here is the call graph for this function:<p><center><img src="canOpenDriver_8h_607bd2711b85a87fce51334bb36bad1a_cgraph.png" border="0" usemap="#canOpenDriver_8h_607bd2711b85a87fce51334bb36bad1a_cgraph_map" alt=""></center>
+<map name="canOpenDriver_8h_607bd2711b85a87fce51334bb36bad1a_cgraph_map">
+<area href="interrupt_8c.html#a86d31d31831be20de69b1533b4acc5b" shape="rect" coords="148,5,191,32" alt="">
+<area href="timers__unix_8c.html#40e7943587a24eae55dd73d80a913750" shape="rect" coords="125,107,213,133" alt="">
+<area href="interrupt_8c.html#8704c06a2936e68f7c25dc0c1d335cca" shape="rect" coords="141,56,197,83" alt="">
+<area href="regs_8h.html#d28436d08fab91f8bebd7fd082b3f757" shape="rect" coords="276,5,345,32" alt="">
+<area href="timers__unix_8c.html#aa3c568288a54a9398524255602bbce8" shape="rect" coords="268,56,353,83" alt="">
+<area href="timers__unix_8c.html#887d197b991c23bc11f626ae688abec7" shape="rect" coords="267,107,355,133" alt="">
+<area href="timer_8c.html#7a5a515821c2e4fb2f66bac72389da00" shape="rect" coords="263,157,359,184" alt="">
+<area href="canOpenDriver_8c.html#38b23a8ee3748bca3415967b90df1e15" shape="rect" coords="409,157,516,184" alt="">
 </map>
 
 </div>
 </div><p>
-<a class="anchor" name="339b24f4eee897d3c45d88de9a4901e8"></a><!-- doxytag: member="canOpenDriver.h::resetTimer" ref="339b24f4eee897d3c45d88de9a4901e8" args="(void)" -->
+<a class="anchor" name="bf5784dcd21f08822e6c0f39d363e77c"></a><!-- doxytag: member="canOpenDriver.h::resetTimer" ref="bf5784dcd21f08822e6c0f39d363e77c" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -122,7 +122,7 @@ Here is the call graph for this function:<p><center><img src="canOpenDriver_8h_0
 Definition at line <a class="el" href="canOpenDriver_8c-source.html#l00073">73</a> of file <a class="el" href="canOpenDriver_8c-source.html">canOpenDriver.c</a>.
 </div>
 </div><p>
-<a class="anchor" name="a62e79c9fd21304aef6aed4a2732bfbe"></a><!-- doxytag: member="canOpenDriver.h::TimerLoop" ref="a62e79c9fd21304aef6aed4a2732bfbe" args="(void)" -->
+<a class="anchor" name="8531a6f26ddb090f238b8edef15d0c69"></a><!-- doxytag: member="canOpenDriver.h::TimerLoop" ref="8531a6f26ddb090f238b8edef15d0c69" args="(void)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -142,7 +142,7 @@ Definition at line <a class="el" href="canOpenDriver_8c-source.html#l00073">73</
 
 </div>
 </div><p>
-<hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:58 2007 for CanFestival by&nbsp;
+<hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:29 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

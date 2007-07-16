@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_d58fb241e647de6212c31ecccf9cbace.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_cd779dce9851c080a65607e200b2368c.html">can_peak_win32</a></div>
+<a class="el" href="dir_65dd258ff9b9ef4cd7bd0d22f5e58dba.html">drivers</a>&nbsp;&raquo&nbsp;<a class="el" href="dir_b9e4537d9fecb2b52c76d8041f923c97.html">can_peak_win32</a></div>
 <h1>can_peak_win32.c</h1><a href="can__peak__win32_8c.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -54,7 +54,7 @@
 <a name="l00033"></a>00033 <span class="preprocessor">#include "<a class="code" href="can__driver_8h.html">can_driver.h</a>"</span>
 <a name="l00034"></a>00034 
 <a name="l00035"></a>00035 <span class="preprocessor">#ifndef extra_PCAN_init_params</span>
-<a name="l00036"></a><a class="code" href="can__peak__win32_8c.html#6c15c0d426ae2e61f69f3119d3fe486b">00036</a> <span class="preprocessor"></span><span class="preprocessor">        #define extra_PCAN_init_params </span>
+<a name="l00036"></a><a class="code" href="can__peak__win32_8c.html#70dcfe47338d88bba6acb1ccf7e32dcc">00036</a> <span class="preprocessor"></span><span class="preprocessor">        #define extra_PCAN_init_params </span>
 <a name="l00037"></a>00037 <span class="preprocessor"></span><span class="preprocessor">#else</span>
 <a name="l00038"></a>00038 <span class="preprocessor"></span><span class="preprocessor">        #define extra_PCAN_init_params\</span>
 <a name="l00039"></a>00039 <span class="preprocessor">                ,getenv("PCANHwType") ? strtol(getenv("PCANHwType"),NULL,0):0\</span>
@@ -70,10 +70,10 @@
 <a name="l00049"></a>00049 <span class="comment">//pthread_mutex_t PeakCan_mutex = PTHREAD_MUTEX_INITIALIZER;</span>
 <a name="l00050"></a>00050 
 <a name="l00051"></a>00051 <span class="comment">// Define for rtr CAN message</span>
-<a name="l00052"></a><a class="code" href="can__peak__win32_8c.html#44ef8a15c3be0d9b410c0c21709a12c2">00052</a> <span class="preprocessor">#define CAN_INIT_TYPE_ST_RTR MSGTYPE_STANDARD | MSGTYPE_RTR</span>
+<a name="l00052"></a><a class="code" href="can__peak__win32_8c.html#3682c04219b007e9a4bd0894b1ad9dcb">00052</a> <span class="preprocessor">#define CAN_INIT_TYPE_ST_RTR MSGTYPE_STANDARD | MSGTYPE_RTR</span>
 <a name="l00053"></a>00053 <span class="preprocessor"></span>
 <a name="l00054"></a>00054 <span class="comment">/***************************************************************************/</span>
-<a name="l00055"></a><a class="code" href="can__peak__win32_8c.html#6820d7fa32e6e79d432c6003e4c15c32">00055</a> <span class="keywordtype">int</span> <a class="code" href="can__peak__linux_8c.html#6820d7fa32e6e79d432c6003e4c15c32">TranslateBaudeRate</a>(<span class="keywordtype">char</span>* <a class="code" href="TestMasterSlave_2getopt_8c.html#db50a0eab9fed92fc3bfc7dfa4f2c410">optarg</a>){
+<a name="l00055"></a><a class="code" href="can__peak__win32_8c.html#1c65c88802a2cbd96ea05284860c5ba4">00055</a> <span class="keywordtype">int</span> <a class="code" href="can__peak__linux_8c.html#1c65c88802a2cbd96ea05284860c5ba4">TranslateBaudeRate</a>(<span class="keywordtype">char</span>* <a class="code" href="TestMasterSlave_2getopt_8c.html#a2d33a77952a7e6973146c1284042818">optarg</a>){
 <a name="l00056"></a>00056         <span class="keywordflow">if</span>(!strcmp( optarg, <span class="stringliteral">"1M"</span>)) <span class="keywordflow">return</span> CAN_BAUD_1M;
 <a name="l00057"></a>00057         <span class="keywordflow">if</span>(!strcmp( optarg, <span class="stringliteral">"500K"</span>)) <span class="keywordflow">return</span> CAN_BAUD_500K;
 <a name="l00058"></a>00058         <span class="keywordflow">if</span>(!strcmp( optarg, <span class="stringliteral">"250K"</span>)) <span class="keywordflow">return</span> CAN_BAUD_250K;
@@ -88,28 +88,28 @@
 <a name="l00067"></a>00067 }
 <a name="l00068"></a>00068 
 <a name="l00069"></a>00069 <span class="keywordtype">void</span>
-<a name="l00070"></a><a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">00070</a> <a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">canInit</a> (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board)
+<a name="l00070"></a><a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">00070</a> <a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">canInit</a> (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *board)
 <a name="l00071"></a>00071 {
 <a name="l00072"></a>00072         <span class="keywordtype">int</span> baudrate;
 <a name="l00073"></a>00073         
 <a name="l00074"></a>00074 <span class="preprocessor">#ifdef PCAN2_HEADER_</span>
 <a name="l00075"></a>00075 <span class="preprocessor"></span>        <span class="comment">// if not the first handler</span>
 <a name="l00076"></a>00076         <span class="keywordflow">if</span>(second_board == (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *)board)
-<a name="l00077"></a>00077                 <span class="keywordflow">if</span>(baudrate = <a class="code" href="can__peak__linux_8c.html#6820d7fa32e6e79d432c6003e4c15c32">TranslateBaudeRate</a>(board-&gt;<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a>))
+<a name="l00077"></a>00077                 <span class="keywordflow">if</span>(baudrate = <a class="code" href="can__peak__linux_8c.html#1c65c88802a2cbd96ea05284860c5ba4">TranslateBaudeRate</a>(board-&gt;<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a>))
 <a name="l00078"></a>00078                         CAN2_Init (baudrate,
-<a name="l00079"></a>00079                           CAN_INIT_TYPE_ST <a class="code" href="can__peak__win32_8c.html#6c15c0d426ae2e61f69f3119d3fe486b">extra_PCAN_init_params</a>);
+<a name="l00079"></a>00079                           CAN_INIT_TYPE_ST <a class="code" href="can__peak__win32_8c.html#70dcfe47338d88bba6acb1ccf7e32dcc">extra_PCAN_init_params</a>);
 <a name="l00080"></a>00080 <span class="preprocessor">#endif</span>
 <a name="l00081"></a>00081 <span class="preprocessor"></span>        <span class="keywordflow">if</span>(first_board == (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> *)board)
-<a name="l00082"></a>00082                 <span class="keywordflow">if</span>(baudrate = <a class="code" href="can__peak__linux_8c.html#6820d7fa32e6e79d432c6003e4c15c32">TranslateBaudeRate</a>(board-&gt;<a class="code" href="structstruct__s__BOARD.html#5316679ded23cf846c63c06ab51a4646">baudrate</a>))
+<a name="l00082"></a>00082                 <span class="keywordflow">if</span>(baudrate = <a class="code" href="can__peak__linux_8c.html#1c65c88802a2cbd96ea05284860c5ba4">TranslateBaudeRate</a>(board-&gt;<a class="code" href="structstruct__s__BOARD.html#8fa92cf9df3b66e547c079de89b00562">baudrate</a>))
 <a name="l00083"></a>00083                         CAN_Init (baudrate,
 <a name="l00084"></a>00084                           CAN_INIT_TYPE_ST extra_PCAN_init_params);
 <a name="l00085"></a>00085 }
 <a name="l00086"></a>00086 
 <a name="l00087"></a>00087 <span class="comment">/*********functions which permit to communicate with the board****************/</span>
-<a name="l00088"></a>00088 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>
-<a name="l00089"></a><a class="code" href="can__peak__win32_8c.html#6b3248e95acf2b08d1fd8b42610cc5a6">00089</a> <a class="code" href="can__lincan_8c.html#6b3248e95acf2b08d1fd8b42610cc5a6">canReceive_driver</a> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> * m)
+<a name="l00088"></a>00088 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>
+<a name="l00089"></a><a class="code" href="can__peak__win32_8c.html#b0b7065be05f6d53009b7bd46626e2c0">00089</a> <a class="code" href="can__lincan_8c.html#b0b7065be05f6d53009b7bd46626e2c0">canReceive_driver</a> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> * m)
 <a name="l00090"></a>00090 {
-<a name="l00091"></a>00091         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> data;
+<a name="l00091"></a>00091         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> data;
 <a name="l00092"></a>00092         TPCANMsg peakMsg;
 <a name="l00093"></a>00093 
 <a name="l00094"></a>00094         DWORD Res;
@@ -140,7 +140,7 @@
 <a name="l00119"></a>00119                                 <span class="keywordflow">if</span> (peakMsg.MSGTYPE == CAN_ERR_BUSOFF)
 <a name="l00120"></a>00120                                 {
 <a name="l00121"></a>00121                                         printf (<span class="stringliteral">"!!! Peak board read : re-init\n"</span>);
-<a name="l00122"></a>00122                                         <a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">canInit</a>((<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a>*) fd0);
+<a name="l00122"></a>00122                                         <a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">canInit</a>((<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a>*) fd0);
 <a name="l00123"></a>00123                                         usleep (10000);
 <a name="l00124"></a>00124                                 }
 <a name="l00125"></a>00125         
@@ -149,14 +149,14 @@
 <a name="l00128"></a>00128                                 <span class="keywordflow">return</span> peakMsg.MSGTYPE ==
 <a name="l00129"></a>00129                                         MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
 <a name="l00130"></a>00130                         }
-<a name="l00131"></a>00131                         m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a> = peakMsg.ID;
+<a name="l00131"></a>00131                         m-&gt;<a class="code" href="structMessage.html#21cda7edcf0800d296151c83e7f9948e">cob_id</a>.<a class="code" href="structSHORT__CAN.html#e77854035fa72dc0769724a2d056bc9d">w</a> = peakMsg.ID;
 <a name="l00132"></a>00132                         <span class="keywordflow">if</span> (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)        <span class="comment">/* bits of MSGTYPE_ */</span>
-<a name="l00133"></a>00133                                 m-&gt;<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = 0;
+<a name="l00133"></a>00133                                 m-&gt;<a class="code" href="structMessage.html#4fea58e2ceec365228be253ba3d8bdba">rtr</a> = 0;
 <a name="l00134"></a>00134                         <span class="keywordflow">else</span>
-<a name="l00135"></a>00135                                 m-&gt;<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> = 1;
-<a name="l00136"></a>00136                         m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a> = peakMsg.LEN;   <span class="comment">/* count of data bytes (0..8) */</span>
+<a name="l00135"></a>00135                                 m-&gt;<a class="code" href="structMessage.html#4fea58e2ceec365228be253ba3d8bdba">rtr</a> = 1;
+<a name="l00136"></a>00136                         m-&gt;<a class="code" href="structMessage.html#a8c32de83f67079897508203c8e2198c">len</a> = peakMsg.LEN;   <span class="comment">/* count of data bytes (0..8) */</span>
 <a name="l00137"></a>00137                         <span class="keywordflow">for</span> (data = 0; data &lt; peakMsg.LEN; data++)
-<a name="l00138"></a>00138                                 m-&gt;<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[data] = peakMsg.DATA[data];     <span class="comment">/* data bytes, up to 8 */</span>
+<a name="l00138"></a>00138                                 m-&gt;<a class="code" href="structMessage.html#9f53ff2fea190c14dd66e2c92a32ec45">data</a>[data] = peakMsg.DATA[data];     <span class="comment">/* data bytes, up to 8 */</span>
 <a name="l00139"></a>00139         
 <a name="l00140"></a>00140                 }<span class="keywordflow">else</span>{
 <a name="l00141"></a>00141                 <span class="comment">//pthread_mutex_unlock (&amp;PeakCan_mutex);</span>
@@ -176,22 +176,22 @@
 <a name="l00155"></a>00155 }
 <a name="l00156"></a>00156 
 <a name="l00157"></a>00157 <span class="comment">/***************************************************************************/</span>
-<a name="l00158"></a>00158 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a>
-<a name="l00159"></a><a class="code" href="can__peak__win32_8c.html#def95aee49efa13dd047d0b3b5507ad3">00159</a> <a class="code" href="can__lincan_8c.html#def95aee49efa13dd047d0b3b5507ad3">canSend_driver</a> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> * m)
+<a name="l00158"></a>00158 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a>
+<a name="l00159"></a><a class="code" href="can__peak__win32_8c.html#36327c9e0ec6d284b346963a321e3c2b">00159</a> <a class="code" href="can__lincan_8c.html#36327c9e0ec6d284b346963a321e3c2b">canSend_driver</a> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0, <a class="code" href="structMessage.html">Message</a> * m)
 <a name="l00160"></a>00160 {
-<a name="l00161"></a>00161         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> data;
+<a name="l00161"></a>00161         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> data;
 <a name="l00162"></a>00162         TPCANMsg peakMsg;
-<a name="l00163"></a>00163         peakMsg.ID = m-&gt;<a class="code" href="structMessage.html#c5d40bde75d015beb48293c052a218b5">cob_id</a>.<a class="code" href="structSHORT__CAN.html#614e1c6a40f1261e2b15ad69b19e9698">w</a>;       <span class="comment">/* 11/29 bit code */</span>
-<a name="l00164"></a>00164         <span class="keywordflow">if</span> (m-&gt;<a class="code" href="structMessage.html#41c5a4e7eaeb2c2ae1af2b2c83129615">rtr</a> == 0)
+<a name="l00163"></a>00163         peakMsg.ID = m-&gt;<a class="code" href="structMessage.html#21cda7edcf0800d296151c83e7f9948e">cob_id</a>.<a class="code" href="structSHORT__CAN.html#e77854035fa72dc0769724a2d056bc9d">w</a>;       <span class="comment">/* 11/29 bit code */</span>
+<a name="l00164"></a>00164         <span class="keywordflow">if</span> (m-&gt;<a class="code" href="structMessage.html#4fea58e2ceec365228be253ba3d8bdba">rtr</a> == 0)
 <a name="l00165"></a>00165                 peakMsg.MSGTYPE = CAN_INIT_TYPE_ST;     <span class="comment">/* bits of MSGTYPE_ */</span>
 <a name="l00166"></a>00166         <span class="keywordflow">else</span>
 <a name="l00167"></a>00167         {
-<a name="l00168"></a>00168                 peakMsg.MSGTYPE = <a class="code" href="can__peak__linux_8c.html#44ef8a15c3be0d9b410c0c21709a12c2">CAN_INIT_TYPE_ST_RTR</a>; <span class="comment">/* bits of MSGTYPE_ */</span>
+<a name="l00168"></a>00168                 peakMsg.MSGTYPE = <a class="code" href="can__peak__linux_8c.html#3682c04219b007e9a4bd0894b1ad9dcb">CAN_INIT_TYPE_ST_RTR</a>; <span class="comment">/* bits of MSGTYPE_ */</span>
 <a name="l00169"></a>00169         }
-<a name="l00170"></a>00170         peakMsg.LEN = m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a>;
+<a name="l00170"></a>00170         peakMsg.LEN = m-&gt;<a class="code" href="structMessage.html#a8c32de83f67079897508203c8e2198c">len</a>;
 <a name="l00171"></a>00171         <span class="comment">/* count of data bytes (0..8) */</span>
-<a name="l00172"></a>00172         <span class="keywordflow">for</span> (data = 0; data &lt; m-&gt;<a class="code" href="structMessage.html#d1dd9a88dda088ff4c7073d49613613d">len</a>; data++)
-<a name="l00173"></a>00173                 peakMsg.DATA[data] = m-&gt;<a class="code" href="structMessage.html#229865b09691e658677ba76f2d82ce89">data</a>[data];     <span class="comment">/* data bytes, up to 8 */</span>
+<a name="l00172"></a>00172         <span class="keywordflow">for</span> (data = 0; data &lt; m-&gt;<a class="code" href="structMessage.html#a8c32de83f67079897508203c8e2198c">len</a>; data++)
+<a name="l00173"></a>00173                 peakMsg.DATA[data] = m-&gt;<a class="code" href="structMessage.html#9f53ff2fea190c14dd66e2c92a32ec45">data</a>[data];     <span class="comment">/* data bytes, up to 8 */</span>
 <a name="l00174"></a>00174         <span class="keywordflow">do</span>
 <a name="l00175"></a>00175         {
 <a name="l00176"></a>00176 #ifdef PCAN2_HEADER_
@@ -209,7 +209,7 @@
 <a name="l00188"></a>00188                         <span class="keywordflow">if</span> (errno == CAN_ERR_BUSOFF)
 <a name="l00189"></a>00189                         {
 <a name="l00190"></a>00190                                 printf (<span class="stringliteral">"!!! Peak board write : re-init\n"</span>);
-<a name="l00191"></a>00191                                 <a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">canInit</a>((<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a>*)fd0);
+<a name="l00191"></a>00191                                 <a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">canInit</a>((<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a>*)fd0);
 <a name="l00192"></a>00192                                 usleep (10000);
 <a name="l00193"></a>00193                         }
 <a name="l00194"></a>00194                         usleep (1000);
@@ -222,8 +222,8 @@
 <a name="l00201"></a>00201 }
 <a name="l00202"></a>00202 
 <a name="l00203"></a>00203 <span class="comment">/***************************************************************************/</span>
-<a name="l00204"></a>00204 <a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a>
-<a name="l00205"></a><a class="code" href="can__peak__win32_8c.html#945403aba7f36acbd2e7160ade361bab">00205</a> <a class="code" href="can__lincan_8c.html#945403aba7f36acbd2e7160ade361bab">canOpen_driver</a> (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> * board)
+<a name="l00204"></a>00204 <a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a>
+<a name="l00205"></a><a class="code" href="can__peak__win32_8c.html#a91c5884b47322592815c82427be3fac">00205</a> <a class="code" href="can__lincan_8c.html#a91c5884b47322592815c82427be3fac">canOpen_driver</a> (<a class="code" href="structstruct__s__BOARD.html">s_BOARD</a> * board)
 <a name="l00206"></a>00206 {
 <a name="l00207"></a>00207 <span class="preprocessor">#ifdef PCAN2_HEADER_</span>
 <a name="l00208"></a>00208 <span class="preprocessor"></span>        <span class="keywordflow">if</span>(first_board != NULL &amp;&amp; second_board != NULL)
@@ -248,14 +248,14 @@
 <a name="l00227"></a>00227 <span class="preprocessor"></span>        first_board = board;
 <a name="l00228"></a>00228 <span class="preprocessor">#endif</span>
 <a name="l00229"></a>00229 <span class="preprocessor"></span>
-<a name="l00230"></a>00230         <a class="code" href="can__peak__win32_8c.html#9f623ce2d3a68e90dfdb1ff0d54a9b57">canInit</a>(board);
+<a name="l00230"></a>00230         <a class="code" href="can__peak__win32_8c.html#cd636af61207be14f372fcbe0785f59d">canInit</a>(board);
 <a name="l00231"></a>00231         
-<a name="l00232"></a>00232         <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a>)board;
+<a name="l00232"></a>00232         <span class="keywordflow">return</span> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a>)board;
 <a name="l00233"></a>00233 }
 <a name="l00234"></a>00234 
 <a name="l00235"></a>00235 <span class="comment">/***************************************************************************/</span>
 <a name="l00236"></a>00236 <span class="keywordtype">int</span>
-<a name="l00237"></a><a class="code" href="can__peak__win32_8c.html#76e6a915d0e40a23b863198b2aaa5545">00237</a> <a class="code" href="can__lincan_8c.html#76e6a915d0e40a23b863198b2aaa5545">canClose_driver</a> (<a class="code" href="unix_2applicfg_8h.html#712c7b28987b12b8d400df19c92d0f5e">CAN_HANDLE</a> fd0)
+<a name="l00237"></a><a class="code" href="can__peak__win32_8c.html#d2f4803f3a623c82a4c3e92d4e75e5a5">00237</a> <a class="code" href="can__lincan_8c.html#d2f4803f3a623c82a4c3e92d4e75e5a5">canClose_driver</a> (<a class="code" href="unix_2applicfg_8h.html#324227f7b01d51ee83a883174769ac8f">CAN_HANDLE</a> fd0)
 <a name="l00238"></a>00238 {
 <a name="l00239"></a>00239 <span class="preprocessor">#ifdef PCAN2_HEADER_</span>
 <a name="l00240"></a>00240 <span class="preprocessor"></span>        <span class="comment">// if not the first handler</span>
@@ -272,7 +272,7 @@
 <a name="l00251"></a>00251         }
 <a name="l00252"></a>00252         <span class="keywordflow">return</span> 0;
 <a name="l00253"></a>00253 }
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:38 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>

@@ -18,7 +18,7 @@
     <li><a href="globals.html"><span>Globals</span></a></li>
   </ul></div>
 <div class="nav">
-<a class="el" href="dir_2209bfb26110ae52d50da4cefad5e72f.html">include</a></div>
+<a class="el" href="dir_bb27f6e70a4a8ab6966321815f15a33d.html">include</a></div>
 <h1>states.h</h1><a href="states_8h.html">Go to the documentation of this file.</a><div class="fragment"><pre class="fragment"><a name="l00001"></a>00001 <span class="comment">/*</span>
 <a name="l00002"></a>00002 <span class="comment">This file is part of CanFestival, a library implementing CanOpen Stack. </span>
 <a name="l00003"></a>00003 <span class="comment"></span>
@@ -53,60 +53,60 @@
 <a name="l00032"></a>00032 <span class="comment"> * Must be coded on 7 bits only</span>
 <a name="l00033"></a>00033 <span class="comment"> * */</span>
 <a name="l00034"></a>00034 <span class="comment">/* Should not be modified */</span>
-<a name="l00035"></a><a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646">00035</a> <span class="keyword">enum</span> <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646">enum_nodeState</a> {
-<a name="l00036"></a>00036   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646eb3ae26d7a1629aa0fc6c83f46306cf5">Initialisation</a>  = 0x00, 
-<a name="l00037"></a>00037   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec6864684ab0fbbb76a8c897feb1cd806d56443">Disconnected</a>    = 0x01,
-<a name="l00038"></a>00038   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec686466ea90df6fe966852496b4846da497fb0">Connecting</a>      = 0x02,
-<a name="l00039"></a>00039   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec6864695fc3c631fbad8ca3dc8d5b69a3e0d5b">Preparing</a>       = 0x02,
-<a name="l00040"></a>00040   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec686464d049c6d45e08a294523df186ad77a75">Stopped</a>         = 0x04,
-<a name="l00041"></a>00041   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646a80594b1522cb686b981f56bbec45124">Operational</a>     = 0x05,
-<a name="l00042"></a>00042   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646c747c16a9c4d7dec65cdab6e38df99b7">Pre_operational</a> = 0x7F,
-<a name="l00043"></a>00043   <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646cb4b5cb64be091d76f846380eb0afe59">Unknown_state</a>   = 0x0F
+<a name="l00035"></a><a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538">00035</a> <span class="keyword">enum</span> <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538">enum_nodeState</a> {
+<a name="l00036"></a>00036   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538de69e6bdd47a9d7dae023237acdaad5e">Initialisation</a>  = 0x00, 
+<a name="l00037"></a>00037   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053813dd3ce528104ecfb76f40ca3106186a">Disconnected</a>    = 0x01,
+<a name="l00038"></a>00038   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf6305387327f29693eff1568e953bc08d57bf3f">Connecting</a>      = 0x02,
+<a name="l00039"></a>00039   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538b2016b309d180eb20095d95eb33058d8">Preparing</a>       = 0x02,
+<a name="l00040"></a>00040   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053853c74ac440bbf6af2cb67759d3cd8f0a">Stopped</a>         = 0x04,
+<a name="l00041"></a>00041   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf63053824952153680b2c826995af50d0b16aea">Operational</a>     = 0x05,
+<a name="l00042"></a>00042   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538aa3d4da3fd99f3a79599fa514561754a">Pre_operational</a> = 0x7F,
+<a name="l00043"></a>00043   <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538c10f9d2ed7c3268d46023240e3bef9b9">Unknown_state</a>   = 0x0F
 <a name="l00044"></a>00044 };
 <a name="l00045"></a>00045 
-<a name="l00046"></a><a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">00046</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="states_8h.html#3136d2815abe9d284f985e0a7ec68646">enum_nodeState</a> <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a>;
+<a name="l00046"></a><a class="code" href="states_8h.html#424131de4b91e21fa281d2c8913d9282">00046</a> <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="states_8h.html#80401a8f6d29787e07427b2baf630538">enum_nodeState</a> <a class="code" href="states_8h.html#424131de4b91e21fa281d2c8913d9282">e_nodeState</a>;
 <a name="l00047"></a>00047 
 <a name="l00048"></a><a class="code" href="structs__state__communication.html">00048</a> <span class="keyword">typedef</span> <span class="keyword">struct</span>
 <a name="l00049"></a>00049 <span class="keyword"></span>{
-<a name="l00050"></a><a class="code" href="structs__state__communication.html#e56b47ebc583d8fa0f1ce42f8a46a338">00050</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csBoot_Up;
-<a name="l00051"></a><a class="code" href="structs__state__communication.html#c6f5d674a8f305fc8eacdcd258c17ba8">00051</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csSDO;
-<a name="l00052"></a><a class="code" href="structs__state__communication.html#42d1093b9e6625029428944fdc7c7f5a">00052</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csEmergency;
-<a name="l00053"></a><a class="code" href="structs__state__communication.html#9a4709f6f39e18b303c91edbfd1d6220">00053</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csSYNC;
-<a name="l00054"></a><a class="code" href="structs__state__communication.html#1d467631df619c6c321c3fc040a3eb22">00054</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csHeartbeat;
-<a name="l00055"></a><a class="code" href="structs__state__communication.html#10a8f36d2c3f270feda5f07cf34155d2">00055</a>         <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> csPDO;
+<a name="l00050"></a><a class="code" href="structs__state__communication.html#71376b0908de48603291370c0247ffac">00050</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csBoot_Up;
+<a name="l00051"></a><a class="code" href="structs__state__communication.html#0365a4727f31f78619a0ff2fe04587e9">00051</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csSDO;
+<a name="l00052"></a><a class="code" href="structs__state__communication.html#389be6bcb4dbe137457ed2e4422b2a61">00052</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csEmergency;
+<a name="l00053"></a><a class="code" href="structs__state__communication.html#d935553977a2182812610adf6be081db">00053</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csSYNC;
+<a name="l00054"></a><a class="code" href="structs__state__communication.html#97fc63b0f645aef222ebb4c355e63c45">00054</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csHeartbeat;
+<a name="l00055"></a><a class="code" href="structs__state__communication.html#9e525c64ecaa9ffd9f2f9e6dea031fed">00055</a>         <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> csPDO;
 <a name="l00056"></a>00056 } <a class="code" href="structs__state__communication.html">s_state_communication</a>;
 <a name="l00057"></a>00057 
-<a name="l00061"></a><a class="code" href="states_8h.html#d0cd6d1eb89085da7cb9f32ce386e8bc">00061</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#d0cd6d1eb89085da7cb9f32ce386e8bc">initialisation_t</a>)(void);
-<a name="l00062"></a><a class="code" href="states_8h.html#f4a6da4fe018afbe20eaf716c248e02a">00062</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#f4a6da4fe018afbe20eaf716c248e02a">preOperational_t</a>)(void);
-<a name="l00063"></a><a class="code" href="states_8h.html#8aed99e590473f26db47a9c2dc5b73fc">00063</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#8aed99e590473f26db47a9c2dc5b73fc">operational_t</a>)(void);
-<a name="l00064"></a><a class="code" href="states_8h.html#c99397ce6341b6b5128104aee4c27ec5">00064</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#c99397ce6341b6b5128104aee4c27ec5">stopped_t</a>)(void);
+<a name="l00061"></a><a class="code" href="states_8h.html#efba19e5dc10d03a17287af29c71567f">00061</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#efba19e5dc10d03a17287af29c71567f">initialisation_t</a>)(void);
+<a name="l00062"></a><a class="code" href="states_8h.html#779b4753c62da1e5441c3787a823938a">00062</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#779b4753c62da1e5441c3787a823938a">preOperational_t</a>)(void);
+<a name="l00063"></a><a class="code" href="states_8h.html#c7a996649d7ce811f510e86586b863fd">00063</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#c7a996649d7ce811f510e86586b863fd">operational_t</a>)(void);
+<a name="l00064"></a><a class="code" href="states_8h.html#b557e6fbf097b1c7fd5c22f867069aa1">00064</a> <span class="keyword">typedef</span> void (*<a class="code" href="states_8h.html#b557e6fbf097b1c7fd5c22f867069aa1">stopped_t</a>)(void);
 <a name="l00065"></a>00065 
-<a name="l00066"></a>00066 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#1ee4d5c3d5dc6f39607d414b7bf9bcc9">_initialisation</a>(<span class="keywordtype">void</span>);
-<a name="l00067"></a>00067 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#00113c22ed3366ee552f77862241d317">_preOperational</a>(<span class="keywordtype">void</span>);
-<a name="l00068"></a>00068 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#4c917142acca702f7e04e919a0b958b4">_operational</a>(<span class="keywordtype">void</span>);
-<a name="l00069"></a>00069 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#244e9269c323e14509bea947c2729a13">_stopped</a>(<span class="keywordtype">void</span>);
+<a name="l00066"></a>00066 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#bbf7c4f549d7ffacaab5f35602e97bd6">_initialisation</a>(<span class="keywordtype">void</span>);
+<a name="l00067"></a>00067 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#2264bc985c7eacf7d48d16b2b9109e39">_preOperational</a>(<span class="keywordtype">void</span>);
+<a name="l00068"></a>00068 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#6bc47cbd7a2bdf37d998a8e4743d4260">_operational</a>(<span class="keywordtype">void</span>);
+<a name="l00069"></a>00069 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#fe6f57bd1c97e8a3d23c288e5920c245">_stopped</a>(<span class="keywordtype">void</span>);
 <a name="l00070"></a>00070 
 <a name="l00071"></a>00071 <span class="preprocessor">#include "<a class="code" href="data_8h.html">data.h</a>"</span>
 <a name="l00072"></a>00072 
 <a name="l00073"></a>00073 <span class="comment">/************************* prototypes ******************************/</span>
 <a name="l00074"></a>00074 
-<a name="l00077"></a>00077 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#3f8975650604cc23582f19a43fd4e518">canDispatch</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> *m);
+<a name="l00077"></a>00077 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#5903338b79e219eeb27f61974419fc12">canDispatch</a>(<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="structMessage.html">Message</a> *m);
 <a name="l00078"></a>00078 
-<a name="l00081"></a>00081 <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a> <a class="code" href="states_8c.html#95d835785ba564bf6d92e3224c5e3848">getState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00081"></a>00081 <a class="code" href="states_8h.html#424131de4b91e21fa281d2c8913d9282">e_nodeState</a> <a class="code" href="states_8c.html#9e583d34635164324fbd55e310d8e99b">getState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00082"></a>00082 
-<a name="l00085"></a>00085 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="states_8c.html#0a5004efd1dedbee82a4f21ec5c44fb5">setState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="states_8h.html#5891f63a4c9243179838389a93d084e2">e_nodeState</a> newState);
+<a name="l00085"></a>00085 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="states_8c.html#cfb53d66c2360cd55b1d968f0e5c270f">setState</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="states_8h.html#424131de4b91e21fa281d2c8913d9282">e_nodeState</a> newState);
 <a name="l00086"></a>00086 
-<a name="l00089"></a>00089 <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> <a class="code" href="states_8c.html#3020f2e5762f6e389a21382ec827b6a6">getNodeId</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00089"></a>00089 <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> <a class="code" href="states_8c.html#458a686646e4500b1f9e6cf67898250e">getNodeId</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00090"></a>00090 
-<a name="l00093"></a>00093 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#d47a53979b9311a374d029f7923abbe1">setNodeId</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#539234687760592d01a8b0d3357bc00e">UNS8</a> nodeId);
+<a name="l00093"></a>00093 <span class="keywordtype">void</span> <a class="code" href="states_8c.html#191c0cad67e093ea44285c9acd187513">setNodeId</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d, <a class="code" href="hcs12_2applicfg_8h.html#c2e754635928189b98cf3f5b7e6dbffb">UNS8</a> nodeId);
 <a name="l00094"></a>00094 
 <a name="l00098"></a>00098 <span class="comment">/* void initResetMode (CO_Data* d); */</span>
 <a name="l00099"></a>00099 
 <a name="l00100"></a>00100 
-<a name="l00104"></a>00104 <span class="keywordtype">void</span> <a class="code" href="states_8h.html#3e57769f3a958c103825263b7abdd92b">initPreOperationalMode</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
+<a name="l00104"></a>00104 <span class="keywordtype">void</span> <a class="code" href="states_8h.html#18541dfe4c0a04c60fae4f836bb8d97b">initPreOperationalMode</a> (<a class="code" href="structstruct__CO__Data.html">CO_Data</a>* d);
 <a name="l00105"></a>00105 
 <a name="l00106"></a>00106 <span class="preprocessor">#endif</span>
-</pre></div><hr size="1"><address style="align: right;"><small>Generated on Fri Jun 8 08:51:39 2007 for CanFestival by&nbsp;
+</pre></div><hr size="1"><address style="align: right;"><small>Generated on Mon Jul 2 19:10:16 2007 for CanFestival by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img src="doxygen.png" alt="doxygen" align="middle" border="0"></a> 1.5.1 </small></address>
 </body>
