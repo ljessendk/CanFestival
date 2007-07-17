@@ -159,9 +159,7 @@ UNS8 canSend(CAN_PORT fd0, Message *m)
       {
       UNS8 res;
       driver_data* data = (driver_data*)fd0;
-      LeaveMutex();
       res = (*s_driver_procs.m_canSend)(data->inst, m);      
-      EnterMutex();
       if (res)
          return 0;
       }
