@@ -50,6 +50,8 @@ DictionaryOrganisation = [
     {"minIndex" : 0x6000, "maxIndex" : 0x9FFF, "name" : "Standardized Device Profile"},
     {"minIndex" : 0xA000, "maxIndex" : 0xBFFF, "name" : "Standardized Interface Profile"}]
 
+SizeConversion = {1 : "X", 8 : "B", 16 : "W", 24 : "D", 32 : "D", 40 : "L", 48 : "L", 56 : "L", 64 : "L"}
+
 class SubindexTable(wxPyGridTableBase):
     
     """
@@ -249,8 +251,8 @@ class SubindexTable(wxPyGridTableBase):
  wxID_EDITINGPANELINDEXLISTMENUITEMS2, 
 ] = [wx.NewId() for _init_coll_IndexListMenu_Items in range(3)]
 
-[wxID_EDITINGPANELMENU1ITEMS0, wxID_EDITINGPANELMENU1ITEMS1, wxID_EDITINGPANELMENU1ITEMS2,
-] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(3)]
+[wxID_EDITINGPANELMENU1ITEMS0, wxID_EDITINGPANELMENU1ITEMS1, 
+] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(2)]
 
 class EditingPanel(wx.SplitterWindow):
     def _init_coll_AddToListSizer_Items(self, parent):
@@ -295,14 +297,10 @@ class EditingPanel(wx.SplitterWindow):
               kind=wx.ITEM_NORMAL, text='Add')
         parent.Append(help='', id=wxID_EDITINGPANELMENU1ITEMS1,
               kind=wx.ITEM_NORMAL, text='Delete')
-        parent.Append(help='', id=wxID_EDITINGPANELMENU1ITEMS2,
-              kind=wx.ITEM_NORMAL, text='Default Value')
         self.Bind(wx.EVT_MENU, self.OnAddSubindexMenu,
               id=wxID_EDITINGPANELMENU1ITEMS0)
         self.Bind(wx.EVT_MENU, self.OnDeleteSubindexMenu,
               id=wxID_EDITINGPANELMENU1ITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnDefaultValueSubindexMenu,
-              id=wxID_EDITINGPANELMENU1ITEMS2)
 
     def _init_coll_IndexListMenu_Items(self, parent):
         # generated method, don't edit
@@ -391,6 +389,7 @@ class EditingPanel(wx.SplitterWindow):
               self.OnSubindexGridRightClick)
         self.SubindexGrid.Bind(wx.grid.EVT_GRID_SELECT_CELL,
               self.OnSubindexGridSelectCell)
+        self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnSubindexGridCellLeftClick)
 
         self.CallbackCheck = wx.CheckBox(id=wxID_EDITINGPANELCALLBACKCHECK,
               label='Have Callbacks', name='CallbackCheck',
@@ -457,6 +456,10 @@ class EditingPanel(wx.SplitterWindow):
             return index, subIndex
         return None
 
+    def OnSubindexGridCellLeftClick(self, event):
+        wxCallAfter(self.BeginDrag)
+        event.Skip()
+
     def OnAddButtonClick(self, event):
         if self.Editable:
             self.SubindexGrid.SetGridCursor(0, 0)
@@ -494,8 +497,30 @@ class EditingPanel(wx.SplitterWindow):
         event.Skip()
 
     def OnSubindexGridSelectCell(self, event):
+        wxCallAfter(self.BeginDrag)
         wxCallAfter(self.Parent.RefreshStatusBar)
         event.Skip()
+
+    def BeginDrag(self):
+        row = self.SubindexGrid.GetGridCursorRow()
+        col = self.SubindexGrid.GetGridCursorCol()
+        if not self.Editable and col == 0:
+            selected = self.IndexList.GetSelection()
+            if selected != wxNOT_FOUND:
+                index = self.ListIndex[selected]
+                subindex = self.SubindexGrid.GetGridCursorRow()
+                entry_infos = self.Manager.GetEntryInfos(index)
+                if not entry_infos["struct"] & OD_MultipleSubindexes or row != 0:
+                    subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
+                    typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
+                    if subentry_infos["pdo"] and typeinfos:
+                        bus_id = self.Parent.GetBusId()
+                        node_id = self.Parent.GetCurrentNodeId()
+                        size = typeinfos["size"]
+                        data = wxTextDataObject(str(("%s%d.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
+                        dragSource = wxDropSource(self.SubindexGrid)
+                        dragSource.SetData(data)
+                        dragSource.DoDragDrop()
 
 #-------------------------------------------------------------------------------
 #                             Refresh Functions
@@ -636,16 +661,8 @@ class EditingPanel(wx.SplitterWindow):
                 index = self.ListIndex[selected]
                 if self.Manager.IsCurrentEntry(index):
                     infos = self.Manager.GetEntryInfos(index)
-                    if 0x5fff >= index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
-                        # enable add and delet entries
-                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS0).Enable(True)
-                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS1).Enable(True)
-                    else:
-                        # disable add and delet entries
-                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS0).Enable(False)
-                        self.SubindexGridMenu.FindItemById(wxID_EDITINGPANELMENU1ITEMS1).Enable(False)
-                    self.SubindexGrid.SetGridCursor(event.GetRow(), event.GetCol())
-                    wxCallAfter(self.PopupMenu,self.SubindexGridMenu)
+                    if index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
+                        self.PopupMenu(self.SubindexGridMenu)
         event.Skip()
 
     def OnRenameIndexMenu(self, event):
@@ -735,16 +752,5 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
-        event.Skip()
-
-    def OnDefaultValueSubindexMenu(self, event):
-        if self.Editable:
-            selected = self.IndexList.GetSelection()
-            if selected != wxNOT_FOUND:
-                index = self.ListIndex[selected]
-                if self.Manager.IsCurrentEntry(index):
-                    self.Manager.ResetCurrentDefaultValue(index,self.SubindexGrid.GetGridCursorRow())
-                    self.Parent.RefreshBufferState()
-                    self.RefreshIndexList()
         event.Skip()
 

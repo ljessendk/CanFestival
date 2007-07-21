@@ -227,7 +227,7 @@ class NodeManager:
                 elif option == "StoreEDS":
                     AddIndexList.extend([0x1021, 0x1022])
             # Add a new buffer 
-            index = self.AddNodeBuffer()
+            index = self.AddNodeBuffer(self.CurrentNode.Copy(), False)
             self.SetCurrentFilePath("")
             # Add Mandatory indexes
             self.ManageEntriesOfCurrent(AddIndexList, [])
@@ -306,9 +306,8 @@ class NodeManager:
         result = eds_utils.GenerateNode(filepath, self.ScriptDirectory)
         if isinstance(result, Node):
             self.CurrentNode = result
-            index = self.AddNodeBuffer()
+            index = self.AddNodeBuffer(self.CurrentNode.Copy(), False)
             self.SetCurrentFilePath("")
-            self.BufferCurrentNode()
             return index
         else:
             return result
@@ -596,21 +595,10 @@ class NodeManager:
                 self.CurrentNode.SetParamsEntry(index, None, callback = value)
                 self.BufferCurrentNode()
 
-    def ResetCurrentDefaultValue(self, index, subIndex):
-        subentry_infos = self.GetSubentryInfos(index, subIndex)
-        if "default" in subentry_infos:
-            default = subentry_infos["default"]
-        else:
-            default = self.GetTypeDefaultValue(subentry_infos["type"])
-        self.CurrentNode.SetEntry(index, subIndex, default)
-        
-
     def SetCurrentEntry(self, index, subIndex, value, name, editor):
         if self.CurrentNode and self.CurrentNode.IsEntry(index):
             if name == "value":
-                if editor == None:
-                    self.CurrentNode.SetEntry(index, subIndex, value)
-                elif editor == "map":
+                if editor == "map":
                     value = self.CurrentNode.GetMapValue(value)
                     if value:
                         self.CurrentNode.SetEntry(index, subIndex, value)
@@ -752,11 +740,6 @@ class NodeManager:
     
     def GetCurrentNodeIndex(self):
         return self.NodeIndex
-    
-    def GetCurrentNode(self):
-        if self.NodeIndex:
-            return self.CurrentNode
-        return None
     
     def GetCurrentFilename(self):
         return self.GetFilename(self.NodeIndex)

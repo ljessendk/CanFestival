@@ -29,11 +29,9 @@ from node import *
 import eds_utils
 import os, shutil
 
-
 #-------------------------------------------------------------------------------
 #                          Definition of NodeList Object
 #-------------------------------------------------------------------------------
-
 
 """
 Class recording a node list for a CANOpen network.
@@ -41,13 +39,20 @@ Class recording a node list for a CANOpen network.
 
 class NodeList:
     
-    def __init__(self, manager):
+    def __init__(self, manager, netname = ""):
         self.Root = ""
         self.Manager = manager
-        self.NetworkName = ""
+        self.NetworkName = netname
         self.SlaveNodes = {}
         self.EDSNodes = {}
         self.CurrentSelected = None
+        self.Changed = False
+    
+    def HasChanged(self):
+        return self.Changed or not self.Manager.CurrentIsSaved()
+    
+    def ForceChanged(self, changed):
+        self.Changed = changed
     
     def GetNetworkName(self):
         return self.NetworkName
@@ -80,7 +85,7 @@ class NodeList:
     def GetCurrentSelected(self):
         return self.CurrentSelected
             
-    def LoadProject(self, root):
+    def LoadProject(self, root, netname = None):
         self.SlaveNodes = {}
         self.EDSNodes = {}
         
@@ -98,20 +103,22 @@ class NodeList:
             if result != None:
                 return result
                 
-        result = self.LoadMasterNode()
+        result = self.LoadMasterNode(netname)
         if result != None:
             return result
             
-        result = self.LoadSlaveNodes()
+        result = self.LoadSlaveNodes(netname)
         if result != None:
             return result
+        
+        self.NetworkName = netname
     
-    def SaveProject(self):
-        result = self.SaveMasterNode()
+    def SaveProject(self, netname = None):
+        result = self.SaveMasterNode(netname)
         if result != None:
             return result
             
-        result = self.SaveNodeList()
+        result = self.SaveNodeList(netname)
         if result != None:
             return result
     
@@ -137,6 +144,7 @@ class NodeList:
         if eds in self.EDSNodes.keys():
             slave = {"Name" : nodeName, "EDS" : eds, "Node" : self.EDSNodes[eds]}
             self.SlaveNodes[nodeID] = slave
+            self.Changed = True
             return None
         else:
             return "\"%s\" EDS file is not available"%eds
@@ -144,47 +152,71 @@ class NodeList:
     def RemoveSlaveNode(self, index):
         if index in self.SlaveNodes.keys():
             self.SlaveNodes.pop(index)
+            OnCloseProjectMenu
             return None
         else:
             return "Node with \"0x%2.2X\" ID doesn't exist"
     
-    def LoadMasterNode(self):
-        masterpath = os.path.join(self.Root, "master.od")
+    def LoadMasterNode(self, netname = None):
+        if netname:
+            masterpath = os.path.join(self.Root, "%s_master.od"%netname)
+        else:
+            masterpath = os.path.join(self.Root, "master.od")
         if os.path.isfile(masterpath):
             self.Manager.OpenFileInCurrent(masterpath)
         else:
             self.Manager.CreateNewNode("MasterNode", 0x00, "master", "", "None", "", "heartbeat", ["DS302"])
         return None
     
-    def SaveMasterNode(self):
-        masterpath = os.path.join(self.Root, "master.od")
+    def SaveMasterNode(self, netname = None):
+        if netname:
+            masterpath = os.path.join(self.Root, "%s_master.od"%netname)
+        else:
+            masterpath = os.path.join(self.Root, "master.od")
         if self.Manager.SaveCurrentInFile(masterpath):
             return None
         else:
             return "Fail to save Master Node"
     
-    def LoadSlaveNodes(self):
+    def LoadSlaveNodes(self, netname = None):
         cpjpath = os.path.join(self.Root, "nodelist.cpj")
         if os.path.isfile(cpjpath):
             try:
                 networks = eds_utils.ParseCPJFile(cpjpath)
-                if len(networks) > 0:
-                    self.NetworkName = networks[0]["Name"]
-                    for nodeid, node in networks[0]["Nodes"].items():
+                network = None
+                if netname:
+                    for net in networks:
+                        if net["Name"] == netname:
+                            network = net
+                    self.NetworkName = netname
+                elif len(networks) > 0:
+                    network = networks[0]
+                    self.NetworkName = network["Name"]
+                if network:
+                    for nodeid, node in network["Nodes"].items():
                         if node["Present"] == 1:
                             result = self.AddSlaveNode(node["Name"], nodeid, node["DCFName"])
                             if result != None:
-                                return result
+                                return result        
+                self.Changed = False
             except SyntaxError, message:
                 return "Unable to load CPJ file\n%s"%message
         return None
     
-    def SaveNodeList(self):
-        cpjpath = os.path.join(self.Root, "nodelist.cpj")
-        content = eds_utils.GenerateCPJContent(self)
-        file = open(cpjpath, "w")
-        file.write(content)
-        file.close()
+    def SaveNodeList(self, netname = None):
+        try:
+            cpjpath = os.path.join(self.Root, "nodelist.cpj")
+            content = eds_utils.GenerateCPJContent(self)
+            if netname:
+                file = open(cpjpath, "a")
+            else:
+                file = open(cpjpath, "w")
+            file.write(content)
+            file.close()
+            self.Changed = False
+            return None
+        except:
+            return "Fail to save node list"
     
     def GetSlaveNodeEntry(self, nodeid, index, subindex = None):
         if nodeid in self.SlaveNodes.keys():
@@ -233,6 +265,16 @@ class NodeList:
                     return node.GetEntryInfos(index)
         return None
 
+    def GetSubentryInfos(self, index, subindex):
+        if self.CurrentSelected != None:
+            if self.CurrentSelected == 0:
+                return self.Manager.GetSubentryInfos(index, subindex)
+            else:
+                node = self.SlaveNodes[self.CurrentSelected]["Node"]
+                if node:
+                    return node.GetSubentryInfos(index, subindex)
+        return None
+
     def GetCurrentValidIndexes(self, min, max):
         if self.CurrentSelected != None:
             if self.CurrentSelected == 0:
@@ -252,27 +294,29 @@ class NodeList:
     def GetCurrentEntryValues(self, index):
         if self.CurrentSelected != None:
             node = self.SlaveNodes[self.CurrentSelected]["Node"]
-            node.SetNodeID(self.CurrentSelected)
             if node:
                 return self.Manager.GetNodeEntryValues(node, index)
             else:
                 print "Can't find node"
         return [], []
-
+    
 if __name__ == "__main__":
     from nodemanager import *
     import os, sys, shutil
     
     manager = NodeManager(sys.path[0])
+    
     nodelist = NodeList(manager)
-    #result = nodelist.LoadProject("/home/deobox/beremiz/test_nodelist")
-    result = nodelist.LoadProject("/home/deobox/Desktop/TestMapping")
+    
+    result = nodelist.LoadProject("/home/laurent/test_nodelist")
     if result != None:
         print result
     else:
         print "MasterNode :"
         manager.CurrentNode.Print()
+        print 
         for nodeid, node in nodelist.SlaveNodes.items():
             print "SlaveNode name=%s id=0x%2.2X :"%(node["Name"], nodeid)
             node["Node"].Print()
+            print
 

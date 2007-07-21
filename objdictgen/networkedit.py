@@ -37,7 +37,6 @@ from nodemanager import *
 from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
-from config_utils import *
 
 def create(parent):
     return networkedit(parent)
@@ -65,8 +64,10 @@ elif len(args) == 1:
 else:
     usage()
     sys.exit(2)
-
-ScriptDirectory = sys.path[0]
+ScriptDirectory = ""
+for path in sys.path:
+    if os.path.isfile(os.path.join(path, "networkedit.py")):
+        ScriptDirectory = path
 
 try:
     from wxPython.html import *
@@ -170,7 +171,7 @@ class networkedit(wx.Frame):
     def _init_coll_menuBar1_Menus(self, parent):
         # generated method, don't edit
 
-        if self.Mode == "solo":
+        if self.ModeSolo:
             parent.Append(menu=self.FileMenu, title='File')
         parent.Append(menu=self.NetworkMenu, title='Network')
         parent.Append(menu=self.EditMenu, title='Edit')
@@ -222,7 +223,7 @@ class networkedit(wx.Frame):
               kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
         self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu,
               id=wxID_NETWORKEDITHELPMENUITEMS1)
-        if Html_Window and self.Mode == "solo":
+        if Html_Window and self.ModeSolo:
             parent.Append(help='', id=wxID_NETWORKEDITHELPMENUITEMS2,
                   kind=wx.ITEM_NORMAL, text='About')
             self.Bind(wx.EVT_MENU, self.OnAboutMenu,
@@ -246,8 +247,8 @@ class networkedit(wx.Frame):
               id=wxID_NETWORKEDITFILEMENUITEMS0)
         self.Bind(wx.EVT_MENU, self.OnSaveProjectMenu,
               id=wxID_NETWORKEDITFILEMENUITEMS1)
-##        self.Bind(wx.EVT_MENU, self.OnCloseProjectMenu,
-##              id=wxID_NETWORKEDITFILEMENUITEMS2)
+        self.Bind(wx.EVT_MENU, self.OnCloseProjectMenu,
+              id=wxID_NETWORKEDITFILEMENUITEMS2)
         self.Bind(wx.EVT_MENU, self.OnQuitMenu,
               id=wxID_NETWORKEDITFILEMENUITEMS4)
         self.Bind(wx.EVT_MENU, self.OnNewProjectMenu,
@@ -267,8 +268,8 @@ class networkedit(wx.Frame):
               id=wxID_NETWORKEDITNETWORKMENUITEMS0)
         self.Bind(wx.EVT_MENU, self.OnRemoveSlaveMenu,
               id=wxID_NETWORKEDITNETWORKMENUITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
-              id=wxID_NETWORKEDITNETWORKMENUITEMS3)
+##        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
+##              id=wxID_NETWORKEDITNETWORKMENUITEMS3)
     
     def _init_coll_AddMenu_Items(self, parent):
         # generated method, don't edit
@@ -313,7 +314,7 @@ class networkedit(wx.Frame):
         self.menuBar1 = wx.MenuBar()
         self.menuBar1.SetEvtHandlerEnabled(True)
         
-        if self.Mode == "solo":
+        if self.ModeSolo:
             self.FileMenu = wx.Menu(title='')
         
         self.NetworkMenu = wx.Menu(title='')
@@ -325,7 +326,7 @@ class networkedit(wx.Frame):
         self.HelpMenu = wx.Menu(title='')
 
         self._init_coll_menuBar1_Menus(self.menuBar1)
-        if self.Mode == "solo":
+        if self.ModeSolo:
             self._init_coll_FileMenu_Items(self.FileMenu)
         self._init_coll_NetworkMenu_Items(self.NetworkMenu)
         self._init_coll_EditMenu_Items(self.EditMenu)
@@ -340,7 +341,7 @@ class networkedit(wx.Frame):
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.menuBar1)
-##        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_NETWORKEDIT)
+        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=wxID_NETWORKEDIT)
 
         self.NetworkNodes = wx.Notebook(id=wxID_NETWORKEDITNETWORKNODES,
               name='NetworkNodes', parent=self, pos=wx.Point(0, 0),
@@ -353,12 +354,14 @@ class networkedit(wx.Frame):
         self._init_coll_HelpBar_Fields(self.HelpBar)
         self.SetStatusBar(self.HelpBar)
 
-    def __init__(self, parent, mode = "solo", nodelist = None):
-        self.Mode = mode
+    def __init__(self, parent, nodelist = None):
+        self.ModeSolo = nodelist == None
         self._init_ctrls(parent)
+        self.Parent = parent
         self.HtmlFrameOpened = []
+        self.BusId = None
         
-        if self.Mode == "solo":
+        if self.ModeSolo:
             self.Manager = NodeManager(ScriptDirectory)
             if projectOpen:
                 self.NodeList = NodeList(self.Manager)
@@ -370,10 +373,33 @@ class networkedit(wx.Frame):
         else:
             self.NodeList = nodelist
             self.Manager = self.NodeList.GetManager()
+            self.NodeList.SetCurrentSelected(0)
+            self.RefreshNetworkNodes()
+            self.RefreshProfileMenu()
         
         self.RefreshBufferState()
         self.RefreshTitle()
         self.RefreshMainMenu()
+
+    def SetBusId(self, bus_id):
+        self.BusId = bus_id
+
+    def GetBusId(self):
+        return self.BusId
+
+    def GetCurrentNodeId(self):
+        selected = self.NetworkNodes.GetSelection()
+        # At init selected = -1
+        if selected > 0:
+            window = self.NetworkNodes.GetPage(selected)
+            return window.GetIndex()
+        else:
+            return 0
+
+    def OnCloseFrame(self, event):
+        if not self.ModeSolo:
+            self.Parent.CloseEditor(self.BusId)
+        event.Skip()
 
     def GetNoteBook(self):
         return self.NetworkNodes
@@ -437,6 +463,7 @@ class networkedit(wx.Frame):
         if dialog.ShowModal() == wxID_OK:
             projectpath = dialog.GetPath()
             if os.path.isdir(projectpath) and len(os.listdir(projectpath)) == 0:
+                os.mkdir(os.path.join(projectpath, "eds"))
                 manager = NodeManager(ScriptDirectory)
                 nodelist = NodeList(manager)
                 result = nodelist.LoadProject(projectpath)
@@ -493,37 +520,27 @@ class networkedit(wx.Frame):
             message.Destroy()
         event.Skip()
 
-    def OnBuildMasterMenu(self, event):
+    def OnCloseProjectMenu(self, event):
         if self.NodeList:
-            dialog = wxFileDialog(self, "Choose a locations file", os.getcwd(), "",  "text files (*.txt)|*.od|All files|*.*", wxOPEN|wxCHANGE_DIR)
-            if dialog.ShowModal() == wxID_OK:
-                filepath = dialog.GetPath()
+            if self.NodeList.HasChanged():
+                dialog = wxMessageDialog(self, "There are changes, do you want to save?",  "Close Project", wxYES_NO|wxCANCEL|wxICON_QUESTION)
+                answer = dialog.ShowModal()
                 dialog.Destroy()
-                if os.path.isfile(filepath):
-                    dialog = wxTextEntryDialog(self, "Busname selection", "Please enter the bus number", "", wxOK|wxCANCEL)
-                    if dialog.ShowModal() == wxID_OK:
-                        busname = None
-                        try:
-                            busname = int(dialog.GetValue())
-                        except:
-                            pass
-                        if busname:
-                            file = open(filepath, "r")
-                            locations = [(elements[0], elements[1]) for elements in [line.strip().split(" ") for line in file.readlines()]]
-                            GenerateConciseDCF(locations, busname, self.NodeList)
-                            message = wxMessageDialog(self, "Master node generation successful!", "Error", wxOK|wxICON_ERROR)
-                            message.ShowModal()
-                            message.Destroy()
-                        else:
-                            message = wxMessageDialog(self, "Busname must be a number!", "Error", wxOK|wxICON_ERROR)
-                            message.ShowModal()
-                            message.Destroy()
-                else:
-                    message = wxMessageDialog(self, "\"%s\" isn't a valid file!"%filepath, "Error", wxOK|wxICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
+                if answer == wxID_YES:
+                    result = self.NodeList.SaveProject()
+                    if result:
+                        message = wxMessageDialog(self, result, "Error", wxOK|wxICON_ERROR)
+                        message.ShowModal()
+                        message.Destroy()
+                elif answer == wxID_NO:
+                    self.NodeList.ForceChanged(False)
+            if not self.NodeList.HasChanged():
+                self.Manager = None
+                self.NodeList = None
+                self.RefreshNetworkNodes()
+                self.RefreshTitle()
+                self.RefreshMainMenu()
         event.Skip()
-        
 
 #-------------------------------------------------------------------------------
 #                             Slave Nodes Management
@@ -640,9 +657,9 @@ class networkedit(wx.Frame):
 
     def RefreshMainMenu(self):
         if self.menuBar1:
+            self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, False)
             if self.NodeList == None:
-                self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, False)
-                if self.Mode == "solo":
+                if self.ModeSolo:
                     self.menuBar1.EnableTop(1, False)
                     self.menuBar1.EnableTop(2, False)
                     self.menuBar1.EnableTop(3, False)
@@ -654,8 +671,7 @@ class networkedit(wx.Frame):
                     self.menuBar1.EnableTop(1, False)
                     self.menuBar1.EnableTop(2, False)
             else:
-                self.NetworkMenu.Enable(wxID_NETWORKEDITNETWORKMENUITEMS3, True)
-                if self.Mode == "solo":
+                if self.ModeSolo:
                     self.menuBar1.EnableTop(1, True)
                     if self.FileMenu:
                         self.FileMenu.Enable(wxID_NETWORKEDITFILEMENUITEMS1, True)
@@ -695,14 +711,6 @@ class networkedit(wx.Frame):
                 else:
                     edititem.SetText("Other Profile")
                     edititem.Enable(False)
-
-    def GetProfileCallBack(self, text):
-        def ProfileCallBack(event):
-            self.Manager.AddSpecificEntryToCurrent(text)
-            self.RefreshBufferState()
-            self.RefreshCurrentIndexList()
-            event.Skip()
-        return ProfileCallBack
 
 #-------------------------------------------------------------------------------
 #                              Buffer Functions
