@@ -673,10 +673,14 @@ class Node:
         return None
 
     def HasEntryCallbacks(self, index):
-        if not getattr(self, "ParamsDictionary", False):
-            self.ParamsDictionary = {}
-        if index in self.Dictionary and index in self.ParamsDictionary and "callback" in self.ParamsDictionary[index]:
-            return self.ParamsDictionary[index]["callback"]
+        entry_infos = self.GetEntryInfos(index)
+        if entry_infos and "callback" in entry_infos:
+            return entry_infos["callback"]
+        else:
+            if not getattr(self, "ParamsDictionary", False):
+                self.ParamsDictionary = {}
+            if index in self.Dictionary and index in self.ParamsDictionary and "callback" in self.ParamsDictionary[index]:
+                return self.ParamsDictionary[index]["callback"]
         return False
 
     """

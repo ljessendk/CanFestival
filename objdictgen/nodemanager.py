@@ -322,7 +322,8 @@ class NodeManager:
     Build the C definition of Object Dictionary for current node 
     """
     def ExportCurrentToCFile(self, filepath):
-        return gen_cfile.GenerateFile(filepath, self)
+        if self.CurrentNode:
+            return gen_cfile.GenerateFile(filepath, self.CurrentNode)
 
 #-------------------------------------------------------------------------------
 #                        Add Entries to Current Functions
@@ -352,7 +353,7 @@ class NodeManager:
             for i in xrange(1, min(number,subentry_infos["nbmax"]-length) + 1):
                 node.AddEntry(index, length + i, default)
             if not disable_buffer:
-                    self.BufferCurrentNode()
+                self.BufferCurrentNode()
             return None
         # Second case entry is array, only possible for manufacturer specific
         elif infos["struct"] & OD_MultipleSubindexes and 0x2000 <= index <= 0x5FFF:
@@ -361,7 +362,7 @@ class NodeManager:
                 node.AddMappingEntry(index, length + i, values = values.copy())
                 node.AddEntry(index, length + i, 0)
             if not disable_buffer:
-                    self.BufferCurrentNode()
+                self.BufferCurrentNode()
             return None
             
 
@@ -940,10 +941,7 @@ class NodeManager:
         return validchoices
     
     def HasCurrentEntryCallbacks(self, index):
-        if self.CurrentNode and self.CurrentNode.IsEntry(index):
-            entry_infos = self.GetEntryInfos(index)
-            if "callback" in entry_infos:
-                return entry_infos["callback"]
+        if self.CurrentNode:
             return self.CurrentNode.HasEntryCallbacks(index)
         return False
     

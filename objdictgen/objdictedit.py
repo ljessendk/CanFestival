@@ -338,6 +338,7 @@ class objdictedit(wx.Frame):
     def __init__(self, parent):
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
+        self.ModeSolo = True
         
         self.Manager = NodeManager(ScriptDirectory)
         for filepath in filesOpen:

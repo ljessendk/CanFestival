@@ -79,23 +79,26 @@ def WriteFile(filepath, content):
     cfile.write(content)
     cfile.close()
 
-def GenerateFileContent(Manager, headerfilepath):
+def GenerateFileContent(Node, headerfilepath):
     global type
     global internal_types
     texts = {}
     texts["maxPDOtransmit"] = 0
-    texts["NodeName"], texts["NodeID"], texts["NodeType"], texts["Description"] = Manager.GetCurrentNodeInfos()
+    texts["NodeName"] = Node.GetNodeName()
+    texts["NodeID"] = Node.GetNodeID()
+    texts["NodeType"] = Node.GetNodeType()
+    texts["Description"] = Node.GetNodeDescription()
     texts["iam_a_slave"] = 0
     if (texts["NodeType"] == "slave"):
         texts["iam_a_slave"] = 1
     
     # Compiling lists of indexes
-    rangelist = [idx for name,idx in Manager.GetCurrentValidIndexes(0, 0x260)]
-    listIndex = [idx for name,idx in Manager.GetCurrentValidIndexes(0x1000, 0xFFFF)]
-    communicationlist = [idx for name,idx in Manager.GetCurrentValidIndexes(0x1000, 0x11FF)]
-    sdolist = [idx for name,idx in Manager.GetCurrentValidIndexes(0x1200, 0x12FF)]
-    pdolist = [idx for name,idx in Manager.GetCurrentValidIndexes(0x1400, 0x1BFF)]
-    variablelist = [idx for name,idx in Manager.GetCurrentValidIndexes(0x2000, 0xBFFF)]
+    rangelist = [idx for idx in Node.GetIndexes() if 0 <= idx <= 0x260]
+    listIndex = [idx for idx in Node.GetIndexes() if 0x1000 <= idx <= 0xFFFF]
+    communicationlist = [idx for idx in Node.GetIndexes() if 0x1000 <= idx <= 0x11FF]
+    sdolist = [idx for idx in Node.GetIndexes() if 0x1200 <= idx <= 0x12FF]
+    pdolist = [idx for idx in Node.GetIndexes() if 0x1400 <= idx <= 0x1BFF]
+    variablelist = [idx for idx in Node.GetIndexes() if 0x2000 <= idx <= 0xBFFF]
 
 #-------------------------------------------------------------------------------
 #                       Declaration of the value range types
@@ -106,16 +109,16 @@ def GenerateFileContent(Manager, headerfilepath):
     strSwitch = ""
     num = 0
     for index in rangelist:
-        rangename = Manager.GetEntryName(index)
+        rangename = Node.GetEntryName(index)
         result = range_model.match(rangename)
         if result:
             num += 1
-            typeindex = Manager.GetCurrentEntry(index, 1)
-            typename = Manager.GetTypeName(typeindex)
+            typeindex = Node.GetEntry(index, 1)
+            typename = Node.GetTypeName(typeindex)
             typeinfos = GetValidTypeInfos(typename)
             internal_types[rangename] = (typeinfos[0], typeinfos[1], "valueRange_%d"%num)
-            minvalue = str(Manager.GetCurrentEntry(index, 2))
-            maxvalue = str(Manager.GetCurrentEntry(index, 3))
+            minvalue = str(Node.GetEntry(index, 2))
+            maxvalue = str(Node.GetEntry(index, 3))
             strDefine += "\n#define valueRange_%d 0x%02X /* Type %s, %s < value < %s */"%(num,index,typeinfos[0],minvalue,maxvalue)
             strSwitch += """    case valueRange_%d:
       if (*(%s*)Value < (%s)%s) return OD_VALUE_TOO_LOW;
@@ -140,10 +143,10 @@ def GenerateFileContent(Manager, headerfilepath):
     for index in listIndex:
         texts["index"] = index
         strIndex = ""
-        entry_infos = Manager.GetEntryInfos(index)
+        entry_infos = Node.GetEntryInfos(index)
         texts["EntryName"] = entry_infos["name"].encode('ascii','replace')
-        values = Manager.GetCurrentEntry(index)
-        callbacks = Manager.HasCurrentEntryCallbacks(index)
+        values = Node.GetEntry(index)
+        callbacks = Node.HasEntryCallbacks(index)
         if index in variablelist:
             strIndex += "\n/* index 0x%(index)04X :   Mapped variable %(EntryName)s */\n"%texts
         else:
@@ -151,8 +154,8 @@ def GenerateFileContent(Manager, headerfilepath):
         
         # Entry type is VAR
         if type(values) != ListType:
-            subentry_infos = Manager.GetSubentryInfos(index, 0)
-            typename = Manager.GetTypeName(subentry_infos["type"])
+            subentry_infos = Node.GetSubentryInfos(index, 0)
+            typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
             texts["subIndexType"] = typeinfos[0]
             texts["suffixe"] = typeinfos[1]
@@ -175,8 +178,8 @@ def GenerateFileContent(Manager, headerfilepath):
                 strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X%(suffixe)s = %(value)s;%(comment)s\n"%texts
             values = [values]
         else:
-            subentry_infos = Manager.GetSubentryInfos(index, 0)
-            typename = Manager.GetTypeName(subentry_infos["type"])
+            subentry_infos = Node.GetSubentryInfos(index, 0)
+            typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
             texts["value"] = values[0]
             texts["subIndexType"] = typeinfos[0]
@@ -184,8 +187,8 @@ def GenerateFileContent(Manager, headerfilepath):
             
             # Entry type is RECORD
             if entry_infos["struct"] & OD_IdenticalSubindexes:
-                subentry_infos = Manager.GetSubentryInfos(index, 1)
-                typename = Manager.GetTypeName(subentry_infos["type"])
+                subentry_infos = Node.GetSubentryInfos(index, 1)
+                typename = Node.GetTypeName(subentry_infos["type"])
                 typeinfos = GetValidTypeInfos(typename)
                 texts["subIndexType"] = typeinfos[0]
                 texts["suffixe"] = typeinfos[1]
@@ -235,8 +238,8 @@ def GenerateFileContent(Manager, headerfilepath):
                 for subIndex, value in enumerate(values):
                     texts["subIndex"] = subIndex
                     if subIndex > 0:
-                        subentry_infos = Manager.GetSubentryInfos(index, subIndex)
-                        typename = Manager.GetTypeName(subentry_infos["type"])
+                        subentry_infos = Node.GetSubentryInfos(index, subIndex)
+                        typename = Node.GetTypeName(subentry_infos["type"])
                         typeinfos = GetValidTypeInfos(typename)
                         texts["subIndexType"] = typeinfos[0]
                         texts["suffixe"] = typeinfos[1]
@@ -273,12 +276,12 @@ def GenerateFileContent(Manager, headerfilepath):
             indexCallbacks[index] = ""
         strIndex += "                    subindex %(NodeName)s_Index%(index)04X[] = \n                     {\n"%texts
         for subIndex in xrange(len(values)):
-            subentry_infos = Manager.GetSubentryInfos(index, subIndex)
+            subentry_infos = Node.GetSubentryInfos(index, subIndex)
             if subIndex < len(values) - 1:
                 sep = ","
             else:
                 sep = ""
-            typename = Manager.GetTypeName(subentry_infos["type"])
+            typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
             if subIndex == 0:
                 if entry_infos["struct"] & OD_MultipleSubindexes:
@@ -301,7 +304,7 @@ def GenerateFileContent(Manager, headerfilepath):
                 sizeof = str(len(values[subIndex]))
             else:
                 sizeof = "sizeof (%s)"%typeinfos[0]
-            params = Manager.GetCurrentParamsEntry(index, subIndex)
+            params = Node.GetParamsEntry(index, subIndex)
             if params["save"]:
                 save = "|TO_BE_SAVE"
             else:
@@ -315,17 +318,17 @@ def GenerateFileContent(Manager, headerfilepath):
 #-------------------------------------------------------------------------------
 
     if 0x1006 not in communicationlist:
-        entry_infos = Manager.GetEntryInfos(0x1006)
+        entry_infos = Node.GetEntryInfos(0x1006)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1006] = """\n/* index 0x1006 :   %(EntryName)s */
                     UNS32 %(NodeName)s_obj1006 = 0x0;   /* 0 */
 """%texts
 
     if 0x1016 in communicationlist:
-        texts["nombre"] = Manager.GetCurrentEntry(0x1016, 0)
+        texts["nombre"] = Node.GetEntry(0x1016, 0)
     else:
         texts["nombre"] = 0
-        entry_infos = Manager.GetEntryInfos(0x1016)
+        entry_infos = Node.GetEntryInfos(0x1016)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1016] = """\n/* index 0x1016 :   %(EntryName)s */
                     UNS8 %(NodeName)s_highestSubIndex_obj1016 = 0;
@@ -337,7 +340,7 @@ def GenerateFileContent(Manager, headerfilepath):
         strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
 
     if 0x1017 not in communicationlist:
-        entry_infos = Manager.GetEntryInfos(0x1017)
+        entry_infos = Node.GetEntryInfos(0x1017)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */ 
                     UNS16 %(NodeName)s_obj1017 = 0x0;   /* 0 */
@@ -494,10 +497,10 @@ extern CO_Data %(NodeName)s_Data;
 #                             Main Function
 #-------------------------------------------------------------------------------
 
-def GenerateFile(filepath, manager):
+def GenerateFile(filepath, node):
     try:
         headerfilepath = os.path.splitext(filepath)[0]+".h"
-        content, header = GenerateFileContent(manager, os.path.split(headerfilepath)[1])
+        content, header = GenerateFileContent(node, os.path.split(headerfilepath)[1])
         WriteFile(filepath, content)
         WriteFile(headerfilepath, header)
         return None
