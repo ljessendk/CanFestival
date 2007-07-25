@@ -332,28 +332,38 @@ class NodeManager:
     Add the specified number of subentry for the given entry. Verify that total
     number of subentry (except 0) doesn't exceed nbmax defined
     """
-    def AddSubentriesToCurrent(self, index, number):
+    def AddSubentriesToCurrent(self, index, number, node = None):
+        if node == None:
+            disable_buffer = True
+            node = self.CurrentNode  
+        else:
+            disable_buffer = False
         # Informations about entry
-        length = self.CurrentNode.GetEntry(index, 0)
-        infos = self.GetEntryInfos(index)
-        subentry_infos = self.GetSubentryInfos(index, 1)
+        length = node.GetEntry(index, 0)
+        infos = node.GetEntryInfos(index)
+        subentry_infos = node.GetSubentryInfos(index, 1)
         # Get default value for subindex
         if "default" in subentry_infos:
             default = subentry_infos["default"]
         else:
             default = self.GetTypeDefaultValue(subentry_infos["type"])   
         # First case entry is record
-        if infos["struct"] & OD_IdenticalSubindexes:
+        if infos["struct"] & OD_IdenticalSubindexes: 
             for i in xrange(1, min(number,subentry_infos["nbmax"]-length) + 1):
-                self.CurrentNode.AddEntry(index, length + i, default)
-            self.BufferCurrentNode()
+                node.AddEntry(index, length + i, default)
+            if not disable_buffer:
+                    self.BufferCurrentNode()
+            return None
         # Second case entry is array, only possible for manufacturer specific
         elif infos["struct"] & OD_MultipleSubindexes and 0x2000 <= index <= 0x5FFF:
             values = {"name" : "Undefined", "type" : 5, "access" : "rw", "pdo" : True}
             for i in xrange(1, min(number,0xFE-length) + 1):
-                self.CurrentNode.AddMappingEntry(index, length + i, values = values.copy())
-                self.CurrentNode.AddEntry(index, length + i, 0)
-            self.BufferCurrentNode()
+                node.AddMappingEntry(index, length + i, values = values.copy())
+                node.AddEntry(index, length + i, 0)
+            if not disable_buffer:
+                    self.BufferCurrentNode()
+            return None
+            
 
     """
     Remove the specified number of subentry for the given entry. Verify that total
@@ -437,7 +447,12 @@ class NodeManager:
     """
     Add entries specified in addinglist and remove entries specified in removinglist
     """
-    def ManageEntriesOfCurrent(self, addinglist, removinglist):
+    def ManageEntriesOfCurrent(self, addinglist, removinglist, node = None):
+        if node == None:
+            disable_buffer = True
+            node = self.CurrentNode
+        else:
+            disable_buffer = False
         # Add all the entries in addinglist
         for index in addinglist:
             infos = self.GetEntryInfos(index)
@@ -449,7 +464,7 @@ class NodeManager:
                         default = subentry_infos["default"]
                     else:
                         default = self.GetTypeDefaultValue(subentry_infos["type"])
-                    self.CurrentNode.AddEntry(index, 1, default)
+                    node.AddEntry(index, 1, default)
                 # Second case entry is a record
                 else:
                     i = 1
@@ -459,7 +474,7 @@ class NodeManager:
                             default = subentry_infos["default"]
                         else:
                             default = self.GetTypeDefaultValue(subentry_infos["type"])
-                        self.CurrentNode.AddEntry(index, i, default)
+                        node.AddEntry(index, i, default)
                         i += 1
                         subentry_infos = self.GetSubentryInfos(index, i)
             # Third case entry is a record
@@ -469,11 +484,13 @@ class NodeManager:
                     default = subentry_infos["default"]
                 else:
                     default = self.GetTypeDefaultValue(subentry_infos["type"])
-                self.CurrentNode.AddEntry(index, 0, default)
+                node.AddEntry(index, 0, default)
         # Remove all the entries in removinglist
         for index in removinglist:
             self.RemoveCurrentVariable(index)
-        self.BufferCurrentNode()
+        if not disable_buffer:
+            self.BufferCurrentNode()
+        return None
 
 
     """
@@ -526,28 +543,34 @@ class NodeManager:
             if index in Mappings[-1]:
                 self.CurrentNode.RemoveMappingEntry(index, subIndex)
 
-    def AddMapVariableToCurrent(self, index, name, struct, number):
+    def AddMapVariableToCurrent(self, index, name, struct, number, node = None):
         if 0x2000 <= index <= 0x5FFF:
-            if not self.CurrentNode.IsEntry(index):
-                self.CurrentNode.AddMappingEntry(index, name = name, struct = struct)
+            if node == None:
+                disable_buffer = True
+                node = self.CurrentNode
+            else:
+                disable_buffer = False
+            if not node.IsEntry(index):
+                node.AddMappingEntry(index, name = name, struct = struct)
                 if struct == var:
                     values = {"name" : name, "type" : 0x05, "access" : "rw", "pdo" : True}
-                    self.CurrentNode.AddMappingEntry(index, 0, values = values)
-                    self.CurrentNode.AddEntry(index, 0, 0)
+                    node.AddMappingEntry(index, 0, values = values)
+                    node.AddEntry(index, 0, 0)
                 else:
                     values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False}
-                    self.CurrentNode.AddMappingEntry(index, 0, values = values)
+                    node.AddMappingEntry(index, 0, values = values)
                     if struct == rec:
                         values = {"name" : name + " %d[(sub)]", "type" : 0x05, "access" : "rw", "pdo" : True, "nbmax" : 0xFE}
-                        self.CurrentNode.AddMappingEntry(index, 1, values = values)
+                        node.AddMappingEntry(index, 1, values = values)
                         for i in xrange(number):
-                            self.CurrentNode.AddEntry(index, i + 1, 0)
+                            node.AddEntry(index, i + 1, 0)
                     else:
                         for i in xrange(number):
                             values = {"name" : "Undefined", "type" : 0x05, "access" : "rw", "pdo" : True}
-                            self.CurrentNode.AddMappingEntry(index, i + 1, values = values)
-                            self.CurrentNode.AddEntry(index, i + 1, 0)
-                self.BufferCurrentNode()
+                            node.AddMappingEntry(index, i + 1, values = values)
+                            node.AddEntry(index, i + 1, 0)
+                if not disable_buffer:
+                    self.BufferCurrentNode()
                 return None
             else:
                 return "Index 0x%04X already defined!"%index
@@ -595,21 +618,27 @@ class NodeManager:
                 self.CurrentNode.SetParamsEntry(index, None, callback = value)
                 self.BufferCurrentNode()
 
-    def SetCurrentEntry(self, index, subIndex, value, name, editor):
-        if self.CurrentNode and self.CurrentNode.IsEntry(index):
+    def SetCurrentEntry(self, index, subIndex, value, name, editor, node = None):
+        
+        if node == None:
+                disable_buffer = True
+                node = self.CurrentNode
+        else:
+            disable_buffer = False
+        if node and node.IsEntry(index):
             if name == "value":
                 if editor == "map":
-                    value = self.CurrentNode.GetMapValue(value)
+                    value = node.GetMapValue(value)
                     if value:
-                        self.CurrentNode.SetEntry(index, subIndex, value)
+                        node.SetEntry(index, subIndex, value)
                 elif editor == "bool":
                     value = value == "True"
-                    self.CurrentNode.SetEntry(index, subIndex, value)
+                    node.SetEntry(index, subIndex, value)
                 elif editor == "time":
-                    self.CurrentNode.SetEntry(index, subIndex, value)
+                    node.SetEntry(index, subIndex, value)
                 elif editor == "number":
                     try:
-                        self.CurrentNode.SetEntry(index, subIndex, int(value))
+                        node.SetEntry(index, subIndex, int(value))
                     except:
                         pass
                 elif editor == "domain":
@@ -617,7 +646,7 @@ class NodeManager:
                         if len(value) % 2 != 0:
                             value = "0" + value
                         value = value.decode('hex_codec')
-                        self.CurrentNode.SetEntry(index, subIndex, value)
+                        node.SetEntry(index, subIndex, value)
                     except:
                         pass
                 else:
@@ -627,42 +656,44 @@ class NodeManager:
                     for typeindex, typevalue in CustomisableTypes:
                         dic[typeindex] = typevalue
                     if type not in dic:
-                        type = self.CurrentNode.GetEntry(type)[1]
+                        type = node.GetEntry(type)[1]
                     if dic[type] == 0:
                         try:
                             if value.startswith("0x"):
                                 value = int(value, 16)
                             else:
                                 value = int(value)
-                            self.CurrentNode.SetEntry(index, subIndex, value)
+                            node.SetEntry(index, subIndex, value)
                         except:
                             pass
                     else:
-                        self.CurrentNode.SetEntry(index, subIndex, value)
+                        node.SetEntry(index, subIndex, value)
             elif name in ["comment", "save"]:
                 if editor == "option":
                     value = value == "Yes"
                 if name == "save":
-                    self.CurrentNode.SetParamsEntry(index, subIndex, save = value)
+                    node.SetParamsEntry(index, subIndex, save = value)
                 elif name == "comment":
-                    self.CurrentNode.SetParamsEntry(index, subIndex, comment = value)
+                    node.SetParamsEntry(index, subIndex, comment = value)
             else:
                 if editor == "type":
                     value = self.GetTypeIndex(value)
                     size = self.GetEntryInfos(value)["size"]
-                    self.CurrentNode.UpdateMapVariable(index, subIndex, size)
+                    node.UpdateMapVariable(index, subIndex, size)
                 elif editor in ["access","raccess"]:
                     dic = {}
                     for abbrev,access in AccessType.iteritems():
                         dic[access] = abbrev
                     value = dic[value]
-                    if editor == "raccess" and not self.CurrentNode.IsMappingEntry(index):
+                    if editor == "raccess" and not node.IsMappingEntry(index):
                         entry_infos = self.GetEntryInfos(index)
-                        self.CurrentNode.AddMappingEntry(index, name = entry_infos["name"], struct = 7)
-                        self.CurrentNode.AddMappingEntry(index, 0, values = self.GetSubentryInfos(index, 0, False).copy())
-                        self.CurrentNode.AddMappingEntry(index, 1, values = self.GetSubentryInfos(index, 1, False).copy())
-                self.CurrentNode.SetMappingEntry(index, subIndex, values = {name : value})
-            self.BufferCurrentNode()
+                        node.AddMappingEntry(index, name = entry_infos["name"], struct = 7)
+                        node.AddMappingEntry(index, 0, values = self.GetSubentryInfos(index, 0, False).copy())
+                        node.AddMappingEntry(index, 1, values = self.GetSubentryInfos(index, 1, False).copy())
+                node.SetMappingEntry(index, subIndex, values = {name : value})
+            if not disable_buffer:
+                self.BufferCurrentNode()
+            return None
 
     def SetCurrentEntryName(self, index, name):
         self.CurrentNode.SetMappingEntry(index, name=name)
@@ -835,7 +866,13 @@ class NodeManager:
         else:
             return ""
 
-    def GetCurrentNodeID(self):
+    def GetCurrentNodeCopy(self):
+        if self.CurrentNode:
+            return self.CurrentNode.Copy()
+        else:
+            return None
+    
+    def GetCurrentNodeID(self, node = None):
         if self.CurrentNode:
             return self.CurrentNode.GetNodeID()
         else:
@@ -1064,7 +1101,7 @@ class NodeManager:
         else:
             return []
 
-    def GetMandatoryIndexes(self, node = None):
+    def GetMandatoryIndexes(self):
         if self.CurrentNode:
             return self.CurrentNode.GetMandatoryIndexes()
         else:
