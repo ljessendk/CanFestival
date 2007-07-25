@@ -99,9 +99,11 @@ class NodeList:
         
         files = os.listdir(self.EDSFolder)
         for file in files:
-            result = self.LoadEDS(file)
-            if result != None:
-                return result
+            filepath = os.path.join(self.EDSFolder, file)
+            if os.path.isfile(filepath) and os.path.splitext(filepath)[-1] == ".eds":
+                result = self.LoadEDS(file)
+                if result != None:
+                    return result
                 
         result = self.LoadMasterNode(netname)
         if result != None:

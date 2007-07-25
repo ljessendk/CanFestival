@@ -840,9 +840,9 @@ class networkedit(wx.Frame):
             self.Manager.SetCurrentNodeInfos(name, id, type, description)
             self.RefreshBufferState()
             self.RefreshProfileMenu()
-            selected = self.FileOpened.GetSelection()
+            selected = self.NetworkNodes.GetSelection()
             if selected >= 0:
-                window = self.FileOpened.GetPage(selected)
+                window = self.NetworkNodes.GetPage(selected)
                 window.RefreshTable()
         event.Skip()
 
