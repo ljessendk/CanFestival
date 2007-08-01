@@ -651,6 +651,14 @@ fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
+\	examples/DS401_Master/Makefile.in
+fi
+if [ "$SUB_TARGET" = "unix" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/DS401_Slave_Gui/Makefile.in
+fi
+if [ "$SUB_TARGET" = "unix" ]; then
+	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 
