@@ -30,8 +30,8 @@ endif
 
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
@@ -42,8 +42,8 @@ endif
 
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
