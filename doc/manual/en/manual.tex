@@ -1,4 +1,4 @@
-\documentclass[12pt,twoside]{article}
+\documentclass[a4paper,12pt]{book}
 \usepackage[ascii]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french,english]{babel}
@@ -13,26 +13,13 @@
 \DeclareGraphicsExtensions{.png}
 \hypersetup{colorlinks=true, linkcolor=blue, filecolor=blue, pagecolor=blue, urlcolor=blue}
 
-\newenvironment{changemargin}[2]{\begin{list}{}{%
-\setlength{\topsep}{0pt}%
-\setlength{\leftmargin}{0pt}%
-\setlength{\rightmargin}{0pt}%
-\setlength{\listparindent}{\parindent}%
-\setlength{\itemindent}{\parindent}%
-\setlength{\parsep}{0pt plus 1pt}%
-\addtolength{\leftmargin}{#1}%
-\addtolength{\rightmargin}{#2}%
-}\item }{\end{list}}
-
-
 %%%%\%%%%%%%% titre, auteurs, date, etc...%%%%%%%%%%%%%%%%%%
-
-\title{\Huge Documentation}
+\title{\Huge The CanFestival CANOpen stack manual}
 \author{Edouard TISSERANT}
 \date{\today}
 
 % Text styles
-\newcommand\textstyleTeletype[1]{\texttt{#1}}
+%\newcommand\textstyleTeletype[1]{\texttt{#1}}
 % Outline numbering
 \setcounter{secnumdepth}{5}
 \renewcommand\thesection{\arabic{section} -}
@@ -119,33 +106,16 @@
 \renewcommand\labelitemiii{{\textbullet}}
 \renewcommand\labelitemiv{{\textbullet}}
 }
-% Pages styles (master pages)
-\makeatletter
-\newcommand\ps@Standard{%
-\renewcommand\@oddhead{}%
-\renewcommand\@evenhead{}%
-\renewcommand\@oddfoot{}%
-\renewcommand\@evenfoot{\@oddfoot}%
-\setlength\paperwidth{8.2673in}\setlength\paperheight{11.6925in}\setlength\voffset{-1in}\setlength\hoffset{-1in}\setlength\topmargin{0.1965in}\setlength\headheight{12pt}\setlength\headsep{0cm}\setlength\footskip{12pt+0.1965in}\setlength\textheight{11.6925in-0.1965in-0.7874in-0cm-12pt-0.1965in-12pt}\setlength\oddsidemargin{0.3937in}\setlength\textwidth{8.2673in-0.3937in-0.3937in}
-\renewcommand\thepage{\arabic{page}}
-\setlength{\skip\footins}{0.0398in}\renewcommand\footnoterule{\vspace*{-0.0071in}\noindent\textcolor{black}{\rule{0.25\columnwidth}{0.0071in}}\vspace*{0.0398in}}
-}
-\makeatother
-\pagestyle{Standard}
-\setlength\tabcolsep{1mm}
-\renewcommand\arraystretch{1.3}
-\begin{document}
-{\centering\sffamily
-CanFestival3. Version 3.0\newline
-The CANOpen stack manual
-\par}
 
+\begin{document}
+
+{\centering\sffamily\Huge The CanFestival CANOpen stack manual.}
+
+\renewcommand\contentsname{CanFestival v3.0 Manual}
 \setcounter{tocdepth}{2}
-\renewcommand\contentsname{Table of contents}
 \tableofcontents
 \section{Introduction}
-This document describe the CANOpen layer.CanFestival is an OpenSource
-(LGPL) CANOpen framework.
+CanFestival is an OpenSource (LGPL and GPL) CANOpen framework.
 
 \subsection{The CanFestival project}
 This project, initiated by Edouard TISSERANT in 2001, as grown thanks to
@@ -236,7 +206,7 @@ DS{}-302}
 
 \liststyleLiv
 \begin{enumerate}
-\item Concise \ DFC : implemented.
+\item Concise \space DFC : implemented.
 \end{enumerate}
 \section{How to start}
 \subsection{Host requirements}
@@ -252,14 +222,14 @@ project automatically will the help of a Makefile. Please see
 \hyperlink{a91UsingDictionaryEditorGUIoutline}{9.1) Using Dictionary
 Editor GUI} )
 \end{enumerate}
-\subsubsection[\ Linux and Unix{}-likes]{\ Linux and Unix{}-likes}
+\subsubsection[\space Linux and Unix{}-likes]{\space Linux and Unix{}-likes}
 \liststyleLv
 \begin{enumerate}
 \item Linux, FreeBSD, Cygwin or any Unix environment with GNU toolchain.
 \item The GNU C compiler (gcc) or any other ANSI{}-C compiler for your
 target platform.
 \item Xpdf, and the official 301\_v04000201.pdf file in order to get GUI
-context sensitive help. Download the ds301 at
+context sensitive help. Download the ds301 at\newline
 \href{http://www.can-cia.org/downloads/ciaspecifications/?1390}{http://www.can{}-cia.org/downloads/ciaspecifications/?1390}.
 \item GNU Make
 \item Bash and sed
@@ -291,7 +261,7 @@ Simplified directory structure.
 ./src ANSI{}-C source of CANOpen stack}
 
 {\ttfamily\bfseries
-\ /include Exportables Header files}
+\space /include Exportables Header files}
 
 {\ttfamily\bfseries
 ./drivers Interfaces to specific platforms/HW}
@@ -354,7 +324,7 @@ Simplified directory structure.
 \subsection{Implement CanFestival in your application}
  
  \begin{center}
-   \includegraphics[width=20cm]{Pictures/10000201000003F9000002CF880931E7.png}
+   \includegraphics[width=12cm]{Pictures/10000201000003F9000002CF880931E7.png}
 \end{center}
 
 \bigskip
@@ -371,12 +341,12 @@ implemented differently on {\textmu}C and OS.:
 \item {\textmu}C must provide interuption masking for timer and can
 receive IT\newline
  \begin{center}
-   \includegraphics[width=16cm]{Pictures/10000201000003CA0000016604E6A5EF.png}
+   \includegraphics[width=12cm]{Pictures/10000201000003CA0000016604E6A5EF.png}
 \end{center}
 \item OS must provide a receive thread, a timer thread and a mutex. CAN
 reception is a bloking operation.\newline
 \begin{center}
-   \includegraphics[width=16cm]{Pictures/10000201000003F9000002CF8B0CDAEA.png}
+   \includegraphics[width=12cm]{Pictures/10000201000003F9000002CF8B0CDAEA.png}
 \end{center}
 \end{enumerate}
 \subsection{CanFestival events scheduling}
@@ -394,7 +364,7 @@ timer to mimic many timers. It manage an alarm table, and call alarms
 at desired time.
 
 \begin{center}
-   \includegraphics[width=13cm]{Pictures/100000000000022C000000DEDAD2140C.png}
+   \includegraphics[width=12cm]{Pictures/100000000000022C000000DEDAD2140C.png}
 \end{center}
 
 Scheduler can handle short clock value ranges limitation found on some
@@ -410,7 +380,7 @@ longer than clock range. Because of long alarm segmentation, at the end
 of t1, TimeDispatch call will not trig any alarm callback.
 
 \begin{center}
-   \includegraphics[width=18cm]{Pictures/1000000000000396000000FFC42573DA.png}
+   \includegraphics[width=12cm]{Pictures/1000000000000396000000FFC42573DA.png}
 \end{center}
 
 \section{Linux Target}
@@ -429,7 +399,7 @@ type make.
 make}
 
 {\ttfamily
-\textstyleTeletype{make install}}
+make install}
 
 \subsubsection{Standard Linux node}
 Configure switch:
@@ -541,7 +511,7 @@ PcanLight driver and library.
 
 Please download driver at
 \href{http://www.peak-system.com/themen/download_gb.html}{http://www.peak{}-system.com/themen/download\_gb.html}
-\ and follow instructions in order to install driver on your system.
+\space and follow instructions in order to install driver on your system.
 
 Install Cygwin as required, and the driver for your Peak CAN device.
 
@@ -660,8 +630,8 @@ Studio Express 2005. Be sure to have installed Microsoft Platform SDK,
 as recommended at the end of Visual Studio installation.
 
 \subsubsection{Configuration with cygwin}
-Follow instructions given at
-\hyperlink{a422Cygwinconfigurationandcompilationoutline}{4.2.2)Cygwin
+Follow instructions given at 
+\hyperlink{Cygwin configuration and compilation}{Cygwin
 configuration and compilation}, but do neither call make nor do tests,
 just do configuration steps. This will create headers files accordingly
 to your configuration parameters, and the desired CAN hardware.
@@ -675,7 +645,7 @@ Build CanFestival{}-3 project first.
 
 \paragraph{PcanLight and the can\_peak\_win32 project.}
 Chosen Pcan\_xxx.lib and eventually Pcan\_2xxx.lib files must be added
-to can\_peak\_win32 \ \ project before build of the DLL.
+to can\_peak\_win32 \space \space project before build of the DLL.
 
 \subsubsection{Testing}
 Copy eventually needed dlls (ie : Pcan\_Nxxx.lib) into Release or Debug
@@ -690,7 +660,7 @@ Elektronikladen HCS12 T{}-board.
 
 Beware that there are a few differences in the MSCAN module of the
 68HC12 and HCS12 microcontroller. For a HC12, you must adapt the driver
-that we provide for \ the HCS12.
+that we provide for \space the HCS12.
 
 For the difference MSCAN HC12/HCS12, see the Motorola application note
 AN2011/D.
@@ -707,7 +677,7 @@ you need :
 \begin{enumerate}
 \item The compiler GNU gcc for HC11, HC12, HCS12 : m6811{}-elf. \newline
 Download the \textbf{release 3.1} at :
-\ \href{http://m68hc11.serveftp.org/m68hc11_pkg_rpm.php}{http://m68hc11.serveftp.org/m68hc11\_pkg\_rpm.php}
+\space \href{http://m68hc11.serveftp.org/m68hc11_pkg_rpm.php}{http://m68hc11.serveftp.org/m68hc11\_pkg\_rpm.php}
 
 \item A board with this chip. We are using the T{}-board from
 Electronikladden. 
@@ -750,90 +720,90 @@ example for your own developments.
 
 \subsection{TestMasterSlave}
 {\ttfamily
-**************************************************************}
+**************************************************************\space}
 
 {\ttfamily
-* \ TestMasterSlave
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-*
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ A simple example for PC. It does implement 2 CanOpen \ \ \ \ \ *}
-
-{\ttfamily
-* \ nodes in the same process. A master and a slave. Both \ \ \ \ *}
-
-{\ttfamily
-* \ communicate together, exchanging periodically NMT, SYNC, \ *}
-
-{\ttfamily
-* \ SDO and PDO. Master configure heartbeat producer time \ \ \ \ *}
-
-{\ttfamily
-* \ at 1000 ms for slave node{}-id 0x02 by concise DCF.
-\ \ \ \ \ \ \ \ *}
+* \space TestMasterSlave
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ Usage:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space A simple example for PC. It does implement 2 CanOpen \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ ./TestMasterSlave \ [OPTIONS]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space nodes in the same process. A master and a slave. Both \space \space \space \space *}
+
+{\ttfamily
+* \space communicate together, exchanging periodically NMT, SYNC, \space *}
+
+{\ttfamily
+* \space SDO and PDO. Master configure heartbeat producer time \space \space \space \space *}
+
+{\ttfamily
+* \space at 1000 ms for slave node{}-id 0x02 by concise DCF.
+\space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ OPTIONS:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space Usage:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ \ {}-l : Can library
+* \space \space ./TestMasterSlave \space [OPTIONS]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+*
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space OPTIONS:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-l : Can library
 [{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
-\ \ \ \ *}
+\space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ Slave:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space \space Slave:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ \ {}-s : bus name [{\textquotedbl}0{\textquotedbl}]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space \space \space {}-s : bus name [{\textquotedbl}0{\textquotedbl}]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ \ {}-S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \ *}
-
-{\ttfamily
-*
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ Master:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ \ {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ \ {}-M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \ *}
+* \space \space \space \space {}-S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space Master:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \space *}
+
+{\ttfamily
+*
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 **************************************************************}
@@ -848,7 +818,7 @@ Notes for Concise DCF :}
 \bigskip
 
 {\sffamily
- In this example, Master configure \ heartbeat producer time at 1000 ms
+ In this example, Master configure \space heartbeat producer time at 1000 ms
 for slave node{}-id 0x02 by concise DCF according DS{}-302 profile. }
 
 {\sffamily
@@ -866,34 +836,29 @@ configuration belongs. }
 {\sffamily
  To add more parameters configurations to the slave, the value at
 sub{}-index 0x02 must be a binary stream (little{}-endian) following
-this structure :}
-
-{\sffamily
-    }
-
-{\sffamily
-[ nb of entries / index parameter 1 / sub{}-index parameter 1 \ / size
-data parameter 1 \ / data parameter 1 / index parameter n / ...]}
-
-{\sffamily
-\ \ \ \ \ \ (UNS32) \ \ \ \ \ \ \ \ \ \ \ \ (UNS16)  (UNS8)  
-\ \ \ \ \ \ \ \ \ \ \ (UNS32)   \ \ \ (DOMAIN)}
-
-{\sffamily
- }
+this structure :\newline
+\{
+(UNS32) nb of entries\newline
+(UNS16) index parameter 1\newline
+(UNS8) sub{}-index parameter 1\newline
+(UNS32) size data parameter 1\newline
+(DOMAIN) data parameter 1\newline
+(UNS16) index parameter 2\newline
+(UNS8) sub{}-index parameter 2\newline
+(UNS32) size data parameter 2\newline
+(DOMAIN) data parameter 2\newline
+\space \space \space \space \space ....\newline
+(UNS16) index parameter n\newline
+(UNS8) sub{}-index parameter n\newline
+(UNS32) size data parameter n\newline
+(DOMAIN) data parameter n\newline
+\}
+}
 
 {\sffamily
  So the binary value stream to configure heartbeat producer time must be
-: }
-
-
-\bigskip
-
-{\sffamily
+:\newline
     0100000017100002000000e803}
-
-
-\bigskip
 
 {\sffamily
 The slave node is configured just before the Master entering in
@@ -911,112 +876,112 @@ demonstrate implementation on HCS12 based board.
 **************************************************************}
 
 {\ttfamily
-* \ TestMasterMicroMod
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space TestMasterMicroMod
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ A simple example for PC.
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space A simple example for PC.
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ A CanOpen master that control a MicroMod module:
-\ \ \ \ \ \ \ \ \ *}
+* \space A CanOpen master that control a MicroMod module:
+\space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- setup module TPDO 1 transmit type
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- setup module TPDO 1 transmit type
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- setup module RPDO 1 transmit type
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- setup module RPDO 1 transmit type
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- setup module hearbeatbeat period
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- setup module hearbeatbeat period
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- disable others TPDOs
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- disable others TPDOs
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- set state to operational
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- set state to operational
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- send periodic SYNC
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- send periodic SYNC
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- send periodic RPDO 1 to Micromod (digital output) \ \ \ \ \ \ *}
+* \space {}- send periodic RPDO 1 to Micromod (digital output) \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- listen Micromod{\textquotesingle}s TPDO 1 (digital input)
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- listen Micromod{\textquotesingle}s TPDO 1 (digital input)
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ {}- Mapping RPDO 1 bit per bit (digital input)
-\ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-*
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ Usage:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ ./TestMasterMicroMod \ [OPTIONS]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space {}- Mapping RPDO 1 bit per bit (digital input)
+\space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ OPTIONS:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space Usage:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ \ {}-l : Can library
+* \space \space ./TestMasterMicroMod \space [OPTIONS]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+*
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space OPTIONS:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-l : Can library
 [{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
-\ \ \ \ *}
+\space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ Slave:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space \space Slave:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \ \ \ \ {}-i : Slave Node id format [0x01 , 0x7F]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-*
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ Master:
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ \ {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
-
-{\ttfamily
-* \ \ \ \ {}-M : 1M,500K,250K,125K,100K,50K,20K,10K
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+* \space \space \space \space {}-i : Slave Node id format [0x01 , 0x7F]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 *
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *}
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space Master:
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+* \space \space \space \space {}-M : 1M,500K,250K,125K,100K,50K,20K,10K
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+
+{\ttfamily
+*
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
 **************************************************************}
@@ -1096,7 +1061,7 @@ selected index in that dictionary, and bottom right list are edited
 sub{}-indexes.
 
  \begin{center}
-   \includegraphics[width=14cm]{Pictures/10000201000003E7000001C7B0296577.png}
+   \includegraphics[width=12cm]{Pictures/10000201000003E7000001C7B0296577.png}
 \end{center}
 
  \begin{center}
@@ -1154,7 +1119,7 @@ variables.\newline
 \subsubsection{Integrated help}
 Using F1 key, you can get context sensitive help.\newline
  \begin{center}
-   \includegraphics[width=15cm]{Pictures/10000201000002F30000020B23ED7F67.png}
+   \includegraphics[width=12cm]{Pictures/10000201000002F30000020B23ED7F67.png}
 \end{center}
 
 In order to do that, official 301\_v04000201.pdf file must be placed
@@ -1162,7 +1127,7 @@ into doc/ directory, and xpdf must be present on your system.
 
 F2 key open HTML CanFestival help.\newline
  \begin{center}
-   \includegraphics[width=15cm]{Pictures/10000201000003440000025ACC3FD2F1.png}
+   \includegraphics[width=12cm]{Pictures/10000201000003440000025ACC3FD2F1.png}
 \end{center}
 
 \subsection{Generating the object Dictionary}
@@ -1235,7 +1200,7 @@ Compatibility:
 \liststyleLxi
 \begin{enumerate}
 \item Code was compiled MS VisualStudio 2003.NET and VisualStudio
-2005.NET for WindowsXP \ with ANSI and UNICODE configurations and for
+2005.NET for WindowsXP \space with ANSI and UNICODE configurations and for
 WindowsCE 5.0. 
 \item Some preliminary testing was done, but not enough to be used in
 mission critical projects.
@@ -1291,13 +1256,13 @@ Philippe Foureys. :
 {\ttfamily
  void unlock (void)\newline
  \{\newline
-  \ \_\_asm\_\_
+  \space \_\_asm\_\_
 \_\_volatile\_\_({\textquotedbl}cli{\textquotedbl});\newline
  \}\newline
  void lock (void)\newline
  \{\newline
-  \ unsigned short mask;\newline
-  \ \_\_asm\_\_
+  \space unsigned short mask;\newline
+  \space \_\_asm\_\_
 \_\_volatile\_\_({\textquotedbl}tpa{\textbackslash}n{\textbackslash}tsei{\textquotedbl}:{\textquotedbl}=d{\textquotedbl}(mask));\newline
  \}}
 
@@ -1305,14 +1270,14 @@ Philippe Foureys. :
 {\ttfamily
 void unlock (void)\newline
  \{\newline
-  \ \_\_asm({\textquotedbl}cli{\textquotedbl});\newline
+  \space \_\_asm({\textquotedbl}cli{\textquotedbl});\newline
  \}\newline
  void lock (void)\newline
  \{\newline
-  \ unsigned short mask;\newline
-  \ \_\_asm\newline
+  \space unsigned short mask;\newline
+  \space \_\_asm\newline
   \{\newline
-  \ tpa:tsei:{\textquotedbl}=d{\textquotedbl}(mask);\newline
+  \space tpa:tsei:{\textquotedbl}=d{\textquotedbl}(mask);\newline
   \}\newline
  \}}
 
@@ -1320,360 +1285,99 @@ void unlock (void)\newline
 \subparagraph{Code for GCC}
 {\ttfamily
 void initCanHCS12 (void)\newline
- \{ \ \newline
-  \ //Init the HCS12 microcontroler for CanOpen \newline
-  \ initHCS12();\newline
-  \ \ // Init the HCS12 \ CAN driver\newline
-  \ const canBusInit bi0 = \{\newline
-  \ \ \ 0, \ \ \ /* no low power \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */
+ \{ \space \newline
+  \space //Init the HCS12 microcontroler for CanOpen \newline
+  \space initHCS12();\newline
+  \space \space // Init the HCS12 \space CAN driver\newline
+  \space const canBusInit bi0 = \{\newline
+  \space \space \space 0, \space \space \space /* no low power \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */
 \newline
-  \ \ \ 0, \ \ \ /* no time stamp
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 1, \ \ \ /* enable MSCAN
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* clock source : oscillator (In fact, it is not used)
-\ \ */\newline
-  \ \ \ 0, \ \ \ /* no loop back
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* no listen only
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* no low pass filter for wk up */\newline
-  \ CAN\_Baudrates[CAN\_BAUDRATE\_250K],\newline
-  \ \ \ \{\newline
-  \ \ \ \ \ 0x00, \ \ \ /* Filter on 16 bits.\newline
-  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ See Motorola Block Guide V02.14 fig
+  \space \space \space 0, \space \space \space /* no time stamp
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 1, \space \space \space /* enable MSCAN
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* clock source : oscillator (In fact, it is not used)
+\space \space */\newline
+  \space \space \space 0, \space \space \space /* no loop back
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* no listen only
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* no low pass filter for wk up */\newline
+  \space CAN\_Baudrates[CAN\_BAUDRATE\_250K],\newline
+  \space \space \space \{\newline
+  \space \space \space \space \space 0x00, \space \space \space /* Filter on 16 bits.\newline
+  \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space See Motorola Block Guide V02.14 fig
 4{}-3 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 0 hight accept all msg
-\ \ \ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 0 low accept all msg
-\ \ \ \ \ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 1 hight filter all of \ msg
-\ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 1 low filter all of \ msg
-\ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 2 hight filter most of \ msg
+  \space \space \space \space \space 0x00, 0xFF, /* filter 0 hight accept all msg
+\space \space \space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 0 low accept all msg
+\space \space \space \space \space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 1 hight filter all of \space msg
+\space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 1 low filter all of \space msg
+\space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 2 hight filter most of \space msg
 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 2 low filter most of \ msg
-\ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 3 hight filter most of \ msg
+  \space \space \space \space \space 0x00, 0xFF, /* filter 2 low filter most of \space msg
+\space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 3 hight filter most of \space msg
 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 3 low filter most of \ msg
-\ \ */\newline
-  \ \ \ \}\newline
-  \ \};}
+  \space \space \space \space \space 0x00, 0xFF, /* filter 3 low filter most of \space msg
+\space \space */\newline
+  \space \space \space \}\newline
+  \space \};}
 
 \subparagraph{Code for CodeWarrior}
 {\ttfamily
 void initCanHCS12 (void)\newline
- \{ \ \newline
-  \ //Init the HCS12 microcontroler for CanOpen \newline
-  \ initHCS12();\newline
-  \ \ // Init the HCS12 \ CAN driver\newline
-  \ const canBusInit bi0 = \{\newline
-  \ \ \ 0, \ \ \ /* no low power \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */
+ \{ \space \newline
+  \space //Init the HCS12 microcontroler for CanOpen \newline
+  \space initHCS12();\newline
+  \space \space // Init the HCS12 \space CAN driver\newline
+  \space const canBusInit bi0 = \{\newline
+  \space \space \space 0, \space \space \space /* no low power \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */
 \newline
-  \ \ \ 0, \ \ \ /* no time stamp
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 1, \ \ \ /* enable MSCAN
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* clock source : oscillator (In fact, it is not used)
-\ \ */\newline
-  \ \ \ 0, \ \ \ /* no loop back
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* no listen only
-\ \ \ \ \ \ \ \ \ \ \ \ \ \ */\newline
-  \ \ \ 0, \ \ \ /* no low pass filter for wk up */\newline
-  \ \ \ \{\newline
-  \ \ \ \ 1, /* clksrc */\newline
-  \ \ \ \ 3, /* brp \ \ \ */\newline
-  \ \ \ \ 0, /* sjw \ \ \ */\newline
-  \ \ \ \ 0, /* samp \ \ */\newline
-  \ \ \ \ 1, /* tseg2 \ */\newline
-  \ \ \ \ 12,/* tseg1 \ */\newline
-  \ \ \ \},\newline
-  \ \ \ \{\newline
-  \ \ \ \ \ 0x00, \ \ \ /* Filter on 16 bits.\newline
-  \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ See Motorola Block Guide V02.14 fig
+  \space \space \space 0, \space \space \space /* no time stamp
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 1, \space \space \space /* enable MSCAN
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* clock source : oscillator (In fact, it is not used)
+\space \space */\newline
+  \space \space \space 0, \space \space \space /* no loop back
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* no listen only
+\space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
+  \space \space \space 0, \space \space \space /* no low pass filter for wk up */\newline
+  \space \space \space \{\newline
+  \space \space \space \space 1, /* clksrc */\newline
+  \space \space \space \space 3, /* brp \space \space \space */\newline
+  \space \space \space \space 0, /* sjw \space \space \space */\newline
+  \space \space \space \space 0, /* samp \space \space */\newline
+  \space \space \space \space 1, /* tseg2 \space */\newline
+  \space \space \space \space 12,/* tseg1 \space */\newline
+  \space \space \space \},\newline
+  \space \space \space \{\newline
+  \space \space \space \space \space 0x00, \space \space \space /* Filter on 16 bits.\newline
+  \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space See Motorola Block Guide V02.14 fig
 4{}-3 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 0 hight accept all msg
-\ \ \ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 0 low accept all msg
-\ \ \ \ \ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 1 hight filter all of \ msg
-\ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 1 low filter all of \ msg
-\ \ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 2 hight filter most of \ msg
+  \space \space \space \space \space 0x00, 0xFF, /* filter 0 hight accept all msg
+\space \space \space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 0 low accept all msg
+\space \space \space \space \space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 1 hight filter all of \space msg
+\space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 1 low filter all of \space msg
+\space \space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 2 hight filter most of \space msg
 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 2 low filter most of \ msg
-\ \ */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 3 hight filter most of \ msg
+  \space \space \space \space \space 0x00, 0xFF, /* filter 2 low filter most of \space msg
+\space \space */\newline
+  \space \space \space \space \space 0x00, 0xFF, /* filter 3 hight filter most of \space msg
 */\newline
-  \ \ \ \ \ 0x00, 0xFF, /* filter 3 low filter most of \ msg
-\ \ */\newline
-  \ \ \ \}\newline
-  \ \};}
-
-\subsubsection{Who to use warnings and errors messages ?}
-\paragraph{Warnings messages}
-\begin{longtable}[c]{|p{0.8476598in}|p{0.7761598in}|p{1.0268599in}|p{-0.026640158in}|p{1.0386599in}|p{1.2247599in}|p{1.1761599in}|}
-\hline
-{\bfseries
-DEBUG\_WAR\_CONSOLE \_ON}
-&
-{\bfseries
-DEBUG \_CAN}
-&
-{\bfseries
-PrintMsg{}-WarTo{}-Console}
-&
-
-\bigskip
-&
-{\bfseries
-Printing long message on console }
-&
-\textbf{Printing short message on console.} (number and value only) 
-&
-\textbf{Sending number and value in a PDO}., only if the node is a
-slave, in operational state. 
-\\\hline
-\endhead
-DEF
-&
-DEF
-&
-1
-&
-
-\bigskip
-&
-
-\bigskip
-&
-yes
-&
-
-\bigskip
-\\\hline
-DEF
-&
-DEF
-&
-0
-&
-
-\bigskip
-&
-yes
-&
-
-\bigskip
-&
-
-\bigskip
-\\\hline
-DEF
-&
-UNDEF
-&
-1
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-\\\hline
-DEF
-&
-UNDEF
-&
-0
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-\\\hline
-UNDEF
-&
-X
-&
-X
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-\\\hline
-\end{longtable}
-
-\bigskip
-
-\paragraph{Errors messages}
-\begin{longtable}[c]{|p{0.8476598in}|p{0.7351598in}|p{0.6511598in}|p{0.7865598in}|p{-0.026640158in}|p{0.8087598in}|p{0.9955599in}|p{1.1858599in}|}
-\hline
-{\bfseries
-DEBUG\_ERR\_CONSOLE \_ON}
-&
-{\bfseries
-DEBUG \_CAN}
-&
-{\bfseries
-PDO \_ERROR }
-&
-{\bfseries
-PrintMsg{}-ErrTo{}-Console}
-&
-
-\bigskip
-&
-{\bfseries
-Printing long message on console}
-&
-\textbf{Printing short message on console.} (number and value only) 
-&
-\textbf{Sending number and value in a PDO}., only if the node is a
-slave, in operational state. 
-\\\hline
-\endhead
-DEF
-&
-DEF
-&
-X
-&
-1
-&
-
-\bigskip
-&
-
-\bigskip
-&
-yes
-&
-yes
-\\\hline
-DEF
-&
-DEF
-&
-X
-&
-0
-&
-
-\bigskip
-&
-yes
-&
-
-\bigskip
-&
-yes
-\\\hline
-DEF
-&
-UNDEF
-&
-X
-&
-1
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-yes
-\\\hline
-DEF
-&
-UNDEF
-&
-X
-&
-0
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-yes
-\\\hline
-UNDEF
-&
-X
-&
-DEF
-&
-X
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-yes
-\\\hline
-UNDEF
-&
-X
-&
-UNDEF
-&
-X
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-&
-
-\bigskip
-\\\hline
-\end{longtable}
-
-\bigskip
+  \space \space \space \space \space 0x00, 0xFF, /* filter 3 low filter most of \space msg
+\space \space */\newline
+  \space \space \space \}\newline
+  \space \};}
 
 \subsubsection{Does the code works in banked memory ?}
 No. Today it seems that the port of gcc is bogged for using the banked
@@ -1688,28 +1392,27 @@ We are using the stable RPM release 2.2 :
 \item Newlib 1.10.0 Build 20030421
 \item GNU Binutils 2.12.1 Build 20030427
 \end{enumerate}
-\section{Documentation resources}
-\paragraph{CIA : Can in Automation}
-Many documentation on CANopen.
-
+\section{Documentation resources\newline}
+\paragraph{CIA : Can in Automation\newline}
+Many documentation on CANopen.\newline
 \href{http://www.can-cia.de/}{http://www.can{}-cia.de}
 
-\paragraph{Resources and training in CANopen}
+\paragraph{Resources and training in CANopen\newline}
 \href{http://www.esacademy.com/}{http://www.esacademy.com}
 
-\paragraph{Elektronikladen HCS12 T{}-board}
+\paragraph{Elektronikladen HCS12 T{}-board\newline}
 \href{http://www.elektronikladen.de/en_hcs12tb.html}{http://www.elektronikladen.de/en\_hcs12tb.html}
 
-\paragraph{Gnu gcc compiler for HC12}
+\paragraph{Gnu gcc compiler for HC12\newline}
 \href{http://m68hc11.serveftp.org/m68hc11_port.php}{http://m68hc11.serveftp.org/m68hc11\_port.php}
 
-\paragraph{Motorola documentation on HC12}
+\paragraph{Motorola documentation on HC12\newline}
 \href{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MC9S12DP256}{http://www.freescale.com/webapp/sps/site/prod\_summary.jsp?code=MC9S12DP256}
 
-\paragraph{Lauterbach debugger for HC12}
+\paragraph{Lauterbach debugger for HC12\newline}
 \href{http://www.lauterbach.com/}{http://www.lauterbach.com}
 
-\paragraph{Python language}
+\paragraph{Python language\newline}
 \href{http://www.python.org/}{http://www.python.org}
 
 \clearpage\section{About the project}
@@ -1778,7 +1481,7 @@ Many thanks to the other contributors for their great work:
 Send your feedback and bug reports to
 \href{mailto:canfestival-devel@lists.sourceforge.net}{canfestival{}-devel@lists.sourceforge.net}.
 
-For commercial support, \ training and specific integration and
+For commercial support, \space training and specific integration and
 developments, please ask LOLITECH (see contributors).
 
 \subsection{Contributing}
@@ -1815,7 +1518,7 @@ Stack. \newline
 \newline
 \#but WITHOUT ANY WARRANTY; without even the implied warranty of
 \newline
-\#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \ See the GNU
+\#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \space See the GNU
 \newline
 \#Lesser General Public License for more details. \newline
 \# \newline
@@ -1824,8 +1527,9 @@ Stack. \newline
 \#License along with this library; if not, write to the Free Software
 \newline
 \#Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-\ 02111{}-1307 \ USA }
+\space 02111{}-1307 \space USA }
 
 
 \bigskip
+
 \end{document}

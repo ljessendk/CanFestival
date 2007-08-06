@@ -34,5 +34,5 @@ manual: clean
 	pdflatex manual.tex && \
 	pdflatex manual.tex && \
 	cp manual.pdf ../../../objdictgen/doc/manual_en.pdf && \
-	latex2html -dir html manual.tex && \
+	latex2html -split 0 -dir html manual.tex && \
 	xpdf manual.pdf
