@@ -120,9 +120,10 @@ UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex )
       pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
 
       MSG_WAR(0x3930, "sendPDOrequest cobId is : ",*pwCobId);
-
+      {
       Message pdo = {*pwCobId, REQUEST, 0};
       return canSend(d->canHandle,&pdo);
+      }
     }
   }
   MSG_ERR(0x1931, "sendPDOrequest : RPDO Index not found : ", RPDOIndex);
@@ -475,7 +476,10 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
         /*Reset count of SYNC*/	
 	d->PDO_status[pdoNum].transmit_type_parameter = 0;
 	MSG_WAR(0x3964, "  PDO is on SYNCHRO. Trans type : ", *pTransmissionType);
-	pdo = (Message)Message_Initializer;
+ {
+ Message msg_init = Message_Initializer;
+ pdo = msg_init;
+ }	
         if(buildPDO(d, pdoNum, &pdo))
         {
             MSG_ERR(0x1906, " Couldn't build TPDO number : ", pdoNum);
@@ -500,7 +504,10 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
                *pTransmissionType == TRANS_EVENT_SPECIFIC )&&
               !(d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED)) {
 	MSG_WAR(0x3968, "  PDO is on EVENT. Trans type : ", *pTransmissionType);
-	pdo = (Message)Message_Initializer;
+ {
+ Message msg_init = Message_Initializer;
+ pdo = msg_init;
+ }	
         if(buildPDO(d, pdoNum, &pdo))
         {
             MSG_ERR(0x3907, " Couldn't build TPDO number : ", pdoNum);

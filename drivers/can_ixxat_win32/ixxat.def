@@ -1,0 +1,7 @@
+LIBRARY	IXXAT
+
+EXPORTS
+   canReceive_driver
+   canSend_driver
+   canOpen_driver
+   canClose_driver

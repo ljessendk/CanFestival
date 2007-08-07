@@ -1,17 +1,30 @@
-; CanFestival-3.def : Declares the module parameters.
+; CanFestival-3.def : Declares DLL exports.
 
 LIBRARY      "CanFestival-3.DLL"
 
 EXPORTS
+
+        ; dsf.h
+        decompo_dcf
+
+        ; lifegrd.h
+        _heartbeatError
         getNodeState
         heartbeatInit
         heartbeatStop
         proceedNODE_GUARD
+        
+        ; nmtMaster.h
         masterSendNMTstateChange
         masterSendNMTnodeguard
         masterRequestNodeState
+        
+        ; nmtSlave.h
         proceedNMTstateChange
         slaveSendBootUp
+        
+        ; objacces.h
+        _storeODSubIndex
         accessDictionaryError
         getODentry
         setODentry
@@ -19,18 +32,27 @@ EXPORTS
         readLocalDict
         scanIndexOD
         RegisterSetODentryCallBack
-        sendPDO
-        PDOmGR
-;        buildPDO
+        
+        ; pdo.h
+        buildPDO
         sendPDOrequest
         proceedPDO
-;        sendPDOevent
+        sendPDOevent
+        _sendPDOevent
+		PDOInit
+		PDOStop
+		PDOEventTimerAlarm
+		PDOInhibitTimerAlarm
+		CopyBits
+
+        ; sdo.h
+        SDOTimeoutAlarm
+        resetSDO
         SDOlineToObjdict
         objdictToSDOline
         lineToSDO
         SDOtoLine
         failedSDO
-        resetSDO
         resetSDOline
         initSDOline
         getSDOfreeLine
@@ -42,38 +64,47 @@ EXPORTS
         sendSDOabort
         proceedSDO
         writeNetworkDict
+        writeNetworkDictCallBack
         readNetworkDict
         readNetworkDictCallback
         getReadResultNetworkDict
         getWriteResultNetworkDict
+        
+        ; states.h
+        _operational
+        _preOperational
+        _initialisation
+        _stopped
         canDispatch
         getState
         setState
         getNodeId
         setNodeId
-;        initPreOperationalMode
+        ;initPreOperationalMode
+
+        ; sync.h
+        startSYNC
+        stopSYNC
+        _post_sync
+        _post_TPDO
         sendSYNC
         proceedSYNC
+        
+        
+        ; timer.h
         SetAlarm
         DelAlarm
         TimeDispatch
         setTimer
         getElapsedTime
+        
+        ; timers_driver.h
         StartTimerLoop
         StopTimerLoop
         CreateReceiveTask
-        LoadCanDriver
-        canSend
-        canReceive
-        canOpen
-        canClose
-        _post_TPDO
-        _post_sync
-        _heartbeatError
-        _stopped
-        _operational
-        _preOperational
-        _initialisation
-        writeNetworkDictCallBack
-        _storeODSubIndex
-        decompo_dcf
+        
+        ; win32/canfestival.h
+		LoadCanDriver
+		canSend
+		canOpen
+		canClose
