@@ -109,7 +109,7 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
       {
         /* pointer to the DCF string for NodeID */
         target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
-        target_Subindex = *((UNS8*)(((UNS8*)d->dcf_cursor)++));
+        target_Subindex = *((UNS8*)((UNS8*)d->dcf_cursor++));
         target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
 
         /* printf("Master : ConfigureSlaveNode %2.2x (Concise

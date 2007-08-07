@@ -20,9 +20,12 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
 #ifndef __data_h__
 #define __data_h__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /* declaration of CO_Data type let us include all necessary headers
  struct struct_CO_Data can then be defined later
@@ -173,6 +176,10 @@ struct struct_CO_Data {
 	NULL,		/*dcf_cursor*/\
 	1		/*dcf_count_targets*/\
 }
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif /* __data_h__ */
 
