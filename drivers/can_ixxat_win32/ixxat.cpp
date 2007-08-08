@@ -1,5 +1,39 @@
+/*
+This file is part of CanFestival, a library implementing CanOpen Stack.
+
+CanFestival Copyright (C): Edouard TISSERANT and Francis DUPIN
+CanFestival Win32 port Copyright (C) 2007 Leonid Tochinski, ChattenAssociates, Inc.
+
+See COPYING file for copyrights details.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+// pragma based message
+// http://www.codeproject.com/macro/location_pragma.asp
+#define __STR2__(x) #x
+#define __STR1__(x) __STR2__(x)
+#define __LOC2__ __FILE__ "("__STR1__(__LINE__)") : "
+
+
+#pragma message("*********************************************************************************")
+#pragma message("  NOTE: IXXAT Win32 drivers and API should be installed in order to build this project!")
+#pragma message(__LOC2__ "See IXXAT.Cpp header for details.")
+#pragma message("*********************************************************************************")
+
+
 // IXXAT adapter driver for CanFestival-3 Win32 port
-// Copyright (C) 2007 Leonid Tochinski, ChattenAssociates, Inc.
 //
 // Notes
 //--------------------------------------------
@@ -12,6 +46,7 @@
 // http://www.ixxat.com/download_vci_en,7547,5873.html
 //
 // Copy Vci2.h & Vci11un6.lib files to can_ixxat_win32 folder of add path to them in Project settings.
+
 
 #include <stdio.h>
 extern "C" {

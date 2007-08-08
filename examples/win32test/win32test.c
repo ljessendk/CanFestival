@@ -93,13 +93,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 win32test_highestSubIndex_obj1280 = 3; /* number of subindex - 1*/
                     UNS32 win32test_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x0;	/* 0 */
                     UNS32 win32test_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x0;	/* 0 */
-                    UNS32 win32test_obj1280_Node_ID_of_the_SDO_Server = 0x0;	/* 0 */
+                    INTEGER32 win32test_obj1280_Node_ID_of_the_SDO_Server = 0x0;	/* 0 */
                     subindex win32test_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&win32test_highestSubIndex_obj1280 },
                        { RW, uint32, sizeof (UNS32), (void*)&win32test_obj1280_COB_ID_Client_to_Server_Transmit_SDO },
                        { RW, uint32, sizeof (UNS32), (void*)&win32test_obj1280_COB_ID_Server_to_Client_Receive_SDO },
-                       { RW, uint32, sizeof (UNS32), (void*)&win32test_obj1280_Node_ID_of_the_SDO_Server }
+                       { RW, int32, sizeof (INTEGER32), (void*)&win32test_obj1280_Node_ID_of_the_SDO_Server }
                      };
 
 const indextable win32test_objdict[] = 
@@ -129,11 +129,12 @@ const indextable * win32test_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
 	return &win32test_objdict[i];
 }
 
-/* To count at which received SYNC a PDO must be sent.
+/* 
+ * To count at which received SYNC a PDO must be sent.
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-UNS8 win32test_count_sync[1] = {0,};
+s_PDO_status win32test_PDO_status[1] = {s_PDO_staus_Initializer};
 
 quick_index win32test_firstIndex = {
   0, /* SDO_SVR */
