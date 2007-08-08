@@ -21,7 +21,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
-all: objdictgen canfestival examples
+all: objdictedit canfestival examples
 
 examples: canfestival driver
 	$(MAKE) -C examples all
@@ -32,7 +32,7 @@ documentation:
 manual:
 	$(MAKE) -C doc/manual
 
-objdictgen:
+objdictedit:
 	$(MAKE) -C objdictgen all
 
 canfestival: driver

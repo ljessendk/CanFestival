@@ -21,10 +21,6 @@
 #License along with this library; if not, write to the Free Software
 #Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-from gnosis.xml.pickle import *
-from gnosis.xml.pickle.util import setParanoia
-setParanoia(0)
-
 from node import *
 import eds_utils
 import os, shutil
