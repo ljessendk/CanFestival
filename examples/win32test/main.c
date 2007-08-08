@@ -31,12 +31,13 @@ performs SDO reads and prints some slave node information.
 
 Usage:
 
-    win32test <node_id>
+   win32test <node_id> [can driver dll filename [baud rate]]
 
-  where node_id is node ID in decimal format
+ where node_id is node_id in decimal format
 
-You should have CanFestival-3.dll CAN-uVCCM.dll in the search path to run this sample.
-Code will work with non-UNICODE CanFestival-3.dll CAN-uVCCM.dll libraries.
+If driver is not specified, CAN-uVCCM.dll will be used by default.
+If baudrate is not specified, 125K will be used by default.
+You should have CanFestival-3.dll can driver dll in the search path to run this sample.
 
 Sample can work on other platdorms as well.
 ***************************************************************************/
@@ -106,7 +107,7 @@ int main(int argc, char *argv[])
    /* process command line arguments */
    if (argc < 2)
       {
-      printf("USAGE: win32test node_id [dll_file_name]\n");
+      printf("USAGE: win32test <node_id> [can driver dll filename [baud rate]]\n");
       return 1;
       }
 
@@ -117,10 +118,13 @@ int main(int argc, char *argv[])
       return 1;
       }
 
-      if (argc > 2)
-		dll_file_name = argv[2];
-	  else
-		dll_file_name = "can_uvccm_win32.dll";
+   if (argc > 2)
+      dll_file_name = argv[2];
+   else
+      dll_file_name = "can_uvccm_win32.dll";
+
+   if (argc > 3)
+      MasterBoard.baudrate = argv[3];
 
    // load can driver
    if (!LoadCanDriver(dll_file_name))
