@@ -334,11 +334,9 @@ class NodeManager:
     number of subentry (except 0) doesn't exceed nbmax defined
     """
     def AddSubentriesToCurrent(self, index, number, node = None):
+        disable_buffer = node != None
         if node == None:
-            disable_buffer = True
-            node = self.CurrentNode  
-        else:
-            disable_buffer = False
+            node = self.CurrentNode
         # Informations about entry
         length = node.GetEntry(index, 0)
         infos = node.GetEntryInfos(index)
@@ -449,11 +447,9 @@ class NodeManager:
     Add entries specified in addinglist and remove entries specified in removinglist
     """
     def ManageEntriesOfCurrent(self, addinglist, removinglist, node = None):
+        disable_buffer = node != None
         if node == None:
-            disable_buffer = True
             node = self.CurrentNode
-        else:
-            disable_buffer = False
         # Add all the entries in addinglist
         for index in addinglist:
             infos = self.GetEntryInfos(index)
@@ -546,11 +542,9 @@ class NodeManager:
 
     def AddMapVariableToCurrent(self, index, name, struct, number, node = None):
         if 0x2000 <= index <= 0x5FFF:
+            disable_buffer = node != None
             if node == None:
-                disable_buffer = True
                 node = self.CurrentNode
-            else:
-                disable_buffer = False
             if not node.IsEntry(index):
                 node.AddMappingEntry(index, name = name, struct = struct)
                 if struct == var:
@@ -620,12 +614,9 @@ class NodeManager:
                 self.BufferCurrentNode()
 
     def SetCurrentEntry(self, index, subIndex, value, name, editor, node = None):
-        
+        disable_buffer = node != None
         if node == None:
-                disable_buffer = True
-                node = self.CurrentNode
-        else:
-            disable_buffer = False
+            node = self.CurrentNode
         if node and node.IsEntry(index):
             if name == "value":
                 if editor == "map":
