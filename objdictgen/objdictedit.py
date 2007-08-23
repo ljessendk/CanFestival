@@ -125,7 +125,7 @@ for o, a in opts:
         sys.exit()
 
 filesOpen = args
-ScriptDirectory = sys.path[0]
+ScriptDirectory = os.path.split(__file__)[0]
 
 
 [ID_OBJDICTEDIT, ID_OBJDICTEDITFILEOPENED, 
@@ -323,7 +323,7 @@ class objdictedit(wx.Frame):
         self.HtmlFrameOpened = []
         self.ModeSolo = True
         
-        self.Manager = NodeManager(ScriptDirectory)
+        self.Manager = NodeManager()
         for filepath in filesOpen:
             result = self.Manager.OpenFileInCurrent(filepath)
             if type(result) == IntType:
@@ -334,7 +334,7 @@ class objdictedit(wx.Frame):
             if window:
                 self.Manager.ChangeCurrentNode(window.GetIndex())
                 self.FileOpened.SetSelection(0)
-        if self.Manager.CurrentDS302Defined(): 
+        if self.Manager.CurrentDS302Defined():
             self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, True)
         else:
             self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, False)
@@ -522,7 +522,7 @@ class objdictedit(wx.Frame):
                 self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS8, True)
                 self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS9, True)
             else:
-                self.menuBar1.EnableTop(1, False)      
+                self.menuBar1.EnableTop(1, False)
                 self.menuBar1.EnableTop(2, False)
                 self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS1, False)
                 self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS2, False)
@@ -592,7 +592,7 @@ class objdictedit(wx.Frame):
 
     def OnNewMenu(self, event):
         self.FilePath = ""
-        dialog = CreateNodeDialog(self, ScriptDirectory)
+        dialog = CreateNodeDialog(self)
         if dialog.ShowModal() == wx.ID_OK:
             name, id, nodetype, description = dialog.GetValues()
             profile, filepath = dialog.GetProfile()

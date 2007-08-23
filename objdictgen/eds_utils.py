@@ -420,7 +420,10 @@ def GenerateFileContent(filepath):
     
     # Generate FileInfo section
     fileContent = "[FileInfo]\n"
-    fileContent += "CreatedBy=CANFestival\n"
+    fileContent += "FileName=%s\n"%os.path.split(filepath)[-1]
+    fileContent += "FileVersion=1\n"
+    fileContent += "FileRevision=1\n"
+    fileContent += "EDSVersion=4.0\n"
     fileContent += "Description=%s\n"%description
     fileContent += "CreationTime=%s"%strftime("%I:%M", current_time)
     # %p option of strftime seems not working, then generate AM/PM by hands
@@ -429,10 +432,15 @@ def GenerateFileContent(filepath):
     else:
         fileContent += "PM\n"
     fileContent += "CreationDate=%s\n"%strftime("%m-%d-%Y", current_time)
-    fileContent += "FileName=%s\n"%os.path.split(filepath)[-1]
-    fileContent += "FileVersion=1\n"
-    fileContent += "FileRevision=1\n"
-    fileContent += "EDSVersion=3.0\n"
+    fileContent += "CreatedBy=CANFestival\n"
+    fileContent += "ModificationTime=%s"%strftime("%I:%M", current_time)
+    # %p option of strftime seems not working, then generate AM/PM by hands
+    if strftime("%I", current_time) == strftime("%H", current_time):
+        fileContent += "AM\n"
+    else:
+        fileContent += "PM\n"
+    fileContent += "ModificationDate=%s\n"%strftime("%m-%d-%Y", current_time)
+    fileContent += "ModifiedBy=CANFestival\n"
     
     # Generate DeviceInfo section
     fileContent += "\n[DeviceInfo]\n"
@@ -556,7 +564,7 @@ def GenerateFileContent(filepath):
     fileContent += "\n[MandatoryObjects]\n"
     fileContent += "SupportedObjects=%d\n"%len(mandatories)
     for idx, entry in enumerate(mandatories):
-        fileContent += "%d=0x%4.4X\n"%(idx, entry)
+        fileContent += "%d=0x%4.4X\n"%(idx + 1, entry)
     # Write mandatory entries
     for entry in mandatories:
         fileContent += indexContents[entry]
@@ -565,7 +573,7 @@ def GenerateFileContent(filepath):
     fileContent += "\n[OptionalObjects]\n"
     fileContent += "SupportedObjects=%d\n"%len(optionals)
     for idx, entry in enumerate(optionals):
-        fileContent += "%d=0x%4.4X\n"%(idx, entry)
+        fileContent += "%d=0x%4.4X\n"%(idx + 1, entry)
     # Write optional entries
     for entry in optionals:
         fileContent += indexContents[entry]
@@ -574,7 +582,7 @@ def GenerateFileContent(filepath):
     fileContent += "\n[ManufacturerObjects]\n"
     fileContent += "SupportedObjects=%d\n"%len(manufacturers)
     for idx, entry in enumerate(manufacturers):
-        fileContent += "%d=0x%4.4X\n"%(idx, entry)
+        fileContent += "%d=0x%4.4X\n"%(idx + 1, entry)
     # Write manufacturer entries
     for entry in manufacturers:
         fileContent += indexContents[entry]
@@ -614,7 +622,7 @@ def GenerateCPJContent(nodelist):
     return fileContent
 
 # Function that generates Node from an EDS file
-def GenerateNode(filepath, cwd, nodeID = 0):
+def GenerateNode(filepath, nodeID = 0):
     global Node
     # Create a new node
     Node = node.Node(id = nodeID)
@@ -627,7 +635,7 @@ def GenerateNode(filepath, cwd, nodeID = 0):
         if ProfileNb not in [301, 302]:
             # Compile Profile name and path to .prf file
             ProfileName = "DS-%d"%ProfileNb
-            ProfilePath = os.path.join(cwd, "config/%s.prf"%ProfileName)
+            ProfilePath = os.path.join(os.path.split(__file__)[0], "config/%s.prf"%ProfileName)
             # Verify that profile is available
             if os.path.isfile(ProfilePath):
                 try:

@@ -107,7 +107,7 @@ MappingDictionary = {
     0x1003 : {"name" : "Pre-defined Error Field", "struct" : rec, "need" : False,  "values" :
                 [{"name" : "Number of Errors", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
-    0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : True, "callback" : True, "values" :
+    0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "SYNC COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1006 : {"name" : "Communication / Cycle Period", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "Communication Cycle Period", "type" : 0x07, "access" : 'rw', "pdo" : False}]},

@@ -25,6 +25,8 @@ import wx
 
 import os
 
+ScriptDirectory = os.path.split(__file__)[0]
+
 #-------------------------------------------------------------------------------
 #                          Editing Communication Dialog
 #-------------------------------------------------------------------------------
@@ -979,7 +981,7 @@ class CreateNodeDialog(wx.Dialog):
         
         self._init_sizers()
 
-    def __init__(self, parent, cwd):
+    def __init__(self, parent):
         self._init_ctrls(parent)
         
         self.NodeID.SetValue("0x00")
@@ -989,7 +991,7 @@ class CreateNodeDialog(wx.Dialog):
         self.Description.SetValue("")
         self.ListProfile = {"None" : ""}
         self.Profile.Append("None")
-        self.Directory = os.path.join(cwd, "config")
+        self.Directory = os.path.join(ScriptDirectory, "config")
         listfiles = os.listdir(self.Directory)
         listfiles.sort()
         for item in listfiles:

@@ -61,10 +61,7 @@ elif len(args) == 1:
 else:
     usage()
     sys.exit(2)
-ScriptDirectory = ""
-for path in sys.path:
-    if os.path.isfile(os.path.join(path, "networkedit.py")):
-        ScriptDirectory = path
+ScriptDirectory = os.path.split(__file__)[0]
 
 try:
     import wx.html
@@ -169,8 +166,6 @@ except:
 
 class networkedit(wx.Frame):
     def _init_coll_menuBar1_Menus(self, parent):
-        # generated method, don't edit
-
         if self.ModeSolo:
             parent.Append(menu=self.FileMenu, title='File')
         parent.Append(menu=self.NetworkMenu, title='Network')
@@ -179,8 +174,6 @@ class networkedit(wx.Frame):
         parent.Append(menu=self.HelpMenu, title='Help')
 
     def _init_coll_EditMenu_Items(self, parent):
-        # generated method, don't edit
-
         parent.Append(help='', id=ID_NETWORKEDITEDITMENUITEMS4,
               kind=wx.ITEM_NORMAL, text='Refresh\tCTRL+R')
         parent.AppendSeparator()
@@ -213,8 +206,6 @@ class networkedit(wx.Frame):
               id=ID_NETWORKEDITEDITMENUITEMS8)
 
     def _init_coll_HelpMenu_Items(self, parent):
-        # generated method, don't edit
-
         parent.Append(help='', id=ID_NETWORKEDITHELPMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
         self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu,
@@ -230,8 +221,6 @@ class networkedit(wx.Frame):
                   id=ID_NETWORKEDITHELPMENUITEMS2)
 
     def _init_coll_FileMenu_Items(self, parent):
-        # generated method, don't edit
-
         parent.Append(help='', id=ID_NETWORKEDITFILEMENUITEMS5,
               kind=wx.ITEM_NORMAL, text='New\tCTRL+N')
         parent.Append(help='', id=ID_NETWORKEDITFILEMENUITEMS0,
@@ -255,8 +244,6 @@ class networkedit(wx.Frame):
               id=ID_NETWORKEDITFILEMENUITEMS5)
     
     def _init_coll_NetworkMenu_Items(self, parent):
-        # generated method, don't edit
-
         parent.Append(help='', id=ID_NETWORKEDITNETWORKMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='Add Slave Node')
         parent.Append(help='', id=ID_NETWORKEDITNETWORKMENUITEMS1,
@@ -272,8 +259,6 @@ class networkedit(wx.Frame):
 ##              id=ID_NETWORKEDITNETWORKMENUITEMS3)
     
     def _init_coll_AddMenu_Items(self, parent):
-        # generated method, don't edit
-
         parent.Append(help='', id=ID_NETWORKEDITADDMENUITEMS0,
               kind=wx.ITEM_NORMAL, text='SDO Server')
         parent.Append(help='', id=ID_NETWORKEDITADDMENUITEMS1,
@@ -300,7 +285,6 @@ class networkedit(wx.Frame):
               id=ID_NETWORKEDITADDMENUITEMS5)
 
     def _init_coll_HelpBar_Fields(self, parent):
-        # generated method, don't edit
         parent.SetFieldsCount(3)
 
         parent.SetStatusText(number=0, text='')
@@ -310,7 +294,6 @@ class networkedit(wx.Frame):
         parent.SetStatusWidths([100, 110, -1])
 
     def _init_utils(self):
-        # generated method, don't edit
         self.menuBar1 = wx.MenuBar()
         self.menuBar1.SetEvtHandlerEnabled(True)
         
@@ -330,7 +313,6 @@ class networkedit(wx.Frame):
         self._init_coll_HelpMenu_Items(self.HelpMenu)
 
     def _init_ctrls(self, prnt):
-        # generated method, don't edit
         wx.Frame.__init__(self, id=ID_NETWORKEDIT, name='networkedit',
               parent=prnt, pos=wx.Point(149, 178), size=wx.Size(1000, 700),
               style=wx.DEFAULT_FRAME_STYLE, title='Networkedit')
@@ -358,7 +340,7 @@ class networkedit(wx.Frame):
         self.BusId = None
         
         if self.ModeSolo:
-            self.Manager = NodeManager(ScriptDirectory)
+            self.Manager = NodeManager()
             if projectOpen:
                 self.NodeList = NodeList(self.Manager)
                 result = self.NodeList.LoadProject(projectOpen)
@@ -460,7 +442,7 @@ class networkedit(wx.Frame):
             projectpath = dialog.GetPath()
             if os.path.isdir(projectpath) and len(os.listdir(projectpath)) == 0:
                 os.mkdir(os.path.join(projectpath, "eds"))
-                manager = NodeManager(ScriptDirectory)
+                manager = NodeManager()
                 nodelist = NodeList(manager)
                 result = nodelist.LoadProject(projectpath)
                 if not result:
@@ -488,7 +470,7 @@ class networkedit(wx.Frame):
         if dialog.ShowModal() == wx.ID_OK:
             projectpath = dialog.GetPath()
             if os.path.isdir(projectpath):
-                manager = NodeManager(ScriptDirectory)
+                manager = NodeManager()
                 nodelist = NodeList(manager)
                 result = nodelist.LoadProject(projectpath)
                 if not result:

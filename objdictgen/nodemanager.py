@@ -150,13 +150,12 @@ class NodeManager:
     """
     Constructor
     """
-    def __init__(self, cwd):
+    def __init__(self):
         self.LastNewIndex = 0
         self.FilePaths = {}
         self.FileNames = {}
         self.NodeIndex = None
         self.CurrentNode = None
-        self.ScriptDirectory = cwd
         self.UndoBuffers = {}
 
 #-------------------------------------------------------------------------------
@@ -207,7 +206,7 @@ class NodeManager:
                 AddIndexList.append(0x1017)
             for option in options:
                 if option == "DS302":
-                    DS302Path = os.path.join(self.ScriptDirectory, "config/DS-302.prf")
+                    DS302Path = os.path.join(os.path.split(__file__)[0], "config/DS-302.prf")
                     # Charging DS-302 profile if choosen by user
                     if os.path.isfile(DS302Path):
                         try:
@@ -303,7 +302,7 @@ class NodeManager:
     """
     def ImportCurrentFromEDSFile(self, filepath):
         # Generate node from definition in a xml file
-        result = eds_utils.GenerateNode(filepath, self.ScriptDirectory)
+        result = eds_utils.GenerateNode(filepath)
         if isinstance(result, Node):
             self.CurrentNode = result
             index = self.AddNodeBuffer(self.CurrentNode.Copy(), False)

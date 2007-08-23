@@ -37,6 +37,7 @@ class NodeList:
     
     def __init__(self, manager, netname = ""):
         self.Root = ""
+        self.EDSFolder = ""
         self.Manager = manager
         self.NetworkName = netname
         self.SlaveNodes = {}
@@ -131,7 +132,7 @@ class NodeList:
     
     def LoadEDS(self, eds):
         edspath = os.path.join(self.EDSFolder, eds)
-        node = eds_utils.GenerateNode(edspath, self.Manager.ScriptDirectory)
+        node = eds_utils.GenerateNode(edspath)
         if isinstance(node, Node):
             self.EDSNodes[eds] = node
             return None
