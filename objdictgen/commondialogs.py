@@ -220,11 +220,12 @@ class CommunicationDialog(wx.Dialog):
 
 [ID_MAPVARIABLEDIALOG, ID_MAPVARIABLEDIALOGINDEX, 
  ID_MAPVARIABLEDIALOGINDEXNAME, ID_MAPVARIABLEDIALOGSPACER, 
- ID_MAPVARIABLEDIALOGNUMBER, ID_MAPVARIABLEDIALOGRADIOBUTTON1, 
- ID_MAPVARIABLEDIALOGRADIOBUTTON2, ID_MAPVARIABLEDIALOGRADIOBUTTON3, 
- ID_MAPVARIABLEDIALOGSTATICTEXT1, ID_MAPVARIABLEDIALOGSTATICTEXT2, 
- ID_MAPVARIABLEDIALOGSTATICTEXT3, ID_MAPVARIABLEDIALOGSTATICTEXT4, 
-] = [wx.NewId() for _init_ctrls in range(12)]
+ ID_MAPVARIABLEDIALOGSPACER2, ID_MAPVARIABLEDIALOGNUMBER, 
+ ID_MAPVARIABLEDIALOGRADIOBUTTON1, ID_MAPVARIABLEDIALOGRADIOBUTTON2, 
+ ID_MAPVARIABLEDIALOGRADIOBUTTON3, ID_MAPVARIABLEDIALOGSTATICTEXT1, 
+ ID_MAPVARIABLEDIALOGSTATICTEXT2, ID_MAPVARIABLEDIALOGSTATICTEXT3, 
+ ID_MAPVARIABLEDIALOGSTATICTEXT4, 
+] = [wx.NewId() for _init_ctrls in range(13)]
 
 class MapVariableDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
@@ -241,7 +242,7 @@ class MapVariableDialog(wx.Dialog):
         parent.AddWindow(self.Spacer, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.Index, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.radioButton1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Spacer, 0, border=0, flag=wx.GROW)
+        parent.AddWindow(self.Spacer2, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.radioButton2, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
@@ -322,6 +323,10 @@ class MapVariableDialog(wx.Dialog):
         
         self.Spacer = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER,
               name='Spacer', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
+        
+        self.Spacer2 = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER2,
+              name='Spacer2', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
         
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
@@ -716,10 +721,6 @@ class NodeInfosDialog(wx.Dialog):
               name='Description', parent=self, pos=wx.Point(0, 0), 
               size=wx.Size(0, 24), style=0, value='')
 
-        self.Spacer = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER,
-              name='Spacer', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
-
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
         
@@ -879,15 +880,15 @@ class CreateNodeDialog(wx.Dialog):
         self.SetClientSize(wx.Size(450, 350))
 
         self.staticText1 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT1,
-              label='Name:', name='staticText1', parent=self,
+              label='Type:', name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT2,
-              label='Node ID:', name='staticText2', parent=self,
+              label='Name:', name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText3 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT3,
-              label='Type:', name='staticText3', parent=self,
+              label='Node ID:', name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText4 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT4,
@@ -972,7 +973,7 @@ class CreateNodeDialog(wx.Dialog):
               name='Description', parent=self, pos=wx.Point(0, 0), 
               size=wx.Size(0, 24), style=0, value='')
 
-        self.Spacer = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER,
+        self.Spacer = wx.Panel(id=ID_CREATENODEDIALOGSPACER,
               name='Spacer', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
 
