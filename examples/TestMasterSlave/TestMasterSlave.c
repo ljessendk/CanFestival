@@ -222,12 +222,17 @@ int main(int argc,char **argv)
 	// wait Ctrl-C
 	
 	pause();
+
 	eprintf("Finishing.\n");
-	
+    EnterMutex();
 	masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Reset_Node);
+    LeaveMutex();
+
 	eprintf("reset\n");
 	// Stop master
+    EnterMutex();
 	setState(&TestMaster_Data, Stopped);
+    LeaveMutex();
 	
 	// Stop timer thread
 	StopTimerLoop();
