@@ -317,6 +317,13 @@ def GenerateFileContent(Node, headerfilepath):
 #                     Declaration of Particular Parameters
 #-------------------------------------------------------------------------------
 
+    if 0x1005 not in communicationlist:
+        entry_infos = Node.GetEntryInfos(0x1005)
+        texts["EntryName"] = entry_infos["name"]
+        indexContents[0x1005] = """\n/* index 0x1005 :   %(EntryName)s */
+                    UNS32 %(NodeName)s_obj1005 = 0x0;   /* 0 */
+"""%texts
+
     if 0x1006 not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x1006)
         texts["EntryName"] = entry_infos["name"]
