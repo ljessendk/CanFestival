@@ -57,13 +57,13 @@ Structures of entry in the Object Dictionary, sum of the properties described ab
 for all sorts of entries use in CAN Open specification
 """
 nosub = 0 # Entry without subindex (only for type declaration)
-var = 1
-array = 3
-rec = 7
+var = OD_Subindex
+array = OD_Subindex | OD_MultipleSubindexes
+rec = OD_Subindex | OD_MultipleSubindexes | OD_IdenticalSubindexes
 # Entries identical on multiple indexes
-plurivar = 9
-pluriarray = 11 # Example : PDO Parameters
-plurirec = 15   # Example : PDO Mapping
+plurivar = OD_Subindex | OD_IdenticalIndexes
+pluriarray = OD_Subindex | OD_MultipleSubindexes | OD_IdenticalIndexes # Example : PDO Parameters
+plurirec = OD_Subindex | OD_MultipleSubindexes | OD_IdenticalSubindexes |OD_IdenticalIndexes   # Example : PDO Mapping
 
 """
 MappingDictionary is the structure used for writing a good organised Object
