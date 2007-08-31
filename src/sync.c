@@ -110,8 +110,33 @@ void startSYNC(CO_Data* d)
 **/   
 void stopSYNC(CO_Data* d)
 {
+    RegisterSetODentryCallBack(d, 0x1005, 0, NULL);
+    RegisterSetODentryCallBack(d, 0x1006, 0, NULL);
 	d->syncTimer = DelAlarm(d->syncTimer);
 }
+
+
+/*!                                                                                                
+**                                                                                                 
+**                                                                                                 
+** @param d                                                                                        
+** @param cob_id                                                                                   
+**                                                                                                 
+** @return                                                                                         
+**/  
+UNS8 sendSYNCMessage(CO_Data* d, UNS32 cob_id)
+{
+  Message m;
+  
+  MSG_WAR(0x3001, "sendSYNC ", 0);
+  
+  m.cob_id.w = cob_id ;
+  m.rtr = NOT_A_REQUEST;
+  m.len = 0;
+  
+  return canSend(d->canHandle,&m);
+}
+
 
 /*!                                                                                                
 **                                                                                                 
@@ -123,17 +148,10 @@ void stopSYNC(CO_Data* d)
 **/  
 UNS8 sendSYNC(CO_Data* d, UNS32 cob_id)
 {
-  Message m;
-  UNS8 resultat ;
-  
-  MSG_WAR(0x3001, "sendSYNC ", 0);
-  
-  m.cob_id.w = cob_id ;
-  m.rtr = NOT_A_REQUEST;
-  m.len = 0;
-  resultat = canSend(d->canHandle,&m) ;
-  proceedSYNC(d, &m) ; 
-  return resultat ;
+  UNS8 res;
+  res = sendSYNCMessage(d, cob_id);
+  proceedSYNC(d) ; 
+  return res ;
 }
 
 /*!                                                                                                
@@ -144,7 +162,7 @@ UNS8 sendSYNC(CO_Data* d, UNS32 cob_id)
 **                                                                                                 
 ** @return                                                                                         
 **/ 
-UNS8 proceedSYNC(CO_Data* d, Message *m)
+UNS8 proceedSYNC(CO_Data* d)
 {
 
   UNS8 res;

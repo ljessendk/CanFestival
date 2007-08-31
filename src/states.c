@@ -68,7 +68,7 @@ void canDispatch(CO_Data* d, Message *m)
 	{
 		case SYNC:
 			if(d->CurrentCommunicationState.csSYNC)
-				proceedSYNC(d,m);
+				proceedSYNC(d);
 			break;
 		/* case TIME_STAMP: */
 		case PDO1tx:

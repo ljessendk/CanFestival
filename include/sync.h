@@ -33,11 +33,12 @@ void _post_sync(void);
 typedef void (*post_TPDO_t)(void);
 void _post_TPDO(void);
 
-/** transmit a SYNC message on the bus number bus_id
- * bus_id is hardware dependant
- * return canSend(bus_id,&m)
+/** transmit a SYNC message and trigger sync TPDOs
  */
 UNS8 sendSYNC (CO_Data* d, UNS32 cob_id);
+/** transmit a SYNC message on CAN bus
+ */
+UNS8 sendSYNCMessage(CO_Data* d, UNS32 cob_id);
 
 /** This function is called when the node is receiving a SYNC message (cob-id = 0x80).
  *  - check if the node is in OERATIONAL mode. (other mode : return 0 but does nothing).
@@ -45,6 +46,6 @@ UNS8 sendSYNC (CO_Data* d, UNS32 cob_id);
  *  - Trigger sync TPDO emission 
  *  - return 0 if OK, 0xFF if error
  */
-UNS8 proceedSYNC (CO_Data* d, Message * m);
+UNS8 proceedSYNC (CO_Data* d);
 
 #endif
