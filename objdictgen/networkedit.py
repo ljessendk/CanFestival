@@ -441,7 +441,6 @@ class networkedit(wx.Frame):
         if dialog.ShowModal() == wx.ID_OK:
             projectpath = dialog.GetPath()
             if os.path.isdir(projectpath) and len(os.listdir(projectpath)) == 0:
-                os.mkdir(os.path.join(projectpath, "eds"))
                 manager = NodeManager()
                 nodelist = NodeList(manager)
                 result = nodelist.LoadProject(projectpath)

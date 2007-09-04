@@ -92,7 +92,8 @@ class NodeList:
         
         self.EDSFolder = os.path.join(self.Root, "eds")
         if not os.path.exists(self.EDSFolder):
-            return "\"%s\" folder doesn't contain a \"eds\" folder"%self.Root
+            os.mkdir(self.EDSFolder)
+            #return "\"%s\" folder doesn't contain a \"eds\" folder"%self.Root
         
         files = os.listdir(self.EDSFolder)
         for file in files:
@@ -162,10 +163,9 @@ class NodeList:
         else:
             masterpath = os.path.join(self.Root, "master.od")
         if os.path.isfile(masterpath):
-            self.Manager.OpenFileInCurrent(masterpath)
+            return self.Manager.OpenFileInCurrent(masterpath)
         else:
-            self.Manager.CreateNewNode("MasterNode", 0x00, "master", "", "None", "", "heartbeat", ["DS302"])
-        return None
+            return self.Manager.CreateNewNode("MasterNode", 0x00, "master", "", "None", "", "heartbeat", ["DS302"])
     
     def SaveMasterNode(self, netname = None):
         if netname:
