@@ -118,7 +118,7 @@ class CommunicationDialog(wx.Dialog):
               id=ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES,
               name='PossibleIndexes', parent=self, pos=wx.Point(0, 0), 
               size=wx.Size(0, 0), style=wx.LB_EXTENDED)
-        self.PossibleIndexes.Bind(wx.EVT_LEFT_DCLICK, self.OnPossibleIndexesDClick,
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnPossibleIndexesDClick,
               id=ID_COMMUNICATIONDIALOGPOSSIBLEINDEXES)
 
         self.Select = wx.Button(id=ID_COMMUNICATIONDIALOGSELECT, label='>>',
@@ -142,7 +142,7 @@ class CommunicationDialog(wx.Dialog):
               id=ID_COMMUNICATIONDIALOGCURRENTINDEXES, name='CurrentIndexes',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 0), 
               style=wx.LB_EXTENDED)
-        self.CurrentIndexes.Bind(wx.EVT_LEFT_DCLICK, self.OnCurrentIndexesDClick,
+        self.Bind(wx.EVT_LISTBOX_DCLICK, self.OnCurrentIndexesDClick,
               id=ID_COMMUNICATIONDIALOGCURRENTINDEXES)
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
