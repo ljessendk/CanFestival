@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #
 # Copyright (C) 2004 Edouard TISSERRANT, Laurent BESSARD
@@ -26,11 +26,11 @@
 ###########################################################################
 
 # Number of can bus to use 
-MAX_CAN_BUS_ID=1 
+MAX_CAN_BUS_ID=1
 
 # max bytes to transmit by SDO Put 4 if you only support expedited transfert.
 # For a normal transfert, (usually for a string), put the maximum string size to transfer.
-SDO_MAX_LENGTH_TRANSFERT=32 
+SDO_MAX_LENGTH_TRANSFERT=32
 
 # Number of SDO from differents nodes that the node can manage concurrently.   
 # for a slave node, usually put 1.
@@ -39,7 +39,7 @@ SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
 # Used for NMTable[bus][nodeId]	  
 # You can put less of 128 if on the netwo
 # are connected only smaller nodeId node.
-NMT_MAX_NODE_ID=128  
+NMT_MAX_NODE_ID=128
 
 #Timeout in milliseconds for SDO.
 #    Comment the #define if not used (infinite wait for SDO response message)
@@ -332,9 +332,14 @@ if [ "$SUB_TARGET" = "" ]; then
 	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
 		echo "Choosing unix (cygwin) target"
 		SUB_TARGET=unix
-	else
+	fi
+	if [ "$SUB_OS_NAME" = "Linux" ]; then
 		echo "Choosing unix target"
 		SUB_TARGET=unix
+	fi
+	if [ "$SUB_OS_NAME" = "MINGW32" ]; then
+		echo "Choosing windows target"
+		SUB_TARGET=win32
 	fi
 fi
 
@@ -358,6 +363,12 @@ fi
 if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "" ]; then
 	echo "Choosing unix timers driver."
 	SUB_TIMERS_DRIVER=unix
+fi
+
+# If target is windows, default timers also
+if [ "$SUB_TARGET" = "win32" -a "$SUB_TIMERS_DRIVER" = "" ]; then
+	echo "Choosing windows timers driver."
+	SUB_TIMERS_DRIVER=win32
 fi
 
 # Warn for unstalled peak driver if choosen
@@ -661,6 +672,17 @@ if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
+
+if [ "$SUB_TARGET" = "win32" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/TestMasterSlave/Makefile.in
+fi
+
+if [ "$SUB_TARGET" = "win32" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/TestMasterMicroMod/Makefile.in
+fi
+
 
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	MAKEFILES=$MAKEFILES\

@@ -32,12 +32,21 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+TESTMASTERSLAVE = "TestMasterSlave"
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = TestSlave.o TestMaster.o TestMasterSlave.o Slave.o Master.o
 
 OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+
+ifeq ($(TARGET),win32)
+	TESTMASTERSLAVE = "TestMasterSlave.exe"
+endif
+
+ifeq ($(TIMERS_DRIVER),timers_win32)
+	EXE_CFLAGS =
+endif
 
 ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
@@ -50,7 +59,7 @@ all: TestMasterSlave
 
 
 TestMasterSlave: TestSlave.c TestMaster.c $(OBJS)
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+	g++ $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 	
 TestSlave.c: TestSlave.od
 	$(MAKE) -C ../../objdictgen gnosis
@@ -65,8 +74,8 @@ TestMaster.c: TestMaster.od
 
 clean:
 	rm -f $(MASTER_OBJS)
-	rm -f TestMasterSlave
-
+	rm -f $(TESTMASTERSLAVE)
+		
 mrproper: clean
 	rm -f TestSlave.c
 	rm -f TestMaster.c

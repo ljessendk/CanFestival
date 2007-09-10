@@ -222,7 +222,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\drivers\win32\timers_win32.cpp"
+					RelativePath=".\drivers\timers_win32\timers_win32.cpp"
 					>
 				</File>
 			</Filter>

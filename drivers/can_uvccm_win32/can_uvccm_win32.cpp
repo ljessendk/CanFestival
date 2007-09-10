@@ -73,7 +73,7 @@ can_uvccm_win32::~can_uvccm_win32()
 bool can_uvccm_win32::send(const Message *m)
    {
    if (m_port == INVALID_HANDLE_VALUE)
-      return false;
+      return true;
 
    // build can_uvccm_win32 command string
    std::string can_cmd;
@@ -93,8 +93,8 @@ bool can_uvccm_win32::send(const Message *m)
    ::GetOverlappedResult(m_port, &overlapped, &bytes_written, FALSE);
 
    bool result = (bytes_written == can_cmd.size());
-
-   return result;
+   
+   return false;
    }
 
 

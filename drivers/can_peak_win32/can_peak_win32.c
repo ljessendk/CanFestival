@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "cancfg.h"
 #include "can_driver.h"
-
+#include "def.h"
 #ifndef extra_PCAN_init_params
 	#define extra_PCAN_init_params /**/
 #else
@@ -66,18 +66,46 @@ int TranslateBaudeRate(char* optarg){
 	return 0x0000;
 }
 
+#define MyCase(fc) case fc: printf(#fc);break;
+void print_message(Message *m)
+{
+	int i;
+	switch(m->cob_id.w >> 7)
+	{
+		MyCase(SYNC)
+		MyCase(TIME_STAMP)
+		MyCase(PDO1tx)
+		MyCase(PDO1rx)
+		MyCase(PDO2tx)
+		MyCase(PDO2rx)
+		MyCase(PDO3tx)
+		MyCase(PDO3rx)
+		MyCase(PDO4tx)
+		MyCase(PDO4rx)
+		MyCase(SDOtx)
+		MyCase(SDOrx)
+		MyCase(NODE_GUARD)
+		MyCase(NMT)
+	}
+	printf(" rtr:%d", m->rtr);
+	printf(" len:%d", m->len);
+	for (i = 0 ; i < m->len ; i++)
+		printf(" %02x", m->data[i]);
+	printf("\n");
+}
+
 void
 canInit (s_BOARD *board)
 {
 	int baudrate;
 	
-#ifdef PCAN2_HEADER_
+//#ifdef PCAN2_HEADER_
 	// if not the first handler
 	if(second_board == (s_BOARD *)board)
 		if(baudrate = TranslateBaudeRate(board->baudrate))
 			CAN2_Init (baudrate,
 			  CAN_INIT_TYPE_ST extra_PCAN_init_params);
-#endif
+//#endif
 	if(first_board == (s_BOARD *)board)
 		if(baudrate = TranslateBaudeRate(board->baudrate))
 			CAN_Init (baudrate,
@@ -90,9 +118,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 {
 	UNS8 data;
 	TPCANMsg peakMsg;
-
 	DWORD Res;
-
 	do{
 		// We read the queue looking for messages.
 		// 
@@ -107,7 +133,6 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 			Res = CAN_Read (&peakMsg);
 		else
 			Res = CAN_ERR_BUSOFF;
-	
 		// A message was received
 		// We process the message(s)
 		// 
@@ -129,6 +154,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 					MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
 			}
 			m->cob_id.w = peakMsg.ID;
+			
 			if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)	/* bits of MSGTYPE_ */
 				m->rtr = 0;
 			else
@@ -136,7 +162,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 			m->len = peakMsg.LEN;	/* count of data bytes (0..8) */
 			for (data = 0; data < peakMsg.LEN; data++)
 				m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
-	
+		
 		}else{
 		//pthread_mutex_unlock (&PeakCan_mutex);
 		//if (Res != CAN_ERR_OK)
@@ -171,16 +197,21 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
 	/* count of data bytes (0..8) */
 	for (data = 0; data < m->len; data++)
 		peakMsg.DATA[data] = m->data[data];	/* data bytes, up to 8 */
+	
 	do
 	{
 #ifdef PCAN2_HEADER_
 		// if not the first handler
 		if(second_board == (s_BOARD *)fd0)
+		{
 			errno = CAN2_Write (&peakMsg);
+		}
 		else 
 #endif
 		if(first_board == (s_BOARD *)fd0)
-			errno = CAN_Write (&peakMsg);
+			{
+				errno = CAN_Write (&peakMsg);
+			}
 		else 
 			goto fail;
 		if (errno)
@@ -204,29 +235,20 @@ fail:
 CAN_HANDLE
 canOpen_driver (s_BOARD * board)
 {
-#ifdef PCAN2_HEADER_
-	if(first_board != NULL && second_board != NULL)
-#else
-	if(first_board != NULL)
-#endif
-	{
-		fprintf (stderr, "Open failed.\n");
-		fprintf (stderr,
-				 "can_peak_win32.c: no more can port available with this pcan library\n");
-		fprintf (stderr,
-				 "can_peak_win32.c: please link another executable with another pcan lib\n");
-		return NULL;
-	}
+  char busname[64];
+  char* pEnd;
 
-#ifdef PCAN2_HEADER_
-	if(first_board == NULL)
-		first_board = board;
-	else
-		second_board = board; 
-#else
-	first_board = board;
-#endif
-
+  //printf ("Board Busname=%d.\n",strtol(board->busname, &pEnd,0));
+  if (strtol(board->busname, &pEnd,0) == 0)
+  {
+      first_board = board;
+      printf ("First Board selected\n");
+  }
+  if (strtol(board->busname, &pEnd,0) == 1)
+  {
+     second_board = board;
+     printf ("Second Board selected\n");
+  }
 	canInit(board);
 	
 	return (CAN_HANDLE)board;

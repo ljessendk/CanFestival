@@ -93,9 +93,15 @@ bool driver_procs::can_driver_valid() const
 
 HMODULE driver_procs::load_canfestival_driver(LPCTSTR driver_name)
    {
+  //LPCTSTR driver1 = "C:\\msys\\1.0\\home\\Ontaide\\can\\CanFestival-3\\drivers\\can_peak_win32\\cygcan_peak_win32.dll";
+  //LPCTSTR driver2 = "C:\\msys\\1.0\\home\\Ontaide\\can\\CanFestival-3\\drivers\\can_peak_win32\\cygcan_peak_win32.dll";
+  //printf("can_driver_valid=%d\n",can_driver_valid());
    if (can_driver_valid())
       return m_driver_handle;
+   printf("driver_name=%s\n",driver_name);
    m_driver_handle = ::LoadLibrary(driver_name);
+   //printf("m_driver_handle=%d\n",m_driver_handle);
+   //printf("testerror =%s\n",GetLastError());
    if (m_driver_handle == NULL)
       return NULL;
 
@@ -123,6 +129,7 @@ LIB_HANDLE LoadCanDriver(char* driver_name)
 
 UNS8 canReceive(CAN_PORT fd0, Message *m)
    {
+  
    if (fd0 != NULL && s_driver_procs.m_canReceive != NULL)
 	   {
 		  driver_data* data = (driver_data*)fd0;
@@ -154,16 +161,16 @@ void* canReceiveLoop(CAN_PORT fd0)
 
 /***************************************************************************/
 UNS8 canSend(CAN_PORT fd0, Message *m)
-   {
+   {   
    if (fd0 != NULL && s_driver_procs.m_canSend != NULL)
       {
       UNS8 res;
       driver_data* data = (driver_data*)fd0;
       res = (*s_driver_procs.m_canSend)(data->inst, m);      
       if (res)
-         return 0;
+         return 1; // OK
       }
-   return 1;
+   return 0; // NOT OK
    }
 
 /***************************************************************************/
@@ -178,7 +185,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
          data->d = d;
          data->inst = inst;
          data->continue_receive_thread = true;
-         CreateReceiveTask(data, &data->receive_thread, &canReceiveLoop);
+         CreateReceiveTask(data, &data->receive_thread, (void*)&canReceiveLoop);
 	 EnterMutex();
          d->canHandle = data;
          LeaveMutex();

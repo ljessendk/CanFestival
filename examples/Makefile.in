@@ -35,6 +35,13 @@ ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
+ifeq ($(TARGET),win32)
+	$(MAKE) -C TestMasterSlave $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
+	$(MAKE) -C TestMasterMicroMod $@
+endif
+
 clean:
 ifeq ($(TARGET),hc12)
 	$(MAKE) -C gene_SYNC_HCS12 $@
@@ -47,6 +54,12 @@ ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
+ifeq ($(TARGET),win32)
+	$(MAKE) -C TestMasterSlave $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
+	$(MAKE) -C TestMasterMicroMod $@
+endif
 
 
 mrproper: clean

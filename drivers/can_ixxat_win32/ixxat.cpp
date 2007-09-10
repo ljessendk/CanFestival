@@ -124,13 +124,13 @@ IXXAT::~IXXAT()
 bool IXXAT::send(const Message *m)
    {
    if (m_BoardHdl == 0xFFFF)
-      return false;
+      return true; // true -> NOT OK
    long res = VCI_ERR;
    if (m->rtr == NOT_A_REQUEST)
       res = VCI_TransmitObj(m_BoardHdl, m_TxQueHdl, m->cob_id.w, m->len, const_cast<unsigned char*>(m->data));
    else
       res = VCI_RequestObj(m_BoardHdl, m_TxQueHdl, m->cob_id.w, m->len);
-   return (res == VCI_OK);   
+   return (res == false); // false -> OK 
    }
 
 

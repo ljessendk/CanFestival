@@ -32,12 +32,20 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
-
+TESTMASTERMICROMOD = "TestMasterMicroMod"
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = TestMaster.o TestMasterMicroMod.o
 
 OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+
+ifeq ($(TARGET),win32)
+	TESTMASTERMICROMOD = "TestMasterMicroMod.exe"
+endif
+
+ifeq ($(TIMERS_DRIVER),timers_win32)
+	EXE_CFLAGS =
+endif
 
 ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
@@ -50,7 +58,7 @@ all: TestMasterMicroMod
 
 
 TestMasterMicroMod: TestMaster.c $(OBJS)
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+	g++ $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 
 	
 TestMaster.c: TestMaster.od
@@ -62,7 +70,7 @@ TestMaster.c: TestMaster.od
 
 clean:
 	rm -f $(MASTER_OBJS)
-	rm -f TestMasterMicroMod
+	rm -f $(TESTMASTERMICROMOD)
 
 mrproper: clean
 	rm -f TestMaster.c
