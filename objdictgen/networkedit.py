@@ -320,6 +320,10 @@ class networkedit(wx.Frame):
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.menuBar1)
         self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=ID_NETWORKEDIT)
+        if not self.ModeSolo:
+            self.Bind(wx.EVT_MENU, self.OnSaveProjectMenu, id=ID_NETWORKEDITFILEMENUITEMS1)
+            accel = wx.AcceleratorTable([wx.AcceleratorEntry(wx.ACCEL_CTRL, 83, ID_NETWORKEDITFILEMENUITEMS1)])
+            self.SetAcceleratorTable(accel)
 
         self.NetworkNodes = wx.Notebook(id=ID_NETWORKEDITNETWORKNODES,
               name='NetworkNodes', parent=self, pos=wx.Point(0, 0),
@@ -335,7 +339,6 @@ class networkedit(wx.Frame):
     def __init__(self, parent, nodelist = None):
         self.ModeSolo = nodelist == None
         self._init_ctrls(parent)
-        self.Parent = parent
         self.HtmlFrameOpened = []
         self.BusId = None
         
@@ -354,6 +357,7 @@ class networkedit(wx.Frame):
             self.NodeList.SetCurrentSelected(0)
             self.RefreshNetworkNodes()
             self.RefreshProfileMenu()
+            self.NetworkNodes.SetFocus()
         
         self.RefreshBufferState()
         self.RefreshTitle()
@@ -375,8 +379,13 @@ class networkedit(wx.Frame):
             return 0
 
     def OnCloseFrame(self, event):
-        if not self.ModeSolo:
-            self.Parent.CloseEditor(self.BusId)
+        if not self.ModeSolo and getattr(self, "_onclose", None) != None:
+            self._onclose()
+        event.Skip()
+
+    def OnChar(self, event):
+        if event.ControlDown() and event.GetKeyCode() == 83 and getattr(self, "_onsave", None) != None:
+            self._onsave()
         event.Skip()
 
     def GetNoteBook(self):
@@ -490,11 +499,14 @@ class networkedit(wx.Frame):
         event.Skip()
 
     def OnSaveProjectMenu(self, event):
-        result = self.NodeList.SaveProject()
-        if result:
-            message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
-            message.ShowModal()
-            message.Destroy()
+        if not self.ModeSolo and getattr(self, "_onsave", None) != None:
+            self._onsave()
+        else:
+            result = self.NodeList.SaveProject()
+            if result:
+                message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
         event.Skip()
 
     def OnCloseProjectMenu(self, event):

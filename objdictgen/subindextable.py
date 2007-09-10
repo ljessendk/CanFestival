@@ -392,7 +392,7 @@ class EditingPanel(wx.SplitterWindow):
 
     def __init__(self, parent, manager, editable = True):
         self._init_ctrls(parent.GetNoteBook())
-        self.Parent = parent
+        self.ParentWindow = parent
         self.Manager = manager
         self.ListIndex = []
         self.ChoiceIndex = []
@@ -439,7 +439,7 @@ class EditingPanel(wx.SplitterWindow):
             selected = self.IndexChoice.GetStringSelection()
             if selected != "":
                 if selected == "User Type":
-                    self.Parent.AddUserType()
+                    self.ParentWindow.AddUserType()
                 elif selected == "SDO Server":
                     self.Manager.AddSDOServerToCurrent()
                 elif selected == "SDO Client":
@@ -449,13 +449,13 @@ class EditingPanel(wx.SplitterWindow):
                 elif selected == "PDO Transmit":
                     self.Manager.AddPDOTransmitToCurrent()
                 elif selected == "Map Variable":
-                    self.Parent.AddMapVariable()
+                    self.ParentWindow.AddMapVariable()
                 elif selected in [menu for menu, indexes in self.Manager.GetCurrentSpecificMenu()]:
                     self.Manager.AddSpecificEntryToCurrent(selected)
                 else:
                     index = self.ChoiceIndex[self.IndexChoice.GetSelection()]
                     self.Manager.ManageEntriesOfCurrent([index], [])
-                self.Parent.RefreshBufferState()
+                self.ParentWindow.RefreshBufferState()
                 self.RefreshIndexList()
         event.Skip()
 
@@ -471,11 +471,11 @@ class EditingPanel(wx.SplitterWindow):
 
     def OnSubindexGridSelectCell(self, event):
         wx.CallAfter(self.BeginDrag)
-        wx.CallAfter(self.Parent.RefreshStatusBar)
+        wx.CallAfter(self.ParentWindow.RefreshStatusBar)
         event.Skip()
 
     def BeginDrag(self):
-        if not self.Parent.ModeSolo:
+        if not self.ParentWindow.ModeSolo:
             row = self.SubindexGrid.GetGridCursorRow()
             col = self.SubindexGrid.GetGridCursorCol()
             if not self.Editable and col == 0:
@@ -551,7 +551,7 @@ class EditingPanel(wx.SplitterWindow):
             self.CallbackCheck.SetValue(False)
             self.CallbackCheck.Disable()
             self.Table.ResetView(self.SubindexGrid)
-            self.Parent.RefreshStatusBar()
+            self.ParentWindow.RefreshStatusBar()
         else:
             self.IndexList.SetSelection(selected)
             self.RefreshTable()
@@ -570,7 +570,7 @@ class EditingPanel(wx.SplitterWindow):
                 self.Table.SetData(data)
                 self.Table.SetEditors(editors)
                 self.Table.ResetView(self.SubindexGrid)
-        self.Parent.RefreshStatusBar()
+        self.ParentWindow.RefreshStatusBar()
 
 #-------------------------------------------------------------------------------
 #                        Editing Table value function
@@ -585,7 +585,7 @@ class EditingPanel(wx.SplitterWindow):
             value = self.Table.GetValue(subIndex, col)
             editor = self.Table.GetEditor(subIndex, col)
             self.Manager.SetCurrentEntry(index, subIndex, value, name, editor)
-            self.Parent.RefreshBufferState()
+            self.ParentWindow.RefreshBufferState()
             wx.CallAfter(self.RefreshTable)
         event.Skip()
 
@@ -593,7 +593,7 @@ class EditingPanel(wx.SplitterWindow):
         if self.Editable:
             index = self.Table.GetCurrentIndex()
             self.Manager.SetCurrentEntryCallbacks(index, self.CallbackCheck.GetValue())
-            self.Parent.RefreshBufferState()
+            self.ParentWindow.RefreshBufferState()
             wx.CallAfter(self.RefreshTable)
         event.Skip()
 
@@ -650,7 +650,7 @@ class EditingPanel(wx.SplitterWindow):
                                  "Rename an index", infos["name"], wx.OK|wx.CANCEL)
                     if dialog.ShowModal() == wx.ID_OK:
                         self.Manager.SetCurrentEntryName(index, dialog.GetValue())
-                        self.Parent.RefreshBufferState()
+                        self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
                     dialog.Destroy()
         event.Skip()
@@ -671,7 +671,7 @@ class EditingPanel(wx.SplitterWindow):
                     if dialog.ShowModal() == wx.ID_OK:
                         type, min, max, length = dialog.GetValues()
                         self.Manager.SetCurrentUserType(index, type, min, max, length)
-                        self.Parent.RefreshBufferState()
+                        self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
         event.Skip()
         
@@ -682,7 +682,7 @@ class EditingPanel(wx.SplitterWindow):
                 index = self.ListIndex[selected]
                 if self.Manager.IsCurrentEntry(index):
                     self.Manager.ManageEntriesOfCurrent([],[index])
-                    self.Parent.RefreshBufferState()
+                    self.ParentWindow.RefreshBufferState()
                     self.RefreshIndexList()
         event.Skip()
 
@@ -698,7 +698,7 @@ class EditingPanel(wx.SplitterWindow):
                         try:
                             number = int(dialog.GetValue())
                             self.Manager.AddSubentriesToCurrent(index, number)
-                            self.Parent.RefreshBufferState()
+                            self.ParentWindow.RefreshBufferState()
                             self.RefreshIndexList()
                         except:
                             message = wx.MessageDialog(self, "An integer is required!", "ERROR", wx.OK|wx.ICON_ERROR)
@@ -719,7 +719,7 @@ class EditingPanel(wx.SplitterWindow):
                         try:
                             number = int(dialog.GetValue())
                             self.Manager.RemoveSubentriesFromCurrent(index, number)
-                            self.Parent.RefreshBufferState()
+                            self.ParentWindow.RefreshBufferState()
                             self.RefreshIndexList()
                         except:
                             message = wx.MessageDialog(self, "An integer is required!", "ERROR", wx.OK|wx.ICON_ERROR)
