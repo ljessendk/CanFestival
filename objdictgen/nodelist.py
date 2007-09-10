@@ -23,7 +23,7 @@
 
 from node import *
 import eds_utils
-import os, shutil
+import os, shutil, types
 
 #-------------------------------------------------------------------------------
 #                          Definition of NodeList Object
@@ -102,11 +102,13 @@ class NodeList:
                 result = self.LoadEDS(file)
                 if result != None:
                     return result
-                
+        
+        print "Load Master"
         result = self.LoadMasterNode(netname)
         if result != None:
             return result
             
+        print "Load Slaves"
         result = self.LoadSlaveNodes(netname)
         if result != None:
             return result
@@ -163,9 +165,12 @@ class NodeList:
         else:
             masterpath = os.path.join(self.Root, "master.od")
         if os.path.isfile(masterpath):
-            return self.Manager.OpenFileInCurrent(masterpath)
+            result = self.Manager.OpenFileInCurrent(masterpath)
         else:
-            return self.Manager.CreateNewNode("MasterNode", 0x00, "master", "", "None", "", "heartbeat", ["DS302"])
+            result = self.Manager.CreateNewNode("MasterNode", 0x00, "master", "", "None", "", "heartbeat", ["DS302"])
+        if not isinstance(result, types.IntType):
+            return result
+        return None
     
     def SaveMasterNode(self, netname = None):
         if netname:

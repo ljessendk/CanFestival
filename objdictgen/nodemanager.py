@@ -247,7 +247,7 @@ class NodeManager:
                 node.SetSpecificMenu(AddMenuEntries)
                 return None
             except:
-                return "Syntax Error\nBad OD Profile file!."
+                return "Syntax Error\nBad OD Profile file!"
         else:
             # Default profile
             node.SetProfileName("None")
@@ -259,15 +259,18 @@ class NodeManager:
     Open a file and store it in a new buffer
     """
     def OpenFileInCurrent(self, filepath):
-        # Open and load file
-        file = open(filepath, "r")
-        node = load(file)
-        file.close()
-        self.CurrentNode = node
-        # Add a new buffer and defining current state
-        index = self.AddNodeBuffer(self.CurrentNode.Copy(), True)
-        self.SetCurrentFilePath(filepath)
-        return index
+        try:
+            # Open and load file
+            file = open(filepath, "r")
+            node = load(file)
+            file.close()
+            self.CurrentNode = node
+            # Add a new buffer and defining current state
+            index = self.AddNodeBuffer(self.CurrentNode.Copy(), True)
+            self.SetCurrentFilePath(filepath)
+            return index
+        except:
+            return "Unable to load file \"%s\"!"%filepath
 
     """
     Save current node in  a file
