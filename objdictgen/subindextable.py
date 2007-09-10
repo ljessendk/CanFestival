@@ -488,10 +488,10 @@ class EditingPanel(wx.SplitterWindow):
                         subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
                         typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
                         if subentry_infos["pdo"] and typeinfos:
-                            bus_id = self.Parent.GetBusId()
+                            bus_id = '.'.join(map(str,self.Parent.GetBusId()))
                             node_id = self.Parent.GetCurrentNodeId()
                             size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%d.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
+                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
