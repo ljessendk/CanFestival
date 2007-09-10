@@ -102,13 +102,11 @@ class NodeList:
                 result = self.LoadEDS(file)
                 if result != None:
                     return result
-        
-        print "Load Master"
+                
         result = self.LoadMasterNode(netname)
         if result != None:
             return result
             
-        print "Load Slaves"
         result = self.LoadSlaveNodes(netname)
         if result != None:
             return result
