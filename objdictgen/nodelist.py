@@ -62,6 +62,14 @@ class NodeList:
     
     def GetRoot(self):
         return self.Root
+
+    def SetRoot(self, newrootpath):
+        """
+        Define a new path for the CanOpen network project
+        !!! Does not check if new path is valid !!!
+        """
+        self.Root = newrootpath
+        self.Manager.SetCurrentFilePath(os.path.join(self.Root, "master.od"))
     
     def GetSlaveNumber(self):
         return len(self.SlaveNodes)
