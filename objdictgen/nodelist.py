@@ -250,7 +250,6 @@ class NodeList:
         if order > 0:
             nodeindexes = self.SlaveNodes.keys()
             nodeindexes.sort()
-            print nodeindexes
             if order <= len(nodeindexes):
                 return self.SlaveNodes[nodeindexes[order - 1]]["Node"]
         return None
@@ -262,6 +261,7 @@ class NodeList:
             else:
                 node = self.SlaveNodes[self.CurrentSelected]["Node"]
                 if node:
+                    node.SetNodeID(self.CurrentSelected)
                     return node.IsEntry(index)
         return False
     
@@ -272,6 +272,7 @@ class NodeList:
             else:
                 node = self.SlaveNodes[self.CurrentSelected]["Node"]
                 if node:
+                    node.SetNodeID(self.CurrentSelected)
                     return node.GetEntryInfos(index)
         return None
 
@@ -282,6 +283,7 @@ class NodeList:
             else:
                 node = self.SlaveNodes[self.CurrentSelected]["Node"]
                 if node:
+                    node.SetNodeID(self.CurrentSelected)
                     return node.GetSubentryInfos(index, subindex)
         return None
 
@@ -292,6 +294,7 @@ class NodeList:
             else:
                 node = self.SlaveNodes[self.CurrentSelected]["Node"]
                 if node:
+                    node.SetNodeID(self.CurrentSelected)
                     validindexes = []
                     for index in node.GetIndexes():
                         if min <= index <= max:
@@ -305,6 +308,7 @@ class NodeList:
         if self.CurrentSelected != None:
             node = self.SlaveNodes[self.CurrentSelected]["Node"]
             if node:
+                node.SetNodeID(self.CurrentSelected)
                 return self.Manager.GetNodeEntryValues(node, index)
             else:
                 print "Can't find node"

@@ -100,7 +100,7 @@ try:
             wx.Frame.__init__(self, id=ID_HTMLFRAME, name='HtmlFrame',
                   parent=prnt, pos=wx.Point(320, 231), size=wx.Size(853, 616),
                   style=wx.DEFAULT_FRAME_STYLE, title='')
-            self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=ID_HTMLFRAME)
+            self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
             
             self.HtmlContent = UrlClickHtmlWindow(id=ID_HTMLFRAMEHTMLCONTENT,
                   name='HtmlContent', parent=self, pos=wx.Point(0, 0),
@@ -319,7 +319,7 @@ class networkedit(wx.Frame):
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.menuBar1)
-        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=ID_NETWORKEDIT)
+        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
         if not self.ModeSolo:
             self.Bind(wx.EVT_MENU, self.OnSaveProjectMenu, id=ID_NETWORKEDITFILEMENUITEMS1)
             accel = wx.AcceleratorTable([wx.AcceleratorEntry(wx.ACCEL_CTRL, 83, ID_NETWORKEDITFILEMENUITEMS1)])
@@ -701,6 +701,14 @@ class networkedit(wx.Frame):
                     edititem.SetText("Other Profile")
                     edititem.Enable(False)
 
+    def GetProfileCallBack(self, text):
+        def ProfileCallBack(event):
+            self.Manager.AddSpecificEntryToCurrent(text)
+            self.RefreshBufferState()
+            self.RefreshCurrentIndexList()
+            event.Skip()
+        return ProfileCallBack
+
 #-------------------------------------------------------------------------------
 #                              Buffer Functions
 #-------------------------------------------------------------------------------
@@ -810,7 +818,6 @@ class networkedit(wx.Frame):
                 if index not in new_profile:
                     removinglist.append(index)
             self.Manager.ManageEntriesOfCurrent(addinglist, removinglist)
-            self.Manager.GenerateMapList()
             self.Manager.BufferCurrentNode()
             self.RefreshBufferState()
             self.RefreshCurrentIndexList()

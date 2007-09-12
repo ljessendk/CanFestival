@@ -202,7 +202,7 @@ MappingDictionary = {
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "COB ID Client to Server (Transmit SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "COB ID Server to Client (Receive SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
-                 {"name" : "Node ID of the SDO Server", "type" : 0x04, "access" : 'rw', "pdo" : False}]},
+                 {"name" : "Node ID of the SDO Server", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1400 : {"name" : "Receive PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:self.ID+(base+2)*0x100,False:0}[base<4]"},
@@ -815,18 +815,39 @@ class Node:
     Print the Dictionary values
     """
     def Print(self):
+        print self.PrintString()
+    
+    def PrintString(self):
+        result = ""
         listindex = self.Dictionary.keys()
         listindex.sort()
         for index in listindex:
+            name = self.GetEntryName(index)
             values = self.Dictionary[index]
-            if index != 0x1F22 and type(values) != IntType:
-                values = [i for i in values]
-                for i, value in enumerate(values):
-                    if type(value) == IntType:
-                        values[i] = "%X"%value
-                values = "[" + ",".join(values) + "]"
-            print "%04X : %s"%(index, values)
-
+            if isinstance(values, ListType):
+                result += "%04X (%s):\n"%(index, name)
+                for subidx, value in enumerate(values):
+                    subentry_infos = self.GetSubentryInfos(index, subidx + 1)
+                    if index == 0x1F22 and value:
+                        nb_params = BE_to_LE(value[:4])
+                        data = value[4:]
+                        value = str(nb_params)
+                        i = 0
+                        while i < len(data):
+                            value += "\n\t"
+                            value += "%4.4X"%BE_to_LE(data[i:i+2])
+                            value += " %2.2X"%BE_to_LE(data[i+2:i+3])
+                            size = BE_to_LE(data[i+3:i+7])
+                            value += " %8.8X"%size
+                            value += (" %"+"%d"%(size * 2)+"."+"%d"%(size * 2)+"X")%BE_to_LE(data[i+7:i+7+size])
+                            i += 7 + size
+                    elif isinstance(value, IntType):
+                        value = "%X"%value
+                    result += "  %3.3d (%s): %s\n"%(subidx+1, subentry_infos["name"], value)
+            else:
+                result += "%04X (%s): %s\n"%(index, name, values)
+        return result
+            
     def CompileValue(self, value, index):
         if type(value) == StringType and value.find("self.ID") != -1:
             base = self.GetBaseIndex(index)
@@ -996,3 +1017,16 @@ class Node:
     def GetMapList(self):
         list = ["None"] + [name for index, subIndex, size, name in self.GetMapVariableList()]
         return ",".join(list)
+
+def BE_to_LE(value):
+    """
+    Convert Big Endian to Little Endian 
+    @param value: value expressed in Big Endian
+    @param size: number of bytes generated
+    @return: a string containing the value converted
+    """
+    
+    data = [char for char in value]
+    data.reverse()
+    return int("".join(["%2.2X"%ord(char) for char in data]), 16)
+    

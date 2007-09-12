@@ -612,7 +612,7 @@ class EditingPanel(wx.SplitterWindow):
                         self.IndexListMenu.FindItemByPosition(0).Enable(False)
                         self.IndexListMenu.FindItemByPosition(1).Enable(True)
                         self.PopupMenu(self.IndexListMenu)
-                    elif 0x1000 <= index <= 0x1BFF:
+                    elif 0x1000 <= index <= 0x1FFF:
                         self.IndexListMenu.FindItemByPosition(0).Enable(False)
                         self.IndexListMenu.FindItemByPosition(1).Enable(False)
                         self.PopupMenu(self.IndexListMenu)

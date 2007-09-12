@@ -71,7 +71,7 @@ try:
             wx.Frame.__init__(self, id=ID_HTMLFRAME, name='HtmlFrame',
                   parent=prnt, pos=wx.Point(320, 231), size=wx.Size(853, 616),
                   style=wx.DEFAULT_FRAME_STYLE, title='')
-            self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=ID_HTMLFRAME)
+            self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
             
             self.HtmlContent = UrlClickHtmlWindow(id=ID_HTMLFRAMEHTMLCONTENT,
                   name='HtmlContent', parent=self, pos=wx.Point(0, 0),
@@ -305,7 +305,7 @@ class objdictedit(wx.Frame):
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.menuBar1)
-        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame, id=ID_OBJDICTEDIT)
+        self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
 
         self.FileOpened = wx.Notebook(id=ID_OBJDICTEDITFILEOPENED,
               name='FileOpened', parent=self, pos=wx.Point(0, 0),
