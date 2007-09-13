@@ -831,20 +831,24 @@ class Node:
                     if index == 0x1F22 and value:
                         nb_params = BE_to_LE(value[:4])
                         data = value[4:]
-                        value = str(nb_params)
+                        value = "%d arg defined"%nb_params
                         i = 0
+                        count = 1
                         while i < len(data):
-                            value += "\n\t"
-                            value += "%4.4X"%BE_to_LE(data[i:i+2])
-                            value += " %2.2X"%BE_to_LE(data[i+2:i+3])
+                            value += "\n%04X %02X, arg %d: "%(index, subidx+1, count)
+                            value += "%04X"%BE_to_LE(data[i:i+2])
+                            value += " %02X"%BE_to_LE(data[i+2:i+3])
                             size = BE_to_LE(data[i+3:i+7])
-                            value += " %8.8X"%size
-                            value += (" %"+"%d"%(size * 2)+"."+"%d"%(size * 2)+"X")%BE_to_LE(data[i+7:i+7+size])
+                            value += " %08X"%size
+                            value += (" %0"+"%d"%(size * 2)+"X")%BE_to_LE(data[i+7:i+7+size])
                             i += 7 + size
+                            count += 1
                     elif isinstance(value, IntType):
                         value = "%X"%value
-                    result += "  %3.3d (%s): %s\n"%(subidx+1, subentry_infos["name"], value)
+                    result += "%04X %02X (%s): %s\n"%(index, subidx+1, subentry_infos["name"], value)
             else:
+                if isinstance(values, IntType):
+                    values = "%X"%values
                 result += "%04X (%s): %s\n"%(index, name, values)
         return result
             
