@@ -35,32 +35,6 @@ from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
 
-def create(parent):
-    return networkedit(parent)
-
-def usage():
-    print "\nUsage of networkedit.py :"
-    print "\n   %s [Projectpath]\n"%sys.argv[0]
-
-try:
-    opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
-except getopt.GetoptError:
-    # print help information and exit:
-    usage()
-    sys.exit(2)
-
-for o, a in opts:
-    if o in ("-h", "--help"):
-        usage()
-        sys.exit()
-
-if len(args) == 0:
-    projectOpen = None 
-elif len(args) == 1:
-    projectOpen = args[0]
-else:
-    usage()
-    sys.exit(2)
 ScriptDirectory = os.path.split(__file__)[0]
 
 try:
@@ -336,7 +310,7 @@ class networkedit(wx.Frame):
         self._init_coll_HelpBar_Fields(self.HelpBar)
         self.SetStatusBar(self.HelpBar)
 
-    def __init__(self, parent, nodelist = None):
+    def __init__(self, parent, nodelist = None, projectOpen = None):
         self.ModeSolo = nodelist == None
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
@@ -430,7 +404,7 @@ class networkedit(wx.Frame):
     def OnNodeSelectedChanged(self, event):
         selected = event.GetSelection()
         # At init selected = -1
-        if selected > 0:
+        if selected >= 0:
             window = self.NetworkNodes.GetPage(selected)
             self.NodeList.SetCurrentSelected(window.GetIndex())
         self.RefreshMainMenu()
@@ -614,8 +588,9 @@ class networkedit(wx.Frame):
                 self.NetworkNodes.AddPage(new_editingpanel, "")
 
     def RefreshStatusBar(self):
-        if self.HelpBar:
-            window = self.NetworkNodes.GetPage(self.NetworkNodes.GetSelection())
+        selected = self.NetworkNodes.GetSelection()
+        if self.HelpBar and selected >= 0:
+            window = self.NetworkNodes.GetPage(selected)
             selection = window.GetSelection()
             if selection:
                 index, subIndex = selection
@@ -987,13 +962,37 @@ def AddExceptHook(path, app_version='[No version]'):#, ignored_exceptions=[]):
     sys.excepthook = handle_exception
 
 if __name__ == '__main__':
+    def usage():
+        print "\nUsage of networkedit.py :"
+        print "\n   %s [Projectpath]\n"%sys.argv[0]
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    except getopt.GetoptError:
+        # print help information and exit:
+        usage()
+        sys.exit(2)
+
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+
+    if len(args) == 0:
+        projectOpen = None 
+    elif len(args) == 1:
+        projectOpen = args[0]
+    else:
+        usage()
+        sys.exit(2)
+    
     app = wx.PySimpleApp()
     wx.InitAllImageHandlers()
     
     # Install a exception handle for bug reports
     AddExceptHook(os.getcwd(),__version__)
     
-    frame = networkedit(None)
+    frame = networkedit(None, projectOpen=projectOpen)
 
     frame.Show()
     app.MainLoop()

@@ -572,7 +572,6 @@ class UserTypeDialog(wx.Dialog):
             message = wx.MessageDialog(self, "Form isn't valid%s%s%s!"%(firstmessage,secondmessage), "Error", wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
-            self.Name.SetFocus()
         else:
             self.EndModal(wx.ID_OK)
 
@@ -660,7 +659,7 @@ class NodeInfosDialog(wx.Dialog):
 
     def _init_coll_MainSizer_Items(self, parent):
         parent.AddWindow(self.staticText1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Name, 0, border=0, flag=wx.GROW)
+        parent.AddWindow(self.NodeName, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText2, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.NodeID, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
@@ -693,7 +692,7 @@ class NodeInfosDialog(wx.Dialog):
               label='Name:', name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
-        self.Name = wx.TextCtrl(id=ID_NODEINFOSDIALOGNAME, name='Name',
+        self.NodeName = wx.TextCtrl(id=ID_NODEINFOSDIALOGNAME, name='NodeName',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
               style=0, value='')
 
@@ -733,7 +732,7 @@ class NodeInfosDialog(wx.Dialog):
         self.Type.Append("slave")
 
     def OnOK(self, event):
-        name = self.Name.GetValue()
+        name = self.NodeName.GetValue()
         message = ""
         if name != "":
             good = not name[0].isdigit()
@@ -750,18 +749,18 @@ class NodeInfosDialog(wx.Dialog):
             message = wx.MessageDialog(self, message, "ERROR", wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
-            self.Name.SetFocus()
+            self.NodeName.SetFocus()
         else:
             self.EndModal(wx.ID_OK)
     
     def SetValues(self, name, id, type, description):
-        self.Name.SetValue(name)
+        self.NodeName.SetValue(name)
         self.NodeID.SetValue("0x%02X"%id)
         self.Type.SetStringSelection(type)
         self.Description.SetValue(description)
 
     def GetValues(self):
-        name = self.Name.GetValue()
+        name = self.NodeName.GetValue()
         nodeid = int(self.NodeID.GetValue(), 16)
         type = self.Type.GetStringSelection()
         description = self.Description.GetValue()
@@ -813,7 +812,7 @@ class CreateNodeDialog(wx.Dialog):
         parent.AddWindow(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.Type, 0, border=10, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.staticText2, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.Name, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.AddWindow(self.NodeName, 0, border=10, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.staticText3, 0, border=5, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.NodeID, 0, border=10, flag=wx.GROW|wx.BOTTOM)
         parent.AddWindow(self.staticText4, 0, border=5, flag=wx.GROW|wx.BOTTOM)
@@ -899,7 +898,7 @@ class CreateNodeDialog(wx.Dialog):
               name='Type', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 25), style=0)
 
-        self.Name = wx.TextCtrl(id=ID_CREATENODEDIALOGNAME, name='Name',
+        self.NodeName = wx.TextCtrl(id=ID_CREATENODEDIALOGNAME, name='NodeName',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
               style=0, value='')
 
@@ -1002,10 +1001,10 @@ class CreateNodeDialog(wx.Dialog):
                 self.Profile.Append(name)
         self.Profile.Append("Other")
         self.Profile.SetStringSelection("None")
-        self.Name.SetFocus()
+        self.NodeName.SetFocus()
         
     def OnOK(self, event):
-        name = self.Name.GetValue()
+        name = self.NodeName.GetValue()
         message = ""
         if name != "":
             good = not name[0].isdigit()
@@ -1022,12 +1021,12 @@ class CreateNodeDialog(wx.Dialog):
             message = wx.MessageDialog(self, message, "ERROR", wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
-            self.Name.SetFocus()
+            self.NodeName.SetFocus()
         else:
             self.EndModal(wx.ID_OK)
 
     def GetValues(self):
-        name = self.Name.GetValue()
+        name = self.NodeName.GetValue()
         nodeid = 0
         if self.NodeID.GetValue() != "":
             nodeid = int(self.NodeID.GetValue(), 16)
