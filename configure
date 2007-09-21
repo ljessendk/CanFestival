@@ -639,7 +639,8 @@ MAKEFILES=Makefile.in\
 \ src/Makefile.in\
 \ drivers/Makefile.in\
 \ objdictgen/Makefile.in\
-\ examples/Makefile.in
+\ examples/Makefile.in\
+\ objdictgen/canfestival_config.py.in
 
 # Drivers dependent Makefiles
 if [ "$SUB_TIMERS_DRIVER" != "" ]; then
