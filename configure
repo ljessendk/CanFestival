@@ -78,7 +78,7 @@ CFLAGS=
 test=conftest
 rm -f $test $test.c
 
-if [ "$XENO_CONFIG" == "" ]; then
+if [ "$XENO_CONFIG" = "" ]; then
 	XENO_CONFIG=/usr/xenomai/bin/xeno-config
 fi
 
