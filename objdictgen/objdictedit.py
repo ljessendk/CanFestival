@@ -620,7 +620,7 @@ class objdictedit(wx.Frame):
                     self.RefreshProfileMenu()
                     self.RefreshMainMenu()
                 else:
-                    message = wx.MessageDialog(self, e.args[0], "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         dialog.Destroy()
