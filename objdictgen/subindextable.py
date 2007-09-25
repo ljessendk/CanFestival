@@ -25,6 +25,7 @@ import wx
 import wx.grid
 
 from types import *
+from commondialogs import *
 
 from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
 

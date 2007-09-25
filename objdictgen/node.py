@@ -738,6 +738,11 @@ class Node:
                     self.UserMapping[index]["values"] = values
                 return True
             elif 0 <= subIndex < len(self.UserMapping[index]["values"]) and values != None:
+                if "type" in values:
+                    if self.IsStringType(values["type"]) and not self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                        self.SetEntry(index, subIndex, "")
+                    elif not self.IsStringType(values["type"]) and self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                        self.SetEntry(index, subIndex, 0)
                 self.UserMapping[index]["values"][subIndex].update(values)
                 return True
         return False
@@ -970,6 +975,19 @@ class Node:
             name = self.GetTypeName(index)
             dic[index] = [name, valuetype]
         return dic
+
+#-------------------------------------------------------------------------------
+#                            Type helper functions
+#-------------------------------------------------------------------------------
+
+    def IsStringType(self, index):
+        if index in (0x9, 0xA, 0xB):
+            return True
+        elif 0xA0 <= index < 0x100:
+            result = self.GetEntry(index, 1)
+            if result is not None and result in (0x9, 0xA, 0xB):
+                return True
+        return False
 
 #-------------------------------------------------------------------------------
 #                            Type and Map Variable Lists
