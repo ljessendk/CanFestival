@@ -654,6 +654,130 @@ directory, and run the test program:
 {\ttfamily
 TestMasterSlave.exe {}-l can\_peak\_win32.dll}
 
+\subsection{MSYS}
+
+
+\subsubsection{Requirements}
+
+Download from : http://sourceforge.net/project/showfiles.php?group\_id=2435
+
+\begin{enumerate}
+\item MSYS-1.0.10.exe
+\item MinGW-5.1.3.exe
+\item mingwPORT (which contains wget-1.9.1)
+\end{enumerate}
+Please download driver at http://www.peak-system.com/themen/download\_gb.html
+and follow instructions in order to install driver on your system.
+Install MSYS and MingW as required, and the driver for your Peak CAN
+device. Open a MSYS terminal, and follow those instructions:\\
+
+
+\begin{itemize}
+\item extract wget-1.9.1-mingwPORT.tar.bz2
+\item copy wget.exe in c:\textbackslash{}msys\textbackslash{}1.0\textbackslash{}bin\textbackslash{}
+\item start MSYS and check the file /etc/fstab contain the line c:/MinGW
+/mingw
+\end{itemize}
+
+\subsubsection{MSYS configuration and compilation}
+
+Instructions for compilation are nearly the same as CYGWIN part. 
+
+
+\paragraph{A single node with PcanLight and Peak CAN-USB adapter}
+
+Download the PCAN-Light Zip file for your HW ( URL from download page
+):
+
+\texttt{wget http://www.peak-system.com/files/usb.zip}~\\
+
+
+Extract its content into your MSYS's home (it will create a \char`\"{}Disk\char`\"{}
+directory):
+
+\texttt{unzip usb.zip}~\\
+
+
+Configure CanFestival3 providing path to the desired PcanLight implementation:
+
+\texttt{cd CanFestival-3}
+
+\texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN-Light/Api/}
+
+\texttt{export PCAN\_HEADER=Pcan\_usb.h}
+
+\texttt{export PCAN\_LIB=\~{ }/Disk/PCAN-Light/Lib/Visual\textbackslash{}
+C++/Pcan\_usb.lib}
+
+\texttt{./configure -{}-can=peak\_win32}
+
+\texttt{make}~\\
+
+
+In order to test, you have to use another CanFestival node, connect
+with a CAN cable.
+
+\texttt{cp \~{ }/Disk/PCAN-Light/Pcan\_usb.dll .}
+
+\texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}}
+
+\texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll \textbackslash{}}
+
+\texttt{-S 500K -M none}~\\
+
+
+Then, on the other node :
+
+\texttt{./TestMasterSlave -l my\_driver.so -S none -M 500K -m 0}
+
+Now messages are beeing exchanged between master and slave node.
+
+
+\paragraph{Two nodes with PcanLight and Peak dual PCMCIA-CAN adapter}
+
+Download the PCAN-Light Zip file for your HW ( URL from download page
+):
+
+\texttt{wget http://www.peak-system.com/files/pccard.zip}~\\
+\\
+Extract its content into your MSYS's home (it will create a \char`\"{}Disk\char`\"{}
+directory):
+
+\texttt{unzip pccard.zip}~\\
+\\
+The configure CanFestival3 providing path to the desired PcanLight
+implementation:\\
+
+
+\texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN-Light/Api/}
+
+\texttt{export PCAN\_HEADER=Pcan\_pcc.h}
+
+\texttt{export PCAN\_LIB=\~{ }/Disk/PCAN-Light/Lib/Visual\textbackslash{}
+C++/Pcan\_pcc.lib}
+
+\texttt{export PCAN2\_HEADER=Pcan\_2pcc.h}
+
+\texttt{export PCAN2\_LIB=\~{ }/Disk/PCAN-Light/Lib/Visual\textbackslash{}
+C++/Pcan\_2pcc.lib}~\\
+
+
+In order to test, just connect together both CAN ports of the PCMCIA
+card. Don't forget 120ohms terminator.
+
+\texttt{cp\~{ }/Disk/PCAN-Light/Pcan\_pcc.dll ~.}
+
+\texttt{cp \~{ }/Disk/PCAN-Light/Pcan\_2pcc.dll ~.}
+
+\texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}}
+
+\texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll -m 0 -s
+1}~\\
+
+
+Messages are then exchanged between master and slave node, both inside
+TestMasterSlave's process.
+
 \section{Motorola HCS12}
 The examples have been tested on a MC9S12DG255 mounted on a
 Elektronikladen HCS12 T{}-board.
