@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "def.h"
 #include "dcf.h"
 #include "nmtSlave.h"
+#include "emcy.h"
 
 /** Prototypes for internals functions */
 /*!                                                                                                
@@ -66,9 +67,14 @@ void canDispatch(CO_Data* d, Message *m)
 {
 	 switch(m->cob_id.w >> 7)
 	{
-		case SYNC:
-			if(d->CurrentCommunicationState.csSYNC)
-				proceedSYNC(d);
+		case SYNC:		/* can be a SYNC or a EMCY message */
+			if(m->cob_id.w == 0x080)	/* SYNC */
+			{
+				if(d->CurrentCommunicationState.csSYNC)
+					proceedSYNC(d);
+			} else 		/* EMCY */
+				if(d->CurrentCommunicationState.csEmergency)
+					proceedEMCY(d,m);
 			break;
 		/* case TIME_STAMP: */
 		case PDO1tx:
@@ -122,7 +128,7 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csSDO,	None,		resetSDO(d))
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
 	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
-/*	StartOrStop(Emergency,,) */
+	StartOrStop(csEmergency,	emergencyInit(d),	emergencyStop(d)) 
 	StartOrStop(csPDO,	PDOInit(d),	PDOStop(d))
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
 }

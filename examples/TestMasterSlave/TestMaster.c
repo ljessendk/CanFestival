@@ -66,6 +66,23 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_obj1001 }
                      };
 
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 TestMaster_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 TestMaster_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t TestMaster_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex TestMaster_Index1003[] = 
+                     {
+                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&TestMaster_obj1003[0] }
+                     };
+
 /* index 0x1005 :   SYNC COB ID. */
                     UNS32 TestMaster_obj1005 = 0x40000080;	/* 1073741952 */
                     ODCallback_t TestMaster_Index1005_callbacks[] = 
@@ -152,13 +169,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 TestMaster_highestSubIndex_obj1280 = 3; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x602;	/* 1538 */
                     UNS32 TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x582;	/* 1410 */
-                    INTEGER32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;	/* 2 */
+                    UNS8 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x2;	/* 2 */
                     subindex TestMaster_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1280 },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO },
-                       { RW, int32, sizeof (INTEGER32), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
+                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
                      };
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */

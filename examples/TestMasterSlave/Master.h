@@ -11,3 +11,4 @@ void TestMaster_stopped(void);
 
 void TestMaster_post_sync(void);
 void TestMaster_post_TPDO(void);
+void TestMaster_post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg);

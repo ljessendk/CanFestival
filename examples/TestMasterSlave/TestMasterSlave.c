@@ -193,7 +193,8 @@ int main(int argc,char **argv)
 		TestSlave_Data.stopped = TestSlave_stopped;
 		TestSlave_Data.post_sync = TestSlave_post_sync;
 		TestSlave_Data.post_TPDO = TestSlave_post_TPDO;
-		TestSlave_Data.storeODSubIndex = TestSlave_storeODSubIndex;		
+		TestSlave_Data.storeODSubIndex = TestSlave_storeODSubIndex;
+		TestSlave_Data.post_emcy = TestSlave_post_emcy;
 
 		if(!canOpen(&SlaveBoard,&TestSlave_Data)){
 			eprintf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
@@ -209,6 +210,7 @@ int main(int argc,char **argv)
 		TestMaster_Data.stopped = TestMaster_stopped;
 		TestMaster_Data.post_sync = TestMaster_post_sync;
 		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
+		TestMaster_Data.post_emcy = TestMaster_post_emcy;
 		
 		if(!canOpen(&MasterBoard,&TestMaster_Data)){
 			eprintf("Cannot open Master Board (%s,%s)\n",MasterBoard.busname, MasterBoard.baudrate);

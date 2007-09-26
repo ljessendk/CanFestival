@@ -180,9 +180,13 @@ void TestMaster_post_sync()
 		MasterMap13);
 }
 
+void TestMaster_post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg)
+{
+	eprintf("Master received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
+}
+
 char query_result = 0;
 char waiting_answer = 0;
-
 
 static void CheckSDO(CO_Data* d, UNS8 nodeId)
 {

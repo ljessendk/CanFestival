@@ -43,6 +43,7 @@ typedef struct struct_CO_Data CO_Data;
 #include "lifegrd.h"
 #include "sync.h"
 #include "nmtMaster.h"
+#include "emcy.h"
 
 /* This structurs contains all necessary information for a CanOpen node */
 struct struct_CO_Data {
@@ -95,6 +96,15 @@ struct struct_CO_Data {
 	UNS8* dcf_cursor;
 	UNS32 dcf_count_targets;
 	
+	/* EMCY */
+	e_errorState error_state;
+	UNS8 error_history_size;
+	UNS8* error_number;
+	UNS32* error_first_element;
+	UNS8* error_register;
+	s_errors error_data[EMCY_MAX_ERRORS];
+	post_emcy_t post_emcy;
+	
 };
 
 #define NMTable_Initializer Unknown_state,
@@ -114,6 +124,13 @@ struct struct_CO_Data {
 		-1,         /* timer */\
 		NULL        /* Callback */\
 	  },
+
+#define ERROR_DATA_INITIALIZER \
+	{\
+	0, /* errCode */\
+	0, /* errRegMask */\
+	0 /* active */\
+	},
 
 /* A macro to initialize the data in client app.*/
 /* CO_Data structure */
@@ -174,7 +191,19 @@ struct struct_CO_Data {
 	NODE_PREFIX ## _scanIndexOD,                /* scanIndexOD */\
 	_storeODSubIndex,                /* storeODSubIndex */\
 	NULL,		/*dcf_cursor*/\
-	1		/*dcf_count_targets*/\
+	1,		/*dcf_count_targets*/\
+	\
+	/* EMCY */\
+	Error_free,                      /* error_state */\
+	sizeof(NODE_PREFIX ## _obj1003) / sizeof(NODE_PREFIX ## _obj1003[0]),      /* error_history_size */\
+	& NODE_PREFIX ## _highestSubIndex_obj1003,    /* error_number */\
+	& NODE_PREFIX ## _obj1003[0],    /* error_first_element */\
+	& NODE_PREFIX ## _obj1001,       /* error_register */\
+	/* error_data: structure s_errors */\
+	{\
+	REPEAT_EMCY_MAX_ERRORS_TIMES(ERROR_DATA_INITIALIZER)\
+	},\
+	_post_emcy              /* post_emcy */\
 }
 
 #ifdef __cplusplus

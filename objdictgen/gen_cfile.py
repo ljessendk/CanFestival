@@ -317,6 +317,27 @@ def GenerateFileContent(Node, headerfilepath):
 #                     Declaration of Particular Parameters
 #-------------------------------------------------------------------------------
 
+    if 0x1003 not in communicationlist:
+        entry_infos = Node.GetEntryInfos(0x1003)
+        texts["EntryName"] = entry_infos["name"]
+        indexContents[0x1003] = """\n/* index 0x1003 :   %(EntryName)s */
+                    UNS8 %(NodeName)s_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 %(NodeName)s_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t %(NodeName)s_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex %(NodeName)s_Index1003[] = 
+                     {
+                       { RW, uint8, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
+                     };
+"""%texts
+
     if 0x1005 not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x1005)
         texts["EntryName"] = entry_infos["name"]

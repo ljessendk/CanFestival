@@ -55,6 +55,9 @@ TIMEVAL_MAX=
 # Default to little-endian
 CANOPEN_BIG_ENDIAN=
 
+# Max number of active errors managed in error_data structure.
+EMCY_MAX_ERRORS=8
+
 ###########################################################################
 #                             DEFAULT BUILD OPTIONS                       #
 ###########################################################################
@@ -108,6 +111,7 @@ while [ $# -ge 1 ]; do
 	--SDO_TIMEOUT_MS=*)	SDO_TIMEOUT_MS=$1;;
 	--CANOPEN_BIG_ENDIAN=*)	CANOPEN_BIG_ENDIAN=$1;;
 	--MAX_NB_TIMER=*) MAX_NB_TIMER=$1;;
+	--EMCY_MAX_ERRORS=*) EMCY_MAX_ERRORS=$1;;
 	--help)	echo	"Usage: ./configure [options]"
     		echo	"Options:"
     		echo 	" --cc=foo      Use compiler 'foo' instead of defaults ${CC1} or ${CC2}."
@@ -143,6 +147,7 @@ while [ $# -ge 1 ]; do
 		echo	" --SDO_MAX_SIMULTANEOUS_TRANSFERTS [=4] Number of SDO that the node can manage concurrently"
 		echo	" --NMT_MAX_NODE_ID [=128] can be reduced to gain memory on small network"
 		echo	" --SDO_TIMEOUT_MS [=3000] Timeout in milliseconds for SDO (None to disable the feature)"
+		echo	" --EMCY_MAX_ERRORS [=8] Max number of active errors managed in error_data structure"
 		exit 0;;
 	*)		echo "Unknown argument ${1}"; exit -1;;
 	esac
@@ -574,7 +579,8 @@ for i in \
  US_TO_TIMEVAL_FACTOR\
  TIMEVAL\
  TIMEVAL_MAX\
- RTCAN_SOCKET; do
+ RTCAN_SOCKET\
+ EMCY_MAX_ERRORS; do
 if [ "${!i}" = "" ]; then
 echo "/* $i is not defined */" >> include/config.h
 else
@@ -585,7 +591,8 @@ echo "" >> include/config.h
 
 for i in \
  SDO_MAX_SIMULTANEOUS_TRANSFERTS\
- NMT_MAX_NODE_ID; do
+ NMT_MAX_NODE_ID\
+ EMCY_MAX_ERRORS; do
 	echo "#define REPEAT_"$i"_TIMES(repeat)\\">> include/config.h
 	times=${!i}
 	result=""

@@ -86,6 +86,13 @@ void TestSlave_post_TPDO()
 {
         SlaveMap13 += 1;
 	eprintf("TestSlave_post_TPDO\n");
+	
+	/* send an error and recover inmediately every 12 cycles */
+	if(SlaveMap13 % 12 == 0)
+	{
+		EMCY_setError(&TestSlave_Data, 0x4200, 0x08);
+		EMCY_errorRecovered(&TestSlave_Data, 0x4200);
+	}
 }
 
 void TestSlave_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex)
@@ -100,4 +107,9 @@ void TestSlave_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex)
 	 * 
 	 * */
 	eprintf("TestSlave_storeODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
+}
+
+void TestSlave_post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg)
+{
+	eprintf("Slave received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }

@@ -12,6 +12,7 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 
 /* Master node data struct */
 extern CO_Data TestMaster_Data;
+extern ODCallback_t Transmit_PDO_1_Parameter_callbacks[];		/* Callbacks of index0x1800 */
 extern UNS8 DO;		/* Mapped at index 0x2000, subindex 0x00*/
 extern UNS8 DI1;		/* Mapped at index 0x200F, subindex 0x00*/
 extern UNS8 DI2;		/* Mapped at index 0x2010, subindex 0x00*/

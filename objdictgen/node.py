@@ -104,7 +104,7 @@ MappingDictionary = {
                 [{"name" : "Error Register", "type" : 0x05, "access": 'ro', "pdo" : True}]},
     0x1002 : {"name" : "Manufacturer Status Register", "struct" : var, "need" : False,  "values" :
                 [{"name" : "Manufacturer Status Register", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
-    0x1003 : {"name" : "Pre-defined Error Field", "struct" : rec, "need" : False,  "values" :
+    0x1003 : {"name" : "Pre-defined Error Field", "struct" : rec, "need" : False, "callback" : True,  "values" :
                 [{"name" : "Number of Errors", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
     0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : False, "callback" : True, "values" :
