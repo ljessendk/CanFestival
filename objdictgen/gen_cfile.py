@@ -105,8 +105,12 @@ def GenerateFileContent(Node, headerfilepath):
 #-------------------------------------------------------------------------------    
     
     valueRangeContent = ""
-    strDefine = ""
-    strSwitch = ""
+    strDefine = "\n#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */"
+    strSwitch = """    case valueRange_EMC:
+      if (*(UNS8*)Value < (UNS8)0) return OD_VALUE_TOO_LOW;
+      if (*(UNS8*)Value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      break;\n"""
+    internal_types["valueRange_EMC"] = ("UNS8", "", "valueRange_EMC")
     num = 0
     for index in rangelist:
         rangename = Node.GetEntryName(index)
@@ -181,7 +185,10 @@ def GenerateFileContent(Node, headerfilepath):
             subentry_infos = Node.GetSubentryInfos(index, 0)
             typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
-            texts["value"] = values[0]
+            if index == 0x1003:
+                texts["value"] = 0
+            else:
+                texts["value"] = values[0]
             texts["subIndexType"] = typeinfos[0]
             strIndex += "                    %(subIndexType)s %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; /* number of subindex - 1*/\n"%texts
             
@@ -284,6 +291,8 @@ def GenerateFileContent(Node, headerfilepath):
             typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
             if subIndex == 0:
+                if index == 0x1003:
+                    typeinfos = GetValidTypeInfos("valueRange_EMC")
                 if entry_infos["struct"] & OD_MultipleSubindexes:
                     name = "%(NodeName)s_highestSubIndex_obj%(index)04X"%texts
                 elif index in variablelist:
@@ -333,7 +342,7 @@ def GenerateFileContent(Node, headerfilepath):
                      };
                     subindex %(NodeName)s_Index1003[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
                      };
 """%texts
