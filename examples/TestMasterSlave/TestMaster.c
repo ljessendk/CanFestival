@@ -24,9 +24,14 @@ INTEGER16 MasterMap13 = 0x0;		/* Mapped at index 0x200C, subindex 0x00 */
 /* Declaration of the value range types                                   */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value < (UNS8)0) return OD_VALUE_TOO_LOW;
+      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      break;
   }
   return 0;
 }
@@ -79,7 +84,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
                     subindex TestMaster_Index1003[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1003 },
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&TestMaster_obj1003[0] }
                      };
 

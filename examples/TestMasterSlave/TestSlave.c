@@ -24,9 +24,14 @@ INTEGER16 SlaveMap13 = 0x4D2;		/* Mapped at index 0x200C, subindex 0x00 */
 /* Declaration of the value range types                                   */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 TestSlave_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value < (UNS8)0) return OD_VALUE_TOO_LOW;
+      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      break;
   }
   return 0;
 }
@@ -67,7 +72,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x1003 :   Pre-defined Error Field. */
-                    UNS8 TestSlave_highestSubIndex_obj1003 = 8; /* number of subindex - 1*/
+                    UNS8 TestSlave_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
                     UNS32 TestSlave_obj1003[] = 
                     {
                       0x0,	/* 0 */
@@ -93,7 +98,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
                     subindex TestSlave_Index1003[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&TestSlave_highestSubIndex_obj1003 },
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&TestSlave_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&TestSlave_obj1003[0] },
                        { RO, uint32, sizeof (UNS32), (void*)&TestSlave_obj1003[1] },
                        { RO, uint32, sizeof (UNS32), (void*)&TestSlave_obj1003[2] },

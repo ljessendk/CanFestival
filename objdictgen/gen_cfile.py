@@ -107,8 +107,8 @@ def GenerateFileContent(Node, headerfilepath):
     valueRangeContent = ""
     strDefine = "\n#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */"
     strSwitch = """    case valueRange_EMC:
-      if (*(UNS8*)Value < (UNS8)0) return OD_VALUE_TOO_LOW;
-      if (*(UNS8*)Value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      if (*(UNS8*)value < (UNS8)0) return OD_VALUE_TOO_LOW;
+      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
       break;\n"""
     internal_types["valueRange_EMC"] = ("UNS8", "", "valueRange_EMC")
     num = 0
@@ -125,8 +125,8 @@ def GenerateFileContent(Node, headerfilepath):
             maxvalue = str(Node.GetEntry(index, 3))
             strDefine += "\n#define valueRange_%d 0x%02X /* Type %s, %s < value < %s */"%(num,index,typeinfos[0],minvalue,maxvalue)
             strSwitch += """    case valueRange_%d:
-      if (*(%s*)Value < (%s)%s) return OD_VALUE_TOO_LOW;
-      if (*(%s*)Value > (%s)%s) return OD_VALUE_TOO_HIGH;
+      if (*(%s*)value < (%s)%s) return OD_VALUE_TOO_LOW;
+      if (*(%s*)value > (%s)%s) return OD_VALUE_TOO_HIGH;
       break;\n"""%(num,typeinfos[0],typeinfos[0],minvalue,typeinfos[0],typeinfos[0],maxvalue)
 
     valueRangeContent += strDefine
