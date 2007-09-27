@@ -121,8 +121,11 @@ UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex )
 
       MSG_WAR(0x3930, "sendPDOrequest cobId is : ",*pwCobId);
       {
-      Message pdo = {*pwCobId, REQUEST, 0};
-      return canSend(d->canHandle,&pdo);
+          Message pdo;
+          pdo.cob_id.w = *pwCobId;
+          pdo.rtr = REQUEST;
+          pdo.len = 0;      
+          return canSend(d->canHandle,&pdo);
       }
     }
   }
