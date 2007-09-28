@@ -98,7 +98,7 @@ UNS8 sendEMCY(CO_Data* d, UNS32 cob_id, UNS16 errCode, UNS8 errRegister)
 {
 	Message m;
   
-	MSG_WAR(0xA001, "sendEMCY", 0);
+	MSG_WAR(0x3051, "sendEMCY", 0);
   
 	m.cob_id.w = cob_id ;
 	m.rtr = NOT_A_REQUEST;
@@ -134,7 +134,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask)
 		{
 			if (d->error_data[index].active)
 			{
-				MSG_WAR(0xA002, "EMCY message already sent", 0);
+				MSG_WAR(0x3052, "EMCY message already sent", 0);
 				return 0;
 			} else d->error_data[index].active = 1;		/* set as active error */
 			break;
@@ -146,7 +146,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask)
 	
 	if (index == EMCY_MAX_ERRORS)		/* error_data full */
 	{
-		MSG_ERR(0xA003, "error_data full", 0);
+		MSG_ERR(0x3053, "error_data full", 0);
 		return 1;
 	}
 	
@@ -213,7 +213,7 @@ void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 		*d->error_register = errRegister_tmp;
 	}
 	else
-		MSG_WAR(0xA004, "recovered error was not active", 0);
+		MSG_WAR(0x3054, "recovered error was not active", 0);
 }
 
 /*! This function is responsible to process an EMCY canopen-message.
@@ -229,11 +229,11 @@ void proceedEMCY(CO_Data* d, Message* m)
 	UNS16 errCode;
 	UNS8 errReg;
 	
-	MSG_WAR(0xA005, "EMCY received. Proceed. ", 0);
+	MSG_WAR(0x3055, "EMCY received. Proceed. ", 0);
   
 	/* Test if the size of the EMCY is ok */
 	if ( m->len != 8) {
-		MSG_ERR(0xA006, "Error size EMCY. CobId  : ", m->cob_id.w);
+		MSG_ERR(0x1056, "Error size EMCY. CobId  : ", m->cob_id.w);
 		return;
 	}
 	
