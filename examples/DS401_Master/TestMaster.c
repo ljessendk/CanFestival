@@ -32,9 +32,13 @@ UNS8 DI8 = 0x0;		/* Mapped at index 0x2016, subindex 0x00 */
 /* Declaration of the value range types                                   */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      break;
   }
   return 0;
 }
@@ -72,6 +76,23 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     subindex TestMaster_Index1001[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_obj1001 }
+                     };
+
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 TestMaster_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 TestMaster_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t TestMaster_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex TestMaster_Index1003[] = 
+                     {
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&TestMaster_obj1003[0] }
                      };
 
 /* index 0x1005 :   SYNC COB ID. */
@@ -130,13 +151,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 TestMaster_highestSubIndex_obj1280 = 3; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x640;	/* 1600 */
                     UNS32 TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x5C0;	/* 1472 */
-                    INTEGER32 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x40;	/* 64 */
+                    UNS8 TestMaster_obj1280_Node_ID_of_the_SDO_Server = 0x40;	/* 64 */
                     subindex TestMaster_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1280 },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Client_to_Server_Transmit_SDO },
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1280_COB_ID_Server_to_Client_Receive_SDO },
-                       { RW, int32, sizeof (INTEGER32), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
+                       { RW, uint8, sizeof (UNS8), (void*)&TestMaster_obj1280_Node_ID_of_the_SDO_Server }
                      };
 
 /* index 0x1400 :   Receive PDO 1 Parameter. */
@@ -259,6 +280,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 TestMaster_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestMaster_obj1800_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestMaster_obj1800_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t TestMaster_Index1800_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex TestMaster_Index1800[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1800 },
@@ -276,6 +306,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 TestMaster_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestMaster_obj1801_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 TestMaster_obj1801_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t TestMaster_Index1801_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex TestMaster_Index1801[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestMaster_highestSubIndex_obj1801 },
@@ -502,8 +541,8 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x1600: i = 10;break;
 		case 0x1601: i = 11;break;
 		case 0x1602: i = 12;break;
-		case 0x1800: i = 13;break;
-		case 0x1801: i = 14;break;
+		case 0x1800: i = 13;*callbacks = TestMaster_Index1800_callbacks; break;
+		case 0x1801: i = 14;*callbacks = TestMaster_Index1801_callbacks; break;
 		case 0x1A00: i = 15;break;
 		case 0x1A01: i = 16;break;
 		case 0x2000: i = 17;break;
