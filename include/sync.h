@@ -35,10 +35,10 @@ void _post_TPDO(void);
 
 /** transmit a SYNC message and trigger sync TPDOs
  */
-UNS8 sendSYNC (CO_Data* d, UNS32 cob_id);
+UNS8 sendSYNC (CO_Data* d);
 /** transmit a SYNC message on CAN bus
  */
-UNS8 sendSYNCMessage(CO_Data* d, UNS32 cob_id);
+UNS8 sendSYNCMessage(CO_Data* d);
 
 /** This function is called when the node is receiving a SYNC message (cob-id = 0x80).
  *  - check if the node is in OERATIONAL mode. (other mode : return 0 but does nothing).

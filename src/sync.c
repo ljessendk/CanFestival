@@ -60,7 +60,7 @@ UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable,
 **/   
 void SyncAlarm(CO_Data* d, UNS32 id)
 {
-	sendSYNC(d, *d->COB_ID_Sync & 0x1FFFFFFF) ;
+	sendSYNC(d) ;
 }
 
 /*!                                                                                                
@@ -124,13 +124,13 @@ void stopSYNC(CO_Data* d)
 **                                                                                                 
 ** @return                                                                                         
 **/  
-UNS8 sendSYNCMessage(CO_Data* d, UNS32 cob_id)
+UNS8 sendSYNCMessage(CO_Data* d)
 {
   Message m;
   
   MSG_WAR(0x3001, "sendSYNC ", 0);
   
-  m.cob_id.w = cob_id ;
+  m.cob_id.w = *d->COB_ID_Sync & 0x1FFFFFFF;
   m.rtr = NOT_A_REQUEST;
   m.len = 0;
   
@@ -146,10 +146,10 @@ UNS8 sendSYNCMessage(CO_Data* d, UNS32 cob_id)
 **                                                                                                 
 ** @return                                                                                         
 **/  
-UNS8 sendSYNC(CO_Data* d, UNS32 cob_id)
+UNS8 sendSYNC(CO_Data* d)
 {
   UNS8 res;
-  res = sendSYNCMessage(d, cob_id);
+  res = sendSYNCMessage(d);
   proceedSYNC(d) ; 
   return res ;
 }

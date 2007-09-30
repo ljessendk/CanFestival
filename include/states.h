@@ -47,12 +47,12 @@ typedef enum enum_nodeState e_nodeState;
 
 typedef struct
 {
-	UNS8 csBoot_Up;
-	UNS8 csSDO;
-	UNS8 csEmergency;
-	UNS8 csSYNC;
-	UNS8 csHeartbeat;
-	UNS8 csPDO;
+	INTEGER8 csBoot_Up;
+	INTEGER8 csSDO;
+	INTEGER8 csEmergency;
+	INTEGER8 csSYNC;
+	INTEGER8 csHeartbeat;
+	INTEGER8 csPDO;
 } s_state_communication;
 
 /** Function that user app can overload
