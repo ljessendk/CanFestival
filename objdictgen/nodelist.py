@@ -160,7 +160,6 @@ class NodeList:
     def RemoveSlaveNode(self, index):
         if index in self.SlaveNodes.keys():
             self.SlaveNodes.pop(index)
-            OnCloseProjectMenu
             return None
         else:
             return "Node with \"0x%2.2X\" ID doesn't exist"
