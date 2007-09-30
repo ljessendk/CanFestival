@@ -59,6 +59,38 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "can_driver.h"
 
+#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON
+#include "def.h"
+
+#define MyCase(fc) case fc: printf(#fc);break;
+void print_message(Message *m)
+{
+    int i;
+    switch(m->cob_id.w >> 7)
+    {
+        MyCase(SYNC)
+        MyCase(TIME_STAMP)
+        MyCase(PDO1tx)
+        MyCase(PDO1rx)
+        MyCase(PDO2tx)
+        MyCase(PDO2rx)
+        MyCase(PDO3tx)
+        MyCase(PDO3rx)
+        MyCase(PDO4tx)
+        MyCase(PDO4rx)
+        MyCase(SDOtx)
+        MyCase(SDOrx)
+        MyCase(NODE_GUARD)
+        MyCase(NMT)
+    }
+    printf(" rtr:%d", m->rtr);
+    printf(" len:%d", m->len);
+    for (i = 0 ; i < m->len ; i++)
+        printf(" %02x", m->data[i]);
+    printf("\n");
+}
+
+#endif
 /*********functions which permit to communicate with the board****************/
 UNS8
 canReceive_driver (CAN_HANDLE fd0, Message * m)
@@ -81,6 +113,10 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
     m->rtr = 0;
   memcpy (m->data, frame.data, 8);
 
+#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON
+  printf("in : ");
+  print_message(m);
+#endif
   return 0;
 }
 
@@ -101,6 +137,10 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
   else
     memcpy (frame.data, m->data, 8);
 
+#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON
+  printf("out : ");
+  print_message(m);
+#endif
   res = CAN_SEND (*(int *) fd0, &frame, sizeof (frame), 0);
   if (res < 0)
     {
@@ -177,7 +217,20 @@ canOpen_driver (s_BOARD * board)
 	       ifr.ifr_name, strerror (CAN_ERRNO (err)));
       goto error_close;
     }
+  
+  {
+    int loopback = 1;
+    setsockopt(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_LOOPBACK,
+               &loopback, sizeof(loopback));
+  }
+  
+  {
+    int recv_own_msgs = 0; /* 0 = disabled (default), 1 = enabled */
 
+    setsockopt(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_RECV_OWN_MSGS,
+               &recv_own_msgs, sizeof(recv_own_msgs));
+  }
+  
   addr.can_family = AF_CAN;
   addr.can_ifindex = ifr.ifr_ifindex;
   err = CAN_BIND (*(int *) fd0, (struct sockaddr *) &addr, sizeof (addr));
