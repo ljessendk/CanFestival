@@ -62,7 +62,7 @@ void Call_stopped()
 
 void Call_post_sync()
 {
-    *textLog << wxT("Post_sync\n");
+    //*textLog << wxT("Post_sync\n");
 	printf("POST SYNC:\n");
 	printf("     Write_Outputs: %x \n     Analogue_Output1: %d \n     Analogue_Output2: %d \n", Write_Outputs_8_Bit[0], Write_Analogue_Output_16_Bit[0], Write_Analogue_Output_16_Bit[1]);
 	printf("     Read_Input: %x \n     Analogue_Input1: %d \n     Analogue_Input2: %d \n", Read_Inputs_8_Bit[0], Read_Analogue_Input_16_Bit[0], Read_Analogue_Input_16_Bit[1]);

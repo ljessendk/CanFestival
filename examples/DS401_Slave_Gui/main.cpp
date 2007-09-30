@@ -7,16 +7,16 @@
 #include <iostream>
 #include <wx/brush.h>
 #include <sstream>
+#include <string.h>
 #include <wx/listbox.h>
 #include <wx/dynarray.h>
 #include <wx/dcclient.h>
 #include <wx/gauge.h>
 #include <wx/spinctrl.h>
 
-#include "monicone.xpm"
+//#include "monicone.xpm"
 
 #include "main.h"
-#include "tools.h"
 #include "TestSlaveGui.h"
 extern "C" {
 	#include "canfestival.h"
@@ -35,9 +35,15 @@ extern "C" {
 
 wxTextCtrl		*textLog;
 int				node_id_ext;
+int to_start = 0;
 MyFrame 		*frame; 
-s_BOARD			SlaveBoard = {NULL, NULL};
-char* 			LibraryPath = NULL;
+#define MAXLENGTH_BUSNAME 32
+#define MAXLENGTH_BAUDRATE 8
+char            _busname[MAXLENGTH_BUSNAME] = "vcan0";
+char            _baudrate[MAXLENGTH_BAUDRATE] = "500K";
+s_BOARD			SlaveBoard = {_busname, _baudrate};
+#define MAXLENGTH_LIBPATH 1024
+char			LibraryPath[MAXLENGTH_LIBPATH]  = "libcanfestival_can_virtual.so";
 double			Gtime = 0;
 double			y[28][45];
 double			hdelta = 0;
@@ -121,7 +127,85 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
  EVT_TIMER(TIMER_ID, MyFrame::OnTimer)
 END_EVENT_TABLE()
 
-IMPLEMENT_APP(MyApp)
+IMPLEMENT_APP_NO_MAIN(MyApp);
+IMPLEMENT_WX_THEME_SUPPORT;
+
+void help()
+{
+  printf("**************************************************************\n");
+  printf("*  DS-401 Slave GUI                                          *\n");
+  printf("*                                                            *\n");
+  printf("*   Usage:                                                   *\n");
+  printf("*   ./DS401_Slave_Gui [OPTIONS]                              *\n");
+  printf("*                                                            *\n");
+  printf("*   OPTIONS:                                                 *\n");
+  printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]     *\n");
+  printf("*                                                            *\n");
+  printf("*    Slave:                                                  *\n");
+  printf("*     -i : Node id format [0x01 , 0x7F]                      *\n");
+  printf("*                                                            *\n");
+  printf("*    CAN bus:                                                *\n");
+  printf("*     -b : bus name [\"1\"]                                    *\n");
+  printf("*     -B : 1M,500K,250K,125K,100K,50K,20K,10K                *\n");
+  printf("*                                                            *\n");
+  printf("**************************************************************\n");
+}
+
+
+int main(int argc,char **argv)
+{
+
+  int c;
+  extern char *optarg;
+  char *snodeid;
+  while ((c = getopt(argc, argv, "-b:B:l:i:s")) != EOF)
+  {
+    switch(c)
+    {
+      case 'b' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        SlaveBoard.busname = optarg;
+        break;
+      case 'B' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        SlaveBoard.baudrate = optarg;
+        break;
+      case 'l' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        strncpy(LibraryPath, optarg, MAXLENGTH_LIBPATH);
+        break;
+      case 'i' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        snodeid = optarg;
+        sscanf(snodeid,"%x",&node_id_ext);
+        break;
+      case 's' :
+        to_start = 1;
+        break;
+      default:
+        help();
+        exit(1);
+    }
+  }
+  wxEntry(argc,argv);
+}
+
 
 bool MyApp::OnInit()
 {
@@ -148,7 +232,7 @@ MyFrame::MyFrame(const wxString& title)
  wxStaticBox	*namebox;
  wxStaticBox	*freqbox;
 
- SetIcon(wxICON(monicone));
+// SetIcon(wxICON(monicone));
  SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_BTNFACE));
  helpMenu->Append(HELP_ABOUT, _T("&About...\tF1"),
  _T("Show about dialog"));
@@ -178,17 +262,17 @@ MyFrame::MyFrame(const wxString& title)
  mysizer->Add(myhsizer, 0, wxEXPAND | wxALL, 5);
  load = new wxButton( panel, LOAD, _T("Load can driver"));
  myhsizer->Add(load, 0, wxLEFT, 5);
- drivername = new wxTextCtrl(panel, wxID_ANY, _T("No driver loaded!!"));
+ drivername = new wxTextCtrl(panel, wxID_ANY, wxString((const char*)LibraryPath,wxConvLocal));
  myhsizer->Add(drivername, 1, wxEXPAND | wxALL, 5);
  myentrysizer = new wxBoxSizer( wxHORIZONTAL );
  mysizer->Add(myentrysizer, 0, wxEXPAND | wxALL, 5);
  myhsizer = new wxStaticBoxSizer( new wxStaticBox(panel, wxID_ANY, _T("Bus name")), wxHORIZONTAL );
  myentrysizer->Add(myhsizer, 0, wxEXPAND | wxALL, 5);
- busname = new wxTextCtrl(panel, wxID_ANY, _T("0"));
+ busname = new wxTextCtrl(panel, wxID_ANY, wxString((const char*)SlaveBoard.busname, wxConvLocal));
  myhsizer->Add(busname, 0, wxLEFT, 5);
  myhsizer = new wxStaticBoxSizer( new wxStaticBox(panel, wxID_ANY, _T("Node ID (Hexa)")), wxHORIZONTAL );
  myentrysizer->Add(myhsizer, 0, wxEXPAND | wxALL, 5);
- node_id = new wxSpinCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 127, 1, _T("wxSpinCtrl"));
+ node_id = new wxSpinCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 127, node_id_ext, _T("wxSpinCtrl"));
  myhsizer->Add(node_id, 0, wxRIGHT, 5);
  myhsizer = new wxStaticBoxSizer( new wxStaticBox(panel, wxID_ANY, _T("Baudrate")), wxHORIZONTAL );
  mysizer->Add(myhsizer, wxEXPAND | wxALL, wxEXPAND | wxALL, 5);
@@ -370,6 +454,10 @@ MyFrame::MyFrame(const wxString& title)
 	for (int j = 0; j < 44; j++)					
 		y[i][j] = 0;
  m_timer.Start(100);
+ if(to_start) 
+ {
+    Start();
+ }
 }
 
 void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
@@ -377,40 +465,34 @@ void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
  Close(true);
 }
 
+void MyFrame::Start()
+{   
+ if (main_can(SlaveBoard, LibraryPath))
+  {
+    printf("[KO]\n");
+    *textLog << wxT("----------------------------------------------------Initialization [KO]\n");
+  }
+ else
+  {
+    printf("[OK]\n");
+    *textLog << wxT("----------------------------------------------------Initialization [OK]\n");
+    stop->Enable(true);
+    start->Enable(false);
+  }
+}
+
 void MyFrame::OnStart(wxCommandEvent& WXUNUSED(event))
 {	
  wxString	s;
 	
- if (LibraryPath == NULL)
- 	{
- 		*textLog << wxT("No driver found!! ----------------------------------Initialization [KO]\n");
- 		return;
- 	}
- if (SlaveBoard.baudrate == NULL)
- 	{
- 		*textLog << wxT("No baudrate found!! ----------------------------------Initialization [KO]\n");
- 		return;
- 	}	
- 	
  node_id_ext = node_id->GetValue();
  s = busname->GetValue();
- SlaveBoard.busname = wxstr_to_charbuf(s);
+ strncpy(SlaveBoard.busname, s.mb_str(), MAXLENGTH_BUSNAME);
  *textLog << wxT("-- Bus name: ------> ") << s << wxT("\n");
  *textLog << wxT("-- Node ID: -------> ") << node_id->GetValue() << wxT("\n");
- 
- if (main_can(SlaveBoard, LibraryPath))
-  {
- 	printf("[KO]\n");
- 	*textLog << wxT("----------------------------------------------------Initialization [KO]\n");
-  }
- else
-  {
- 	printf("[OK]\n");
- 	*textLog << wxT("----------------------------------------------------Initialization [OK]\n");
- 	stop->Enable(true);
- 	start->Enable(false);
-  }
+ Start();
 }
+
 
 void MyFrame::OnStop(wxCommandEvent& WXUNUSED(event))
 {
@@ -419,7 +501,6 @@ void MyFrame::OnStop(wxCommandEvent& WXUNUSED(event))
 	stop_slave();
 	stop->Enable(false);
 	start->Enable(true);
-	charbuf_free(SlaveBoard.busname);
 }
 
 void MyFrame::OnLoad(wxCommandEvent& WXUNUSED(event))
@@ -431,9 +512,7 @@ void MyFrame::OnLoad(wxCommandEvent& WXUNUSED(event))
     	drivername->Clear();
         drivername->AppendText(fd.GetPath()); 
         *textLog << wxT("LibraryPath: ") << fd.GetPath() << wxT("\n");
-        if (LibraryPath != NULL)
-        	charbuf_free(LibraryPath);
-        LibraryPath = wxstr_to_charbuf(fd.GetPath());
+        strncpy(LibraryPath, fd.GetPath().mb_str(), MAXLENGTH_LIBPATH);
         printf("path=%s",LibraryPath);
     }
 }
@@ -572,9 +651,7 @@ void MyFrame::OnFreqBoxClick( wxCommandEvent &event )
 	wxString	wxstr;
 	
  	wxstr = event.GetString();
- 	if (SlaveBoard.baudrate != NULL)
- 		charbuf_free(SlaveBoard.baudrate);
- 	SlaveBoard.baudrate = wxstr_to_charbuf(wxstr);
+ 	strncpy(SlaveBoard.baudrate, wxstr.mb_str(),MAXLENGTH_BAUDRATE);
  	*textLog << wxT("Baudrate:") << event.GetString() << wxT("\n");
 }
 
@@ -595,23 +672,7 @@ static int	is_set(int			i,
 
 static int	get_bit(UNS8	input, int bit)
 {
-	if (bit == 1)
-		return ((input & 0x1) ? 1 : 0);
-	if (bit == 2)
-		return ((input & 0x2) ? 1 : 0);
-	if (bit == 3)
-		return ((input & 0x4) ? 1 : 0);
-	if (bit == 4)
-		return ((input & 0x8) ? 1 : 0);
-	if (bit == 5)
-		return ((input & 0x10) ? 1 : 0);
-	if (bit == 6)
-		return ((input & 0x20) ? 1 : 0);
-	if (bit == 7)
-		return ((input & 0x40) ? 1 : 0);
-	if (bit == 8)
-		return ((input & 0x80) ? 1 : 0);
-	return 0;
+    return input & (((UNS8)1) <<  bit) ? 1 : 0; 
 }
 
 void MyFrame::Paint()

@@ -79,9 +79,13 @@ INTEGER32 Analogue_Output_Error_Value_Integer[] =		/* Mapped at index 0x6444, su
 /* Declaration of the value range types                                   */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 ObjDict_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      break;
   }
   return 0;
 }
@@ -126,6 +130,23 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     subindex ObjDict_Index1002[] = 
                      {
                        { RO, uint32, sizeof (UNS32), (void*)&ObjDict_obj1002 }
+                     };
+
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 ObjDict_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 ObjDict_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t ObjDict_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex ObjDict_Index1003[] = 
+                     {
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&ObjDict_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&ObjDict_obj1003[0] }
                      };
 
 /* index 0x1005 :   SYNC COB ID. */
@@ -338,6 +359,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 ObjDict_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 ObjDict_obj1800_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 ObjDict_obj1800_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t ObjDict_Index1800_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex ObjDict_Index1800[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&ObjDict_highestSubIndex_obj1800 },
@@ -355,6 +385,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 ObjDict_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 ObjDict_obj1801_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 ObjDict_obj1801_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t ObjDict_Index1801_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex ObjDict_Index1801[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&ObjDict_highestSubIndex_obj1801 },
@@ -372,6 +411,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 ObjDict_obj1802_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 ObjDict_obj1802_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 ObjDict_obj1802_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t ObjDict_Index1802_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex ObjDict_Index1802[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&ObjDict_highestSubIndex_obj1802 },
@@ -389,6 +437,15 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS16 ObjDict_obj1803_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 ObjDict_obj1803_Compatibility_Entry = 0x0;	/* 0 */
                     UNS16 ObjDict_obj1803_Event_Timer = 0x0;	/* 0 */
+                    ODCallback_t ObjDict_Index1803_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                     };
                     subindex ObjDict_Index1803[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&ObjDict_highestSubIndex_obj1803 },
@@ -650,10 +707,10 @@ const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallb
 		case 0x1403: i = 19;break;
 		case 0x1600: i = 20;break;
 		case 0x1601: i = 21;break;
-		case 0x1800: i = 22;break;
-		case 0x1801: i = 23;break;
-		case 0x1802: i = 24;break;
-		case 0x1803: i = 25;break;
+		case 0x1800: i = 22;*callbacks = ObjDict_Index1800_callbacks; break;
+		case 0x1801: i = 23;*callbacks = ObjDict_Index1801_callbacks; break;
+		case 0x1802: i = 24;*callbacks = ObjDict_Index1802_callbacks; break;
+		case 0x1803: i = 25;*callbacks = ObjDict_Index1803_callbacks; break;
 		case 0x1A00: i = 26;break;
 		case 0x1A01: i = 27;break;
 		case 0x1A02: i = 28;break;

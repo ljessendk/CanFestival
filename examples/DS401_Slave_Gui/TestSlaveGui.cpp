@@ -58,22 +58,6 @@ extern "C"
 extern wxTextCtrl 	*textLog;
 extern int			node_id_ext;
 
-UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
-{
-	return 0;
-}
-
-s_BOARD MasterBoard = {"1", "125K"};
-
-#if !defined(WIN32) || defined(__CYGWIN__)
-void catch_signal(int sig)
-{
-  signal(SIGTERM, catch_signal);
-  signal(SIGINT, catch_signal);
-  printf("Got Signal %d\n",sig);
-}
-#endif
-
 //***************************  INIT  *****************************************
 void InitNodes(CO_Data* d, UNS32 id)
 {
@@ -90,11 +74,6 @@ void InitNodes(CO_Data* d, UNS32 id)
 int main_can(s_BOARD SlaveBoard, char* LibraryPath)
 {
   printf("Bus name: %s        Freq: %s       Driver: %s\n", SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
-
-  #if !defined(WIN32) || defined(__CYGWIN__)
-	signal(SIGTERM, catch_signal);
-	signal(SIGINT, catch_signal);
-  #endif
 
   #ifndef NOT_USE_DYNAMIC_LOADING
 	LoadCanDriver(LibraryPath);
@@ -115,19 +94,21 @@ int main_can(s_BOARD SlaveBoard, char* LibraryPath)
 		printf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
 		return (1);
 	  }
-	// Start timer thread
-	//printf("nodeid slave=%x\n",node_id_ext);
+
 	StartTimerLoop(&InitNodes);
+
 	return 0;
 }
 
 void stop_slave()
 {	
-	StopTimerLoop();
-	// Close CAN devices (and can threads)
-	// Stop master
+    EnterMutex();
+
 	setState(&ObjDict_Data, Stopped);
-	//canClose(&ObjDict_Data);
-	//canClose(&TestMaster_Data);
+    StopTimerLoop();
+    canClose(&ObjDict_Data);
+
+    LeaveMutex();
+
 	return;
 }

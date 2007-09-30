@@ -86,6 +86,7 @@ public:
  void OnRemove(wxCommandEvent& event);
  void OnAbout(wxCommandEvent& event);
  void OnStart(wxCommandEvent& WXUNUSED(event));
+ void Start();
  void OnStop(wxCommandEvent& WXUNUSED(event));
  void OnFreqBoxClick(wxCommandEvent& WXUNUSED(event));
  void OnLoad(wxCommandEvent& WXUNUSED(event));
