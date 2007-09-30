@@ -53,20 +53,20 @@ def GetValidTypeInfos(typename):
         if result:
             values = result.groups()
             if values[0] == "UNSIGNED" and int(values[1]) in [i * 8 for i in xrange(1, 9)]:
-                typeinfos = ("UNS%s"%values[1], "", "uint%s"%values[1])
+                typeinfos = ("UNS%s"%values[1], "", "uint%s"%values[1], True)
             elif values[0] == "INTEGER" and int(values[1]) in [i * 8 for i in xrange(1, 9)]:
-                typeinfos = ("INTEGER%s"%values[1], "", "int%s"%values[1])
+                typeinfos = ("INTEGER%s"%values[1], "", "int%s"%values[1], False)
             elif values[0] == "REAL" and int(values[1]) in (32, 64):
-                typeinfos = ("%s%s"%(values[0], values[1]), "", "real%s"%values[1])
+                typeinfos = ("%s%s"%(values[0], values[1]), "", "real%s"%values[1], False)
             elif values[0] == "VISIBLE_STRING":
                 if values[1] == "":
-                    typeinfos = ("UNS8", "[10]", "visible_string")
+                    typeinfos = ("UNS8", "[10]", "visible_string", False)
                 else:
-                    typeinfos = ("UNS8", "[%s]"%values[1], "visible_string")
+                    typeinfos = ("UNS8", "[%s]"%values[1], "visible_string", False)
             elif values[0] == "DOMAIN":
-                typeinfos = ("UNS8*", "", "domain")
+                typeinfos = ("UNS8*", "", "domain", True)
             elif values[0] == "BOOLEAN":
-                typeinfos = ("UNS8", "", "boolean")
+                typeinfos = ("UNS8", "", "boolean", True)
             else:
                 raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
             internal_types[typename] = typeinfos
@@ -120,13 +120,16 @@ def GenerateFileContent(Node, headerfilepath):
             typename = Node.GetTypeName(typeindex)
             typeinfos = GetValidTypeInfos(typename)
             internal_types[rangename] = (typeinfos[0], typeinfos[1], "valueRange_%d"%num)
-            minvalue = str(Node.GetEntry(index, 2))
-            maxvalue = str(Node.GetEntry(index, 3))
-            strDefine += "\n#define valueRange_%d 0x%02X /* Type %s, %s < value < %s */"%(num,index,typeinfos[0],minvalue,maxvalue)
-            strSwitch += """    case valueRange_%d:
-      if (*(%s*)value < (%s)%s) return OD_VALUE_TOO_LOW;
-      if (*(%s*)value > (%s)%s) return OD_VALUE_TOO_HIGH;
-      break;\n"""%(num,typeinfos[0],typeinfos[0],minvalue,typeinfos[0],typeinfos[0],maxvalue)
+            minvalue = Node.GetEntry(index, 2)
+            maxvalue = Node.GetEntry(index, 3)
+            strDefine += "\n#define valueRange_%d 0x%02X /* Type %s, %s < value < %s */"%(num,index,typeinfos[0],str(minvalue),str(maxvalue))
+            strSwitch += "    case valueRange_%d:\n"%(num)
+            if typeinfos[4] and minvalue <= 0:
+                strSwitch += "      /* Negative or null low limit ignored because of unsigned type */;\n"
+            else:
+                strSwitch += "      if (*(%s*)value < (%s)%s) return OD_VALUE_TOO_LOW;\n"%(typeinfos[0],typeinfos[0],str(minvalue))
+            strSwitch += "      if (*(%s*)value > (%s)%s) return OD_VALUE_TOO_HIGH;\n"%(typeinfos[0],typeinfos[0],str(maxvalue))
+            strSwitch += "    break;\n"
 
     valueRangeContent += strDefine
     valueRangeContent += "\nUNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value)\n{"%texts
