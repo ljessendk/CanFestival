@@ -527,17 +527,24 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
 	}else{
 		MSG_WAR(0x306A, "Changes TPDO number : ", pdoNum);
 		/* Changes detected -> transmit message */
+        UNS16 EventTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[5].pObject;
+        UNS16 InhibitTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[3].pObject;
+        
 		status = state5;
 		
 		/* Start both event_timer and inhibit_timer*/
-		DelAlarm(d->PDO_status[pdoNum].event_timer);
-		d->PDO_status[pdoNum].event_timer = SetAlarm(d, pdoNum, &PDOEventTimerAlarm, MS_TO_TIMEVAL(*(UNS16*)d->objdict[offsetObjdict].pSubindex[5].pObject), 0);
+        if(EventTimerDuration){
+           DelAlarm(d->PDO_status[pdoNum].event_timer);
+           d->PDO_status[pdoNum].event_timer = SetAlarm(d, pdoNum, &PDOEventTimerAlarm, MS_TO_TIMEVAL(EventTimerDuration), 0);
+        }
 		
-		DelAlarm(d->PDO_status[pdoNum].inhibit_timer);
-		d->PDO_status[pdoNum].inhibit_timer = SetAlarm(d, pdoNum, &PDOInhibitTimerAlarm, US_TO_TIMEVAL(*(UNS16*)d->objdict[offsetObjdict].pSubindex[3].pObject * 100), 0);
+        if(InhibitTimerDuration){
+		   DelAlarm(d->PDO_status[pdoNum].inhibit_timer);
+		   d->PDO_status[pdoNum].inhibit_timer = SetAlarm(d, pdoNum, &PDOInhibitTimerAlarm, US_TO_TIMEVAL(InhibitTimerDuration * 100), 0);
+           /* and inhibit TPDO */
+           d->PDO_status[pdoNum].transmit_type_parameter |= PDO_INHIBITED;
+        }
 		
-		/* and inhibit TPDO */
-		d->PDO_status[pdoNum].transmit_type_parameter |= PDO_INHIBITED;
 	}
       }else{
 	MSG_WAR(0x306C, "  PDO is not on EVENT or synchro or not at this SYNC. Trans type : ", *pTransmissionType);
