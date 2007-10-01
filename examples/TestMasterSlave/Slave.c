@@ -90,7 +90,7 @@ void TestSlave_post_TPDO()
 	/* send an error and recover inmediately every 12 cycles */
 	if(SlaveMap13 % 12 == 0)
 	{
-		EMCY_setError(&TestSlave_Data, 0x4200, 0x08);
+		EMCY_setError(&TestSlave_Data, 0x4200, 0x08, 0x0000);
 		EMCY_errorRecovered(&TestSlave_Data, 0x4200);
 	}
 }

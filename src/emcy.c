@@ -123,7 +123,7 @@ UNS8 sendEMCY(CO_Data* d, UNS32 cob_id, UNS16 errCode, UNS8 errRegister)
  ** @param errRegister Bits of Error register (1001h) to be set.
  ** @return 1 if error, 0 if successful
  */
-UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask)
+UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
 {
 	UNS8 index;
 	UNS8 errRegister_tmp;
@@ -151,7 +151,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask)
 	}
 	
 	d->error_data[index].errCode = errCode;
-	d->error_data[index].errRegMask = 1;
+	d->error_data[index].errRegMask = errRegMask;
 	d->error_data[index].active = 1;
 	
 	/* set the new state in the error state machine */
@@ -165,7 +165,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask)
 	/* set Pre-defined Error Field (1003h) */
 	for (index = d->error_history_size - 1; index > 0; --index)
 		*(d->error_first_element + index) = *(d->error_first_element + index - 1);
-	*(d->error_first_element) = (UNS32)errCode;
+	*(d->error_first_element) = errCode | ((UNS32)addInfo << 16);
 	if(*d->error_number < d->error_history_size) ++(*d->error_number);
 	
 	/* send EMCY message */

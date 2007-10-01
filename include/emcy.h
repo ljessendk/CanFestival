@@ -61,7 +61,7 @@ void _post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg);
 
 /** Sets a new error with code errCode. Also sets corresponding bits in Error register (1001h)
  */
-UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask);
+UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo);
 
 /** Indicates it has recovered from error errCode. Also clears corresponding bits in Error register (1001h)
  */
