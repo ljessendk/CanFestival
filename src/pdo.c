@@ -460,7 +460,7 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
     case state3:
       if (/*d->objdict[offsetObjdict].bSubCount < 5 || not necessary with objdictedit (always 5)*/
           /* check if TPDO is not valid */ 
-          *(UNS32*)d->objdict[offsetObjdict].pSubindex[0].pObject & 0x8000) {
+          *(UNS32*)d->objdict[offsetObjdict].pSubindex[1].pObject & 0x80000000) {
 	  MSG_WAR(0x3960, "Not a valid PDO ", 0x1800 + pdoNum);
 	  /*Go next TPDO*/
 	  status = state11;
@@ -525,10 +525,14 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
 	   	/* No changes -> go to next pdo*/
 		status = state11;
 	}else{
+		
+		UNS16 EventTimerDuration;
+        UNS16 InhibitTimerDuration;
+		
 		MSG_WAR(0x306A, "Changes TPDO number : ", pdoNum);
 		/* Changes detected -> transmit message */
-        UNS16 EventTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[5].pObject;
-        UNS16 InhibitTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[3].pObject;
+        EventTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[5].pObject;
+        InhibitTimerDuration = *(UNS16*)d->objdict[offsetObjdict].pSubindex[3].pObject;
         
 		status = state5;
 		
