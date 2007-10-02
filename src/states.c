@@ -242,12 +242,16 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
   if(offset){
+    /* Adjust COB-ID Client->Server (rx) only id already set to default value*/
+    if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + *d->bDeviceNodeId){
       /* cob_id_client = 0x600 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
+    }
+    /* Adjust COB-ID Server -> Client (tx) only id already set to default value*/
+    if(*(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + *d->bDeviceNodeId){
       /* cob_id_server = 0x580 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
-      /* node Id client. As we do not know the value, we put the node Id Server */
-      /* *(UNS8*)d->objdict[offset].pSubindex[3].pObject = nodeId; */
+    }
   }
 
   /* 
