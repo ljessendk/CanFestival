@@ -4,11 +4,11 @@ FileVersion=1
 FileRevision=1
 EDSVersion=4.0
 Description=
-CreationTime=06:00PM
-CreationDate=09-27-2007
+CreationTime=05:58PM
+CreationDate=10-02-2007
 CreatedBy=CANFestival
-ModificationTime=06:00PM
-ModificationDate=09-27-2007
+ModificationTime=05:58PM
+ModificationDate=10-02-2007
 ModifiedBy=CANFestival
 
 [DeviceInfo]
@@ -31,8 +31,8 @@ Granularity=8
 DynamicChannelsSupported=0
 CompactPDO=0
 GroupMessaging=0
-NrOfRXPDO=4
-NrOfTXPDO=4
+NrOfRXPDO=2
+NrOfTXPDO=3
 LSS_Supported=0
 
 [DummyUsage]
@@ -107,7 +107,7 @@ DefaultValue=65537
 PDOMapping=0
 
 [OptionalObjects]
-SupportedObjects=39
+SupportedObjects=35
 1=0x1002
 2=0x1005
 3=0x1008
@@ -123,30 +123,26 @@ SupportedObjects=39
 13=0x1200
 14=0x1400
 15=0x1401
-16=0x1402
-17=0x1403
-18=0x1600
-19=0x1601
-20=0x1800
-21=0x1801
-22=0x1802
-23=0x1803
-24=0x1A00
-25=0x1A01
-26=0x1A02
-27=0x1F50
-28=0x6000
-29=0x6002
-30=0x6200
-31=0x6202
-32=0x6206
-33=0x6207
-34=0x6401
-35=0x6411
-36=0x6423
-37=0x6426
-38=0x6443
-39=0x6444
+16=0x1600
+17=0x1601
+18=0x1800
+19=0x1801
+20=0x1802
+21=0x1A00
+22=0x1A01
+23=0x1A02
+24=0x6000
+25=0x6002
+26=0x6200
+27=0x6202
+28=0x6206
+29=0x6207
+30=0x6401
+31=0x6411
+32=0x6423
+33=0x6426
+34=0x6443
+35=0x6444
 
 [1002]
 ParameterName=Manufacturer Status Register
@@ -169,7 +165,7 @@ ParameterName=Manufacturer Device Name
 ObjectType=0x7
 DataType=0x0009
 AccessType=ro
-DefaultValue=
+DefaultValue=0
 PDOMapping=0
 
 [1009]
@@ -177,7 +173,7 @@ ParameterName=Manufacturer Hardware Version
 ObjectType=0x7
 DataType=0x0009
 AccessType=ro
-DefaultValue=
+DefaultValue=0
 PDOMapping=0
 
 [100A]
@@ -185,7 +181,7 @@ ParameterName=Manufacturer Software Version
 ObjectType=0x7
 DataType=0x0009
 AccessType=ro
-DefaultValue=
+DefaultValue=0
 PDOMapping=0
 
 [100C]
@@ -338,7 +334,7 @@ ParameterName=COB ID Client to Server (Receive SDO)
 ObjectType=0x7
 DataType=0x0007
 AccessType=ro
-DefaultValue=1600
+DefaultValue=$NODEID+0x600
 PDOMapping=0
 
 [1200sub2]
@@ -346,7 +342,7 @@ ParameterName=COB ID Server to Client (Transmit SDO)
 ObjectType=0x7
 DataType=0x0007
 AccessType=ro
-DefaultValue=1472
+DefaultValue=$NODEID+0x580
 PDOMapping=0
 
 [1400]
@@ -367,7 +363,7 @@ ParameterName=COB ID used by PDO
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=576
+DefaultValue=$NODEID+0x200
 PDOMapping=0
 
 [1400sub2]
@@ -396,68 +392,10 @@ ParameterName=COB ID used by PDO
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=832
+DefaultValue=$NODEID+0x300
 PDOMapping=0
 
 [1401sub2]
-ParameterName=Transmission Type
-ObjectType=0x7
-DataType=0x0005
-AccessType=rw
-DefaultValue=1
-PDOMapping=0
-
-[1402]
-ParameterName=Receive PDO 3 Parameter
-ObjectType=0x8
-SubNumber=3
-
-[1402sub0]
-ParameterName=Highest SubIndex Supported
-ObjectType=0x7
-DataType=0x0005
-AccessType=ro
-DefaultValue=2
-PDOMapping=0
-
-[1402sub1]
-ParameterName=COB ID used by PDO
-ObjectType=0x7
-DataType=0x0007
-AccessType=rw
-DefaultValue=2147484736
-PDOMapping=0
-
-[1402sub2]
-ParameterName=Transmission Type
-ObjectType=0x7
-DataType=0x0005
-AccessType=rw
-DefaultValue=1
-PDOMapping=0
-
-[1403]
-ParameterName=Receive PDO 4 Parameter
-ObjectType=0x8
-SubNumber=3
-
-[1403sub0]
-ParameterName=Highest SubIndex Supported
-ObjectType=0x7
-DataType=0x0005
-AccessType=ro
-DefaultValue=2
-PDOMapping=0
-
-[1403sub1]
-ParameterName=COB ID used by PDO
-ObjectType=0x7
-DataType=0x0007
-AccessType=rw
-DefaultValue=2147484992
-PDOMapping=0
-
-[1403sub2]
 ParameterName=Transmission Type
 ObjectType=0x7
 DataType=0x0005
@@ -549,7 +487,7 @@ ParameterName=COB ID used by PDO
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=448
+DefaultValue=$NODEID+0x180
 PDOMapping=0
 
 [1800sub2]
@@ -594,7 +532,7 @@ ParameterName=COB ID used by PDO
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=704
+DefaultValue=$NODEID+0x280
 PDOMapping=0
 
 [1801sub2]
@@ -639,7 +577,7 @@ ParameterName=COB ID used by PDO
 ObjectType=0x7
 DataType=0x0007
 AccessType=rw
-DefaultValue=960
+DefaultValue=$NODEID+0x380
 PDOMapping=0
 
 [1802sub2]
@@ -659,51 +597,6 @@ DefaultValue=0
 PDOMapping=0
 
 [1802sub5]
-ParameterName=Event Timer
-ObjectType=0x7
-DataType=0x0006
-AccessType=rw
-DefaultValue=0
-PDOMapping=0
-
-[1803]
-ParameterName=Transmit PDO 4 Parameter
-ObjectType=0x8
-SubNumber=5
-
-[1803sub0]
-ParameterName=Highest SubIndex Supported
-ObjectType=0x7
-DataType=0x0005
-AccessType=ro
-DefaultValue=5
-PDOMapping=0
-
-[1803sub1]
-ParameterName=COB ID used by PDO
-ObjectType=0x7
-DataType=0x0007
-AccessType=rw
-DefaultValue=2147484864
-PDOMapping=0
-
-[1803sub2]
-ParameterName=Transmission Type
-ObjectType=0x7
-DataType=0x0005
-AccessType=rw
-DefaultValue=1
-PDOMapping=0
-
-[1803sub3]
-ParameterName=Inhibit Time
-ObjectType=0x7
-DataType=0x0006
-AccessType=rw
-DefaultValue=0
-PDOMapping=0
-
-[1803sub5]
 ParameterName=Event Timer
 ObjectType=0x7
 DataType=0x0006
@@ -820,35 +713,6 @@ ObjectType=0x7
 DataType=0x0007
 AccessType=rw
 DefaultValue=1677789200
-PDOMapping=0
-
-[1F50]
-ParameterName=Download Program Data
-ObjectType=0x8
-SubNumber=3
-
-[1F50sub0]
-ParameterName=Number of Entries
-ObjectType=0x7
-DataType=0x0005
-AccessType=ro
-DefaultValue=3
-PDOMapping=0
-
-[1F50sub2]
-ParameterName=Compatibility
-ObjectType=0x7
-DataType=0x0005
-AccessType=rw
-DefaultValue=0
-PDOMapping=0
-
-[1F50sub3]
-ParameterName=Download Program Data - HW Settings
-ObjectType=0x7
-DataType=0x000F
-AccessType=rw
-DefaultValue=
 PDOMapping=0
 
 [6000]

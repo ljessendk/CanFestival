@@ -37,27 +37,27 @@ extern wxTextCtrl 	*textLog;
 /*****************************************************************************/
 void Call_heartbeatError(UNS8 heartbeatID)
 {
-	*textLog << wxT("HeartbeatError\n");
+	//*textLog << wxT("HeartbeatError\n");
 }
 
 void Call_initialisation()
 {
-	*textLog << wxT("Initialisation\n");
+	//*textLog << wxT("Initialisation\n");
 }
 
 void Call_preOperational()
 {
-	*textLog << wxT("PreOperational\n");
+	//*textLog << wxT("PreOperational\n");
 }
 
 void Call_operational()
 {
-	*textLog << wxT("Operational\n");
+	//*textLog << wxT("Operational\n");
 }
 
 void Call_stopped()
 {
-	*textLog << wxT("Stopped\n");
+	//*textLog << wxT("Stopped\n");
 }
 
 void Call_post_sync()
@@ -70,11 +70,11 @@ void Call_post_sync()
 
 void Call_post_TPDO()
 {
-	*textLog << wxT("Post_TPDO\n");
+	//*textLog << wxT("Post_TPDO\n");
 }
 
 void Call_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex)
 {
 	printf("StoreODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
-	*textLog << wxT("StoreODSubIndex :\n");
+	//*textLog << wxT("StoreODSubIndex :\n");
 }

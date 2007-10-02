@@ -103,12 +103,11 @@ int main_can(s_BOARD SlaveBoard, char* LibraryPath)
 void stop_slave()
 {	
     EnterMutex();
-
 	setState(&ObjDict_Data, Stopped);
+    LeaveMutex();
+
     StopTimerLoop();
     canClose(&ObjDict_Data);
-
-    LeaveMutex();
 
 	return;
 }

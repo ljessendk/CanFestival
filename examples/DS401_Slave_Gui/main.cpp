@@ -672,7 +672,7 @@ static int	is_set(int			i,
 
 static int	get_bit(UNS8	input, int bit)
 {
-    return input & (((UNS8)1) <<  bit) ? 1 : 0; 
+    return input & (((UNS8)1) <<  bit-1) ? 1 : 0; 
 }
 
 void MyFrame::Paint()
