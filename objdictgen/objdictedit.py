@@ -362,7 +362,7 @@ class objdictedit(wx.Frame):
             window = self.FileOpened.GetPage(selected)
             if window:
                 self.Manager.ChangeCurrentNode(window.GetIndex())
-                self.RefreshBufferState()
+                wx.CallAfter(self.RefreshBufferState)
                 self.RefreshStatusBar()
                 self.RefreshProfileMenu()
         event.Skip()
