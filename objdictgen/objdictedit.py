@@ -306,7 +306,7 @@ class objdictedit(wx.Frame):
         for filepath in filesOpen:
             result = self.Manager.OpenFileInCurrent(filepath)
             if type(result) == IntType:
-                new_editingpanel = EditingPanel(self, self.Manager)
+                new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                 new_editingpanel.SetIndex(result)
                 self.FileOpened.AddPage(new_editingpanel, "")
             window = self.FileOpened.GetPage(0)
@@ -322,9 +322,6 @@ class objdictedit(wx.Frame):
         self.RefreshProfileMenu()
         self.RefreshTitle()
         self.RefreshMainMenu()
-
-    def GetNoteBook(self):
-        return self.FileOpened
 
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
@@ -579,7 +576,7 @@ class objdictedit(wx.Frame):
             options = dialog.GetOptions()
             result = self.Manager.CreateNewNode(name, id, nodetype, description, profile, filepath, NMT, options)
             if type(result) == IntType:
-                new_editingpanel = EditingPanel(self, self.Manager)
+                new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                 new_editingpanel.SetIndex(result)
                 self.FileOpened.AddPage(new_editingpanel, "")
                 self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
@@ -593,6 +590,7 @@ class objdictedit(wx.Frame):
                 message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
+        dialog.Destroy()
         event.Skip()
 
     def OnOpenMenu(self, event):
@@ -607,7 +605,7 @@ class objdictedit(wx.Frame):
             if os.path.isfile(filepath):
                 result = self.Manager.OpenFileInCurrent(filepath)
                 if type(result) == IntType:
-                    new_editingpanel = EditingPanel(self, self.Manager)
+                    new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
                     self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
@@ -702,7 +700,7 @@ class objdictedit(wx.Frame):
             if os.path.isfile(filepath):
                 result = self.Manager.ImportCurrentFromEDSFile(filepath)
                 if type(result) == IntType:
-                    new_editingpanel = EditingPanel(self, self.Manager)
+                    new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
                     self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)

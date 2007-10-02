@@ -265,6 +265,7 @@ class NodeManager:
             node = load(file)
             file.close()
             self.CurrentNode = node
+            self.CurrentNode.SetNodeID(0)
             # Add a new buffer and defining current state
             index = self.AddNodeBuffer(self.CurrentNode.Copy(), True)
             self.SetCurrentFilePath(filepath)
@@ -297,6 +298,19 @@ class NodeManager:
         # Verify if it's not forced that the current node is saved before closing it
         if self.UndoBuffers[self.NodeIndex].IsCurrentSaved() or ignore:
             self.RemoveNodeBuffer(self.NodeIndex)
+            if len(self.UndoBuffers) > 0:
+                previousindexes = [idx for idx in self.UndoBuffers.keys() if idx < self.NodeIndex]
+                nextindexes = [idx for idx in self.UndoBuffers.keys() if idx > self.NodeIndex]
+                if len(previousindexes) > 0:
+                    previousindexes.sort()
+                    self.NodeIndex = previousindexes[-1]
+                elif len(nextindexes) > 0:
+                    nextindexes.sort()
+                    self.NodeIndex = nextindexes[0]
+                else:
+                    self.NodeIndex = None
+            else:
+                self.NodeIndex = None
             return True
         return False
 
@@ -374,9 +388,13 @@ class NodeManager:
         # Informations about entry
         infos = self.GetEntryInfos(index)
         length = self.CurrentNode.GetEntry(index, 0)
+        if "nbmin" in infos:
+            nbmin = infos["nbmin"]
+        else:
+            nbmin = 1
         # Entry is a record, or is an array of manufacturer specific
         if infos["struct"] & OD_IdenticalSubindexes or 0x2000 <= index <= 0x5FFF and infos["struct"] & OD_IdenticalSubindexes:
-            for i in xrange(min(number, length - 1)):
+            for i in xrange(min(number, length - nbmin)):
                 self.RemoveCurrentVariable(index, length - i)
             self.BufferCurrentNode()
 
@@ -463,7 +481,12 @@ class NodeManager:
                         default = subentry_infos["default"]
                     else:
                         default = self.GetTypeDefaultValue(subentry_infos["type"])
-                    node.AddEntry(index, 1, default)
+                    node.AddEntry(index, value = [])
+                    if "nbmin" in subentry_infos:
+                        for i in xrange(subentry_infos["nbmin"]):
+                            node.AddEntry(index, i + 1, default)
+                    else:
+                        node.AddEntry(index, 1, default)
                 # Second case entry is a record
                 else:
                     i = 1
@@ -491,6 +514,23 @@ class NodeManager:
             self.BufferCurrentNode()
         return None
 
+
+    """
+    Reset an subentry from current node to its default value
+    """
+    def SetCurrentEntryToDefault(self, index, subindex, node = None):
+        disable_buffer = node != None
+        if node == None:
+            node = self.CurrentNode
+        if node.IsEntry(index, subindex):
+            subentry_infos = self.GetSubentryInfos(index, subindex)
+            if "default" in subentry_infos:
+                default = subentry_infos["default"]
+            else:
+                default = self.GetTypeDefaultValue(subentry_infos["type"])
+            node.SetEntry(index, subindex, default)
+            if not disable_buffer:
+                self.BufferCurrentNode()
 
     """
     Remove an entry from current node. Analize the index to perform the correct
@@ -653,7 +693,9 @@ class NodeManager:
                         type = node.GetEntry(type)[1]
                     if dic[type] == 0:
                         try:
-                            if value.startswith("0x"):
+                            if value.startswith("$NODEID"):
+                                value = "\"%s\""%value
+                            elif value.startswith("0x"):
                                 value = int(value, 16)
                             else:
                                 value = int(value)
@@ -896,9 +938,9 @@ class NodeManager:
             return self.CurrentNode.IsEntry(index)
         return False
     
-    def GetCurrentEntry(self, index, subIndex = None):
+    def GetCurrentEntry(self, index, subIndex = None, compute = True):
         if self.CurrentNode:
-            return self.CurrentNode.GetEntry(index, subIndex)
+            return self.CurrentNode.GetEntry(index, subIndex, compute)
         return None
     
     def GetCurrentParamsEntry(self, index, subIndex = None):
@@ -947,7 +989,7 @@ class NodeManager:
             entry_infos = node.GetEntryInfos(index)
             data = []
             editors = []
-            values = node.GetEntry(index)
+            values = node.GetEntry(index, compute = False)
             params = node.GetParamsEntry(index)
             if type(values) == ListType:
                 for i, value in enumerate(values):
@@ -1015,8 +1057,11 @@ class NodeManager:
                         if result:
                             values = result.groups()
                             if values[0] == "UNSIGNED":
-                                format = "0x%0" + str(int(values[1])/4) + "X"
-                                dic["value"] = format%dic["value"]
+                                try:
+                                    format = "0x%0" + str(int(values[1])/4) + "X"
+                                    dic["value"] = format%dic["value"]
+                                except:
+                                    pass
                                 editor["value"] = "string"
                             if values[0] == "INTEGER":
                                 editor["value"] = "number"

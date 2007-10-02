@@ -145,7 +145,7 @@ MappingDictionary = {
                 [{"name" : "Inhibit Time Emergency", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1016 : {"name" : "Consumer Heartbeat Time", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Consumer Heartbeat Time", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
+                 {"name" : "Consumer Heartbeat Time", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 1, "nbmax" : 0x7F}]},
     0x1017 : {"name" : "Producer Heartbeat Time", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "Producer Heartbeat Time", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1018 : {"name" : "Identity", "struct" : array, "need" : True, "values" :
@@ -181,18 +181,18 @@ MappingDictionary = {
                  {"name" : "StdErr", "type" : 0x05, "access" : 'ro', "pdo" : True}]},
     0x1027 : {"name" : "Module List", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Connected Modules", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Module %d[(sub)]", "type" : 0x06, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
+                 {"name" : "Module %d[(sub)]", "type" : 0x06, "access" : 'ro', "pdo" : False, "nbmin" : 1, "nbmax" : 0xFE}]},
     0x1028 : {"name" : "Emergency Consumer", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Consumed Emergency Objects", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Emergency Consumer", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7E}]},
+                 {"name" : "Emergency Consumer", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 1, "nbmax" : 0x7E}]},
     0x1029 : {"name" : "Error Behavior", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Error Classes", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Communication Error", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Device Profile", "type" : 0x05, "access" : 'rw', "pdo" : False, "nbmax" : 0xFE}]},
     0x1200 : {"name" : "Server SDO Parameter", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x600\""},
+                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x580\""}]},
     0x1201 : {"name" : "Additional Server SDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x7F, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
@@ -205,24 +205,24 @@ MappingDictionary = {
                  {"name" : "Node ID of the SDO Server", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1400 : {"name" : "Receive PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:self.ID+(base+2)*0x100,False:0}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X00\"%(base+2),False:0}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1600 : {"name" : "Receive PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
+                 {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},
     0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "callback" : True, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:self.ID+(base+1)*0x100+0x80,False:0}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X80\"%(base+1),False:0}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1A00 : {"name" : "Transmit PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x40}]},
+                 {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},
 }
 
 #-------------------------------------------------------------------------------
@@ -530,7 +530,7 @@ class Node:
             elif subIndex == 1:
                 self.Dictionary[index] = [value]
                 return True
-        elif subIndex > 1 and type(self.Dictionary[index]) == ListType and subIndex == len(self.Dictionary[index]) + 1:
+        elif subIndex > 0 and type(self.Dictionary[index]) == ListType and subIndex == len(self.Dictionary[index]) + 1:
             self.Dictionary[index].append(value)
             return True
         return False
@@ -616,23 +616,23 @@ class Node:
     Returns the value of the entry asked. If the entry has the value "count", it
     returns the number of subIndex in the entry except the first.
     """
-    def GetEntry(self, index, subIndex = None):
+    def GetEntry(self, index, subIndex = None, compute = True):
         if index in self.Dictionary:
             if subIndex == None:
                 if type(self.Dictionary[index]) == ListType:
                     values = [len(self.Dictionary[index])]
                     for value in self.Dictionary[index]:
-                        values.append(self.CompileValue(value, index))
+                        values.append(self.CompileValue(value, index, compute))
                     return values
                 else:
-                    return self.CompileValue(self.Dictionary[index], index)
+                    return self.CompileValue(self.Dictionary[index], index, compute)
             elif subIndex == 0:
                 if type(self.Dictionary[index]) == ListType:
                     return len(self.Dictionary[index])
                 else:
-                    return self.CompileValue(self.Dictionary[index], index)
+                    return self.CompileValue(self.Dictionary[index], index, compute)
             elif type(self.Dictionary[index]) == ListType and 0 < subIndex <= len(self.Dictionary[index]):
-                return self.CompileValue(self.Dictionary[index][subIndex - 1], index)
+                return self.CompileValue(self.Dictionary[index][subIndex - 1], index, compute)
         return None
 
     """
@@ -767,7 +767,7 @@ class Node:
         mask = 0xFFFF << 16
         if subIndex:
             model += subIndex << 8
-            mask = 0xFF << 8
+            mask += 0xFF << 8
         for i in self.Dictionary.iterkeys():
             if 0x1600 <= i <= 0x17FF or 0x1A00 <= i <= 0x1BFF:
                 for j,value in enumerate(self.Dictionary[i]):
@@ -857,11 +857,14 @@ class Node:
                 result += "%04X (%s): %s\n"%(index, name, values)
         return result
             
-    def CompileValue(self, value, index):
-        if type(value) == StringType and value.find("self.ID") != -1:
+    def CompileValue(self, value, index, compute = True):
+        if type(value) == StringType:
             base = self.GetBaseIndex(index)
             try:
-                return eval(value)
+                raw = eval(value)
+                if compute:
+                    return eval(raw.replace("$NODEID","self.ID"))
+                return raw
             except:
                 return 0
         else:

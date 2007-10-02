@@ -362,9 +362,6 @@ class networkedit(wx.Frame):
             self._onsave()
         event.Skip()
 
-    def GetNoteBook(self):
-        return self.NetworkNodes
-
     def OnQuitMenu(self, event):
         self.Close()
         event.Skip()
@@ -516,7 +513,7 @@ class networkedit(wx.Frame):
             values = dialog.GetValues()
             result = self.NodeList.AddSlaveNode(values["slaveName"], values["slaveNodeID"], values["edsFile"])
             if not result:
-                new_editingpanel = EditingPanel(self, self.NodeList, False)
+                new_editingpanel = EditingPanel(self.NetworkNodes, self, self.NodeList, False)
                 new_editingpanel.SetIndex(values["slaveNodeID"])
                 idx = self.NodeList.GetOrderNumber(values["slaveNodeID"])
                 self.NetworkNodes.InsertPage(idx, new_editingpanel, "")
@@ -579,11 +576,11 @@ class networkedit(wx.Frame):
         if self.NetworkNodes.GetPageCount() > 0:
             self.NetworkNodes.DeleteAllPages()
         if self.NodeList:
-            new_editingpanel = EditingPanel(self, self.Manager)
+            new_editingpanel = EditingPanel(self.NetworkNodes, self, self.Manager)
             new_editingpanel.SetIndex(0)
             self.NetworkNodes.AddPage(new_editingpanel, "")
             for idx in self.NodeList.GetSlaveIDs():
-                new_editingpanel = EditingPanel(self, self.NodeList, False)
+                new_editingpanel = EditingPanel(self.NetworkNodes, self, self.NodeList, False)
                 new_editingpanel.SetIndex(idx)
                 self.NetworkNodes.AddPage(new_editingpanel, "")
 

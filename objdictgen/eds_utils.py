@@ -308,7 +308,7 @@ def ParseEDSFile(filepath):
                     if value.startswith("$NODEID"):
                         try:
                             test = int(value.replace("$NODEID+", ""), 16)
-                            computed_value = value.replace("$NODEID", "self.ID")
+                            computed_value = "\"%s\""%value
                         except:
                             raise SyntaxError, "\"%s\" is not a valid formula for attribute \"%s\" of section \"[%s]\""%(value, keyname, section_name)
                     # Second case, value starts with "0x", then it's an hexadecimal value
@@ -387,7 +387,7 @@ def ParseEDSFile(filepath):
                     elif values["DATATYPE"] == 0x01:
                         values["DEFAULTVALUE"] = {0 : True, 1 : False}[values["DEFAULTVALUE"]]
                     else:
-                        if type(values["DEFAULTVALUE"]) != IntType and values["DEFAULTVALUE"].find("self.ID") == -1:
+                        if type(values["DEFAULTVALUE"]) != IntType and values["DEFAULTVALUE"].find("$NODEID") == -1:
                             raise
                 except:
                     raise SyntaxError, "Error on section \"[%s]\":\nDefaultValue incompatible with DataType"%section_name
@@ -496,7 +496,7 @@ def GenerateFileContent(filepath):
     for entry in entries:
         # Extract infos and values for the entry
         entry_infos = Manager.GetEntryInfos(entry)
-        values = Manager.GetCurrentEntry(entry)
+        values = Manager.GetCurrentEntry(entry, compute = False)
         # Define section name
         text = "\n[%X]\n"%entry
         # If there is only one value, it's a VAR entry
@@ -726,6 +726,7 @@ def GenerateNode(filepath, nodeID = 0):
                             max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
                         except:
                             raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or a RECORD entry"%entry
+                        Node.AddEntry(entry, value = [])
                         # Define value for all subindexes except the first 
                         for subindex in xrange(1, int(max_subindex) + 1):
                             # Take default value if it is defined and entry is defined

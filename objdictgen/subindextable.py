@@ -247,7 +247,8 @@ class SubindexTable(wx.grid.PyGridTableBase):
 ] = [wx.NewId() for _init_coll_IndexListMenu_Items in range(3)]
 
 [ID_EDITINGPANELMENU1ITEMS0, ID_EDITINGPANELMENU1ITEMS1, 
-] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(2)]
+ ID_EDITINGPANELMENU1ITEMS3, 
+] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(3)]
 
 class EditingPanel(wx.SplitterWindow):
     def _init_coll_AddToListSizer_Items(self, parent):
@@ -275,13 +276,18 @@ class EditingPanel(wx.SplitterWindow):
 
     def _init_coll_SubindexGridMenu_Items(self, parent):
         parent.Append(help='', id=ID_EDITINGPANELMENU1ITEMS0,
-              kind=wx.ITEM_NORMAL, text='Add')
+              kind=wx.ITEM_NORMAL, text='Add subindexes')
         parent.Append(help='', id=ID_EDITINGPANELMENU1ITEMS1,
-              kind=wx.ITEM_NORMAL, text='Delete')
+              kind=wx.ITEM_NORMAL, text='Delete subindexes')
+        parent.AppendSeparator()
+        parent.Append(help='', id=ID_EDITINGPANELMENU1ITEMS3,
+              kind=wx.ITEM_NORMAL, text='Default value')
         self.Bind(wx.EVT_MENU, self.OnAddSubindexMenu,
               id=ID_EDITINGPANELMENU1ITEMS0)
         self.Bind(wx.EVT_MENU, self.OnDeleteSubindexMenu,
               id=ID_EDITINGPANELMENU1ITEMS1)
+        self.Bind(wx.EVT_MENU, self.OnDefaultValueSubindexMenu,
+              id=ID_EDITINGPANELMENU1ITEMS3)
 
     def _init_coll_IndexListMenu_Items(self, parent):
         parent.Append(help='', id=ID_EDITINGPANELINDEXLISTMENUITEMS0,
@@ -391,9 +397,9 @@ class EditingPanel(wx.SplitterWindow):
 
         self._init_sizers()
 
-    def __init__(self, parent, manager, editable = True):
-        self._init_ctrls(parent.GetNoteBook())
-        self.ParentWindow = parent
+    def __init__(self, parent, window, manager, editable = True):
+        self._init_ctrls(parent)
+        self.ParentWindow = window
         self.Manager = manager
         self.ListIndex = []
         self.ChoiceIndex = []
@@ -402,7 +408,7 @@ class EditingPanel(wx.SplitterWindow):
         self.Index = None
         
         for values in DictionaryOrganisation:
-            text = "   0x%04X-0x%04X      %s"%(values["minIndex"],values["maxIndex"],values["name"])
+            text = "   0x%04X-0x%04X      %s"%(values["minIndex"], values["maxIndex"], values["name"])
             self.PartList.Append(text)
         self.Table = SubindexTable(self, [], [], ["subindex", "name", "type", "value", "access", "save", "comment"])
         self.SubindexGrid.SetTable(self.Table)
@@ -630,13 +636,27 @@ class EditingPanel(wx.SplitterWindow):
         event.Skip()
 
     def OnSubindexGridRightClick(self, event):
+        self.SubindexGrid.SetGridCursor(event.GetRow(), event.GetCol())
         if self.Editable:
             selected = self.IndexList.GetSelection()
             if selected != wx.NOT_FOUND:
                 index = self.ListIndex[selected]
                 if self.Manager.IsCurrentEntry(index):
+                    showpopup = False
                     infos = self.Manager.GetEntryInfos(index)
                     if index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
+                        showpopup = True
+                        self.SubindexGridMenu.FindItemByPosition(0).Enable(True)
+                        self.SubindexGridMenu.FindItemByPosition(1).Enable(True)
+                    else:
+                        self.SubindexGridMenu.FindItemByPosition(0).Enable(False)
+                        self.SubindexGridMenu.FindItemByPosition(1).Enable(False)
+                    if self.Table.GetColLabelValue(event.GetCol()) == "value":
+                        showpopup = True
+                        self.SubindexGridMenu.FindItemByPosition(3).Enable(True)
+                    else:
+                        self.SubindexGridMenu.FindItemByPosition(3).Enable(False)
+                    if showpopup:
                         self.PopupMenu(self.SubindexGridMenu)
         event.Skip()
 
@@ -729,3 +749,14 @@ class EditingPanel(wx.SplitterWindow):
                     dialog.Destroy()
         event.Skip()
 
+    def OnDefaultValueSubindexMenu(self, event):
+        if self.Editable:
+            selected = self.IndexList.GetSelection()
+            if selected != wx.NOT_FOUND:
+                index = self.ListIndex[selected]
+                if self.Manager.IsCurrentEntry(index):
+                    row = self.SubindexGrid.GetGridCursorRow()
+                    self.Manager.SetCurrentEntryToDefault(index, row)
+                    self.ParentWindow.RefreshBufferState()
+                    self.RefreshIndexList()
+        event.Skip()
