@@ -27,6 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <stdio.h>
 #include <unistd.h>
 
+#define NEED_PRINT_MESSAGE
 #include "can_driver.h"
 #include "def.h"
 
@@ -47,34 +48,6 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 		return 1;
 	}
 	return 0;
-}
-
-#define MyCase(fc) case fc: printf(#fc);break;
-void print_message(Message *m)
-{
-	int i;
-	switch(m->cob_id.w >> 7)
-	{
-		MyCase(SYNC)
-		MyCase(TIME_STAMP)
-		MyCase(PDO1tx)
-		MyCase(PDO1rx)
-		MyCase(PDO2tx)
-		MyCase(PDO2rx)
-		MyCase(PDO3tx)
-		MyCase(PDO3rx)
-		MyCase(PDO4tx)
-		MyCase(PDO4rx)
-		MyCase(SDOtx)
-		MyCase(SDOrx)
-		MyCase(NODE_GUARD)
-		MyCase(NMT)
-	}
-	printf(" rtr:%d", m->rtr);
-	printf(" len:%d", m->len);
-	for (i = 0 ; i < m->len ; i++)
-		printf(" %02x", m->data[i]);
-	printf("\n");
 }
 
 /***************************************************************************/

@@ -78,6 +78,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define SDO_CLIENT  0x2
 #define SDO_UNKNOWN 0x3             
 
+/* SDOrx ccs: client command specifier */
+#define DOWNLOAD_SEGMENT_REQUEST     0
+#define INITIATE_DOWNLOAD_REQUEST    1
+#define INITIATE_UPLOAD_REQUEST      2
+#define UPLOAD_SEGMENT_REQUEST       3
+#define ABORT_TRANSFER_REQUEST       4
+
+/* SDOtx scs: server command specifier */
+#define UPLOAD_SEGMENT_RESPONSE      0
+#define DOWNLOAD_SEGMENT_RESPONSE    1
+#define INITIATE_DOWNLOAD_RESPONSE   3
+#define INITIATE_UPLOAD_RESPONSE     2
+#define ABORT_TRANSFER_REQUEST       4
+
+
 /*  Function Codes 
    ---------------
   defined in the canopen DS301 

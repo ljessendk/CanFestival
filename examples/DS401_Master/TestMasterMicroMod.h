@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #else
 #define eprintf(...) printf (__VA_ARGS__)
 #endif
-//void print_message(Message *m);
 
 /*UNS8 canSend(CAN_HANDLE fd0, Message *m);*/
 

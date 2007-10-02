@@ -49,4 +49,63 @@ UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message *)FCT_PTR_INIT;
 CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *)FCT_PTR_INIT;
 int DLL_CALL(canClose)(CAN_HANDLE)FCT_PTR_INIT;
 
+#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON || defined NEED_PRINT_MESSAGE
+#include "def.h"
+
+#define _P(fc) case fc: printf(#fc" ");break;
+
+static inline void print_message(Message *m)
+{
+    int i;
+    printf("id:%02x ", m->cob_id.w & 0x7F);
+    UNS8 fc = m->cob_id.w >> 7;
+    switch(fc)
+    {
+        _P(SYNC)
+        _P(TIME_STAMP)
+        _P(PDO1tx)
+        _P(PDO1rx)
+        _P(PDO2tx)
+        _P(PDO2rx)
+        _P(PDO3tx)
+        _P(PDO3rx)
+        _P(PDO4tx)
+        _P(PDO4rx)
+        _P(SDOtx)
+        _P(SDOrx)
+        _P(NODE_GUARD)
+        _P(NMT)
+    }
+    if( fc == SDOtx)
+    {
+        switch(m->data[0] >> 5)
+        {
+            /* scs: server command specifier */
+            _P(UPLOAD_SEGMENT_RESPONSE)
+            _P(DOWNLOAD_SEGMENT_RESPONSE)
+            _P(INITIATE_DOWNLOAD_RESPONSE)
+            _P(INITIATE_UPLOAD_RESPONSE)
+            _P(ABORT_TRANSFER_REQUEST)
+        }
+    }else if( fc == SDOrx)
+    {
+        switch(m->data[0] >> 5)
+        {
+            /* ccs: client command specifier */
+            _P(DOWNLOAD_SEGMENT_REQUEST)
+            _P(INITIATE_DOWNLOAD_REQUEST)
+            _P(INITIATE_UPLOAD_REQUEST)
+            _P(UPLOAD_SEGMENT_REQUEST)
+            _P(ABORT_TRANSFER_REQUEST)
+        }
+    }
+    printf(" rtr:%d", m->rtr);
+    printf(" len:%d", m->len);
+    for (i = 0 ; i < m->len ; i++)
+        printf(" %02x", m->data[i]);
+    printf("\n");
+}
+
+#endif
+
 #endif

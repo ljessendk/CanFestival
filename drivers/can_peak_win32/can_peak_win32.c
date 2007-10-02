@@ -66,34 +66,6 @@ int TranslateBaudeRate(char* optarg){
 	return 0x0000;
 }
 
-#define MyCase(fc) case fc: printf(#fc);break;
-void print_message(Message *m)
-{
-	int i;
-	switch(m->cob_id.w >> 7)
-	{
-		MyCase(SYNC)
-		MyCase(TIME_STAMP)
-		MyCase(PDO1tx)
-		MyCase(PDO1rx)
-		MyCase(PDO2tx)
-		MyCase(PDO2rx)
-		MyCase(PDO3tx)
-		MyCase(PDO3rx)
-		MyCase(PDO4tx)
-		MyCase(PDO4rx)
-		MyCase(SDOtx)
-		MyCase(SDOrx)
-		MyCase(NODE_GUARD)
-		MyCase(NMT)
-	}
-	printf(" rtr:%d", m->rtr);
-	printf(" len:%d", m->len);
-	for (i = 0 ; i < m->len ; i++)
-		printf(" %02x", m->data[i]);
-	printf("\n");
-}
-
 void
 canInit (s_BOARD *board)
 {
