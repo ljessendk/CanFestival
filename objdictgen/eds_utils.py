@@ -109,7 +109,8 @@ def GetDefaultValue(index, subIndex = None):
 # List of section names that are not index and subindex and that we can meet in
 # an EDS file
 SECTION_KEYNAMES = ["FILEINFO", "DEVICEINFO", "DUMMYUSAGE", "COMMENTS", 
-                    "MANDATORYOBJECTS", "OPTIONALOBJECTS", "MANUFACTUREROBJECTS"]
+                    "MANDATORYOBJECTS", "OPTIONALOBJECTS", "MANUFACTUREROBJECTS",
+                    "STANDARDDATATYPES"]
 
 
 # Function that extract sections from a file and returns a dictionary of the informations
