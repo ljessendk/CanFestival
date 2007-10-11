@@ -503,7 +503,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   Message m;
   UNS8 i;
   UNS32 * pwCobId = NULL;
-  UNS32 * pwNodeId = NULL;
+  UNS8 * pwNodeId = NULL;
 
   MSG_WAR(0x3A38, "sendSDO",0);
   if( !((d->nodeState == Operational) ||  (d->nodeState == Pre_operational ))) {
@@ -537,7 +537,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
 	MSG_ERR(0x1A28, "Subindex 3  not found at index ", 0x1280 + sdoNum);
 	return 0xFF;
       }
-      pwNodeId = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
+      pwNodeId = (UNS8*) d->objdict[offset].pSubindex[3].pObject;
       MSG_WAR(0x3A44, "Found nodeId server = ", *pwNodeId);	
       if(*pwNodeId == sdo.nodeId) {
 	found = 1;
