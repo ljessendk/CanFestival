@@ -25,8 +25,7 @@ UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
     case valueRange_EMC:
-      if (*(UNS8*)value < (UNS8)0) return OD_VALUE_TOO_LOW;
-      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
       break;
   }
   return 0;
@@ -36,7 +35,7 @@ UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value)
 /* The node id                                                            */
 /**************************************************************************/
 /* node_id default value.*/
-UNS8 TestMaster_bDeviceNodeId = 0x01;
+UNS8 TestMaster_bDeviceNodeId = 0x00;
 
 /**************************************************************************/
 /* Array of message processing information */

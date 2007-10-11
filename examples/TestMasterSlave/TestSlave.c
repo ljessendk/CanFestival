@@ -29,8 +29,7 @@ UNS32 TestSlave_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
     case valueRange_EMC:
-      if (*(UNS8*)value < (UNS8)0) return OD_VALUE_TOO_LOW;
-      if (*(UNS8*)value > (UNS8)0) return OD_VALUE_TOO_HIGH;
+      if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
       break;
   }
   return 0;
@@ -40,7 +39,7 @@ UNS32 TestSlave_valueRangeTest (UNS8 typeValue, void * value)
 /* The node id                                                            */
 /**************************************************************************/
 /* node_id default value.*/
-UNS8 TestSlave_bDeviceNodeId = 0x02;
+UNS8 TestSlave_bDeviceNodeId = 0x00;
 
 /**************************************************************************/
 /* Array of message processing information */
@@ -209,8 +208,8 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1200 :   Server SDO Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1200 = 2; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1200_COB_ID_Client_to_Server_Receive_SDO = 0x601;	/* 1537 */
-                    UNS32 TestSlave_obj1200_COB_ID_Server_to_Client_Transmit_SDO = 0x581;	/* 1409 */
+                    UNS32 TestSlave_obj1200_COB_ID_Client_to_Server_Receive_SDO = 0x600;	/* 1536 */
+                    UNS32 TestSlave_obj1200_COB_ID_Server_to_Client_Transmit_SDO = 0x580;	/* 1408 */
                     subindex TestSlave_Index1200[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestSlave_highestSubIndex_obj1200 },
@@ -220,7 +219,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1800 :   Transmit PDO 1 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1800 = 5; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1800_COB_ID_used_by_PDO = 0x182;	/* 386 */
+                    UNS32 TestSlave_obj1800_COB_ID_used_by_PDO = 0x180;	/* 384 */
                     UNS8 TestSlave_obj1800_Transmission_Type = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1800_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestSlave_obj1800_Compatibility_Entry = 0x0;	/* 0 */
@@ -246,7 +245,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1801 :   Transmit PDO 2 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1801 = 5; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1801_COB_ID_used_by_PDO = 0x282;	/* 642 */
+                    UNS32 TestSlave_obj1801_COB_ID_used_by_PDO = 0x280;	/* 640 */
                     UNS8 TestSlave_obj1801_Transmission_Type = 0x0;	/* 0 */
                     UNS16 TestSlave_obj1801_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestSlave_obj1801_Compatibility_Entry = 0x0;	/* 0 */
@@ -272,7 +271,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1802 :   Transmit PDO 3 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1802 = 5; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1802_COB_ID_used_by_PDO = 0x382;	/* 898 */
+                    UNS32 TestSlave_obj1802_COB_ID_used_by_PDO = 0x380;	/* 896 */
                     UNS8 TestSlave_obj1802_Transmission_Type = 0xFF;	/* 255 */
                     UNS16 TestSlave_obj1802_Inhibit_Time = 0x1388;	/* 5000 */
                     UNS8 TestSlave_obj1802_Compatibility_Entry = 0x0;	/* 0 */
@@ -298,7 +297,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1803 :   Transmit PDO 4 Parameter. */
                     UNS8 TestSlave_highestSubIndex_obj1803 = 5; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1803_COB_ID_used_by_PDO = 0x482;	/* 1154 */
+                    UNS32 TestSlave_obj1803_COB_ID_used_by_PDO = 0x480;	/* 1152 */
                     UNS8 TestSlave_obj1803_Transmission_Type = 0xFC;	/* 252 */
                     UNS16 TestSlave_obj1803_Inhibit_Time = 0x0;	/* 0 */
                     UNS8 TestSlave_obj1803_Compatibility_Entry = 0x0;	/* 0 */
