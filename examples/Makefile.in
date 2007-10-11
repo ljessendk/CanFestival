@@ -30,15 +30,15 @@ endif
 
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
 ifeq ($(TARGET),win32)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
@@ -49,15 +49,15 @@ endif
 
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
 ifeq ($(TARGET),win32)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
@@ -70,15 +70,15 @@ endif
 install:
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
 
 uninstall:
 ifeq ($(TARGET),unix)
 	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
+#	$(MAKE) -C DS401_Master $@
+#	$(MAKE) -C DS401_Slave_Gui $@
 	$(MAKE) -C TestMasterMicroMod $@
 endif
