@@ -644,7 +644,7 @@ class EditingPanel(wx.SplitterWindow):
                 if self.Manager.IsCurrentEntry(index):
                     showpopup = False
                     infos = self.Manager.GetEntryInfos(index)
-                    if index >= 0x2000 and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
+                    if 0x2000 <= index <= 0x5FFF and infos["struct"] & OD_MultipleSubindexes or infos["struct"] & OD_IdenticalSubindexes:
                         showpopup = True
                         self.SubindexGridMenu.FindItemByPosition(0).Enable(True)
                         self.SubindexGridMenu.FindItemByPosition(1).Enable(True)
