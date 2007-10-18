@@ -45,7 +45,7 @@ nodedcfname_model = re.compile('NODE([0-9]{1,3})DCFNAME')
 BOOL_TRANSLATE = {True : "1", False : "0"}
 
 # Dictionary for quickly translate eds access value into canfestival access value
-ACCESS_TRANSLATE = {"ro" : "ro", "wo" : "wo", "rw" : "rw", "rwr" : "rw", "rww" : "rw", "const" : "ro"}
+ACCESS_TRANSLATE = {"RO" : "ro", "WO" : "wo", "RW" : "rw", "RWR" : "rw", "RWW" : "rw", "CONST" : "ro"}
 
 # Function for verifying data values
 is_integer = lambda x: type(x) in (IntType, LongType)
@@ -56,7 +56,7 @@ is_boolean = lambda x: x in (0, 1)
 ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, "PARAMETERNAME" : is_string, 
                     "OBJECTTYPE" : lambda x: x in (7, 8, 9), "DATATYPE" : is_integer, 
                     "LOWLIMIT" : is_integer, "HIGHLIMIT" : is_integer,
-                    "ACCESSTYPE" : lambda x: x in ["ro","wo", "rw", "rwr", "rww", "const"],
+                    "ACCESSTYPE" : lambda x: x.upper() in ACCESS_TRANSLATE.keys(),
                     "DEFAULTVALUE" : lambda x: True, "PDOMAPPING" : is_boolean,
                     "OBJFLAGS" : is_integer}
 
@@ -154,15 +154,15 @@ def ParseCPJFile(filepath):
                         # value can be preceded and followed by whitespaces, so we escape them
                         value = value.strip()
                 
-                        # First case, value starts with "0x", then it's an hexadecimal value
-                        if value.startswith("0x"):
+                        # First case, value starts with "0x" or "-0x", then it's an hexadecimal value
+                        if value.startswith("0x") or value.startswith("-0x"):
                             try:
                                 computed_value = int(value, 16)
                             except:
                                 raise SyntaxError, "\"%s\" is not a valid value for attribute \"%s\" of section \"[%s]\""%(value, keyname, section_name)
-                        elif value.isdigit():
-                            # Second case, value is a number and starts with "0", then it's an octal value
-                            if value.startswith("0"):
+                        elif value.isdigit() or value.startswith("-") and value[1:].isdigit():
+                            # Second case, value is a number and starts with "0" or "-0", then it's an octal value
+                            if value.startswith("0") or value.startswith("-0"):
                                 computed_value = int(value, 8)
                             # Third case, value is a number and don't start with "0", then it's a decimal value
                             else:
@@ -313,14 +313,14 @@ def ParseEDSFile(filepath):
                         except:
                             raise SyntaxError, "\"%s\" is not a valid formula for attribute \"%s\" of section \"[%s]\""%(value, keyname, section_name)
                     # Second case, value starts with "0x", then it's an hexadecimal value
-                    elif value.startswith("0x"):
+                    elif value.startswith("0x") or value.startswith("-0x"):
                         try:
                             computed_value = int(value, 16)
                         except:
                             raise SyntaxError, "\"%s\" is not a valid value for attribute \"%s\" of section \"[%s]\""%(value, keyname, section_name)
-                    elif value.isdigit():
+                    elif value.isdigit() or value.startswith("-") and value[1:].isdigit():
                         # Third case, value is a number and starts with "0", then it's an octal value
-                        if value.startswith("0"):
+                        if value.startswith("0") or value.startswith("-0"):
                             computed_value = int(value, 8)
                         # Forth case, value is a number and don't start with "0", then it's a decimal value
                         else:
@@ -665,10 +665,10 @@ def GenerateNode(filepath, nodeID = 0):
                         # Add mapping for first subindex
                         Node.AddMappingEntry(entry, 0, values = {"name" : values["PARAMETERNAME"], 
                                                                  "type" : values["DATATYPE"], 
-                                                                 "access" : ACCESS_TRANSLATE[values["ACCESSTYPE"]], 
+                                                                 "access" : ACCESS_TRANSLATE[values["ACCESSTYPE"].upper()], 
                                                                  "pdo" : values.get("PDOMAPPING", 0) == 1})
-                    # Second case, entry is an ARRAY
-                    elif values["OBJECTTYPE"] == 8:
+                    # Second case, entry is an ARRAY or RECORD
+                    elif values["OBJECTTYPE"] in [8, 9]:
                         # Extract maximum subindex number defined
                         try:
                             max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
@@ -684,28 +684,29 @@ def GenerateNode(filepath, nodeID = 0):
                             if subindex in values["subindexes"]:
                                 Node.AddMappingEntry(entry, subindex, values = {"name" : values["subindexes"][subindex]["PARAMETERNAME"], 
                                                                                 "type" : values["subindexes"][subindex]["DATATYPE"], 
-                                                                                "access" : ACCESS_TRANSLATE[values["subindexes"][subindex]["ACCESSTYPE"]], 
+                                                                                "access" : ACCESS_TRANSLATE[values["subindexes"][subindex]["ACCESSTYPE"].upper()], 
                                                                                 "pdo" : values["subindexes"][subindex].get("PDOMAPPING", 0) == 1})
                             # if not, we add a mapping for compatibility 
                             else:
                                 Node.AddMappingEntry(entry, subindex, values = {"name" : "Compatibility Entry", "type" : 0x05, "access" : "rw", "pdo" : False})
-                    # Third case, entry is an RECORD
-                    elif values["OBJECTTYPE"] == 9:
-                        # Verify that the first subindex is defined
-                        if 0 not in values["subindexes"]:
-                            raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for a RECORD entry"%entry
-                        # Add mapping for entry
-                        Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 7)
-                        # Add mapping for first subindex
-                        Node.AddMappingEntry(entry, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
-                        # Verify that second subindex is defined
-                        if 1 in values:
-                            Node.AddMappingEntry(entry, 1, values = {"name" : values["PARAMETERNAME"] + " %d[(sub)]", 
-                                                                     "type" : values["subindexes"][1]["DATATYPE"], 
-                                                                     "access" : ACCESS_TRANSLATE[values["subindexes"][1]["ACCESSTYPE"]], 
-                                                                     "pdo" : values["subindexes"][1].get("PDOMAPPING", 0) == 1})
-                        else:
-                            raise SyntaxError, "Error on entry 0x%4.4X:\nA RECORD entry must have at least 2 subindexes"%entry
+##                    # Third case, entry is an RECORD
+##                    elif values["OBJECTTYPE"] == 9:
+##                        # Verify that the first subindex is defined
+##                        if 0 not in values["subindexes"]:
+##                            raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for a RECORD entry"%entry
+##                        # Add mapping for entry
+##                        Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 7)
+##                        # Add mapping for first subindex
+##                        Node.AddMappingEntry(entry, 0, values = {"name" : "Number of Entries", "type" : 0x05, "access" : "ro", "pdo" : False})
+##                        # Verify that second subindex is defined
+##                        if 1 in values["subindexes"]:
+##                            Node.AddMappingEntry(entry, 1, values = {"name" : values["PARAMETERNAME"] + " %d[(sub)]", 
+##                                                                     "type" : values["subindexes"][1]["DATATYPE"], 
+##                                                                     "access" : ACCESS_TRANSLATE[values["subindexes"][1]["ACCESSTYPE"].upper()], 
+##                                                                     "pdo" : values["subindexes"][1].get("PDOMAPPING", 0) == 1,
+##                                                                     "nbmax" : 0xFE})
+##                        else:
+##                            raise SyntaxError, "Error on entry 0x%4.4X:\nA RECORD entry must have at least 2 subindexes"%entry
                 
                 # Define entry for the new node
                 
@@ -722,11 +723,14 @@ def GenerateNode(filepath, nodeID = 0):
                 elif values["OBJECTTYPE"] in (8, 9):
                     # Verify that "Subnumber" attribute is defined and has a valid value
                     if "SUBNUMBER" in values and values["SUBNUMBER"] > 0:
+                        consecutive = False
                         # Extract maximum subindex number defined
                         try:
                             max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
                         except:
-                            raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or a RECORD entry"%entry
+                            max_subindex = values["SUBNUMBER"] - 1
+                            consecutive = True
+                            #raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or a RECORD entry"%entry
                         Node.AddEntry(entry, value = [])
                         # Define value for all subindexes except the first 
                         for subindex in xrange(1, int(max_subindex) + 1):
@@ -734,8 +738,10 @@ def GenerateNode(filepath, nodeID = 0):
                             if subindex in values["subindexes"] and "DEFAULTVALUE" in values["subindexes"][subindex]:
                                 value = values["subindexes"][subindex]["DEFAULTVALUE"]
                             # Find default value for value type of the subindex
-                            else:
+                            elif subindex in values["subindexes"] or not consecutive:
                                 value = GetDefaultValue(entry, subindex)
+                            else:
+                                raise SyntaxError, "Error on entry 0x%4.4X:\nCan't recompose implemented subindexes in this ARRAY or RECORD entry"%entry
                             Node.AddEntry(entry, subindex, value)
                     else:
                         raise SyntaxError, "Array or Record entry 0x%4.4X must have a \"SubNumber\" attribute"%entry
