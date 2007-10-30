@@ -611,8 +611,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS8 line;
   UNS8 nbBytes; /* received or to be transmited. */
   UNS8 nodeId = 0;  /* The node from which the SDO is received */
-  UNS32 nodeId_32; /* node id in 32 bits, for temporary use */
-  UNS32 *pNodeId = NULL;
+  UNS8 *pNodeId = NULL;
   UNS8 whoami = SDO_UNKNOWN;  /* SDO_SERVER or SDO_CLIENT.*/
   UNS32 errorCode; /* while reading or writing in the local object dictionary.*/
   s_SDO sdo;    /* SDO to transmit */
@@ -662,10 +661,9 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
        pCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
        if (*pCobId == (*m).cob_id.w ) {
 	 /* b) cobid found, so reading the node id of the server. */
-	 pNodeId = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
+	 pNodeId = (UNS8*) d->objdict[offset].pSubindex[3].pObject;
 	 whoami = SDO_CLIENT;
-	 nodeId_32 = *pNodeId;
-	 nodeId = (UNS8)nodeId_32;
+	 nodeId = *pNodeId;
 	 MSG_WAR(0x3A64, "proceedSDO. I am server. index : ", 0x1280 + j);
 	 MSG_WAR(0x3A65, "                 Server nodeId : ", nodeId);
 	 break;
@@ -1254,8 +1252,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   UNS8 i, j;
   UNS16     lastIndex;
   UNS16     offset;
-  UNS32      *pNodeIdServer;
-  UNS32      nodeIdServer;
+  UNS8      *pNodeIdServer;
+  UNS8      nodeIdServer;
 
   MSG_WAR(0x3AC0, "Send SDO to write in the dictionary of node : ", nodeId);
   MSG_WAR(0x3AC1, "                                   At index : ", index);
@@ -1288,12 +1286,12 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 	 return 0xFF;
      }
      /* looking for the nodeId server */
-     pNodeIdServer = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
+     pNodeIdServer = (UNS8*) d->objdict[offset].pSubindex[3].pObject;
      nodeIdServer = *pNodeIdServer;
      MSG_WAR(0x1AD2, "index : ", 0x1280 + i);
      MSG_WAR(0x1AD3, "nodeIdServer : ", nodeIdServer);
    
-    if(nodeIdServer == (UNS32)nodeId) {
+    if(nodeIdServer == nodeId) {
       SDOfound = 1;
       break;
     }
@@ -1410,8 +1408,8 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
   UNS8 i;
   UNS8 line;
   s_SDO sdo;    /* SDO to transmit */
-  UNS32      *pNodeIdServer;
-  UNS32      nodeIdServer;
+  UNS8      *pNodeIdServer;
+  UNS8      nodeIdServer;
   UNS16     offset;
   UNS16     lastIndex;
   MSG_WAR(0x3AD5, "Send SDO to read in the dictionary of node : ", nodeId);
@@ -1448,10 +1446,10 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 	 return 0xFF;
      }
      /* looking for the nodeId server */
-     pNodeIdServer = (UNS32*) d->objdict[offset].pSubindex[3].pObject;
+     pNodeIdServer = (UNS8*) d->objdict[offset].pSubindex[3].pObject;
      nodeIdServer = *pNodeIdServer;
    
-    if(nodeIdServer == (UNS32)nodeId) {
+    if(nodeIdServer == nodeId) {
       SDOfound = 1;
       break;
     }
