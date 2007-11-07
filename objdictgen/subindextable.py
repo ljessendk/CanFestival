@@ -548,7 +548,7 @@ class EditingPanel(wx.SplitterWindow):
                         else:
                             self.IndexChoice.Append(name)
                         self.ChoiceIndex.append(index)
-                if choiceindex != wx.NOT_FOUND and choice == self.IndexChoice.GetString(choiceindex):
+                if choiceindex != wx.NOT_FOUND and choiceindex < self.IndexChoice.GetCount() and choice == self.IndexChoice.GetString(choiceindex):
                     self.IndexChoice.SetStringSelection(choice)
         if self.Editable:
             self.IndexChoice.Enable(self.IndexChoice.GetCount() != 0)
