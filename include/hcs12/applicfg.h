@@ -139,11 +139,13 @@ extern void initHCS12 (void);
 #define UNS8   unsigned char
 #define UNS16  unsigned short
 #define UNS32  unsigned long
+/*
 #define UNS24
 #define UNS40
 #define UNS48
 #define UNS56
-#define UNS64 
+#define UNS64
+*/ 
 
 // Whatever your microcontroller, the timer wont work if 
 // TIMEVAL is not at least on 32 bits

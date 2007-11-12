@@ -521,7 +521,12 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
 	/*Compare new and old PDO*/
 	if(d->PDO_status[pdoNum].last_message.cob_id.w == pdo.cob_id.w &&
 	   d->PDO_status[pdoNum].last_message.len == pdo.len &&
+#ifdef UNS64
 	   *(UNS64*)(&d->PDO_status[pdoNum].last_message.data[0]) == *(UNS64*)(&pdo.data[0])){
+#else /* don't ALLOW_64BIT_OPS*/
+       *(UNS32*)(&d->PDO_status[pdoNum].last_message.data[0]) == *(UNS32*)(&pdo.data[0]) &&
+       *(UNS32*)(&d->PDO_status[pdoNum].last_message.data[4]) == *(UNS32*)(&pdo.data[4])){
+#endif 
 	   	/* No changes -> go to next pdo*/
 		status = state11;
 	}else{
