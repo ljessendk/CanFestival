@@ -102,6 +102,7 @@ struct struct_CO_Data {
 	UNS8* error_number;
 	UNS32* error_first_element;
 	UNS8* error_register;
+    UNS32* error_cobid;
 	s_errors error_data[EMCY_MAX_ERRORS];
 	post_emcy_t post_emcy;
 	
@@ -199,6 +200,7 @@ struct struct_CO_Data {
 	& NODE_PREFIX ## _highestSubIndex_obj1003,    /* error_number */\
 	& NODE_PREFIX ## _obj1003[0],    /* error_first_element */\
 	& NODE_PREFIX ## _obj1001,       /* error_register */\
+    & NODE_PREFIX ## _obj1014,       /* error_cobid */\
 	/* error_data: structure s_errors */\
 	{\
 	REPEAT_EMCY_MAX_ERRORS_TIMES(ERROR_DATA_INITIALIZER)\

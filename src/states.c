@@ -288,6 +288,11 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
       offset ++;
     }
   }
+
+  /* Update EMCY COB-ID if already set to default*/
+  if(*d->error_cobid == *d->bDeviceNodeId + 0x80)
+    *d->error_cobid = nodeId + 0x80;
+
   /* bDeviceNodeId is defined in the object dictionary. */
   *d->bDeviceNodeId = nodeId;
 }

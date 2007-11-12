@@ -139,6 +139,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1011_Restore_Manufacturer_Default_Parameters }
                      };
 
+/* index 0x1014 :   Emergency COB ID. */
+                    UNS32 TestMaster_obj1014 = 0x80;	/* 128 */
+                    subindex TestMaster_Index1014[] = 
+                     {
+                       { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1014 }
+                     };
+
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 TestMaster_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1016[] = 
@@ -416,6 +423,7 @@ const indextable TestMaster_objdict[] =
   { (subindex*)TestMaster_Index1006,sizeof(TestMaster_Index1006)/sizeof(TestMaster_Index1006[0]), 0x1006},
   { (subindex*)TestMaster_Index1010,sizeof(TestMaster_Index1010)/sizeof(TestMaster_Index1010[0]), 0x1010},
   { (subindex*)TestMaster_Index1011,sizeof(TestMaster_Index1011)/sizeof(TestMaster_Index1011[0]), 0x1011},
+  { (subindex*)TestMaster_Index1014,sizeof(TestMaster_Index1014)/sizeof(TestMaster_Index1014[0]), 0x1014},
   { (subindex*)TestMaster_Index1016,sizeof(TestMaster_Index1016)/sizeof(TestMaster_Index1016[0]), 0x1016},
   { (subindex*)TestMaster_Index1018,sizeof(TestMaster_Index1018)/sizeof(TestMaster_Index1018[0]), 0x1018},
   { (subindex*)TestMaster_Index1280,sizeof(TestMaster_Index1280)/sizeof(TestMaster_Index1280[0]), 0x1280},
@@ -454,31 +462,32 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x1006: i = 3;*callbacks = TestMaster_Index1006_callbacks; break;
 		case 0x1010: i = 4;break;
 		case 0x1011: i = 5;break;
-		case 0x1016: i = 6;break;
-		case 0x1018: i = 7;break;
-		case 0x1280: i = 8;break;
-		case 0x1400: i = 9;break;
-		case 0x1401: i = 10;break;
-		case 0x1402: i = 11;break;
-		case 0x1403: i = 12;break;
-		case 0x1600: i = 13;break;
-		case 0x1601: i = 14;break;
-		case 0x1602: i = 15;break;
-		case 0x1603: i = 16;break;
-		case 0x1F22: i = 17;break;
-		case 0x2000: i = 18;break;
-		case 0x2001: i = 19;break;
-		case 0x2002: i = 20;break;
-		case 0x2003: i = 21;break;
-		case 0x2004: i = 22;break;
-		case 0x2005: i = 23;break;
-		case 0x2006: i = 24;break;
-		case 0x2007: i = 25;break;
-		case 0x2008: i = 26;break;
-		case 0x2009: i = 27;break;
-		case 0x200A: i = 28;break;
-		case 0x200B: i = 29;break;
-		case 0x200C: i = 30;break;
+		case 0x1014: i = 6;break;
+		case 0x1016: i = 7;break;
+		case 0x1018: i = 8;break;
+		case 0x1280: i = 9;break;
+		case 0x1400: i = 10;break;
+		case 0x1401: i = 11;break;
+		case 0x1402: i = 12;break;
+		case 0x1403: i = 13;break;
+		case 0x1600: i = 14;break;
+		case 0x1601: i = 15;break;
+		case 0x1602: i = 16;break;
+		case 0x1603: i = 17;break;
+		case 0x1F22: i = 18;break;
+		case 0x2000: i = 19;break;
+		case 0x2001: i = 20;break;
+		case 0x2002: i = 21;break;
+		case 0x2003: i = 22;break;
+		case 0x2004: i = 23;break;
+		case 0x2005: i = 24;break;
+		case 0x2006: i = 25;break;
+		case 0x2007: i = 26;break;
+		case 0x2008: i = 27;break;
+		case 0x2009: i = 28;break;
+		case 0x200A: i = 29;break;
+		case 0x200B: i = 30;break;
+		case 0x200C: i = 31;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;
@@ -496,18 +505,18 @@ s_PDO_status TestMaster_PDO_status[1] = {s_PDO_staus_Initializer};
 
 quick_index TestMaster_firstIndex = {
   0, /* SDO_SVR */
-  8, /* SDO_CLT */
-  9, /* PDO_RCV */
-  13, /* PDO_RCV_MAP */
+  9, /* SDO_CLT */
+  10, /* PDO_RCV */
+  14, /* PDO_RCV_MAP */
   0, /* PDO_TRS */
   0 /* PDO_TRS_MAP */
 };
 
 quick_index TestMaster_lastIndex = {
   0, /* SDO_SVR */
-  8, /* SDO_CLT */
-  12, /* PDO_RCV */
-  16, /* PDO_RCV_MAP */
+  9, /* SDO_CLT */
+  13, /* PDO_RCV */
+  17, /* PDO_RCV_MAP */
   0, /* PDO_TRS */
   0 /* PDO_TRS_MAP */
 };

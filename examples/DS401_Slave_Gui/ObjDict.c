@@ -216,6 +216,9 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&ObjDict_obj1011_Restore_All_Default_Parameters }
                      };
 
+/* index 0x1014 :   Emergency COB ID */
+                    UNS32 ObjDict_obj1014 = 0x0;   /* 0 */
+
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 ObjDict_highestSubIndex_obj1016 = 3; /* number of subindex - 1*/
                     UNS32 ObjDict_obj1016[] = 

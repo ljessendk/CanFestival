@@ -953,7 +953,6 @@ class CreateNodeDialog(wx.Dialog):
               label='Emergency support', name='Emergency',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.Emergency.SetValue(False)
-        self.Emergency.Enable(False)
 
         self.SaveConfig = wx.CheckBox(id=ID_CREATENODEDIALOGSAVECONFIG,
               label='Save Configuration', name='SaveConfig', parent=self, 

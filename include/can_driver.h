@@ -61,7 +61,12 @@ static inline void print_message(Message *m)
     UNS8 fc = m->cob_id.w >> 7;
     switch(fc)
     {
-        _P(SYNC)
+        case SYNC: 
+            if(m->cob_id.w == 0x080)
+                printf("SYNC ");
+            else
+                printf("EMCY ");
+        break;
         _P(TIME_STAMP)
         _P(PDO1tx)
         _P(PDO1rx)

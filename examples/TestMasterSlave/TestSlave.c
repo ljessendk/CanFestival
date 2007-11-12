@@ -176,6 +176,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestSlave_obj1011_Restore_Manufacturer_Default_Parameters }
                      };
 
+/* index 0x1014 :   Emergency COB ID. */
+                    UNS32 TestSlave_obj1014 = 0x80;	/* 128 */
+                    subindex TestSlave_Index1014[] = 
+                     {
+                       { RW, uint32, sizeof (UNS32), (void*)&TestSlave_obj1014 }
+                     };
+
 /* index 0x1016 :   Consumer Heartbeat Time */
                     UNS8 TestSlave_highestSubIndex_obj1016 = 0;
                     UNS32 TestSlave_obj1016[]={0};
@@ -512,6 +519,7 @@ const indextable TestSlave_objdict[] =
   { (subindex*)TestSlave_Index1006,sizeof(TestSlave_Index1006)/sizeof(TestSlave_Index1006[0]), 0x1006},
   { (subindex*)TestSlave_Index1010,sizeof(TestSlave_Index1010)/sizeof(TestSlave_Index1010[0]), 0x1010},
   { (subindex*)TestSlave_Index1011,sizeof(TestSlave_Index1011)/sizeof(TestSlave_Index1011[0]), 0x1011},
+  { (subindex*)TestSlave_Index1014,sizeof(TestSlave_Index1014)/sizeof(TestSlave_Index1014[0]), 0x1014},
   { (subindex*)TestSlave_Index1017,sizeof(TestSlave_Index1017)/sizeof(TestSlave_Index1017[0]), 0x1017},
   { (subindex*)TestSlave_Index1018,sizeof(TestSlave_Index1018)/sizeof(TestSlave_Index1018[0]), 0x1018},
   { (subindex*)TestSlave_Index1200,sizeof(TestSlave_Index1200)/sizeof(TestSlave_Index1200[0]), 0x1200},
@@ -552,32 +560,33 @@ const indextable * TestSlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
 		case 0x1006: i = 4;*callbacks = TestSlave_Index1006_callbacks; break;
 		case 0x1010: i = 5;*callbacks = TestSlave_Index1010_callbacks; break;
 		case 0x1011: i = 6;*callbacks = TestSlave_Index1011_callbacks; break;
-		case 0x1017: i = 7;*callbacks = TestSlave_Index1017_callbacks; break;
-		case 0x1018: i = 8;break;
-		case 0x1200: i = 9;break;
-		case 0x1800: i = 10;*callbacks = TestSlave_Index1800_callbacks; break;
-		case 0x1801: i = 11;*callbacks = TestSlave_Index1801_callbacks; break;
-		case 0x1802: i = 12;*callbacks = TestSlave_Index1802_callbacks; break;
-		case 0x1803: i = 13;*callbacks = TestSlave_Index1803_callbacks; break;
-		case 0x1804: i = 14;*callbacks = TestSlave_Index1804_callbacks; break;
-		case 0x1A00: i = 15;break;
-		case 0x1A01: i = 16;break;
-		case 0x1A02: i = 17;break;
-		case 0x1A03: i = 18;break;
-		case 0x1A04: i = 19;break;
-		case 0x2000: i = 20;break;
-		case 0x2001: i = 21;break;
-		case 0x2002: i = 22;break;
-		case 0x2003: i = 23;break;
-		case 0x2004: i = 24;break;
-		case 0x2005: i = 25;break;
-		case 0x2006: i = 26;break;
-		case 0x2007: i = 27;break;
-		case 0x2008: i = 28;break;
-		case 0x2009: i = 29;break;
-		case 0x200A: i = 30;break;
-		case 0x200B: i = 31;break;
-		case 0x200C: i = 32;break;
+		case 0x1014: i = 7;break;
+		case 0x1017: i = 8;*callbacks = TestSlave_Index1017_callbacks; break;
+		case 0x1018: i = 9;break;
+		case 0x1200: i = 10;break;
+		case 0x1800: i = 11;*callbacks = TestSlave_Index1800_callbacks; break;
+		case 0x1801: i = 12;*callbacks = TestSlave_Index1801_callbacks; break;
+		case 0x1802: i = 13;*callbacks = TestSlave_Index1802_callbacks; break;
+		case 0x1803: i = 14;*callbacks = TestSlave_Index1803_callbacks; break;
+		case 0x1804: i = 15;*callbacks = TestSlave_Index1804_callbacks; break;
+		case 0x1A00: i = 16;break;
+		case 0x1A01: i = 17;break;
+		case 0x1A02: i = 18;break;
+		case 0x1A03: i = 19;break;
+		case 0x1A04: i = 20;break;
+		case 0x2000: i = 21;break;
+		case 0x2001: i = 22;break;
+		case 0x2002: i = 23;break;
+		case 0x2003: i = 24;break;
+		case 0x2004: i = 25;break;
+		case 0x2005: i = 26;break;
+		case 0x2006: i = 27;break;
+		case 0x2007: i = 28;break;
+		case 0x2008: i = 29;break;
+		case 0x2009: i = 30;break;
+		case 0x200A: i = 31;break;
+		case 0x200B: i = 32;break;
+		case 0x200C: i = 33;break;
 		default:
 			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;
@@ -594,21 +603,21 @@ const indextable * TestSlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
 s_PDO_status TestSlave_PDO_status[5] = {s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer};
 
 quick_index TestSlave_firstIndex = {
-  9, /* SDO_SVR */
+  10, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
   0, /* PDO_RCV_MAP */
-  10, /* PDO_TRS */
-  15 /* PDO_TRS_MAP */
+  11, /* PDO_TRS */
+  16 /* PDO_TRS_MAP */
 };
 
 quick_index TestSlave_lastIndex = {
-  9, /* SDO_SVR */
+  10, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
   0, /* PDO_RCV_MAP */
-  14, /* PDO_TRS */
-  19 /* PDO_TRS_MAP */
+  15, /* PDO_TRS */
+  20 /* PDO_TRS_MAP */
 };
 
 UNS16 TestSlave_ObjdictSize = sizeof(TestSlave_objdict)/sizeof(TestSlave_objdict[0]); 

@@ -39,7 +39,7 @@
 
 
 UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
-UNS8 sendEMCY(CO_Data* d, UNS32 cob_id, UNS16 errCode, UNS8 errRegister);
+UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister);
 
 
 /*! This is called when Index 0x1003 is updated.
@@ -94,13 +94,13 @@ void emergencyStop(CO_Data* d)
  **                                                                                                 
  ** @return                                                                                         
  **/  
-UNS8 sendEMCY(CO_Data* d, UNS32 cob_id, UNS16 errCode, UNS8 errRegister)
+UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister)
 {
 	Message m;
   
 	MSG_WAR(0x3051, "sendEMCY", 0);
   
-	m.cob_id.w = cob_id ;
+	m.cob_id.w = *d->error_cobid;
 	m.rtr = NOT_A_REQUEST;
 	m.len = 8;
 	m.data[0] = errCode & 0xFF;        /* LSB */
@@ -170,7 +170,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
 	
 	/* send EMCY message */
 	if (d->CurrentCommunicationState.csEmergency)
-		return sendEMCY(d, *d->bDeviceNodeId + 0x080, errCode, *d->error_register);
+		return sendEMCY(d, errCode, *d->error_register);
 	else return 1;
 }
 
@@ -208,7 +208,7 @@ void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 			d->error_state = Error_free;
 			/* send a EMCY message with code "Error Reset or No Error" */
 			if (d->CurrentCommunicationState.csEmergency)
-				sendEMCY(d, *d->bDeviceNodeId + 0x080, 0x0000, 0x00);
+				sendEMCY(d, 0x0000, 0x00);
 		}
 		*d->error_register = errRegister_tmp;
 	}

@@ -117,6 +117,9 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&TestMaster_obj1006 }
                      };
 
+/* index 0x1014 :   Emergency COB ID */
+                    UNS32 TestMaster_obj1014 = 0x0;   /* 0 */
+
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 TestMaster_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
                     UNS32 TestMaster_obj1016[] = 

@@ -363,6 +363,13 @@ def GenerateFileContent(Node, headerfilepath):
                     UNS32 %(NodeName)s_obj1006 = 0x0;   /* 0 */
 """%texts
 
+    if 0x1014 not in communicationlist:
+        entry_infos = Node.GetEntryInfos(0x1014)
+        texts["EntryName"] = entry_infos["name"]
+        indexContents[0x1014] = """\n/* index 0x1014 :   %(EntryName)s */
+                    UNS32 %(NodeName)s_obj1014 = 0x0;   /* 0 */
+"""%texts
+
     if 0x1016 in communicationlist:
         texts["nombre"] = Node.GetEntry(0x1016, 0)
     else:
