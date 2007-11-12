@@ -109,7 +109,7 @@ def GenerateFileContent(Node, headerfilepath):
     strSwitch = """    case valueRange_EMC:
       if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
       break;\n"""
-    internal_types["valueRange_EMC"] = ("UNS8", "", "valueRange_EMC")
+    internal_types["valueRange_EMC"] = ("UNS8", "", "valueRange_EMC", True)
     num = 0
     for index in rangelist:
         rangename = Node.GetEntryName(index)
@@ -124,7 +124,7 @@ def GenerateFileContent(Node, headerfilepath):
             maxvalue = Node.GetEntry(index, 3)
             strDefine += "\n#define valueRange_%d 0x%02X /* Type %s, %s < value < %s */"%(num,index,typeinfos[0],str(minvalue),str(maxvalue))
             strSwitch += "    case valueRange_%d:\n"%(num)
-            if typeinfos[4] and minvalue <= 0:
+            if typeinfos[3] and minvalue <= 0:
                 strSwitch += "      /* Negative or null low limit ignored because of unsigned type */;\n"
             else:
                 strSwitch += "      if (*(%s*)value < (%s)%s) return OD_VALUE_TOO_LOW;\n"%(typeinfos[0],typeinfos[0],str(minvalue))

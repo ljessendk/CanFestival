@@ -140,7 +140,7 @@ MappingDictionary = {
     0x1013 : {"name" : "High Resolution Timestamp", "struct" : var, "need" : False, "values" :
                 [{"name" : "High Resolution Time Stamp", "type" : 0x07, "access" : 'rw', "pdo" : True}]},
     0x1014 : {"name" : "Emergency COB ID", "struct" : var, "need" : False, "values" :
-                [{"name" : "Emergency COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "Emergency COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "\"$NODEID+0x80\""}]},
     0x1015 : {"name" : "Inhibit Time Emergency", "struct" : var, "need" : False, "values" :
                 [{"name" : "Inhibit Time Emergency", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1016 : {"name" : "Consumer Heartbeat Time", "struct" : rec, "need" : False, "values" :
