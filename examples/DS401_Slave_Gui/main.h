@@ -8,6 +8,7 @@
 #include <wx/listbox.h>
 #include <wx/gauge.h>
 #include <wx/spinctrl.h>
+#include <wx/notebook.h>
 
 class MyApp : public wxApp {
 public:

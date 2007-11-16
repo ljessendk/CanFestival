@@ -696,8 +696,8 @@ void MyFrame::Paint()
 	double		q = 0;
 	int			i = 0;
 	int			j = 0;
-	wxColor		col[8] = {wxColor("BLUE"), wxColor("RED"), wxColor("GREEN"), wxColor("GREY"),
-						wxColor("ORANGE"), wxColor("YELLOW"), wxColor("PINK"), wxColor("BLACK")};
+	wxColor		col[8] = {wxColor(wxT("BLUE")), wxColor(wxT("RED")), wxColor(wxT("GREEN")), wxColor(wxT("GREY")),
+						wxColor(wxT("ORANGE")), wxColor(wxT("YELLOW")), wxColor(wxT("PINK")), wxColor(wxT("BLACK"))};
 	hdelta = hmax - 0;
 	g = (Gtime / hdelta) * 44.00;
 						
