@@ -205,7 +205,7 @@ MappingDictionary = {
                  {"name" : "Node ID of the SDO Server", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1400 : {"name" : "Receive PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X00\"%(base+2),False:0}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X00\"%(base+2),False:0x80000000}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
@@ -215,7 +215,7 @@ MappingDictionary = {
                  {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},
     0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "callback" : True, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X80\"%(base+1),False:0}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X80\"%(base+1),False:0x80000000}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
