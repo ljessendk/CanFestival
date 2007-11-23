@@ -35,7 +35,7 @@ from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
 
-ScriptDirectory = os.path.split(__file__)[0]
+ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 try:
     import wx.html

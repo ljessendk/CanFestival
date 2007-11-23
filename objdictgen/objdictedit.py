@@ -105,7 +105,7 @@ try:
 except:
     Html_Window = False
 
-ScriptDirectory = os.path.split(__file__)[0]
+ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 [ID_OBJDICTEDIT, ID_OBJDICTEDITFILEOPENED, 
  ID_OBJDICTEDITHELPBAR,
