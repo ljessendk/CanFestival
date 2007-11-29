@@ -57,8 +57,9 @@ int DLL_CALL(canClose)(CAN_HANDLE)FCT_PTR_INIT;
 static inline void print_message(Message *m)
 {
     int i;
+    UNS8 fc;
     printf("id:%02x ", m->cob_id.w & 0x7F);
-    UNS8 fc = m->cob_id.w >> 7;
+    fc = m->cob_id.w >> 7;
     switch(fc)
     {
         case SYNC: 
