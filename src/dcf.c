@@ -42,7 +42,6 @@
 extern UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
                                UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 
-const indextable *ptrTable;
 
 /**
 **
@@ -61,7 +60,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
     }
 
   closeSDOtransfer(d, nodeId, SDO_CLIENT);
-  decompo_dcf(d,nodeId);
+  send_consise_dcf(d,nodeId);
 }
 
 /**
@@ -72,49 +71,48 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 **
 ** @return
 */
-UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
+void send_consise_dcf(CO_Data* d,UNS8 nodeId)
 {
-  UNS32 errorCode;
-  UNS16 target_Index;
-  UNS8 target_Subindex;
-  UNS32 target_Size;
-  UNS32 res;
-  ODCallback_t *Callback;
+  /* Fetch DCF OD entry, if not already done */
+  if(!d->dcf_odentry)
+  {
+    UNS32 errorCode;
+    ODCallback_t *Callback;
+    d->dcf_odentry = (*d->scanIndexOD)(0x1F22, &errorCode, &Callback);
+    /* If DCF entry do not exist... Nothing to do.*/
+    if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
+  }
 
-  ptrTable = (*d->scanIndexOD)(0x1F22, &errorCode, &Callback);
-  if (errorCode != OD_SUCCESSFUL)
-    {
-      return errorCode;
-    }
+  /* Loop on all DCF subindexes, corresponding to nodes ID */
+  while (nodeId < d->dcf_odentry->bSubCount){
+    UNS32 nb_entries;
 
-  /* Loop on all Nodes supported in DCF subindexes*/
-  while (nodeId < ptrTable->bSubCount){
-    UNS32 nb_targets;
-
-    UNS8 szData = ptrTable->pSubindex[nodeId].size;
+    UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
     UNS8* dcfend;
 
     {
-      UNS8* dcf = *((UNS8**)ptrTable->pSubindex[nodeId].pObject);
+      UNS8* dcf = *((UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject);
       dcfend = dcf + szData;
       if (!d->dcf_cursor){
         d->dcf_cursor = (UNS8*)dcf + 4;
-        d->dcf_count_targets = 0;
+        d->dcf_entries_count = 0;
       }
-      nb_targets = UNS32_LE(*((UNS32*)dcf));
+      nb_entries = UNS32_LE(*((UNS32*)dcf));
     }
 
     /* condition on consise DCF string for NodeID, if big enough */
-    if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_count_targets < nb_targets)
+    if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_entries_count < nb_entries)
       {
+        UNS16 target_Index;
+        UNS8 target_Subindex;
+        UNS32 target_Size;
+
         /* pointer to the DCF string for NodeID */
         target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
         target_Subindex = *((UNS8*)((UNS8*)d->dcf_cursor++));
         target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
 
-        /* printf("Master : ConfigureSlaveNode %2.2x (Concise
-          DCF)\n",nodeId);*/
-        res = _writeNetworkDict(d, /* CO_Data* d*/
+        _writeNetworkDict(d, /* CO_Data* d*/
                                 nodeId, /* UNS8 nodeId*/
                                 target_Index, /* UNS16 index*/
                                 target_Subindex, /* UNS8 subindex*/
@@ -127,14 +125,15 @@ UNS32 decompo_dcf(CO_Data* d,UNS8 nodeId)
         /* Push d->dcf_cursor to the end of data*/
 
         d->dcf_cursor += target_Size;
-        d->dcf_count_targets++;
+        d->dcf_entries_count++;
 
-        return ;
+        /* send_consise_dcf will be called by CheckSDOAndContinue for next DCF entry*/
+        return;
       }
     nodeId++;
     d->dcf_cursor = NULL;
   }
+ DCF_finish:
   /*  Switch Master to preOperational state */
   (*d->preOperational)();
-
 }

@@ -146,7 +146,6 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
 {
   UNS8   numPdo;
   UNS8   numMap;  /* Number of the mapped varable */
-  UNS8 i;
   UNS8 *     pMappingCount = NULL;    /* count of mapped objects... */
   /* pointer to the var which is mapped to a pdo... */
   /*  void *     pMappedAppObject = NULL;   */
@@ -157,7 +156,6 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
                                          type */
   UNS32 *    pwCobId = NULL;
   UNS8       Size;
-  UNS8       dataType;
   UNS8       offset;
   UNS8       status;
   UNS32      objDict;
@@ -605,7 +603,6 @@ UNS32 TPDO_Communication_Parameter_Callback(CO_Data* d, const indextable * OD_en
   	case 3: /* Changed inhibit time */
   	case 5: /* Changed event time */
   	{
-          UNS8 pTransmissionType = *(UNS8*) OD_entry->pSubindex[2].pObject;
           const indextable* TPDO_com = d->objdict + d->firstIndex->PDO_TRS; 
           UNS8 numPdo = OD_entry - TPDO_com;       /* number of the actual processed pdo-nr. */
         

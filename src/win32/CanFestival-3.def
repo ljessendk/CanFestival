@@ -25,8 +25,8 @@ LIBRARY      "CanFestival-3.DLL"
 
 EXPORTS
 
-        ; dsf.h
-        decompo_dcf
+        ; dcf.h
+        send_consise_dcf
 
         ; lifegrd.h
         _heartbeatError

@@ -60,9 +60,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* Should not be modified */
 #define Rx 0
 #define Tx 1
+#ifndef TRUE
 #define TRUE  1
+#endif
+#ifndef FALSE
 #define FALSE 0
-
+#endif
     
 /** Status of the SDO transmission
  */

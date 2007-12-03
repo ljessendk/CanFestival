@@ -93,8 +93,9 @@ struct struct_CO_Data {
 	storeODSubIndex_t storeODSubIndex; 
 	
 	/* DCF concise */
+    indextable* dcf_odentry;
 	UNS8* dcf_cursor;
-	UNS32 dcf_count_targets;
+	UNS32 dcf_entries_count;
 	
 	/* EMCY */
 	e_errorState error_state;
@@ -191,8 +192,10 @@ struct struct_CO_Data {
 	NULL,                   /* canSend */\
 	NODE_PREFIX ## _scanIndexOD,                /* scanIndexOD */\
 	_storeODSubIndex,                /* storeODSubIndex */\
+    /* DCF concise */\
+    NULL,       /*dcf_odentry*/\
 	NULL,		/*dcf_cursor*/\
-	1,		/*dcf_count_targets*/\
+	1,		/*dcf_entries_count*/\
 	\
 	/* EMCY */\
 	Error_free,                      /* error_state */\
