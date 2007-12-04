@@ -93,7 +93,7 @@ struct struct_CO_Data {
 	storeODSubIndex_t storeODSubIndex; 
 	
 	/* DCF concise */
-    indextable* dcf_odentry;
+    const indextable* dcf_odentry;
 	UNS8* dcf_cursor;
 	UNS32 dcf_entries_count;
 	
