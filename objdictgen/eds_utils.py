@@ -58,12 +58,12 @@ ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, "PARAMETERNAME" : is_string,
                     "LOWLIMIT" : is_integer, "HIGHLIMIT" : is_integer,
                     "ACCESSTYPE" : lambda x: x.upper() in ACCESS_TRANSLATE.keys(),
                     "DEFAULTVALUE" : lambda x: True, "PDOMAPPING" : is_boolean,
-                    "OBJFLAGS" : is_integer}
+                    "OBJFLAGS" : is_integer, "PARAMETERVALUE" : lambda x: True,}
 
 # Define entry parameters by entry ObjectType number
 ENTRY_TYPES = {7 : {"name" : " VAR",
                     "require" : ["PARAMETERNAME", "DATATYPE", "ACCESSTYPE"],
-                    "optional" : ["OBJECTTYPE", "DEFAULTVALUE", "PDOMAPPING", "LOWLIMIT", "HIGHLIMIT", "OBJFLAGS"]},
+                    "optional" : ["OBJECTTYPE", "DEFAULTVALUE", "PDOMAPPING", "LOWLIMIT", "HIGHLIMIT", "OBJFLAGS", "PARAMETERVALUE"]},
                8 : {"name" : "n ARRAY",
                     "require" : ["PARAMETERNAME", "OBJECTTYPE", "SUBNUMBER"],
                     "optional" : ["OBJFLAGS"]},
@@ -378,6 +378,20 @@ def ParseEDSFile(filepath):
                 else:
                     attributes = "Attribute \"%s\" is"%unsupported[0]
                 raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
+            
+            if "PARAMETERVALUE" in values:
+                try:
+                    if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
+                        values["PARAMETERVALUE"] = str(values["PARAMETERVALUE"])
+                    elif values["DATATYPE"] in (0x08, 0x11):
+                        values["PARAMETERVALUE"] = float(values["PARAMETERVALUE"])
+                    elif values["DATATYPE"] == 0x01:
+                        values["PARAMETERVALUE"] = {0 : True, 1 : False}[values["PARAMETERVALUE"]]
+                    else:
+                        if type(values["PARAMETERVALUE"]) != IntType and values["PARAMETERVALUE"].find("$NODEID") == -1:
+                            raise
+                except:
+                    raise SyntaxError, "Error on section \"[%s]\":\nParameterValue incompatible with DataType"%section_name
             
             if "DEFAULTVALUE" in values:
                 try:
@@ -713,7 +727,9 @@ def GenerateNode(filepath, nodeID = 0):
                 # First case, entry is a VAR
                 if values["OBJECTTYPE"] == 7:
                     # Take default value if it is defined
-                    if "DEFAULTVALUE" in values:
+                    if "PARAMETERVALUE" in values:
+                        value = values["PARAMETERVALUE"]
+                    elif "DEFAULTVALUE" in values:
                         value = values["DEFAULTVALUE"]
                     # Find default value for value type of the entry
                     else:
@@ -735,7 +751,9 @@ def GenerateNode(filepath, nodeID = 0):
                         # Define value for all subindexes except the first 
                         for subindex in xrange(1, int(max_subindex) + 1):
                             # Take default value if it is defined and entry is defined
-                            if subindex in values["subindexes"] and "DEFAULTVALUE" in values["subindexes"][subindex]:
+                            if subindex in values["subindexes"] and "PARAMETERVALUE" in values["subindexes"][subindex]:
+                                value = values["subindexes"][subindex]["PARAMETERVALUE"]
+                            elif subindex in values["subindexes"] and "DEFAULTVALUE" in values["subindexes"][subindex]:
                                 value = values["subindexes"][subindex]["DEFAULTVALUE"]
                             # Find default value for value type of the subindex
                             elif subindex in values["subindexes"] or not consecutive:
