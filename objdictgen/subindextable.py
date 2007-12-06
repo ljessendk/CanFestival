@@ -369,7 +369,8 @@ class EditingPanel(wx.SplitterWindow):
               self.OnSubindexGridRightClick)
         self.SubindexGrid.Bind(wx.grid.EVT_GRID_SELECT_CELL,
               self.OnSubindexGridSelectCell)
-        self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnSubindexGridCellLeftClick)
+        self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, 
+              self.OnSubindexGridCellLeftClick)
 
         self.CallbackCheck = wx.CheckBox(id=ID_EDITINGPANELCALLBACKCHECK,
               label='Have Callbacks', name='CallbackCheck',
@@ -437,7 +438,25 @@ class EditingPanel(wx.SplitterWindow):
         return None
 
     def OnSubindexGridCellLeftClick(self, event):
-        wx.CallAfter(self.BeginDrag)
+        if not self.ParentWindow.ModeSolo:
+            col = event.GetCol()
+            if not self.Editable and col == 0:
+                selected = self.IndexList.GetSelection()
+                if selected != wx.NOT_FOUND:
+                    index = self.ListIndex[selected]
+                    subindex = event.GetRow()
+                    entry_infos = self.Manager.GetEntryInfos(index)
+                    if not entry_infos["struct"] & OD_MultipleSubindexes or subindex != 0:
+                        subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
+                        typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
+                        if subentry_infos["pdo"] and typeinfos:
+                            bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
+                            node_id = self.ParentWindow.GetCurrentNodeId()
+                            size = typeinfos["size"]
+                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
+                            dragSource = wx.DropSource(self.SubindexGrid)
+                            dragSource.SetData(data)
+                            dragSource.DoDragDrop()
         event.Skip()
 
     def OnAddButtonClick(self, event):
@@ -477,31 +496,8 @@ class EditingPanel(wx.SplitterWindow):
         event.Skip()
 
     def OnSubindexGridSelectCell(self, event):
-        wx.CallAfter(self.BeginDrag)
         wx.CallAfter(self.ParentWindow.RefreshStatusBar)
         event.Skip()
-
-    def BeginDrag(self):
-        if not self.ParentWindow.ModeSolo:
-            row = self.SubindexGrid.GetGridCursorRow()
-            col = self.SubindexGrid.GetGridCursorCol()
-            if not self.Editable and col == 0:
-                selected = self.IndexList.GetSelection()
-                if selected != wx.NOT_FOUND:
-                    index = self.ListIndex[selected]
-                    subindex = self.SubindexGrid.GetGridCursorRow()
-                    entry_infos = self.Manager.GetEntryInfos(index)
-                    if not entry_infos["struct"] & OD_MultipleSubindexes or row != 0:
-                        subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
-                        typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
-                        if subentry_infos["pdo"] and typeinfos:
-                            bus_id = '.'.join(map(str,self.ParentWindow.GetBusId()))
-                            node_id = self.ParentWindow.GetCurrentNodeId()
-                            size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
-                            dragSource = wx.DropSource(self.SubindexGrid)
-                            dragSource.SetData(data)
-                            dragSource.DoDragDrop()
 
 #-------------------------------------------------------------------------------
 #                             Refresh Functions
