@@ -371,20 +371,16 @@ def GenerateFileContent(Node, headerfilepath):
 """%texts
 
     if 0x1016 in communicationlist:
-        texts["nombre"] = Node.GetEntry(0x1016, 0)
+        texts["heartBeatTimers_number"] = Node.GetEntry(0x1016, 0)
     else:
-        texts["nombre"] = 0
+        texts["heartBeatTimers_number"] = 0
         entry_infos = Node.GetEntryInfos(0x1016)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1016] = """\n/* index 0x1016 :   %(EntryName)s */
                     UNS8 %(NodeName)s_highestSubIndex_obj1016 = 0;
                     UNS32 %(NodeName)s_obj1016[]={0};
 """%texts
-    if texts["nombre"] > 0:
-        strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(nombre)d] = {TIMER_NONE,};\n"%texts
-    else:
-        strTimers = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
-
+    
     if 0x1017 not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x1017)
         texts["EntryName"] = entry_infos["name"]
@@ -459,7 +455,10 @@ UNS8 %(NodeName)s_bDeviceNodeId = 0x%(NodeID)02X;
 const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
 
 """%texts
-    fileContent += strTimers
+    if texts["heartBeatTimers_number"] > 0:
+        fileContent += "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(heartBeatTimers_number)d] = {TIMER_NONE,};\n"%texts
+    else:
+        fileContent += "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
     
     fileContent += """
 /*
