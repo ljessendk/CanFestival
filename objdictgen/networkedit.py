@@ -585,36 +585,37 @@ class networkedit(wx.Frame):
                 self.NetworkNodes.AddPage(new_editingpanel, "")
 
     def RefreshStatusBar(self):
-        selected = self.NetworkNodes.GetSelection()
-        if self.HelpBar and selected >= 0:
-            window = self.NetworkNodes.GetPage(selected)
-            selection = window.GetSelection()
-            if selection:
-                index, subIndex = selection
-                if self.NodeList.IsCurrentEntry(index):
-                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
-                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
-                    entryinfos = self.NodeList.GetEntryInfos(index)
-                    name = entryinfos["name"]
-                    category = "Optional"
-                    if entryinfos["need"]:
-                        category = "Mandatory"
-                    struct = "VAR"
-                    number = ""
-                    if entryinfos["struct"] & OD_IdenticalIndexes:
-                        number = " possibly defined %d times"%entryinfos["nbmax"]
-                    if entryinfos["struct"] & OD_IdenticalSubindexes:
-                        struct = "REC"
-                    elif entryinfos["struct"] & OD_MultipleSubindexes:
-                        struct = "ARRAY"
-                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
-                    self.HelpBar.SetStatusText(text, 2)
+        if self:
+            selected = self.NetworkNodes.GetSelection()
+            if self.HelpBar and selected >= 0:
+                window = self.NetworkNodes.GetPage(selected)
+                selection = window.GetSelection()
+                if selection:
+                    index, subIndex = selection
+                    if self.NodeList.IsCurrentEntry(index):
+                        self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
+                        self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
+                        entryinfos = self.NodeList.GetEntryInfos(index)
+                        name = entryinfos["name"]
+                        category = "Optional"
+                        if entryinfos["need"]:
+                            category = "Mandatory"
+                        struct = "VAR"
+                        number = ""
+                        if entryinfos["struct"] & OD_IdenticalIndexes:
+                            number = " possibly defined %d times"%entryinfos["nbmax"]
+                        if entryinfos["struct"] & OD_IdenticalSubindexes:
+                            struct = "REC"
+                        elif entryinfos["struct"] & OD_MultipleSubindexes:
+                            struct = "ARRAY"
+                        text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
+                        self.HelpBar.SetStatusText(text, 2)
+                    else:
+                        for i in xrange(3):
+                            self.HelpBar.SetStatusText("", i)
                 else:
                     for i in xrange(3):
                         self.HelpBar.SetStatusText("", i)
-            else:
-                for i in xrange(3):
-                    self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
         if self.menuBar1:
