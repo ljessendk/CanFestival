@@ -1436,8 +1436,10 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.ValuesGrid.SetSelectionForeground(wx.BLACK)
         if wx.VERSION >= (2, 6, 0):
             self.ValuesGrid.Bind(wx.grid.EVT_GRID_CELL_CHANGE, self.OnValuesGridCellChange)
+            self.ValuesGrid.Bind(wx.grid.EVT_GRID_SELECT_CELL, self.OnValuesGridSelectCell)
         else:
             wx.grid.EVT_GRID_CELL_CHANGE(self.ValuesGrid, self.OnValuesGridCellChange)
+            wx.grid.EVT_GRID_SELECT_CELL(self.ValuesGrid, self.OnValuesGridSelectCell)
         
         self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label='Add',
               name='AddButton', parent=self, pos=wx.Point(0, 0),
@@ -1486,6 +1488,17 @@ class DCFEntryValuesDialog(wx.Dialog):
             wx.CallAfter(self.RefreshValues)
             event.Skip()
     
+    def OnValuesGridSelectCell(self, event):
+        wx.CallAfter(self.RefreshButtons)
+        event.Skip()
+    
+    def RefreshButtons(self):
+        row = self.ValuesGrid.GetGridCursorRow()
+        length = len(self.Table.data)
+        self.DeleteButton.Enable(length > 0)
+        self.UpButton.Enable(row > 0)
+        self.DownButton.Enable(row < length - 1)
+    
     def OnAddButton(self, event):
         new_row = self.DefaultValue.copy()
         self.Values.append(new_row)
@@ -1493,8 +1506,8 @@ class DCFEntryValuesDialog(wx.Dialog):
         event.Skip()
 
     def OnDeleteButton(self, event):
-        row = self.Table.GetRow(self.ValuesGrid.GetGridCursorRow())
-        self.Values.remove(row)
+        row = self.ValuesGrid.GetGridCursorRow()
+        self.Values.pop(row)
         self.RefreshValues()
         event.Skip()
 
@@ -1510,8 +1523,10 @@ class DCFEntryValuesDialog(wx.Dialog):
         new_index = max(0, min(value_index + move, len(self.Values) - 1))
         if new_index != value_index:
             self.Values.insert(new_index, self.Values.pop(value_index))
+            col = self.ValuesGrid.GetGridCursorCol()
             self.RefreshValues()
-            self.ValuesGrid.SetGridCursor(new_index, self.ValuesGrid.GetGridCursorCol())
+            self.ValuesGrid.SetGridCursor(new_index, col)
+            self.RefreshButtons()
         else:
             self.RefreshValues()
 
@@ -1542,7 +1557,7 @@ class DCFEntryValuesDialog(wx.Dialog):
     
     def RefreshValues(self):
         if len(self.Table.data) > 0:
-            self.ValuesGrid.SetGridCursor(0, 1)
+            self.ValuesGrid.SetGridCursor(0, 0)
         data = []
         for value in self.Values:
             row = {}
@@ -1553,3 +1568,5 @@ class DCFEntryValuesDialog(wx.Dialog):
             data.append(row)
         self.Table.SetData(data)
         self.Table.ResetView(self.ValuesGrid)
+        self.RefreshButtons()
+        
