@@ -856,6 +856,10 @@ class networkedit(wx.Frame):
                 message.Destroy()
         dialog.Destroy()
 
+    def OpenMasterDCFDialog(self, node_id):
+        self.NetworkNodes.SetSelection(0)
+        self.NetworkNodes.GetPage(0).OpenDCFDIalog(node_id)
+
 #-------------------------------------------------------------------------------
 #                               Exception Handler
 #-------------------------------------------------------------------------------

@@ -209,6 +209,9 @@ class SubindexTable(wx.grid.PyGridTableBase):
                     elif editortype == "domain":
                         editor = wx.grid.GridCellTextEditor()
                         renderer = wx.grid.GridCellStringRenderer()
+                    elif editortype == "dcf":
+                        editor = wx.grid.GridCellTextEditor()
+                        renderer = wx.grid.GridCellStringRenderer()
                 else:
                     grid.SetReadOnly(row, col, True)
                     
@@ -247,8 +250,8 @@ class SubindexTable(wx.grid.PyGridTableBase):
 ] = [wx.NewId() for _init_coll_IndexListMenu_Items in range(3)]
 
 [ID_EDITINGPANELMENU1ITEMS0, ID_EDITINGPANELMENU1ITEMS1, 
- ID_EDITINGPANELMENU1ITEMS3, 
-] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(3)]
+ ID_EDITINGPANELMENU1ITEMS3, ID_EDITINGPANELMENU1ITEMS4, 
+] = [wx.NewId() for _init_coll_SubindexGridMenu_Items in range(4)]
 
 class EditingPanel(wx.SplitterWindow):
     def _init_coll_AddToListSizer_Items(self, parent):
@@ -282,12 +285,18 @@ class EditingPanel(wx.SplitterWindow):
         parent.AppendSeparator()
         parent.Append(help='', id=ID_EDITINGPANELMENU1ITEMS3,
               kind=wx.ITEM_NORMAL, text='Default value')
+        if not self.Editable:
+            parent.Append(help='', id=ID_EDITINGPANELMENU1ITEMS4,
+                  kind=wx.ITEM_NORMAL, text='Add to DCF')
         self.Bind(wx.EVT_MENU, self.OnAddSubindexMenu,
               id=ID_EDITINGPANELMENU1ITEMS0)
         self.Bind(wx.EVT_MENU, self.OnDeleteSubindexMenu,
               id=ID_EDITINGPANELMENU1ITEMS1)
         self.Bind(wx.EVT_MENU, self.OnDefaultValueSubindexMenu,
               id=ID_EDITINGPANELMENU1ITEMS3)
+        if not self.Editable:
+            self.Bind(wx.EVT_MENU, self.OnAddToDCFSubindexMenu,
+                  id=ID_EDITINGPANELMENU1ITEMS4)
 
     def _init_coll_IndexListMenu_Items(self, parent):
         parent.Append(help='', id=ID_EDITINGPANELINDEXLISTMENUITEMS0,
@@ -371,6 +380,8 @@ class EditingPanel(wx.SplitterWindow):
               self.OnSubindexGridSelectCell)
         self.SubindexGrid.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, 
               self.OnSubindexGridCellLeftClick)
+        self.SubindexGrid.Bind(wx.grid.EVT_GRID_EDITOR_SHOWN, 
+              self.OnSubindexGridEditorShown)
 
         self.CallbackCheck = wx.CheckBox(id=ID_EDITINGPANELCALLBACKCHECK,
               label='Have Callbacks', name='CallbackCheck',
@@ -399,13 +410,13 @@ class EditingPanel(wx.SplitterWindow):
         self._init_sizers()
 
     def __init__(self, parent, window, manager, editable = True):
+        self.Editable = editable
         self._init_ctrls(parent)
         self.ParentWindow = window
         self.Manager = manager
         self.ListIndex = []
         self.ChoiceIndex = []
         self.FirstCall = False
-        self.Editable = editable
         self.Index = None
         
         for values in DictionaryOrganisation:
@@ -579,6 +590,28 @@ class EditingPanel(wx.SplitterWindow):
 #                        Editing Table value function
 #-------------------------------------------------------------------------------
 
+    def OnSubindexGridEditorShown(self, event):
+        row, col = event.GetRow(), event.GetCol() 
+        if self.Table.GetEditor(row, col) == "dcf":
+            wx.CallAfter(self.ShowDCFEntryDialog, row, col)
+            event.Veto()
+        else:
+            event.Skip()
+
+    def ShowDCFEntryDialog(self, row, col):
+        if self.Editable:
+            selected = self.IndexList.GetSelection()
+            if selected != wx.NOT_FOUND:
+                index = self.ListIndex[selected]
+                if self.Manager.IsCurrentEntry(index):
+                    dialog = DCFEntryValuesDialog(self)
+                    dialog.SetValues(self.Table.GetValue(row, col).decode("hex_codec"))
+                    if dialog.ShowModal() == wx.ID_OK:
+                        value = dialog.GetValues()
+                        self.Manager.SetCurrentEntry(index, row, value, "value", "dcf")
+                        self.ParentWindow.RefreshBufferState()
+                        wx.CallAfter(self.RefreshTable)
+
     def OnSubindexGridCellChange(self, event):
         if self.Editable:
             index = self.Table.GetCurrentIndex()
@@ -654,7 +687,42 @@ class EditingPanel(wx.SplitterWindow):
                         self.SubindexGridMenu.FindItemByPosition(3).Enable(False)
                     if showpopup:
                         self.PopupMenu(self.SubindexGridMenu)
+        elif self.Table.GetColLabelValue(event.GetCol()) == "value":
+            selected = self.IndexList.GetSelection()
+            if selected != wx.NOT_FOUND:
+                index = self.ListIndex[selected]
+                if self.Manager.IsCurrentEntry(index):
+                    infos = self.Manager.GetEntryInfos(index)
+                    if not infos["struct"] & OD_MultipleSubindexes or event.GetRow() > 0:
+                        self.SubindexGridMenu.FindItemByPosition(0).Enable(False)
+                        self.SubindexGridMenu.FindItemByPosition(1).Enable(False)
+                        self.SubindexGridMenu.FindItemByPosition(3).Enable(False)
+                        self.SubindexGridMenu.FindItemByPosition(4).Enable(True)
+                        self.PopupMenu(self.SubindexGridMenu)
         event.Skip()
+
+    def OnAddToDCFSubindexMenu(self, event):
+        if not self.Editable:
+            selected = self.IndexList.GetSelection()
+            if selected != wx.NOT_FOUND:
+                index = self.ListIndex[selected]
+                subindex = self.SubindexGrid.GetGridCursorRow()
+                entry_infos = self.Manager.GetEntryInfos(index)
+                if not entry_infos["struct"] & OD_MultipleSubindexes or subindex != 0:
+                    subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
+                    typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
+                    if typeinfos:
+                        node_id = self.ParentWindow.GetCurrentNodeId()
+                        self.Manager.AddToMasterDCF(node_id, index, subindex, max(1, typeinfos["size"] / 8), int(self.Table.GetValueByName(subindex, "value"), 16))    
+                        self.ParentWindow.OpenMasterDCFDialog(node_id)
+
+    def OpenDCFDIalog(self, node_id):
+        self.PartList.SetSelection(7)
+        self.RefreshIndexList()
+        self.IndexList.SetSelection(self.ListIndex.index(0x1F22))
+        self.RefreshTable()
+        self.SubindexGrid.SetGridCursor(node_id, 3)
+        self.ShowDCFEntryDialog(node_id, 3)
 
     def OnRenameIndexMenu(self, event):
         if self.Editable:

@@ -313,6 +313,14 @@ class NodeList:
                 print "Can't find node"
         return [], []
     
+    def AddToMasterDCF(self, node_id, index, subindex, size, value):
+        # Adding DCF entry into Master node
+        if not self.Manager.IsCurrentEntry(0x1F22):
+            self.Manager.AddCurrentEntry(0x1F22, 1, "")
+        self.Manager.AddSubentriesToCurrent(0x1F22, 127)
+
+        self.Manager.AddToDCF(node_id, index, subindex, size, value)
+    
 if __name__ == "__main__":
     from nodemanager import *
     import os, sys, shutil

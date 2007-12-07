@@ -1054,4 +1054,17 @@ def BE_to_LE(value):
     data = [char for char in value]
     data.reverse()
     return int("".join(["%2.2X"%ord(char) for char in data]), 16)
+
+def LE_to_BE(value, size):
+    """
+    Convert Little Endian to Big Endian
+    @param value: value expressed in integer
+    @param size: number of bytes generated
+    @return: a string containing the value converted
+    """
     
+    data = ("%" + str(size * 2) + "." + str(size * 2) + "X") % value
+    list_car = [data[i:i+2] for i in xrange(0, len(data), 2)]
+    list_car.reverse()
+    return "".join([chr(int(car, 16)) for car in list_car])
+

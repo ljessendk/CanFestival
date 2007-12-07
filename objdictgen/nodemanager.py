@@ -683,6 +683,8 @@ class NodeManager:
                         node.SetEntry(index, subIndex, value)
                     except:
                         pass
+                elif editor == "dcf":
+                    node.SetEntry(index, subIndex, value)
                 else:
                     subentry_infos = self.GetSubentryInfos(index, subIndex)
                     type = subentry_infos["type"]
@@ -1048,7 +1050,10 @@ class NodeManager:
                         elif dic["type"] in ["TIME_OF_DAY","TIME_DIFFERENCE"]:
                             editor["value"] = "time"
                         elif dic["type"] == "DOMAIN":
-                            editor["value"] = "domain"
+                            if index == 0x1F22:
+                                editor["value"] = "dcf"
+                            else:
+                                editor["value"] = "domain"
                             dic["value"] = dic["value"].encode('hex_codec')
                         elif dic["type"] == "BOOLEAN":
                             editor["value"] = "bool"
@@ -1079,6 +1084,14 @@ class NodeManager:
             return data, editors
         else:
             return None
+
+    def AddToDCF(self, node_id, index, subindex, size, value):
+        if self.CurrentNode.IsEntry(0x1F22, node_id):
+            dcf_value = self.CurrentNode.GetEntry(0x1F22, node_id)
+            nbparams = BE_to_LE(dcf_value[:4])
+            new_value = LE_to_BE(nbparams + 1, 4) + dcf_value[4:]
+            new_value += LE_to_BE(index, 2) + LE_to_BE(subindex, 1) + LE_to_BE(size, 4) + LE_to_BE(value, size)
+            self.CurrentNode.SetEntry(0x1F22, node_id, new_value)
 
 #-------------------------------------------------------------------------------
 #                         Node Informations Functions

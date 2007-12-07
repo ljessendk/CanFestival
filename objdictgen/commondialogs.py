@@ -25,6 +25,8 @@ import wx
 
 import os
 
+from node import BE_to_LE, LE_to_BE
+
 ScriptDirectory = os.path.split(__file__)[0]
 
 #-------------------------------------------------------------------------------
@@ -1257,3 +1259,297 @@ class AddSlaveDialog(wx.Dialog):
             values["slaveNodeID"] = int(nodeid)
         values["edsFile"] = self.EDSFile.GetStringSelection()
         return values
+
+#-------------------------------------------------------------------------------
+#                            Editing DCF Entry Dialog
+#-------------------------------------------------------------------------------
+
+class DCFEntryValuesTable(wx.grid.PyGridTableBase):
+    
+    """
+    A custom wxGrid Table using user supplied data
+    """
+    def __init__(self, parent, data, colnames):
+        # The base class must be initialized *first*
+        wx.grid.PyGridTableBase.__init__(self)
+        self.data = data
+        self.colnames = colnames
+        self.Parent = parent
+        # XXX
+        # we need to store the row length and collength to
+        # see if the table has changed size
+        self._rows = self.GetNumberRows()
+        self._cols = self.GetNumberCols()
+    
+    def GetNumberCols(self):
+        return len(self.colnames)
+        
+    def GetNumberRows(self):
+        return len(self.data)
+
+    def GetColLabelValue(self, col):
+        if col < len(self.colnames):
+            return self.colnames[col]
+
+    def GetRowLabelValues(self, row):
+        return row
+
+    def GetValue(self, row, col):
+        if row < self.GetNumberRows():
+            return str(self.data[row].get(self.GetColLabelValue(col), ""))
+            
+    def GetEditor(self, row, col):
+        if row < self.GetNumberRows():
+            return self.editors[row].get(self.GetColLabelValue(col), "")
+    
+    def GetValueByName(self, row, colname):
+        return self.data[row].get(colname)
+
+    def SetValue(self, row, col, value):
+        if col < len(self.colnames):
+            self.data[row][self.GetColLabelValue(col)] = value
+        
+    def ResetView(self, grid):
+        """
+        (wx.grid.Grid) -> Reset the grid view.   Call this to
+        update the grid if rows and columns have been added or deleted
+        """
+        grid.BeginBatch()
+        for current, new, delmsg, addmsg in [
+            (self._rows, self.GetNumberRows(), wx.grid.GRIDTABLE_NOTIFY_ROWS_DELETED, wx.grid.GRIDTABLE_NOTIFY_ROWS_APPENDED),
+            (self._cols, self.GetNumberCols(), wx.grid.GRIDTABLE_NOTIFY_COLS_DELETED, wx.grid.GRIDTABLE_NOTIFY_COLS_APPENDED),
+        ]:
+            if new < current:
+                msg = wx.grid.GridTableMessage(self,delmsg,new,current-new)
+                grid.ProcessTableMessage(msg)
+            elif new > current:
+                msg = wx.grid.GridTableMessage(self,addmsg,new-current)
+                grid.ProcessTableMessage(msg)
+                self.UpdateValues(grid)
+        grid.EndBatch()
+
+        self._rows = self.GetNumberRows()
+        self._cols = self.GetNumberCols()
+        # update the column rendering scheme
+        self._updateColAttrs(grid)
+
+        # update the scrollbars and the displayed part of the grid
+        grid.AdjustScrollbars()
+        grid.ForceRefresh()
+
+
+    def UpdateValues(self, grid):
+        """Update all displayed values"""
+        # This sends an event to the grid table to update all of the values
+        msg = wx.grid.GridTableMessage(self, wx.grid.GRIDTABLE_REQUEST_VIEW_GET_VALUES)
+        grid.ProcessTableMessage(msg)
+
+    def _updateColAttrs(self, grid):
+        """
+        wx.grid.Grid -> update the column attributes to add the
+        appropriate renderer given the column name.
+
+        Otherwise default to the default renderer.
+        """
+        
+        for row in range(self.GetNumberRows()):
+            for col in range(self.GetNumberCols()):
+                editor = wx.grid.GridCellTextEditor()
+                renderer = wx.grid.GridCellStringRenderer()
+                    
+                grid.SetCellEditor(row, col, editor)
+                grid.SetCellRenderer(row, col, renderer)
+                
+                grid.SetCellBackgroundColour(row, col, wx.WHITE)
+    
+    def SetData(self, data):
+        self.data = data
+    
+    def AppendRow(self, row_content):
+        self.data.append(row_content)
+
+    def Empty(self):
+        self.data = []
+        self.editors = []
+
+[ID_DCFENTRYVALUESDIALOG, ID_DCFENTRYVALUESDIALOGVALUESGRID, 
+ ID_DCFENTRYVALUESDIALOGADDBUTTON, ID_DCFENTRYVALUESDIALOGDELETEBUTTON, 
+ ID_DCFENTRYVALUESDIALOGUPBUTTON, ID_DCFENTRYVALUESDIALOGDOWNBUTTON, 
+ ID_VARIABLEEDITORPANELSTATICTEXT1, 
+] = [wx.NewId() for _init_ctrls in range(7)]
+
+class DCFEntryValuesDialog(wx.Dialog):
+    
+    if wx.VERSION < (2, 6, 0):
+        def Bind(self, event, function, id = None):
+            if id is not None:
+                event(self, id, function)
+            else:
+                event(self, function)
+    
+    def _init_coll_MainSizer_Items(self, parent):
+        parent.AddWindow(self.staticText1, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.AddWindow(self.ValuesGrid, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.AddSizer(self.ButtonPanelSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.LEFT|wx.RIGHT)
+        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+    
+    def _init_coll_MainSizer_Growables(self, parent):
+        parent.AddGrowableCol(0)
+        parent.AddGrowableRow(1)
+    
+    def _init_coll_ButtonPanelSizer_Items(self, parent):
+        parent.AddWindow(self.UpButton, 0, border=5, flag=wx.ALL)
+        parent.AddWindow(self.AddButton, 0, border=5, flag=wx.ALL)
+        parent.AddWindow(self.DownButton, 0, border=5, flag=wx.ALL)
+        parent.AddWindow(self.DeleteButton, 0, border=5, flag=wx.ALL)
+        
+    def _init_sizers(self):
+        self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=3, vgap=0)
+        self.ButtonPanelSizer = wx.BoxSizer(wx.HORIZONTAL)
+        
+        self._init_coll_MainSizer_Items(self.MainSizer)
+        self._init_coll_MainSizer_Growables(self.MainSizer)
+        self._init_coll_ButtonPanelSizer_Items(self.ButtonPanelSizer)
+        
+        self.SetSizer(self.MainSizer)
+
+    def _init_ctrls(self, prnt):
+        wx.Dialog.__init__(self, id=ID_DCFENTRYVALUESDIALOG,
+              name='DCFEntryValuesDialog', parent=prnt, pos=wx.Point(376, 223),
+              size=wx.Size(400, 300), style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER,
+              title='Edit DCF Entry Values')
+        self.SetClientSize(wx.Size(400, 300))
+
+        self.staticText1 = wx.StaticText(id=ID_VARIABLEEDITORPANELSTATICTEXT1,
+              label='Entry Values:', name='staticText1', parent=self,
+              pos=wx.Point(0, 0), size=wx.Size(95, 17), style=0)
+
+        self.ValuesGrid = wx.grid.Grid(id=ID_DCFENTRYVALUESDIALOGVALUESGRID,
+              name='ValuesGrid', parent=self, pos=wx.Point(0, 0), 
+              size=wx.Size(0, 150), style=wx.VSCROLL)
+        self.ValuesGrid.SetFont(wx.Font(12, 77, wx.NORMAL, wx.NORMAL, False,
+              'Sans'))
+        self.ValuesGrid.SetLabelFont(wx.Font(10, 77, wx.NORMAL, wx.NORMAL,
+              False, 'Sans'))
+        self.ValuesGrid.SetRowLabelSize(0)
+        self.ValuesGrid.SetSelectionBackground(wx.WHITE)
+        self.ValuesGrid.SetSelectionForeground(wx.BLACK)
+        if wx.VERSION >= (2, 6, 0):
+            self.ValuesGrid.Bind(wx.grid.EVT_GRID_CELL_CHANGE, self.OnValuesGridCellChange)
+        else:
+            wx.grid.EVT_GRID_CELL_CHANGE(self.ValuesGrid, self.OnValuesGridCellChange)
+        
+        self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label='Add',
+              name='AddButton', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(72, 32), style=0)
+        self.Bind(wx.EVT_BUTTON, self.OnAddButton, id=ID_DCFENTRYVALUESDIALOGADDBUTTON)
+
+        self.DeleteButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON, label='Delete',
+              name='DeleteButton', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(72, 32), style=0)
+        self.Bind(wx.EVT_BUTTON, self.OnDeleteButton, id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON)
+
+        self.UpButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGUPBUTTON, label='^',
+              name='UpButton', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(32, 32), style=0)
+        self.Bind(wx.EVT_BUTTON, self.OnUpButton, id=ID_DCFENTRYVALUESDIALOGUPBUTTON)
+
+        self.DownButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON, label='v',
+              name='DownButton', parent=self, pos=wx.Point(0, 0),
+              size=wx.Size(32, 32), style=0)
+        self.Bind(wx.EVT_BUTTON, self.OnDownButton, id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON)
+
+        self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL|wx.CENTRE)
+        
+        self._init_sizers()
+
+    def __init__(self, parent):
+        self._init_ctrls(parent)
+        
+        self.Values = []
+        self.DefaultValue = {"Index" : 0, "Subindex" : 0, "Size" : 1, "Value" : 0}
+        
+        self.Table = DCFEntryValuesTable(self, [], ["Index", "Subindex", "Size", "Value"])
+        self.ValuesGrid.SetTable(self.Table)
+        
+    def OnValuesGridCellChange(self, event):
+        row, col = event.GetRow(), event.GetCol()
+        colname = self.Table.GetColLabelValue(col)
+        value = self.Table.GetValue(row, col)
+        try:
+            self.Values[row][colname] = int(value, 16)
+        except:
+            message = wx.MessageDialog(self, "\"%s\" is not a valid value!"%value, "Error", wx.OK|wx.ICON_ERROR)
+            message.ShowModal()
+            message.Destroy()
+        finally:
+            wx.CallAfter(self.RefreshValues)
+            event.Skip()
+    
+    def OnAddButton(self, event):
+        new_row = self.DefaultValue.copy()
+        self.Values.append(new_row)
+        self.RefreshValues()
+        event.Skip()
+
+    def OnDeleteButton(self, event):
+        row = self.Table.GetRow(self.ValuesGrid.GetGridCursorRow())
+        self.Values.remove(row)
+        self.RefreshValues()
+        event.Skip()
+
+    def OnUpButton(self, event):
+        self.MoveValue(self.ValuesGrid.GetGridCursorRow(), -1)
+        event.Skip()
+
+    def OnDownButton(self, event):
+        self.MoveValue(self.ValuesGrid.GetGridCursorRow(), 1)
+        event.Skip()
+
+    def MoveValue(self, value_index, move):
+        new_index = max(0, min(value_index + move, len(self.Values) - 1))
+        if new_index != value_index:
+            self.Values.insert(new_index, self.Values.pop(value_index))
+            self.RefreshValues()
+            self.ValuesGrid.SetGridCursor(new_index, self.ValuesGrid.GetGridCursorCol())
+        else:
+            self.RefreshValues()
+
+    def SetValues(self, values):
+        self.Values = []
+        if values != "":
+            data = values[4:]
+            current = 0
+            for i in xrange(BE_to_LE(values[:4])):
+                value = {}
+                value["Index"] = BE_to_LE(data[current:current+2])
+                value["Subindex"] = BE_to_LE(data[current+2:current+3])
+                size = BE_to_LE(data[current+3:current+7])
+                value["Size"] = size
+                value["Value"] = BE_to_LE(data[current+7:current+7+size])
+                current += 7 + size
+                self.Values.append(value)
+        self.RefreshValues()
+    
+    def GetValues(self):
+        value = LE_to_BE(len(self.Values), 4)
+        for row in self.Values:
+            value += LE_to_BE(row["Index"], 2)
+            value += LE_to_BE(row["Subindex"], 1)
+            value += LE_to_BE(row["Size"], 4)
+            value += LE_to_BE(row["Value"], row["Size"])
+        return value
+    
+    def RefreshValues(self):
+        if len(self.Table.data) > 0:
+            self.ValuesGrid.SetGridCursor(0, 1)
+        data = []
+        for value in self.Values:
+            row = {}
+            row["Index"] = "%04X"%value["Index"]
+            row["Subindex"] = "%02X"%value["Subindex"]
+            row["Size"] = "%08X"%value["Size"]
+            row["Value"] = ("%0"+"%d"%(value["Size"] * 2)+"X")%value["Value"]
+            data.append(row)
+        self.Table.SetData(data)
+        self.Table.ResetView(self.ValuesGrid)
