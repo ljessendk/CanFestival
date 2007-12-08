@@ -22,6 +22,8 @@
 # 
 
 CC = SUB_CC
+CXX = SUB_CXX
+LD = SUB_LD
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -50,7 +52,7 @@ all: DS401_Master
 
 
 DS401_Master: TestMaster.c $(OBJS)
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 
 	
 TestMaster.c: TestMaster.od

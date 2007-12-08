@@ -28,15 +28,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #if defined(WIN32) && !defined(__CYGWIN__)
 	#include <windows.h>
-
-	extern "C" {
-		#include "getopt.h"
-	}
-
-	void pause(void)
-	{
-		system("PAUSE");
-	}
 #else
 	#include <stdio.h>
 	#include <string.h>

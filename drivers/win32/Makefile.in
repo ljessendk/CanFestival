@@ -21,7 +21,9 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
-CC = mingw32-g++
+CC = SUB_CC
+CXX = SUB_CXX
+LD = SUB_LD
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -52,7 +54,7 @@ driver: $(OBJS)
 
 
 %o: %cpp
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
+	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 #../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:
 #	$(MAKE) -C ../$(TIMERS_DRIVER) driver

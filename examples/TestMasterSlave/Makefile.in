@@ -22,6 +22,8 @@
 # 
 
 CC = SUB_CC
+CXX = SUB_CXX
+LD = SUB_LD
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -52,14 +54,14 @@ ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
 endif
 
-all: TestMasterSlave
+all: $(TESTMASTERSLAVE)
 
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:
 	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
 
 
-TestMasterSlave: TestSlave.c TestMaster.c $(OBJS)
-	g++ $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+$(TESTMASTERSLAVE): $(OBJS)
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 	
 TestSlave.c: TestSlave.od
 	$(MAKE) -C ../../objdictgen gnosis

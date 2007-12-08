@@ -22,6 +22,8 @@
 # 
 
 CC = SUB_CC
+CXX = SUB_CXX
+LD = SUB_LD
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -33,15 +35,9 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 
-
-# Détermine le nom du fichier exécutable.
 EXEC = main
-# Détermine la liste des fichiers sources.
 SRCS = $(wildcard *.cpp)
-# Détermine le nom du fichier qui contiendra les dépendances.
 DEPFILE = .depend
-# Construit la liste des fichiers temporaires à partir de la liste des fichiers
-# sources.
 
 CPP_OBJS = $(SRCS:%.cpp=%.o)
 
@@ -61,8 +57,7 @@ all: DS401_Slave_Gui
 
 
 DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
-	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `wx-config --libs` $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) -o $@
-
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -o $@
 %o: %c
 	$(CC) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< -o $@
 
@@ -71,7 +66,7 @@ ObjDict.c: ObjDict.od
 	python ../../objdictgen/objdictgen.py ObjDict.od ObjDict.c
 
 .cpp.o:
-	g++ -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `wx-config --cxxflags` $< -o $@
+	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `wx-config --cxxflags` $< -o $@
 
 clean:
 	rm -f $(MASTER_OBJS)
@@ -91,7 +86,7 @@ uninstall:
 	rm -f $(PREFIX)/bin/DS401_Slave_Gui
 
 $(EXEC): $(OBJS)
-	g++ $(OBJS) `wx-config --libs` -o $(EXEC)
+	$(LD) $(OBJS) `wx-config --libs` -o $(EXEC)
 
 -include $(DEPFILE)
 

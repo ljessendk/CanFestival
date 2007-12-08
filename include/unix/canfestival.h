@@ -9,13 +9,9 @@ extern "C" {
 #include "can_driver.h"
 #include "data.h"
 #include "timers_driver.h"
-#ifdef WIN32
-#include <windows.h>
-typedef HINSTANCE LIB_HANDLE;
-#else
+
 #include <dlfcn.h>
 typedef void* LIB_HANDLE;
-#endif
 
 UNS8 UnLoadCanDriver(LIB_HANDLE handle);
 LIB_HANDLE LoadCanDriver(char* driver_name);

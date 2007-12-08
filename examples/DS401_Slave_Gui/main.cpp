@@ -16,6 +16,13 @@
 
 //#include "monicone.xpm"
 
+#if defined(WIN32) && !defined(__CYGWIN__)
+#include <windows.h>
+extern "C" {
+	#include "getopt.h"
+}
+#endif
+
 #include "main.h"
 #include "TestSlaveGui.h"
 extern "C" {

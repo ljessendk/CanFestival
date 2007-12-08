@@ -71,13 +71,13 @@ canInit (s_BOARD *board)
 {
 	int baudrate;
 	
-//#ifdef PCAN2_HEADER_
+#ifdef PCAN2_HEADER_
 	// if not the first handler
 	if(second_board == (s_BOARD *)board)
 		if(baudrate = TranslateBaudeRate(board->baudrate))
 			CAN2_Init (baudrate,
 			  CAN_INIT_TYPE_ST extra_PCAN_init_params);
-//#endif
+#endif
 	if(first_board == (s_BOARD *)board)
 		if(baudrate = TranslateBaudeRate(board->baudrate))
 			CAN_Init (baudrate,
@@ -209,21 +209,25 @@ canOpen_driver (s_BOARD * board)
 {
   char busname[64];
   char* pEnd;
-
+	
   //printf ("Board Busname=%d.\n",strtol(board->busname, &pEnd,0));
   if (strtol(board->busname, &pEnd,0) == 0)
   {
       first_board = board;
       printf ("First Board selected\n");
+      canInit(board);	
+      return (CAN_HANDLE)board;
   }
+  #ifdef PCAN2_HEADER_
   if (strtol(board->busname, &pEnd,0) == 1)
   {
-     second_board = board;
-     printf ("Second Board selected\n");
+      second_board = board;
+      printf ("Second Board selected\n");
+      canInit(board);	
+      return (CAN_HANDLE)board;
   }
-	canInit(board);
-	
-	return (CAN_HANDLE)board;
+  #endif
+  return NULL;
 }
 
 /***************************************************************************/

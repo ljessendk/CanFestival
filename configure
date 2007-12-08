@@ -64,6 +64,8 @@ EMCY_MAX_ERRORS=8
 
 # Leave empty for automatic detection
 CC=
+CXX=g++
+LD=ld
 
 #default target
 SUB_TARGET=
@@ -136,10 +138,11 @@ while [ $# -ge 1 ]; do
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
-		echo	" --debug=foo   Enable debug messages, ERR -> only errors, WAR)."
+		echo	" --debug=foo,foo,..   Enable debug messages, ERR -> only errors, WAR)."
 		echo	"                 \"PDO\" send errors and warnings through PDO messages"
-		echo	"                 \"ERR\" errors only, to stdout"
-		echo	"                 \"WAR\" errors and warnings, to stdout"
+		echo	"                 \"ERR\" print errors only, to stdout"
+		echo	"                 \"WAR\" print errors and warnings, to stdout"
+		echo	"                 \"MSG\" print messages content, to stdout"
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -421,6 +424,11 @@ if [ "$SUB_TARGET" = "hcs12" ]; then
 	fi
 fi	
 
+if [ "$SUB_TARGET" = "win32" ]; then
+		LD=g++
+		SUB_PROG_CFLAGS="-mno-cygwin"
+fi	
+
 #### CAN_DRIVER ####
 
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
@@ -607,17 +615,46 @@ echo "#endif /* _CONFIG_H_ */" >> include/config.h
 ###########################################################################
 #                           DEBUG DEFINES/CFLAGS                          #
 ###########################################################################
-if [ "$DEBUG" = "WAR" ]; then
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g
+
+save_ifs="$IFS"; IFS=','
+
+for DEBUG_METHOD in $DEBUG; 
+	do
+	    IFS="$save_ifs"
+	    case $DEBUG_METHOD in
+	    	ERR)ERR=1;;
+	    	WAR)WAR=1;ERR=1;;
+	    	MSG)MSG=1;;
+	    	PDO)PDO=1;WAR=1;ERR=1;;
+	    	*)echo ""
+	    	  echo "$DEBUG_METHOD is not a valid debug's method"
+	    	  echo "Possible Debug's methods are : \"ERR\", \"WAR\", \"MSG\", \"PDO\""
+	    	  exit -1
+	    	  ;;
+	esac	
+done
+
+if [ $WAR ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_WAR_CONSOLE_ON;
 fi
 
-if [ "$DEBUG" = "ERR" ]; then
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_ERR_CONSOLE_ON\ -g
+if [ $ERR ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_ERR_CONSOLE_ON;
 fi
 
-if [ "$DEBUG" = "PDO" ]; then
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_WAR_CONSOLE_ON\ -DDEBUG_ERR_CONSOLE_ON\ -g\ -DPDO_ERROR
+if [ $MSG ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_MSG_CONSOLE_ON;
 fi
+
+if [ $PDO ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DDEBUG_PDO_CONSOLE_ON;
+fi
+
+if [ $DEBUG ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -g
+fi
+
+IFS="$save_ifs"
 
 if [ "$DISABLE_OPT" = "1" ]; then
 	SUB_OPT_CFLAGS=
@@ -670,27 +707,18 @@ fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/DS401_Master/Makefile.in
+\	examples/DS401_Master/Makefile.in\
+\	examples/DS401_Slave_Gui/Makefile.in\
+\	examples/TestMasterMicroMod/Makefile.in
 fi
-if [ "$SUB_TARGET" = "unix" ]; then
+
+if [ "$SUB_TARGET" = "win32" ]; then
 	MAKEFILES=$MAKEFILES\
+\	examples/TestMasterSlave/Makefile.in\
+\	examples/TestMasterMicroMod/Makefile.in\
+\	examples/DS401_Master/Makefile.in\
 \	examples/DS401_Slave_Gui/Makefile.in
 fi
-if [ "$SUB_TARGET" = "unix" ]; then
-	MAKEFILES=$MAKEFILES\
-\	examples/TestMasterMicroMod/Makefile.in
-fi
-
-if [ "$SUB_TARGET" = "win32" ]; then
-	MAKEFILES=$MAKEFILES\
-\	examples/TestMasterSlave/Makefile.in
-fi
-
-if [ "$SUB_TARGET" = "win32" ]; then
-	MAKEFILES=$MAKEFILES\
-\	examples/TestMasterMicroMod/Makefile.in
-fi
-
 
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	MAKEFILES=$MAKEFILES\
@@ -702,6 +730,8 @@ for makefile_in in $MAKEFILES; do
 	echo "Creating $makefile"
 	sed < $makefile_in "
 	s:SUB_CC:${CC}:
+	s:SUB_CXX:${CXX}:
+	s:SUB_LD:${LD}:
 	s:SUB_PROG_CFLAGS:${SUB_PROG_CFLAGS}:
 	s:SUB_EXE_CFLAGS:${SUB_EXE_CFLAGS}:
 	s:SUB_PREFIX:${SUB_PREFIX}:
