@@ -1045,7 +1045,7 @@ class NodeManager:
                         editor["value"] = "map"
                         dic["value"] = node.GetMapName(dic["value"])
                     else:
-                        if dic["type"].startswith("VISIBLE_STRING"):
+                        if dic["type"].startswith("VISIBLE_STRING") or dic["type"].startswith("OCTET_STRING"):
                             editor["value"] = "string"
                         elif dic["type"] in ["TIME_OF_DAY","TIME_DIFFERENCE"]:
                             editor["value"] = "time"
@@ -1072,7 +1072,7 @@ class NodeManager:
                                 editor["value"] = "number"
                             elif values[0] == "REAL":
                                 editor["value"] = "float"
-                            elif values[0] == "VISIBLE_STRING":
+                            elif values[0] in ["VISIBLE_STRING", "OCTET_STRING"]:
                                 editor["length"] = values[0]
                         result = range_model.match(dic["type"])
                         if result:
