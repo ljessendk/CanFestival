@@ -443,6 +443,7 @@ if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
    	SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -liberty\ \'$PCAN_LIB\'
 	echo "Converting PcanLib header files for gcc -> $PW32DIR/cancfg.h"
 	cat $PW32DIR/cancfg.h.head $PCAN_INCLUDE/$PCAN_HEADER > $PW32DIR/cancfg.h
+	echo >> $PW32DIR/cancfg.h
 	# second port handling
 	if [ "$PCAN2_HEADER" != "" ]; then
 		echo "Stripping down second Pcan Light header "
@@ -457,6 +458,14 @@ if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 		echo "Peak Init HwType, IO_Port and IRQ will be passed in environment :"
 		echo "	PCANHwType PCANIO_Port PCANInterupt"
 		echo '#define extra_PCAN_init_params' >> $PW32DIR/cancfg.h
+	fi
+	if ! grep -q CAN_Init $PW32DIR/cancfg.h ; then
+		echo "Pcan Light header/lib is for second port of device only"
+		echo "CAN_* calls redefined to CAN2_* "
+		echo '#define CAN_Init CAN2_Init' >> $PW32DIR/cancfg.h
+		echo '#define CAN_Read CAN2_Read' >> $PW32DIR/cancfg.h
+		echo '#define CAN_Write CAN2_Write' >> $PW32DIR/cancfg.h
+		echo '#define CAN_Close CAN2_Close' >> $PW32DIR/cancfg.h
 	fi
 	cat $PW32DIR/cancfg.h.tail >> $PW32DIR/cancfg.h
 fi

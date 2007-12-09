@@ -38,7 +38,7 @@ void pause(void)
 #include "canfestival.h"
 #include "TestMasterMicroMod.h"
 #include "TestMaster.h"
-UNS8 slavenodeid;
+UNS8 slavenodeid = 0x40;
 
 
 /*****************************************************************************/
@@ -333,7 +333,7 @@ void TestMaster_post_TPDO()
 }
 
 //s_BOARD SlaveBoard = {"0", "500K"};
-s_BOARD MasterBoard = {"32", "125K"};
+s_BOARD MasterBoard = {"0", "125K"};
 
 #if !defined(WIN32) || defined(__CYGWIN__)
 void catch_signal(int sig)

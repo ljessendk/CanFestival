@@ -180,7 +180,8 @@ int main(int argc,char **argv)
 #endif
 
 #ifndef NOT_USE_DYNAMIC_LOADING
-	LoadCanDriver(LibraryPath);
+	if (LoadCanDriver(LibraryPath) == NULL)
+	    printf("Unable to load library: %s\n",LibraryPath);
 #endif		
 	// Open CAN devices
 

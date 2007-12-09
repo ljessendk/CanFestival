@@ -57,6 +57,12 @@ double			hdelta = 0;
 double			old_max = 5;
 double			old_min = -5;
 
+#if defined(WIN32)
+#define LIB_EXTENT wxT("*.dll")
+#else
+#define LIB_EXTENT wxT("*.so")
+#endif
+
 // Declare some IDs. These are arbitrary.
 const int BOOKCTRL = 100;
 const int FILE_QUIT = wxID_EXIT;
@@ -129,7 +135,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
  EVT_MENU(FILE_QUIT, MyFrame::OnQuit)
  EVT_BUTTON(QUIT, MyFrame::OnQuit)
  EVT_MENU(HELP_ABOUT, MyFrame::OnAbout)
- EVT_PAINT(MyFrame::OnPaint)
+ //EVT_PAINT(MyFrame::OnPaint)
  
  EVT_TIMER(TIMER_ID, MyFrame::OnTimer)
 END_EVENT_TABLE()
@@ -416,9 +422,10 @@ MyFrame::MyFrame(const wxString& title)
   _T("Bool Input 5"), _T("Bool Input 6"), 
   _T("Bool Input 7"), _T("Bool Input 8"), };
  panel = new wxPanel(book); 
- book->AddPage(panel, wxT("Graphic"), true); 
+ //book->AddPage(panel, wxT("Graphic"), true); 
  mysizer = new wxBoxSizer( wxVERTICAL ); 
- panel->SetSizer(mysizer); 
+ panel->SetSizer(mysizer);
+ panel->Hide();
  myhsizer = new wxStaticBoxSizer( new wxStaticBox(panel, wxID_ANY, _T("Graphic")), wxVERTICAL ); 
  mysizer->Add(myhsizer, 0, wxEXPAND | wxALL, 10); 
  mygraphpan = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxSize(0, 350), wxTAB_TRAVERSAL, wxT("Graphic")); 
@@ -512,7 +519,7 @@ void MyFrame::OnStop(wxCommandEvent& WXUNUSED(event))
 
 void MyFrame::OnLoad(wxCommandEvent& WXUNUSED(event))
 {
-    wxFileDialog fd(this, wxT("Choose a node configuration file"), wxT(""), wxT("Slave.od"), wxT("*.so"));
+    wxFileDialog fd(this, wxT("Choose a can driver library"), wxT(""), wxT(""), LIB_EXTENT);
 
     if(fd.ShowModal() == wxID_OK)
     {

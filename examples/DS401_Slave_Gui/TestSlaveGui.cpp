@@ -67,7 +67,8 @@ int main_can(s_BOARD SlaveBoard, char* LibraryPath)
   printf("Bus name: %s        Freq: %s       Driver: %s\n", SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
 
   #ifndef NOT_USE_DYNAMIC_LOADING
-	LoadCanDriver(LibraryPath);
+	if (LoadCanDriver(LibraryPath) == NULL)
+		*textLog << wxT("Unable to load library\n");
   #endif		
 	// Open CAN devices
 
