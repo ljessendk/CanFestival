@@ -30,16 +30,18 @@ from time import *
 import os,re
 
 # Regular expression for finding index section names
-index_model = re.compile('([0-9A-F]{1,4})')
+index_model = re.compile('([0-9A-F]{1,4}$)')
 # Regular expression for finding subindex section names
-subindex_model = re.compile('([0-9A-F]{1,4})SUB([0-9A-F]{1,2})')
+subindex_model = re.compile('([0-9A-F]{1,4})SUB([0-9A-F]{1,2}$)')
+# Regular expression for finding index section names
+index_objectlinks_model = re.compile('([0-9A-F]{1,4}OBJECTLINKS$)')
 
 # Regular expression for finding NodeXPresent keynames
-nodepresent_model = re.compile('NODE([0-9]{1,3})PRESENT')
+nodepresent_model = re.compile('NODE([0-9]{1,3})PRESENT$')
 # Regular expression for finding NodeXName keynames
-nodename_model = re.compile('NODE([0-9]{1,3})NAME')
+nodename_model = re.compile('NODE([0-9]{1,3})NAME$')
 # Regular expression for finding NodeXDCFName keynames
-nodedcfname_model = re.compile('NODE([0-9]{1,3})DCFNAME')
+nodedcfname_model = re.compile('NODE([0-9]{1,3})DCFNAME$')
 
 # Dictionary for quickly translate boolean into integer value
 BOOL_TRANSLATE = {True : "1", False : "0"}
@@ -110,7 +112,7 @@ def GetDefaultValue(index, subIndex = None):
 # an EDS file
 SECTION_KEYNAMES = ["FILEINFO", "DEVICEINFO", "DUMMYUSAGE", "COMMENTS", 
                     "MANDATORYOBJECTS", "OPTIONALOBJECTS", "MANUFACTUREROBJECTS",
-                    "STANDARDDATATYPES"]
+                    "STANDARDDATATYPES", "SUPPORTEDMODULES"]
 
 
 # Function that extract sections from a file and returns a dictionary of the informations
@@ -249,6 +251,7 @@ def ParseEDSFile(filepath):
         # Search if the section name match an index or subindex expression
         index_result = index_model.match(section_name.upper())
         subindex_result = subindex_model.match(section_name.upper())
+        index_objectlinks_result = index_objectlinks_model.match(section_name.upper())
         
         # Compilation of the EDS information dictionary
         
@@ -260,20 +263,7 @@ def ParseEDSFile(filepath):
                 eds_dict[section_name.upper()] = values
             else:
                 raise SyntaxError, "\"[%s]\" section is defined two times"%section_name
-        # Second case, section name is a subindex name 
-        elif subindex_result:
-            # Extract index and subindex number
-            index, subindex = [int(value, 16) for value in subindex_result.groups()]
-            # If index hasn't been referenced before, we add an entry into the dictionary
-            # that will be updated later
-            if index not in eds_dict:
-                eds_dict[index] = {"subindexes" : {}}
-            if subindex not in eds_dict[index]["subindexes"]:
-                eds_dict[index]["subindexes"][subindex] = values
-            else:
-                raise SyntaxError, "\"[%s]\" section is defined two times"%section_name
-            is_entry = True
-        # Third case, section name is an index name 
+        # Second case, section name is an index name 
         elif index_result:
             # Extract index number
             index = int(index_result.groups()[0], 16)
@@ -287,6 +277,22 @@ def ParseEDSFile(filepath):
             else:
                 raise SyntaxError, "\"[%s]\" section is defined two times"%section_name
             is_entry = True
+        # Third case, section name is a subindex name 
+        elif subindex_result:
+            # Extract index and subindex number
+            index, subindex = [int(value, 16) for value in subindex_result.groups()]
+            # If index hasn't been referenced before, we add an entry into the dictionary
+            # that will be updated later
+            if index not in eds_dict:
+                eds_dict[index] = {"subindexes" : {}}
+            if subindex not in eds_dict[index]["subindexes"]:
+                eds_dict[index]["subindexes"][subindex] = values
+            else:
+                raise SyntaxError, "\"[%s]\" section is defined two times"%section_name
+            is_entry = True
+        # Third case, section name is a subindex name 
+        elif index_objectlinks_result:
+            pass
         # In any other case, there is a syntax problem into EDS file
         else:
             raise SyntaxError, "Section \"[%s]\" is unrecognized"%section_name
@@ -687,7 +693,8 @@ def GenerateNode(filepath, nodeID = 0):
                         try:
                             max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
                         except:
-                            raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY entry"%entry
+                            max_subindex = max(*values["subindexes"].keys())
+                            #raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or RECORD entry"%entry
                         # Add mapping for entry
                         Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 3)
                         # Add mapping for first subindex
