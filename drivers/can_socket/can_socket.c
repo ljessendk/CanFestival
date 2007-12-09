@@ -81,7 +81,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
     m->rtr = 0;
   memcpy (m->data, frame.data, 8);
 
-#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON
+#if defined DEBUG_MSG_CONSOLE_ON
   printf("in : ");
   print_message(m);
 #endif
@@ -105,7 +105,7 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
   else
     memcpy (frame.data, m->data, 8);
 
-#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON
+#if defined DEBUG_MSG_CONSOLE_ON
   printf("out : ");
   print_message(m);
 #endif
