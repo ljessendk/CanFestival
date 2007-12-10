@@ -715,9 +715,9 @@ class EditingPanel(wx.SplitterWindow):
                         node_id = self.ParentWindow.GetCurrentNodeId()
                         value = self.Table.GetValueByName(subindex, "value")
                         if value == "True":
-                            value = 0
-                        elif value == "False":
                             value = 1
+                        elif value == "False":
+                            value = 0
                         elif value.isdigit():
                             value = int(value)
                         elif value.startswith("0x"):
