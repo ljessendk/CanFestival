@@ -174,7 +174,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 		break;
 					
 		case 4: 
-		{	/*disable Slave's TPDO 2 */
+		{	/*disable Slave's RPDO 1 */
 			UNS32 TPDO_COBId = 0x80000200 + nodeId;
 			
 			eprintf("Master : disable slave %2.2x RPDO 1\n", nodeId);
@@ -209,7 +209,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 		break;
 
 		case 6: 
-		{	/*re-enable Slave's TPDO 1 */
+		{	/*re-enable Slave's RPDO 1 */
 			UNS32 TPDO_COBId = 0x00000200 + nodeId;
 			
 			eprintf("Master : re-enable %2.2x RPDO 1\n", nodeId);
@@ -227,6 +227,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 		
 		case 7:	
 		{
+			/*set the heartbeat Producer Time*/
 			UNS16 Heartbeat_Producer_Time = 0x03E8; 
 			eprintf("Master : set slave %2.2x heartbeat producer time \n", nodeId);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
@@ -276,7 +277,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 		break;			
 
 		case 10: 
-		{	/*disable Slave's TPDO 2 */
+		{	/*disable Slave's TPDO 4 */
 			UNS32 TPDO_COBId = 0x80000480 + nodeId;
 			
 			eprintf("Master : disable slave %2.2x TPDO 4 \n", nodeId);
