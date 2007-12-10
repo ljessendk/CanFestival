@@ -1088,7 +1088,10 @@ class NodeManager:
     def AddToDCF(self, node_id, index, subindex, size, value):
         if self.CurrentNode.IsEntry(0x1F22, node_id):
             dcf_value = self.CurrentNode.GetEntry(0x1F22, node_id)
-            nbparams = BE_to_LE(dcf_value[:4])
+            if dcf_value != "":
+                nbparams = BE_to_LE(dcf_value[:4])
+            else:
+                nbparams = 0
             new_value = LE_to_BE(nbparams + 1, 4) + dcf_value[4:]
             new_value += LE_to_BE(index, 2) + LE_to_BE(subindex, 1) + LE_to_BE(size, 4) + LE_to_BE(value, size)
             self.CurrentNode.SetEntry(0x1F22, node_id, new_value)
