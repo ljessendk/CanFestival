@@ -404,8 +404,8 @@ class networkedit(wx.Frame):
         if selected >= 0:
             window = self.NetworkNodes.GetPage(selected)
             self.NodeList.SetCurrentSelected(window.GetIndex())
-        self.RefreshMainMenu()
-        self.RefreshStatusBar()
+        wx.CallAfter(self.RefreshMainMenu)
+        wx.CallAfter(self.RefreshStatusBar)
         event.Skip()
 
 #-------------------------------------------------------------------------------
