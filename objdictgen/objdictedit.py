@@ -455,7 +455,7 @@ class objdictedit(wx.Frame):
         window.RefreshIndexList()
 
     def RefreshStatusBar(self):
-        if self.HelpBar:
+        if self:
             selected = self.FileOpened.GetSelection()
             if selected >= 0:
                 window = self.FileOpened.GetPage(selected)
