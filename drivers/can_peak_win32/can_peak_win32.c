@@ -134,7 +134,10 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 			m->len = peakMsg.LEN;	/* count of data bytes (0..8) */
 			for (data = 0; data < peakMsg.LEN; data++)
 				m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
-		
+#if defined DEBUG_MSG_CONSOLE_ON
+			printf("in : ");
+			print_message(m);
+#endif
 		}else{
 		//pthread_mutex_unlock (&PeakCan_mutex);
 		//if (Res != CAN_ERR_OK)
@@ -198,6 +201,10 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
 		}
 	}
 	while (errno != CAN_ERR_OK);
+#if defined DEBUG_MSG_CONSOLE_ON
+	printf("out : ");
+	print_message(m);
+#endif
 	return 0;
 fail:
 	return 1;

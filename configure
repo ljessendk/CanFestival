@@ -95,6 +95,8 @@ while [ $# -ge 1 ]; do
 	
 	case $1 in
 	--cc=*)		CC=$optarg;;
+	--cxx=*)	CXX=$optarg;;
+	--ld=*)		LD=$optarg;;
 	--arch=*)	SUB_ARCH_NAME=$optarg;;
 	--os=*)		SUB_OS_NAME=$optarg;;
 	--prefix=*)	SUB_PREFIX=$optarg;;
@@ -114,35 +116,37 @@ while [ $# -ge 1 ]; do
 	--CANOPEN_BIG_ENDIAN=*)	CANOPEN_BIG_ENDIAN=$1;;
 	--MAX_NB_TIMER=*) MAX_NB_TIMER=$1;;
 	--EMCY_MAX_ERRORS=*) EMCY_MAX_ERRORS=$1;;
-	--help)	echo	"Usage: ./configure [options]"
-    		echo	"Options:"
-    		echo 	" --cc=foo      Use compiler 'foo' instead of defaults ${CC1} or ${CC2}."
+	--help)
+		echo	"Usage: ./configure [options]"
+		echo	"Options:"
+		echo 	" --cc=foo      Use C compiler 'foo' instead of defaults ${CC1} or ${CC2}."
+		echo 	" --cxx=foo     Use C++ compiler 'foo' instead of defaults g++."
+		echo 	" --ld=foo      Use linker 'foo' instead of ld."
 		echo 	" --arch=foo    Use architecture 'foo' instead of trying to autodetect."
 		echo 	" --os=foo      Use operative system 'foo' instead of trying to autodetect."
 		echo 	" --prefix=foo  Use prefix 'foo' instead of default ${SUB_PREFIX}."
 		echo 	" --target=foo  Use 'foo' as build target."
-		echo	"               \"generic\" for have independant CAN and TIMERS driver"
-		echo	"               \"unix\" for unix-like systems"
-		echo	"               \"win32\" for win32 systems"
+		echo	"               \"unix\" for unix-like systems (Linux, Cygwin)"
+		echo	"               \"win32\" for win32 systems (native, mingw or VC++)"
 		echo	"               \"hcs12\" for HCS12 micro-controller"
 		echo 	" --can=foo	Use 'foo' as CAN driver"
 		echo	"               \"peak_linux\" use Linux build host installed Peak driver and library"
-		echo	"                                please see http://www.peak-system.com/linux/"
+		echo	"                 see http://www.peak-system.com/linux/"
 		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin" 
-		echo	"                                please see http://www.peak-system.com/themen/download_gb.html"
+		echo	"                 see http://www.peak-system.com/themen/download_gb.html"
 		echo	"               \"virtual\" use unix pipe based virtual can driver"
 		echo	"               \"socket\" use socket-can  "
-		echo	"                                please see http://developer.berlios.de/projects/socketcan/"
-		echo	"               \"lincan\" for HCS12 micro-controller"
-		echo	"                                please see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
+		echo	"                 see http://developer.berlios.de/projects/socketcan/"
+		echo	"               \"lincan\" lincan driver"
+		echo	"                 see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
 		echo	" --debug=foo,foo,..   Enable debug messages, ERR -> only errors, WAR)."
-		echo	"                 \"PDO\" send errors and warnings through PDO messages"
-		echo	"                 \"ERR\" print errors only, to stdout"
-		echo	"                 \"WAR\" print errors and warnings, to stdout"
-		echo	"                 \"MSG\" print messages content, to stdout"
+		echo	"               \"PDO\" send errors and warnings through PDO messages"
+		echo	"               \"ERR\" print errors only, to stdout"
+		echo	"               \"WAR\" print errors and warnings, to stdout"
+		echo	"               \"MSG\" print messages content, to stdout"
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
@@ -166,9 +170,6 @@ if [ "$SUB_OS_NAME" = "" ]; then
 	SUB_OS_NAME="`(uname -s | sed \"s/\//-/\" | sed \"s/_/-/\" \
 			| sed \"s/-.*//g\") 2>&1`"
 fi
-if [ "$SUB_OS_NAME" = "HP" -o "$SUB_OS_NAME" = "HP-UX" ]; then
-	SUB_OS_NAME=HPUX
-fi
 
 if [ "$SUB_ARCH_NAME" = "" ]; then
 	if [ "$CC" = "" ]; then
@@ -179,58 +180,13 @@ if [ "$SUB_ARCH_NAME" = "" ]; then
 fi
 
 # x86
-if [ "$A_NAME" = "i386" ]; then
-	SUB_ARCH_NAME=x86
-fi
-if [ "$A_NAME" = "i486" ]; then
-	SUB_ARCH_NAME=x86
-fi
-if [ "$A_NAME" = "i586" ]; then
-	SUB_ARCH_NAME=x86
-fi
-if [ "$A_NAME" = "i686" ]; then
-	SUB_ARCH_NAME=x86
-fi
-if [ "$A_NAME" = "x86" ]; then
+if [ "$A_NAME" = "i386" -o "$A_NAME" = "i486" -o "$A_NAME" = "i586" -o "$A_NAME" = "i686" -o "$A_NAME" = "x86" ]; then
 	SUB_ARCH_NAME=x86
 fi
 
 # x86_64
 if [ "$A_NAME" = "x86_64" ]; then
 	SUB_ARCH_NAME=x86_64
-fi
-
-# ia64
-if [ "$A_NAME" = "ia64" ]; then
-	SUB_ARCH_NAME=ia64
-fi
-
-# alpha
-if [ "$A_NAME" = "alpha" ]; then
-	SUB_ARCH_NAME=alpha
-fi
-
-# parisc
-if [ "$A_NAME" = "parisc" ]; then
-	SUB_ARCH_NAME=parisc
-fi
-if [ "$SUB_OS_NAME" = "HPUX" -a "$A_NAME" != "ia64" ]; then
-	# If we're on HP-UX and the architecture is *not* ia64,
-	# it's most likely parisc
-	SUB_ARCH_NAME=parisc
-fi
-
-# sparc
-if [ "$A_NAME" = "sparc" ]; then
-	SUB_ARCH_NAME=sparc
-fi
-if [ "$A_NAME" = "sun4u" ]; then
-	SUB_ARCH_NAME=sparc
-fi
-
-# sparc64
-if [ "$A_NAME" = "sparc64" ]; then
-	SUB_ARCH_NAME=sparc64
 fi
 
 # ppc
@@ -248,78 +204,14 @@ if [ "$A_NAME" = "arm" ]; then
 	SUB_ARCH_NAME=arm
 fi
 
-# mips3
-if [ "$A_NAME" = "ip32" ]; then		# IRIX
-	SUB_ARCH_NAME=mips3
-fi
-if [ "$A_NAME" = "ip35" ]; then		# IRIX
-	SUB_ARCH_NAME=mips3
-fi
-
-# mips32
-if [ "$A_NAME" = "mips32" ]; then
-	SUB_ARCH_NAME=mips32
-fi
-if [ "$A_NAME" = "mips" ]; then
-	SUB_ARCH_NAME=mips32
-fi
-if [ "$A_NAME" = "MIPS" ]; then
-	SUB_ARCH_NAME=mips32
-fi
-if [ "$A_NAME" = "RISC" ]; then		# MIPS Ultrix
-	SUB_ARCH_NAME=mips32
-fi
-
-# mips64
-if [ "$A_NAME" = "mips64" ]; then
-	SUB_ARCH_NAME=mips64
-fi
-if [ "$A_NAME" = "MIPS64" ]; then
-	SUB_ARCH_NAME=mips64
-fi
-if [ "$A_NAME" = "IP64" ]; then		# IRIX
-	SUB_ARCH_NAME=mips64
-fi
-
-# power
-if [ "$A_NAME" = "power" ]; then	# Manual
-	SUB_ARCH_NAME=power
-fi
-
-echo "Using OS: ${SUB_OS_NAME}"
-echo "Using architecture: ${SUB_ARCH_NAME}"
-
 if [ "$SUB_ARCH_NAME" = "" ]; then
 	echo "Error: could not detect what architecture this system is running!"
 	echo "Please supply manually instead with \"--arch=foo\""
 	exit -1
 fi
 
-if [ "$SUB_OS_NAME" = "HPUX" -a "$CC" = "gcc" ]; then
-	# Only if we are on HP-UX, ia64 and using gcc
-	SUB_PROG_CFLAGS=-mlp64
-fi
-
-if [ "$SUB_OS_NAME" = "SunOS" -a "$SUB_ARCH_NAME" = "sparc" -a "$CC" = "gcc" ]; then
-	# Only if we are on SunOS, sparc and using gcc
-	# Tells the assembler that we are dealing with a v8plusa arch sparc
-	# and -mimpure-text is needed for shared library linking
-	SUB_PROG_CFLAGS="-Wa,-xarch=v8plusa -mimpure-text"
-fi
-
-if [ "$SUB_OS_NAME" = "AIX" -a "$SUB_ARCH_NAME" = "power" -a "$CC" = "gcc" ]; then
-	# Only if we are on AIX, power and using gcc
-	# The assembler may default to generating Power and PowerPC compatible
-	# code. We need to override that.
-	SUB_PROG_CFLAGS=-Wa,-mpwr
-fi
-
-if [ "$SUB_OS_NAME" = "AIX" -a "$SUB_ARCH_NAME" = "ppc" -a "$CC" = "gcc" ]; then
-	# Only if we are on AIX, ppc and using gcc
-	# The assembler may default to generating Power and PowerPC compatible
-	# code. We need to override that.
-	SUB_PROG_CFLAGS=-Wa,-mppc
-fi
+echo "Using OS: ${SUB_OS_NAME}"
+echo "Using architecture: ${SUB_ARCH_NAME}"
 
 if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 	# Only if we are on x86_64 and using gcc
@@ -390,18 +282,6 @@ fi
 ###########################################################################
 #              TARGET/DRIVER SPECIFIC CFLAGS and OPTIONS                  #
 ###########################################################################
-if [ "$SUB_TARGET" = "generic" ]; then
-	if [ "$US_TO_TIMEVAL_FACTOR" = "" ]; then
-		US_TO_TIMEVAL_FACTOR=1
-	fi
-	if [ "$TIMEVAL" = "" ]; then
-		TIMEVAL=UNS64
-	fi
-	if [ "$TIMEVAL_MAX" = "" ]; then
-		TIMEVAL_MAX=0xffffffffffffffff
-	fi
-fi
-
 if [ "$SUB_TARGET" = "hcs12" ]; then
 	# Only if we want to compile for a µC HCS12
        # it is a big endian architecture.
@@ -483,8 +363,7 @@ if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\ -lrtdm\
-\	-L`$XENO_CONFIG --library-dir`
+	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\ -lrtdm\ -L`$XENO_CONFIG --library-dir`
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
 	RTCAN_SOCKET=1
 fi

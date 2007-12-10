@@ -49,7 +49,7 @@ UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message *)FCT_PTR_INIT;
 CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *)FCT_PTR_INIT;
 int DLL_CALL(canClose)(CAN_HANDLE)FCT_PTR_INIT;
 
-#if defined DEBUG_WAR_CONSOLE_ON || defined DEBUG_ERR_CONSOLE_ON || defined NEED_PRINT_MESSAGE
+#if defined DEBUG_MSG_CONSOLE_ON || defined NEED_PRINT_MESSAGE
 #include "def.h"
 
 #define _P(fc) case fc: printf(#fc" ");break;
