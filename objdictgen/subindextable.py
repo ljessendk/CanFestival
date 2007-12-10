@@ -713,10 +713,21 @@ class EditingPanel(wx.SplitterWindow):
                     typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
                     if typeinfos:
                         node_id = self.ParentWindow.GetCurrentNodeId()
-                        self.Manager.AddToMasterDCF(node_id, index, subindex, max(1, typeinfos["size"] / 8), int(self.Table.GetValueByName(subindex, "value"), 16))    
+                        value = self.Table.GetValueByName(subindex, "value")
+                        if value == "True":
+                            value = 0
+                        elif value == "False":
+                            value = 1
+                        elif value.isdigit():
+                            value = int(value)
+                        elif value.startswith("0x"):
+                            value = int(value, 16)
+                        else:
+                            value = int(value.encode("hex_codec"), 16)
+                        self.Manager.AddToMasterDCF(node_id, index, subindex, max(1, typeinfos["size"] / 8), value)    
                         self.ParentWindow.OpenMasterDCFDialog(node_id)
 
-    def OpenDCFDIalog(self, node_id):
+    def OpenDCFDialog(self, node_id):
         self.PartList.SetSelection(7)
         self.RefreshIndexList()
         self.IndexList.SetSelection(self.ListIndex.index(0x1F22))

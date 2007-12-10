@@ -858,7 +858,7 @@ class networkedit(wx.Frame):
 
     def OpenMasterDCFDialog(self, node_id):
         self.NetworkNodes.SetSelection(0)
-        self.NetworkNodes.GetPage(0).OpenDCFDIalog(node_id)
+        self.NetworkNodes.GetPage(0).OpenDCFDialog(node_id)
 
 #-------------------------------------------------------------------------------
 #                               Exception Handler
