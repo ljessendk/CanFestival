@@ -309,6 +309,10 @@ if [ "$SUB_TARGET" = "win32" ]; then
 		SUB_PROG_CFLAGS="-mno-cygwin"
 fi	
 
+if [ "$SUB_TARGET" = "unix" ]; then
+		LD=gcc
+fi
+	
 #### CAN_DRIVER ####
 
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
