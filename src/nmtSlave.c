@@ -98,6 +98,10 @@ UNS8 slaveSendBootUp(CO_Data* d)
 {
   Message m;
 
+#ifdef CO_ENABLE_LSS
+  if(*d->bDeviceNodeId==0xFF)return 0;
+#endif
+
   MSG_WAR(0x3407, "Send a Boot-Up msg ", 0);
 
   /* message configuration */

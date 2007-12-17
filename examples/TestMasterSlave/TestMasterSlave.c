@@ -94,8 +94,14 @@ void InitNodes(CO_Data* d, UNS32 id)
 {
 	/****************************** INITIALISATION SLAVE *******************************/
 	if(strcmp(SlaveBoard.baudrate, "none")) {
-		/* Defining the node Id */
+
+#ifdef CO_ENABLE_LSS
+		/* Set an invalid nodeID */
+		setNodeId(&TestSlave_Data, 0xFF);
+#else
 		setNodeId(&TestSlave_Data, 0x02);
+#endif
+
 		/* init */
 		setState(&TestSlave_Data, Initialisation);
 	}
@@ -121,7 +127,7 @@ int main(int argc,char **argv)
 
   int c;
   extern char *optarg;
-  char* LibraryPath="libcanfestival_can_virtual.so";
+  char* LibraryPath="../../drivers/can_virtual/libcanfestival_can_virtual.so";
 
   while ((c = getopt(argc, argv, "-m:s:M:S:l:")) != EOF)
   {
@@ -196,6 +202,11 @@ int main(int argc,char **argv)
 		TestSlave_Data.post_TPDO = TestSlave_post_TPDO;
 		TestSlave_Data.storeODSubIndex = TestSlave_storeODSubIndex;
 		TestSlave_Data.post_emcy = TestSlave_post_emcy;
+#ifdef CO_ENABLE_LSS
+		/* in this example the slave doesn't support Store configuration*/
+		//TestSlave_Data.lss_StoreConfiguration = TestSlave_StoreConfiguration;
+		TestSlave_Data.lss_ChangeBaudRate=TestSlave_ChangeBaudRate;
+#endif
 
 		if(!canOpen(&SlaveBoard,&TestSlave_Data)){
 			eprintf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
@@ -212,6 +223,7 @@ int main(int argc,char **argv)
 		TestMaster_Data.post_sync = TestMaster_post_sync;
 		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
 		TestMaster_Data.post_emcy = TestMaster_post_emcy;
+		TestMaster_Data.post_SlaveBootup=TestMaster_post_SlaveBootup;
 		
 		if(!canOpen(&MasterBoard,&TestMaster_Data)){
 			eprintf("Cannot open Master Board (%s,%s)\n",MasterBoard.busname, MasterBoard.baudrate);

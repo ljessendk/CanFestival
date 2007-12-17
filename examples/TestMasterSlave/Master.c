@@ -143,12 +143,181 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 	}
 }
 
+#ifdef CO_ENABLE_LSS
+static void ConfigureLSSNode(CO_Data* d);
+UNS8 init_step_LSS=1;
+
+static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
+{
+	UNS32 dat1;
+	UNS8 dat2;
+	printf("CheckLSS->");
+	if(getConfigResultNetworkNode (d, command, &dat1, &dat2) != LSS_FINISHED){
+		if(command==LSS_IDENT_NON_CONF_SLAVE){
+			eprintf("Master : There are not no-configured slaves in the net\n", command);
+			return;
+		}
+		else{
+			eprintf("Master : Failed in LSS comand %d.  Trying again\n", command);
+		}
+	}
+	else
+	{
+		init_step_LSS++;
+	
+		switch(command){
+		case LSS_CONF_NODE_ID:
+   			switch(dat1){
+   				case 0: printf("Node ID change succesful\n");break;
+   				case 1: printf("Node ID change error:out of range\n");break;
+   				case 0xFF:printf("Node ID change error:specific error\n");break;
+   				default:break;
+   			}
+   			break;
+   		case LSS_CONF_BIT_TIMING:
+   			switch(dat1){
+   				case 0: printf("Baud rate change succesful\n");break;
+   				case 1: printf("Baud rate change error: change baud rate not supported\n");break;
+   				case 0xFF:printf("Baud rate change error:specific error\n");break;
+   				default:break;
+   			}
+   			break;
+   		case LSS_CONF_STORE:
+   			switch(dat1){
+   				case 0: printf("Store configuration succesful\n");break;
+   				case 1: printf("Store configuration error:not supported\n");break;
+   				case 0xFF:printf("Store configuration error:specific error\n");break;
+   				default:break;
+   			}
+   			break;
+		case LSS_SM_SELECTIVE_RESP:
+   			printf("Slave in CONFIGURATION mode\n");
+   			break;
+   		case LSS_IDENT_SLAVE:
+   			printf("node identified\n");
+   			break;
+   		case LSS_IDENT_NON_CONF_SLAVE:
+   			printf("non-configured remote slave in the net\n");
+   			break;
+   		case LSS_INQ_VENDOR_ID:
+   			printf("Slave VendorID %x\n", dat1);
+   			break;
+   		case LSS_INQ_PRODUCT_CODE:
+   			printf("Slave Product Code %x\n", dat1);
+   			break;
+   		case LSS_INQ_REV_NUMBER:
+   			printf("Slave Revision Number %x\n", dat1);
+   			break;
+   		case LSS_INQ_SERIAL_NUMBER:
+   			printf("Slave Serial Number %x\n", dat1);
+   			break;
+   		case LSS_INQ_NODE_ID:
+   			printf("Slave nodeid %x\n", dat1);
+   			break;
+		}
+	}
+
+	printf("\n");
+	ConfigureLSSNode(d);
+}
+
+
+struct timeval master_prev_time,master_current_time;
+static void ConfigureLSSNode(CO_Data* d)
+{
+	UNS32 Vendor_ID=0x12345678;
+	UNS32 Product_Code=0x90123456;
+	UNS32 Revision_Number=0x78901234;
+	UNS32 Serial_Number=0x56789012;
+	UNS32 Revision_Number_high=0x78901240;
+	UNS32 Revision_Number_low=0x78901230;
+	UNS32 Serial_Number_high=0x56789020;
+	UNS32 Serial_Number_low=0x56789010;
+	UNS8 NodeID=0x02;
+	UNS8 Baud_Table=0;
+	UNS8 Baud_BitTiming=3;
+	UNS16 Switch_delay=1;
+	UNS8 LSS_mode=LSS_WAITING_MODE;
+	UNS8 res;
+	eprintf("ConfigureLSSNode-> ");
+
+	switch(init_step_LSS){
+		case 1:	/* LSS=>identify non-configured remote slave */
+			eprintf("LSS=>identify non-configured remote slave\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_REMOTE_NON_CONF,0,0,CheckLSSAndContinue);
+			break;
+		case 2:	/* LSS=>identify node */
+			eprintf("LSS=>identify node\n");
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_VENDOR,&Vendor_ID,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_PRODUCT,&Product_Code,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_REV_LOW,&Revision_Number_low,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_REV_HIGH,&Revision_Number_high,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_SERIAL_LOW,&Serial_Number_low,0);
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_REMOTE_SERIAL_HIGH,&Serial_Number_high,0,CheckLSSAndContinue);
+			break;
+		case 3: /*First step : setup Slave's TPDO 1 to be transmitted on SYNC*/
+			eprintf("LSS=>put in configuration mode\n");
+			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_VENDOR,&Vendor_ID,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_PRODUCT,&Product_Code,0);
+			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_REVISION,&Revision_Number,0);
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_SM_SELECTIVE_SERIAL,&Serial_Number,0,CheckLSSAndContinue);
+			break;
+		case 4:	/* LSS=>inquire nodeID */
+			eprintf("LSS=>inquire nodeID\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_NODE_ID,0,0,CheckLSSAndContinue);
+			break;
+		case 5:	/* LSS=>inquire VendorID */
+			eprintf("LSS=>inquire VendorID\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_VENDOR_ID,0,0,CheckLSSAndContinue);
+			break;
+		case 6:	/* LSS=>inquire Product code */
+			eprintf("LSS=>inquire Product code\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_PRODUCT_CODE,0,0,CheckLSSAndContinue);
+			break;
+		case 7:	/* LSS=>inquire Revision Number */
+			eprintf("LSS=>inquire Revision Number\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_REV_NUMBER,0,0,CheckLSSAndContinue);
+			break;
+		case 8:	/* LSS=>inquire Serial Number */
+			eprintf("LSS=>inquire Serial Number\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_SERIAL_NUMBER,0,0,CheckLSSAndContinue);
+			break;
+		case 9:	/* LSS=>change the nodeID */
+			eprintf("LSS=>change the nodeId\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_CONF_NODE_ID,&NodeID,0,CheckLSSAndContinue);
+			break;
+		case 10:	/* LSS=>change the Baud rate */
+			eprintf("LSS=>change the Baud rate\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_CONF_BIT_TIMING,&Baud_Table,&Baud_BitTiming,CheckLSSAndContinue);
+			break;
+		case 11:
+			eprintf("LSS=>Activate Bit Timing\n");
+			res=configNetworkNode(&TestMaster_Data,LSS_CONF_ACT_BIT_TIMING,&Switch_delay,0);
+			/*no break;*/
+			init_step_LSS++;
+		case 12:
+			/*LSS=>store configuration*/
+			/* It will fail the first time (time out) due to the switch delay */
+			/* It will fail the second time because it is not implemented in the slave */
+			eprintf("LSS=>store configuration\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_CONF_STORE,0,0,CheckLSSAndContinue);
+			break;
+		case 13: /* LSS=>put in operation mod */
+			eprintf("LSS=>put in operation mode\n");
+			res=configNetworkNode(&TestMaster_Data,LSS_SM_GLOBAL,&LSS_mode,0);
+			break;
+	}
+}
+#endif
+
 void TestMaster_preOperational()
 {
-
 	eprintf("TestMaster_preOperational\n");
-	ConfigureSlaveNode(&TestMaster_Data, 0x02);
-	
+#ifdef CO_ENABLE_LSS
+	/* Ask slave node to go in stop mode */
+	masterSendNMTstateChange (&TestMaster_Data, 0, NMT_Stop_Node);
+	ConfigureLSSNode(&TestMaster_Data);
+#endif
 }
 
 void TestMaster_operational()
@@ -286,3 +455,10 @@ void TestMaster_post_TPDO()
 	}
 	MasterSyncCount++;
 }
+
+void TestMaster_post_SlaveBootup(UNS8 nodeid)
+{
+	eprintf("TestMaster_post_SlaveBootup %x\n", nodeid);
+	ConfigureSlaveNode(&TestMaster_Data, nodeid);
+}
+

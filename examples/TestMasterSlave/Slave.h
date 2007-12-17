@@ -13,3 +13,5 @@ void TestSlave_post_sync(void);
 void TestSlave_post_TPDO(void);
 void TestSlave_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex);
 void TestSlave_post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg);
+void TestSlave_StoreConfiguration(UNS8 *error, UNS8 *spec_error);
+void TestSlave_ChangeBaudRate(char *baudrate);

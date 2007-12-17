@@ -114,6 +114,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define SDOtx      0xB
 #define SDOrx      0xC
 #define NODE_GUARD 0xE
+#define LSS 	   0xF
 
 /* NMT Command Specifier, sent by master to change a slave state */
 /* ------------------------------------------------------------- */
@@ -123,6 +124,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define NMT_Enter_PreOperational    0x80
 #define NMT_Reset_Node              0x81
 #define NMT_Reset_Comunication      0x82
+
+/** Status of the LSS transmission
+ */
+#define LSS_RESET                0x0      /* Transmission not started. Init state. */
+#define LSS_FINISHED             0x1      /* data are available */                          
+#define	LSS_ABORTED_INTERNAL     0x2     /* Aborted but not because of an abort message. */
+#define	LSS_TRANS_IN_PROGRESS 	 0x3    
 
 /* constantes used in the different state machines */
 /* ----------------------------------------------- */

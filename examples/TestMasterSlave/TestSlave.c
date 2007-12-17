@@ -200,10 +200,10 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1018 :   Identity. */
                     UNS8 TestSlave_highestSubIndex_obj1018 = 4; /* number of subindex - 1*/
-                    UNS32 TestSlave_obj1018_Vendor_ID = 0x0;	/* 0 */
-                    UNS32 TestSlave_obj1018_Product_Code = 0x0;	/* 0 */
-                    UNS32 TestSlave_obj1018_Revision_Number = 0x0;	/* 0 */
-                    UNS32 TestSlave_obj1018_Serial_Number = 0x0;	/* 0 */
+                    UNS32 TestSlave_obj1018_Vendor_ID = 0x12345678;	/* 305419896 */
+                    UNS32 TestSlave_obj1018_Product_Code = 0x90123456;	/* 2417112150 */
+                    UNS32 TestSlave_obj1018_Revision_Number = 0x78901234;	/* 2022707764 */
+                    UNS32 TestSlave_obj1018_Serial_Number = 0x56789012;	/* 1450741778 */
                     subindex TestSlave_Index1018[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&TestSlave_highestSubIndex_obj1018 },

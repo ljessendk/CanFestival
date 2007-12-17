@@ -34,7 +34,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "dcf.h"
 #include "nmtSlave.h"
 #include "emcy.h"
-
+#ifdef CO_ENABLE_LSS
+#include "lss.h"
+#endif
 /** Prototypes for internals functions */
 /*!                                                                                                
 **                                                                                                 
@@ -102,6 +104,19 @@ void canDispatch(CO_Data* d, Message *m)
 			{
 				proceedNMTstateChange(d,m);
 			}
+#ifdef CO_ENABLE_LSS
+		case LSS:
+			if (!d->CurrentCommunicationState.csLSS)break;
+			if ((*(d->iam_a_slave)) && m->cob_id.w==MLSS_ADRESS)
+			{
+				proceedLSS_Slave(d,m);
+			}
+			else if(!(*(d->iam_a_slave)) && m->cob_id.w==SLSS_ADRESS)
+			{
+				proceedLSS_Master(d,m);
+			}
+			break;
+#endif
 	}
 }
 
@@ -131,6 +146,9 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 	StartOrStop(csEmergency,	emergencyInit(d),	emergencyStop(d)) 
 	StartOrStop(csPDO,	PDOInit(d),	PDOStop(d))
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
+#ifdef CO_ENABLE_LSS
+	StartOrStop(csLSS,	startLSS(d),	stopLSS(d))
+#endif
 }
 
 /*!                                                                                                
@@ -147,7 +165,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 		switch( newState ){
 			case Initialisation:
 			{
-				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0};
+				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0, 0};
 				/* This will force a second loop for the state switch */
 				d->nodeState = Initialisation;
 				newState = Pre_operational;
@@ -161,7 +179,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Pre_operational:
 			{
 				
-				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0};
+				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0, 1};
 				d->nodeState = Pre_operational;
 				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
@@ -180,7 +198,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Operational:
 			if(d->nodeState == Initialisation) return 0xFF;
 			{
-				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 1};
+				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 1, 0};
 				d->nodeState = Operational;
 				newState = Operational;
 				switchCommunicationState(d, &newCommunicationState);
@@ -191,13 +209,23 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			case Stopped:
 			if(d->nodeState == Initialisation) return 0xFF;
 			{
-				s_state_communication newCommunicationState = {0, 0, 0, 0, 1, 0};
+				s_state_communication newCommunicationState = {0, 0, 0, 0, 1, 0, 1};
 				d->nodeState = Stopped;
 				newState = Stopped;
 				switchCommunicationState(d, &newCommunicationState);
 				(*d->stopped)();
 			}
 			break;
+#ifdef CO_ENABLE_LSS
+			case LssTimingDelay:
+			{
+				s_state_communication newCommunicationState = {0, 0, 0, 0, 0, 0, 0};
+				d->nodeState = LssTimingDelay;
+				newState = LssTimingDelay;
+				switchCommunicationState(d, &newCommunicationState);
+			}
+			break;
+#endif
 			
 			default:
 				return 0xFF;
@@ -228,6 +256,15 @@ UNS8 getNodeId(CO_Data* d)
 void setNodeId(CO_Data* d, UNS8 nodeId)
 {
   UNS16 offset = d->firstIndex->SDO_SVR;
+  
+#ifdef CO_ENABLE_LSS
+  if(nodeId==0xFF)
+  {
+  	*d->bDeviceNodeId = nodeId;
+  	return;
+  }
+#endif
+
   if(offset){
     /* Adjust COB-ID Client->Server (rx) only id already set to default value*/
     if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + *d->bDeviceNodeId){

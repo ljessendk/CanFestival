@@ -107,6 +107,8 @@ while [ $# -ge 1 ]; do
 			echo "On user request: Won't optimize with \"-Ox\"";;
 	--disable-dll)	DISABLE_DLL=1;
 			echo "On user request: Won't create and link to dll";;
+	--enable-lss)	ENABLE_LSS=1;
+			echo "On user request: LSS services enabled";;
 	--debug=*)	DEBUG=$optarg;;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
 	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$1;;
@@ -141,6 +143,7 @@ while [ $# -ge 1 ]; do
 		echo	"                 see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
+		echo 	" --enable-lss  Enable the LSS services"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
 		echo	" --debug=foo,foo,..   Enable debug messages, ERR -> only errors, WAR)."
 		echo	"               \"PDO\" send errors and warnings through PDO messages"
@@ -567,6 +570,13 @@ if [ "$DISABLE_DLL" = "1" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ $SUB_CAN_DLL_CFLAGS
 fi
 
+if [ $ENABLE_LSS ]; then
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DCO_ENABLE_LSS;
+	SUB_ENABLE_LSS=1
+else
+	SUB_ENABLE_LSS=0
+fi
+
 ###########################################################################
 #                              CREATE MAKEFILES                           #
 ###########################################################################
@@ -636,6 +646,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_CAN_DRIVER:can_${SUB_CAN_DRIVER}:
 	s:SUB_CAN_DLL_CFLAGS:${SUB_CAN_DLL_CFLAGS}:
 	s:SUB_ENABLE_DLL_DRIVERS:${SUB_ENABLE_DLL_DRIVERS}:
+	s:SUB_ENABLE_LSS:${SUB_ENABLE_LSS}:
 	" > $makefile
 done
 

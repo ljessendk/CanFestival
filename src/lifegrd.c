@@ -133,6 +133,9 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
           ** NMTable[bus_id][nodeId] = Pre_operational
           */
           MSG_WAR(0x3100, "The NMT is a bootup from node : ", nodeId);
+          
+             /* call post SlaveBootup with NodeId */
+		  (*d->post_SlaveBootup)(nodeId);
         }
 
       if( d->NMTable[nodeId] != Unknown_state ) {
@@ -250,3 +253,4 @@ void heartbeatStop(CO_Data* d)
 ** @param heartbeatID
 **/
 void _heartbeatError(UNS8 heartbeatID){}
+void _post_SlaveBootup(UNS8 SlaveID){}

@@ -29,6 +29,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 typedef void (*heartbeatError_t)(UNS8);
 void _heartbeatError(UNS8 heartbeatID);
 
+typedef void (*post_SlaveBootup_t)(UNS8);
+void _post_SlaveBootup(UNS8 SlaveID);
+
 #include "data.h"
 
 /*************************************************************************

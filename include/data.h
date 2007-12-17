@@ -44,6 +44,9 @@ typedef struct struct_CO_Data CO_Data;
 #include "sync.h"
 #include "nmtMaster.h"
 #include "emcy.h"
+#ifdef CO_ENABLE_LSS
+#include "lss.h"
+#endif
 
 /* This structurs contains all necessary information for a CanOpen node */
 struct struct_CO_Data {
@@ -85,6 +88,7 @@ struct struct_CO_Data {
 	/*UNS32 *Sync_window_length;;*/
 	post_sync_t post_sync;
 	post_TPDO_t post_TPDO;
+	post_SlaveBootup_t post_SlaveBootup;
 	
 	/* General */
 	UNS8 toggle;
@@ -107,6 +111,12 @@ struct struct_CO_Data {
 	s_errors error_data[EMCY_MAX_ERRORS];
 	post_emcy_t post_emcy;
 	
+#ifdef CO_ENABLE_LSS
+	/* LSS */
+	lss_transfer_t lss_transfer;
+	lss_StoreConfiguration_t lss_StoreConfiguration;
+	lss_ChangeBaudRate_t lss_ChangeBaudRate;
+#endif	
 };
 
 #define NMTable_Initializer Unknown_state,
@@ -133,6 +143,36 @@ struct struct_CO_Data {
 	0, /* errRegMask */\
 	0 /* active */\
 	},
+	
+#ifdef CO_ENABLE_LSS
+#define lss_Initializer {\
+		LSS_RESET,  			/* state */\
+		0,						/* command */\
+		LSS_WAITING_MODE, 		/* mode */\
+		0,						/* dat1 */\
+		0,						/* dat2 */\
+		Unknown_state,  		/* currentState */\
+		0,          			/* NodeID */\
+		0,          			/* addr_sel_match */\
+		0,          			/* addr_ident_match */\
+		"none",         		/* BaudRate */\
+		0,          			/* SwitchDelay */\
+		SDELAY_OFF,   			/* SwitchDelayState */\
+		{-1,-1},          		/* Timers[2] */\
+		NULL,        			/* Callback */\
+		0,						/* IDNumber */\
+  		128, 					/* BitChecked */\
+  		0,						/* LSSSub */\
+  		0, 						/* LSSNext */\
+  		0, 						/* LSSPos */\
+  		LSS_FS_RESET			/* FastScan_SM */\
+	  },\
+	  NULL, 	/* _lss_StoreConfiguration*/\
+	  NULL    /* _lss_ChangeBaudRate */
+#else
+#define lss_Initializer
+#endif
+
 
 /* A macro to initialize the data in client app.*/
 /* CO_Data structure */
@@ -186,6 +226,7 @@ struct struct_CO_Data {
 	/*& NODE_PREFIX ## _obj1007, */            /* Sync_window_length */\
 	_post_sync,                 /* post_sync */\
 	_post_TPDO,                 /* post_TPDO */\
+	_post_SlaveBootup,			/* post_SlaveBootup */\
 	\
 	/* General */\
 	0,                                         /* toggle */\
@@ -208,7 +249,9 @@ struct struct_CO_Data {
 	{\
 	REPEAT_EMCY_MAX_ERRORS_TIMES(ERROR_DATA_INITIALIZER)\
 	},\
-	_post_emcy              /* post_emcy */\
+	_post_emcy,              /* post_emcy */\
+	/* LSS */\
+	lss_Initializer\
 }
 
 #ifdef __cplusplus

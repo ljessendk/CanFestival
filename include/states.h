@@ -40,7 +40,10 @@ enum enum_nodeState {
   Stopped         = 0x04,
   Operational     = 0x05,
   Pre_operational = 0x7F,
-  Unknown_state   = 0x0F
+  Unknown_state   = 0x0F,
+#ifdef CO_ENABLE_LSS
+  LssTimingDelay  = 0x10
+#endif
 };
 
 typedef enum enum_nodeState e_nodeState;
@@ -53,6 +56,7 @@ typedef struct
 	INTEGER8 csSYNC;
 	INTEGER8 csHeartbeat;
 	INTEGER8 csPDO;
+	INTEGER8 csLSS;
 } s_state_communication;
 
 /** Function that user app can overload
