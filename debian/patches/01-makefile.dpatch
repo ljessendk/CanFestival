@@ -1,0 +1,18 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 01-makefile.dpatch by  <lolitech@lolitech-desktop>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+
+@DPATCH@
+diff -urNad canfestival-3~/Makefile.in canfestival-3/Makefile.in
+--- canfestival-3~/Makefile.in	2007-08-08 08:51:09.000000000 +0200
++++ canfestival-3/Makefile.in	2007-11-21 09:32:00.000000000 +0100
+@@ -46,7 +46,6 @@
+ 	$(MAKE) -C src $@
+ 	$(MAKE) -C examples $@
+ 	$(MAKE) -C objdictgen $@
+-	ldconfig
+ 
+ uninstall:
+ 	$(MAKE) -C drivers $@

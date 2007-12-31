@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Objdictedit
+Comment=A CanOpen Node Editor
+Comment[fr]=Un Editeur de Noeud CanOpen
+Exec=/usr/bin/objdictedit
+Icon=/usr/share/objdictgen/objdictedit.png
+Terminal=false
+MultipleArgs=false
+Type=Application
+Categories=Application;Development;
+StartupNotify=true
+

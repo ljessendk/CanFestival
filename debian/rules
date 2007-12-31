@@ -1,0 +1,156 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+#
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+#
+# Modified to make a template file for a multi-binary package with separated
+# build-arch and build-indep targets  by Bill Allombert 2001
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+CFLAGS = -Wall -g
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+
+config.status: configure
+	#### CONFIG.STATUS ####	
+	dh_testdir
+	# Add here commands to configure the package.
+	cp debian/control-$(shell echo $(CAN_INTERFACE)) debian/control
+	./configure --can=$(shell echo $(CAN_INTERFACE)) --prefix=/usr 
+
+##############
+# And now the simple things for dpatch. Here we only apply/unapply the patches.
+# You can do more things with dpatch, like having patches only applied on
+# a special architecture - see the non-dh version of the sample for this!
+patch: patch-stamp
+patch-stamp:
+	dpatch apply-all
+	dpatch cat-all >patch-stamp
+	touch patch-stamp
+
+unpatch:
+	dpatch deapply-all
+	rm -rf patch-stamp debian/patched
+
+##################
+#Architecture 
+build: build-arch build-indep
+
+build-arch: build-arch-stamp
+build-arch-stamp:  config.status patch
+	#### BUILD-ARCH-STAMP ####
+	# Add here commands to compile the arch part of the package.
+	$(MAKE) 
+	touch $@
+
+build-indep: build-indep-stamp
+build-indep-stamp:  config.status
+	#### BUILD-INDEP-STAMP ####
+	# Add here commands to compile the indep part of the package.
+
+clean: unpatch
+	#### CLEAN ####
+	dh_testdir
+	dh_testroot
+	rm -f build-arch-stamp build-indep-stamp #CONFIGURE-STAMP#
+
+	# Add here commands to clean up after the build process.
+	-$(MAKE) clean
+ifneq "$(wildcard /usr/share/misc/config.sub)" ""
+	cp -f /usr/share/misc/config.sub config.sub
+endif
+ifneq "$(wildcard /usr/share/misc/config.guess)" ""
+	cp -f /usr/share/misc/config.guess config.guess
+endif
+
+
+	dh_clean 
+
+install: install-indep install-arch
+install-indep:
+	#### INSTALL-INDEP ####
+	dh_testdir
+	dh_testroot
+	dh_clean -k -i 
+	dh_installdirs -i
+
+	# Add here commands to install the indep part of the package into
+	# debian/<package>-doc.
+	
+	dh_install -i --sourcedir=debian/canfestival
+
+install-arch:
+	#### INSTALL-ARCH ####
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s 
+	dh_installdirs -s
+
+	# Add here commands to install the arch part of the package into 
+	# debian/tmp.
+
+	$(MAKE) -C src PREFIX=$(CURDIR)/debian/canfestival/usr install	
+	$(MAKE) -C drivers PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C examples PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C objdictgen PREFIX=$(CURDIR)/debian/canfestival/usr/share install
+	cp debian/objdictedit.desktop $(CURDIR)/debian/canfestival/usr/share/applications/objdictedit.desktop
+	cp debian/objdictedit.png $(CURDIR)/debian/canfestival/usr/share/objdictgen/objdictedit.png
+	dh_install -s
+
+# Must not depend on anything. This is to be called by
+# binary-arch/binary-indep
+# in another 'make' thread.
+binary-common:
+	#### BINARY-COMMON ####
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs CHANGES
+	dh_installdocs
+#	dh_installexamples
+#	dh_installmenu
+#	dh_installdebconf	
+#	dh_installlogrotate	
+#	dh_installemacsen
+#	dh_installpam
+#	dh_installmime
+#	dh_python
+#	dh_installinit
+#	dh_installcron
+#	dh_installinfo
+#	dh_installman
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+#	dh_perl
+#	dh_makeshlibs
+	dh_installdeb
+#	dh_shlibdeps -l /usr/lib
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+# Build architecture independant packages using the common target.
+binary-indep: build-indep install-indep
+	#### BINARY-INDEP ####
+	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
+
+# Build architecture dependant packages using the common target.
+binary-arch: build-arch install-arch
+	#### BINARY-ARCH ####
+	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
+
+binary: binary-arch binary-indep
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch patch unpatch
