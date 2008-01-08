@@ -75,6 +75,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define RO     0x02
 
 #define TO_BE_SAVE  0x04
+#define DCF_TO_SEND 0x08
 
 /************************ STRUCTURES ****************************/
 /** This are some structs which are neccessary for creating the entries

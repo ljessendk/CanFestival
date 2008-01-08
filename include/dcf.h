@@ -21,4 +21,4 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 
-void send_consise_dcf(CO_Data* d, UNS8 nodeId);
+UNS8 send_consise_dcf(CO_Data* d, UNS8 nodeId);

@@ -134,8 +134,10 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
           */
           MSG_WAR(0x3100, "The NMT is a bootup from node : ", nodeId);
           
+          if(!send_consise_dcf(d,nodeId)){
              /* call post SlaveBootup with NodeId */
-		  (*d->post_SlaveBootup)(nodeId);
+		  	(*d->post_SlaveBootup)(nodeId);
+          }
         }
 
       if( d->NMTable[nodeId] != Unknown_state ) {

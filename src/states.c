@@ -185,8 +185,9 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				switchCommunicationState(d, &newCommunicationState);
 				if (!(*(d->iam_a_slave)))
 				{
-					send_consise_dcf(d,0x01);
-                    /*(*d->preOperational)() will be called once dcf sent */
+					//send_consise_dcf(d,0x01);
+					masterSendNMTstateChange (d, 0, NMT_Reset_Node);
+                    (*d->preOperational)(); 
 				}
 				else 
 				{
@@ -266,13 +267,13 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 #endif
 
   if(offset){
-    /* Adjust COB-ID Client->Server (rx) only id already set to default value*/
-    if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == 0x600 + *d->bDeviceNodeId){
+    /* Adjust COB-ID Client->Server (rx) only id already set to default value or id not valid (id==0xFF)*/
+    if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == 0x600 + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_client = 0x600 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
     }
-    /* Adjust COB-ID Server -> Client (tx) only id already set to default value*/
-    if(*(UNS32*)d->objdict[offset].pSubindex[2].pObject == 0x580 + *d->bDeviceNodeId){
+    /* Adjust COB-ID Server -> Client (tx) only id already set to default value or id not valid (id==0xFF)*/
+    if((*(UNS32*)d->objdict[offset].pSubindex[2].pObject == 0x580 + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_server = 0x580 + nodeId; */
       *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
     }
@@ -292,7 +293,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS16 lastIndex = d->lastIndex->PDO_RCV;
     UNS32 cobID[] = {0x200, 0x300, 0x400, 0x500};
     if( offset ) while( (offset <= lastIndex) && (i < 4)) {
-      if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
+      if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
 	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
       i ++;
       offset ++;
@@ -306,7 +307,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS32 cobID[] = {0x180, 0x280, 0x380, 0x480};
     i = 0;
     if( offset ) while ((offset <= lastIndex) && (i < 4)) {
-      if(*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)
+      if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
 	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
       i ++;
       offset ++;
@@ -314,7 +315,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   }
 
   /* Update EMCY COB-ID if already set to default*/
-  if(*d->error_cobid == *d->bDeviceNodeId + 0x80)
+  if((*d->error_cobid == *d->bDeviceNodeId + 0x80)||(*d->bDeviceNodeId==0xFF))
     *d->error_cobid = nodeId + 0x80;
 
   /* bDeviceNodeId is defined in the object dictionary. */

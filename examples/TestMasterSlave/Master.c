@@ -317,8 +317,6 @@ void TestMaster_preOperational()
 	/* Ask slave node to go in stop mode */
 	masterSendNMTstateChange (&TestMaster_Data, 0, NMT_Stop_Node);
 	ConfigureLSSNode(&TestMaster_Data);
-#else
-	ConfigureSlaveNode(&TestMaster_Data, 0x02);
 #endif
 }
 
@@ -461,8 +459,8 @@ void TestMaster_post_TPDO()
 void TestMaster_post_SlaveBootup(UNS8 nodeid)
 {
 	eprintf("TestMaster_post_SlaveBootup %x\n", nodeid);
-#ifdef CO_ENABLE_LSS
+
 	ConfigureSlaveNode(&TestMaster_Data, nodeid);
-#endif
+
 }
 

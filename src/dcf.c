@@ -43,6 +43,8 @@ extern UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
                                UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 
 
+static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId);
+
 /**
 **
 **
@@ -60,8 +62,9 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
     }
 
   closeSDOtransfer(d, nodeId, SDO_CLIENT);
-  send_consise_dcf(d,nodeId);
+  send_consise_dcf_loop(d,nodeId);
 }
+
 
 /**
 **
@@ -71,7 +74,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 **
 ** @return
 */
-void send_consise_dcf(CO_Data* d,UNS8 nodeId)
+UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
 {
   /* Fetch DCF OD entry, if not already done */
   if(!d->dcf_odentry)
@@ -83,36 +86,56 @@ void send_consise_dcf(CO_Data* d,UNS8 nodeId)
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
   }
 
-  /* Loop on all DCF subindexes, corresponding to nodes ID */
-  while (nodeId < d->dcf_odentry->bSubCount){
-    UNS32 nb_entries;
+  UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
+  /* if the entry for the nodeId is not empty. */
+  if(szData!=0){
+  	/* if the entry for the nodeId is already been processing, quit.*/
+  	if(d->dcf_odentry->pSubindex[nodeId].bAccessType & DCF_TO_SEND) return 1;
+  	
+  	d->dcf_odentry->pSubindex[nodeId].bAccessType|=DCF_TO_SEND;
+  	d->dcf_request++;
+  	if(d->dcf_request==1)
+  		send_consise_dcf_loop(d,nodeId);
+  	return 1;
+  }
+  
+  DCF_finish:
+  return 0;
+}
 
-    UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
-    UNS8* dcfend;
+static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
+{
+  /* Loop on all DCF subindexes, corresponding to node ID until there is no request*/
+  //while (nodeId < d->dcf_odentry->bSubCount){
+  while (d->dcf_request>0){
+  	if(d->dcf_odentry->pSubindex[nodeId].bAccessType & DCF_TO_SEND){   	 
+  		UNS32 nb_entries;
+   		UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
+   		UNS8* dcfend;
+      	 
+   		{
+	   		UNS8* dcf = *((UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject);
+   			dcfend = dcf + szData;
+	   		if (!d->dcf_cursor){
+    	  		d->dcf_cursor = (UNS8*)dcf + 4;
+       			d->dcf_entries_count = 0;
+   			}
+   			nb_entries = UNS32_LE(*((UNS32*)dcf));
+   		}
 
-    {
-      UNS8* dcf = *((UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject);
-      dcfend = dcf + szData;
-      if (!d->dcf_cursor){
-        d->dcf_cursor = (UNS8*)dcf + 4;
-        d->dcf_entries_count = 0;
-      }
-      nb_entries = UNS32_LE(*((UNS32*)dcf));
-    }
+    	/* condition on consise DCF string for NodeID, if big enough */
+    	if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_entries_count < nb_entries){
+    	
+        	UNS16 target_Index;
+        	UNS8 target_Subindex;
+        	UNS32 target_Size;
 
-    /* condition on consise DCF string for NodeID, if big enough */
-    if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_entries_count < nb_entries)
-      {
-        UNS16 target_Index;
-        UNS8 target_Subindex;
-        UNS32 target_Size;
-
-        /* pointer to the DCF string for NodeID */
-        target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
-        target_Subindex = *((UNS8*)((UNS8*)d->dcf_cursor++));
-        target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
-
-        _writeNetworkDict(d, /* CO_Data* d*/
+        	/* pointer to the DCF string for NodeID */
+        	target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
+        	target_Subindex = *((UNS8*)((UNS8*)d->dcf_cursor++));
+        	target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
+	
+    	    _writeNetworkDict(d, /* CO_Data* d*/
                                 nodeId, /* UNS8 nodeId*/
                                 target_Index, /* UNS16 index*/
                                 target_Subindex, /* UNS8 subindex*/
@@ -122,18 +145,35 @@ void send_consise_dcf(CO_Data* d,UNS8 nodeId)
                                 CheckSDOAndContinue,/* SDOCallback_t
                                                       Callback*/
                                 0); /* no endianize*/
-        /* Push d->dcf_cursor to the end of data*/
+        	/* Push d->dcf_cursor to the end of data*/
 
-        d->dcf_cursor += target_Size;
-        d->dcf_entries_count++;
+        	d->dcf_cursor += target_Size;
+        	d->dcf_entries_count++;
 
-        /* send_consise_dcf will be called by CheckSDOAndContinue for next DCF entry*/
-        return;
-      }
-    nodeId++;
-    d->dcf_cursor = NULL;
+        	/* send_consise_dcf_loop will be called by CheckSDOAndContinue for next DCF entry*/
+        	return;
+      	}
+      	else
+      	{
+      		/* We have finished with the dcf entry. Change the flag, decrement the request
+      		 *  and execute the bootup callback. */
+      		d->dcf_odentry->pSubindex[nodeId].bAccessType&=~DCF_TO_SEND;
+      		d->dcf_request--;
+      		(*d->post_SlaveBootup)(nodeId);
+      	}
+ 	}
+ 	else
+   	{
+   		/* Check the next element*/
+   		//nodeId++;
+   		nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
+   		if(nodeId==d->dcf_odentry->bSubCount)nodeId=1;
+   		d->dcf_cursor = NULL;
+   	}
   }
- DCF_finish:
+  
+  //DCF_finish:
   /*  Switch Master to preOperational state */
-  (*d->preOperational)();
+ 
+  //(*d->preOperational)();
 }
