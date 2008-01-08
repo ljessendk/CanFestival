@@ -68,21 +68,25 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo)
 		UNS32* pMappingParameter = (UNS32*) TPDO_map->pSubindex[prp_j + 1].pObject;
 		UNS16 index = (UNS16)((*pMappingParameter) >> 16);
 		UNS8 Size = (UNS8)(*pMappingParameter); /* Size in bits */
-		UNS8 ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 => 2, ... */
-		UNS8 subIndex = (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & (UNS32)0x000000FF);
 		
-		MSG_WAR(0x300F, "  got mapping parameter : ", *pMappingParameter);
-		MSG_WAR(0x3050, "    at index : ", TPDO_map->index);
-		MSG_WAR(0x3051, "    sub-index : ", prp_j + 1);
-		
-		if( getODentry(d, index, subIndex, tmp, &ByteSize, &dataType, 0 ) != OD_SUCCESSFUL ){
-			MSG_ERR(0x1013, " Couldn't find mapped variable at index-subindex-size : ", (UNS16)(*pMappingParameter));
-			return 0xFF;
-		}
-		/* copy bit per bit in little endian*/
-		CopyBits(Size, ((UNS8*)tmp), 0 , 0, (UNS8*)&pdo->data[offset>>3], offset%8, 0);
+		/* get variable only if Size != 0 and Size is lower than remaining bits in the PDO */
+		if(Size && ((offset + Size) <= 64)) {
+			UNS8 ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 => 2, ... */
+			UNS8 subIndex = (UNS8)(( (*pMappingParameter) >> (UNS8)8 ) & (UNS32)0x000000FF);
+			
+			MSG_WAR(0x300F, "  got mapping parameter : ", *pMappingParameter);
+			MSG_WAR(0x3050, "    at index : ", TPDO_map->index);
+			MSG_WAR(0x3051, "    sub-index : ", prp_j + 1);
+			
+			if( getODentry(d, index, subIndex, tmp, &ByteSize, &dataType, 0 ) != OD_SUCCESSFUL ){
+				MSG_ERR(0x1013, " Couldn't find mapped variable at index-subindex-size : ", (UNS16)(*pMappingParameter));
+				return 0xFF;
+			}
+			/* copy bit per bit in little endian*/
+			CopyBits(Size, ((UNS8*)tmp), 0 , 0, (UNS8*)&pdo->data[offset>>3], offset%8, 0);
 
-		offset += Size ;
+			offset += Size ;
+		}
 		prp_j++;
 	}while( prp_j < *pMappingCount );
 
@@ -225,31 +229,33 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
                  variable. */
 
                Size = (UNS8)(*pMappingParameter);
+					
+					/* set variable only if Size != 0 and Size is lower than remaining bits in the PDO */
+               if(Size && ((offset + Size) <= (m->len << 3))) {
+                 /* copy bit per bit in little endian */
+                 CopyBits(Size, (UNS8*)&m->data[offset>>3], offset%8, 0, ((UNS8*)tmp), 0, 0);
 
-               /* copy bit per bit in little endian */
-               CopyBits(Size, (UNS8*)&m->data[offset>>3], offset%8, 0, ((UNS8*)tmp), 0, 0);
+                 ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 =>
+                                                     2, ... */
 
-               ByteSize = 1 + ((Size - 1) >> 3); /*1->8 => 1 ; 9->16 =>
-                                                   2, ... */
+                 objDict = setODentry(d, (UNS16)((*pMappingParameter) >> 16),
+                                      (UNS8)(((*pMappingParameter) >> 8 ) & 0xFF),
+                                   tmp, &ByteSize, 0 );
 
-               objDict = setODentry(d, (UNS16)((*pMappingParameter) >> 16),
-                                    (UNS8)(((*pMappingParameter) >> 8 ) & 0xFF),
-                                 tmp, &ByteSize, 0 );
+                 if(objDict != OD_SUCCESSFUL) {
+                   MSG_ERR(0x1938, "error accessing to the mapped var : ", numMap + 1);
+                   MSG_WAR(0x2939, "         Mapped at index : ", (*pMappingParameter) >> 16);
+                   MSG_WAR(0x2940, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
+                   return 0xFF;
+                 }
 
-               if(objDict != OD_SUCCESSFUL) {
-                 MSG_ERR(0x1938, "error accessing to the mapped var : ", numMap + 1);
-                 MSG_WAR(0x2939, "         Mapped at index : ", (*pMappingParameter) >> 16);
-                 MSG_WAR(0x2940, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
-                 return 0xFF;
-               }
-
-               MSG_WAR(0x3942, "Variable updated with value received by PDO cobid : ", m->cob_id.w);
-               MSG_WAR(0x3943, "         Mapped at index : ", (*pMappingParameter) >> 16);
-               MSG_WAR(0x3944, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
-               /* MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject)); */
-               offset += Size;
+                 MSG_WAR(0x3942, "Variable updated with value received by PDO cobid : ", m->cob_id.w);
+                 MSG_WAR(0x3943, "         Mapped at index : ", (*pMappingParameter) >> 16);
+                 MSG_WAR(0x3944, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
+                 /* MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject)); */
+                 offset += Size;
+					}
                numMap++;
-               /*TODO :  check that offset is not not greater that message size (in bit) */
              } /* end loop while on mapped variables */
 
              offset=0x00;
