@@ -68,6 +68,9 @@ void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
   /*MSG_WAR(0x00, "ConsumerHearbeatAlarm", 0x00);*/
 
+  /* timer have been notified and is now free (non periodic)*/
+  /* -> avoid deleting re-assigned timer if message is received too late*/
+  d->ConsumerHeartBeatTimers[id]=TIMER_NONE;
   /*! call heartbeat error with NodeId */
   (*d->heartbeatError)((UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
 }
