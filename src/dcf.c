@@ -162,14 +162,13 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
       		(*d->post_SlaveBootup)(nodeId);
       	}
  	}
- 	else
-   	{
-   		/* Check the next element*/
-   		//nodeId++;
-   		nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
-   		if(nodeId==d->dcf_odentry->bSubCount)nodeId=1;
-   		d->dcf_cursor = NULL;
-   	}
+ 	
+   	/* Check the next element*/
+   	//nodeId++;
+   	nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
+   	if(nodeId==d->dcf_odentry->bSubCount)nodeId=1;
+   	d->dcf_cursor = NULL;
+
   }
   
   //DCF_finish:
