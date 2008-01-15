@@ -40,9 +40,9 @@ enum enum_nodeState {
   Stopped         = 0x04,
   Operational     = 0x05,
   Pre_operational = 0x7F,
-  Unknown_state   = 0x0F,
+  Unknown_state   = 0x0F
 #ifdef CO_ENABLE_LSS
-  LssTimingDelay  = 0x10
+  ,LssTimingDelay  = 0x10
 #endif
 };
 

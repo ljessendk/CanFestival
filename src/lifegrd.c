@@ -35,6 +35,7 @@
 #include <data.h>
 #include "lifegrd.h"
 #include "canfestival.h"
+#include "dcf.h"
 
 
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id);
