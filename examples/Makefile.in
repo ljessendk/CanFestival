@@ -22,63 +22,42 @@
 # 
 
 TARGET = SUB_TARGET
+WX = SUB_WX
+
+ifeq ($(TARGET),win32)
+	BLD_TEST=1
+endif
+ifeq ($(TARGET),unix)
+	BLD_TEST=1
+endif
+
+ifeq ($(WX),1)
+define build_command_seq_wx
+	$(MAKE) -C DS401_Master $@
+	$(MAKE) -C DS401_Slave_Gui $@
+endef
+endif
+
+ifdef BLD_TEST
+define build_command_seq
+	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterMicroMod $@
+	$(build_command_seq_wx)
+endef
+endif
+
+ifeq ($(TARGET),hc12)
+define build_command_seq
+	$(MAKE) -C gene_SYNC_HCS12 $@
+endef
+endif
+
 
 all:
-ifeq ($(TARGET),hc12)
-	$(MAKE) -C gene_SYNC_HCS12 $@
-endif
-
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
-
-ifeq ($(TARGET),win32)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
+	$(build_command_seq)
 
 clean:
-ifeq ($(TARGET),hc12)
-	$(MAKE) -C gene_SYNC_HCS12 $@
-endif
-
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
-
-ifeq ($(TARGET),win32)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
-
+	$(build_command_seq)
 
 mrproper: clean
-ifeq ($(TARGET),hc12)
-	$(MAKE) -C gene_SYNC_HCS12 $@
-endif
-
-install:
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
-
-uninstall:
-ifeq ($(TARGET),unix)
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-	$(MAKE) -C TestMasterMicroMod $@
-endif
+	$(build_command_seq)

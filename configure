@@ -64,8 +64,8 @@ EMCY_MAX_ERRORS=8
 
 # Leave empty for automatic detection
 CC=
-CXX=g++
-LD=ld
+CXX=
+LD=
 
 #default target
 SUB_TARGET=
@@ -307,15 +307,6 @@ if [ "$SUB_TARGET" = "hcs12" ]; then
 	fi
 fi	
 
-if [ "$SUB_TARGET" = "win32" ]; then
-		LD=g++
-		SUB_PROG_CFLAGS="-mno-cygwin"
-fi	
-
-if [ "$SUB_TARGET" = "unix" ]; then
-		LD=gcc
-fi
-	
 #### CAN_DRIVER ####
 
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
@@ -380,7 +371,7 @@ if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
 fi
 
 ###########################################################################
-#                              GUESS COMPILER                             #
+#                              GUESS TOOLCHAIN                            #
 ###########################################################################
 # If CC is empty, the user wanted automatic detection
 if [ "$CC" = "" ]; then
@@ -416,13 +407,33 @@ if [ "$CC" = "" ]; then
 	exit -1
 fi
 
-echo "Using ${CC}"
-
-###########################################################################
-#                              GUESS PREFIX's                             #
-###########################################################################
+echo "Using ${CC} as a C compiler"
 
 SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
+
+if [ "$CXX" = "" ]; then
+	CXX=${SUB_BINUTILS_PREFIX}g++
+fi
+
+echo "Using ${CXX} as a C++ compiler"
+
+if [ "$SUB_TARGET" = "win32" ]; then
+	# on cygwin/mingw, choose  g++ as a linker for native target
+	if [ "$LD" = "" ]; then
+		LD=$CXX
+	fi
+	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
+		SUB_PROG_CFLAGS="-mno-cygwin"
+	fi
+fi	
+
+if [ "$SUB_TARGET" = "unix" ]; then
+	if [ "$LD" = "" ]; then
+		LD=$CC
+	fi
+fi
+
+echo "Using ${LD} as a linker"
 
 # Guess prefix as regard cross compiling target machine
 if [ "$SUB_PREFIX" = "" ]; then
@@ -437,6 +448,32 @@ if [ "$SUB_PREFIX" = "" ]; then
 fi
 
 echo "Using prefix: ${SUB_PREFIX}"
+
+###########################################################################
+#                           GUESS DEPENDENCIES                            #
+###########################################################################
+
+if which wx-config >/dev/null 2>&1; then
+	echo -n "Testing wxWidgets compiles ... "
+	cat > /tmp/wx_test.cpp <<EOF
+#include "wx/wx.h"
+class MyApp : public wxApp
+{
+};
+IMPLEMENT_APP(MyApp)
+EOF
+	if $CXX /tmp/wx_test.cpp `wx-config --cxxflags` `wx-config --libs` -o /tmp/wx_test >/dev/null 2>&1 ; then
+		SUB_WX=1
+		echo "Yes"
+	else
+		SUB_WX=0
+		echo "No"
+	fi
+	rm -f /tmp/wx_test*
+else
+	SUB_WX=0
+	echo "No wxWidgets available"
+fi
 
 ###########################################################################
 #                   CANFESTIVAL DEFINES --> config.h                      #
@@ -562,7 +599,7 @@ if [ "$DISABLE_DLL" = "1" ]; then
 	SUB_ENABLE_DLL_DRIVERS=0
 else
 	SUB_ENABLE_DLL_DRIVERS=1
-	if [ "$SUB_OS_NAME" = "MINGW32" ]; then
+	if [ "$SUB_TARGET" = "win32" ]; then
 		SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS
 	else
 		SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -ldl
@@ -614,15 +651,17 @@ fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/DS401_Master/Makefile.in\
-\	examples/DS401_Slave_Gui/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 
 if [ "$SUB_TARGET" = "win32" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterSlave/Makefile.in\
-\	examples/TestMasterMicroMod/Makefile.in\
+\	examples/TestMasterMicroMod/Makefile.in
+fi
+
+if [ "$SUB_WX" = "1" ]; then
+	MAKEFILES=$MAKEFILES\
 \	examples/DS401_Master/Makefile.in\
 \	examples/DS401_Slave_Gui/Makefile.in
 fi
@@ -652,6 +691,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_CAN_DLL_CFLAGS:${SUB_CAN_DLL_CFLAGS}:
 	s:SUB_ENABLE_DLL_DRIVERS:${SUB_ENABLE_DLL_DRIVERS}:
 	s:SUB_ENABLE_LSS:${SUB_ENABLE_LSS}:
+	s:SUB_WX:${SUB_WX}:
 	" > $makefile
 done
 
