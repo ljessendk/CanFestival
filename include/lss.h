@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define LSS_MSG_TIMER 0
 #define LSS_SWITCH_DELAY_TIMER 1
+#define LSS_FS_TIMER 2
 
 #define SDELAY_OFF		0
 #define SDELAY_FIRST 	1
@@ -68,6 +69,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /*FastScan State Machine*/
 #define LSS_FS_RESET	0
+#define LSS_FS_PROCESSING 1
+#define LSS_FS_CONFIRMATION 2
 
 
 typedef void (*LSSCallback_t)(CO_Data* d, UNS8 command); 
@@ -105,7 +108,7 @@ struct struct_lss_transfer {
   UNS16 switchDelay;		/* the period of the two delay */
   UNS8  switchDelayState;   /* the state machine for the switchDelay */
 
-  TIMER_HANDLE timers[2];      /* Time counters to implement a timeout in milliseconds.
+  TIMER_HANDLE timers[3];      /* Time counters to implement a timeout in milliseconds.
                               * LSS_MSG_TIMER (index 0) is automatically incremented whenever 
                               * the lss state is in LSS_TRANS_IN_PROGRESS, and reseted to 0 
                               * when the response LSS have been received.
@@ -115,12 +118,15 @@ struct struct_lss_transfer {
                               */
   LSSCallback_t Callback;   /* The user callback func to be called at LSS transaction end */
   
-  UNS32 IDNumber;
-  UNS8 BitChecked;
-  UNS8 LSSSub;
-  UNS8 LSSNext;
-  UNS8 LSSPos;
-  UNS8 FastScan_SM;
+  UNS8 LSSanswer;			/* stores if a message has been received during a timer period */
+  
+  UNS32 IDNumber;			/* in the master, the LSS address parameter which it currently tries to identify.
+  							 * in the slave, the LSS address parameter which is being checked (LSS-ID[sub]). */
+  UNS8 BitChecked;			/* bits of the current IDNumber that are currently checked */
+  UNS8 LSSSub;				/* which part of the LSS-ID is currently checked in IDNumber */
+  UNS8 LSSNext;				/* which LSSSub value will be used in the next request */
+  UNS8 LSSPos;				/* in the slave, which part of the LSS-ID is currently processed*/
+  UNS8 FastScan_SM;			/* the state machine for the FastScan protocol */
 };
 
 #ifdef CO_ENABLE_LSS

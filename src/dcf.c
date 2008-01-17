@@ -76,6 +76,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 */
 UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
 {
+  UNS8 szData;
   /* Fetch DCF OD entry, if not already done */
   if(!d->dcf_odentry)
   {
@@ -86,7 +87,8 @@ UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
   }
 
-  UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
+  szData = d->dcf_odentry->pSubindex[nodeId].size;
+  
   /* if the entry for the nodeId is not empty. */
   if(szData!=0){
   	/* if the entry for the nodeId is already been processing, quit.*/

@@ -159,8 +159,9 @@ struct struct_CO_Data {
 		"none",         		/* BaudRate */\
 		0,          			/* SwitchDelay */\
 		SDELAY_OFF,   			/* SwitchDelayState */\
-		{-1,-1},          		/* Timers[2] */\
+		{-1,-1,-1},          		/* Timers[3] */\
 		NULL,        			/* Callback */\
+		0,						/* LSSanswer */\
 		0,						/* IDNumber */\
   		128, 					/* BitChecked */\
   		0,						/* LSSSub */\
