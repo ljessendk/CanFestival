@@ -29,11 +29,11 @@
 MAX_CAN_BUS_ID=1
 
 # max bytes to transmit by SDO Put 4 if you only support expedited transfert.
-# For a normal transfert, (usually for a string), put the maximum string size to transfer.
+#For a normal transfert, (usually for a string), put the maximum string size to transfer.
 SDO_MAX_LENGTH_TRANSFERT=32
 
 # Number of SDO from differents nodes that the node can manage concurrently.   
-# for a slave node, usually put 1.
+#for a slave node, usually put 1.
 SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
 
 # Used for NMTable[bus][nodeId]	  
@@ -57,6 +57,11 @@ CANOPEN_BIG_ENDIAN=
 
 # Max number of active errors managed in error_data structure.
 EMCY_MAX_ERRORS=8
+
+#Timeout in milliseconds for LSS.
+LSS_TIMEOUT_MS=1000
+#Timeout in milliseconds for LSS FastScan.
+LSS_FS_TIMEOUT_MS=100
 
 ###########################################################################
 #                             DEFAULT BUILD OPTIONS                       #
@@ -109,6 +114,8 @@ while [ $# -ge 1 ]; do
 			echo "On user request: Won't create and link to dll";;
 	--enable-lss)	ENABLE_LSS=1;
 			echo "On user request: LSS services enabled";;
+	--enable-lss-fs)	ENABLE_LSS_FS=1;
+			echo "On user request: LSS FastScan service enabled";;
 	--debug=*)	DEBUG=$optarg;;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$1;;
 	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$1;;
@@ -118,6 +125,8 @@ while [ $# -ge 1 ]; do
 	--CANOPEN_BIG_ENDIAN=*)	CANOPEN_BIG_ENDIAN=$1;;
 	--MAX_NB_TIMER=*) MAX_NB_TIMER=$1;;
 	--EMCY_MAX_ERRORS=*) EMCY_MAX_ERRORS=$1;;
+	--LSS_TIMEOUT_MS=*)	LSS_TIMEOUT_MS=$optarg;;
+	--LSS_FS_TIMEOUT_MS=*)	LSS_FS_TIMEOUT_MS=$optarg;;
 	--help)
 		echo	"Usage: ./configure [options]"
 		echo	"Options:"
@@ -144,6 +153,7 @@ while [ $# -ge 1 ]; do
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo 	" --enable-lss  Enable the LSS services"
+		echo 	" --enable-lss-fs  Enable the LSS FastScan service"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
 		echo	" --debug=foo,foo,..   Enable debug messages, ERR -> only errors, WAR)."
 		echo	"               \"PDO\" send errors and warnings through PDO messages"
@@ -158,6 +168,10 @@ while [ $# -ge 1 ]; do
 		echo	" --NMT_MAX_NODE_ID [=128] can be reduced to gain memory on small network"
 		echo	" --SDO_TIMEOUT_MS [=3000] Timeout in milliseconds for SDO (None to disable the feature)"
 		echo	" --EMCY_MAX_ERRORS [=8] Max number of active errors managed in error_data structure"
+		echo	" --LSS_TIMEOUT_MS [=1000] Timeout in milliseconds for LSS services."
+		echo	"                          LSS must be enabled with \"--enable-lss\""
+		echo	" --LSS_FS_TIMEOUT_MS [=100] Timeout in milliseconds for LSS FastScan service."
+		echo	"                            LSS FastScan must be enabled with \"--enable-lss-fs\""
 		exit 0;;
 	*)		echo "Unknown argument ${1}"; exit -1;;
 	esac
@@ -286,7 +300,7 @@ fi
 #              TARGET/DRIVER SPECIFIC CFLAGS and OPTIONS                  #
 ###########################################################################
 if [ "$SUB_TARGET" = "hcs12" ]; then
-	# Only if we want to compile for a µC HCS12
+	# Only if we want to compile for a C HCS12
        # it is a big endian architecture.
        CANOPEN_BIG_ENDIAN=1
 	# search for gcc hcs12 compiler m6811-elf-gcc or m68hc12-gcc ?
@@ -520,7 +534,9 @@ for i in \
  TIMEVAL\
  TIMEVAL_MAX\
  RTCAN_SOCKET\
- EMCY_MAX_ERRORS; do
+ EMCY_MAX_ERRORS\
+ LSS_TIMEOUT_MS\
+ LSS_FS_TIMEOUT_MS; do
 if [ "${!i}" = "" ]; then
 echo "/* $i is not defined */" >> include/config.h
 else
@@ -615,6 +631,9 @@ fi
 if [ $ENABLE_LSS ]; then
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DCO_ENABLE_LSS;
 	SUB_ENABLE_LSS=1
+	if [ $ENABLE_LSS_FS ]; then
+		SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DCO_ENABLE_LSS_FS;
+	fi
 else
 	SUB_ENABLE_LSS=0
 fi
