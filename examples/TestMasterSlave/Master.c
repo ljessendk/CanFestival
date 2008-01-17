@@ -40,6 +40,8 @@ void TestMaster_initialisation()
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0282;
 	UNS8 size = sizeof(UNS32); 
+	UNS32 SINC_cicle=0;
+	UNS8 data_type = 0;
 	
 	eprintf("TestMaster_initialisation\n");
 
@@ -59,6 +61,7 @@ void TestMaster_initialisation()
 			&PDO2_COBID, /*void * pSourceData,*/ 
 			&size, /* UNS8 * pExpectedSize*/
 			RW);  /* UNS8 checkAccess */
+			
 }
 
 // Step counts number of times ConfigureSlaveNode is called
@@ -145,6 +148,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 
 #ifdef CO_ENABLE_LSS
 static void ConfigureLSSNode(CO_Data* d);
+// Step counts number of times ConfigureLSSNode is called
 UNS8 init_step_LSS=1;
 
 static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
@@ -153,7 +157,7 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 	UNS8 dat2;
 	printf("CheckLSS->");
 	if(getConfigResultNetworkNode (d, command, &dat1, &dat2) != LSS_FINISHED){
-		if(command==LSS_IDENT_NON_CONF_SLAVE){
+		if(command==LSS_IDENT_REMOTE_NON_CONF){
 			eprintf("Master : There are not no-configured slaves in the net\n", command);
 			return;
 		}
@@ -190,13 +194,13 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
    				default:break;
    			}
    			break;
-		case LSS_SM_SELECTIVE_RESP:
+		case LSS_SM_SELECTIVE_SERIAL:
    			printf("Slave in CONFIGURATION mode\n");
    			break;
-   		case LSS_IDENT_SLAVE:
+   		case LSS_IDENT_REMOTE_SERIAL_HIGH:
    			printf("node identified\n");
    			break;
-   		case LSS_IDENT_NON_CONF_SLAVE:
+   		case LSS_IDENT_REMOTE_NON_CONF:
    			printf("non-configured remote slave in the net\n");
    			break;
    		case LSS_INQ_VENDOR_ID:
@@ -214,6 +218,18 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
    		case LSS_INQ_NODE_ID:
    			printf("Slave nodeid %x\n", dat1);
    			break;
+#ifdef CO_ENABLE_LSS_FS
+   		case LSS_IDENT_FASTSCAN:
+   			if(dat1==0)
+   				printf("Slave node identified with FastScan\n");
+   			else
+   			{
+   				printf("There is not unconfigured node in the net\n");
+   				return;
+   			}	
+   			init_step_LSS++;
+   			break;
+#endif		
 		}
 	}
 
@@ -222,7 +238,14 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 }
 
 
-struct timeval master_prev_time,master_current_time;
+/* First ask if there is a node with an invalid nodeID.
+ * If FastScan is activated it is used to put the node in the state “configuration”.
+ * If FastScan is not activated, identification services are used to identify the node.
+ * Then  switch mode service is used to put it in configuration state.
+ * Next all the inquire and configuration services are used.
+ * Finally, the node LSS state is restored to “waiting” and all the process is repeated 
+ * again until there isn't any node with a invalid nodeID.
+ * */
 static void ConfigureLSSNode(CO_Data* d)
 {
 	UNS32 Vendor_ID=0x12345678;
@@ -239,13 +262,19 @@ static void ConfigureLSSNode(CO_Data* d)
 	UNS16 Switch_delay=1;
 	UNS8 LSS_mode=LSS_WAITING_MODE;
 	UNS8 res;
-	eprintf("ConfigureLSSNode-> ");
+	eprintf("ConfigureLSSNode -> ",0);
 
 	switch(init_step_LSS){
 		case 1:	/* LSS=>identify non-configured remote slave */
 			eprintf("LSS=>identify non-configured remote slave\n");
 			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_REMOTE_NON_CONF,0,0,CheckLSSAndContinue);
 			break;
+#ifdef CO_ENABLE_LSS_FS
+		case 2:	/* LSS=>FastScan */
+			eprintf("LSS=>FastScan\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_FASTSCAN,0,0,CheckLSSAndContinue);
+			break;
+#else
 		case 2:	/* LSS=>identify node */
 			eprintf("LSS=>identify node\n");
 			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_VENDOR,&Vendor_ID,0);
@@ -255,13 +284,14 @@ static void ConfigureLSSNode(CO_Data* d)
 			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_REMOTE_SERIAL_LOW,&Serial_Number_low,0);
 			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_REMOTE_SERIAL_HIGH,&Serial_Number_high,0,CheckLSSAndContinue);
 			break;
-		case 3: /*First step : setup Slave's TPDO 1 to be transmitted on SYNC*/
+		case 3: /*LSS=>put in configuration mode*/
 			eprintf("LSS=>put in configuration mode\n");
 			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_VENDOR,&Vendor_ID,0);
 			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_PRODUCT,&Product_Code,0);
 			res=configNetworkNode(&TestMaster_Data,LSS_SM_SELECTIVE_REVISION,&Revision_Number,0);
 			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_SM_SELECTIVE_SERIAL,&Serial_Number,0,CheckLSSAndContinue);
 			break;
+#endif
 		case 4:	/* LSS=>inquire nodeID */
 			eprintf("LSS=>inquire nodeID\n");
 			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_INQ_NODE_ID,0,0,CheckLSSAndContinue);
@@ -305,6 +335,10 @@ static void ConfigureLSSNode(CO_Data* d)
 		case 13: /* LSS=>put in operation mod */
 			eprintf("LSS=>put in operation mode\n");
 			res=configNetworkNode(&TestMaster_Data,LSS_SM_GLOBAL,&LSS_mode,0);
+			/* Search again for not-configured slaves*/
+			eprintf("LSS=>identify not-configured remote slave\n");
+			res=configNetworkNodeCallBack(&TestMaster_Data,LSS_IDENT_REMOTE_NON_CONF,0,0,CheckLSSAndContinue);
+			init_step_LSS=1;
 			break;
 	}
 }
@@ -459,8 +493,7 @@ void TestMaster_post_TPDO()
 void TestMaster_post_SlaveBootup(UNS8 nodeid)
 {
 	eprintf("TestMaster_post_SlaveBootup %x\n", nodeid);
-
+	
 	ConfigureSlaveNode(&TestMaster_Data, nodeid);
-
 }
 
