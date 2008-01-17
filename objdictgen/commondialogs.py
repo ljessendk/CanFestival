@@ -22,6 +22,7 @@
 #Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import wx
+import wx.grid
 
 import os
 
@@ -1484,9 +1485,8 @@ class DCFEntryValuesDialog(wx.Dialog):
             message = wx.MessageDialog(self, "\"%s\" is not a valid value!"%value, "Error", wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
-        finally:
-            wx.CallAfter(self.RefreshValues)
-            event.Skip()
+        wx.CallAfter(self.RefreshValues)
+        event.Skip()
     
     def OnValuesGridSelectCell(self, event):
         wx.CallAfter(self.RefreshButtons)
