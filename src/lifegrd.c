@@ -101,7 +101,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
       if (nodeId == *d->bDeviceNodeId )
         {
           Message msg;
-          msg.cob_id.w = *d->bDeviceNodeId + 0x700;
+          msg.cob_id = *d->bDeviceNodeId + 0x700;
           msg.len = (UNS8)0x01;
           msg.rtr = 0;
           msg.data[0] = d->nodeState;
@@ -178,7 +178,7 @@ void ProducerHearbeatAlarm(CO_Data* d, UNS32 id)
       ** the node-id of this device.
       */
 
-      msg.cob_id.w = *d->bDeviceNodeId + 0x700;
+      msg.cob_id = *d->bDeviceNodeId + 0x700;
       msg.len = (UNS8)0x01;
       msg.rtr = 0;
       msg.data[0] = d->nodeState; /* No toggle for heartbeat !*/

@@ -125,7 +125,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 				return peakMsg.MSGTYPE ==
 					MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
 			}
-			m->cob_id.w = peakMsg.ID;
+			m->cob_id = peakMsg.ID;
 			
 			if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)	/* bits of MSGTYPE_ */
 				m->rtr = 0;
@@ -161,7 +161,7 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
 {
 	UNS8 data;
 	TPCANMsg peakMsg;
-	peakMsg.ID = m->cob_id.w;	/* 11/29 bit code */
+	peakMsg.ID = m->cob_id;	/* 11/29 bit code */
 	if (m->rtr == 0)
 		peakMsg.MSGTYPE = CAN_INIT_TYPE_ST;	/* bits of MSGTYPE_ */
 	else

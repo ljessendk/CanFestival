@@ -236,7 +236,7 @@ bool can_uvccm_win32::get_can_data(const char* can_cmd_buf, long& bufsize, Messa
    ::memset(&msg, 0 , sizeof (msg));
    char colon = 0, type = 0, request = 0;
    std::istringstream buf(std::string(can_cmd_buf, bufsize));
-   buf >> colon >> type >> std::hex >> msg.cob_id.w >> request;
+   buf >> colon >> type >> std::hex >> msg.cob_id >> request;
    if (colon != ':' || (type != 'S' && type != 'X'))
       {
       bufsize = 0;
@@ -293,7 +293,7 @@ bool can_uvccm_win32::set_can_data(const Message& m, std::string& can_cmd)
    {
    // build can_uvccm_win32 command string
    std::ostringstream can_cmd_str;
-   can_cmd_str << ":S" << std::hex << m.cob_id.w;
+   can_cmd_str << ":S" << std::hex << m.cob_id;
    if (m.rtr == 1)
       {
       can_cmd_str << 'R' << (long)m.len;

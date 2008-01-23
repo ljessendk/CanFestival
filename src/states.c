@@ -67,10 +67,10 @@ e_nodeState getState(CO_Data* d)
 **/  
 void canDispatch(CO_Data* d, Message *m)
 {
-	 switch(m->cob_id.w >> 7)
+	 switch(m->cob_id >> 7)
 	{
 		case SYNC:		/* can be a SYNC or a EMCY message */
-			if(m->cob_id.w == 0x080)	/* SYNC */
+			if(m->cob_id == 0x080)	/* SYNC */
 			{
 				if(d->CurrentCommunicationState.csSYNC)
 					proceedSYNC(d);
@@ -107,11 +107,11 @@ void canDispatch(CO_Data* d, Message *m)
 #ifdef CO_ENABLE_LSS
 		case LSS:
 			if (!d->CurrentCommunicationState.csLSS)break;
-			if ((*(d->iam_a_slave)) && m->cob_id.w==MLSS_ADRESS)
+			if ((*(d->iam_a_slave)) && m->cob_id==MLSS_ADRESS)
 			{
 				proceedLSS_Slave(d,m);
 			}
-			else if(!(*(d->iam_a_slave)) && m->cob_id.w==SLSS_ADRESS)
+			else if(!(*(d->iam_a_slave)) && m->cob_id==SLSS_ADRESS)
 			{
 				proceedLSS_Master(d,m);
 			}

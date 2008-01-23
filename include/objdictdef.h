@@ -118,7 +118,7 @@ typedef const indextable * (*scanIndexOD_t)(UNS16 wIndex, UNS32 * errorCode, ODC
 /************************** MACROS *********************************/
 
 /* CANopen usefull helpers */
-#define GET_NODE_ID(m)         (m.cob_id.w & 0x7f)
-#define GET_FUNCTION_CODE(m)     (m.cob_id.w >> 7)
+#define GET_NODE_ID(m)         (m.cob_id & 0x7f)
+#define GET_FUNCTION_CODE(m)     (m.cob_id >> 7)
 
 #endif /* __objdictdef_h__ */

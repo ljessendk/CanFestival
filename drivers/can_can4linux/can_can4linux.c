@@ -54,7 +54,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
    		/* There is no mark for extended messages in CanFestival */;
 	}
   		
-	m->cob_id.w = canmsg.id;
+	m->cob_id = canmsg.id;
 	m->len = canmsg.length;
 	if(canmsg.flags&MSG_RTR){
  		m->rtr = 1;
@@ -66,8 +66,8 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 	
  	/*gettimeofday(&current_time,NULL);
  	time_period=(current_time.tv_sec - init_time.tv_sec)* 1000000 + current_time.tv_usec - init_time.tv_usec;
- 	printf("%3ld.%3ld.%3ld - Receive ID: %lx ->",time_period/1000000,(time_period%1000000)/1000,time_period%1000,m->cob_id.w);
- 	printf("Receive ID: %lx ->",m->cob_id.w);
+ 	printf("%3ld.%3ld.%3ld - Receive ID: %lx ->",time_period/1000000,(time_period%1000000)/1000,time_period%1000,m->cob_id);
+ 	printf("Receive ID: %lx ->",m->cob_id);
  	for(i=0; i<canmsg.length;i++)printf("%x, ", m->data[i]);
  	printf("\n");*/
  
@@ -81,7 +81,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   canmsg_t canmsg;
 
   canmsg.flags = 0;
-  canmsg.id = m->cob_id.w;
+  canmsg.id = m->cob_id;
   canmsg.length = m->len;
   if(m->rtr){
     canmsg.flags |= MSG_RTR;

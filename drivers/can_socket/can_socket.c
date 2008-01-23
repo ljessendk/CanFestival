@@ -73,7 +73,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
       return 1;
     }
 
-  m->cob_id.w = frame.can_id & CAN_EFF_MASK;
+  m->cob_id = frame.can_id & CAN_EFF_MASK;
   m->len = frame.can_dlc;
   if (frame.can_id & CAN_RTR_FLAG)
     m->rtr = 1;
@@ -96,7 +96,7 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
   int res;
   struct can_frame frame;
 
-  frame.can_id = m->cob_id.w;
+  frame.can_id = m->cob_id;
   if (frame.can_id >= 0x800)
     frame.can_id |= CAN_EFF_FLAG;
   frame.can_dlc = m->len;

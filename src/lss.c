@@ -280,7 +280,7 @@ UNS8 sendSlaveLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   m.len = 8;
   m.rtr = NOT_A_REQUEST;
   m.data[0]=command;
-  m.cob_id.w=SLSS_ADRESS;
+  m.cob_id=SLSS_ADRESS;
   
   /* Tha data sent with the msg depends on the command */
   switch(command){
@@ -331,7 +331,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   m.len = 8;
   m.rtr = NOT_A_REQUEST;
   m.data[0]=command;
-  m.cob_id.w=MLSS_ADRESS;
+  m.cob_id=MLSS_ADRESS;
   
   /* Tha data sent with the msg depends on the command */	
   switch(command){

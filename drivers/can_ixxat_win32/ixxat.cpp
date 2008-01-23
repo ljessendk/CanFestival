@@ -127,9 +127,9 @@ bool IXXAT::send(const Message *m)
       return true; // true -> NOT OK
    long res = VCI_ERR;
    if (m->rtr == NOT_A_REQUEST)
-      res = VCI_TransmitObj(m_BoardHdl, m_TxQueHdl, m->cob_id.w, m->len, const_cast<unsigned char*>(m->data));
+      res = VCI_TransmitObj(m_BoardHdl, m_TxQueHdl, m->cob_id, m->len, const_cast<unsigned char*>(m->data));
    else
-      res = VCI_RequestObj(m_BoardHdl, m_TxQueHdl, m->cob_id.w, m->len);
+      res = VCI_RequestObj(m_BoardHdl, m_TxQueHdl, m->cob_id, m->len);
    return (res == false); // false -> OK 
    }
 
@@ -141,7 +141,7 @@ bool IXXAT::receive(Message *m)
    VCI_CAN_OBJ obj;
    if (m_RX_Que.extract_top(obj))
       {
-      m->cob_id.w = obj.id;
+      m->cob_id = obj.id;
       m->len = obj.len;
       m->rtr = (obj.rtr == VCI_RX_BUF) ? NOT_A_REQUEST : REQUEST;
       if (m->rtr == NOT_A_REQUEST)

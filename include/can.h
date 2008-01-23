@@ -31,15 +31,15 @@ union SHORT_CAN {
   UNS32 w;
 };
 */
-
+/*
 typedef struct {
-  UNS32 w; /* 32 bits */
+  UNS32 w;
 } SHORT_CAN;
-
+*/
 
 /** Can message structure */
 typedef struct {
-  SHORT_CAN cob_id;	/* l'ID du mesg */
+  UNS16 cob_id;	/* l'ID du mesg */
   UNS8 rtr;			/* remote transmission request. 0 if not rtr, 
                    1 for a rtr message */
   UNS8 len;			/* message length (0 to 8) */

@@ -105,7 +105,7 @@ UNS8 slaveSendBootUp(CO_Data* d)
   MSG_WAR(0x3407, "Send a Boot-Up msg ", 0);
 
   /* message configuration */
-  m.cob_id.w = NODE_GUARD << 7 | *d->bDeviceNodeId;
+  m.cob_id = NODE_GUARD << 7 | *d->bDeviceNodeId;
   m.rtr = NOT_A_REQUEST;
   m.len = 1;
   m.data[0] = 0x00;

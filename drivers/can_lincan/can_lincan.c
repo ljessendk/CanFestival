@@ -50,7 +50,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
     /* There is no mark for extended messages in CanFestival */;
   }
 
-  m->cob_id.w = canmsg.id;
+  m->cob_id = canmsg.id;
   m->len = canmsg.length;
   if(canmsg.flags&MSG_RTR){
     m->rtr = 1;
@@ -70,7 +70,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
 
 
   canmsg.flags = 0;
-  canmsg.id = m->cob_id.w;
+  canmsg.id = m->cob_id;
   canmsg.length = m->len;
   if(m->rtr){
     canmsg.flags |= MSG_RTR;

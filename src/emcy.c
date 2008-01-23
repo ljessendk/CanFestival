@@ -100,7 +100,7 @@ UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister)
   
 	MSG_WAR(0x3051, "sendEMCY", 0);
   
-	m.cob_id.w = *d->error_cobid;
+	m.cob_id = *d->error_cobid;
 	m.rtr = NOT_A_REQUEST;
 	m.len = 8;
 	m.data[0] = errCode & 0xFF;        /* LSB */
@@ -233,12 +233,12 @@ void proceedEMCY(CO_Data* d, Message* m)
   
 	/* Test if the size of the EMCY is ok */
 	if ( m->len != 8) {
-		MSG_ERR(0x1056, "Error size EMCY. CobId  : ", m->cob_id.w);
+		MSG_ERR(0x1056, "Error size EMCY. CobId  : ", m->cob_id);
 		return;
 	}
 	
 	/* post the received EMCY */
-	nodeID = m->cob_id.w & 0x7F;
+	nodeID = m->cob_id & 0x7F;
 	errCode = m->data[0] | ((UNS16)m->data[1] << 8);
 	errReg = m->data[2];
 	(*d->post_emcy)(nodeID, errCode, errReg);

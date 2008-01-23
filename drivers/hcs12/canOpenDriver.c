@@ -422,8 +422,8 @@ char canMsgTransmit(UNS16 adrCAN, Message msg)
     /* Selecting a buffer */
     IO_PORTS_8(adrCAN + CANTBSEL) = cantflg;
     /* We put ide = 0 because id is on 11 bits only */
-     IO_PORTS_8(adrCAN + CANTRSID) = (UNS8)(msg.cob_id.w >> 3);
-    IO_PORTS_8(adrCAN + CANTRSID + 1) = (UNS8)((msg.cob_id.w << 5)|
+     IO_PORTS_8(adrCAN + CANTRSID) = (UNS8)(msg.cob_id >> 3);
+    IO_PORTS_8(adrCAN + CANTRSID + 1) = (UNS8)((msg.cob_id << 5)|
     (msg.rtr << 4));
    
     IO_PORTS_8(adrCAN + CANTRSLEN) = msg.len & 0X0F;
@@ -533,7 +533,7 @@ UNS8 f_can_receive(UNS8 notused, Message *msgRcv)
     ptrMsgRcv[j].r ++;
 
   /* Store the message from the stack*/
-  msgRcv->cob_id.w = stackMsgRcv[j][ptrMsgRcv[j].r].cob_id.w;
+  msgRcv->cob_id = stackMsgRcv[j][ptrMsgRcv[j].r].cob_id;
   msgRcv->len = stackMsgRcv[j][ptrMsgRcv[j].r].len;
   msgRcv->rtr = stackMsgRcv[j][ptrMsgRcv[j].r].rtr;
   for (i = 0 ; i < stackMsgRcv[j][ptrMsgRcv[j].r].len ; i++)
@@ -572,7 +572,7 @@ void __attribute__((interrupt)) can0HdlRcv (void)
     ptrMsgRcv[0].w = NewPtrW;
   
   /* Store the message */
-  stackMsgRcv[0][ptrMsgRcv[0].w].cob_id.w = IO_PORTS_16(CAN0 + CANRCVID) >> 5;
+  stackMsgRcv[0][ptrMsgRcv[0].w].cob_id = IO_PORTS_16(CAN0 + CANRCVID) >> 5;
   stackMsgRcv[0][ptrMsgRcv[0].w].len = IO_PORTS_8(CAN0 + CANRCVLEN) & 0x0F;
   stackMsgRcv[0][ptrMsgRcv[0].w].rtr = (IO_PORTS_8(CAN0 + CANRCVID + 1) >> 4) & 0x01;
   for (i = 0 ; i < stackMsgRcv[0][ptrMsgRcv[0].w].len ; i++)
@@ -623,7 +623,7 @@ void __attribute__((interrupt)) can1HdlRcv (void)
     ptrMsgRcv[1].w = NewPtrW;
   
   /* Store the message */
-  stackMsgRcv[1][ptrMsgRcv[1].w].cob_id.w = IO_PORTS_16(CAN1 + CANRCVID) >> 5;
+  stackMsgRcv[1][ptrMsgRcv[1].w].cob_id = IO_PORTS_16(CAN1 + CANRCVID) >> 5;
   stackMsgRcv[1][ptrMsgRcv[1].w].len = IO_PORTS_8(CAN1 + CANRCVLEN) & 0x0F;
   stackMsgRcv[0][ptrMsgRcv[0].w].rtr = (IO_PORTS_8(CAN1 + CANRCVID + 1) >> 4) & 0x01;
   for (i = 0 ; i < stackMsgRcv[1][ptrMsgRcv[1].w].len ; i++)

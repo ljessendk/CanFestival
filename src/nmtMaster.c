@@ -49,7 +49,7 @@ UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
   MSG_WAR(0x3501, "Send_NMT cs : ", cs);
   MSG_WAR(0x3502, "    to node : ", Node_ID);
   /* message configuration */
-  m.cob_id.w = 0x0000; /*(NMT) << 7*/
+  m.cob_id = 0x0000; /*(NMT) << 7*/
   m.rtr = NOT_A_REQUEST;
   m.len = 2;
   m.data[0] = cs;
@@ -74,7 +74,7 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
   MSG_WAR(0x3503, "Send_NODE_GUARD to node : ", nodeId);
 
   /* message configuration */
-  m.cob_id.w = nodeId | (NODE_GUARD << 7);
+  m.cob_id = nodeId | (NODE_GUARD << 7);
   m.rtr = REQUEST;
   m.len = 1;
 

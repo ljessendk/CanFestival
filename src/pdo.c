@@ -54,7 +54,7 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo)
 	UNS8 offset = 0x00;
 	const UNS8* pMappingCount = (UNS8*) TPDO_map->pSubindex[0].pObject;
 
-	pdo->cob_id.w = *(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF;
+	pdo->cob_id = *(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF;
 	pdo->rtr = NOT_A_REQUEST;
 
 	MSG_WAR(0x3009, "  PDO CobId is : ", *(UNS32*)TPDO_com->pSubindex[1].pObject);
@@ -126,7 +126,7 @@ UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex )
       MSG_WAR(0x3930, "sendPDOrequest cobId is : ",*pwCobId);
       {
           Message pdo;
-          pdo.cob_id.w = *pwCobId;
+          pdo.cob_id = *pwCobId;
           pdo.rtr = REQUEST;
           pdo.len = 0;      
           return canSend(d->canHandle,&pdo);
@@ -168,7 +168,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   
   status = state2;
 
-  MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id.w & 0x7ff));
+  MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id & 0x7ff));
   offset = 0x00;
   numPdo = 0;
   numMap = 0;
@@ -191,7 +191,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
           /* check the CobId coherance */
           /*pwCobId is the cobId read in the dictionary at the state 3
             */
-          if ( *pwCobId == (*m).cob_id.w ){
+          if ( *pwCobId == (*m).cob_id ){
             /* The cobId is recognized */
             status = state4;
             MSG_WAR(0x3936, "cobId found at index ", 0x1400 + numPdo);
@@ -249,7 +249,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
                    return 0xFF;
                  }
 
-                 MSG_WAR(0x3942, "Variable updated with value received by PDO cobid : ", m->cob_id.w);
+                 MSG_WAR(0x3942, "Variable updated with value received by PDO cobid : ", m->cob_id);
                  MSG_WAR(0x3943, "         Mapped at index : ", (*pMappingParameter) >> 16);
                  MSG_WAR(0x3944, "                subindex : ", ((*pMappingParameter) >> 8 ) & 0xFF);
                  /* MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject)); */
@@ -266,7 +266,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
       }/* end while*/
   }/* end if Donnees */
   else if ((*m).rtr == REQUEST ){
-    MSG_WAR(0x3946, "Receive a PDO request cobId : ", m->cob_id.w);
+    MSG_WAR(0x3946, "Receive a PDO request cobId : ", m->cob_id);
     status = state1;
     offsetObjdict = d->firstIndex->PDO_TRS;
     lastIndex = d->lastIndex->PDO_TRS;
@@ -279,7 +279,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
         /* get CobId of the dictionary which match to the received PDO
          */
         pwCobId = (UNS32*) (d->objdict + offsetObjdict)->pSubindex[1].pObject;
-        if ( *pwCobId == (*m).cob_id.w ) {
+        if ( *pwCobId == (*m).cob_id ) {
           status = state4;
           break;
         }
@@ -306,7 +306,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
     	  }else{
             /* if SYNC did never occur, force emission with current data */
             /* DS301 do not tell what to do in such a case...*/
-            MSG_ERR(0x1947, "Not ready RTR_SYNC TPDO send current data : ", m->cob_id.w);
+            MSG_ERR(0x1947, "Not ready RTR_SYNC TPDO send current data : ", m->cob_id);
             status = state5;
     	  }
           break;
@@ -323,7 +323,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
         }else {
           /* The requested PDO is not to send on request. So, does
             nothing. */
-          MSG_WAR(0x2947, "PDO is not to send on request : ", m->cob_id.w);
+          MSG_WAR(0x2947, "PDO is not to send on request : ", m->cob_id);
           return 0xFF;
         }
 
@@ -425,7 +425,7 @@ void PDOEventTimerAlarm(CO_Data* d, UNS32 pdoNum)
 	/* This is needed to avoid deletion of re-attribuated timer */
 	d->PDO_status[pdoNum].event_timer = TIMER_NONE;
 	/* force emission of PDO by artificially changing last emitted*/
-	d->PDO_status[pdoNum].last_message.cob_id.w = 0;
+	d->PDO_status[pdoNum].last_message.cob_id = 0;
 	_sendPDOevent( d, 0 ); /* not a Sync Event*/	
 }
 
@@ -523,7 +523,7 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
         }
         
 	/*Compare new and old PDO*/
-	if(d->PDO_status[pdoNum].last_message.cob_id.w == pdo.cob_id.w &&
+	if(d->PDO_status[pdoNum].last_message.cob_id == pdo.cob_id &&
 	   d->PDO_status[pdoNum].last_message.len == pdo.len &&
 #ifdef UNS64
 	   *(UNS64*)(&d->PDO_status[pdoNum].last_message.data[0]) == *(UNS64*)(&pdo.data[0])){
@@ -567,7 +567,7 @@ UNS8 _sendPDOevent( CO_Data* d, UNS8 isSyncEvent )
     case state5: /*Send the pdo*/
 	/*store_as_last_message*/
 	d->PDO_status[pdoNum].last_message = pdo;	
-	MSG_WAR(0x396D, "sendPDO cobId :", pdo.cob_id.w);
+	MSG_WAR(0x396D, "sendPDO cobId :", pdo.cob_id);
 	MSG_WAR(0x396E,  "     Nb octets  : ",  pdo.len);
     	
     	canSend(d->canHandle,&pdo);
@@ -670,7 +670,7 @@ void PDOStop(CO_Data* d)
 	d->PDO_status[pdoNum].inhibit_timer = DelAlarm(d->PDO_status[pdoNum].inhibit_timer);
 	/* Reset transmit type parameter */
 	d->PDO_status[pdoNum].transmit_type_parameter = 0;
-	d->PDO_status[pdoNum].last_message.cob_id.w = 0;
+	d->PDO_status[pdoNum].last_message.cob_id = 0;
 	pdoNum++;
 	offsetObjdict++;
   }  

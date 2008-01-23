@@ -58,12 +58,12 @@ static inline void print_message(Message *m)
 {
     int i;
     UNS8 fc;
-    printf("id:%02x ", m->cob_id.w & 0x7F);
-    fc = m->cob_id.w >> 7;
+    printf("id:%02x ", m->cob_id & 0x7F);
+    fc = m->cob_id >> 7;
     switch(fc)
     {
         case SYNC: 
-            if(m->cob_id.w == 0x080)
+            if(m->cob_id == 0x080)
                 printf("SYNC ");
             else
                 printf("EMCY ");

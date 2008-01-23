@@ -130,7 +130,7 @@ UNS8 sendSYNCMessage(CO_Data* d)
   
   MSG_WAR(0x3001, "sendSYNC ", 0);
   
-  m.cob_id.w = *d->COB_ID_Sync & 0x1FFFFFFF;
+  m.cob_id = *d->COB_ID_Sync & 0x1FFFFFFF;
   m.rtr = NOT_A_REQUEST;
   m.len = 0;
   
