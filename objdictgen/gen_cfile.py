@@ -503,7 +503,7 @@ const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, OD
  */
 s_PDO_status %(NodeName)s_PDO_status[%(maxPDOtransmit)d] = {"""%texts
 
-    fileContent += ",".join(["s_PDO_staus_Initializer"]*texts["maxPDOtransmit"]) + """};
+    fileContent += ",".join(["s_PDO_status_Initializer"]*texts["maxPDOtransmit"]) + """};
 """
 
     fileContent += strQuickIndex

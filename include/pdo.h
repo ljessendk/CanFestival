@@ -44,7 +44,7 @@ struct struct_s_PDO_status {
   Message last_message;
 };
 
-#define s_PDO_staus_Initializer {0, TIMER_NONE, TIMER_NONE, Message_Initializer}
+#define s_PDO_status_Initializer {0, TIMER_NONE, TIMER_NONE, Message_Initializer}
 
 /** definitions of the different types of PDOs' transmission
  * 
