@@ -674,7 +674,7 @@ const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallb
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-s_PDO_status ObjDict_PDO_status[3] = {s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer};
+s_PDO_status ObjDict_PDO_status[3] = {s_PDO_status_Initializer,s_PDO_status_Initializer,s_PDO_status_Initializer};
 
 quick_index ObjDict_firstIndex = {
   15, /* SDO_SVR */

@@ -403,7 +403,7 @@ const indextable * Linux_slave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODC
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-s_PDO_status Linux_slave_PDO_status[2] = {s_PDO_staus_Initializer,s_PDO_staus_Initializer};
+s_PDO_status Linux_slave_PDO_status[2] = {s_PDO_status_Initializer,s_PDO_status_Initializer};
 
 quick_index Linux_slave_firstIndex = {
   0, /* SDO_SVR */

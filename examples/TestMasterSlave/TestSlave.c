@@ -600,7 +600,7 @@ const indextable * TestSlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-s_PDO_status TestSlave_PDO_status[5] = {s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer,s_PDO_staus_Initializer};
+s_PDO_status TestSlave_PDO_status[5] = {s_PDO_status_Initializer,s_PDO_status_Initializer,s_PDO_status_Initializer,s_PDO_status_Initializer,s_PDO_status_Initializer};
 
 quick_index TestSlave_firstIndex = {
   10, /* SDO_SVR */

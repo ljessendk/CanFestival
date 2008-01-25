@@ -348,7 +348,7 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-s_PDO_status TestMaster_PDO_status[1] = {s_PDO_staus_Initializer};
+s_PDO_status TestMaster_PDO_status[1] = {s_PDO_status_Initializer};
 
 quick_index TestMaster_firstIndex = {
   0, /* SDO_SVR */
