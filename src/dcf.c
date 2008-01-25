@@ -111,9 +111,9 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
   //while (nodeId < d->dcf_odentry->bSubCount){
   while (d->dcf_request>0){
   	if(d->dcf_odentry->pSubindex[nodeId].bAccessType & DCF_TO_SEND){   	 
+        UNS8* dcfend;
   		UNS32 nb_entries;
-   		UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
-   		UNS8* dcfend;
+  		UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
       	 
    		{
 	   		UNS8* dcf = *((UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject);
