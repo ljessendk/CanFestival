@@ -37,6 +37,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifdef CO_ENABLE_LSS
 #include "lss.h"
 #endif
+#include "sysdep.h"
+
 /** Prototypes for internals functions */
 /*!                                                                                                
 **                                                                                                 
@@ -67,10 +69,11 @@ e_nodeState getState(CO_Data* d)
 **/  
 void canDispatch(CO_Data* d, Message *m)
 {
-	 switch(m->cob_id >> 7)
+	UNS16 cob_id = UNS16_LE(m->cob_id);
+	 switch(cob_id >> 7)
 	{
 		case SYNC:		/* can be a SYNC or a EMCY message */
-			if(m->cob_id == 0x080)	/* SYNC */
+			if(cob_id == 0x080)	/* SYNC */
 			{
 				if(d->CurrentCommunicationState.csSYNC)
 					proceedSYNC(d);
@@ -107,11 +110,11 @@ void canDispatch(CO_Data* d, Message *m)
 #ifdef CO_ENABLE_LSS
 		case LSS:
 			if (!d->CurrentCommunicationState.csLSS)break;
-			if ((*(d->iam_a_slave)) && m->cob_id==MLSS_ADRESS)
+			if ((*(d->iam_a_slave)) && cob_id==MLSS_ADRESS)
 			{
 				proceedLSS_Slave(d,m);
 			}
-			else if(!(*(d->iam_a_slave)) && m->cob_id==SLSS_ADRESS)
+			else if(!(*(d->iam_a_slave)) && cob_id==SLSS_ADRESS)
 			{
 				proceedLSS_Master(d,m);
 			}
@@ -270,12 +273,14 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     /* Adjust COB-ID Client->Server (rx) only id already set to default value or id not valid (id==0xFF)*/
     if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == 0x600 + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_client = 0x600 + nodeId; */
-      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
+      UNS32 tmp = 0x600 + nodeId;
+      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = UNS32_LE(tmp);
     }
     /* Adjust COB-ID Server -> Client (tx) only id already set to default value or id not valid (id==0xFF)*/
     if((*(UNS32*)d->objdict[offset].pSubindex[2].pObject == 0x580 + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_server = 0x580 + nodeId; */
-      *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
+        UNS32 tmp = 0x580 + nodeId;
+      *(UNS32*)d->objdict[offset].pSubindex[2].pObject = UNS32_LE(tmp);
     }
   }
 

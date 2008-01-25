@@ -41,6 +41,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 #include "lss.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 //#define LSS_TIMEOUT_MS	(TIMEVAL)1000  /* ms */
 //#define LSS_FS_TIMEOUT_MS	(TIMEVAL)100  /* ms */
@@ -280,7 +281,7 @@ UNS8 sendSlaveLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   m.len = 8;
   m.rtr = NOT_A_REQUEST;
   m.data[0]=command;
-  m.cob_id=SLSS_ADRESS;
+  m.cob_id=UNS16_LE(SLSS_ADRESS);
   
   /* Tha data sent with the msg depends on the command */
   switch(command){
@@ -331,7 +332,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   m.len = 8;
   m.rtr = NOT_A_REQUEST;
   m.data[0]=command;
-  m.cob_id=MLSS_ADRESS;
+  m.cob_id=UNS16_LE(MLSS_ADRESS);
   
   /* Tha data sent with the msg depends on the command */	
   switch(command){

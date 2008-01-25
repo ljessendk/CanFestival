@@ -35,6 +35,7 @@
 #include <data.h>
 #include "emcy.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 
 
@@ -100,7 +101,7 @@ UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister)
   
 	MSG_WAR(0x3051, "sendEMCY", 0);
   
-	m.cob_id = *d->error_cobid;
+	m.cob_id = UNS16_LE(*(UNS16*)d->error_cobid);
 	m.rtr = NOT_A_REQUEST;
 	m.len = 8;
 	m.data[0] = errCode & 0xFF;        /* LSB */
@@ -238,7 +239,7 @@ void proceedEMCY(CO_Data* d, Message* m)
 	}
 	
 	/* post the received EMCY */
-	nodeID = m->cob_id & 0x7F;
+	nodeID = UNS16_LE(m->cob_id) & 0x7F;
 	errCode = m->data[0] | ((UNS16)m->data[1] << 8);
 	errReg = m->data[2];
 	(*d->post_emcy)(nodeID, errCode, errReg);

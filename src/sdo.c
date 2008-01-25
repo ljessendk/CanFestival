@@ -35,6 +35,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "objacces.h"
 #include "sdo.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 /* Uncomment if your compiler does not support inline functions */
 #define NO_INLINE 
@@ -502,7 +503,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   UNS8 found = 0;
   Message m;
   UNS8 i;
-  UNS32 * pwCobId = NULL;
+  UNS16 * pwCobId = NULL;
   UNS8 * pwNodeId = NULL;
 
   MSG_WAR(0x3A38, "sendSDO",0);
@@ -551,7 +552,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       return 0xFF;
     }
     /* Second, read the cobid client->server */
-    pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
+    pwCobId = (UNS16*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
   m.cob_id = *pwCobId;
@@ -619,7 +620,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS8 subIndex;
   UNS32 abortCode;
   UNS8 i,j;
-  UNS32 *     pCobId = NULL;
+  UNS16 *pCobId = NULL;
   UNS16 offset;
   UNS16 lastIndex;
 
@@ -635,7 +636,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	  MSG_ERR(0x1A61, "Subindex 1  not found at index ", 0x1200 + j);
 	  return 0xFF;
 	}
-      pCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
+      pCobId = (UNS16*) d->objdict[offset].pSubindex[1].pObject;
       if ( *pCobId == (*m).cob_id ) {
 	whoami = SDO_SERVER;
 	MSG_WAR(0x3A62, "proceedSDO. I am server. index : ", 0x1200 + j);
@@ -658,7 +659,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	 return 0xFF;
        }
        /* a) Looking for the cobid received. */
-       pCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
+       pCobId = (UNS16*) d->objdict[offset].pSubindex[2].pObject;
        if (*pCobId == (*m).cob_id ) {
 	 /* b) cobid found, so reading the node id of the server. */
 	 pNodeId = (UNS8*) d->objdict[offset].pSubindex[3].pObject;

@@ -33,6 +33,7 @@
 #include "nmtSlave.h"
 #include "states.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 /*!
 ** put the slave in the state wanted by the master
@@ -105,7 +106,10 @@ UNS8 slaveSendBootUp(CO_Data* d)
   MSG_WAR(0x3407, "Send a Boot-Up msg ", 0);
 
   /* message configuration */
-  m.cob_id = NODE_GUARD << 7 | *d->bDeviceNodeId;
+  {
+	  UNS16 tmp = NODE_GUARD << 7 | *d->bDeviceNodeId; 
+	  m.cob_id = UNS16_LE(tmp);
+  }
   m.rtr = NOT_A_REQUEST;
   m.len = 1;
   m.data[0] = 0x00;

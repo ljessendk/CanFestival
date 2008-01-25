@@ -39,6 +39,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 #include "sync.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 /* Prototypes for internals functions */
 
@@ -92,7 +93,7 @@ void startSYNC(CO_Data* d)
 		stopSYNC(d);
 	}
 	
-	if(*d->COB_ID_Sync & 0x40000000 && *d->Sync_Cycle_Period)
+	if(*d->COB_ID_Sync & UNS32_LE(0x40000000) && *d->Sync_Cycle_Period)
 	{
 		d->syncTimer = SetAlarm(
 				d,
@@ -130,7 +131,7 @@ UNS8 sendSYNCMessage(CO_Data* d)
   
   MSG_WAR(0x3001, "sendSYNC ", 0);
   
-  m.cob_id = *d->COB_ID_Sync & 0x1FFFFFFF;
+  m.cob_id = *(UNS16*)d->COB_ID_Sync;
   m.rtr = NOT_A_REQUEST;
   m.len = 0;
   

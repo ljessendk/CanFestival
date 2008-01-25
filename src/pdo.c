@@ -24,6 +24,7 @@
 #include "pdo.h"
 #include "objacces.h"
 #include "canfestival.h"
+#include "sysdep.h"
 
 /*!
 ** @file   pdo.c
@@ -54,7 +55,7 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo)
 	UNS8 offset = 0x00;
 	const UNS8* pMappingCount = (UNS8*) TPDO_map->pSubindex[0].pObject;
 
-	pdo->cob_id = *(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF;
+	pdo->cob_id = *(UNS16*)TPDO_com->pSubindex[1].pObject & UNS16_LE(0x7FF);
 	pdo->rtr = NOT_A_REQUEST;
 
 	MSG_WAR(0x3009, "  PDO CobId is : ", *(UNS32*)TPDO_com->pSubindex[1].pObject);
@@ -107,7 +108,7 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo)
 **/
 UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex )
 {
-  UNS32 * pwCobId;
+  UNS16 * pwCobId;
   UNS16 offset = d->firstIndex->PDO_RCV;
   UNS16 lastIndex = d->lastIndex->PDO_RCV;
 
@@ -121,7 +122,7 @@ UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex )
     offset += RPDOIndex - 0x1400;  
     if (offset <= lastIndex) {
       /* get the CobId*/
-      pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
+      pwCobId = (UNS16*) d->objdict[offset].pSubindex[1].pObject;
 
       MSG_WAR(0x3930, "sendPDOrequest cobId is : ",*pwCobId);
       {
@@ -158,7 +159,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   UNS32 *    pMappingParameter = NULL;
   UNS8  *    pTransmissionType = NULL; /* pointer to the transmission
                                          type */
-  UNS32 *    pwCobId = NULL;
+  UNS16 *    pwCobId = NULL;
   UNS8       Size;
   UNS8       offset;
   UNS8       status;
@@ -168,7 +169,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
   
   status = state2;
 
-  MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id & 0x7ff));
+  MSG_WAR(0x3935, "proceedPDO, cobID : ", ((*m).cob_id & UNS16_LE(0x7ff)));
   offset = 0x00;
   numPdo = 0;
   numMap = 0;
@@ -187,7 +188,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
         case state2:
           /* get CobId of the dictionary correspondant to the received
              PDO */
-          pwCobId = (UNS32*) d->objdict[offsetObjdict].pSubindex[1].pObject;
+          pwCobId = (UNS16*) d->objdict[offsetObjdict].pSubindex[1].pObject;
           /* check the CobId coherance */
           /*pwCobId is the cobId read in the dictionary at the state 3
             */
@@ -278,7 +279,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
       case state1:/* check the CobId */
         /* get CobId of the dictionary which match to the received PDO
          */
-        pwCobId = (UNS32*) (d->objdict + offsetObjdict)->pSubindex[1].pObject;
+        pwCobId = (UNS16*) (d->objdict + offsetObjdict)->pSubindex[1].pObject;
         if ( *pwCobId == (*m).cob_id ) {
           status = state4;
           break;
