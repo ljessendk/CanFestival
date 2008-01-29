@@ -59,5 +59,8 @@ all:
 clean:
 	$(build_command_seq)
 
+install:
+	$(build_command_seq)
+
 mrproper: clean
 	$(build_command_seq)
