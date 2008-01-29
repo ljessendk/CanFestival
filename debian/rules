@@ -104,7 +104,7 @@ install-arch:
 
 	$(MAKE) -C src PREFIX=$(CURDIR)/debian/canfestival/usr install	
 	$(MAKE) -C drivers PREFIX=$(CURDIR)/debian/canfestival/usr install
-	$(MAKE) -C examples PREFIX=$(CURDIR)/debian/canfestival/usr install
+	#$(MAKE) -C examples PREFIX=$(CURDIR)/debian/canfestival/usr install
 	$(MAKE) -C objdictgen PREFIX=$(CURDIR)/debian/canfestival/usr/share install
 	cp debian/objdictedit.desktop $(CURDIR)/debian/canfestival/usr/share/applications/objdictedit.desktop
 	cp debian/objdictedit.png $(CURDIR)/debian/canfestival/usr/share/objdictgen/objdictedit.png
