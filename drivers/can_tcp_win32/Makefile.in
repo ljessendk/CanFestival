@@ -81,6 +81,6 @@ uninstall:
 	rm -f $(TARGET_SOFILES)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(DRIVER) $(SERVER).exe
 
 mrproper: clean
