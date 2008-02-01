@@ -223,14 +223,19 @@ if [ "$A_NAME" = "arm" ]; then
 	SUB_ARCH_NAME=arm
 fi
 
+# mingw32
+if [ "$A_NAME" = "mingw32" ]; then
+	SUB_ARCH_NAME=mingw32
+fi
+
 if [ "$SUB_ARCH_NAME" = "" ]; then
 	echo "Error: could not detect what architecture this system is running!"
 	echo "Please supply manually instead with \"--arch=foo\""
 	exit -1
 fi
 
-echo "Using OS: ${SUB_OS_NAME}"
-echo "Using architecture: ${SUB_ARCH_NAME}"
+echo "Host OS: ${SUB_OS_NAME}"
+echo "Host arch: ${SUB_ARCH_NAME}"
 
 if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 	# Only if we are on x86_64 and using gcc
