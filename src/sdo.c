@@ -32,9 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* #define DEBUG_WAR_CONSOLE_ON */
 /* #define DEBUG_ERR_CONSOLE_ON */
 
-#include "objacces.h"
-#include "sdo.h"
-#include "canfestival.h"
+#include "data.h"
 #include "sysdep.h"
 
 /* Uncomment if your compiler does not support inline functions */
@@ -519,7 +517,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       MSG_ERR(0x1A42, "SendSDO : No SDO server found", 0); 
       return 0xFF;
     }
-    pwCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
+    pwCobId = (UNS16*) d->objdict[offset].pSubindex[2].pObject;
     MSG_WAR(0x3A41, "I am server. cobId : ", *pwCobId); 
   }
   else {			/*case client*/

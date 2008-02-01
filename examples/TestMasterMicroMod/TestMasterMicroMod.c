@@ -42,7 +42,7 @@ UNS8 slavenodeid = 0x40;
 
 
 /*****************************************************************************/
-void TestMaster_heartbeatError(UNS8 heartbeatID)
+void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
@@ -52,7 +52,7 @@ void TestMaster_heartbeatError(UNS8 heartbeatID)
  *  - setup master RPDO 1 to receive TPDO 1 from id 0x40
  *  - setup master TPDO 1 to send RPDO 1 to id 0x40
  ********************************************************/
-void TestMaster_initialisation()
+void TestMaster_initialisation(CO_Data* d)
 {
 	UNS32 PDO1_COBID = 0x0180 + slavenodeid; 
 	UNS32 PDO2_COBID = 0x0200 + slavenodeid;
@@ -303,7 +303,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 			
 }
 
-void TestMaster_preOperational()
+void TestMaster_preOperational(CO_Data* d)
 {
 
 	eprintf("TestMaster_preOperational\n");
@@ -311,24 +311,24 @@ void TestMaster_preOperational()
 	
 }
 
-void TestMaster_operational()
+void TestMaster_operational(CO_Data* d)
 {
 	eprintf("TestMaster_operational\n");
 }
 
-void TestMaster_stopped()
+void TestMaster_stopped(CO_Data* d)
 {
 	eprintf("TestMaster_stopped\n");
 }
 
-void TestMaster_post_sync()
+void TestMaster_post_sync(CO_Data* d)
 {
 	DO++;
 	eprintf("MicroMod Digital Out: %2.2x\n",DO);
 	eprintf("MicroMod Digital In (by bit): DI1: %2.2x DI2: %2.2x DI3: %2.2x DI4: %2.2x DI5: %2.2x DI6: %2.2x DI7: %2.2x DI8: %2.2x\n",DI1,DI2,DI3,DI4,DI5,DI6,DI7,DI8);
 }
 
-void TestMaster_post_TPDO()
+void TestMaster_post_TPDO(CO_Data* d)
 {
 //	eprintf("TestMaster_post_TPDO\n");	
 }

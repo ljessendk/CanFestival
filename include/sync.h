@@ -27,11 +27,11 @@ void startSYNC(CO_Data* d);
 
 void stopSYNC(CO_Data* d);
 
-typedef void (*post_sync_t)(void);
-void _post_sync(void);
+typedef void (*post_sync_t)(CO_Data*);
+void _post_sync(CO_Data* d);
 
-typedef void (*post_TPDO_t)(void);
-void _post_TPDO(void);
+typedef void (*post_TPDO_t)(CO_Data*);
+void _post_TPDO(CO_Data* d);
 
 /** transmit a SYNC message and trigger sync TPDOs
  */

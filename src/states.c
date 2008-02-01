@@ -29,14 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 **
 */
 
-#include "states.h"
-#include "def.h"
-#include "dcf.h"
-#include "nmtSlave.h"
-#include "emcy.h"
-#ifdef CO_ENABLE_LSS
-#include "lss.h"
-#endif
+#include "data.h"
 #include "sysdep.h"
 
 /** Prototypes for internals functions */
@@ -164,38 +157,34 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 **/  
 UNS8 setState(CO_Data* d, e_nodeState newState)
 {
-	while(newState != d->nodeState){
+	if(newState != d->nodeState){
 		switch( newState ){
 			case Initialisation:
 			{
 				s_state_communication newCommunicationState = {1, 0, 0, 0, 0, 0, 0};
-				/* This will force a second loop for the state switch */
 				d->nodeState = Initialisation;
-				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				/* call user app related state func. */
-				(*d->initialisation)();
-				
+				/* call user app init callback now. */
+				/* d->initialisation MUST NOT CALL SetState */
+				(*d->initialisation)(d);				
 			}
-			break;
+
+			/* Automatic transition - No break statement ! */
+			/* Transition from Initialisation to Pre_operational */
+			/* is automatic as defined in DS301. */
+			/* App don't have to call SetState(d, Pre_operational) */
 								
 			case Pre_operational:
 			{
 				
 				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0, 1};
 				d->nodeState = Pre_operational;
-				newState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
 				if (!(*(d->iam_a_slave)))
 				{
-					//send_consise_dcf(d,0x01);
 					masterSendNMTstateChange (d, 0, NMT_Reset_Node);
-                    (*d->preOperational)(); 
 				}
-				else 
-				{
-					(*d->preOperational)();
-				}
+                (*d->preOperational)(d);
 			}
 			break;
 								
@@ -206,7 +195,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				d->nodeState = Operational;
 				newState = Operational;
 				switchCommunicationState(d, &newCommunicationState);
-				(*d->operational)();
+				(*d->operational)(d);
 			}
 			break;
 						
@@ -217,7 +206,7 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				d->nodeState = Stopped;
 				newState = Stopped;
 				switchCommunicationState(d, &newCommunicationState);
-				(*d->stopped)();
+				(*d->stopped)(d);
 			}
 			break;
 #ifdef CO_ENABLE_LSS
@@ -230,13 +219,12 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 			}
 			break;
 #endif
-			
-			default:
-				return 0xFF;
 		}/* end switch case */
 	
 	}
-	return 0;
+	/* d->nodeState contains the final state */
+	/* may not be the requested state */
+    return d->nodeState;  
 }
 
 /*!                                                                                                
@@ -327,7 +315,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   *d->bDeviceNodeId = nodeId;
 }
 
-void _initialisation(){}
-void _preOperational(){}
-void _operational(){}
-void _stopped(){}
+void _initialisation(CO_Data* d){}
+void _preOperational(CO_Data* d){}
+void _operational(CO_Data* d){}
+void _stopped(CO_Data* d){}

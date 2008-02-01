@@ -170,7 +170,7 @@ UNS8 proceedSYNC(CO_Data* d)
   
   MSG_WAR(0x3002, "SYNC received. Proceed. ", 0);
   
-  (*d->post_sync)();
+  (*d->post_sync)(d);
 
   /* only operational state allows PDO transmission */
   if(! d->CurrentCommunicationState.csPDO) 
@@ -179,12 +179,12 @@ UNS8 proceedSYNC(CO_Data* d)
   res = _sendPDOevent(d, 1 /*isSyncEvent*/ );
   
   /*Call user app callback*/
-  (*d->post_TPDO)();
+  (*d->post_TPDO)(d);
   
   return res;
   
 }
 
 
-void _post_sync(){}
-void _post_TPDO(){}
+void _post_sync(CO_Data* d){}
+void _post_TPDO(CO_Data* d){}

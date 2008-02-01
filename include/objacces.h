@@ -37,12 +37,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <applicfg.h>
 
 typedef UNS32 (*valueRangeTest_t)(UNS8 typeValue, void *Value);
-typedef void (* storeODSubIndex_t)(UNS16 wIndex, UNS8 bSubindex);
-void _storeODSubIndex (UNS16 wIndex, UNS8 bSubindex);
-
-#include "data.h"
-
-
+typedef void (* storeODSubIndex_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
+void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 
 /*
 Print MSG_WAR (s) if error to the access to the object dictionary occurs.

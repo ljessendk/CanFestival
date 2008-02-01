@@ -74,7 +74,7 @@ void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
   /* -> avoid deleting re-assigned timer if message is received too late*/
   d->ConsumerHeartBeatTimers[id]=TIMER_NONE;
   /*! call heartbeat error with NodeId */
-  (*d->heartbeatError)((UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
+  (*d->heartbeatError)(d, (UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
 }
 
 /*!
@@ -142,7 +142,7 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
           
           if(!send_consise_dcf(d,nodeId)){
              /* call post SlaveBootup with NodeId */
-		  	(*d->post_SlaveBootup)(nodeId);
+		  	(*d->post_SlaveBootup)(d, nodeId);
           }
         }
 
@@ -260,5 +260,5 @@ void heartbeatStop(CO_Data* d)
 **
 ** @param heartbeatID
 **/
-void _heartbeatError(UNS8 heartbeatID){}
-void _post_SlaveBootup(UNS8 SlaveID){}
+void _heartbeatError(CO_Data* d, UNS8 heartbeatID){}
+void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID){}

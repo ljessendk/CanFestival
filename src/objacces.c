@@ -38,7 +38,7 @@
 /* #define DEBUG_ERR_CONSOLE_ON */
 
 
-#include "objacces.h"
+#include "data.h"
 
 
 /*!
@@ -325,7 +325,7 @@ UNS32 _setODentry( CO_Data* d,
 
       /* TODO : Store dans NVRAM */
       if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
-        (*d->storeODSubIndex)(wIndex, bSubindex);
+        (*d->storeODSubIndex)(d, wIndex, bSubindex);
       }
       return OD_SUCCESSFUL;
     }else{
@@ -433,4 +433,4 @@ UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCal
 ** @param wIndex
 ** @param bSubindex
 **/
-void _storeODSubIndex (UNS16 wIndex, UNS8 bSubindex){}
+void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex){}

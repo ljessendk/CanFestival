@@ -35,32 +35,32 @@ extern "C"
 extern wxTextCtrl 	*textLog;
 
 /*****************************************************************************/
-void Call_heartbeatError(UNS8 heartbeatID)
+void Call_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
 	//*textLog << wxT("HeartbeatError\n");
 }
 
-void Call_initialisation()
+void Call_initialisation(CO_Data* d)
 {
 	//*textLog << wxT("Initialisation\n");
 }
 
-void Call_preOperational()
+void Call_preOperational(CO_Data* d)
 {
 	//*textLog << wxT("PreOperational\n");
 }
 
-void Call_operational()
+void Call_operational(CO_Data* d)
 {
 	//*textLog << wxT("Operational\n");
 }
 
-void Call_stopped()
+void Call_stopped(CO_Data* d)
 {
 	//*textLog << wxT("Stopped\n");
 }
 
-void Call_post_sync()
+void Call_post_sync(CO_Data* d)
 {
     //*textLog << wxT("Post_sync\n");
 	printf("POST SYNC:\n");
@@ -68,12 +68,12 @@ void Call_post_sync()
 	printf("     Read_Input: %x \n     Analogue_Input1: %d \n     Analogue_Input2: %d \n", Read_Inputs_8_Bit[0], Read_Analogue_Input_16_Bit[0], Read_Analogue_Input_16_Bit[1]);
 }
 
-void Call_post_TPDO()
+void Call_post_TPDO(CO_Data* d)
 {
 	//*textLog << wxT("Post_TPDO\n");
 }
 
-void Call_storeODSubIndex(UNS16 wIndex, UNS8 bSubindex)
+void Call_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 {
 	printf("StoreODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
 	//*textLog << wxT("StoreODSubIndex :\n");

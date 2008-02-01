@@ -8,17 +8,17 @@ UNS32 gene_SYNC_valueRangeTest (UNS8 typeValue, void * value);
 const indextable * gene_SYNC_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* prototypes of function to be filled by app. */
-void gene_SYNC_heartbeatError(UNS8);
+void gene_SYNC_heartbeatError(CO_Data* d, UNS8);
 
 UNS8 gene_SYNC_canSend(Message *);
 
-void gene_SYNC_initialisation(void);
-void gene_SYNC_preOperational(void);
-void gene_SYNC_operational(void);
-void gene_SYNC_stopped(void);
+void gene_SYNC_initialisation(CO_Data* d);
+void gene_SYNC_preOperational(CO_Data* d);
+void gene_SYNC_operational(CO_Data* d);
+void gene_SYNC_stopped(CO_Data* d);
 
-void gene_SYNC_post_sync(void);
-void gene_SYNC_post_TPDO(void);
+void gene_SYNC_post_sync(CO_Data* d);
+void gene_SYNC_post_TPDO(CO_Data* d);
 
 /* Master node data struct */
 extern CO_Data gene_SYNC_Data;

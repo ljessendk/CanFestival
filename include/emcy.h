@@ -52,8 +52,8 @@ typedef struct {
 #include "data.h"
 
 
-typedef void (*post_emcy_t)(UNS8 nodeID, UNS16 errCode, UNS8 errReg);
-void _post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg);
+typedef void (*post_emcy_t)(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg);
+void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg);
 
 /*************************************************************************
  * Functions

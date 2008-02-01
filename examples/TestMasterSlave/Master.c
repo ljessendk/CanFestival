@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "TestMasterSlave.h"
 
 /*****************************************************************************/
-void TestMaster_heartbeatError(UNS8 heartbeatID)
+void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
@@ -35,7 +35,7 @@ void TestMaster_heartbeatError(UNS8 heartbeatID)
  *  - setup master RPDO 1 to receive TPDO 1 from id 2
  *  - setup master RPDO 2 to receive TPDO 2 from id 2
  ********************************************************/
-void TestMaster_initialisation()
+void TestMaster_initialisation(CO_Data* d)
 {
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0282;
@@ -239,11 +239,11 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 
 
 /* First ask if there is a node with an invalid nodeID.
- * If FastScan is activated it is used to put the node in the state “configuration”.
+ * If FastScan is activated it is used to put the node in the state “configuration�?.
  * If FastScan is not activated, identification services are used to identify the node.
  * Then  switch mode service is used to put it in configuration state.
  * Next all the inquire and configuration services are used.
- * Finally, the node LSS state is restored to “waiting” and all the process is repeated 
+ * Finally, the node LSS state is restored to “waiting�? and all the process is repeated 
  * again until there isn't any node with a invalid nodeID.
  * */
 static void ConfigureLSSNode(CO_Data* d)
@@ -344,7 +344,7 @@ static void ConfigureLSSNode(CO_Data* d)
 }
 #endif
 
-void TestMaster_preOperational()
+void TestMaster_preOperational(CO_Data* d)
 {
 	eprintf("TestMaster_preOperational\n");
 #ifdef CO_ENABLE_LSS
@@ -354,17 +354,17 @@ void TestMaster_preOperational()
 #endif
 }
 
-void TestMaster_operational()
+void TestMaster_operational(CO_Data* d)
 {
 	eprintf("TestMaster_operational\n");
 }
 
-void TestMaster_stopped()
+void TestMaster_stopped(CO_Data* d)
 {
 	eprintf("TestMaster_stopped\n");
 }
 
-void TestMaster_post_sync()
+void TestMaster_post_sync(CO_Data* d)
 {
 	eprintf("TestMaster_post_sync\n");
 	eprintf("Master: %d %d %d %d %d %d %d %d %d %x %x %d %d\n",
@@ -383,7 +383,7 @@ void TestMaster_post_sync()
 		MasterMap13);
 }
 
-void TestMaster_post_emcy(UNS8 nodeID, UNS16 errCode, UNS8 errReg)
+void TestMaster_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 {
 	eprintf("Master received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
@@ -403,7 +403,7 @@ static void CheckSDO(CO_Data* d, UNS8 nodeId)
 
 
 static int MasterSyncCount = 0;
-void TestMaster_post_TPDO()
+void TestMaster_post_TPDO(CO_Data* d)
 {
 	eprintf("TestMaster_post_TPDO MasterSyncCount = %d \n", MasterSyncCount);
 //
@@ -490,7 +490,7 @@ void TestMaster_post_TPDO()
 	MasterSyncCount++;
 }
 
-void TestMaster_post_SlaveBootup(UNS8 nodeid)
+void TestMaster_post_SlaveBootup(CO_Data* d, UNS8 nodeid)
 {
 	eprintf("TestMaster_post_SlaveBootup %x\n", nodeid);
 	

@@ -62,15 +62,15 @@ typedef struct
 /** Function that user app can overload
  * 
  */
-typedef void (*initialisation_t)(void);
-typedef void (*preOperational_t)(void);
-typedef void (*operational_t)(void);
-typedef void (*stopped_t)(void);
+typedef void (*initialisation_t)(CO_Data*);
+typedef void (*preOperational_t)(CO_Data*);
+typedef void (*operational_t)(CO_Data*);
+typedef void (*stopped_t)(CO_Data*);
 
-void _initialisation(void);
-void _preOperational(void);
-void _operational(void);
-void _stopped(void);
+void _initialisation(CO_Data*);
+void _preOperational(CO_Data*);
+void _operational(CO_Data*);
+void _stopped(CO_Data*);
 
 #include "data.h"
 

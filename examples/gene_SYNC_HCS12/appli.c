@@ -262,14 +262,14 @@ void initSensor(void)
 // FUNCTIONS WHICH ARE PART OF CANFESTIVAL and *must* be implemented here.
 
 //------------------------------------------------------------------------------
-void gene_SYNC_heartbeatError( UNS8 heartbeatID )
+void gene_SYNC_heartbeatError(CO_Data* d,  UNS8 heartbeatID )
 {
   
   MSG_ERR(0x1F00, "HeartBeat not received from node : ", heartbeatID);
 }
 
 //------------------------------------------------------------------------------
-void gene_SYNC_initialisation()
+void gene_SYNC_initialisation(CO_Data* d)
 {  
   MSG_WAR (0x3F00, "Entering in INIT ", 0); 
   initSensor();  
@@ -281,7 +281,7 @@ void gene_SYNC_initialisation()
 
 
 //------------------------------------------------------------------------------
-void gene_SYNC_preOperational()
+void gene_SYNC_preOperational(CO_Data* d)
 {
   MSG_WAR (0x3F01, "Entering in PRE-OPERATIONAL ", 0); 
   IO_PORTS_8(PORTB) &= ~ 0x03; // leds 0, 1      : ON
@@ -311,7 +311,7 @@ void gene_SYNC_preOperational()
 
 
 //------------------------------------------------------------------------------
-void gene_SYNC_operational()
+void gene_SYNC_operational(CO_Data* d)
 { 
    MSG_WAR (0x3F02, "Entering in OPERATIONAL ", 0); 
    IO_PORTS_8(PORTB) &= ~ 0x07; // leds 0, 1, 2   : ON
@@ -365,7 +365,7 @@ void gene_SYNC_operational()
 }
 
 //------------------------------------------------------------------------------
-void gene_SYNC_stopped()
+void gene_SYNC_stopped(CO_Data* d)
 {
   MSG_WAR (0x3F02, "Entering in STOPPED ", 0); 
   IO_PORTS_8(PORTB) |=   0x0E; // leds 1, 2, 3, 4   : OFF

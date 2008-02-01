@@ -34,9 +34,7 @@
 */
 
 
-#include "objacces.h"
-#include "sdo.h"
-#include "dcf.h"
+#include "data.h"
 #include "sysdep.h"
 
 extern UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
@@ -161,20 +159,15 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
       		 *  and execute the bootup callback. */
       		d->dcf_odentry->pSubindex[nodeId].bAccessType&=~DCF_TO_SEND;
       		d->dcf_request--;
-      		(*d->post_SlaveBootup)(nodeId);
+      		(*d->post_SlaveBootup)(d, nodeId);
       	}
  	}
  	
    	/* Check the next element*/
-   	//nodeId++;
    	nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
    	if(nodeId==d->dcf_odentry->bSubCount)nodeId=1;
    	d->dcf_cursor = NULL;
 
   }
-  
-  //DCF_finish:
-  /*  Switch Master to preOperational state */
- 
-  //(*d->preOperational)();
+
 }

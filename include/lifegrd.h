@@ -26,11 +26,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <applicfg.h>
 
-typedef void (*heartbeatError_t)(UNS8);
-void _heartbeatError(UNS8 heartbeatID);
+typedef void (*heartbeatError_t)(CO_Data*, UNS8);
+void _heartbeatError(CO_Data* d, UNS8 heartbeatID);
 
-typedef void (*post_SlaveBootup_t)(UNS8);
-void _post_SlaveBootup(UNS8 SlaveID);
+typedef void (*post_SlaveBootup_t)(CO_Data*, UNS8);
+void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID);
 
 #include "data.h"
 
