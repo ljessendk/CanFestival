@@ -68,7 +68,7 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo)
 		/* pointer fo the var which holds the mapping parameter of an mapping entry  */
 		UNS32* pMappingParameter = (UNS32*) TPDO_map->pSubindex[prp_j + 1].pObject;
 		UNS16 index = (UNS16)((*pMappingParameter) >> 16);
-		UNS8 Size = (UNS8)(*pMappingParameter) & (UNS32)0x000000FF); /* Size in bits */
+		UNS8 Size = (UNS8)(*pMappingParameter & (UNS32)0x000000FF); /* Size in bits */
 		
 		/* get variable only if Size != 0 and Size is lower than remaining bits in the PDO */
 		if(Size && ((offset + Size) <= 64)) {
@@ -229,7 +229,7 @@ UNS8 proceedPDO(CO_Data* d, Message *m)
                /* and the lower 8 bits contains the size of the mapped
                  variable. */
 
-               Size = (UNS8)(*pMappingParameter) & (UNS32)0x000000FF);
+               Size = (UNS8)(*pMappingParameter & (UNS32)0x000000FF);
 					
 					/* set variable only if Size != 0 and Size is lower than remaining bits in the PDO */
                if(Size && ((offset + Size) <= (m->len << 3))) {
