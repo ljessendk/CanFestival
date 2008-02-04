@@ -26,10 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define SLSS_ADRESS	0x7E4
 #define MLSS_ADRESS	0x7E5
 
-#define LSS_MSG_TIMER 0
-#define LSS_SWITCH_DELAY_TIMER 1
-#define LSS_FS_TIMER 2
-
 #define SDELAY_OFF		0
 #define SDELAY_FIRST 	1
 #define SDELAY_SECOND 	2
@@ -75,10 +71,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 typedef void (*LSSCallback_t)(CO_Data* d, UNS8 command); 
 
-typedef void (*lss_StoreConfiguration_t)(UNS8*,UNS8*);
+typedef void (*lss_StoreConfiguration_t)(CO_Data* d,UNS8*,UNS8*);
 //void _lss_StoreConfiguration(UNS8 *error, UNS8 *spec_error);
 
-typedef void (*lss_ChangeBaudRate_t)(char*);
+typedef void (*lss_ChangeBaudRate_t)(CO_Data* d,char*);
 //void _lss_ChangeBaudRate(char *BaudRate);
 
 
@@ -98,7 +94,6 @@ struct struct_lss_transfer {
   UNS32 		dat1;		/* the data from the last msg received */
   UNS8			dat2; 
   
-  e_nodeState currentState; /* the state of the node before switching to LSSTimingDelay*/
   UNS8 nodeID;              /* the new nodeid stored to update the nodeid when switching to LSS operational*/
   UNS8 addr_sel_match;    	/* the matching mask for the LSS Switch Mode Selective service */
   UNS8 addr_ident_match;    /* the matching mask for the LSS Identify Remote Slaves service*/
@@ -107,19 +102,24 @@ struct struct_lss_transfer {
   							 * Timing Parameters is received*/
   UNS16 switchDelay;		/* the period of the two delay */
   UNS8  switchDelayState;   /* the state machine for the switchDelay */
-
-  TIMER_HANDLE timers[3];      /* Time counters to implement a timeout in milliseconds.
-                              * LSS_MSG_TIMER (index 0) is automatically incremented whenever 
+  CAN_HANDLE canHandle_t;
+    
+                              /* Time counters to implement a timeout in milliseconds.*/
+  TIMER_HANDLE timerMSG;	  /* timerMSG is automatically incremented whenever 
                               * the lss state is in LSS_TRANS_IN_PROGRESS, and reseted to 0 
                               * when the response LSS have been received.
-                              * LSS_SWITCH_DELAY_TIMER (index 1) is automatically incremented whenever 
+                              */
+                             
+  TIMER_HANDLE timerSDELAY;	  /* timerSDELAY is automatically incremented whenever 
                               * the lss switchDelayState is in SDELAY_FIRST or SDELAY_SECOND, and reseted to 0 
                               * when the two periods have been expired.
                               */
+                              
   LSSCallback_t Callback;   /* The user callback func to be called at LSS transaction end */
   
   UNS8 LSSanswer;			/* stores if a message has been received during a timer period */
-  
+
+#ifdef CO_ENABLE_LSS_FS 
   UNS32 IDNumber;			/* in the master, the LSS address parameter which it currently tries to identify.
   							 * in the slave, the LSS address parameter which is being checked (LSS-ID[sub]). */
   UNS8 BitChecked;			/* bits of the current IDNumber that are currently checked */
@@ -127,6 +127,10 @@ struct struct_lss_transfer {
   UNS8 LSSNext;				/* which LSSSub value will be used in the next request */
   UNS8 LSSPos;				/* in the slave, which part of the LSS-ID is currently processed*/
   UNS8 FastScan_SM;			/* the state machine for the FastScan protocol */
+  TIMER_HANDLE timerFS;		/* timerFS is automatically incremented when the FastScan service
+  							 * has been requested and reseted to 0 when the protocol ends.
+                              */
+#endif                           
 };
 
 #ifdef CO_ENABLE_LSS
@@ -141,7 +145,6 @@ void stopLSS(CO_Data* d);
 
 
 /** transmit a LSS message 
- * Checks if the msg can be transmited (i.e. we are not in LssTimingDelay state)
  * command is the LSS command specifier
  * dat1 and dat2 are pointers to optional data (depend on command)
  * return sendLSSMessage(d,command,dat1,dat2)
@@ -175,7 +178,7 @@ UNS8 proceedLSS_Slave (CO_Data* d, Message* m );
  * dat1 and dat2: pointers to optional data (depend on command).
  * return sendLSS(d,command,dat1,dat2)
  */
-UNS8 configNetworkNode(CO_Data* d, UNS8 command, void *dat1, void* dat2);
+//UNS8 configNetworkNode(CO_Data* d, UNS8 command, void *dat1, void* dat2);
 
 /** Used by the Master application to send a LSS command, WITH response, to the slave. 
  * The function Callback, which must be defined in the user code, is called at the
@@ -183,7 +186,7 @@ UNS8 configNetworkNode(CO_Data* d, UNS8 command, void *dat1, void* dat2);
  * The LSS_MSG_TIMER timer is started to control the timeout
  * return sendLSS(d,command,dat1,dat2)
  */
-UNS8 configNetworkNodeCallBack (CO_Data* d, UNS8 command, void *dat1, void* dat2, LSSCallback_t Callback);
+UNS8 configNetworkNode (CO_Data* d, UNS8 command, void *dat1, void* dat2, LSSCallback_t Callback);
 
 /** Use this function after a configNetworkNode or configNetworkNodeCallBack to get the result.
   Returns : LSS_RESET				// Transmission not started. Init state.

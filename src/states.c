@@ -136,15 +136,15 @@ void canDispatch(CO_Data* d, Message *m)
 **/  	
 void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicationState)
 {
+#ifdef CO_ENABLE_LSS
+	StartOrStop(csLSS,	startLSS(d),	stopLSS(d))
+#endif
 	StartOrStop(csSDO,	None,		resetSDO(d))
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
 	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
 	StartOrStop(csEmergency,	emergencyInit(d),	emergencyStop(d)) 
 	StartOrStop(csPDO,	PDOInit(d),	PDOStop(d))
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
-#ifdef CO_ENABLE_LSS
-	StartOrStop(csLSS,	startLSS(d),	stopLSS(d))
-#endif
 }
 
 /*!                                                                                                
@@ -209,16 +209,9 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				(*d->stopped)(d);
 			}
 			break;
-#ifdef CO_ENABLE_LSS
-			case LssTimingDelay:
-			{
-				s_state_communication newCommunicationState = {0, 0, 0, 0, 0, 0, 0};
-				d->nodeState = LssTimingDelay;
-				newState = LssTimingDelay;
-				switchCommunicationState(d, &newCommunicationState);
-			}
-			break;
-#endif
+			default:
+				return 0xFF;
+
 		}/* end switch case */
 	
 	}
@@ -250,6 +243,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   UNS16 offset = d->firstIndex->SDO_SVR;
   
 #ifdef CO_ENABLE_LSS
+  d->lss_transfer.nodeID=nodeId;
   if(nodeId==0xFF)
   {
   	*d->bDeviceNodeId = nodeId;

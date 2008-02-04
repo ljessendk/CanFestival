@@ -23,6 +23,7 @@
 
 TARGET = SUB_TARGET
 WX = SUB_WX
+ENABLE_LSS = SUB_ENABLE_LSS
 
 ifeq ($(TARGET),win32)
 	BLD_TEST=1
@@ -39,11 +40,20 @@ endef
 endif
 
 ifdef BLD_TEST
+ifeq ($(ENABLE_LSS),1)
+define build_command_seq
+	$(MAKE) -C TestMasterSlave $@
+	$(MAKE) -C TestMasterSlaveLSS $@
+	$(MAKE) -C TestMasterMicroMod $@
+	$(build_command_seq_wx)
+endef
+else
 define build_command_seq
 	$(MAKE) -C TestMasterSlave $@
 	$(MAKE) -C TestMasterMicroMod $@
 	$(build_command_seq_wx)
 endef
+endif
 endif
 
 ifeq ($(TARGET),hc12)

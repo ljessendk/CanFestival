@@ -114,15 +114,3 @@ void TestSlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 {
 	eprintf("Slave received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
-
-void TestSlave_StoreConfiguration(UNS8 *error, UNS8 *spec_error)
-{
-	printf("TestSlave_StoreConfiguration\n");
-}
-
-void TestSlave_ChangeBaudRate(char *baudrate)
-{
-	eprintf("TestSlave_ChangeBaudRate from %s to %s\n", SlaveBoard.baudrate, baudrate);
-	SlaveBoard.baudrate=baudrate;
-	/* something to do with the new baudrate */
-}

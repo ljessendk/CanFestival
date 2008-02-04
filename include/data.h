@@ -146,28 +146,38 @@ struct struct_CO_Data {
 	},
 	
 #ifdef CO_ENABLE_LSS
+
+#ifdef CO_ENABLE_LSS_FS	
+#define lss_fs_Initializer \
+		,0,						/* IDNumber */\
+  		128, 					/* BitChecked */\
+  		0,						/* LSSSub */\
+  		0, 						/* LSSNext */\
+  		0, 						/* LSSPos */\
+  		LSS_FS_RESET,			/* FastScan_SM */\
+  		-1						/* timerFS */
+#else
+#define lss_fs_Initializer
+#endif		
+
 #define lss_Initializer {\
 		LSS_RESET,  			/* state */\
 		0,						/* command */\
 		LSS_WAITING_MODE, 		/* mode */\
 		0,						/* dat1 */\
 		0,						/* dat2 */\
-		Unknown_state,  		/* currentState */\
 		0,          			/* NodeID */\
 		0,          			/* addr_sel_match */\
 		0,          			/* addr_ident_match */\
 		"none",         		/* BaudRate */\
 		0,          			/* SwitchDelay */\
 		SDELAY_OFF,   			/* SwitchDelayState */\
-		{-1,-1,-1},          		/* Timers[3] */\
+		NULL,					/* canHandle_t */\
+		-1,						/* TimerMSG */\
+		-1,          			/* TimerSDELAY */\
 		NULL,        			/* Callback */\
-		0,						/* LSSanswer */\
-		0,						/* IDNumber */\
-  		128, 					/* BitChecked */\
-  		0,						/* LSSSub */\
-  		0, 						/* LSSNext */\
-  		0, 						/* LSSPos */\
-  		LSS_FS_RESET			/* FastScan_SM */\
+		0						/* LSSanswer */\
+		lss_fs_Initializer		/*FastScan service initialization */\
 	  },\
 	  NULL, 	/* _lss_StoreConfiguration*/\
 	  NULL    /* _lss_ChangeBaudRate */
@@ -203,7 +213,8 @@ struct struct_CO_Data {
 		0,          /* csEmergency */\
 		0,          /* csSYNC */\
 		0,          /* csHeartbeat */\
-		0           /* csPDO */\
+		0,           /* csPDO */\
+		0           /* csLSS */\
 	},\
 	_initialisation,     /* initialisation */\
 	_preOperational,     /* preOperational */\

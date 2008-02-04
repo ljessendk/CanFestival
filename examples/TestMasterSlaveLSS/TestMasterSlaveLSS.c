@@ -40,17 +40,13 @@ void pause(void)
 //#include <timers_driver.h>
 
 #include "Master.h"
-#include "Slave.h"
-#include "TestMasterSlave.h"
+#include "SlaveA.h"
+#include "SlaveB.h"
+#include "TestMasterSlaveLSS.h"
 
-UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
-{
-	eprintf("OnSlaveMap1Update:%d\n", SlaveMap1);
-	return 0;
-}
-
-s_BOARD SlaveBoard = {"0", "125K"};
-s_BOARD MasterBoard = {"1", "125K"};
+s_BOARD SlaveBoardA = {"0", "125K"};
+s_BOARD SlaveBoardB = {"1", "125K"};
+s_BOARD MasterBoard = {"2", "125K"};
 
 #if !defined(WIN32) || defined(__CYGWIN__)
 void catch_signal(int sig)
@@ -64,21 +60,21 @@ void catch_signal(int sig)
 void help()
 {
   printf("**************************************************************\n");
-  printf("*  TestMasterSlave                                           *\n");
+  printf("*  TestMasterSlaveLSS                                           *\n");
   printf("*                                                            *\n");
-  printf("*  A simple example for PC. It does implement 2 CanOpen      *\n");
-  printf("*  nodes in the same process. A master and a slave. Both     *\n");
+  printf("*  A LSS example for PC. It does implement 3 CanOpen      *\n");
+  printf("*  nodes in the same process. A master and 2 slaves. Both     *\n");
   printf("*  communicate together, exchanging periodically NMT, SYNC,  *\n");
   printf("*  SDO and PDO. Master configure heartbeat producer time     *\n");
   printf("*  at 1000 ms for slave node-id 0x02 by concise DCF.         *\n");                                  
   printf("*                                                            *\n");
   printf("*   Usage:                                                   *\n");
-  printf("*   ./TestMasterSlave  [OPTIONS]                             *\n");
+  printf("*   ./TestMasterSlaveLSS  [OPTIONS]                             *\n");
   printf("*                                                            *\n");
   printf("*   OPTIONS:                                                 *\n");
   printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]     *\n");
   printf("*                                                            *\n");
-  printf("*    Slave:                                                  *\n");
+  printf("*    SlaveA:                                                  *\n");
   printf("*     -s : bus name [\"0\"]                                    *\n");
   printf("*     -S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
@@ -92,24 +88,33 @@ void help()
 /***************************  INIT  *****************************************/
 void InitNodes(CO_Data* d, UNS32 id)
 {
-	/****************************** INITIALISATION SLAVE *******************************/
-	if(strcmp(SlaveBoard.baudrate, "none")) {
-		setNodeId(&TestSlave_Data, 0x02);
+	/****************************** INITIALISATION SLAVE_A *******************************/
+	if(strcmp(SlaveBoardA.baudrate, "none")) {
+		/* Set an invalid nodeID */
+		setNodeId(&TestSlaveA_Data, 0xFF);
 
 		/* init */
-		setState(&TestSlave_Data, Initialisation);
+		setState(&TestSlaveA_Data, Initialisation);
+	}
+	
+	/****************************** INITIALISATION SLAVE_B *******************************/
+	if(strcmp(SlaveBoardB.baudrate, "none")) {
+
+		/* Set an invalid nodeID */
+		setNodeId(&TestSlaveB_Data, 0xFF);
+
+		/* init */
+		setState(&TestSlaveB_Data, Initialisation);
 	}
 
 	/****************************** INITIALISATION MASTER *******************************/
 	if(strcmp(MasterBoard.baudrate, "none")){
- 		RegisterSetODentryCallBack(&TestMaster_Data, 0x2000, 0, &OnMasterMap1Update);
 		
 		/* Defining the node Id */
 		setNodeId(&TestMaster_Data, 0x01);
 
 		/* init */
-		setState(&TestMaster_Data, Initialisation);
-			
+		setState(&TestMaster_Data, Initialisation);		
 	}
 }
 
@@ -133,7 +138,7 @@ int main(int argc,char **argv)
           help();
           exit(1);
         }
-        SlaveBoard.busname = optarg;
+        SlaveBoardA.busname = optarg;
         break;
       case 'm' :
         if (optarg[0] == 0)
@@ -149,7 +154,7 @@ int main(int argc,char **argv)
           help();
           exit(1);
         }
-        SlaveBoard.baudrate = optarg;
+        SlaveBoardA.baudrate = optarg;
         break;
       case 'M' :
         if (optarg[0] == 0)
@@ -185,23 +190,48 @@ int main(int argc,char **argv)
 #endif		
 	// Open CAN devices
 
-	if(strcmp(SlaveBoard.baudrate, "none")){
+	if(strcmp(SlaveBoardA.baudrate, "none")){
 		
-		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
-		TestSlave_Data.initialisation = TestSlave_initialisation;
-		TestSlave_Data.preOperational = TestSlave_preOperational;
-		TestSlave_Data.operational = TestSlave_operational;
-		TestSlave_Data.stopped = TestSlave_stopped;
-		TestSlave_Data.post_sync = TestSlave_post_sync;
-		TestSlave_Data.post_TPDO = TestSlave_post_TPDO;
-		TestSlave_Data.storeODSubIndex = TestSlave_storeODSubIndex;
-		TestSlave_Data.post_emcy = TestSlave_post_emcy;
+		TestSlaveA_Data.heartbeatError = TestSlaveA_heartbeatError;
+		TestSlaveA_Data.initialisation = TestSlaveA_initialisation;
+		TestSlaveA_Data.preOperational = TestSlaveA_preOperational;
+		TestSlaveA_Data.operational = TestSlaveA_operational;
+		TestSlaveA_Data.stopped = TestSlaveA_stopped;
+		TestSlaveA_Data.post_sync = TestSlaveA_post_sync;
+		TestSlaveA_Data.post_TPDO = TestSlaveA_post_TPDO;
+		TestSlaveA_Data.storeODSubIndex = TestSlaveA_storeODSubIndex;
+		TestSlaveA_Data.post_emcy = TestSlaveA_post_emcy;
+		/* in this example the slave doesn't support Store configuration*/
+		TestSlaveA_Data.lss_StoreConfiguration = TestSlaveA_StoreConfiguration;
+		TestSlaveA_Data.lss_ChangeBaudRate=TestSlaveA_ChangeBaudRate;
 
-		if(!canOpen(&SlaveBoard,&TestSlave_Data)){
-			eprintf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
-			goto fail_slave;
+		if(!canOpen(&SlaveBoardA,&TestSlaveA_Data)){
+			eprintf("Cannot open SlaveA Board (%s,%s)\n",SlaveBoardA.busname, SlaveBoardA.baudrate);
+			goto fail_slaveA;
 		}
 	}
+	
+	if(strcmp(SlaveBoardB.baudrate, "none")){
+		
+		TestSlaveB_Data.heartbeatError = TestSlaveB_heartbeatError;
+		TestSlaveB_Data.initialisation = TestSlaveB_initialisation;
+		TestSlaveB_Data.preOperational = TestSlaveB_preOperational;
+		TestSlaveB_Data.operational = TestSlaveB_operational;
+		TestSlaveB_Data.stopped = TestSlaveB_stopped;
+		TestSlaveB_Data.post_sync = TestSlaveB_post_sync;
+		TestSlaveB_Data.post_TPDO = TestSlaveB_post_TPDO;
+		TestSlaveB_Data.storeODSubIndex = TestSlaveB_storeODSubIndex;
+		TestSlaveB_Data.post_emcy = TestSlaveB_post_emcy;
+		TestSlaveB_Data.lss_StoreConfiguration = TestSlaveB_StoreConfiguration;
+		TestSlaveB_Data.lss_ChangeBaudRate=TestSlaveB_ChangeBaudRate;
+
+
+		if(!canOpen(&SlaveBoardB,&TestSlaveB_Data)){
+			eprintf("Cannot open SlaveB Board (%s,%s)\n",SlaveBoardB.busname, SlaveBoardB.baudrate);
+			goto fail_slaveB;
+		}
+	}
+	
 	if(strcmp(MasterBoard.baudrate, "none")){
 		
 		TestMaster_Data.heartbeatError = TestMaster_heartbeatError;
@@ -213,6 +243,7 @@ int main(int argc,char **argv)
 		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
 		TestMaster_Data.post_emcy = TestMaster_post_emcy;
 		TestMaster_Data.post_SlaveBootup=TestMaster_post_SlaveBootup;
+		TestMaster_Data.lss_ChangeBaudRate=TestMaster_ChangeBaudRate;
 		
 		if(!canOpen(&MasterBoard,&TestMaster_Data)){
 			eprintf("Cannot open Master Board (%s,%s)\n",MasterBoard.busname, MasterBoard.baudrate);
@@ -229,7 +260,7 @@ int main(int argc,char **argv)
 
 	eprintf("Finishing.\n");
     EnterMutex();
-	masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Reset_Node);
+	masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Stop_Node);
     LeaveMutex();
 
 	eprintf("reset\n");
@@ -242,9 +273,11 @@ int main(int argc,char **argv)
 	StopTimerLoop();
 	
 	// Close CAN devices (and can threads)
-	if(strcmp(SlaveBoard.baudrate, "none")) canClose(&TestSlave_Data);
-fail_master:
 	if(strcmp(MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);	
-fail_slave:
+fail_master:
+	if(strcmp(SlaveBoardB.baudrate, "none")) canClose(&TestSlaveB_Data);
+fail_slaveB:
+	if(strcmp(SlaveBoardA.baudrate, "none")) canClose(&TestSlaveA_Data);
+fail_slaveA:
 	return 0;
 }

@@ -672,7 +672,8 @@ MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/TestMasterSlave/Makefile.in
+\	examples/TestMasterSlave/Makefile.in\
+\	examples/TestMasterSlaveLSS/Makefile.in
 fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
@@ -683,6 +684,7 @@ fi
 if [ "$SUB_TARGET" = "win32" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterSlave/Makefile.in\
+\	examples/TestMasterSlaveLSS/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 

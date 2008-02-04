@@ -41,9 +41,6 @@ enum enum_nodeState {
   Operational     = 0x05,
   Pre_operational = 0x7F,
   Unknown_state   = 0x0F
-#ifdef CO_ENABLE_LSS
-  ,LssTimingDelay  = 0x10
-#endif
 };
 
 typedef enum enum_nodeState e_nodeState;

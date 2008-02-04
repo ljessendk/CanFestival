@@ -73,10 +73,18 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
         break;
 
       case NMT_Reset_Node:
+#ifdef CO_ENABLE_LSS
+  		if(getNodeId(d)!=d->lss_transfer.nodeID)
+  			setNodeId(d, d->lss_transfer.nodeID);
+#endif
         setState(d,Initialisation);
         break;
 
       case NMT_Reset_Comunication:
+#ifdef CO_ENABLE_LSS
+  		if(getNodeId(d)!=d->lss_transfer.nodeID && getNodeId(d)>0 && getNodeId(d)<=127)
+  			setNodeId(d, d->lss_transfer.nodeID);
+#endif
         setState(d,Initialisation);
         break;
 

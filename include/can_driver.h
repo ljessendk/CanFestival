@@ -68,6 +68,14 @@ static inline void print_message(Message *m)
             else
                 printf("EMCY ");
         break;
+#ifdef CO_ENABLE_LSS
+        case LSS:
+        	if(m->cob_id == 0x7E5)
+                printf("MLSS ");
+            else
+                printf("SLSS ");
+        break;
+#endif
         _P(TIME_STAMP)
         _P(PDO1tx)
         _P(PDO1rx)
