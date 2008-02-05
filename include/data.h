@@ -42,6 +42,7 @@ typedef struct struct_CO_Data CO_Data;
 #include "states.h"
 #include "lifegrd.h"
 #include "sync.h"
+#include "nmtSlave.h"
 #include "nmtMaster.h"
 #include "emcy.h"
 #ifdef CO_ENABLE_LSS

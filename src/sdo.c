@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* #define DEBUG_WAR_CONSOLE_ON */
 /* #define DEBUG_ERR_CONSOLE_ON */
 
-#include "data.h"
+#include "canfestival.h"
 #include "sysdep.h"
 
 /* Uncomment if your compiler does not support inline functions */
