@@ -27,79 +27,84 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <iostream>
 
 #if defined(WIN32) && !defined(__CYGWIN__)
-	#include <windows.h>
+#include <windows.h>
 #else
-	#include <stdio.h>
-	#include <string.h>
-	#include <unistd.h>
-	#include <stdlib.h>
-	#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
 #endif
 
 //#include <can_driver.h>
 //#include <timers_driver.h>
-extern "C" 
-  {
-	#include "canfestival.h"
-  }
+extern "C"
+{
+#include "canfestival.h"
+}
 #include "CallBack.h"
 #include "TestSlaveGui.h"
 #include "main.h"
 
-extern wxTextCtrl 	*textLog;
-extern int			node_id_ext;
+extern wxTextCtrl *textLog;
+extern int node_id_ext;
 
 //***************************  INIT  *****************************************
-void InitNodes(CO_Data* d, UNS32 id)
+void
+InitNodes (CO_Data * d, UNS32 id)
 {
-	//****************************** INITIALISATION SLAVE *******************************
-		/* Defining the node Id */
-		setNodeId(&ObjDict_Data, node_id_ext);
-		/* init */
-		setState(&ObjDict_Data, Initialisation);
+  //****************************** INITIALISATION SLAVE *******************************
+  /* Defining the node Id */
+  setNodeId (&ObjDict_Data, node_id_ext);
+  /* init */
+  setState (&ObjDict_Data, Initialisation);
 }
 
 //****************************************************************************
 //***************************  MAIN  *****************************************
 //****************************************************************************
-int main_can(s_BOARD SlaveBoard, char* LibraryPath)
+int
+main_can (s_BOARD SlaveBoard, char *LibraryPath)
 {
-  printf("Bus name: %s        Freq: %s       Driver: %s\n", SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
+  printf ("Bus name: %s        Freq: %s       Driver: %s\n",
+	  SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
 
-  #ifndef NOT_USE_DYNAMIC_LOADING
-	if (LoadCanDriver(LibraryPath) == NULL)
-		*textLog << wxT("Unable to load library\n");
-  #endif		
-	// Open CAN devices
+#ifndef NOT_USE_DYNAMIC_LOADING
+  if (LoadCanDriver (LibraryPath) == NULL)
+    *textLog << wxT ("Unable to load library\n");
+#endif
+  // Open CAN devices
 
-	ObjDict_Data.heartbeatError = Call_heartbeatError;
-	ObjDict_Data.initialisation = Call_initialisation;
-	ObjDict_Data.preOperational = Call_preOperational;
-	ObjDict_Data.operational = Call_operational;
-	ObjDict_Data.stopped = Call_stopped;
-	ObjDict_Data.post_sync = Call_post_sync;
-	ObjDict_Data.post_TPDO = Call_post_TPDO;
-	ObjDict_Data.storeODSubIndex = Call_storeODSubIndex;		
+  ObjDict_Data.heartbeatError = Call_heartbeatError;
+  ObjDict_Data.initialisation = Call_initialisation;
+  ObjDict_Data.preOperational = Call_preOperational;
+  ObjDict_Data.operational = Call_operational;
+  ObjDict_Data.stopped = Call_stopped;
+  ObjDict_Data.post_sync = Call_post_sync;
+  ObjDict_Data.post_TPDO = Call_post_TPDO;
+  ObjDict_Data.storeODSubIndex = Call_storeODSubIndex;
 
-	if(!canOpen(&SlaveBoard,&ObjDict_Data))
-	  {
-		printf("Cannot open Slave Board (%s,%s)\n",SlaveBoard.busname, SlaveBoard.baudrate);
-		return (1);
-	  }
+  if (!canOpen (&SlaveBoard, &ObjDict_Data))
+    {
+      printf ("Cannot open Slave Board (%s,%s)\n", SlaveBoard.busname,
+	      SlaveBoard.baudrate);
+      return (1);
+    }
 
-	StartTimerLoop(&InitNodes);
+  StartTimerLoop (&InitNodes);
 
-	return 0;
+  return 0;
 }
 
-void stop_slave()
-{	
-    EnterMutex();
-	setState(&ObjDict_Data, Stopped);
-    LeaveMutex();
+void
+stop_slave ()
+{
+  EnterMutex ();
+  setState (&ObjDict_Data, Stopped);
+  LeaveMutex ();
 
-    StopTimerLoop();
-    canClose(&ObjDict_Data);
+  StopTimerLoop ();
+  canClose (&ObjDict_Data);
 
-	return;
+  return;
 }

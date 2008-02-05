@@ -26,55 +26,69 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "CallBack.h"
 #include "main.h"
-extern "C" 
-  {
-	#include "ObjDict.h"
-  }
+extern "C"
+{
+#include "ObjDict.h"
+}
 
 
-extern wxTextCtrl 	*textLog;
+extern wxTextCtrl *textLog;
 
 /*****************************************************************************/
-void Call_heartbeatError(CO_Data* d, UNS8 heartbeatID)
+void
+Call_heartbeatError (CO_Data * d, UNS8 heartbeatID)
 {
-	//*textLog << wxT("HeartbeatError\n");
+  //*textLog << wxT("HeartbeatError\n");
 }
 
-void Call_initialisation(CO_Data* d)
+void
+Call_initialisation (CO_Data * d)
 {
-	//*textLog << wxT("Initialisation\n");
+  //*textLog << wxT("Initialisation\n");
 }
 
-void Call_preOperational(CO_Data* d)
+void
+Call_preOperational (CO_Data * d)
 {
-	//*textLog << wxT("PreOperational\n");
+  //*textLog << wxT("PreOperational\n");
 }
 
-void Call_operational(CO_Data* d)
+void
+Call_operational (CO_Data * d)
 {
-	//*textLog << wxT("Operational\n");
+  //*textLog << wxT("Operational\n");
 }
 
-void Call_stopped(CO_Data* d)
+void
+Call_stopped (CO_Data * d)
 {
-	//*textLog << wxT("Stopped\n");
+  //*textLog << wxT("Stopped\n");
 }
 
-void Call_post_sync(CO_Data* d)
+void
+Call_post_sync (CO_Data * d)
 {
-    //*textLog << wxT("Post_sync\n");
-	printf("POST SYNC:\n");
-	printf("     Write_Outputs: %x \n     Analogue_Output1: %d \n     Analogue_Output2: %d \n", Write_Outputs_8_Bit[0], Write_Analogue_Output_16_Bit[0], Write_Analogue_Output_16_Bit[1]);
-	printf("     Read_Input: %x \n     Analogue_Input1: %d \n     Analogue_Input2: %d \n", Read_Inputs_8_Bit[0], Read_Analogue_Input_16_Bit[0], Read_Analogue_Input_16_Bit[1]);
+  //*textLog << wxT("Post_sync\n");
+  printf ("POST SYNC:\n");
+  printf
+    ("     Write_Outputs: %x \n     Analogue_Output1: %d \n     Analogue_Output2: %d \n",
+     Write_Outputs_8_Bit[0], Write_Analogue_Output_16_Bit[0],
+     Write_Analogue_Output_16_Bit[1]);
+  printf
+    ("     Read_Input: %x \n     Analogue_Input1: %d \n     Analogue_Input2: %d \n",
+     Read_Inputs_8_Bit[0], Read_Analogue_Input_16_Bit[0],
+     Read_Analogue_Input_16_Bit[1]);
 }
 
-void Call_post_TPDO(CO_Data* d)
+void
+Call_post_TPDO (CO_Data * d)
 {
-	//*textLog << wxT("Post_TPDO\n");
+  //*textLog << wxT("Post_TPDO\n");
 }
 
-void Call_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+void
+Call_storeODSubIndex (CO_Data * d, UNS16 wIndex, UNS8 bSubindex)
 {
-	printf("StoreODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
-	//*textLog << wxT("StoreODSubIndex :\n");
+  printf ("StoreODSubIndex : %4.4x %2.2x\n", wIndex, bSubindex);
+  //*textLog << wxT("StoreODSubIndex :\n");
 }
