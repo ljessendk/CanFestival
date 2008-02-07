@@ -156,6 +156,13 @@ OUTPUT	1 if a message received
   }
 }
 
+/***************************************************************************/
+unsigned char canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+{
+
+	return 0;
+}
+
 #ifdef  __IAR_SYSTEMS_ICC__
 #pragma type_attribute = __interrupt
 #pragma vector=CANIT_vect

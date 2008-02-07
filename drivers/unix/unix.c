@@ -101,6 +101,7 @@ LIB_HANDLE LoadCanDriver(char* driver_name)
 	DLSYM(canReceive)
 	DLSYM(canSend)
 	DLSYM(canOpen)
+	DLSYM(canChangeBaudRate)
 	DLSYM(canClose)
 
 	return handle;
@@ -187,4 +188,17 @@ int canClose(CO_Data * d)
 	
 	WaitReceiveTaskEnd(tmp->receiveTask);
 	return res;
+}
+
+
+UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
+{
+   if(port){
+		UNS8 res;
+	        //LeaveMutex();
+		res = DLL_CALL(canChangeBaudRate)(((CANPort*)port)->fd, baud);
+		//EnterMutex();
+		return res; // OK
+	}               
+	return 1; // NOT OK
 }

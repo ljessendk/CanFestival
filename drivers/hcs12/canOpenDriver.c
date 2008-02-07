@@ -134,7 +134,7 @@ void initSCI_1(void)
 char *
 hex_convert (char *buf, unsigned long value, char lastCar)
 {
-  //Thanks to Stéphane Carrez for this function
+  //Thanks to Stphane Carrez for this function
   char num[32];
   int pos;
 
@@ -508,7 +508,10 @@ UNS8 canSend(UNS8 notused, Message *m)
   return 0;
 }
 
-
+UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+{
+    return 0;
+}
 /**************************************************************************/
 UNS8 f_can_receive(UNS8 notused, Message *msgRcv)
 { 

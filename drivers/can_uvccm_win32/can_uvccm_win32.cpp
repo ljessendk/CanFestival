@@ -348,5 +348,8 @@ extern "C"
    return 1;
    }
 
-
-   
+extern "C"
+	UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+	{
+	return 0;
+	} 

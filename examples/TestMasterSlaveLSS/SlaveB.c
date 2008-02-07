@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "Master.h"
 #include "TestMasterSlaveLSS.h"
 
-extern s_BOARD SlaveBoardB;
 /*****************************************************************************/
 void TestSlaveB_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
@@ -86,9 +85,3 @@ void TestSlaveB_StoreConfiguration(CO_Data* d, UNS8 *error, UNS8 *spec_error)
 	printf("TestSlaveB_StoreConfiguration\n");
 }
 
-void TestSlaveB_ChangeBaudRate(CO_Data* d, char *baudrate)
-{
-	eprintf("TestSlave2_ChangeBaudRate from %s to %s\n", SlaveBoardB.baudrate, baudrate);
-	SlaveBoardB.baudrate=baudrate;
-	/* something to do with the new baudrate */
-}

@@ -203,7 +203,6 @@ int main(int argc,char **argv)
 		TestSlaveA_Data.post_emcy = TestSlaveA_post_emcy;
 		/* in this example the slave doesn't support Store configuration*/
 		TestSlaveA_Data.lss_StoreConfiguration = TestSlaveA_StoreConfiguration;
-		TestSlaveA_Data.lss_ChangeBaudRate=TestSlaveA_ChangeBaudRate;
 
 		if(!canOpen(&SlaveBoardA,&TestSlaveA_Data)){
 			eprintf("Cannot open SlaveA Board (%s,%s)\n",SlaveBoardA.busname, SlaveBoardA.baudrate);
@@ -223,8 +222,6 @@ int main(int argc,char **argv)
 		TestSlaveB_Data.storeODSubIndex = TestSlaveB_storeODSubIndex;
 		TestSlaveB_Data.post_emcy = TestSlaveB_post_emcy;
 		TestSlaveB_Data.lss_StoreConfiguration = TestSlaveB_StoreConfiguration;
-		TestSlaveB_Data.lss_ChangeBaudRate=TestSlaveB_ChangeBaudRate;
-
 
 		if(!canOpen(&SlaveBoardB,&TestSlaveB_Data)){
 			eprintf("Cannot open SlaveB Board (%s,%s)\n",SlaveBoardB.busname, SlaveBoardB.baudrate);
@@ -243,7 +240,6 @@ int main(int argc,char **argv)
 		TestMaster_Data.post_TPDO = TestMaster_post_TPDO;
 		TestMaster_Data.post_emcy = TestMaster_post_emcy;
 		TestMaster_Data.post_SlaveBootup=TestMaster_post_SlaveBootup;
-		TestMaster_Data.lss_ChangeBaudRate=TestMaster_ChangeBaudRate;
 		
 		if(!canOpen(&MasterBoard,&TestMaster_Data)){
 			eprintf("Cannot open Master Board (%s,%s)\n",MasterBoard.busname, MasterBoard.baudrate);

@@ -325,3 +325,10 @@ extern "C"
    delete reinterpret_cast<IXXAT*>(inst);
    return 1;
    }
+   
+extern "C"
+   UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+	{
+	//printf("canChangeBaudRate not yet supported by this driver\n");
+	return 0;
+	}

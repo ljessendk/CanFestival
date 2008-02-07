@@ -23,10 +23,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "Master.h"
 #include "SlaveA.h"
 #include "SlaveB.h"
-#include "TestMasterSlaveLSS.h"
+#include "TestMasterSlaveLSS.h" 
 
-extern s_BOARD MasterBoard; 
-
+extern s_BOARD MasterBoard;
 /*****************************************************************************/
 void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
@@ -217,15 +216,16 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 	
 				/* The slaves are now configured (nodeId and Baudrate) via the LSS services.
    			 	* Switch the LSS state to WAITING and restart the slaves. */
+   			 	MasterBoard.baudrate="250K";
    	
 	   			printf("Master : Switch Delay period finished. Switching to LSS WAITING state\n");
-   				configNetworkNode(&TestMaster_Data,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
+   				configNetworkNode(d,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
 	   			
    				printf("Master : Restarting all the slaves\n");
-   				masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Reset_Node);
+   				masterSendNMTstateChange (d, 0x00, NMT_Reset_Node);
 	   			
    				printf("Master : Starting the SYNC producer\n");
-   				writeLocalDict( &TestMaster_Data, /*CO_Data* d*/
+   				writeLocalDict( d, /*CO_Data* d*/
 					0x1006, /*UNS16 index*/
 					0x00, /*UNS8 subind*/ 
 					&SINC_cicle, /*void * pSourceData,*/ 
@@ -235,8 +235,12 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 				return;
 			}
    			else{
-	   			printf("Master : unable to activate bit timing. trying again\n");
-   				init_step_LSS--;
+   				UNS16 Switch_delay=1;
+				UNS8 LSS_mode=LSS_CONFIGURATION_MODE;
+				
+	   			eprintf("Master : unable to activate bit timing. trying again\n");
+				configNetworkNode(d,LSS_CONF_ACT_BIT_TIMING,&Switch_delay,0,CheckLSSAndContinue);
+				return;
    			}
    			break;	
 		case LSS_SM_SELECTIVE_SERIAL:
@@ -257,9 +261,9 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 				 * Start the configuration of the baud rate. */
 				eprintf("Master : There are not no-configured slaves in the net\n", command);
 				eprintf("Switching all the nodes to LSS CONFIGURATION state\n");
-				configNetworkNode(&TestMaster_Data,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
+				configNetworkNode(d,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
 				eprintf("LSS=>Activate Bit Timing\n");
-				configNetworkNode(&TestMaster_Data,LSS_CONF_ACT_BIT_TIMING,&Switch_delay,0,CheckLSSAndContinue);
+				configNetworkNode(d,LSS_CONF_ACT_BIT_TIMING,&Switch_delay,0,CheckLSSAndContinue);
 				return;
    			}
    			break;
@@ -326,7 +330,8 @@ static void ConfigureLSSNode(CO_Data* d)
 	UNS32 Serial_Number_low=0x56789010;
 	UNS8 LSS_mode=LSS_WAITING_MODE;
 	UNS8 Baud_Table=0;
-	UNS8 Baud_BitTiming=3;
+	//UNS8 Baud_BitTiming=3;
+	char* Baud_BitTiming="250K";
 	UNS8 res;
 	eprintf("ConfigureLSSNode step %d -> ",init_step_LSS);
 
@@ -450,9 +455,3 @@ void TestMaster_post_SlaveBootup(CO_Data* d, UNS8 nodeid)
 		ConfigureSlaveNode(d, nodeid);
 }
 
-void TestMaster_ChangeBaudRate(CO_Data* d, char *baudrate)
-{
-	eprintf("TestMaster_ChangeBaudRate from %s to %s\n", MasterBoard.baudrate, baudrate);
-	MasterBoard.baudrate=baudrate;
-	/* something to do with the new baudrate */
-}

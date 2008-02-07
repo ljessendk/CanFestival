@@ -76,20 +76,28 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   }
   return 0;
 }
-/*
-int TranslateBaudeRate(char* optarg){
-	if(!strcmp( optarg, "1M")) return 1000;
-	if(!strcmp( optarg, "500K")) return 500;
-	if(!strcmp( optarg, "250K")) return 250;
-	if(!strcmp( optarg, "125K")) return 125;
-	if(!strcmp( optarg, "100K")) return 100;
-	if(!strcmp( optarg, "50K")) return 50;
-	if(!strcmp( optarg, "20K")) return 20;
-	if(!strcmp( optarg, "10K")) return 10;
-	if(!strcmp( optarg, "5K")) return 5;
+
+/***************************************************************************/
+int TranslateBaudRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return (int)1000;
+	if(!strcmp( optarg, "500K")) return (int)500;
+	if(!strcmp( optarg, "250K")) return (int)250;
+	if(!strcmp( optarg, "125K")) return (int)125;
+	if(!strcmp( optarg, "100K")) return (int)100;
+	if(!strcmp( optarg, "50K")) return (int)50;
+	if(!strcmp( optarg, "20K")) return (int)20;
+	if(!strcmp( optarg, "10K")) return (int)10;
+	if(!strcmp( optarg, "5K")) return (int)5;
 	if(!strcmp( optarg, "none")) return 0;
-	return 0;
-}*/
+	return 0x0000;
+}
+
+UNS8 canChangeBaudRate_driver( CAN_HANDLE fd0, char* baud)
+{
+    printf("%x-> changing to baud rate %s[%d]\n", (CANPipe*)fd0 - &canpipes[0],baud,TranslateBaudRate(baud)); 
+    return 0;
+}
+
 /***************************************************************************/
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {

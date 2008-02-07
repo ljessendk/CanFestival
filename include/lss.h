@@ -74,7 +74,7 @@ typedef void (*LSSCallback_t)(CO_Data* d, UNS8 command);
 typedef void (*lss_StoreConfiguration_t)(CO_Data* d,UNS8*,UNS8*);
 //void _lss_StoreConfiguration(UNS8 *error, UNS8 *spec_error);
 
-typedef void (*lss_ChangeBaudRate_t)(CO_Data* d,char*);
+//typedef void (*lss_ChangeBaudRate_t)(CO_Data* d,char*);
 //void _lss_ChangeBaudRate(char *BaudRate);
 
 

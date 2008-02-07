@@ -30,5 +30,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // ---------  to be called by user app ---------
 void initTimer(void);
 UNS8 canSend(CAN_PORT notused, Message *m);
+UNS8 canChangeBaudRate(CAN_PORT port, char* baud);
 
 #endif

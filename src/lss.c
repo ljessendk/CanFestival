@@ -162,7 +162,8 @@ void LssAlarmSDELAY(CO_Data* d, UNS32 id)
    	if(d->lss_transfer.switchDelayState==SDELAY_FIRST){
    		MSG_WAR(0x3D0B, "LSS switch delay first period expired",0);
     	d->lss_transfer.switchDelayState=SDELAY_SECOND;
-    	(*d->lss_ChangeBaudRate)(d,d->lss_transfer.baudRate);
+    	//(*d->lss_ChangeBaudRate)(d,d->lss_transfer.baudRate);
+    	canChangeBaudRate(d->lss_transfer.canHandle_t, d->lss_transfer.baudRate);
     }
     else{ /* d->lss_transfer.switchDelayState==SDELAY_SECOND */
     	MSG_WAR(0x3D0C, "LSS switch delay second period expired",0);
@@ -346,6 +347,20 @@ UNS8 sendSlaveLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   
   return canSend(d->canHandle,&m);
 }
+			
+/* If a baud rate is not supported just comment the line. */
+static UNS8 CO_TranslateBaudRate(char* optarg){
+	if(!strcmp( optarg, "1M")) return 0x00;
+	if(!strcmp( optarg, "800K")) return 0x01;
+	if(!strcmp( optarg, "500K")) return 0x02;
+	if(!strcmp( optarg, "250K")) return 0x03;
+	if(!strcmp( optarg, "125K")) return 0x04;
+	if(!strcmp( optarg, "100K")) return 0x05;
+	if(!strcmp( optarg, "50K")) return 0x06;
+	if(!strcmp( optarg, "20K")) return 0x07;
+	if(!strcmp( optarg, "10K")) return 0x08;
+	return -1;
+}
 
 /*!                                                                                                
 **                                                                                                 
@@ -376,39 +391,28 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   	m.data[1]=*(UNS8 *)dat1;
   	break;
   case LSS_CONF_BIT_TIMING: /* Configure Bit Timing Parameters */
+  	
   	m.data[1]=*(UNS8 *)dat1;
-  	m.data[2]=*(UNS8 *)dat2;
-  	if(d->lss_ChangeBaudRate){
-		/* If a baud rate is not supported just comment the line. */
-		switch(m.data[2]){
-			case 0x00:d->lss_transfer.baudRate="1M";break;
-			case 0x01:d->lss_transfer.baudRate="800K";break;
-			case 0x02:d->lss_transfer.baudRate="500K";break;
-			case 0x03:d->lss_transfer.baudRate="250K";break;
-			case 0x04:d->lss_transfer.baudRate="125K";break;
-			case 0x05:d->lss_transfer.baudRate="100K";break;
-			case 0x06:d->lss_transfer.baudRate="50K";break;
-			case 0x07:d->lss_transfer.baudRate="20K";break;
-			case 0x08:d->lss_transfer.baudRate="10K";break;
-			default:
-				MSG_ERR(0x1D19, "Master-> Baud rate not supported",0);
-				d->lss_transfer.dat1=0xFF;
-				goto ErrorBitRateMaster;
-				break; 
-			}		
-		hasResponse=1;
-		break;
-	}
-	else{
+  	d->lss_transfer.baudRate=*(char **)dat2;
+  	
+  	if((m.data[2]=CO_TranslateBaudRate(d->lss_transfer.baudRate))>0){
+  		hasResponse=1;
+		break;	 
+  	}
+  		
+	MSG_ERR(0x1D19, "Master-> Baud rate not supported",0);
+	d->lss_transfer.dat1=0xFF;
+	
+	/* if bit timing is not supported comment the previous code and uncomment the following one*/
+	/*{
 		MSG_ERR(0x1D1A, "Master-> Bit timing not supported",0);
 		d->lss_transfer.dat1=0x01;
-	}
+	}*/
 	
-ErrorBitRateMaster:
 	d->lss_transfer.dat2=0;
  	/* If there is a callback, it is responsible of the error */
 	if(d->lss_transfer.Callback)
-    	(*d->lss_transfer.Callback)(d,d->lss_transfer.command);
+	   	(*d->lss_transfer.Callback)(d,d->lss_transfer.command);
 	return 0xFF;
   	break;
   case LSS_CONF_ACT_BIT_TIMING: /* Activate Bit Timing Parameters */
@@ -417,6 +421,7 @@ ErrorBitRateMaster:
 	if(d->lss_transfer.baudRate!="none"){
 		d->lss_transfer.switchDelay=(UNS16)(*(UNS32*)dat1 & 0xFFFF);
 		d->lss_transfer.switchDelayState=SDELAY_FIRST;
+		d->lss_transfer.canHandle_t=d->canHandle;
 		res=canSend(d->canHandle,&m);
   		if(res==0){
   			StartLSS_SDELAY_TIMER();
@@ -673,31 +678,21 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 		UNS8 spec_error=0;
 			
 		if(d->lss_transfer.mode==LSS_CONFIGURATION_MODE){
-			/* Change the baud rate only if the function lss_ChangeBaudRate 
-			 * has been implemented. If not send an error.
-			 */
-			if(d->lss_ChangeBaudRate){
-				/* If a baud rate is not supported just comment the line. */
-				switch(m->data[2]){
-				case 0x00:d->lss_transfer.baudRate="1M";break;
-				case 0x01:d->lss_transfer.baudRate="800K";break;
-				case 0x02:d->lss_transfer.baudRate="500K";break;
-				case 0x03:d->lss_transfer.baudRate="250K";break;
-				case 0x04:d->lss_transfer.baudRate="125K";break;
-				case 0x05:d->lss_transfer.baudRate="100K";break;
-				case 0x06:d->lss_transfer.baudRate="50K";break;
-				case 0x07:d->lss_transfer.baudRate="20K";break;
-				case 0x08:d->lss_transfer.baudRate="10K";break;
-				default:
-					MSG_ERR(0x1D28, "Baud rate not supported",0);
-					error_code=0xFF; /* Baud rate not supported*/
-					break; 
-				}		
-			}
-			else
-			{
-				MSG_ERR(0x1D29, "Bit timing not supported",0);
-				error_code=0x01; /* bit timing not supported */
+			/* If a baud rate is not supported just comment the line. */
+			switch(m->data[2]){
+			case 0x00:d->lss_transfer.baudRate="1M";break;
+			case 0x01:d->lss_transfer.baudRate="800K";break;
+			case 0x02:d->lss_transfer.baudRate="500K";break;
+			case 0x03:d->lss_transfer.baudRate="250K";break;
+			case 0x04:d->lss_transfer.baudRate="125K";break;
+			case 0x05:d->lss_transfer.baudRate="100K";break;
+			case 0x06:d->lss_transfer.baudRate="50K";break;
+			case 0x07:d->lss_transfer.baudRate="20K";break;
+			case 0x08:d->lss_transfer.baudRate="10K";break;
+			default:
+				MSG_ERR(0x1D28, "Baud rate not supported",0);
+				error_code=0xFF; /* Baud rate not supported*/
+				break; 		
 			}
 		}
 		else{
@@ -706,6 +701,12 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 			break;
 		}
 		
+		/* if bit timing is not supported comment the previous code and uncomment the following */
+		/*{
+			MSG_ERR(0x1D29, "Bit timing not supported",0);
+			error_code=0x01; // bit timing not supported 
+		}*/
+			
 		sendSlaveLSSMessage(d,msg_cs,&error_code,&spec_error);
 	}
 	break;
@@ -981,6 +982,5 @@ UNS8 getConfigResultNetworkNode (CO_Data* d, UNS8 command, UNS32* dat1, UNS8* da
 }
 
 //void _lss_StoreConfiguration(UNS8 *error, UNS8 *spec_error){printf("_lss_StoreConfiguration\n");}
-//void _lss_ChangeBaudRate(char *BaudRate){printf("_lss_ChangeBaudRate\n");}
 
 #endif

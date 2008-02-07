@@ -14,4 +14,3 @@ void TestSlaveB_post_TPDO(CO_Data* d);
 void TestSlaveB_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 void TestSlaveB_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg);
 void TestSlaveB_StoreConfiguration(CO_Data* d, UNS8 *error, UNS8 *spec_error);
-void TestSlaveB_ChangeBaudRate(CO_Data* d, char *baudrate);

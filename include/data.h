@@ -117,7 +117,6 @@ struct struct_CO_Data {
 	/* LSS */
 	lss_transfer_t lss_transfer;
 	lss_StoreConfiguration_t lss_StoreConfiguration;
-	lss_ChangeBaudRate_t lss_ChangeBaudRate;
 #endif	
 };
 
@@ -180,8 +179,7 @@ struct struct_CO_Data {
 		0						/* LSSanswer */\
 		lss_fs_Initializer		/*FastScan service initialization */\
 	  },\
-	  NULL, 	/* _lss_StoreConfiguration*/\
-	  NULL    /* _lss_ChangeBaudRate */
+	  NULL 	/* _lss_StoreConfiguration*/
 #else
 #define lss_Initializer
 #endif

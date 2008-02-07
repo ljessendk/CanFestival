@@ -32,14 +32,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "can4linux.h" 
 #include "can_driver.h"
 
-struct timeval init_time,current_time;
+//struct timeval init_time,current_time;
 
 /*********functions which permit to communicate with the board****************/
 UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 {
   int res,i;
   canmsg_t canmsg;
-  long int time_period;
+  //long int time_period;
 
 	canmsg.flags = 0; 
 	do{
@@ -104,26 +104,9 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   return 0;
 }
 
-/***************************************************************************/
-int	set_bitrate( CAN_HANDLE fd, int baud)
-{
-    Config_par_t  cfg;	
-    volatile Command_par_t cmd;
-
-    cmd.cmd = CMD_STOP;
-    ioctl(fd, COMMAND, &cmd);
-
-    cfg.target = CONF_TIMING; 
-    cfg.val1   = baud;
-    ioctl(fd, CONFIG, &cfg);
-
-    cmd.cmd = CMD_START;
-    ioctl(fd, COMMAND, &cmd);
-    return 0;
-}
 
 /***************************************************************************/
-int TranslateBaudeRate(char* optarg){
+int TranslateBaudRate(char* optarg){
 	if(!strcmp( optarg, "1M")) return (int)1000;
 	if(!strcmp( optarg, "500K")) return (int)500;
 	if(!strcmp( optarg, "250K")) return (int)250;
@@ -133,8 +116,35 @@ int TranslateBaudeRate(char* optarg){
 	if(!strcmp( optarg, "20K")) return (int)20;
 	if(!strcmp( optarg, "10K")) return (int)10;
 	if(!strcmp( optarg, "5K")) return (int)5;
-	if(!strcmp( optarg, "none")) return 0;
-	return 0x0000;
+	return 0;
+}
+
+UNS8 _canChangeBaudRate( CAN_HANDLE fd, int baud)
+{
+    Config_par_t  cfg;	
+    volatile Command_par_t cmd;
+    
+    cmd.cmd = CMD_STOP;
+    ioctl(fd, COMMAND, &cmd);
+
+	cfg.target = CONF_TIMING; 
+    cfg.val1  = baud;
+    ioctl(fd, CONFIG, &cfg);
+
+    cmd.cmd = CMD_START;
+    ioctl(fd, COMMAND, &cmd);
+    
+    return 0;
+}
+
+UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+{
+    int temp=TranslateBaudRate(baud);
+
+    if(temp==0)return 1;
+    _canChangeBaudRate(fd, temp);
+    printf("Baudrate changed to=>%s\n", baud);
+    return 0;
 }
 
 /***************************************************************************/
@@ -146,8 +156,9 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
   int prefix_len = strlen(lnx_can_dev_prefix);
   char dev_name[prefix_len+name_len+1];
   int o_flags = 0;
-  int baud = TranslateBaudeRate(board->baudrate);
+  //int baud = TranslateBaudeRate(board->baudrate);
   int fd0;
+  int res;
 
   
   /*o_flags = O_NONBLOCK;*/
@@ -162,7 +173,13 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
     goto error_ret;
   }
   
-  set_bitrate((CAN_HANDLE)fd0, baud);
+  res=TranslateBaudRate(board->baudrate);
+  if(res == 0){
+    fprintf(stderr,"!!! %s baudrate not supported. See can4linux.c\n", board->baudrate);
+    goto error_ret;
+  }
+	
+  _canChangeBaudRate( (CAN_HANDLE)fd0, res);
 
   printf("CAN device dev/can%s opened. Baudrate=>%s\n",board->busname, board->baudrate);
 

@@ -39,5 +39,6 @@ You can also call canDispatch(...) in void __attribute__((interrupt)) can0HdlRcv
 (see include/hcs12/canOpenDriver.c)
  */
 UNS8 f_can_receive(UNS8 notused, Message *m);
+UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud);
 
 #endif

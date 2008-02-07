@@ -100,6 +100,12 @@ int TranslateBaudeRate(char* optarg){
 	return 0x0000;
 }
 
+UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+{
+	printf("canChangeBaudRate not yet supported by this driver\n");
+	return 0;
+}
+
 /***************************************************************************/
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {

@@ -117,4 +117,9 @@ extern "C"
    delete reinterpret_cast<SocketClient*>(inst);
    return 1;
    }
-
+extern "C"
+	UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+	{
+	cerr << "canChangeBaudRate not yet supported by this driver\n";
+	return 0;
+	}
