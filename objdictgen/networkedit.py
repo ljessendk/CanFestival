@@ -738,7 +738,13 @@ class networkedit(wx.Frame):
         
     def OnHelpCANFestivalMenu(self, event):
         #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(ScriptDirectory, "doc/canfestival.html"), wx.Size(1000, 600))
-        os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
+        if wx.Platform == '__WXMSW__':
+            readerpath = get_acroversion()
+            readerexepath = os.path.join(readerpath,"AcroRd32.exe")
+            if(os.path.isfile(readerexepath)):
+                os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", os.path.join(ScriptDirectory, "doc","manual_en.pdf"))
+        else:
+            os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
         event.Skip()
 
     def OnAboutMenu(self, event):
