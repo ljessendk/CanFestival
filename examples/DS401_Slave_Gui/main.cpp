@@ -45,6 +45,9 @@ extern "C"
 wxTextCtrl *textLog;
 int node_id_ext;
 int to_start = 0;
+int openInput = 0;
+int openOutput = 0;
+
 MyFrame *frame;
 #define MAXLENGTH_BUSNAME 32
 #define MAXLENGTH_BAUDRATE 8
@@ -54,11 +57,6 @@ s_BOARD SlaveBoard = { _busname, _baudrate };
 
 #define MAXLENGTH_LIBPATH 1024
 char LibraryPath[MAXLENGTH_LIBPATH] = "libcanfestival_can_virtual.so";
-double Gtime = 0;
-double y[28][45];
-double hdelta = 0;
-double old_max = 5;
-double old_min = -5;
 
 #if defined(WIN32)
 #define LIB_EXTENT wxT("*.dll")
@@ -136,8 +134,7 @@ EVT_SPINCTRL (INST8, MyFrame::OnInst8)
 EVT_LISTBOX (FREQBOX, MyFrame::OnFreqBoxClick)
 EVT_MENU (FILE_QUIT, MyFrame::OnQuit)
 EVT_BUTTON (QUIT, MyFrame::OnQuit) EVT_MENU (HELP_ABOUT, MyFrame::OnAbout)
-  //EVT_PAINT(MyFrame::OnPaint)
-  EVT_TIMER (TIMER_ID, MyFrame::OnTimer)
+EVT_TIMER (TIMER_ID, MyFrame::OnTimer)
 END_EVENT_TABLE ()IMPLEMENT_APP_NO_MAIN (MyApp);
 IMPLEMENT_WX_THEME_SUPPORT;
 
@@ -173,7 +170,7 @@ main (int argc, char **argv)
   int c;
   extern char *optarg;
   char *snodeid;
-  while ((c = getopt (argc, argv, "-b:B:l:i:s")) != EOF)
+  while ((c = getopt (argc, argv, "-b:B:l:i:sIO")) != EOF)
     {
       switch (c)
 	{
@@ -213,6 +210,12 @@ main (int argc, char **argv)
 	case 's':
 	  to_start = 1;
 	  break;
+	case 'I':
+	  openInput = 1;
+	  break;
+	case 'O':
+	  openOutput = 1;
+	  break;
 	default:
 	  help ();
 	  exit (1);
@@ -225,8 +228,10 @@ main (int argc, char **argv)
 bool
 MyApp::OnInit ()
 {
-  frame = new MyFrame (_T ("I-O simulator"));
+  frame = new MyFrame (wxString::Format(wxT("CanOpen virtual DS-401 - Id : %d"),node_id_ext));
   frame->Show (true);
+  if(openInput) frame->book->SetSelection(2);
+  else if(openOutput) frame->book->SetSelection(3);
   return true;
 }
 
@@ -312,7 +317,7 @@ MyFrame::MyFrame (const wxString & title):wxFrame (NULL, wxID_ANY, title, wxDefa
   myhsizer =
     new wxStaticBoxSizer (new
 			  wxStaticBox (panel, wxID_ANY,
-				       _T ("Node ID (Hexa)")), wxHORIZONTAL);
+				       _T ("Node ID (Decimal)")), wxHORIZONTAL);
   myentrysizer->Add (myhsizer, 0, wxEXPAND | wxALL, 5);
   node_id =
     new wxSpinCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition,
@@ -542,46 +547,6 @@ MyFrame::MyFrame (const wxString & title):wxFrame (NULL, wxID_ANY, title, wxDefa
     _T ("Bool Input 5"), _T ("Bool Input 6"),
     _T ("Bool Input 7"), _T ("Bool Input 8"),
   };
-  panel = new wxPanel (book);
-  book->AddPage(panel, wxT("Graphic"), true); 
-  mysizer = new wxBoxSizer (wxVERTICAL);
-  panel->SetSizer (mysizer);
-  //panel->Hide ();
-  myhsizer =
-    new wxStaticBoxSizer (new wxStaticBox (panel, wxID_ANY, _T ("Graphic")),
-			  wxVERTICAL);
-  mysizer->Add (myhsizer, 0, wxEXPAND | wxALL, 10);
-  mygraphpan =
-    new wxPanel (panel, wxID_ANY, wxDefaultPosition, wxSize (0, 350),
-		 wxTAB_TRAVERSAL, wxT ("Graphic"));
-  myhsizer->Add (mygraphpan, wxEXPAND | wxALL, wxEXPAND | wxALL, 15);
-  echelle =
-    new wxSlider (panel, wxID_ANY, 44, 44, 1000, wxDefaultPosition,
-		  wxDefaultSize, wxSL_HORIZONTAL, wxDefaultValidator,
-		  wxT ("slider"));
-  myhsizer->Add (echelle, 0, wxEXPAND | wxALL, 0);
-  mybsizer = new wxBoxSizer (wxHORIZONTAL);
-  mysizer->Add (mybsizer, wxEXPAND | wxALL, wxEXPAND | wxALL, 5);
-  myhsizer =
-    new wxStaticBoxSizer (new
-			  wxStaticBox (panel, wxID_ANY,
-				       _T ("Select viewable Inputs")),
-			  wxHORIZONTAL);
-  mybsizer->Add (myhsizer, wxEXPAND | wxALL, wxEXPAND | wxALL, 10);
-  inlist =
-    new wxListBox (panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 28,
-		   choice, wxLB_EXTENDED | wxLB_HSCROLL);
-  myhsizer->Add (inlist, wxEXPAND | wxALL, wxEXPAND | wxALL, 5);
-  myhsizer =
-    new wxStaticBoxSizer (new wxStaticBox (panel, wxID_ANY, _T ("Legende")),
-			  wxHORIZONTAL);
-  mybsizer->Add (myhsizer, wxEXPAND | wxALL, wxEXPAND | wxALL, 10);
-  mylegpan =
-    new wxPanel (panel, wxID_ANY, wxDefaultPosition, wxDefaultSize,
-		 wxTAB_TRAVERSAL, wxT ("Legende"));
-  myhsizer->Add (mylegpan, wxEXPAND | wxALL, wxEXPAND | wxALL, 15);
-  quit = new wxButton (panel, QUIT, _T ("QUIT"));
-  mysizer->Add (quit, 0, wxALL, 5);
 
   panel = new wxPanel (book);
   book->InsertPage (0, panel, wxT ("Control"), true);
@@ -612,9 +577,6 @@ MyFrame::MyFrame (const wxString & title):wxFrame (NULL, wxID_ANY, title, wxDefa
   quit = new wxButton (panel, QUIT, _T ("QUIT"));
   mysizer->Add (quit, 0, wxALL, 5);
 
-  for (int i = 0; i < 28; i++)
-    for (int j = 0; j < 44; j++)
-      y[i][j] = 0;
   m_timer.Start (100);
   if (to_start)
     {
@@ -653,13 +615,15 @@ void
 MyFrame::OnStart (wxCommandEvent & WXUNUSED (event))
 {
   wxString s;
-
+  
   node_id_ext = node_id->GetValue ();
   s = busname->GetValue ();
   strncpy (SlaveBoard.busname, s.mb_str (), MAXLENGTH_BUSNAME);
   *textLog << wxT ("-- Bus name: ------> ") << s << wxT ("\n");
   *textLog << wxT ("-- Node ID: -------> ") << node_id->
     GetValue () << wxT ("\n");
+  SetTitle(wxString::Format(wxT("CanOpen virtual DS-401 - Id : %d"),node_id->
+		    GetValue ()));
   Start ();
 }
 
@@ -900,134 +864,6 @@ get_bit (UNS8 input, int bit)
 }
 
 void
-MyFrame::Paint ()
-{
-  double vmax = old_max;
-  double vmin = old_min;
-  double vdelta = vmax - vmin;
-  double vech = ((float) vdelta) / 10.0;
-
-  double hmax = frame->echelle->GetValue ();
-  double hech = hdelta / 11;
-
-  double d = 300 / vdelta;
-  double g = 0;
-  double top = 5;
-  double left = 50;
-
-  double tmpi = 0;
-  wxString tmps;
-  double p = 0;
-  double q = 0;
-  int i = 0;
-  int j = 0;
-  wxColor col[8] =
-    { wxColor (wxT ("BLUE")), wxColor (wxT ("RED")), wxColor (wxT ("GREEN")),
-wxColor (wxT ("GREY")),
-    wxColor (wxT ("ORANGE")), wxColor (wxT ("YELLOW")),
-      wxColor (wxT ("PINK")), wxColor (wxT ("BLACK"))
-  };
-  hdelta = hmax - 0;
-  g = (Gtime / hdelta) * 44.00;
-
-  wxClientDC MonDc (mygraphpan);
-  MonDc.Clear ();
-
-  MonDc.SetPen (wxPen (wxColour (200, 200, 200), 5, wxSOLID));
-  MonDc.DrawRectangle ((int) left, (int) top, 660, 300);
-
-  MonDc.SetPen (wxPen (wxColor (150, 200, 150), 2, wxSOLID));
-  MonDc.
-    SetFont (wxFont
-	     (9, wxSWISS, wxNORMAL, wxNORMAL, false, wxT ("Arial Black")));
-  for (i = 0; i < 11; i++)
-    {
-      tmpi = (vmin + (vech * i));
-      tmps.Printf (wxT ("%d"), (int) tmpi);
-      MonDc.DrawRotatedText (tmps, 0, (int) (293 - (30 * i) + top), 0);
-    }
-  for (i = 0; i < 12; i++)
-    {
-      tmpi = (hech * i * 100);
-      if (tmpi < 1000)
-	tmps.Printf (wxT ("%ims"), (int) tmpi);
-      if (tmpi > 1000)
-	tmps.Printf (wxT ("%is"), (int) (tmpi / 1000));
-      MonDc.DrawRotatedText (tmps, (int) ((60 * i) + left) - 10,
-			     (int) (317 + top), 0);
-    }
-  for (j = 1; j < 10; j++)
-    MonDc.DrawLine ((int) left, (int) (300 - (30 * j) + top),
-		    (int) (left + 660), (int) (300 - (30 * j) + top));
-  MonDc.SetPen (wxPen (wxColor (150, 200, 150), 2, wxSOLID));
-  for (j = 1; j < 22; j++)
-    MonDc.DrawLine ((int) (30 * j + left), (int) (300 + top),
-		    (int) (30 * j + left), (int) (top));
-  MonDc.SetPen (wxPen (wxColor (150, 170, 150), 1, wxSOLID));
-  for (j = 1; j < 22; j++)
-    MonDc.DrawLine ((int) (30 * j + left - 15), (int) (300 + top),
-		    (int) (30 * j + left - 15), (int) (top));
-  MonDc.DrawLine ((int) (30 * 22 + left - 15), (int) (300 + top),
-		  (int) (30 * 22 + left - 15), (int) (top));
-
-  double m = (-vmin) * d;
-  MonDc.SetPen (wxPen (wxColor (170, 170, 150), 3, wxSOLID));
-  MonDc.DrawLine ((int) (left), (int) (300 + top - m), (int) (left + 660),
-		  (int) (300 + top - m));
-
-  wxClientDC MaLeg (mylegpan);
-  MaLeg.Clear ();
-
-  MaLeg.SetPen (wxPen (wxColour (150, 200, 100), 2, wxSOLID));
-  MaLeg.
-    SetFont (wxFont
-	     (7, wxSWISS, wxNORMAL, wxNORMAL, false, wxT ("Arial Black")));
-  for (int k = 1, tmpi = 0; k < 30; k++)
-    {
-      if ((tmpi < 8) && is_set (k, inlist, in))
-	{
-	  if (k <= 4)
-	    tmps.Printf (wxT ("Analogue Output %d"), k);
-	  if ((k > 4) && (k <= 12))
-	    tmps.Printf (wxT ("Bool Output %d"), k - 4);
-	  if ((k > 12) && (k <= 20))
-	    tmps.Printf (wxT ("Analogue Input %d"), k - 12);
-	  if ((k > 20) && (k <= 28))
-	    tmps.Printf (wxT ("Bool Input %d"), k - 20);
-
-	  MaLeg.DrawRotatedText (tmps, 0, 10 * tmpi, 0);
-	  MaLeg.SetPen (wxPen (col[tmpi], 4, wxSOLID));
-	  MaLeg.DrawLine (100, 10 * tmpi + 6, 115, 10 * tmpi + 6);
-	  //////////////////////////////////////////DAW////////////////////////////////////////
-	  MonDc.SetPen (wxPen (col[tmpi], 4, wxSOLID));
-	  if (k <= 4)
-	    y[k - 1][(int) g] = Write_Analogue_Output_16_Bit[k - 1];
-	  if ((k > 4) && (k <= 12))
-	    y[k - 1][(int) g] = get_bit (Write_Outputs_8_Bit[0], k - 4);
-	  if ((k > 12) && (k <= 20))
-	    y[k - 1][(int) g] = Read_Analogue_Input_16_Bit[k - 1 - 12];
-	  if ((k > 20) && (k <= 28))
-	    y[k - 1][(int) g] = get_bit (Read_Inputs_8_Bit[0], k - 20);
-
-	  if (y[k - 1][(int) g] > old_max)
-	    old_max = y[k - 1][(int) g];
-	  if (y[k - 1][(int) g] < old_min)
-	    old_min = y[k - 1][(int) g];
-	  for (j = 1; j < (g + 1); j++)
-	    {
-	      p = (y[k - 1][j - 1] - vmin) * d;
-	      q = (y[k - 1][j] - vmin) * d;
-	      MonDc.DrawLine ((int) (15 * (j - 1) + left),
-			      (int) (300 + top - p), (int) (15 * j + left),
-			      (int) (300 + top - q));
-	    }
-	  /////////////////////////////////////////////////////////////////////////////////////
-	  tmpi++;
-	}
-    }
-}
-
-void
 actu_output (void)
 {
   wxString tmp;
@@ -1059,15 +895,6 @@ void
 actu (void)
 {
   actu_output ();
-
-  Gtime++;
-  if (Gtime > hdelta)
-    {
-      old_max = 5;
-      old_min = -5;
-      Gtime = 0;
-    }
-  frame->Paint ();
 }
 
 void
