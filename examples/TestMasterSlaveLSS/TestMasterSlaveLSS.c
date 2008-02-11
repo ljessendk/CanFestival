@@ -60,26 +60,30 @@ void catch_signal(int sig)
 void help()
 {
   printf("**************************************************************\n");
-  printf("*  TestMasterSlaveLSS                                           *\n");
+  printf("*  TestMasterSlaveLSS                                        *\n");
   printf("*                                                            *\n");
-  printf("*  A LSS example for PC. It does implement 3 CanOpen      *\n");
-  printf("*  nodes in the same process. A master and 2 slaves. Both     *\n");
+  printf("*  A LSS example for PC. It does implement 3 CanOpen         *\n");
+  printf("*  nodes in the same process. A master and 2 slaves. All     *\n");
   printf("*  communicate together, exchanging periodically NMT, SYNC,  *\n");
   printf("*  SDO and PDO. Master configure heartbeat producer time     *\n");
-  printf("*  at 1000 ms for slave node-id 0x02 by concise DCF.         *\n");                                  
+  printf("*  at 0 ms for slave node-id 0x02 and 0x03 by concise DCF.   *\n");                                  
   printf("*                                                            *\n");
   printf("*   Usage:                                                   *\n");
-  printf("*   ./TestMasterSlaveLSS  [OPTIONS]                             *\n");
+  printf("*   ./TestMasterSlaveLSS  [OPTIONS]                          *\n");
   printf("*                                                            *\n");
   printf("*   OPTIONS:                                                 *\n");
-  printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]     *\n");
+  printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]   *\n");
   printf("*                                                            *\n");
-  printf("*    SlaveA:                                                  *\n");
-  printf("*     -s : bus name [\"0\"]                                    *\n");
-  printf("*     -S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
+  printf("*    SlaveA:                                                 *\n");
+  printf("*     -a : bus name [\"0\"]                                  *\n");
+  printf("*     -A : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
+  printf("*                                                            *\n");
+   printf("*    SlaveB:                                                *\n");
+  printf("*     -b : bus name [\"1\"]                                  *\n");
+  printf("*     -B : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
   printf("*    Master:                                                 *\n");
-  printf("*     -m : bus name [\"1\"]                                    *\n");
+  printf("*     -m : bus name [\"2\"]                                  *\n");
   printf("*     -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
   printf("**************************************************************\n");
@@ -128,17 +132,25 @@ int main(int argc,char **argv)
   extern char *optarg;
   char* LibraryPath="../../drivers/can_virtual/libcanfestival_can_virtual.so";
 
-  while ((c = getopt(argc, argv, "-m:s:M:S:l:")) != EOF)
+  while ((c = getopt(argc, argv, "-m:a:b:M:A:B:l:")) != EOF)
   {
     switch(c)
     {
-      case 's' :
+      case 'a' :
         if (optarg[0] == 0)
         {
           help();
           exit(1);
         }
         SlaveBoardA.busname = optarg;
+        break;
+      case 'b' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        SlaveBoardB.busname = optarg;
         break;
       case 'm' :
         if (optarg[0] == 0)
@@ -148,13 +160,21 @@ int main(int argc,char **argv)
         }
         MasterBoard.busname = optarg;
         break;
-      case 'S' :
+      case 'A' :
         if (optarg[0] == 0)
         {
           help();
           exit(1);
         }
         SlaveBoardA.baudrate = optarg;
+        break;
+      case 'B' :
+        if (optarg[0] == 0)
+        {
+          help();
+          exit(1);
+        }
+        SlaveBoardB.baudrate = optarg;
         break;
       case 'M' :
         if (optarg[0] == 0)
