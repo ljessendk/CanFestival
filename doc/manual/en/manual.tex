@@ -107,27 +107,29 @@
 \renewcommand\labelitemiv{{\textbullet}}
 }
 
+\newcommand{\canopen}{CANopen}
+
 \begin{document}
 
-{\centering\sffamily\Huge The CanFestival CANOpen stack manual.}
+{\centering\sffamily\Huge The CanFestival \canopen{} stack manual.}
 
 \renewcommand\contentsname{CanFestival v3.0 Manual}
 \setcounter{tocdepth}{2}
 \tableofcontents
 \section{Introduction}
-CanFestival is an OpenSource (LGPL and GPL) CANOpen framework.
+CanFestival is an OpenSource (LGPL and GPL) \canopen{} framework.
 
 \subsection{The CanFestival project}
-This project, initiated by Edouard TISSERANT in 2001, as grown thanks to
+This project, initiated by Edouard TISSERANT in 2001, has grown thanks to
 Francis DUPIN and other contributors.
 
 Today, CanFestival focuses on providing an ANSI{}-C platform independent
-CANOpen stack that can be implemented as master or slave nodes on PCs,
+\canopen{} stack that can be implemented as master or slave nodes on PCs,
 Real{}-time IPCs, and Microcontrollers.
 
 CanFestival is a project supported by Lolitech.
 
-\subsection{What is CANopen}
+\subsection{What is \canopen{}}
 CANopen is a CAN based high level protocol. It defines some protocols to
 :
 
@@ -138,20 +140,20 @@ CANopen is a CAN based high level protocol. It defines some protocols to
 \item Administrate the network. For example detecting a not responding
 node.
 \end{enumerate}
-The documentation can be found in the Can in automation website :
+The documentation can be found on the CAN in Automation website :
 
 \href{http://www.can-cia.de/canopen}{http://www.can{}-cia.de/canopen}
 
-The most important document about CANopen is the normative CiA Draft
-Standard 301, version 4.02. You can now download with no cost the
-specification in Can in automation website.
+The most important document about \canopen{} is the normative CiA Draft
+Standard 301, version 4.02. You can now download the specification from the
+CAN in Automation website at no cost.
 
 To continue reading this document, let us assume that you have read some
-papers introducing CANopen.
+papers introducing \canopen{}.
 
 \section{CanFestival Features}
 \subsection{Tools }
-The CANopen library is coming with some tools :
+The \canopen{} library is coming with some tools :
 
 \liststyleLii
 \begin{enumerate}
@@ -160,7 +162,7 @@ based GUI, that help a lot in generating object dictionary source code
 for each node.
 \item A configure script, that let you chose compile time options such
 as target CPU/HOST, CAN and TIMER drivers.\newline
-This script have not been generated with autoconf, it have been made
+This script has not been generated with autoconf, it has been made
 keeping micro{}-controller target in mind.
 \end{enumerate}
 \subsection{Standard conformance}
@@ -173,7 +175,7 @@ specific contributor/compiler.
 \item Unix compatible interfaces and examples should compile and run on
 any Unix system (tested on GNU/Linux and GNU/FreeBSD).
 \end{enumerate}
-\paragraph{CanOpen conformance}
+\paragraph{\canopen{} conformance}
 {\bfseries\upshape
 DS{}-301}
 
@@ -218,7 +220,7 @@ What you need on your development workstation.
 \item Python, with 
 \item wxPyhon modules installed (at least version 2.6.3). 
 \item Gnosis xml tools. (Optional can also be installed locally to the
-project automatically will the help of a Makefile. Please see
+project automatically with the help of a Makefile. Please see
 \hyperlink{a91UsingDictionaryEditorGUIoutline}{9.1) Using Dictionary
 Editor GUI} )
 \end{enumerate}
@@ -258,7 +260,7 @@ cvs {}-z3 {}-d:pserver:anonymous@lolitech.dyndns.org:/canfestival co
 Simplified directory structure.
 
 {\ttfamily\bfseries
-./src ANSI{}-C source of CANOpen stack}
+./src ANSI{}-C source of \canopen{} stack}
 
 {\ttfamily\bfseries
 \space /include Exportables Header files}
@@ -325,7 +327,7 @@ Simplified directory structure.
 ./objdictgen/examples Some examples/test OD}
 
 {\ttfamily\bfseries
-./doc Project and CanOpen doc}
+./doc Project and \canopen{} doc}
 
 \subsection{Implement CanFestival in your application}
  
@@ -345,7 +347,7 @@ implemented differently on {\textmu}C and OS.:
 \liststyleLvi
 \begin{enumerate}
 \item {\textmu}C must provide interuption masking for timer and can
-receive IT\newline
+receive TI\newline
  \begin{center}
    \includegraphics[width=12cm]{Pictures/10000201000003CA0000016604E6A5EF.png}
 \end{center}
@@ -356,13 +358,13 @@ reception is a bloking operation.\newline
 \end{center}
 \end{enumerate}
 \subsection{CanFestival events scheduling}
-A CanOpen node must be able to take delayed actions.
+A \canopen{} node must be able to take delayed actions.
 
 As exemples, periodic sync emission, heartbeat production or SDO timeout
 need to set some alarms that will be called later and do the job.
 
 {\textmu}C generaly do not have enough free timers to handle all the
-CanOpen needs directly. Moreover, CanFestival internal data may be
+\canopen{} needs directly. Moreover, CanFestival internal data may be
 corrupt by reentrant calls. 
 
 CanFestival implement a micro{}-scheduler (timer.c). It uses only one
@@ -413,7 +415,7 @@ Configure switch:
 {\ttfamily
  {}-{}-timers=unix}
 
-To do a CANopen node running on PC{}-Linux, you need :
+To do a \canopen{} node running on PC{}-Linux, you need :
 
 \liststyleLvii
 \begin{enumerate}
@@ -427,7 +429,7 @@ Configure switch:
 {\ttfamily
  {}-{}-timers=xeno}
 
-To do a CANopen node running on PC{}-Linux, you need :
+To do a \canopen{} node running on PC{}-Linux, you need :
 
 \liststyleLviii
 \begin{enumerate}
@@ -492,12 +494,12 @@ system during installation.
 {\ttfamily
 TestMasterSlave}
 
-Default can driver library is libcanfestival\_can\_virtual.so., which
+Default CAN driver library is libcanfestival\_can\_virtual.so., which
 will simply pass CAN messages through Unix pipes between Master and
 Slave. 
 
 You may also want to specify different can interface and define some CAN
-ports. An other example using Peak{\textquotesingle}s dual PCMCIA
+ports. Another example using Peak{\textquotesingle}s dual PCMCIA
 (configure and install with {--}can=peak) :
 
 {\ttfamily
@@ -805,7 +807,7 @@ TestMasterSlave's process.
 The examples have been tested on a MC9S12DG255 mounted on a
 Elektronikladen HCS12 T{}-board.
 
-Beware that there are a few differences in the MSCAN module of the
+Beware that there are few differences in the MSCAN module of the
 68HC12 and HCS12 microcontroller. For a HC12, you must adapt the driver
 that we provide for \space the HCS12.
 
@@ -817,7 +819,7 @@ Configure switch:
 {\ttfamily
  {}-{}-target=hcs12}
 
-To do a CANopen node running on a microncontroller Motorola MC9S12DP256,
+To do a \canopen{} node running on a microncontroller Motorola MC9S12DP256,
 you need :
 
 \liststyleLx
@@ -878,7 +880,7 @@ example for your own developments.
 \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \space A simple example for PC. It does implement 2 CanOpen \space \space \space \space \space *}
+* \space A simple example for PC. It does implement 2 \canopen{} \space \space \space \space \space *}
 
 {\ttfamily
 * \space nodes in the same process. A master and a slave. Both \space \space \space \space *}
@@ -1012,7 +1014,7 @@ The slave node is configured just before the Master entering in
 Pre\_operational state.}
 
 \subsection{gene\_SYNC\_HCS12 :}
-This is a simple CanOpen node that only send cyclic SYNC message. It
+This is a simple \canopen{} node that only send cyclic SYNC message. It
 demonstrate implementation on HCS12 based board.
 
 
@@ -1045,7 +1047,7 @@ It will insert required modules, start console, and after quitting console it'll
 \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
-* \space A CanOpen master that control a MicroMod module:
+* \space A \canopen{} master that control a MicroMod module:
 \space \space \space \space \space \space \space \space \space *}
 
 {\ttfamily
@@ -1148,14 +1150,14 @@ Using provided examples as a base for your new node is generally a good
 idea. You can also use the provided *.od files as a base for your node
 object dictionary.
 
-Creating a new CanOpen node implies to define the Object Dictionary of
-this node. For that, developer have to provide a C file. This C file
+Creating a new \canopen{} node implies to define the Object Dictionary of
+this node. For that, developer has to provide a C file. This C file
 contains the definition of all dictionary entries, and some kind of
 index table that helps the stack to access some entries directly.
 
 \subsection{Using Dictionary Editor GUI}
 The Object Dictionary Editor is a WxPython based GUI that is used to
-create the C file needed to create a new CanOpen node. 
+create the C file needed to create a new \canopen{} node. 
 
 \subsubsection{Installation and usage on Linux}
 You first have to download and install Gnosis XML modules. This is
@@ -1311,7 +1313,7 @@ python objdictgen.py XMLFilePath CfilePath}
 \subsubsection{Does the code compiles on Windows ?}
 Yes, with both Cygwin and Visual Studio C++.
 
-Because CANopen layer is coded with C, put a compilation option /TC or
+Because \canopen{} layer is coded with C, put a compilation option /TC or
 /TP if you plan to mix C++ files. See the MSDN documentation about
 that.
 
@@ -1322,16 +1324,16 @@ about 2k of RAM.
 You have to create target specific interface to HW resources. Take model
 on bundled interfaces provided in drivers/ and create your own
 interface. You also have to update Makefile.in files for target
-specific cflags and options. Chose {--}targer= configure switch to
+specific cflags and options. Choose {--}target= configure switch to
 compile your specific interface.
 
-You are welcome to contribute{}-back your own interfaces ! Other
+You are welcome to contribute{}-back your own interfaces! Other
 Canfestival users will use it and provide feedback, tests and
 enhancements.
 
 \subsubsection{Is CanFestival3 conform to DS301 v.4.02 ?}
 Thanks to Philippe Foureys (IUT of Valence), a slave node have been
-tested with the National Instrument CanOpen Conformance Test. It passed
+tested with the National Instrument \canopen{} Conformance Test. It passed
 the test with success.
 
 Some very small unconformity have been found in very unusual situations,
@@ -1443,7 +1445,7 @@ void unlock (void)\newline
 {\ttfamily
 void initCanHCS12 (void)\newline
  \{ \space \newline
-  \space //Init the HCS12 microcontroler for CanOpen \newline
+  \space //Init the HCS12 microcontroler for \canopen{} \newline
   \space initHCS12();\newline
   \space \space // Init the HCS12 \space CAN driver\newline
   \space const canBusInit bi0 = \{\newline
@@ -1488,7 +1490,7 @@ void initCanHCS12 (void)\newline
 {\ttfamily
 void initCanHCS12 (void)\newline
  \{ \space \newline
-  \space //Init the HCS12 microcontroler for CanOpen \newline
+  \space //Init the HCS12 microcontroler for \canopen{} \newline
   \space initHCS12();\newline
   \space \space // Init the HCS12 \space CAN driver\newline
   \space const canBusInit bi0 = \{\newline
@@ -1551,10 +1553,10 @@ We are using the stable RPM release 2.2 :
 \end{enumerate}
 \section{Documentation resources\newline}
 \paragraph{CIA : Can in Automation\newline}
-Many documentation on CANopen.\newline
+Many documentation on \canopen{}.\newline
 \href{http://www.can-cia.de/}{http://www.can{}-cia.de}
 
-\paragraph{Resources and training in CANopen\newline}
+\paragraph{Resources and training in \canopen{}\newline}
 \href{http://www.esacademy.com/}{http://www.esacademy.com}
 
 \paragraph{Elektronikladen HCS12 T{}-board\newline}
@@ -1657,7 +1659,7 @@ All the project is licensed with LGPL. This mean you can link
 CanFestival with any code without being obliged to publish it.
 
 {\ttfamily
-\#This file is part of CanFestival, a library implementing CanOpen
+\#This file is part of CanFestival, a library implementing \canopen{}
 Stack. \newline
 \# \newline
 \#Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
