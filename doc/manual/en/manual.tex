@@ -1,14 +1,18 @@
-\documentclass[a4paper,12pt]{book}
-\usepackage[ascii]{inputenc}
+%% LyX 1.5.1 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,english,a4paper]{book}
 \usepackage[T1]{fontenc}
-\usepackage[french,english]{babel}
-\usepackage{amsmath,amssymb,amsfonts,textcomp}
+\usepackage[latin9]{inputenc}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{3}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{textcomp}
 \usepackage{color}
 \usepackage{calc}
 \usepackage{longtable}
 \usepackage{hyperref}
 \usepackage{graphics}
-\usepackage{graphicx}
 \DeclareGraphicsExtensions{.jpg}
 \DeclareGraphicsExtensions{.png}
 \hypersetup{colorlinks=true, linkcolor=blue, filecolor=blue, pagecolor=blue, urlcolor=blue}
@@ -18,666 +22,602 @@
 \author{Edouard TISSERANT}
 \date{\today}
 
-% Text styles
-%\newcommand\textstyleTeletype[1]{\texttt{#1}}
-% Outline numbering
-\setcounter{secnumdepth}{5}
-\renewcommand\thesection{\arabic{section} -}
-\renewcommand\thesubsection{\arabic{section}.\arabic{subsection})}
-\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection})}
-\renewcommand\theparagraph{\alph{paragraph})}
-\renewcommand\thesubparagraph{\roman{subparagraph})}
-% List styles
-\newcommand\liststyleLi{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLii{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLiii{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLiv{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLv{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLvi{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLvii{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLviii{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLix{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLx{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLxi{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLxii{%
-\renewcommand\labelitemi{{--}}
-\renewcommand\labelitemii{{--}}
-\renewcommand\labelitemiii{{--}}
-\renewcommand\labelitemiv{{--}}
-}
-\newcommand\liststyleLxiii{%
-\renewcommand\labelitemi{{\textbullet}}
-\renewcommand\labelitemii{{\textbullet}}
-\renewcommand\labelitemiii{{\textbullet}}
-\renewcommand\labelitemiv{{\textbullet}}
-}
-
-\newcommand{\canopen}{CANopen}
+\newcommand{\canopen}{CANopen }
 
 \begin{document}
+{\centering\textsf{\huge The CanFestival \canopen stack manual.}}
 
-{\centering\sffamily\Huge The CanFestival \canopen{} stack manual.}
+\renewcommand{\contentsname}{CanFestival v3.0 Manual}
+\setcounter{tocdepth}{2} \tableofcontents{}
 
-\renewcommand\contentsname{CanFestival v3.0 Manual}
-\setcounter{tocdepth}{2}
-\tableofcontents
+\clearpage{}
+
 \section{Introduction}
-CanFestival is an OpenSource (LGPL and GPL) \canopen{} framework.
+
+CanFestival is an OpenSource (LGPL and GPL) \canopen framework.
 
 \subsection{The CanFestival project}
-This project, initiated by Edouard TISSERANT in 2001, has grown thanks to
-Francis DUPIN and other contributors.
 
-Today, CanFestival focuses on providing an ANSI{}-C platform independent
-\canopen{} stack that can be implemented as master or slave nodes on PCs,
-Real{}-time IPCs, and Microcontrollers.
+This project, initiated by Edouard TISSERANT in 2001, has grown thanks
+to Francis DUPIN and other contributors.
+
+Today, CanFestival focuses on providing an ANSI-C platform independent
+\canopen stack that can be implemented as master or slave nodes on
+PCs, Real-time IPCs, and Microcontrollers.
 
 CanFestival is a project supported by Lolitech.
 
-\subsection{What is \canopen{}}
-CANopen is a CAN based high level protocol. It defines some protocols to
-:
 
-\liststyleLi
+\subsection{What is \canopen}
+
+CANopen is a CAN based high level protocol. It defines some protocols
+to :
+
 \begin{enumerate}
-\item Configure a CAN network.
-\item Transmit data to a specific node or in broadcast.
-\item Administrate the network. For example detecting a not responding
-node.
+\item Configure a CAN network. 
+\item Transmit data to a specific node or in broadcast. 
+\item Administrate the network. For example detecting a not responding node. 
 \end{enumerate}
 The documentation can be found on the CAN in Automation website :
 
-\href{http://www.can-cia.de/canopen}{http://www.can{}-cia.de/canopen}
+\href{http://www.can-cia.de/canopen}{http://www.can-cia.de/canopen}
 
-The most important document about \canopen{} is the normative CiA Draft
-Standard 301, version 4.02. You can now download the specification from the
-CAN in Automation website at no cost.
+The most important document about \canopen is the normative CiA Draft
+Standard 301, version 4.02. You can now download the specification
+from the CAN in Automation website at no cost.
 
-To continue reading this document, let us assume that you have read some
-papers introducing \canopen{}.
+To continue reading this document, let us assume that you have read
+some papers introducing \canopen .
+
 
 \section{CanFestival Features}
+
+
 \subsection{Tools }
-The \canopen{} library is coming with some tools :
 
-\liststyleLii
+The \canopen library is coming with some tools :
+
 \begin{enumerate}
-\item Object Dictionary editor GUI. WxPython Model{}-View{}-Controler
-based GUI, that help a lot in generating object dictionary source code
-for each node.
-\item A configure script, that let you chose compile time options such
-as target CPU/HOST, CAN and TIMER drivers.\newline
-This script has not been generated with autoconf, it has been made
-keeping micro{}-controller target in mind.
+\item Object Dictionary editor GUI. WxPython Model-View-Controler based
+GUI, that help a lot in generating object dictionary source code for
+each node. 
+\item A configure script, that let you chose compile time options such as
+target CPU/HOST, CAN and TIMER drivers.\\
+ This script has not been generated with autoconf, it has been made
+keeping micro-controller target in mind. 
 \end{enumerate}
+
 \subsection{Standard conformance}
-\paragraph{Multi{}-Platform}
-\liststyleLiii
+
+
+\subsubsection{Multi-Platform}
+
 \begin{enumerate}
-\item Library source code is C{}-ANSI.
-\item Driver and examples coding conventions merely depend on target
-specific contributor/compiler.
+\item Library source code is C-ANSI. 
+\item Driver and examples coding conventions merely depend on target specific
+contributor/compiler. 
 \item Unix compatible interfaces and examples should compile and run on
-any Unix system (tested on GNU/Linux and GNU/FreeBSD).
+any Unix system (tested on GNU/Linux and GNU/FreeBSD). 
 \end{enumerate}
-\paragraph{\canopen{} conformance}
-{\bfseries\upshape
-DS{}-301}
 
-\liststyleLiv
+\subsubsection{\canopen conformance}
+
+
+\paragraph{DS-301}
+
 \begin{enumerate}
-\item Should conform to DS301. V.4.02 13 february 2002.
-\item Master and Slave functionality implemented.
-\item Sending SYNC implemented.
+\item Should conform to DS301. V.4.02 13 february 2002. 
+\item Master and Slave functionality implemented. 
+\item Sending SYNC implemented. 
 \item 1 SDO server per node. (update: more than one possible. To be more
-tested)
-\item Unlimited SDO client.
-\item SDO transmission mode : normal, expedited download and upload.
-\item Unlimited PDO receive.
-\item Unlimited PDO transmit.
-\item Object Data type implemented : 8, 16, 32 bits values, and fixed
-length strings.
-\item Slave state full implemented.
-\item NMT to change slave{\textquotesingle}s state implemented.
-\item PDO transmission mode : on request, every reception of 0 to n
-SYNC, on event.
-\item NMT Heartbeat implemented : A node can be either heartbeat
-producer or receiver.
-\item NMT NodeGuard implemented : Not fully implemented.
-\item TIME (time Stamp) : Not implemented.
-\item EMCY (emergency objects) : Sending and reception of EMCY objectos (without manufacturer specific error field).
-\item PDO Mapping bit per bit implemented.
+tested) 
+\item Unlimited SDO client. 
+\item SDO transmission mode : normal, expedited download and upload. 
+\item Unlimited PDO receive. 
+\item Unlimited PDO transmit. 
+\item Object Data type implemented : 8, 16, 32 bits values, and fixed length
+strings. 
+\item Slave state full implemented. 
+\item NMT to change slaves state implemented. 
+\item PDO transmission mode : on request, every reception of 0 to n SYNC,
+on event. 
+\item NMT Heartbeat implemented : A node can be either heartbeat producer
+or receiver. 
+\item NMT NodeGuard implemented : Not fully implemented. 
+\item TIME (time Stamp) : Not implemented. 
+\item EMCY (emergency objects) : Sending and reception of EMCY objectos
+(without manufacturer specific error field). 
+\item PDO Mapping bit per bit implemented. 
 \end{enumerate}
-{\bfseries\upshape
-DS{}-302}
 
-\liststyleLiv
+\paragraph{DS-302}
+
 \begin{enumerate}
-\item Concise \space DFC : implemented.
+\item Concise DFC : implemented. 
 \end{enumerate}
+
 \section{How to start}
+
+
 \subsection{Host requirements}
+
 What you need on your development workstation.
 
+
 \subsubsection{Object Dictionary Editor GUI}
-\liststyleLv
+
 \begin{enumerate}
 \item Python, with 
 \item wxPyhon modules installed (at least version 2.6.3). 
-\item Gnosis xml tools. (Optional can also be installed locally to the
-project automatically with the help of a Makefile. Please see
-\hyperlink{a91UsingDictionaryEditorGUIoutline}{9.1) Using Dictionary
-Editor GUI} )
+\item Gnosis xml tools. (Optional can also be installed locally to the project
+automatically with the help of a Makefile. Please see {}``Using Dictionary
+Editor GUI'' ) 
 \end{enumerate}
-\subsubsection[\space Linux and Unix{}-likes]{\space Linux and Unix{}-likes}
-\liststyleLv
+
+\subsubsection{Linux and Unix-likes}
+
 \begin{enumerate}
-\item Linux, FreeBSD, Cygwin or any Unix environment with GNU toolchain.
-\item The GNU C compiler (gcc) or any other ANSI{}-C compiler for your
-target platform.
+\item Linux, FreeBSD, Cygwin or any Unix environment with GNU toolchain. 
+\item The GNU C compiler (gcc) or any other ANSI-C compiler for your target
+platform. 
 \item Xpdf, and the official 301\_v04000201.pdf file in order to get GUI
-context sensitive help. Download the ds301 at\newline
-\href{http://www.can-cia.org/downloads/ciaspecifications/?1390}{http://www.can{}-cia.org/downloads/ciaspecifications/?1390}.
-\item GNU Make
-\item Bash and sed
+context sensitive help. 
+\item GNU Make 
+\item Bash and sed 
 \end{enumerate}
+
 \subsubsection{Windows (for native win32 target)}
-\liststyleLv
+
 \begin{enumerate}
-\item Visual Studio Express 2005 or worst.
-\item Microsoft platform SDK (requires Genuine Advantage)
-\item Cygwin (for configuration only)
+\item Visual Studio Express 2005 or worst. 
+\item Microsoft platform SDK (requires Genuine Advantage) 
+\item Cygwin (for configuration only) 
 \end{enumerate}
+
 \subsection{How to get CanFestival}
+
 Please always use CVS, this is the best way to get the most reactive
 support from the developer community :
 
-cvs {}-d:pserver:anonymous@lolitech.dyndns.org:/canfestival
-login\newline
-(type return, without entering a password) 
+cvs -d:pserver:anonymous@lolitech.dyndns.org:/canfestival login\\
+ (type return, without entering a password)
 
-Then, enter : \newline
-cvs {}-z3 {}-d:pserver:anonymous@lolitech.dyndns.org:/canfestival co
-{}-P CanFestival{}-3
+Then, enter : \\
+ cvs -z3 -d:pserver:anonymous@lolitech.dyndns.org:/canfestival co
+-P CanFestival-3
+
 
 \section{Understanding Canfestival}
+
+
 \subsection{CanFestival Project tree layout}
+
 Simplified directory structure.
 
-{\ttfamily\bfseries
-./src ANSI{}-C source of \canopen{} stack}
+\texttt{\textbf{./src ANSI-C source of \canopen stack}}
 
-{\ttfamily\bfseries
-\space /include Exportables Header files}
+\texttt{\textbf{./include Exportables Header files}}
 
-{\ttfamily\bfseries
-./drivers Interfaces to specific platforms/HW}
+\texttt{\textbf{./drivers Interfaces to specific platforms/HW}}
 
-{\ttfamily
-./drivers/unix Linux and Cygwin OS interface}
+\texttt{./drivers/unix Linux and Cygwin OS interface}
 
-{\ttfamily
-./drivers/win32 Native Win32 OS interface}
+\texttt{./drivers/win32 Native Win32 OS interface}
 
-{\ttfamily
-./drivers/timers\_xeno Xenomai timers/threads (Linux only)}
+\texttt{./drivers/timers\_xeno Xenomai timers/threads (Linux only)}
 
-{\ttfamily
-./drivers/timers\_kernel Linux kernel timer/threads}
+\texttt{./drivers/timers\_kernel Linux kernel timer/threads}
 
-{\ttfamily
-./drivers/timers\_unix Posix timers/threads (Linux, Cygwin)}
+\texttt{./drivers/timers\_unix Posix timers/threads (Linux, Cygwin)}
 
-{\ttfamily
-./drivers/can\_virtual\_kernel Fake CAN network (kernel space)}
+\texttt{./drivers/can\_virtual\_kernel Fake CAN network (kernel space)}
 
-{\ttfamily
-./drivers/can\_peak\_linux PeakSystem CAN library interface}
+\texttt{./drivers/can\_peak\_linux PeakSystem CAN library interface}
 
-{\ttfamily
-./drivers/can\_peak\_win32 PeakSystem PCAN{}-Light interface}
+\texttt{./drivers/can\_peak\_win32 PeakSystem PCAN -Light interface}
 
-{\ttfamily
-./drivers/can\_uvccm\_win32 Acacetus{\textquotesingle}s RS232
-``CAN{}-uVCCM'' interface}
+\texttt{./drivers/can\_uvccm\_win32 Acacetus{\textquotesingle}s
+RS232 {}``CAN -uVCCM'' interface}
 
-{\ttfamily
-./drivers/can\_virtual Fake CAN network (Linux, Cygwin)}
+\texttt{./drivers/can\_virtual Fake CAN network (Linux, Cygwin)}
 
-{\ttfamily
-./drivers/hcs12 HCS12 full target interface}
+\texttt{./drivers/hcs12 HCS12 full target interface}
 
-{\ttfamily\bfseries
-./examples Examples}
+\texttt{\textbf{./examples Examples}}
 
-{\ttfamily
-./examples/TestMasterSlave 2 nodes, NMT SYNC SDO PDO, win32+unix}
+\texttt{./examples/TestMasterSlave 2 nodes, NMT SYNC SDO PDO, win32+unix}
 
-{\ttfamily
-./examples/TestMasterMicroMod 1 node, control Peak I/O Module, unix}
+\texttt{./examples/TestMasterMicroMod 1 node, control Peak I/O Module,
+unix}
 
-{\ttfamily
-./examples/gene\_SYNC\_HCS12 Just send periodic SYNC on HCS12}
+\texttt{./examples/gene\_SYNC\_HCS12 Just send periodic SYNC on HCS12}
 
-{\ttfamily
-./examples/win32test Ask some DS301 infos to a node (\textbf{win32)}}
+\texttt{./examples/win32test Ask some DS301 infos to a node (}\texttt{\textbf{win32)}}
 
-{\ttfamily\bfseries
-./objdictgen Object Dictionary editor GUI}
+\texttt{\textbf{./objdictgen Object Dictionary editor GUI}}
 
-{\ttfamily
-./objdictgen/config Pre{}-defined OD profiles}
+\texttt{./objdictgen/config Pre -defined OD profiles}
 
-{\ttfamily
-./objdictgen/examples Some examples/test OD}
+\texttt{./objdictgen/examples Some examples/test OD}
 
-{\ttfamily\bfseries
-./doc Project and \canopen{} doc}
+\texttt{\textbf{./doc Project and \canopen doc}}
+
 
 \subsection{Implement CanFestival in your application}
- 
- \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000003F9000002CF880931E7.png}
-\end{center}
 
-\bigskip
+\begin{center}
+\includegraphics[width=12cm]{Pictures/10000201000003F9000002CF880931E7} 
+\par\end{center}
+
+\bigskip{}
+
+
 
 \subsection{CanFestival CAN interfaces}
+
 Because most CAN controllers and drivers implement FIFOs, CanFestival
 consider sending message as a non bloking operation.
 
-In order to prevent reentrent calls to the stack, messages reception is
-implemented differently on {\textmu}C and OS.:
+In order to prevent reentrent calls to the stack, messages reception
+is implemented differently on {\textmu}C and OS.:
 
-\liststyleLvi
 \begin{enumerate}
-\item {\textmu}C must provide interuption masking for timer and can
-receive TI\newline
- \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000003CA0000016604E6A5EF.png}
-\end{center}
-\item OS must provide a receive thread, a timer thread and a mutex. CAN
-reception is a bloking operation.\newline
+\item {\textmu}C must provide interuption masking for timer and can receive
+TI\\
+
+
+
 \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000003F9000002CF8B0CDAEA.png}
-\end{center}
+\includegraphics[width=12cm]{Pictures/10000201000003CA0000016604E6A5EF} 
+\par\end{center}
+
+\item OS must provide a receive thread, a timer thread and a mutex. CAN
+reception is a bloking operation.\\
+
+
+
+\begin{center}
+\includegraphics[width=12cm]{Pictures/10000201000003F9000002CF8B0CDAEA} 
+\par\end{center}
+
 \end{enumerate}
+
 \subsection{CanFestival events scheduling}
-A \canopen{} node must be able to take delayed actions.
+
+A \canopen node must be able to take delayed actions.
 
 As exemples, periodic sync emission, heartbeat production or SDO timeout
 need to set some alarms that will be called later and do the job.
 
-{\textmu}C generaly do not have enough free timers to handle all the
-\canopen{} needs directly. Moreover, CanFestival internal data may be
-corrupt by reentrant calls. 
+{\textmu}C generaly do not have enough free timers to handle all
+the \canopen needs directly. Moreover, CanFestival internal data
+may be corrupt by reentrant calls.
 
-CanFestival implement a micro{}-scheduler (timer.c). It uses only one
+CanFestival implement a micro -scheduler (timer.c). It uses only one
 timer to mimic many timers. It manage an alarm table, and call alarms
 at desired time.
 
 \begin{center}
-   \includegraphics[width=12cm]{Pictures/100000000000022C000000DEDAD2140C.png}
-\end{center}
+\includegraphics[width=12cm]{Pictures/100000000000022C000000DEDAD2140C} 
+\par\end{center}
 
-Scheduler can handle short clock value ranges limitation found on some
-{\textmu}C. As an example, value range for a 16bit clock counter with
-4{\textmu}s tick is crossed within 0.26 seconds... Long alarms must be
-segmented.
+Scheduler can handle short clock value ranges limitation found on
+some {\textmu}C. As an example, value range for a 16bit clock counter
+with 4{\textmu}s tick is crossed within 0.26 seconds... Long alarms
+must be segmented.
 
-Chronogram illustrate a long alarm (A) and a short periodic alarm (B),
-with a A value {\textgreater} clock range {\textgreater} B value.
-Values t0...t8 are successive setTimer call parameter values. t1
-illustrates an intermediate call to TimeDispatch, caused by a delay
-longer than clock range. Because of long alarm segmentation, at the end
-of t1, TimeDispatch call will not trig any alarm callback.
+Chronogram illustrate a long alarm (A) and a short periodic alarm
+(B), with a A value {\textgreater} clock range {\textgreater}
+B value. Values t0...t8 are successive setTimer call parameter values.
+t1 illustrates an intermediate call to TimeDispatch, caused by a delay
+longer than clock range. Because of long alarm segmentation, at the
+end of t1, TimeDispatch call will not trig any alarm callback.
 
 \begin{center}
-   \includegraphics[width=12cm]{Pictures/1000000000000396000000FFC42573DA.png}
-\end{center}
+\includegraphics[width=12cm]{Pictures/1000000000000396000000FFC42573DA} 
+\par\end{center}
+
 
 \section{Linux Target}
+
 Linux target is default configure target.
 
+
 \subsection{Linux Compilation and installation}
-Call ./configure {--}help to see all available compile time options.
+
+Call ./configure -- help to see all available compile time options.
 
 After invoking ./configure with your platform specific switches, just
 type make.
 
-{\ttfamily
-./configure [options]}
+\texttt{./configure {[}options]}
 
-{\ttfamily
-make}
+\texttt{make}
 
-{\ttfamily
-make install}
+\texttt{make install}
+
 
 \subsubsection{Standard Linux node}
+
 Configure switch:
 
-{\ttfamily
- {}-{}-timers=unix}
+\texttt{- -timers=unix}
 
-To do a \canopen{} node running on PC{}-Linux, you need :
+To do a \canopen node running on PC -Linux, you need :
 
-\liststyleLvii
 \begin{enumerate}
-\item A working linux distribution
-\item One or more Peak system PC CAN interface and the last Peak Linux
-driver installed.
+\item A working linux distribution 
+\item One or more Peak system PC CAN interface and the last Peak Linux driver
+installed. 
 \end{enumerate}
-\subsubsection{Real{}-Time Linux node}
+
+\subsubsection{Real -Time Linux node}
+
 Configure switch:
 
-{\ttfamily
- {}-{}-timers=xeno}
+\texttt{- -timers=xeno}
 
-To do a \canopen{} node running on PC{}-Linux, you need :
+To do a \canopen node running on PC -Linux, you need :
 
-\liststyleLviii
 \begin{enumerate}
-\item A working Linux distribution patched with XENOMAI 2.1 or greater.
-\item One or more Peak system PC CAN interface and the last Peak Real
-Time Linux driver installed.
+\item A working Linux distribution patched with XENOMAI 2.1 or greater. 
+\item One or more Peak system PC CAN interface and the last Peak Real Time
+Linux driver installed. 
 \end{enumerate}
 
 \subsubsection{Linux kernel node}
+
 To do a CANopen node running on PC-Linux in kernel space, you need:
 
+
 \paragraph{A working Linux distribution with pre-built 2.6.x.x kernel sources}
+
+
 \paragraph{A CAN card driver compatible with CanFestival}
 
+
 \subsubsection{CAN devices}
+
 Curently supported CAN devices and corresponding configure switch:
 
+
 \paragraph{Peak systems}
+
 Configure switch:
 
-{\ttfamily
-{}-{}-can=peak\_linux}
+\texttt{- -can=peak\_linux}
 
-PeakSystems CAN interface is automatically chosen as default CAN
-interface if libpcan is present in the system.
+PeakSystems CAN interface is automatically chosen as default CAN interface
+if libpcan is present in the system.
 
-Please download driver at
-\href{http://www.peak-system.com/linux}{http://www.peak{}-system.com/linux}
-and follow instructions in order to install driver on your system.
+Please download driver at \href{http://www.peak-system.com/linux}{http://www.peak
+-system.com/linux} and follow instructions in order to install driver
+on your system.
 
-\paragraph{Socket{}-Can (http://socketcan.berlios.de)}
+
+\paragraph{Socket -Can (http://socketcan.berlios.de)}
+
 Configure switch:
 
-{\ttfamily
-{}-{}-can=socket}
+\texttt{- -can=socket}
+
 
 \paragraph{LinCan}
+
 Configure switch:
 
-{\ttfamily
-{}-{}-can=lincan}
+\texttt{- -can=lincan}
+
 
 \paragraph{Virtual CAN interfaces (for test/debug)}
+
 Configure switch:
 
-{\ttfamily
-{}-{}-can=virtual (in user space)}
+\texttt{- -can=virtual (in user space)}
 
-{\ttfamily
-{}-{}-can=virtual\_kernel (in kernel space)}
-
+\texttt{- -can=virtual\_kernel (in kernel space)}
 
 Virtual CAN interface use Unix pipes to emulate a virtual CAN network.
 Each message issued from a node is repeat to all other nodes. Currently
 only works with nodes running in the same process, and does not support
 work with Xenomai.
 
+
 \subsection{Testing your CanFestival installation}
+
 Sample provided in /example/TestMasterSlave is installed into your
 system during installation.
 
-{\ttfamily
-TestMasterSlave}
+\texttt{TestMasterSlave}
 
 Default CAN driver library is libcanfestival\_can\_virtual.so., which
 will simply pass CAN messages through Unix pipes between Master and
-Slave. 
+Slave.
 
-You may also want to specify different can interface and define some CAN
-ports. Another example using Peak{\textquotesingle}s dual PCMCIA
-(configure and install with {--}can=peak) :
+You may also want to specify different can interface and define some
+CAN ports. Another example using Peak{\textquotesingle}s dual PCMCIA
+(configure and install with --can=peak) :
 
-{\ttfamily
-TestMasterSlave {}-l libcanfestival\_can\_peak.so {}-s 40 {}-m 41}
+\texttt{TestMasterSlave -l libcanfestival\_can\_peak.so -s 40 -m 41}
 
-{\ttfamily
-example/kerneltest}
-It's based on TestMasterSlave example and has the same functionality. Uses virtual can driver as default too. After successfull installation you can insert the module by typing:
-	modprobe canf\_ktest
-Module control is done by simple console 'canf\_ktest\_console' which is used to start/stop sending data.
+\texttt{example/kerneltest} It's based on TestMasterSlave example
+and has the same functionality. Uses virtual can driver as default
+too. After successfull installation you can insert the module by typing:
+modprobe canf\_ktest Module control is done by simple console 'canf\_ktest\_console'
+which is used to start/stop sending data.
+
 
 \section{Windows Targets}
+
 CanFestival can be compiled and run on Windows platform. It is possible
 to use both Cygwin and win32 native runtime environment.
 
+
 \subsection{Object Dictionary Editor GUI installation.}
-Please refer to
-\hyperlink{a821UsingDictionaryEditorGUIoutline}{8.2.1)Using Dictionary
-Editor GUI}
+
+Please refer to \hyperlink{a821UsingDictionaryEditorGUIoutline}{8.2.1)Using
+Dictionary Editor GUI}
+
 
 \subsection{CYGWIN}
+
+
 \subsubsection{Requirements}
+
 Cygwin have to be installed with those packages :
 
-\liststyleLix
 \begin{enumerate}
-\item gcc
-\item unzip
-\item wget
-\item make
+\item gcc 
+\item unzip 
+\item wget 
+\item make 
 \end{enumerate}
 Currently, the only supported CAN devices are PeakSystems ones, with
-PcanLight driver and library. 
+PcanLight driver and library.
 
-Please download driver at
-\href{http://www.peak-system.com/themen/download_gb.html}{http://www.peak{}-system.com/themen/download\_gb.html}
-\space and follow instructions in order to install driver on your system.
+Please download driver at \href{http://www.peak-system.com/themen/download_gb.html}{http://www.peak
+-system.com/themen/download\_gb.html} \ and follow instructions
+in order to install driver on your system.
 
 Install Cygwin as required, and the driver for your Peak CAN device.
 
 Open a Cygwin terminal, and follow those instructions:
 
+
 \subsubsection{Cygwin configuration and compilation}
-\paragraph{A single node with PcanLight and Peak CAN{}-USB adapter}
-Download the PCAN{}-Light Zip file for your HW ( URL from download page
-): 
 
-{\ttfamily
-wget http://www.peak{}-system.com/files/usb.zip}
 
-Extract its content into your cygwin home (it will create a ``Disk''
+\paragraph{A single node with PcanLight and Peak CAN -USB adapter}
+
+Download the PCAN -Light Zip file for your HW ( URL from download
+page ):
+
+\texttt{wget http://www.peak -system.com/files/usb.zip}
+
+Extract its content into your cygwin home (it will create a {}``Disk''
 directory):
 
-{\ttfamily
-unzip usb.zip}
+\texttt{unzip usb.zip}
 
-Configure CanFestival3 providing path to the desired PcanLight
-implementation:
+Configure CanFestival3 providing path to the desired PcanLight implementation:
 
-{\ttfamily
-cd CanFestival{}-3}
+\texttt{cd CanFestival -3}
 
-{\ttfamily
-export PCAN\_INCLUDE=\~{}/Disk/PCAN{}-Light/Api/}
+\texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN -Light/Api/}
 
-{\ttfamily
-export PCAN\_HEADER=Pcan\_usb.h}
+\texttt{export PCAN\_HEADER=Pcan\_usb.h}
 
-{\ttfamily
-export PCAN\_LIB=\~{}/Disk/PCAN{}-Light/Lib/Visual{\textbackslash}
+\texttt{export PCAN\_LIB=\~{ }/Disk/PCAN -Light/Lib/Visual\textbackslash{}
 C++/Pcan\_usb.lib}
 
-{\ttfamily
-./configure {}-{--}can=peak\_win32}
+\texttt{./configure -{}-can=peak\_win32}
 
-{\ttfamily
-make}
+\texttt{make}
 
-In order to test, you have to use another CanFestival node, connect with
-a CAN cable.
+In order to test, you have to use another CanFestival node, connect
+with a CAN cable.
 
-{\ttfamily
-cp \~{}/Disk/PCAN{}-Light/Pcan\_usb.dll .}
+\texttt{cp \~{ }/Disk/PCAN -Light/Pcan\_usb.dll .}
 
-{\ttfamily
-./examples/TestMasterSlave/TestMasterSlave {\textbackslash}}
+\texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}} 
 
-{\ttfamily
-  {}-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll
-{\textbackslash}}
+\texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll \textbackslash{}}
 
-{\ttfamily
-  {}-S 500K {}-M none}
+\texttt{-S 500K -M none}
 
 Then, on the other node :
 
-{\ttfamily
-./TestMasterSlave {}-l my\_driver.so {}-S none {}-M 500K}
+\texttt{./TestMasterSlave -l my\_driver.so -S none -M 500K}
 
 Now messages are beeing exchanged between master and slave node.
 
-\paragraph{Two nodes with PcanLight and Peak dual PCMCIA{}-CAN adapter}
-Download the PCAN{}-Light Zip file for your HW ( URL from download page
-): 
 
-{\ttfamily
-wget http://www.peak{}-system.com/files/pccard.zip}
+\paragraph{Two nodes with PcanLight and Peak dual PCMCIA -CAN adapter}
 
-Extract its content into your cygwin home (it will create a ``Disk''
+Download the PCAN -Light Zip file for your HW ( URL from download
+page ):
+
+\texttt{wget http://www.peak -system.com/files/pccard.zip}
+
+Extract its content into your cygwin home (it will create a {}``Disk''
 directory):
 
-{\ttfamily
-unzip pccard.zip}
+\texttt{unzip pccard.zip}
 
 The configure CanFestival3 providing path to the desired PcanLight
 implementation:
 
-{\ttfamily
-export PCAN\_INCLUDE=\~{}/Disk/PCAN{}-Light/Api/\newline
-export PCAN\_HEADER=Pcan\_pcc.h\newline
-export PCAN\_LIB=\~{}/Disk/PCAN{}-Light/Lib/Visual{\textbackslash}
-C++/Pcan\_pcc.lib\newline
-export PCAN2\_HEADER=Pcan\_2pcc.\newline
-export PCAN2\_LIB=\~{}/Disk/PCAN{}-Light/Lib/Visual{\textbackslash}
+\texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN -Light/Api/}
+
+\texttt{export PCAN\_HEADER=Pcan\_pcc.h}
+
+\texttt{export PCAN\_LIB=\~{ }/Disk/PCAN -Light/Lib/Visual\textbackslash{}
+C++/Pcan\_pcc.lib}
+
+\texttt{export PCAN2\_HEADER=Pcan\_2pcc.h}
+
+\texttt{export PCAN2\_LIB=\~{ }/Disk/PCAN -Light/Lib/Visual\textbackslash{}
 C++/Pcan\_2pcc.lib}
 
 In order to test, just connect together both CAN ports of the PCMCIA
 card. Don{\textquotesingle}t forget 120ohms terminator.
 
-{\ttfamily
-cp \~{}/Disk/PCAN{}-Light/Pcan\_pcc.dll .}
+\texttt{cp \~{ }/Disk/PCAN -Light/Pcan\_pcc.dll .}
 
-{\ttfamily
-cp \~{}/Disk/PCAN{}-Light/Pcan\_2pcc.dll .}
+\texttt{cp \~{ }/Disk/PCAN -Light/Pcan\_2pcc.dll .}
 
-{\ttfamily
-./examples/TestMasterSlave/TestMasterSlave {\textbackslash}}
+\texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}} 
 
-{\ttfamily
-  {}-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll}
+\texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll}
 
 Messages are then exchanged between master and slave node, both inside
 TestMasterSlave{\textquotesingle}s process.
 
+
 \subsection{Visual Studio C++}
+
+
 \subsubsection{Requirements}
+
 Minimal Cygwin installation is required at configuration time in order
 to create specific header files (config.h and cancfg.h). Once this
 files created, cygwin is not necessary any more.
 
 Project and solution files have been created and tested with Visual
-Studio Express 2005. Be sure to have installed Microsoft Platform SDK,
-as recommended at the end of Visual Studio installation.
+Studio Express 2005. Be sure to have installed Microsoft Platform
+SDK, as recommended at the end of Visual Studio installation.
+
 
 \subsubsection{Configuration with cygwin}
-Follow instructions given at 
-\hyperlink{Cygwin configuration and compilation}{Cygwin
+
+Follow instructions given at \hyperlink{Cygwin configuration and compilation}{Cygwin
 configuration and compilation}, but do neither call make nor do tests,
 just do configuration steps. This will create headers files accordingly
 to your configuration parameters, and the desired CAN hardware.
 
-\subsubsection{Compilation with Visual Studio}
-You can either load independents ``*.vcproj'' project files along your
-own projects in your own solution or load the provided
-``CanFestival{}-3.vc8.sln'' solution files directly.
 
-Build CanFestival{}-3 project first.
+\subsubsection{Compilation with Visual Studio}
+
+You can either load independents {}``{*}.vcproj'' project files
+along your own projects in your own solution or load the provided
+{}``CanFestival -3.vc8.sln'' solution files directly.
+
+Build CanFestival -3 project first.
+
 
 \paragraph{PcanLight and the can\_peak\_win32 project.}
+
 Chosen Pcan\_xxx.lib and eventually Pcan\_2xxx.lib files must be added
-to can\_peak\_win32 \space \space project before build of the DLL.
+to can\_peak\_win32 \ \ project before build of the DLL.
+
 
 \subsubsection{Testing}
-Copy eventually needed dlls (ie : Pcan\_Nxxx.lib) into Release or Debug
-directory, and run the test program:
 
-{\ttfamily
-TestMasterSlave.exe {}-l can\_peak\_win32.dll}
+Copy eventually needed dlls (ie : Pcan\_Nxxx.lib) into Release or
+Debug directory, and run the test program:
+
+\texttt{TestMasterSlave.exe -l can\_peak\_win32.dll}
+
 
 \subsection{MSYS}
 
@@ -687,9 +627,9 @@ TestMasterSlave.exe {}-l can\_peak\_win32.dll}
 Download from : http://sourceforge.net/project/showfiles.php?group\_id=2435
 
 \begin{enumerate}
-\item MSYS-1.0.10.exe
-\item MinGW-5.1.3.exe
-\item mingwPORT (which contains wget-1.9.1)
+\item MSYS-1.0.10.exe 
+\item MinGW-5.1.3.exe 
+\item mingwPORT (which contains wget-1.9.1) 
 \end{enumerate}
 Please download driver at http://www.peak-system.com/themen/download\_gb.html
 and follow instructions in order to install driver on your system.
@@ -698,15 +638,16 @@ device. Open a MSYS terminal, and follow those instructions:\\
 
 
 \begin{itemize}
-\item extract wget-1.9.1-mingwPORT.tar.bz2
-\item copy wget.exe in c:\textbackslash{}msys\textbackslash{}1.0\textbackslash{}bin\textbackslash{}
+\item extract wget-1.9.1-mingwPORT.tar.bz2 
+\item copy wget.exe in c:\textbackslash{} msys\textbackslash{} 1.0\textbackslash{}
+bin\textbackslash{} 
 \item start MSYS and check the file /etc/fstab contain the line c:/MinGW
-/mingw
+/mingw 
 \end{itemize}
 
 \subsubsection{MSYS configuration and compilation}
 
-Instructions for compilation are nearly the same as CYGWIN part. 
+Instructions for compilation are nearly the same as CYGWIN part.
 
 
 \paragraph{A single node with PcanLight and Peak CAN-USB adapter}
@@ -714,17 +655,18 @@ Instructions for compilation are nearly the same as CYGWIN part.
 Download the PCAN-Light Zip file for your HW ( URL from download page
 ):
 
-\texttt{wget http://www.peak-system.com/files/usb.zip}~\\
+\begin{quotation}
+\texttt{wget http://www.peak-system.com/files/usb.zip} 
+\end{quotation}
+Extract its content into your MSYS's home (it will create a \char`\"{}
+Disk\char`\"{} directory):
 
-
-Extract its content into your MSYS's home (it will create a \char`\"{}Disk\char`\"{}
-directory):
-
-\texttt{unzip usb.zip}~\\
-
-
+\begin{quotation}
+\texttt{unzip usb.zip} 
+\end{quotation}
 Configure CanFestival3 providing path to the desired PcanLight implementation:
 
+\begin{quotation}
 \texttt{cd CanFestival-3}
 
 \texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN-Light/Api/}
@@ -734,27 +676,27 @@ Configure CanFestival3 providing path to the desired PcanLight implementation:
 \texttt{export PCAN\_LIB=\~{ }/Disk/PCAN-Light/Lib/Visual\textbackslash{}
 C++/Pcan\_usb.lib}
 
-\texttt{./configure -{}-can=peak\_win32}
+\texttt{./configure - -can=peak\_win32}
 
-\texttt{make}~\\
-
-
+\texttt{make} 
+\end{quotation}
 In order to test, you have to use another CanFestival node, connect
 with a CAN cable.
 
+\begin{quotation}
 \texttt{cp \~{ }/Disk/PCAN-Light/Pcan\_usb.dll .}
 
 \texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}}
 
 \texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll \textbackslash{}}
 
-\texttt{-S 500K -M none}~\\
-
-
+\texttt{-S 500K -M none} 
+\end{quotation}
 Then, on the other node :
 
-\texttt{./TestMasterSlave -l my\_driver.so -S none -M 500K -m 0}
-
+\begin{quotation}
+\texttt{./TestMasterSlave -l my\_driver.so -S none -M 500K -m 0} 
+\end{quotation}
 Now messages are beeing exchanged between master and slave node.
 
 
@@ -763,17 +705,19 @@ Now messages are beeing exchanged between master and slave node.
 Download the PCAN-Light Zip file for your HW ( URL from download page
 ):
 
-\texttt{wget http://www.peak-system.com/files/pccard.zip}~\\
-\\
-Extract its content into your MSYS's home (it will create a \char`\"{}Disk\char`\"{}
-directory):
+\begin{quotation}
+\texttt{wget http://www.peak-system.com/files/pccard.zip} 
+\end{quotation}
+Extract its content into your MSYS's home (it will create a \char`\"{}
+Disk\char`\"{} directory):
 
-\texttt{unzip pccard.zip}~\\
-\\
+\begin{quotation}
+\texttt{unzip pccard.zip} 
+\end{quotation}
 The configure CanFestival3 providing path to the desired PcanLight
-implementation:\\
+implementation:
 
-
+\begin{quotation}
 \texttt{export PCAN\_INCLUDE=\~{ }/Disk/PCAN-Light/Api/}
 
 \texttt{export PCAN\_HEADER=Pcan\_pcc.h}
@@ -784,12 +728,12 @@ C++/Pcan\_pcc.lib}
 \texttt{export PCAN2\_HEADER=Pcan\_2pcc.h}
 
 \texttt{export PCAN2\_LIB=\~{ }/Disk/PCAN-Light/Lib/Visual\textbackslash{}
-C++/Pcan\_2pcc.lib}~\\
-
-
+C++/Pcan\_2pcc.lib} 
+\end{quotation}
 In order to test, just connect together both CAN ports of the PCMCIA
 card. Don't forget 120ohms terminator.
 
+\begin{quotation}
 \texttt{cp\~{ }/Disk/PCAN-Light/Pcan\_pcc.dll ~.}
 
 \texttt{cp \~{ }/Disk/PCAN-Light/Pcan\_2pcc.dll ~.}
@@ -797,794 +741,801 @@ card. Don't forget 120ohms terminator.
 \texttt{./examples/TestMasterSlave/TestMasterSlave \textbackslash{}}
 
 \texttt{-l drivers/can\_peak\_win32/cygcan\_peak\_win32.dll -m 0 -s
-1}~\\
-
-
+1} 
+\end{quotation}
 Messages are then exchanged between master and slave node, both inside
 TestMasterSlave's process.
 
+
 \section{Motorola HCS12}
-The examples have been tested on a MC9S12DG255 mounted on a
-Elektronikladen HCS12 T{}-board.
 
-Beware that there are few differences in the MSCAN module of the
-68HC12 and HCS12 microcontroller. For a HC12, you must adapt the driver
-that we provide for \space the HCS12.
+The examples have been tested on a MC9S12DG255 mounted on a Elektronikladen
+HCS12 T -board.
 
-For the difference MSCAN HC12/HCS12, see the Motorola application note
-AN2011/D.
+Beware that there are few differences in the MSCAN module of the 68HC12
+and HCS12 microcontroller. For a HC12, you must adapt the driver that
+we provide for \ the HCS12.
+
+For the difference MSCAN HC12/HCS12, see the Motorola application
+note AN2011/D.
 
 Configure switch:
 
-{\ttfamily
- {}-{}-target=hcs12}
+\texttt{-{}-target=hcs12}
 
-To do a \canopen{} node running on a microncontroller Motorola MC9S12DP256,
+To do a \canopen node running on a microncontroller Motorola MC9S12DP256,
 you need :
 
-\liststyleLx
 \begin{enumerate}
-\item The compiler GNU gcc for HC11, HC12, HCS12 : m6811{}-elf. \newline
-Download the \textbf{release 3.1} at :
-\space \href{http://m68hc11.serveftp.org/m68hc11_pkg_rpm.php}{http://m68hc11.serveftp.org/m68hc11\_pkg\_rpm.php}
-
-\item A board with this chip. We are using the T{}-board from
-Electronikladden. 
-\item At least about 40 kBytes of program memory.
-\item A tool to flash the memory. (We are using the hight cost
-Lauterbach debugger).
+\item The compiler GNU gcc for HC11, HC12, HCS12 : m6811 -elf. \\
+ Download the \textbf{release 3.1} at : \href{http://m68hc11.serveftp.org/m68hc11_pkg_rpm.php}{http://m68hc11.serveftp.org/m68hc11\_pkg\_rpm.php} 
+\item A board with this chip. We are using the T -board from Electronikladden. 
+\item At least about 40 kBytes of program memory. 
+\item A tool to flash the memory. (We are using the hight cost Lauterbach
+debugger). 
 \end{enumerate}
+
 \subsection{Running a HCS12 node}
+
+
 \subsubsection{Compiling Canfestival:}
-{\ttfamily
-./configure {--}target=hcs12}
+
+\texttt{./configure -{}-target=hcs12}
+
 
 \subsubsection{Compiling and building an example}
-Enter in the folder of an HCS12 example, 
 
-{\ttfamily
-make all}
+Enter in the folder of an HCS12 example,
+
+\texttt{make all}
+
 
 \subsubsection{Flashing the memory :}
-Use your prefered loader ! If you are using a debugger Lauterbach, you
-can load the bash file : trace32\_flash\_programmer.cmm. It loads
+
+Use your prefered loader ! If you are using a debugger Lauterbach,
+you can load the bash file : trace32\_flash\_programmer.cmm. It loads
 directly the elf file.
 
+
 \subsubsection{Connecting to a serial RS232 console :}
+
 Connect the portS(TxD0) of the HCS12 to a console configured at 19200
 bauds 8N1, via a Max232 chip to adapt the electricals levels. On Linux,
 you can use minicom. Connecting to a console is usefull to read the
 messages, but not required.
 
+
 \subsubsection{Connecting to the CAN network :}
-Connect the port CAN0 (pin PM0, PM1) to the network via a CAN
-controller. On our board, the CAN controler is a PCA82C250 chip.
+
+Connect the port CAN0 (pin PM0, PM1) to the network via a CAN controller.
+On our board, the CAN controler is a PCA82C250 chip.
+
 
 \subsubsection{starting the node :}
+
 Press the reset of your HCS12 board.
 
+
 \section{Example and test program:}
-The ``examples'' directory contains some test program you can use as
-example for your own developments.
+
+The {}``examples'' directory contains some test program you can
+use as example for your own developments.
+
 
 \subsection{TestMasterSlave}
-{\ttfamily
-**************************************************************\space}
 
-{\ttfamily
-* \space TestMasterSlave
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}\ }
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ TestMasterSlave \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space A simple example for PC. It does implement 2 \canopen{} \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space nodes in the same process. A master and a slave. Both \space \space \space \space *}
+\texttt{{*} \ A simple example for PC. It does implement 2 \canopen
+\ \ \ \ \ {*}}
 
-{\ttfamily
-* \space communicate together, exchanging periodically NMT, SYNC, \space *}
+\texttt{{*} \ nodes in the same process. A master and a slave. Both
+\ \ \ \ {*}}
 
-{\ttfamily
-* \space SDO and PDO. Master configure heartbeat producer time \space \space \space \space *}
+\texttt{{*} \ communicate together, exchanging periodically NMT,
+SYNC, \ {*}}
 
-{\ttfamily
-* \space at 1000 ms for slave node{}-id 0x02 by concise DCF.
-\space \space \space \space \space \space \space \space *}
+\texttt{{*} \ SDO and PDO. Master configure heartbeat producer time
+\ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ at 1000 ms for slave node -id 0x02 by concise DCF. \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space Usage:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space ./TestMasterSlave \space [OPTIONS]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ Usage: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ ./TestMasterSlave \ {[}OPTIONS] \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space OPTIONS:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-l : Can library
-[{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
-\space \space \space \space *}
+\texttt{{*} \ \ OPTIONS: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -l : Can library {[}{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
+\ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space Slave:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-s : bus name [{\textquotedbl}0{\textquotedbl}]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ Slave: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \space *}
+\texttt{{*} \ \ \ \ -s : bus name {[}{\textquotedbl}0{\textquotedbl}]
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -S : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)
+\ {*}}
 
-{\ttfamily
-* \space \space \space Master:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ Master: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable) \space *}
+\texttt{{*} \ \ \ \ -m : bus name {[}{\textquotedbl}1{\textquotedbl}]
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)
+\ {*}}
 
-{\ttfamily
-**************************************************************}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
+
+\texttt{{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}}
+
+\bigskip{}
 
 
-\bigskip
+\textsf{Notes for Concise DCF :}
 
-{\sffamily
-Notes for Concise DCF :}
-
-
-\bigskip
-
-{\sffamily
- In this example, Master configure \space heartbeat producer time at 1000 ms
-for slave node{}-id 0x02 by concise DCF according DS{}-302 profile. }
-
-{\sffamily
- }
-
-{\sffamily
- Index 0x1F22 , sub{}-index 0x00 of the master OD, correspond to the
-number of entries. This equal to the maximum possible nodeId (127).
-Each sub{}-index points to the Node{}-ID of the device, to which the
-configuration belongs. }
+\bigskip{}
 
 
-\bigskip
+\textsf{In this example, Master configure \ heartbeat producer time
+at 1000 ms for slave node -id 0x02 by concise DCF according DS -302
+profile.}
 
-{\sffamily
- To add more parameters configurations to the slave, the value at
-sub{}-index 0x02 must be a binary stream (little{}-endian) following
-this structure :\newline
-\{
-(UNS32) nb of entries\newline
-(UNS16) index parameter 1\newline
-(UNS8) sub{}-index parameter 1\newline
-(UNS32) size data parameter 1\newline
-(DOMAIN) data parameter 1\newline
-(UNS16) index parameter 2\newline
-(UNS8) sub{}-index parameter 2\newline
-(UNS32) size data parameter 2\newline
-(DOMAIN) data parameter 2\newline
-\space \space \space \space \space ....\newline
-(UNS16) index parameter n\newline
-(UNS8) sub{}-index parameter n\newline
-(UNS32) size data parameter n\newline
-(DOMAIN) data parameter n\newline
-\}
-}
+\textsf{Index 0x1F22 , sub -index 0x00 of the master OD, correspond
+to the number of entries. This equal to the maximum possible nodeId
+(127). Each sub -index points to the Node -ID of the device, to which
+the configuration belongs.}
 
-{\sffamily
- So the binary value stream to configure heartbeat producer time must be
-:\newline
-    0100000017100002000000e803}
+\bigskip{}
 
-{\sffamily
-The slave node is configured just before the Master entering in
-Pre\_operational state.}
+
+\textsf{To add more parameters configurations to the slave, the value
+at sub -index 0x02 must be a binary stream (little -endian) following
+this structure :}\\
+ \textsf{ \{ (UNS32) nb of entries}\\
+ \textsf{ (UNS16) index parameter 1}\\
+ \textsf{ (UNS8) sub -index parameter 1}\\
+ \textsf{ (UNS32) size data parameter 1}\\
+ \textsf{ (DOMAIN) data parameter 1}\\
+ \textsf{ (UNS16) index parameter 2}\\
+ \textsf{ (UNS8) sub -index parameter 2}\\
+ \textsf{ (UNS32) size data parameter 2}\\
+ \textsf{ (DOMAIN) data parameter 2}\\
+ \textsf{ \ \ \ \ \ ....}\\
+ \textsf{ (UNS16) index parameter n}\\
+ \textsf{ (UNS8) sub -index parameter n}\\
+ \textsf{ (UNS32) size data parameter n}\\
+ \textsf{ (DOMAIN) data parameter n}\\
+ \textsf{ \}}
+
+\textsf{So the binary value stream to configure heartbeat producer
+time must be :}\\
+ \textsf{ 0100000017100002000000e803}
+
+\textsf{The slave node is configured just before the Master entering
+in Pre\_operational state.}
+
 
 \subsection{gene\_SYNC\_HCS12 :}
-This is a simple \canopen{} node that only send cyclic SYNC message. It
-demonstrate implementation on HCS12 based board.
+
+This is a simple \canopen node that only send cyclic SYNC message.
+It demonstrate implementation on HCS12 based board.
+
+\bigskip{}
 
 
-\bigskip
+
 \subsection{kerneltest :}
 
-Example based on TestMasterSlave slightly modified to suit kernel space requisites. It will do the same as TestMasterSlave but in kernel space sending kernel messages (displayed by dmesg for example). It is designed as external kernel module implemented as character device. There is a shell script called 'insert.sh', which will insert the module and create a new device file /dev/canf\_ktest (used to sending commands to module). To actual sending commands you can use simple console named 'canf\_ktest\_console'.
-The module is dependent on a another separate module 'canfestival.ko' implementing CanOpen stack which exports requisite functions. Canfestival.ko module is then dependent on CAN card driver module, by default CAN virtual driver will be loaded. After installing modules (make install), all dependencies are solved automatically by kernel.
-To run the example type:
-{\ttfamily
-	sh run.sh}
-It will insert required modules, start console, and after quitting console it'll remove modules from kernel.
+Example based on TestMasterSlave slightly modified to suit kernel
+space requisites. It will do the same as TestMasterSlave but in kernel
+space sending kernel messages (displayed by dmesg for example). It
+is designed as external kernel module implemented as character device.
+There is a shell script called 'insert.sh', which will insert the
+module and create a new device file /dev/canf\_ktest (used to sending
+commands to module). To actual sending commands you can use simple
+console named 'canf\_ktest\_console'. The module is dependent on a
+another separate module 'canfestival.ko' implementing CanOpen stack
+which exports requisite functions. Canfestival.ko module is then dependent
+on CAN card driver module, by default CAN virtual driver will be loaded.
+After installing modules (make install), all dependencies are solved
+automatically by kernel. To run the example type: \texttt{sh run.sh}
+It will insert required modules, start console, and after quitting
+console it'll remove modules from kernel.
 
-\bigskip
+\bigskip{}
+
+
 
 \subsection{TestMasterMicroMod }
-{\ttfamily
-**************************************************************}
 
-{\ttfamily
-* \space TestMasterMicroMod
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ TestMasterMicroMod \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space A simple example for PC.
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space A \canopen{} master that control a MicroMod module:
-\space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ A simple example for PC. \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- setup module TPDO 1 transmit type
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ A \canopen master that control a MicroMod module: \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- setup module RPDO 1 transmit type
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - setup module TPDO 1 transmit type \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- setup module hearbeatbeat period
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - setup module RPDO 1 transmit type \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- disable others TPDOs
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - setup module hearbeatbeat period \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- set state to operational
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - disable others TPDOs \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- send periodic SYNC
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - set state to operational \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- send periodic RPDO 1 to Micromod (digital output) \space \space \space \space \space \space *}
+\texttt{{*} \ - send periodic SYNC \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- listen Micromod{\textquotesingle}s TPDO 1 (digital input)
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - send periodic RPDO 1 to Micromod (digital output)
+\ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space {}- Mapping RPDO 1 bit per bit (digital input)
-\space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - listen Micromod{\textquotesingle}s TPDO 1 (digital
+input) \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ - Mapping RPDO 1 bit per bit (digital input) \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space Usage:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space ./TestMasterMicroMod \space [OPTIONS]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ Usage: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ ./TestMasterMicroMod \ {[}OPTIONS] \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space OPTIONS:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-l : Can library
-[{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
-\space \space \space \space *}
+\texttt{{*} \ \ OPTIONS: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -l : Can library {[}{\textquotedbl}libcanfestival\_can\_virtual.so{\textquotedbl}]
+\ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space Slave:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-i : Slave Node id format [0x01 , 0x7F]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ Slave: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -i : Slave Node id format {[}0x01 , 0x7F]
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space Master:
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-m : bus name [{\textquotedbl}1{\textquotedbl}]
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ Master: \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-* \space \space \space \space {}-M : 1M,500K,250K,125K,100K,50K,20K,10K
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -m : bus name {[}{\textquotedbl}1{\textquotedbl}]
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-*
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space *}
+\texttt{{*} \ \ \ \ -M : 1M,500K,250K,125K,100K,50K,20K,10K \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
 
-{\ttfamily
-**************************************************************}
+\texttt{{*} \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}}
+
+\texttt{{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}{*}}
+
 
 \section{Developing a new node}
-Using provided examples as a base for your new node is generally a good
-idea. You can also use the provided *.od files as a base for your node
-object dictionary.
 
-Creating a new \canopen{} node implies to define the Object Dictionary of
-this node. For that, developer has to provide a C file. This C file
-contains the definition of all dictionary entries, and some kind of
-index table that helps the stack to access some entries directly.
+Using provided examples as a base for your new node is generally a
+good idea. You can also use the provided {*}.od files as a base for
+your node object dictionary.
+
+Creating a new \canopen node implies to define the Object Dictionary
+of this node. For that, developer has to provide a C file. This C
+file contains the definition of all dictionary entries, and some kind
+of index table that helps the stack to access some entries directly.
+
 
 \subsection{Using Dictionary Editor GUI}
-The Object Dictionary Editor is a WxPython based GUI that is used to
-create the C file needed to create a new \canopen{} node. 
+
+The Object Dictionary Editor is a WxPython based GUI that is used
+to create the C file needed to create a new \canopen node.
+
 
 \subsubsection{Installation and usage on Linux}
+
 You first have to download and install Gnosis XML modules. This is
 automated by a Makefile rule.
 
-{\ttfamily
-cd objdictgen}
+\texttt{cd objdictgen}
 
-{\ttfamily
-make}
+\texttt{make}
 
 Now start the editor.
 
-{\ttfamily
-python objdictedit.py [od files...]}
+\texttt{python objdictedit.py {[}od files...]}
+
 
 \subsubsection{Installation and usage on Windows}
+
 Install Python (at least version 2.4) and wxPython (at least version
 2.6.3.2).
 
 Cygwin users can install Gnosis XML utils the same as Linux use. Just
 call make.
 
-{\ttfamily
-cd objdictgen}
+\texttt{cd objdictgen}
 
-{\ttfamily
-make}
+\texttt{make}
 
 Others will have to download and intall Gnosis XML by hand :
 
-{\ttfamily
-Gnosis Utils:}
+\texttt{Gnosis Utils:}
 
-{\ttfamily
-http://freshmeat.net/projects/gnosisxml/}
+\texttt{http://freshmeat.net/projects/gnosisxml/}
 
-{\ttfamily
-http://www.gnosis.cx/download/Gnosis\_Utils.More/Gnosis\_Utils{}-1.2.1.win32{}-py24.exe}
+\texttt{http://www.gnosis.cx/download/Gnosis\_Utils.More/Gnosis\_Utils
+-1.2.1.win32 -py24.exe}
 
-{\ttfamily
-Get latest version.}
+\texttt{Get latest version.}
 
-Download CanFestival archive and uncompress it. Use windows file
-explorer to go into CanFestival3{\textbackslash}objdicgten, and
-double{}-click on objdictedit.py.
+Download CanFestival archive and uncompress it. Use windows file explorer
+to go into CanFestival3\textbackslash{}objdicgten, and double -click
+on objdictedit.py.
+
 
 \subsubsection{About}
-The Object Dictionary editor GUI is a python application that use the
-Model{}-View{}-Controller design pattern. It depends on WxPython to
+
+The Object Dictionary editor GUI is a python application that use
+the Model-View-Controller design pattern. It depends on WxPython to
 display view on any supported platform.
 
- \begin{center}
-   \includegraphics[width=7cm]{Pictures/10000201000001FC000001E5D65E8766.png}
-\end{center}
+\begin{center}
+\includegraphics[width=7cm]{Pictures/10000201000001FC000001E5D65E8766} 
+\par\end{center}
+
 
 \subsubsection{Main view}
+
 Top list let you choose dictionary section, bottom left list is the
 selected index in that dictionary, and bottom right list are edited
-sub{}-indexes.
+sub -indexes.
 
- \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000003E7000001C7B0296577.png}
-\end{center}
+\begin{center}
+\includegraphics[width=12cm]{Pictures/10000201000003E7000001C7B0296577} 
+\par\end{center}
 
- \begin{center}
-   \includegraphics[width=3cm]{Pictures/10000000000000B6000000DF1EDD1E73.png}
-\end{center}
-  \begin{center}
-   \includegraphics[width=3cm]{Pictures/10000000000000AC000000C9C3F53FA6.png}
-\end{center}
- \begin{center}
-   \includegraphics[width=3cm]{Pictures/100000000000006D000000A31EC8CB54.png}
-\end{center}
-  \begin{center}
-   \includegraphics[width=3cm]{Pictures/10000000000000AA0000006014F74635.png}
-\end{center}
+\begin{center}
+\includegraphics[width=3cm]{Pictures/10000000000000B6000000DF1EDD1E73} 
+\par\end{center}
+
+\begin{center}
+\includegraphics[width=3cm]{Pictures/10000000000000AC000000C9C3F53FA6} 
+\par\end{center}
+
+\begin{center}
+\includegraphics[width=3cm]{Pictures/100000000000006D000000A31EC8CB54} 
+\par\end{center}
+
+\begin{center}
+\includegraphics[width=3cm]{Pictures/10000000000000AA0000006014F74635} 
+\par\end{center}
+
 
 \subsubsection{New node}
-Edit your node name, ID and type. Choose your inherited specific
-profile.
 
- \begin{center}
-   \includegraphics[width=11cm]{Pictures/10000201000001CB0000015F4FC09B68.png}
-\end{center}
+Edit your node name, ID and type. Choose your inherited specific profile.
+
+\begin{center}
+\includegraphics[width=11cm]{Pictures/10000201000001CB0000015F4FC09B68} 
+\par\end{center}
+
 
 \subsubsection{Node info}
+
 Edit your node name, ID and type.
 
- \begin{center}
-   \includegraphics[width=7cm]{Pictures/10000201000001010000011DA724D25C.png}
-\end{center}
+\begin{center}
+\includegraphics[width=7cm]{Pictures/10000201000001010000011DA724D25C} 
+\par\end{center}
+
 
 \subsubsection{Profile editor}
-Chose the used profile to edit.\newline
- \begin{center}
-   \includegraphics[width=4cm]{Pictures/10000000000000AB000000C88F594413.png}
-\end{center}
 
-Pick up optional chosen profile entries.\newline
- \begin{center}
-   \includegraphics[width=11cm]{Pictures/10000201000002DE000001D82D89C224.png}
-\end{center}
+Chose the used profile to edit.
+
+\begin{center}
+\includegraphics[width=4cm]{Pictures/10000000000000AB000000C88F594413} 
+\par\end{center}
+
+Pick up optional chosen profile entries.
+
+\begin{center}
+\includegraphics[width=11cm]{Pictures/10000201000002DE000001D82D89C224} 
+\par\end{center}
+
 
 \subsubsection{User types}
-Use User Types to implement value boundaries, and string lentgth\newline
- \begin{center}
-   \includegraphics[width=11cm]{Pictures/10000201000001C40000010766961D7F.png}
-\end{center}
+
+Use User Types to implement value boundaries, and string lentgth
+
+\begin{center}
+\includegraphics[width=11cm]{Pictures/10000201000001C40000010766961D7F} 
+\par\end{center}
+
 
 \subsubsection{Mapped variable}
-Add your own specific dictionary entries and associated mapped
-variables.\newline
- \begin{center}
-   \includegraphics[width=11cm]{Pictures/10000201000001C4000000DD129D4661.png}
-\end{center}
+
+Add your own specific dictionary entries and associated mapped variables.
+
+\begin{center}
+\includegraphics[width=11cm]{Pictures/10000201000001C4000000DD129D4661} 
+\par\end{center}
+
 
 \subsubsection{Integrated help}
-Using F1 key, you can get context sensitive help.\newline
- \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000002F30000020B23ED7F67.png}
-\end{center}
+
+Using F1 key, you can get context sensitive help.
+
+\begin{center}
+\includegraphics[width=12cm]{Pictures/10000201000002F30000020B23ED7F67} 
+\par\end{center}
 
 In order to do that, official 301\_v04000201.pdf file must be placed
 into doc/ directory, and xpdf must be present on your system.
 
-F2 key open HTML CanFestival help.\newline
- \begin{center}
-   \includegraphics[width=12cm]{Pictures/10000201000003440000025ACC3FD2F1.png}
-\end{center}
+F2 key open HTML CanFestival help.
+
+\begin{center}
+\includegraphics[width=12cm]{Pictures/10000201000003440000025ACC3FD2F1} 
+\par\end{center}
+
 
 \subsection{Generating the object Dictionary}
+
 Once object dictionary has been edited and saved, you have to generate
 object dictionary C code for your CanFestival node.
 
-\subsubsection{With GUI}
-Menu entry ``File/Build Dictionary''.
 
- \begin{center}
-   \includegraphics[width=4cm]{Pictures/10000201000000B7000000C66AF89CD5.png}
-\end{center}
+\subsubsection{With GUI}
+
+Menu entry {}``File/Build Dictionary''.
+
+\begin{center}
+\includegraphics[width=4cm]{Pictures/10000201000000B7000000C66AF89CD5} 
+\par\end{center}
 
 Choose C file to create or overwrite. Header file will be also created
 with the same prefix as C file.
 
+
 \subsubsection{With command line}
-{\ttfamily
-Usage of objdictgen.py :\newline
-python objdictgen.py XMLFilePath CfilePath}
+
+\texttt{Usage of objdictgen.py :}
+
+\texttt{python objdictgen.py XMLFilePath CfilePath}
+
 
 \section{FAQ}
+
+
 \subsection{General}
+
+
 \subsubsection{Does the code compiles on Windows ?}
-Yes, with both Cygwin and Visual Studio C++.
 
-Because \canopen{} layer is coded with C, put a compilation option /TC or
-/TP if you plan to mix C++ files. See the MSDN documentation about
-that.
+Yes, with both Cygwin and Visual Studio C++. 
 
-\subsubsection{How to fit the library to an other microcontr\^oler ?}
-First, be sure that you have at least 40K bytes of program memory, and
-about 2k of RAM. 
+Because \canopen layer is coded with C, put a compilation option
+/TC or /TP if you plan to mix C++ files. See the MSDN documentation
+about that.
 
-You have to create target specific interface to HW resources. Take model
-on bundled interfaces provided in drivers/ and create your own
-interface. You also have to update Makefile.in files for target
-specific cflags and options. Choose {--}target= configure switch to
-compile your specific interface.
 
-You are welcome to contribute{}-back your own interfaces! Other
-Canfestival users will use it and provide feedback, tests and
-enhancements.
+\subsubsection{How to fit the library to an other microcontrôler ?}
+
+First, be sure that you have at least 40K bytes of program memory,
+and about 2k of RAM.
+
+You have to create target specific interface to HW resources. Take
+model on bundled interfaces provided in drivers/ and create your own
+interface. You also have to update Makefile.in files for target specific
+cflags and options. Choose {--}target= configure switch to compile
+your specific interface.
+
+You are welcome to contribute -back your own interfaces! Other Canfestival
+users will use it and provide feedback, tests and enhancements.
+
 
 \subsubsection{Is CanFestival3 conform to DS301 v.4.02 ?}
+
 Thanks to Philippe Foureys (IUT of Valence), a slave node have been
-tested with the National Instrument \canopen{} Conformance Test. It passed
-the test with success.
+tested with the National Instrument \canopen Conformance Test. It
+passed the test with success.
 
 Some very small unconformity have been found in very unusual situations,
 for example in the SDO code response to wrong messages.
 
+
 \subsection{LINUX}
+
+
 \subsubsection{How to use a Peaksystem CAN board ?}
-Just install peak driver and then compile and install Canfestival. Peak
-driver is detected at compile time.
+
+Just install peak driver and then compile and install Canfestival.
+Peak driver is detected at compile time.
+
 
 \subsubsection{How to use an unsupported CAN board ?}
+
 You have to install the specific driver on your system, with necessary
-libs and headers. 
+libs and headers.
 
-Use can\_peak.c/h or can\_virtual.c/h as an example, and adapt it to
-your driver API.
+Use can\_peak.c/h or can\_virtual.c/h as an example, and adapt it
+to your driver API.
 
-Execute configure script and choose {}-{}-can=mydriver
+Execute configure script and choose --can=mydriver
+
 
 \subsection{Win32}
+
 Compatibility:
 
-\liststyleLxi
 \begin{enumerate}
-\item Code was compiled MS VisualStudio 2003.NET and VisualStudio
-2005.NET for WindowsXP \space with ANSI and UNICODE configurations and for
-WindowsCE 5.0. 
-\item Some preliminary testing was done, but not enough to be used in
-mission critical projects.
+\item Code was compiled MS VisualStudio 2003.NET and VisualStudio 2005.NET
+for WindowsXP \ with ANSI and UNICODE configurations and for WindowsCE
+5.0. 
+\item Some preliminary testing was done, but not enough to be used in mission
+critical projects. 
 \end{enumerate}
 Additional Features:
 
-\liststyleLxii
 \begin{enumerate}
-\item Non{}-integral integers support implementation UNS24, UNS40, UNS48
-etc.
-\item When enable debug output with DEBUG\_WAR\_CONSOLE\_ON or
-DEBUG\_ERR\_CONSOLE\_ON, you can navigate in CanFestival source code by
-double clicking at diagnostic lines in VisualStudio.NET 200X Debug
-Output Window.
+\item Non -integral integers support implementation UNS24, UNS40, UNS48
+etc. 
+\item When enable debug output with DEBUG\_WAR\_CONSOLE\_ON or DEBUG\_ERR\_CONSOLE\_ON,
+you can navigate in CanFestival source code by double clicking at
+diagnostic lines in VisualStudio.NET 200X Debug Output Window. 
 \end{enumerate}
-Custom size integral types such as INTEGER24, UNS40, INTEGER56 etc. have
-been defined as 64 bits integers. You will need to replace sizeof(TYPE)
+Custom size integral types such as INTEGER24, UNS40, INTEGER56 etc.
+have been defined as 64 bits integers. You will need to replace sizeof(TYPE)
 operators to sizeof\_TYPE definitions in generated code, i.e. replace
 sizeof(UNS40) with sizeof\_UNS40.
 
 
-\bigskip
-
 \subsection{HCS12}
-\subsubsection{Which board are you using ?}
-A T{}-board from elektronikladen with a MC9S12DP256 or MC9S12DG256.
 
-\subsubsection{Does the code compile with an other compiler than GNU gcc
-?}
-It is known to work with Metrowerks CodeWarrior. Here are some tips from
-Philippe Foureys. :
+
+\subsubsection{Which board are you using ?}
+
+A T -board from elektronikladen with a MC9S12DP256 or MC9S12DG256.
+
+
+\subsubsection{Does the code compile with an other compiler than GNU gcc ?}
+
+It is known to work with Metrowerks CodeWarrior. Here are some tips
+from Philippe Foureys. :
+
 
 \paragraph{Interrupt functions}
+
+
 \subparagraph{Code for GCC:}
-{\ttfamily
- // prototype\newline
- void \_\_attribute\_\_((interrupt))timer3Hdl(void):\newline
- // function\newline
- void \_\_attribute\_\_((interrupt))timer3Hdl(void)\{...\}}
+
+\texttt{// prototype}~\\
+ \texttt{ void \_\_attribute\_\_((interrupt))timer3Hdl(void):}~\\
+ \texttt{ // function}~\\
+ \texttt{ void \_\_attribute\_\_((interrupt))timer3Hdl(void)\{...\}}
+
 
 \subparagraph{Code for CodeWarrior}
-{\ttfamily
- // protoype\newline
- void interrupt timer3Hdl(void);\newline
- // function\newline
- pragma CODE\_SEG\_\_NEAR\_SEG\_NON\_BANKED\newline
- void interrupt timer3Hdl(void)\newline
- \{...\}\newline
- pragma CODE\_SEG\_DEFAULT}
+
+\texttt{// protoype}~\\
+ \texttt{ void interrupt timer3Hdl(void);}~\\
+ \texttt{ // function}~\\
+ \texttt{ pragma CODE\_SEG\_\_NEAR\_SEG\_NON\_BANKED}~\\
+ \texttt{ void interrupt timer3Hdl(void)}~\\
+ \texttt{ \{...\}}~\\
+ \texttt{ pragma CODE\_SEG\_DEFAULT}
+
 
 \paragraph{Interrupt lock, unlock}
+
+
 \subparagraph{Code for GCC}
-{\ttfamily
- void unlock (void)\newline
- \{\newline
-  \space \_\_asm\_\_
-\_\_volatile\_\_({\textquotedbl}cli{\textquotedbl});\newline
- \}\newline
- void lock (void)\newline
- \{\newline
-  \space unsigned short mask;\newline
-  \space \_\_asm\_\_
-\_\_volatile\_\_({\textquotedbl}tpa{\textbackslash}n{\textbackslash}tsei{\textquotedbl}:{\textquotedbl}=d{\textquotedbl}(mask));\newline
- \}}
+
+\texttt{void unlock (void)}~\\
+ \texttt{ \ }~\\
+ \texttt{ \ \_\_asm\_\_ \_\_volatile\_\_({\textquotedbl}cli{\textquotedbl});}~\\
+ \texttt{ \}}~\\
+ \texttt{ void lock (void)}~\\
+ \texttt{ \ }~\\
+ \texttt{ \ unsigned short mask;}~\\
+ \texttt{ \ \_\_asm\_\_ \_\_volatile\_\_({\textquotedbl}tpa{\textbackslash{}
+}n{\textbackslash{} }tsei{\textquotedbl}:{\textquotedbl}=d{\textquotedbl}(mask));}~\\
+ \texttt{ \}}
+
 
 \subparagraph{Code for CodeWarrior}
-{\ttfamily
-void unlock (void)\newline
- \{\newline
-  \space \_\_asm({\textquotedbl}cli{\textquotedbl});\newline
- \}\newline
- void lock (void)\newline
- \{\newline
-  \space unsigned short mask;\newline
-  \space \_\_asm\newline
-  \{\newline
-  \space tpa:tsei:{\textquotedbl}=d{\textquotedbl}(mask);\newline
-  \}\newline
- \}}
+
+\texttt{void unlock (void)}~\\
+ \texttt{ \ }~\\
+ \texttt{ \ \_\_asm({\textquotedbl}cli{\textquotedbl});}~\\
+ \texttt{ \}}~\\
+ \texttt{ void lock (void)}~\\
+ \texttt{ \ }~\\
+ \texttt{ \ unsigned short mask;}~\\
+ \texttt{ \ \_\_asm}~\\
+ \texttt{ \ }~\\
+ \texttt{ \ tpa:tsei:{\textquotedbl}=d{\textquotedbl}(mask);}~\\
+ \texttt{ \}}~\\
+ \texttt{ \}}
+
 
 \paragraph{Initialize function}
+
+
 \subparagraph{Code for GCC}
-{\ttfamily
-void initCanHCS12 (void)\newline
- \{ \space \newline
-  \space //Init the HCS12 microcontroler for \canopen{} \newline
-  \space initHCS12();\newline
-  \space \space // Init the HCS12 \space CAN driver\newline
-  \space const canBusInit bi0 = \{\newline
-  \space \space \space 0, \space \space \space /* no low power \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */
-\newline
-  \space \space \space 0, \space \space \space /* no time stamp
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 1, \space \space \space /* enable MSCAN
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* clock source : oscillator (In fact, it is not used)
-\space \space */\newline
-  \space \space \space 0, \space \space \space /* no loop back
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* no listen only
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* no low pass filter for wk up */\newline
-  \space CAN\_Baudrates[CAN\_BAUDRATE\_250K],\newline
-  \space \space \space \{\newline
-  \space \space \space \space \space 0x00, \space \space \space /* Filter on 16 bits.\newline
-  \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space See Motorola Block Guide V02.14 fig
-4{}-3 */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 0 hight accept all msg
-\space \space \space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 0 low accept all msg
-\space \space \space \space \space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 1 hight filter all of \space msg
-\space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 1 low filter all of \space msg
-\space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 2 hight filter most of \space msg
-*/\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 2 low filter most of \space msg
-\space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 3 hight filter most of \space msg
-*/\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 3 low filter most of \space msg
-\space \space */\newline
-  \space \space \space \}\newline
-  \space \};}
+
+\texttt{void initCanHCS12 (void)}~\\
+ \texttt{ \{ \ }~\\
+ \texttt{ \ //Init the HCS12 microcontroler for \canopen} ~\\
+ \texttt{ \ initHCS12();}~\\
+ \texttt{ \ \ // Init the HCS12 \ CAN driver}~\\
+ \texttt{ \ const canBusInit bi0 = \ }~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no low power \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}
+~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no time stamp \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 1, \ \ \ /{*} enable MSCAN \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} clock source : oscillator (In
+fact, it is not used) \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no loop back \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no listen only \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no low pass filter for wk up {*}/}~\\
+ \texttt{ \ CAN\_Baudrates{[}CAN\_BAUDRATE\_250K],}~\\
+ \texttt{ \ \ \ \ }~\\
+ \texttt{ \ \ \ \ \ 0x00, \ \ \ /{*} Filter on 16 bits.}~\\
+ \texttt{ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ See Motorola
+Block Guide V02.14 fig 4 -3 {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 0 hight accept all
+msg \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 0 low accept all
+msg \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 1 hight filter all
+of \ msg \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 1 low filter all
+of \ msg \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 2 hight filter most
+of \ msg {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 2 low filter most
+of \ msg \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 3 hight filter most
+of \ msg {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 3 low filter most
+of \ msg \ \ {*}/}~\\
+ \texttt{ \ \ \ \}}~\\
+ \texttt{ \ \};}
+
 
 \subparagraph{Code for CodeWarrior}
-{\ttfamily
-void initCanHCS12 (void)\newline
- \{ \space \newline
-  \space //Init the HCS12 microcontroler for \canopen{} \newline
-  \space initHCS12();\newline
-  \space \space // Init the HCS12 \space CAN driver\newline
-  \space const canBusInit bi0 = \{\newline
-  \space \space \space 0, \space \space \space /* no low power \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */
-\newline
-  \space \space \space 0, \space \space \space /* no time stamp
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 1, \space \space \space /* enable MSCAN
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* clock source : oscillator (In fact, it is not used)
-\space \space */\newline
-  \space \space \space 0, \space \space \space /* no loop back
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* no listen only
-\space \space \space \space \space \space \space \space \space \space \space \space \space \space */\newline
-  \space \space \space 0, \space \space \space /* no low pass filter for wk up */\newline
-  \space \space \space \{\newline
-  \space \space \space \space 1, /* clksrc */\newline
-  \space \space \space \space 3, /* brp \space \space \space */\newline
-  \space \space \space \space 0, /* sjw \space \space \space */\newline
-  \space \space \space \space 0, /* samp \space \space */\newline
-  \space \space \space \space 1, /* tseg2 \space */\newline
-  \space \space \space \space 12,/* tseg1 \space */\newline
-  \space \space \space \},\newline
-  \space \space \space \{\newline
-  \space \space \space \space \space 0x00, \space \space \space /* Filter on 16 bits.\newline
-  \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space \space See Motorola Block Guide V02.14 fig
-4{}-3 */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 0 hight accept all msg
-\space \space \space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 0 low accept all msg
-\space \space \space \space \space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 1 hight filter all of \space msg
-\space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 1 low filter all of \space msg
-\space \space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 2 hight filter most of \space msg
-*/\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 2 low filter most of \space msg
-\space \space */\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 3 hight filter most of \space msg
-*/\newline
-  \space \space \space \space \space 0x00, 0xFF, /* filter 3 low filter most of \space msg
-\space \space */\newline
-  \space \space \space \}\newline
-  \space \};}
+
+\texttt{void initCanHCS12 (void)}~\\
+ \texttt{ \{ \ }~\\
+ \texttt{ \ //Init the HCS12 microcontroler for \canopen} ~\\
+ \texttt{ \ initHCS12();}~\\
+ \texttt{ \ \ // Init the HCS12 \ CAN driver}~\\
+ \texttt{ \ const canBusInit bi0 = \ }~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no low power \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}
+~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no time stamp \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 1, \ \ \ /{*} enable MSCAN \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} clock source : oscillator (In
+fact, it is not used) \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no loop back \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no listen only \ \ \ \ \ \ \ \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ 0, \ \ \ /{*} no low pass filter for wk up {*}/}~\\
+ \texttt{ \ \ \ \ }~\\
+ \texttt{ \ \ \ \ 1, /{*} clksrc {*}/}~\\
+ \texttt{ \ \ \ \ 3, /{*} brp \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ 0, /{*} sjw \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ 0, /{*} samp \ \ {*}/}~\\
+ \texttt{ \ \ \ \ 1, /{*} tseg2 \ {*}/}~\\
+ \texttt{ \ \ \ \ 12,/{*} tseg1 \ {*}/}~\\
+ \texttt{ \ \ \ \},}~\\
+ \texttt{ \ \ \ \ }~\\
+ \texttt{ \ \ \ \ \ 0x00, \ \ \ /{*} Filter on 16 bits.}~\\
+ \texttt{ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ See Motorola
+Block Guide V02.14 fig 4 -3 {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 0 hight accept all
+msg \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 0 low accept all
+msg \ \ \ \ \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 1 hight filter all
+of \ msg \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 1 low filter all
+of \ msg \ \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 2 hight filter most
+of \ msg {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 2 low filter most
+of \ msg \ \ {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 3 hight filter most
+of \ msg {*}/}~\\
+ \texttt{ \ \ \ \ \ 0x00, 0xFF, /{*} filter 3 low filter most
+of \ msg \ \ {*}/}~\\
+ \texttt{ \ \ \ \}}~\\
+ \texttt{ \ \};}
+
 
 \subsubsection{Does the code works in banked memory ?}
+
 No. Today it seems that the port of gcc is bogged for using the banked
 memory. So, unfortunately, we are limited to 48 Kbytes of memory code.
 
+
 \subsubsection{What GCC version are you using ?}
+
 We are using the stable RPM release 2.2 :
 
-\liststyleLxiii
 \begin{enumerate}
-\item GNU Gcc 3.0.4. Build 20030501
-\item Newlib 1.10.0 Build 20030421
-\item GNU Binutils 2.12.1 Build 20030427
+\item GNU Gcc 3.0.4. Build 20030501 
+\item Newlib 1.10.0 Build 20030421 
+\item GNU Binutils 2.12.1 Build 20030427 
 \end{enumerate}
-\section{Documentation resources\newline}
-\paragraph{CIA : Can in Automation\newline}
-Many documentation on \canopen{}.\newline
-\href{http://www.can-cia.de/}{http://www.can{}-cia.de}
 
-\paragraph{Resources and training in \canopen{}\newline}
+\section{Documentation resources}
+
+
+\paragraph{CIA : Can in Automation }
+
+\href{http://www.can-cia.de/}{http://www.can -cia.de}
+
+
+\paragraph{Resources and training in \canopen }
+
 \href{http://www.esacademy.com/}{http://www.esacademy.com}
 
-\paragraph{Elektronikladen HCS12 T{}-board\newline}
+
+\paragraph{Elektronikladen HCS12 T -board }
+
 \href{http://www.elektronikladen.de/en_hcs12tb.html}{http://www.elektronikladen.de/en\_hcs12tb.html}
 
-\paragraph{Gnu gcc compiler for HC12\newline}
+
+\paragraph{Gnu gcc compiler for HC12}
+
 \href{http://m68hc11.serveftp.org/m68hc11_port.php}{http://m68hc11.serveftp.org/m68hc11\_port.php}
 
-\paragraph{Motorola documentation on HC12\newline}
+
+\paragraph{Motorola documentation on HC12 }
+
 \href{http://www.freescale.com/webapp/sps/site/prod_summary.jsp?code=MC9S12DP256}{http://www.freescale.com/webapp/sps/site/prod\_summary.jsp?code=MC9S12DP256}
 
-\paragraph{Lauterbach debugger for HC12\newline}
+
+\paragraph{Lauterbach debugger for HC12 }
+
 \href{http://www.lauterbach.com/}{http://www.lauterbach.com}
 
-\paragraph{Python language\newline}
+
+\paragraph{Python language }
+
 \href{http://www.python.org/}{http://www.python.org}
 
-\clearpage\section{About the project}
+\clearpage{}
+
+
+\section{About the project}
+
+
 \subsection{Contributors }
- \begin{center}
-   \includegraphics[width=10cm]{Pictures/1000020100000258000000832C6FFAB4.png}
-\end{center}
 
-Unit\'e mixte de recherche INRETS{}-LCPC
+\begin{center}
+\includegraphics[width=10cm]{Pictures/1000020100000258000000832C6FFAB4} 
+\par\end{center}
 
-sur les Interractions V\'ehicule{}-Infrastructure{}-Conducteur
+Unité mixte de recherche INRETS -LCPC
 
-14, route de la mini\`ere
+sur les Interractions Véhicule -Infrastructure -Conducteur
+
+14, route de la minière
 
 78000 Versailles
 
@@ -1596,22 +1547,22 @@ Tel : +33 1 40 43 29 01
 
 \textbf{Contributors :} Francis DUPIN
 
-   Camille BOSSARD
+Camille BOSSARD
 
-   Laurent ROMIEUX
+Laurent ROMIEUX
+
+\bigskip{}
 
 
-\bigskip
-
- \begin{center}
-   \includegraphics[width=10cm]{Pictures/100002010000013A0000004A96B0C1FF.png}
-\end{center}
+\begin{center}
+\includegraphics[width=10cm]{Pictures/100002010000013A0000004A96B0C1FF} 
+\par\end{center}
 
 LOLITECH
 
 204, rue du Haut du Pin
 
-88470 Saint{}-Michel sur Meurthe
+88470 Saint -Michel sur Meurthe
 
 FRANCE
 
@@ -1619,76 +1570,92 @@ Tel : +33 3 29 52 95 67
 
 \href{http://www.lolitech.fr/}{http://www.lolitech.fr}
 
-{\bfseries
-Contributors : \textmd{Edouard TISSERANT (Original author)}}
+\textbf{Contributors :} Edouard TISSERANT (Original author)
 
-{\mdseries
-   Laurent BESSARD}
+Laurent BESSARD
 
+\bigskip{}
 
-\bigskip
 
 Many thanks to the other contributors for their great work:
 
-\textmd{   }Raphael ZULLIGER
+Raphael ZULLIGER
 
-\textmd{   }David DUMINY (st\'e A6R)
+David DUMINY (sté A6R)
 
-\textmd{   }Zakaria BELAMRI
+Zakaria BELAMRI
+
 
 \subsection{Getting support}
-Send your feedback and bug reports to
-\href{mailto:canfestival-devel@lists.sourceforge.net}{canfestival{}-devel@lists.sourceforge.net}.
 
-For commercial support, \space training and specific integration and
-developments, please ask LOLITECH (see contributors).
+Send your feedback and bug reports to \href{mailto:canfestival-devel@lists.sourceforge.net}{canfestival-devel@lists.sourceforge.net}.
+
+For commercial support, \ training and specific integration and developments,
+please ask LOLITECH (see contributors).
+
 
 \subsection{Contributing}
+
 You are free to contribute your specific interfaces back to the project.
 This way, you can hope to get support from CanFestival users community.
 
-Please send your patch to
-\href{mailto:canfestival-devel@lists.sourceforge.net}{canfestival{}-devel@lists.sourceforge.net}.
+Please send your patch to \href{mailto:canfestival-devel@lists.sourceforge.net}{canfestival
+-devel@lists.sourceforge.net}.
 
-Feel free to create some new predefined DS{}-4xx profiles (*.prf) in
-objdictgen/config, as much as possible respectful to the official
+Feel free to create some new predefined DS -4xx profiles ({*}.prf)
+in objdictgen/config, as much as possible respectful to the official
 specifications.
 
+
 \subsection{License}
-All the project is licensed with LGPL. This mean you can link
-CanFestival with any code without being obliged to publish it.
 
-{\ttfamily
-\#This file is part of CanFestival, a library implementing \canopen{}
-Stack. \newline
-\# \newline
-\#Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent BESSARD
-\newline
-\# \newline
-\#See COPYING file for copyrights details. \newline
-\# \newline
-\#This library is free software; you can redistribute it and/or \newline
-\#modify it under the terms of the GNU Lesser General Public \newline
-\#License as published by the Free Software Foundation; either \newline
-\#version 2.1 of the License, or (at your option) any later version.
-\newline
-\# \newline
-\#This library is distributed in the hope that it will be useful,
-\newline
-\#but WITHOUT ANY WARRANTY; without even the implied warranty of
-\newline
-\#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. \space See the GNU
-\newline
-\#Lesser General Public License for more details. \newline
-\# \newline
-\#You should have received a copy of the GNU Lesser General Public
-\newline
-\#License along with this library; if not, write to the Free Software
-\newline
-\#Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-\space 02111{}-1307 \space USA }
+All the project is licensed with LGPL. This mean you can link CanFestival
+with any code without being obliged to publish it.
 
+\texttt{\#This file is part of CanFestival, a library implementing
+\canopen Stack.}
 
-\bigskip
+\texttt{\#}
 
+\texttt{\#Copyright (C): Edouard TISSERANT, Francis DUPIN and Laurent
+BESSARD}
+
+\texttt{\#}
+
+\texttt{\#See COPYING file for copyrights details.}
+
+\texttt{\#}
+
+\texttt{\#This library is free software; you can redistribute it and/or}
+
+\texttt{\#modify it under the terms of the GNU Lesser General Public}
+
+\texttt{\#License as published by the Free Software Foundation; either}
+
+\texttt{\#version 2.1 of the License, or (at your option) any later
+version.}
+
+\texttt{\#}
+
+\texttt{\#This library is distributed in the hope that it will be
+useful,}
+
+\texttt{\#but WITHOUT ANY WARRANTY; without even the implied warranty
+of}
+
+\texttt{\#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
+the GNU}
+
+\texttt{\#Lesser General Public License for more details.}
+
+\texttt{\#}
+
+\texttt{\#You should have received a copy of the GNU Lesser General
+Public}
+
+\texttt{\#License along with this library; if not, write to the Free
+Software}
+
+\texttt{\#Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+\ 02111 -1307 \ USA}
 \end{document}
