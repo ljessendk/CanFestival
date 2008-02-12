@@ -21,6 +21,13 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
+#ifneq ($(KERNELRELEASE),)
+# Kbuild part of Makefile
+obj-m := canfestival.o
+canfestival-objs := $(OBJS)
+
+#else
+# Normal Makefile
 CC = SUB_CC
 PROG_CFLAGS = SUB_PROG_CFLAGS
 OS_NAME = SUB_OS_NAME
@@ -55,9 +62,39 @@ endif
 
 # # # # Options # # # # 
 
-CFLAGS = SUB_OPT_CFLAGS
-
 all: canfestival
+
+ifeq ($(TIMERS_DRIVER), timers_kernel)
+OBJS := $(shell echo $(OBJS) | sed "s:$(TARGET)_::g")
+OBJS += symbols.o
+OBJS += ../drivers/unix/libcanfestival_$(TARGET).o
+EXTRA_CFLAGS := $(shell echo $(INCLUDES) | sed "s:-I:-I$(src)/:g")
+EXTRA_CFLAGS += $(PROG_CFLAGS)
+KERNELDIR := SUB_KERNELDIR
+export OBJS
+export EXTRA_CFLAGS
+
+canfestival:
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Building [libcanfestival.o]"
+	@echo "*********************************************"
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules
+
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) clean
+	rm -f Module.symvers
+
+install:
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules_install
+	mkdir -p $(PREFIX)/include/canfestival
+	cp ../include/*.h $(PREFIX)/include/canfestival
+
+uninstall:
+	rm -rf $(PREFIX)/include/canfestival
+
+else
+CFLAGS = SUB_OPT_CFLAGS
 
 canfestival: libcanfestival.a
 
@@ -89,5 +126,7 @@ uninstall:
 clean:
 	rm -f $(OBJS) libcanfestival.a
 
+endif
 mrproper: clean
 
+#endif

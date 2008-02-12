@@ -276,7 +276,13 @@ Simplified directory structure.
 ./drivers/timers\_xeno Xenomai timers/threads (Linux only)}
 
 {\ttfamily
+./drivers/timers\_kernel Linux kernel timer/threads}
+
+{\ttfamily
 ./drivers/timers\_unix Posix timers/threads (Linux, Cygwin)}
+
+{\ttfamily
+./drivers/can\_virtual\_kernel Fake CAN network (kernel space)}
 
 {\ttfamily
 ./drivers/can\_peak\_linux PeakSystem CAN library interface}
@@ -429,6 +435,13 @@ To do a CANopen node running on PC{}-Linux, you need :
 \item One or more Peak system PC CAN interface and the last Peak Real
 Time Linux driver installed.
 \end{enumerate}
+
+\subsubsection{Linux kernel node}
+To do a CANopen node running on PC-Linux in kernel space, you need:
+
+\paragraph{A working Linux distribution with pre-built 2.6.x.x kernel sources}
+\paragraph{A CAN card driver compatible with CanFestival}
+
 \subsubsection{CAN devices}
 Curently supported CAN devices and corresponding configure switch:
 
@@ -461,7 +474,11 @@ Configure switch:
 Configure switch:
 
 {\ttfamily
-{}-{}-can=virtual}
+{}-{}-can=virtual (in user space)}
+
+{\ttfamily
+{}-{}-can=virtual\_kernel (in kernel space)}
+
 
 Virtual CAN interface use Unix pipes to emulate a virtual CAN network.
 Each message issued from a node is repeat to all other nodes. Currently
@@ -485,6 +502,12 @@ ports. An other example using Peak{\textquotesingle}s dual PCMCIA
 
 {\ttfamily
 TestMasterSlave {}-l libcanfestival\_can\_peak.so {}-s 40 {}-m 41}
+
+{\ttfamily
+example/kerneltest}
+It's based on TestMasterSlave example and has the same functionality. Uses virtual can driver as default too. After successfull installation you can insert the module by typing:
+	modprobe canf\_ktest
+Module control is done by simple console 'canf\_ktest\_console' which is used to start/stop sending data.
 
 \section{Windows Targets}
 CanFestival can be compiled and run on Windows platform. It is possible
@@ -992,6 +1015,16 @@ Pre\_operational state.}
 This is a simple CanOpen node that only send cyclic SYNC message. It
 demonstrate implementation on HCS12 based board.
 
+
+\bigskip
+\subsection{kerneltest :}
+
+Example based on TestMasterSlave slightly modified to suit kernel space requisites. It will do the same as TestMasterSlave but in kernel space sending kernel messages (displayed by dmesg for example). It is designed as external kernel module implemented as character device. There is a shell script called 'insert.sh', which will insert the module and create a new device file /dev/canf\_ktest (used to sending commands to module). To actual sending commands you can use simple console named 'canf\_ktest\_console'.
+The module is dependent on a another separate module 'canfestival.ko' implementing CanOpen stack which exports requisite functions. Canfestival.ko module is then dependent on CAN card driver module, by default CAN virtual driver will be loaded. After installing modules (make install), all dependencies are solved automatically by kernel.
+To run the example type:
+{\ttfamily
+	sh run.sh}
+It will insert required modules, start console, and after quitting console it'll remove modules from kernel.
 
 \bigskip
 

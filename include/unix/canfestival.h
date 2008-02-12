@@ -10,7 +10,10 @@ extern "C" {
 #include "data.h"
 #include "timers_driver.h"
 
+#ifndef __KERNEL__
 #include <dlfcn.h>
+#endif
+
 typedef void* LIB_HANDLE;
 
 UNS8 UnLoadCanDriver(LIB_HANDLE handle);

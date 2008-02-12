@@ -21,63 +21,37 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
+#ifneq ($(KERNELRELEASE),)
+# Kbuild part of Makefile
 TARGET = SUB_TARGET
-TIMERS = SUB_TIMERS_DRIVER
-WX = SUB_WX
-ENABLE_LSS = SUB_ENABLE_LSS
+CAN_DRIVER = SUB_CAN_DRIVER
+TIMERS_DRIVER = SUB_TIMERS_DRIVER
 
-ifeq ($(TARGET),win32)
-	BLD_TEST=1
-endif
-ifeq ($(TARGET),unix)
-	BLD_TEST=1
-endif
+EXTRA_CFLAGS := -I$(src)/../../include
+EXTRA_CFLAGS += -I$(src)/../../include/$(TARGET)
+EXTRA_CFLAGS += -I$(src)/../../include/$(CAN_DRIVER)
+EXTRA_CFLAGS += SUB_PROG_CFLAGS
 
-ifeq ($(WX),1)
-define build_command_seq_wx
-	$(MAKE) -C DS401_Master $@
-	$(MAKE) -C DS401_Slave_Gui $@
-endef
-endif
+obj-m := can_virtual.o
+can_virtual-objs =  $(CAN_DRIVER).o
 
-ifdef BLD_TEST
-ifeq ($(ENABLE_LSS),1)
-define build_command_seq
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C TestMasterSlaveLSS $@
-	$(MAKE) -C TestMasterMicroMod $@
-	$(build_command_seq_wx)
-endef
-else
-define build_command_seq
-	$(MAKE) -C TestMasterSlave $@
-	$(MAKE) -C TestMasterMicroMod $@
-	$(build_command_seq_wx)
-endef
-endif
-endif
+#else
+# Normal Makefile
+PREFIX = SUB_PREFIX
+KERNELDIR := SUB_KERNELDIR
 
-ifeq ($(TARGET),hc12)
-define build_command_seq
-	$(MAKE) -C gene_SYNC_HCS12 $@
-endef
-endif
+all: driver
 
-ifeq ($(TIMERS),timers_kernel)
-define build_command_seq
-	$(MAKE) -C kerneltest $@
-endef
-endif
-
-
-all:
-	$(build_command_seq)
-
+driver:
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules
+	
 clean:
-	$(build_command_seq)
-
-install:
-	$(build_command_seq)
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) clean
+	rm -f Module.symvers
 
 mrproper: clean
-	$(build_command_seq)
+
+install:
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules_install
+
+#endif

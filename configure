@@ -104,6 +104,7 @@ while [ $# -ge 1 ]; do
 	--ld=*)		LD=$optarg;;
 	--arch=*)	SUB_ARCH_NAME=$optarg;;
 	--os=*)		SUB_OS_NAME=$optarg;;
+	--kerneldir=*)	SUB_KERNELDIR=$optarg;;
 	--prefix=*)	SUB_PREFIX=$optarg;;
 	--target=*)	SUB_TARGET=$optarg;;
 	--can=*)	SUB_CAN_DRIVER=$optarg;;
@@ -135,6 +136,7 @@ while [ $# -ge 1 ]; do
 		echo 	" --ld=foo      Use linker 'foo' instead of ld."
 		echo 	" --arch=foo    Use architecture 'foo' instead of trying to autodetect."
 		echo 	" --os=foo      Use operative system 'foo' instead of trying to autodetect."
+		echo 	" --kerneldir=foo   Use 'foo' as kernel source directory instead of default"
 		echo 	" --prefix=foo  Use prefix 'foo' instead of default ${SUB_PREFIX}."
 		echo 	" --target=foo  Use 'foo' as build target."
 		echo	"               \"unix\" for unix-like systems (Linux, Cygwin)"
@@ -146,13 +148,14 @@ while [ $# -ge 1 ]; do
 		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin" 
 		echo	"                 see http://www.peak-system.com/themen/download_gb.html"
 		echo	"               \"virtual\" use unix pipe based virtual can driver"
+		echo	"               \"virtual_kernel\" use kernel module virtual can driver"
 		echo	"               \"socket\" use socket-can  "
 		echo	"                 see http://developer.berlios.de/projects/socketcan/"
 		echo	"               \"lincan\" lincan driver"
 		echo	"                 see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
 		echo	"               \"can4linux\" can4linux driver"
 		echo	"                 see http://www.port.de/engl/canprod/hw_can4linux.html"
-		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be either 'unix' or 'xeno')"
+		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno' or 'kernel')"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo 	" --enable-lss  Enable the LSS services"
 		echo 	" --enable-lss-fs  Enable the LSS FastScan service"
@@ -385,6 +388,14 @@ if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
 	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\ -lrtdm\ -L`$XENO_CONFIG --library-dir`
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
 	RTCAN_SOCKET=1
+fi
+
+if [ "$SUB_TIMERS_DRIVER" = "kernel" ]; then
+	DISABLE_DLL=1
+	if [ "$SUB_KERNELDIR" = "" ]; then
+		# use directory of current kernel
+		SUB_KERNELDIR=/lib/modules/$(uname -r)/build
+	fi
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
@@ -670,14 +681,14 @@ fi
 # Target dependent Makefiles
 MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
 
-if [ "$SUB_TARGET" = "unix" ]; then
+if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "kernel" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/kerneltest/Makefile.in
+
+elif [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterSlave/Makefile.in\
-\	examples/TestMasterSlaveLSS/Makefile.in
-fi
-
-if [ "$SUB_TARGET" = "unix" ]; then
-	MAKEFILES=$MAKEFILES\
+\	examples/TestMasterSlaveLSS/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 
@@ -708,6 +719,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_LD:${LD}:
 	s:SUB_PROG_CFLAGS:${SUB_PROG_CFLAGS}:
 	s:SUB_EXE_CFLAGS:${SUB_EXE_CFLAGS}:
+	s:SUB_KERNELDIR:${SUB_KERNELDIR}:
 	s:SUB_PREFIX:${SUB_PREFIX}:
 	s:SUB_OS_NAME:${SUB_OS_NAME}:
 	s:SUB_ARCH_NAME:${SUB_ARCH_NAME}:

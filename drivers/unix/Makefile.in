@@ -21,9 +21,15 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
+#ifneq ($(KERNELRELEASE),)
+# Kbuild part of Makefile
+obj-m := libcanfestival_$(TARGET).o
+libcanfestival_$(TARGET)-objs := $(OBJS)
+
+#else
+# Normal Makefile
 CC = SUB_CC
 OPT_CFLAGS = -O2
-CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
 OS_NAME = SUB_OS_NAME
 ARCH_NAME = SUB_ARCH_NAME
@@ -49,8 +55,32 @@ TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h $(PREFIX)/include/$(TARGE
 
 all: driver
 
-driver: $(OBJS)
+ifeq ($(TIMERS_DRIVER), timers_kernel)
+OBJS := $(shell echo $(OBJS) | sed "s:$(TARGET)_::g")
+EXTRA_CFLAGS := $(shell echo $(INCLUDES) | sed "s:-I:-I$(src)/:g")
+EXTRA_CFLAGS += $(PROG_CFLAGS)
+KERNELDIR := SUB_KERNELDIR
+export TARGET
+export OBJS
+export EXTRA_CFLAGS
 
+driver: libcanfestival_$(TARGET)
+
+libcanfestival_$(TARGET):
+	@echo Building [libcanfestival_$(TARGET).o]
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules
+
+clean:
+	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) clean
+	rm -f Module.symvers
+
+install:
+	
+
+else
+CFLAGS = SUB_OPT_CFLAGS
+
+driver: $(OBJS)
 
 %o: %c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
@@ -80,6 +110,7 @@ clean:
 	rm -f $(OBJS)
 	rm -f libcanfestival_$(TARGET).a
 
+endif
 mrproper: clean
 
-
+#endif

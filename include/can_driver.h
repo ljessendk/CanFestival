@@ -53,28 +53,28 @@ UNS8 DLL_CALL(canChangeBaudRate)(CAN_HANDLE, char *)FCT_PTR_INIT;
 #if defined DEBUG_MSG_CONSOLE_ON || defined NEED_PRINT_MESSAGE
 #include "def.h"
 
-#define _P(fc) case fc: printf(#fc" ");break;
+#define _P(fc) case fc: MSG(#fc" ");break;
 
 static inline void print_message(Message *m)
 {
     int i;
     UNS8 fc;
-    printf("id:%02x ", m->cob_id & 0x7F);
+    MSG("id:%02x ", m->cob_id & 0x7F);
     fc = m->cob_id >> 7;
     switch(fc)
     {
         case SYNC: 
             if(m->cob_id == 0x080)
-                printf("SYNC ");
+                MSG("SYNC ");
             else
-                printf("EMCY ");
+                MSG("EMCY ");
         break;
 #ifdef CO_ENABLE_LSS
         case LSS:
         	if(m->cob_id == 0x7E5)
-                printf("MLSS ");
+                MSG("MLSS ");
             else
-                printf("SLSS ");
+                MSG("SLSS ");
         break;
 #endif
         _P(TIME_STAMP)
@@ -114,11 +114,11 @@ static inline void print_message(Message *m)
             _P(ABORT_TRANSFER_REQUEST)
         }
     }
-    printf(" rtr:%d", m->rtr);
-    printf(" len:%d", m->len);
+    MSG(" rtr:%d", m->rtr);
+    MSG(" len:%d", m->len);
     for (i = 0 ; i < m->len ; i++)
-        printf(" %02x", m->data[i]);
-    printf("\n");
+        MSG(" %02x", m->data[i]);
+    MSG("\n");
 }
 
 #endif

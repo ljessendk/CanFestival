@@ -23,9 +23,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __APPLICFG_LINUX__
 #define __APPLICFG_LINUX__
 
+#ifndef __KERNEL__
 #include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
+#else
+#include <linux/types.h>
+#endif
 
 /*  Define the architecture : little_endian or big_endian
  -----------------------------------------------------
@@ -72,15 +76,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /* Definition of error and warning macros */
 /* -------------------------------------- */
-#if defined DEBUG_ERR_CONSOLE_ON || defined DEBUG_WAR_CONSOLE_ON
-#include <stdio.h>
+#ifndef __KERNEL__
+#	include <stdio.h>
+#	define MSG(...) printf (__VA_ARGS__)
+#else
+#	define MSG(...) printk (__VA_ARGS__)
 #endif
 
 /* Definition of MSG_ERR */
 /* --------------------- */
 #ifdef DEBUG_ERR_CONSOLE_ON
 #    define MSG_ERR(num, str, val)            \
-          printf("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);
+          MSG("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);
 #else
 #    define MSG_ERR(num, str, val)
 #endif
@@ -89,7 +96,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /* --------------------- */
 #ifdef DEBUG_WAR_CONSOLE_ON
 #    define MSG_WAR(num, str, val)          \
-          printf("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);
+          MSG("%s,%d : 0X%x %s 0X%x \n",__FILE__, __LINE__,num, str, val);
 #else
 #    define MSG_WAR(num, str, val)
 #endif
