@@ -95,18 +95,20 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // --------------------------------------
 
 #ifdef UNICODE
-  #define CANFESTIVAL_DEBUG_MSG(num, str, val)\
-    {wchar_t msg[300];\
-     unsigned long value = val;\
-     swprintf(msg,L"%s(%d) : 0x%X %s 0x%X\n",__FILE__, __LINE__,num, str, value);\
-     OutputDebugString(msg);}
+#define MSG(...) \
+  do{wchar_t msg[300];\
+   swprintf(msg,L##__VA_ARGS__);\
+   OutputDebugString(msg);}while(0)
 #else
-  #define CANFESTIVAL_DEBUG_MSG(num, str, val)\
-    {char msg[300];\
-     unsigned long value = val;\
-     sprintf(msg,"%s(%d) : 0x%X %s 0x%X\n",__FILE__, __LINE__,num, str, value);\
-     OutputDebugString(msg);}
+#define MSG(...) \
+  do{char msg[300];\
+   sprintf(msg,##__VA_ARGS__);\
+   OutputDebugString(msg);}while(0)
 #endif  
+#define CANFESTIVAL_DEBUG_MSG(num, str, val)\
+  {unsigned long value = val;\
+   MSG("%s(%d) : 0x%X %s 0x%X\n",__FILE__, __LINE__,num, str, value);\
+   }
 
 /// Definition of MSG_WAR
 // ---------------------
