@@ -359,7 +359,7 @@ static UNS8 CO_TranslateBaudRate(char* optarg){
 	if(!strcmp( optarg, "50K")) return 0x06;
 	if(!strcmp( optarg, "20K")) return 0x07;
 	if(!strcmp( optarg, "10K")) return 0x08;
-	return -1;
+	return 0xFF;
 }
 
 /*!                                                                                                
@@ -395,7 +395,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   	m.data[1]=*(UNS8 *)dat1;
   	d->lss_transfer.baudRate=*(char **)dat2;
   	
-  	if((m.data[2]=CO_TranslateBaudRate(d->lss_transfer.baudRate))>0){
+  	if((m.data[2]=CO_TranslateBaudRate(d->lss_transfer.baudRate))!=0xFF){
   		hasResponse=1;
 		break;	 
   	}
@@ -414,7 +414,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
 	if(d->lss_transfer.Callback)
 	   	(*d->lss_transfer.Callback)(d,d->lss_transfer.command);
 	return 0xFF;
-  	break;
+  	//break;
   case LSS_CONF_ACT_BIT_TIMING: /* Activate Bit Timing Parameters */
 	m.data[1]=(UNS8)(*(UNS32*)dat1 & 0xFF);
 	m.data[2]=(UNS8)(*(UNS32*)dat1>>8 & 0xFF);
@@ -438,7 +438,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
     	}
 		return 0xFF;
 	}
-  	break;
+  	//break;
   case LSS_SM_SELECTIVE_SERIAL:
   case LSS_IDENT_REMOTE_SERIAL_HIGH:
   	hasResponse=1;
