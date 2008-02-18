@@ -257,7 +257,7 @@ fi
 ###########################################################################
 #                      DEFAULT TARGET/DRIVERS GUESSING                    #
 ###########################################################################
-# If target not specified, try to gess one
+# If target not specified, try to guess one
 if [ "$SUB_TARGET" = "" ]; then
 	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
 		echo "Choosing unix (cygwin) target"
@@ -273,7 +273,7 @@ if [ "$SUB_TARGET" = "" ]; then
 	fi
 fi
 
-# Try to gess can
+# Try to guess can
 if [ "$SUB_CAN_DRIVER" = "" ]; then
 	if [ "$SUB_TARGET" = "unix" ]; then
 		if [ -e /usr/lib/libpcan.so ]; then 
@@ -282,6 +282,12 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "PCAN_LIB" != "" ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_win32		
+		elif [ -e /usr/lib/libcanlib.so ]; then 
+			echo "Choosing installed Kvaser driver as CAN driver. (unix)"
+			SUB_CAN_DRIVER=kvaser
+		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "$KVASER_DLL_PATH" != "" ]; then
+			echo "Choosing installed Kvaser driver as CAN driver. (cygwin)"
+			SUB_CAN_DRIVER=kvaser
 		else
 			echo "Choosing virtual CAN driver."
 			SUB_CAN_DRIVER=virtual
@@ -306,6 +312,21 @@ if [ "$SUB_CAN_DRIVER" = "peak" ]; then
 	if [ ! -e /usr/lib/libpcan.so ]; then 
 		echo "Peak driver hasn't been installed !"
 		exit -1
+	fi
+fi
+
+# Warn for unstalled kvaser driver if choosen
+if [ "$SUB_CAN_DRIVER" = "kvaser" ]; then
+	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
+        if [ ! -e "$KVASER_DLL_PATH/canlib32.dll" ]; then 
+            echo "Kvaser driver hasn't been installed (cygwin)"
+            exit -1
+        fi
+    elif  [ "$SUB_OS_NAME" = "LINUX" ]; then
+        if [ ! -e /usr/lib/libcanlib.so ]; then 
+            echo "Kvaser driver hasn't been installed (unix)"
+            exit -1
+        fi
 	fi
 fi
 
@@ -336,13 +357,28 @@ fi
 
 #### CAN_DRIVER ####
 
+if [ "$SUB_CAN_DRIVER" = "kvaser" ]; then
+	if [ "$SUB_TARGET" = "unix" ]; then
+        if  [ "$SUB_OS_NAME" = "LINUX" ]; then
+            SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lcanlib
+		elif [ "$SUB_OS_NAME" = "CYGWIN" ]; then
+	        if [ "$KVASER_INCLUDE_PATH" = "" -o "$KVASER_DLL_PATH" = "" ]; then
+		        echo "!!! ERROR !!! Please set KVASER_DLL_PATH and KVASER_INCLUDE_PATH to appropriate paths ! "
+            else
+                SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -L$KVASER_DLL_PATH\ -lcanlib32
+                SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -I$KVASER_INCLUDE_PATH
+            fi
+        fi
+    fi        
+fi
+
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
     SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lpcan
 fi
 
 PW32DIR=drivers/can_peak_win32
 if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
-	if [ "$PCAN_HEADER" = "" -o "PCAN_LIB" = "" ]; then
+	if [ "$PCAN_HEADER" = "" -o "$PCAN_LIB" = "" ]; then
 		echo "!!! ERROR !!! Please set PCAN_LIB PCAN_HEADER [PCAN_INCLUDE] to appropriate paths ! "
 	fi
    	SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -liberty\ \'$PCAN_LIB\'
@@ -693,6 +729,7 @@ elif [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterSlave/Makefile.in\
 \	examples/TestMasterSlaveLSS/Makefile.in\
+\	examples/SillySlave/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 
@@ -700,6 +737,7 @@ if [ "$SUB_TARGET" = "win32" ]; then
 	MAKEFILES=$MAKEFILES\
 \	examples/TestMasterSlave/Makefile.in\
 \	examples/TestMasterSlaveLSS/Makefile.in\
+\	examples/SillySlave/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in
 fi
 
