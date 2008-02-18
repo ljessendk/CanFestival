@@ -33,7 +33,8 @@ TIMERS_DRIVER = "SUB_TIMERS_DRIVER"
 
 def getCFLAGS(Cpth):
 	ipth = opj(Cpth, "include")
-	return PROG_CFLAGS + ' -I' + ipth  + ' -I' + opj(ipth, TARGET)  + ' -I' + opj(ipth, CAN_DRIVER)  + ' -I' + opj(ipth,TIMERS_DRIVER)
+	return PROG_CFLAGS + ' -I"' + ipth  + '" -I"' + opj(ipth, TARGET)  + '" -I"' + opj(ipth, CAN_DRIVER)  + '" -I"' + opj(ipth,TIMERS_DRIVER) + '"'
 
 def getLDFLAGS(Cpth):
-    return EXE_CFLAGS + ' ' + opj(Cpth,"src","libcanfestival.a") + ' ' + opj(Cpth,"drivers", TARGET, "libcanfestival_%s.a"%TARGET)
+    return EXE_CFLAGS + ' "' + opj(Cpth,"src","libcanfestival.a") + '" "' + opj(Cpth,"drivers", TARGET, "libcanfestival_%s.a"%TARGET)+ '"'
+
