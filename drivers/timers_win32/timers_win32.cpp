@@ -81,10 +81,10 @@ void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE* Thread, void* ReceiveLoopPtr
    *Thread = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ReceiveLoopPtr, fd0, 0, &thread_id);
    }
 
-void WaitReceiveTaskEnd(TASK_HANDLE Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
    {
-   ::WaitForSingleObject(Thread, INFINITE);
-   ::CloseHandle(Thread);
+   ::WaitForSingleObject(*Thread, INFINITE);
+   ::CloseHandle(*Thread);
    //*Thread = NULL;
    }
 // --------------- CAN Receive Thread Implementation ---------------
