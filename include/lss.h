@@ -102,7 +102,7 @@ struct struct_lss_transfer {
   							 * Timing Parameters is received*/
   UNS16 switchDelay;		/* the period of the two delay */
   UNS8  switchDelayState;   /* the state machine for the switchDelay */
-  CAN_HANDLE canHandle_t;
+  CAN_PORT canHandle_t;
     
                               /* Time counters to implement a timeout in milliseconds.*/
   TIMER_HANDLE timerMSG;	  /* timerMSG is automatically incremented whenever 

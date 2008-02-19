@@ -93,7 +93,7 @@ struct struct_CO_Data {
 	
 	/* General */
 	UNS8 toggle;
-	CAN_HANDLE canHandle;	
+	CAN_PORT canHandle;	
 	scanIndexOD_t scanIndexOD;
 	storeODSubIndex_t storeODSubIndex; 
 	
