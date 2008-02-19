@@ -73,10 +73,10 @@ void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 	pthread_create(Thread, NULL, ReceiveLoopPtr, (void*)port);
 }
 
-void WaitReceiveTaskEnd(TASK_HANDLE Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	pthread_kill(Thread, SIGTERM);
-	pthread_join(Thread, NULL);
+	pthread_kill(*Thread, SIGTERM);
+	pthread_join(*Thread, NULL);
 }
 
 #define maxval(a,b) ((a>b)?a:b)

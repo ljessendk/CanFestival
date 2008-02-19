@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // For use from CAN driver
 void EnterMutex(void);
 void LeaveMutex(void);
-void WaitReceiveTaskEnd(TASK_HANDLE);
+void WaitReceiveTaskEnd(TASK_HANDLE*);
 
 // For use from application
 void StartTimerLoop(TimerCallback_t init_callback);

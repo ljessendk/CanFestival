@@ -190,7 +190,7 @@ int canClose(CO_Data * d)
 	
 	int res = DLL_CALL(canClose)(tmp->fd);
 	
-	WaitReceiveTaskEnd(tmp->receiveTask);
+	WaitReceiveTaskEnd(&tmp->receiveTask);
 	return res;
 }
 
