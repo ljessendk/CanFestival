@@ -127,7 +127,7 @@ UNS32 _getODentry( CO_Data* d,
     return OD_NO_SUCH_SUBINDEX;
   }
 
-  if (checkAccess && !(ptrTable->pSubindex[bSubindex].bAccessType & WO)) {
+  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType & WO)) {
     MSG_WAR(0x2B30, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
     accessDictionaryError(wIndex, bSubindex, 0, 0, OD_WRITE_NOT_ALLOWED);
     return OD_READ_NOT_ALLOWED;
@@ -161,17 +161,7 @@ UNS32 _getODentry( CO_Data* d,
 #  endif
 
     *pExpectedSize = szData;
-#if 0
-    /* Me laisser a, please ! (FD) */
-    {
-      UNS8 i;
-      for (i = 0 ; i < 10 ; i++) {
-        MSG_WAR(*pExpectedSize, "dic data= ",
-                *(UNS8 *)(ptrTable->pSubindex[bSubindex].pObject + i));
-      }
 
-    }
-#endif
     return OD_SUCCESSFUL;
   }
   else { /* Error ! */

@@ -217,22 +217,14 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
   errorCode = getODentry(d, 	d->transfers[line].index,
   				d->transfers[line].subIndex,
   				(void *)d->transfers[line].data,
-  				&size, &dataType, 0);
+  				&size, &dataType, 1);
   
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
 
   d->transfers[line].count = size;
   d->transfers[line].offset = 0;
-#if 0
-   /*Me laisser a, please ! (FD)*/
-  {
-    UNS8 i;
-    for (i = 0 ; i < 10 ; i++) {
-      MSG_WAR(i, "data= ", d->transfers[line].data[i]);
-    }     
-  }
-#endif
+
   return 0;
 }
 
