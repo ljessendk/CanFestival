@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define eprintf(...) printf (__VA_ARGS__)
 #endif
 
-/*UNS8 canSend(CAN_HANDLE fd0, Message *m);*/
-
 #include "canfestival.h"
 
 /*
