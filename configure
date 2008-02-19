@@ -424,9 +424,10 @@ if [ "$SUB_TIMERS_DRIVER" = "unix" ]; then
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
-	SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -lnative\ -lrtdm\ -L`$XENO_CONFIG --library-dir`
+	RT_LIB_DIR=`$XENO_CONFIG --library-dir`\ -Wl,-rpath\ `$XENO_CONFIG --library-dir`
+    SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ `$XENO_CONFIG --xeno-ldflags`\ -L$RT_LIB_DIR\ -lnative\ -lpcan
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
-	RTCAN_SOCKET=1
+    RTCAN_SOCKET=1
 fi
 
 if [ "$SUB_TIMERS_DRIVER" = "kernel" ]; then
