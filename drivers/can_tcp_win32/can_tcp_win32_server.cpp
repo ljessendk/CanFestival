@@ -72,7 +72,7 @@ int main() {
 		 "Use netcat to monitor trafic\n"
 		 " nc 127.0.0.1 11898\n"
 		 "\n");
-  
+  fflush(stdout);
   SocketServer in(11898,5);
   
   while (1) {

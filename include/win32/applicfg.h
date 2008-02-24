@@ -101,9 +101,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
    OutputDebugString(msg);}while(0)
 #else
 #define MSG(...) \
-  do{char msg[300];\
+  do{printf(__VA_ARGS__);fflush(stdout);}while(0)
+
+/*do{char msg[300];\
    sprintf(msg,##__VA_ARGS__);\
    OutputDebugString(msg);}while(0)
+*/
 #endif  
 #define CANFESTIVAL_DEBUG_MSG(num, str, val)\
   {unsigned long value = val;\

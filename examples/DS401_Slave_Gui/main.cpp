@@ -596,6 +596,7 @@ MyFrame::Start ()
   if (main_can (SlaveBoard, LibraryPath))
     {
       printf ("[KO]\n");
+      fflush(stdout);
       *textLog <<
 	wxT
 	("----------------------------------------------------Initialization [KO]\n");
@@ -603,6 +604,7 @@ MyFrame::Start ()
   else
     {
       printf ("[OK]\n");
+      fflush(stdout);
       *textLog <<
 	wxT
 	("----------------------------------------------------Initialization [OK]\n");
