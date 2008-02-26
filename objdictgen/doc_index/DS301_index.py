@@ -32,7 +32,7 @@ Please read can festival documentation to know how to obtain one."""
                 readerpath = get_acroversion()
                 readerexepath = os.path.join(readerpath,"AcroRd32.exe")
                 if(os.path.isfile(readerexepath)):
-                    os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", "/A", "page=%d=OpenActions" % DS301_PDF_INDEX[index], os.path.join(cwd, "doc","301_v04000201.pdf"))
+                    os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", "/A", "page=%d=OpenActions" % DS301_PDF_INDEX[index], '"%s"'%os.path.join(cwd, "doc","301_v04000201.pdf"))
             else:
                 os.system("xpdf -remote DS301 %s %d &"%(os.path.join(cwd, "doc","301_v04000201.pdf"), DS301_PDF_INDEX[index]))
         else:
@@ -40,7 +40,7 @@ Please read can festival documentation to know how to obtain one."""
                 readerpath = get_acroversion()
                 readerexepath = os.path.join(readerpath,"AcroRd32.exe")
                 if(os.path.isfile(readerexepath)):
-                    os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", os.path.join(cwd, "doc","301_v04000201.pdf"))
+                    os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", '"%s"'%os.path.join(cwd, "doc","301_v04000201.pdf"))
             else:
                 os.system("xpdf -remote DS301 %s &"%os.path.join(cwd, "doc","301_v04000201.pdf"))
         return True
