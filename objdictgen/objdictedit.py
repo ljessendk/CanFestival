@@ -302,6 +302,13 @@ class objdictedit(wx.Frame):
         self.HtmlFrameOpened = []
         self.ModeSolo = True
         
+        # Add beremiz's icon in top left corner of the frame
+        if wx.Platform == '__WXMSW__':
+            icon = wx.Icon(os.path.join(ScriptDirectory,"objdictedit.ico"),wx.BITMAP_TYPE_ICO)
+        else:
+            icon = wx.Icon(os.path.join(ScriptDirectory,"objdictedit.png"),wx.BITMAP_TYPE_PNG)
+        self.SetIcon(icon)
+        
         self.Manager = NodeManager()
         for filepath in filesOpen:
             result = self.Manager.OpenFileInCurrent(filepath)

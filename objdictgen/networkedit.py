@@ -316,6 +316,13 @@ class networkedit(wx.Frame):
         self.HtmlFrameOpened = []
         self.BusId = None
         
+        # Add beremiz's icon in top left corner of the frame
+        if wx.Platform == '__WXMSW__':
+            icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.ico"),wx.BITMAP_TYPE_ICO)
+        else:
+            icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.png"),wx.BITMAP_TYPE_PNG)
+        self.SetIcon(icon)
+        
         if self.ModeSolo:
             self.Manager = NodeManager()
             if projectOpen:
