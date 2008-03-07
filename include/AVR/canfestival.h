@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define __CAN_CANFESTIVAL__
 
 #include "applicfg.h"
+#include "data.h"
 
 // ---------  to be called by user app ---------
 void initTimer(void);
