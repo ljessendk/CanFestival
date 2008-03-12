@@ -80,5 +80,8 @@ clean:
 install:
 	$(build_command_seq)
 
+uninstall:
+	$(build_command_seq)
+
 mrproper: clean
 	$(build_command_seq)
