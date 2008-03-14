@@ -49,7 +49,11 @@ unsigned char digital_input_handler(CO_Data* d, unsigned char *newInput, unsigne
     newInput++;
   }
   if (transmission)
+  {
+  /* force emission of PDO by artificially changing last emitted*/
+    d->PDO_status[0].last_message.cob_id = 0;
     sendPDOevent(d);
+  }
 
   return 1;
 }
