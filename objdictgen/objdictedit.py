@@ -111,147 +111,127 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
  ID_OBJDICTEDITHELPBAR,
 ] = [wx.NewId() for _init_ctrls in range(3)]
 
-[ID_OBJDICTEDITADDMENUITEMS0, ID_OBJDICTEDITADDMENUITEMS1, 
- ID_OBJDICTEDITADDMENUITEMS2, ID_OBJDICTEDITADDMENUITEMS3, 
- ID_OBJDICTEDITADDMENUITEMS4, ID_OBJDICTEDITADDMENUITEMS5, 
+[ID_OBJDICTEDITFILEMENUIMPORTEDS, ID_OBJDICTEDITFILEMENUEXPORTEDS, 
+ ID_OBJDICTEDITFILEMENUEXPORTC,
+] = [wx.NewId() for _init_coll_FileMenu_Items in range(3)]
+
+[ID_OBJDICTEDITEDITMENUNODEINFOS, ID_OBJDICTEDITEDITMENUDS301PROFILE, 
+ ID_OBJDICTEDITEDITMENUDS302PROFILE, ID_OBJDICTEDITEDITMENUOTHERPROFILE, 
+] = [wx.NewId() for _init_coll_EditMenu_Items in range(4)]
+
+[ID_OBJDICTEDITADDMENUSDOSERVER, ID_OBJDICTEDITADDMENUSDOCLIENT, 
+ ID_OBJDICTEDITADDMENUPDOTRANSMIT, ID_OBJDICTEDITADDMENUPDORECEIVE, 
+ ID_OBJDICTEDITADDMENUMAPVARIABLE, ID_OBJDICTEDITADDMENUUSERTYPE, 
 ] = [wx.NewId() for _init_coll_AddMenu_Items in range(6)]
 
-[ID_OBJDICTEDITFILEMENUITEMS0, ID_OBJDICTEDITFILEMENUITEMS1, 
- ID_OBJDICTEDITFILEMENUITEMS2, ID_OBJDICTEDITFILEMENUITEMS4, 
- ID_OBJDICTEDITFILEMENUITEMS5, ID_OBJDICTEDITFILEMENUITEMS6, 
- ID_OBJDICTEDITFILEMENUITEMS7, ID_OBJDICTEDITFILEMENUITEMS8,
- ID_OBJDICTEDITFILEMENUITEMS9,
-] = [wx.NewId() for _init_coll_FileMenu_Items in range(9)]
-
-[ID_OBJDICTEDITEDITMENUITEMS0, ID_OBJDICTEDITEDITMENUITEMS1, 
- ID_OBJDICTEDITEDITMENUITEMS2, ID_OBJDICTEDITEDITMENUITEMS4, 
- ID_OBJDICTEDITEDITMENUITEMS6, ID_OBJDICTEDITEDITMENUITEMS7, 
- ID_OBJDICTEDITEDITMENUITEMS8, 
-] = [wx.NewId() for _init_coll_EditMenu_Items in range(7)]
-
-[ID_OBJDICTEDITHELPMENUITEMS0, ID_OBJDICTEDITHELPMENUITEMS1,
- ID_OBJDICTEDITHELPMENUITEMS2,
-] = [wx.NewId() for _init_coll_HelpMenu_Items in range(3)]
-
 class objdictedit(wx.Frame):
-    def _init_coll_menuBar1_Menus(self, parent):
+    def _init_coll_MenuBar_Menus(self, parent):
         parent.Append(menu=self.FileMenu, title='File')
         parent.Append(menu=self.EditMenu, title='Edit')
         parent.Append(menu=self.AddMenu, title='Add')
         parent.Append(menu=self.HelpMenu, title='Help')
 
-    def _init_coll_EditMenu_Items(self, parent):
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS4,
-              kind=wx.ITEM_NORMAL, text='Refresh\tCTRL+R')
-        parent.AppendSeparator()
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS1,
-              kind=wx.ITEM_NORMAL, text='Undo\tCTRL+Z')
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS0,
-              kind=wx.ITEM_NORMAL, text='Redo\tCTRL+Y')
-        parent.AppendSeparator()
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS6,
-              kind=wx.ITEM_NORMAL, text='Node infos')
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS2,
-              kind=wx.ITEM_NORMAL, text='DS-301 Profile')
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS8,
-              kind=wx.ITEM_NORMAL, text='DS-302 Profile')
-        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUITEMS7,
-              kind=wx.ITEM_NORMAL, text='Other Profile')
-        self.Bind(wx.EVT_MENU, self.OnUndoMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnRedoMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS0)
-        self.Bind(wx.EVT_MENU, self.OnCommunicationMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS2)
-        self.Bind(wx.EVT_MENU, self.OnRefreshMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS4)
-        self.Bind(wx.EVT_MENU, self.OnNodeInfosMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS6)
-        self.Bind(wx.EVT_MENU, self.OnEditProfileMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS7)
-        self.Bind(wx.EVT_MENU, self.OnOtherCommunicationMenu,
-              id=ID_OBJDICTEDITEDITMENUITEMS8)
-
-    def _init_coll_HelpMenu_Items(self, parent):
-        parent.Append(help='', id=ID_OBJDICTEDITHELPMENUITEMS0,
-              kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
-        self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu,
-              id=ID_OBJDICTEDITHELPMENUITEMS0)
-        parent.Append(help='', id=ID_OBJDICTEDITHELPMENUITEMS1,
-              kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
-        self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu,
-              id=ID_OBJDICTEDITHELPMENUITEMS1)
-        if Html_Window:
-            parent.Append(help='', id=ID_OBJDICTEDITHELPMENUITEMS2,
-                  kind=wx.ITEM_NORMAL, text='About')
-            self.Bind(wx.EVT_MENU, self.OnAboutMenu,
-                  id=ID_OBJDICTEDITHELPMENUITEMS2)
-
     def _init_coll_FileMenu_Items(self, parent):
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS5,
+        parent.Append(help='', id=wx.ID_NEW,
               kind=wx.ITEM_NORMAL, text='New\tCTRL+N')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS0,
+        parent.Append(help='', id=wx.ID_OPEN,
               kind=wx.ITEM_NORMAL, text='Open\tCTRL+O')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS1,
-              kind=wx.ITEM_NORMAL, text='Save\tCTRL+S')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS6,
-              kind=wx.ITEM_NORMAL, text='Save As...\tALT+S')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS2,
+        parent.Append(help='', id=wx.ID_CLOSE,
               kind=wx.ITEM_NORMAL, text='Close\tCTRL+W')
         parent.AppendSeparator()
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS7,
+        parent.Append(help='', id=wx.ID_SAVE,
+              kind=wx.ITEM_NORMAL, text='Save\tCTRL+S')
+        parent.Append(help='', id=wx.ID_SAVEAS,
+              kind=wx.ITEM_NORMAL, text='Save As...\tALT+S')
+        parent.AppendSeparator()
+        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUIMPORTEDS,
               kind=wx.ITEM_NORMAL, text='Import EDS file')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS9,
+        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUEXPORTEDS,
               kind=wx.ITEM_NORMAL, text='Export to EDS file')
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS8,
+        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUEXPORTC,
               kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
         parent.AppendSeparator()
-        parent.Append(help='', id=ID_OBJDICTEDITFILEMENUITEMS4,
+        parent.Append(help='', id=wx.ID_EXIT,
               kind=wx.ITEM_NORMAL, text='Exit')
-        self.Bind(wx.EVT_MENU, self.OnOpenMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS0)
-        self.Bind(wx.EVT_MENU, self.OnSaveMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS1)
-        self.Bind(wx.EVT_MENU, self.OnCloseMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS2)
-        self.Bind(wx.EVT_MENU, self.OnQuitMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS4)
-        self.Bind(wx.EVT_MENU, self.OnNewMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS5)
-        self.Bind(wx.EVT_MENU, self.OnSaveAsMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS6)
+        self.Bind(wx.EVT_MENU, self.OnNewMenu, id=wx.ID_NEW)
+        self.Bind(wx.EVT_MENU, self.OnOpenMenu, id=wx.ID_OPEN)
+        self.Bind(wx.EVT_MENU, self.OnCloseMenu, id=wx.ID_CLOSE)
+        self.Bind(wx.EVT_MENU, self.OnSaveMenu, id=wx.ID_SAVE)
+        self.Bind(wx.EVT_MENU, self.OnSaveAsMenu, id=wx.ID_SAVEAS)
         self.Bind(wx.EVT_MENU, self.OnImportEDSMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS7)
-        self.Bind(wx.EVT_MENU, self.OnExportCMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS8)
+              id=ID_OBJDICTEDITFILEMENUIMPORTEDS)
         self.Bind(wx.EVT_MENU, self.OnExportEDSMenu,
-              id=ID_OBJDICTEDITFILEMENUITEMS9)
+              id=ID_OBJDICTEDITFILEMENUEXPORTEDS)
+        self.Bind(wx.EVT_MENU, self.OnExportCMenu,
+              id=ID_OBJDICTEDITFILEMENUEXPORTC)
+        self.Bind(wx.EVT_MENU, self.OnQuitMenu, id=wx.ID_EXIT)
+
+    def _init_coll_EditMenu_Items(self, parent):
+        parent.Append(help='', id=wx.ID_REFRESH,
+              kind=wx.ITEM_NORMAL, text='Refresh\tCTRL+R')
+        parent.AppendSeparator()
+        parent.Append(help='', id=wx.ID_UNDO,
+              kind=wx.ITEM_NORMAL, text='Undo\tCTRL+Z')
+        parent.Append(help='', id=wx.ID_REDO,
+              kind=wx.ITEM_NORMAL, text='Redo\tCTRL+Y')
+        parent.AppendSeparator()
+        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUNODEINFOS,
+              kind=wx.ITEM_NORMAL, text='Node infos')
+        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUDS301PROFILE,
+              kind=wx.ITEM_NORMAL, text='DS-301 Profile')
+        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUDS302PROFILE,
+              kind=wx.ITEM_NORMAL, text='DS-302 Profile')
+        parent.Append(help='', id=ID_OBJDICTEDITEDITMENUOTHERPROFILE,
+              kind=wx.ITEM_NORMAL, text='Other Profile')
+        self.Bind(wx.EVT_MENU, self.OnRefreshMenu, id=wx.ID_REFRESH)
+        self.Bind(wx.EVT_MENU, self.OnUndoMenu, id=wx.ID_UNDO)
+        self.Bind(wx.EVT_MENU, self.OnRedoMenu, id=wx.ID_REDO)
+        self.Bind(wx.EVT_MENU, self.OnNodeInfosMenu,
+              id=ID_OBJDICTEDITEDITMENUNODEINFOS)
+        self.Bind(wx.EVT_MENU, self.OnCommunicationMenu,
+              id=ID_OBJDICTEDITEDITMENUDS301PROFILE)
+        self.Bind(wx.EVT_MENU, self.OnOtherCommunicationMenu,
+              id=ID_OBJDICTEDITEDITMENUDS302PROFILE)
+        self.Bind(wx.EVT_MENU, self.OnEditProfileMenu,
+              id=ID_OBJDICTEDITEDITMENUOTHERPROFILE)
 
     def _init_coll_AddMenu_Items(self, parent):
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS0,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUSDOSERVER,
               kind=wx.ITEM_NORMAL, text='SDO Server')
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS1,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUSDOCLIENT,
               kind=wx.ITEM_NORMAL, text='SDO Client')
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS2,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUPDOTRANSMIT,
               kind=wx.ITEM_NORMAL, text='PDO Transmit')
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS3,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUPDORECEIVE,
               kind=wx.ITEM_NORMAL, text='PDO Receive')
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS4,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUMAPVARIABLE,
               kind=wx.ITEM_NORMAL, text='Map Variable')
-        parent.Append(help='', id=ID_OBJDICTEDITADDMENUITEMS5,
+        parent.Append(help='', id=ID_OBJDICTEDITADDMENUUSERTYPE,
               kind=wx.ITEM_NORMAL, text='User Type')
         self.Bind(wx.EVT_MENU, self.OnAddSDOServerMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS0)
+              id=ID_OBJDICTEDITADDMENUSDOSERVER)
         self.Bind(wx.EVT_MENU, self.OnAddSDOClientMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS1)
+              id=ID_OBJDICTEDITADDMENUSDOCLIENT)
         self.Bind(wx.EVT_MENU, self.OnAddPDOTransmitMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS2)
+              id=ID_OBJDICTEDITADDMENUPDOTRANSMIT)
         self.Bind(wx.EVT_MENU, self.OnAddPDOReceiveMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS3)
+              id=ID_OBJDICTEDITADDMENUPDORECEIVE)
         self.Bind(wx.EVT_MENU, self.OnAddMapVariableMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS4)
+              id=ID_OBJDICTEDITADDMENUMAPVARIABLE)
         self.Bind(wx.EVT_MENU, self.OnAddUserTypeMenu,
-              id=ID_OBJDICTEDITADDMENUITEMS5)
+              id=ID_OBJDICTEDITADDMENUUSERTYPE)
+
+    def _init_coll_HelpMenu_Items(self, parent):
+        parent.Append(help='', id=wx.ID_HELP,
+              kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
+        self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu, id=wx.ID_HELP)
+        parent.Append(help='', id=wx.ID_HELP_CONTEXT,
+              kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
+        self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu, id=wx.ID_HELP_CONTEXT)
+        if Html_Window:
+            parent.Append(help='', id=wx.ID_ABOUT,
+                  kind=wx.ITEM_NORMAL, text='About')
+            self.Bind(wx.EVT_MENU, self.OnAboutMenu, id=wx.ID_ABOUT)
 
     def _init_coll_HelpBar_Fields(self, parent):
         parent.SetFieldsCount(3)
@@ -263,15 +243,15 @@ class objdictedit(wx.Frame):
         parent.SetStatusWidths([100, 110, -1])
 
     def _init_utils(self):
-        self.menuBar1 = wx.MenuBar()
-        self.menuBar1.SetEvtHandlerEnabled(True)
+        self.MenuBar = wx.MenuBar()
+        self.MenuBar.SetEvtHandlerEnabled(True)
 
         self.FileMenu = wx.Menu(title='')
         self.EditMenu = wx.Menu(title='')
         self.AddMenu = wx.Menu(title='')
         self.HelpMenu = wx.Menu(title='')
 
-        self._init_coll_menuBar1_Menus(self.menuBar1)
+        self._init_coll_MenuBar_Menus(self.MenuBar)
         self._init_coll_FileMenu_Items(self.FileMenu)
         self._init_coll_EditMenu_Items(self.EditMenu)
         self._init_coll_AddMenu_Items(self.AddMenu)
@@ -283,7 +263,7 @@ class objdictedit(wx.Frame):
               style=wx.DEFAULT_FRAME_STYLE, title='Objdictedit')
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
-        self.SetMenuBar(self.menuBar1)
+        self.SetMenuBar(self.MenuBar)
         self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
 
         self.FileOpened = wx.Notebook(id=ID_OBJDICTEDITFILEOPENED,
@@ -317,9 +297,9 @@ class objdictedit(wx.Frame):
                 self.Manager.ChangeCurrentNode(window.GetIndex())
                 self.FileOpened.SetSelection(0)
         if self.Manager.CurrentDS302Defined():
-            self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, True)
+            self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, True)
         else:
-            self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, False)
+            self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, False)
         self.RefreshEditMenu()
         self.RefreshBufferState()
         self.RefreshProfileMenu()
@@ -499,36 +479,36 @@ class objdictedit(wx.Frame):
     def RefreshMainMenu(self):
         if self.FileMenu:
             if self.FileOpened.GetPageCount() > 0:
-                self.menuBar1.EnableTop(1, True)
-                self.menuBar1.EnableTop(2, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS1, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS2, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS6, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS8, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS9, True)
+                self.MenuBar.EnableTop(1, True)
+                self.MenuBar.EnableTop(2, True)
+                self.FileMenu.Enable(wx.ID_CLOSE, True)
+                self.FileMenu.Enable(wx.ID_SAVE, True)
+                self.FileMenu.Enable(wx.ID_SAVEAS, True)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, True)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, True)
             else:
-                self.menuBar1.EnableTop(1, False)
-                self.menuBar1.EnableTop(2, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS1, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS2, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS6, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS8, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUITEMS9, False)
+                self.MenuBar.EnableTop(1, False)
+                self.MenuBar.EnableTop(2, False)
+                self.FileMenu.Enable(wx.ID_CLOSE, False)
+                self.FileMenu.Enable(wx.ID_SAVE, False)
+                self.FileMenu.Enable(wx.ID_SAVEAS, False)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, False)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, False)
 
     def RefreshEditMenu(self):
-        if self.FileMenu:
+        if self.EditMenu:
             if self.FileOpened.GetPageCount() > 0:
                 undo, redo = self.Manager.GetCurrentBufferState()
-                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS1, undo)
-                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS0, redo)
+                self.EditMenu.Enable(wx.ID_UNDO, undo)
+                self.EditMenu.Enable(wx.ID_REDO, redo)
             else:
-                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS1, False)
-                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS0, False)
+                self.EditMenu.Enable(wx.ID_UNDO, False)
+                self.EditMenu.Enable(wx.ID_REDO, False)
 
     def RefreshProfileMenu(self):
         if self.EditMenu:
             profile = self.Manager.GetCurrentProfileName()
-            edititem = self.EditMenu.FindItemById(ID_OBJDICTEDITEDITMENUITEMS7)
+            edititem = self.EditMenu.FindItemById(ID_OBJDICTEDITEDITMENUOTHERPROFILE)
             if edititem:
                 length = self.AddMenu.GetMenuItemCount()
                 for i in xrange(length-6):
@@ -589,9 +569,9 @@ class objdictedit(wx.Frame):
                 new_editingpanel.SetIndex(result)
                 self.FileOpened.AddPage(new_editingpanel, "")
                 self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
-                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, False)
+                self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, False)
                 if "DS302" in options:
-                    self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, True)
+                    self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, True)
                 self.RefreshBufferState()
                 self.RefreshProfileMenu()
                 self.RefreshMainMenu()
@@ -619,9 +599,9 @@ class objdictedit(wx.Frame):
                     self.FileOpened.AddPage(new_editingpanel, "")
                     self.FileOpened.SetSelection(self.FileOpened.GetPageCount() - 1)
                     if self.Manager.CurrentDS302Defined(): 
-                        self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, True)
+                        self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, True)
                     else:
-                        self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUITEMS8, False)
+                        self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, False)
                     self.RefreshEditMenu()
                     self.RefreshBufferState()
                     self.RefreshProfileMenu()
@@ -837,10 +817,12 @@ class objdictedit(wx.Frame):
     def OnNodeInfosMenu(self, event):
         dialog = NodeInfosDialog(self)
         name, id, type, description = self.Manager.GetCurrentNodeInfos()
-        dialog.SetValues(name, id, type, description)
+        defaultstringsize = self.Manager.GetCurrentNodeDefaultStringSize()
+        dialog.SetValues(name, id, type, description, defaultstringsize)
         if dialog.ShowModal() == wx.ID_OK:
-            name, id, type, description = dialog.GetValues()
+            name, id, type, description, defaultstringsize = dialog.GetValues()
             self.Manager.SetCurrentNodeInfos(name, id, type, description)
+            self.Manager.SetCurrentNodeDefaultStringSize(defaultstringsize)
             self.RefreshBufferState()
             self.RefreshProfileMenu()
             selected = self.FileOpened.GetSelection()

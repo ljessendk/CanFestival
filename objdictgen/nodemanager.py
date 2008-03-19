@@ -922,13 +922,25 @@ class NodeManager:
         type = self.CurrentNode.GetNodeType()
         description = self.CurrentNode.GetNodeDescription()
         return name, id, type, description
-        
+    
     def SetCurrentNodeInfos(self, name, id, type, description):
         self.CurrentNode.SetNodeName(name)
         self.CurrentNode.SetNodeID(id)
         self.CurrentNode.SetNodeType(type)
         self.CurrentNode.SetNodeDescription(description)
         self.BufferCurrentNode()
+
+    def GetCurrentNodeDefaultStringSize(self):
+        if self.CurrentNode:
+            return self.CurrentNode.GetDefaultStringSize()
+        else:
+            return Node.DefaultStringSize
+    
+    def SetCurrentNodeDefaultStringSize(self, size):
+        if self.CurrentNode:
+            self.CurrentNode.SetDefaultStringSize(size)
+        else:
+            Node.DefaultStringSize = size
 
     def GetCurrentProfileName(self):
         if self.CurrentNode:

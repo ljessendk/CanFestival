@@ -645,11 +645,12 @@ class UserTypeDialog(wx.Dialog):
 
 
 [ID_NODEINFOSDIALOG, ID_NODEINFOSDIALOGNAME, 
- ID_NODEINFOSDIALOGNODEID, ID_NODEINFOSDIALOGDESCRIPTION, 
- ID_NODEINFOSDIALOGTYPE, ID_NODEINFOSDIALOGSTATICTEXT1, 
- ID_NODEINFOSDIALOGSTATICTEXT2, ID_NODEINFOSDIALOGSTATICTEXT3, 
- ID_NODEINFOSDIALOGSTATICTEXT4,  
-] = [wx.NewId() for _init_ctrls in range(9)]
+ ID_NODEINFOSDIALOGNODEID, ID_NODEINFOSDIALOGTYPE, 
+ ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, ID_NODEINFOSDIALOGDESCRIPTION, 
+ ID_NODEINFOSDIALOGSTATICTEXT1, ID_NODEINFOSDIALOGSTATICTEXT2, 
+ ID_NODEINFOSDIALOGSTATICTEXT3, ID_NODEINFOSDIALOGSTATICTEXT4, 
+ ID_NODEINFOSDIALOGSTATICTEXT5, 
+] = [wx.NewId() for _init_ctrls in range(11)]
 
 class NodeInfosDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
@@ -668,6 +669,8 @@ class NodeInfosDialog(wx.Dialog):
         parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.Type, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
+        parent.AddWindow(self.DefaultStringSize, 0, border=0, flag=wx.GROW)
+        parent.AddWindow(self.staticText5, 0, border=0, flag=wx.GROW)
         parent.AddWindow(self.Description, 0, border=0, flag=wx.GROW)
 
     def _init_coll_MainSizer_Growables(self, parent):
@@ -716,7 +719,15 @@ class NodeInfosDialog(wx.Dialog):
               size=wx.Size(0, 25), style=0)
 
         self.staticText4 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT4,
-              label='Description:', name='staticText4', parent=self,
+              label='Default String Size:', name='staticText4', parent=self,
+              pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
+
+        self.DefaultStringSize = wx.SpinCtrl(id=ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, 
+              name='DefaultStringSize', parent=self, pos=wx.Point(0, 0), 
+              size=wx.Size(0, 25), style=wx.TE_RIGHT)
+        
+        self.staticText5 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT5,
+              label='Description:', name='staticText5', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Description = wx.TextCtrl(id=ID_NODEINFOSDIALOGDESCRIPTION, 
@@ -759,18 +770,20 @@ class NodeInfosDialog(wx.Dialog):
         else:
             self.EndModal(wx.ID_OK)
     
-    def SetValues(self, name, id, type, description):
+    def SetValues(self, name, id, type, description, defaultstringsize):
         self.NodeName.SetValue(name)
         self.NodeID.SetValue("0x%02X"%id)
         self.Type.SetStringSelection(type)
         self.Description.SetValue(description)
+        self.DefaultStringSize.SetValue(defaultstringsize)
 
     def GetValues(self):
         name = self.NodeName.GetValue()
         nodeid = int(self.NodeID.GetValue(), 16)
         type = self.Type.GetStringSelection()
         description = self.Description.GetValue()
-        return name, nodeid, type, description
+        defaultstringsize = self.DefaultStringSize.GetValue()
+        return name, nodeid, type, description, defaultstringsize
 
 
 

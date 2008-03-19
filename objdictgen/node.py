@@ -391,6 +391,8 @@ that the structure of the Object Dictionary stay coherent
 
 class Node:
     
+    DefaultStringSize = 10
+    
     def __init__(self, name = "", type = "slave", id = 0, description = "", profilename = "DS-301", profile = {}, specificmenu = []):
         self.Name = name
         self.Type = type
@@ -478,6 +480,18 @@ class Node:
     """
     def SetProfile(self, profile):
         self.Profile = profile
+    
+    """
+    Return the default string size
+    """
+    def GetDefaultStringSize(self):
+        return self.DefaultStringSize
+    
+    """
+    Define the default string size
+    """
+    def SetDefaultStringSize(self, size):
+        self.DefaultStringSize = size
     
     """
     Define the DS-302 Profile
