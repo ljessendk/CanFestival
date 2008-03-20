@@ -169,8 +169,9 @@ UNS32 _getODentry( CO_Data* d,
         UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
         UNS8 *ptr_start = ptr;
         UNS8 *ptr_end = ptr + *pExpectedSize; /* *pExpectedSize IS < szData */ 
+        UNS8 *ptr_dest = (UNS8*)pDestData;
         while( *ptr && ptr < ptr_end){
-            *((UNS8*)pDestData++) = *(ptr++);
+            *(ptr_dest++) = *(ptr++);
         } 
          
         *pExpectedSize = ptr - ptr_start;
