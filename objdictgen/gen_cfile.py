@@ -480,7 +480,9 @@ const UNS8 %(NodeName)s_iam_a_slave = %(iam_a_slave)d;
 
 """%texts
     if texts["heartBeatTimers_number"] > 0:
-        fileContent += "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(heartBeatTimers_number)d] = {TIMER_NONE,};\n"%texts
+        declaration = "TIMER_HANDLE %(NodeName)s_heartBeatTimers[%(heartBeatTimers_number)d]"%texts
+        initializer = "{TIMER_NONE" + ",TIMER_NONE" * (texts["heartBeatTimers_number"] - 1) + "}"
+        fileContent += declaration + " = " + initializer + ";\n"
     else:
         fileContent += "TIMER_HANDLE %(NodeName)s_heartBeatTimers[1];\n"%texts
     

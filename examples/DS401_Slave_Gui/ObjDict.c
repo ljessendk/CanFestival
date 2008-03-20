@@ -101,7 +101,7 @@ UNS8 ObjDict_bDeviceNodeId = 0x00;
 
 const UNS8 ObjDict_iam_a_slave = 1;
 
-TIMER_HANDLE ObjDict_heartBeatTimers[3] = {TIMER_NONE,};
+TIMER_HANDLE ObjDict_heartBeatTimers[3] = {TIMER_NONE,TIMER_NONE,TIMER_NONE};
 
 /*
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$

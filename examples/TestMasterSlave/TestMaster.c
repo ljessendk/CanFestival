@@ -46,7 +46,7 @@ UNS8 TestMaster_bDeviceNodeId = 0x00;
 
 const UNS8 TestMaster_iam_a_slave = 0;
 
-TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE,};
+TIMER_HANDLE TestMaster_heartBeatTimers[1] = {TIMER_NONE};
 
 /*
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
