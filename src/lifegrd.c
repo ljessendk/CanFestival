@@ -249,10 +249,10 @@ void heartbeatStop(CO_Data* d)
   UNS8 index;
   for( index = (UNS8)0x00; index < *d->ConsumerHeartbeatCount; index++ )
     {
-      d->ConsumerHeartBeatTimers[index + 1] = DelAlarm(d->ConsumerHeartBeatTimers[index + 1]);;
+      d->ConsumerHeartBeatTimers[index] = DelAlarm(d->ConsumerHeartBeatTimers[index]);
     }
 
-  d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);;
+  d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);
 }
 
 /*!
