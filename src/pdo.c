@@ -57,7 +57,7 @@ buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
   UNS8 offset = 0x00;
   const UNS8 *pMappingCount = (UNS8 *) TPDO_map->pSubindex[0].pObject;
 
-  pdo->cob_id = *(UNS16 *) TPDO_com->pSubindex[1].pObject & UNS16_LE (0x7FF);
+  pdo->cob_id = UNS16_LE(*(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF);
   pdo->rtr = NOT_A_REQUEST;
 
   MSG_WAR (0x3009, "  PDO CobId is : ",
