@@ -167,21 +167,21 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 ObjDict_obj1008[10] = "";
                     subindex ObjDict_Index1008[] = 
                      {
-                       { RO, visible_string, 0, (void*)&ObjDict_obj1008 }
+                       { RO, visible_string, 10, (void*)&ObjDict_obj1008 }
                      };
 
 /* index 0x1009 :   Manufacturer Hardware Version. */
                     UNS8 ObjDict_obj1009[10] = "";
                     subindex ObjDict_Index1009[] = 
                      {
-                       { RO, visible_string, 0, (void*)&ObjDict_obj1009 }
+                       { RO, visible_string, 10, (void*)&ObjDict_obj1009 }
                      };
 
 /* index 0x100A :   Manufacturer Software Version. */
                     UNS8 ObjDict_obj100A[10] = "";
                     subindex ObjDict_Index100A[] = 
                      {
-                       { RO, visible_string, 0, (void*)&ObjDict_obj100A }
+                       { RO, visible_string, 10, (void*)&ObjDict_obj100A }
                      };
 
 /* index 0x100C :   Guard Time. */

@@ -138,12 +138,13 @@ UNS32 _getODentry( CO_Data* d,
 
   if(*pExpectedSize == 0 ||
      *pExpectedSize == szData ||
-     (*pDataType == visible_string && *pExpectedSize < szData)) {
-    /* We
-      allow to fetch a shorter string than expected */
+     /* allow to fetch a shorter string than expected */
+     (*pDataType >= visible_string && *pExpectedSize < szData)) { 
 
 #  ifdef CANOPEN_BIG_ENDIAN
-    if(endianize && *pDataType > boolean && *pDataType < visible_string) {
+     if(endianize && dataType > boolean && !(
+            dataType >= visible_string && 
+            domain <= dataType)) {
       /* data must be transmited with low byte first */
       UNS8 i, j = 0;
       MSG_WAR(boolean, "data type ", *pDataType);
@@ -156,7 +157,7 @@ UNS32 _getODentry( CO_Data* d,
     }
     else /* no endianisation change */
 #  endif
-    if(*pDataType < visible_string) {
+    if(*pDataType != visible_string) {
         memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
         *pExpectedSize = szData;
     }else{
@@ -171,7 +172,11 @@ UNS32 _getODentry( CO_Data* d,
         while( *ptr && ptr < ptr_end){
             *((UNS8*)pDestData++) = *(ptr++);
         } 
-        *pExpectedSize = ptr - ptr_start; 
+         
+        *pExpectedSize = ptr - ptr_start;
+        /* terminate string if not maximum length */
+        if (*pExpectedSize < szData) 
+            *(ptr) = 0; 
     }
 
     return OD_SUCCESSFUL;
@@ -294,11 +299,14 @@ UNS32 _setODentry( CO_Data* d,
 
   if( *pExpectedSize == 0 ||
       *pExpectedSize == szData ||
-      (dataType == visible_string && *pExpectedSize < szData)) /* We
-                                                                  allow to store a shorter string than entry size */
+      /* allow to store a shorter string than entry size */
+      (dataType == visible_string && *pExpectedSize < szData))
     {
 #ifdef CANOPEN_BIG_ENDIAN
-      if(endianize && dataType > boolean && dataType < visible_string)
+      /* re-endianize do not occur for bool, strings time and domains */
+      if(endianize && dataType > boolean && !(
+            dataType >= visible_string && 
+            domain <= dataType))
         {
           /* we invert the data source directly. This let us do range
             testing without */
@@ -318,6 +326,14 @@ UNS32 _setODentry( CO_Data* d,
         return errorCode;
       }
       memcpy(ptrTable->pSubindex[bSubindex].pObject,pSourceData, *pExpectedSize);
+     /* TODO : CONFORM TO DS-301 : 
+      *  - stop using NULL terminated strings
+      *  - store string size in td_subindex 
+      * */
+      /* terminate visible_string with '\0' */
+      if(dataType == visible_string && *pExpectedSize < szData)
+        ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[*pExpectedSize] = 0;
+      
       *pExpectedSize = szData;
 
       /* Callbacks */

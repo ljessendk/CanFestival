@@ -231,7 +231,7 @@ def GenerateFileContent(Node, headerfilepath):
                             if subIndex == len(values)-1:
                                 sep = ""
                             if typeinfos[2] == "visible_string":
-                                value = "\"%s\""%value
+                                value = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
                             elif typeinfos[2] == "domain":
                                 value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
                             else:
@@ -248,7 +248,7 @@ def GenerateFileContent(Node, headerfilepath):
                             if subIndex == len(values)-1:
                                 sep = ""
                             if typeinfos[2] == "visible_string":
-                                value = "\"%s\""%value
+                                value = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
                             elif typeinfos[2] == "domain":
                                 value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
                             else:
@@ -272,7 +272,7 @@ def GenerateFileContent(Node, headerfilepath):
                         else:
                             texts["suffixe"] = ""
                         if typeinfos[2] == "visible_string":
-                            texts["value"] = "\"%s\""%value
+                            texts["value"] = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
                             texts["comment"] = ""
                         elif typeinfos[2] == "domain":
                             texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
@@ -333,8 +333,10 @@ def GenerateFileContent(Node, headerfilepath):
                     name = FormatName("%s_%s"%(entry_infos["name"],subentry_infos["name"]))
                 else:
                     name = "%s_obj%04X_%s"%(texts["NodeName"], texts["index"], FormatName(subentry_infos["name"]))
-            if typeinfos[2] in ["visible_string", "domain"]:
-                sizeof = typeinfos[1]
+            if typeinfos[2] == "visible_string":
+                sizeof = str(max(len(values[subIndex]), default_string_size))
+            elif typeinfos[2] == "domain":
+                sizeof = str(len(values[subIndex]))
             else:
                 sizeof = "sizeof (%s)"%typeinfos[0]
             params = Node.GetParamsEntry(index, subIndex)
