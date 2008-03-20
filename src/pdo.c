@@ -606,10 +606,14 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                   break;
                   /* If transmission on Event and not inhibited, check for changes */
                 }
-              else if ((*pTransmissionType == TRANS_EVENT_PROFILE ||
-                        *pTransmissionType == TRANS_EVENT_SPECIFIC) &&
-                       !(d->PDO_status[pdoNum].
-                         transmit_type_parameter & PDO_INHIBITED))
+              else
+                if ((isSyncEvent
+                     && (*pTransmissionType == TRANS_SYNC_ACYCLIC))
+                    ||
+                    ((*pTransmissionType == TRANS_EVENT_PROFILE
+                      || *pTransmissionType == TRANS_EVENT_SPECIFIC)
+                     && !(d->PDO_status[pdoNum].
+                          transmit_type_parameter & PDO_INHIBITED)))
                 {
                   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
                            *pTransmissionType);
