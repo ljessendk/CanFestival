@@ -154,13 +154,25 @@ UNS32 _getODentry( CO_Data* d,
           ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
       }
     }
-    else /* It it is a visible string no endianisation to perform */
-      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
-#  else
-    memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+    else /* no endianisation change */
 #  endif
-
-    *pExpectedSize = szData;
+    if(*pDataType < visible_string) {
+        memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+        *pExpectedSize = szData;
+    }else{
+        /* TODO : CONFORM TO DS-301 : 
+         *  - stop using NULL terminated strings
+         *  - store string size in td_subindex 
+         * */
+        /* Copy null terminated string to user, and return discovered size */
+        UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
+        UNS8 *ptr_start = ptr;
+        UNS8 *ptr_end = ptr + *pExpectedSize; /* *pExpectedSize IS < szData */ 
+        while( *ptr && ptr < ptr_end){
+            *((UNS8*)pDestData++) = *(ptr++);
+        } 
+        *pExpectedSize = ptr - ptr_start; 
+    }
 
     return OD_SUCCESSFUL;
   }
