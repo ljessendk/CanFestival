@@ -144,7 +144,7 @@ UNS32 _getODentry( CO_Data* d,
 #  ifdef CANOPEN_BIG_ENDIAN
      if(endianize && *pDataType > boolean && !(
             *pDataType >= visible_string && 
-            domain <= *pDataType)) {
+            *pDataType <= domain)) {
       /* data must be transmited with low byte first */
       UNS8 i, j = 0;
       MSG_WAR(boolean, "data type ", *pDataType);
@@ -154,6 +154,7 @@ UNS32 _getODentry( CO_Data* d,
         ((UNS8*)pDestData)[j++] =
           ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
       }
+      *pExpectedSize = szData;
     }
     else /* no endianisation change */
 #  endif
@@ -168,7 +169,8 @@ UNS32 _getODentry( CO_Data* d,
         /* Copy null terminated string to user, and return discovered size */
         UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
         UNS8 *ptr_start = ptr;
-        UNS8 *ptr_end = ptr + *pExpectedSize; /* *pExpectedSize IS < szData */ 
+        /* *pExpectedSize IS < szData . if null, use szData */
+        UNS8 *ptr_end = ptr + (*pExpectedSize ? *pExpectedSize : szData) ; 
         UNS8 *ptr_dest = (UNS8*)pDestData;
         while( *ptr && ptr < ptr_end){
             *(ptr_dest++) = *(ptr++);
@@ -307,7 +309,7 @@ UNS32 _setODentry( CO_Data* d,
       /* re-endianize do not occur for bool, strings time and domains */
       if(endianize && dataType > boolean && !(
             dataType >= visible_string && 
-            domain <= dataType))
+            dataType <= domain))
         {
           /* we invert the data source directly. This let us do range
             testing without */
