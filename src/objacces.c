@@ -142,9 +142,9 @@ UNS32 _getODentry( CO_Data* d,
      (*pDataType >= visible_string && *pExpectedSize < szData)) { 
 
 #  ifdef CANOPEN_BIG_ENDIAN
-     if(endianize && dataType > boolean && !(
-            dataType >= visible_string && 
-            domain <= dataType)) {
+     if(endianize && *pDataType > boolean && !(
+            *pDataType >= visible_string && 
+            domain <= *pDataType)) {
       /* data must be transmited with low byte first */
       UNS8 i, j = 0;
       MSG_WAR(boolean, "data type ", *pDataType);
