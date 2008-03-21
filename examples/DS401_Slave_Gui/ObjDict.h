@@ -12,9 +12,6 @@ const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallb
 
 /* Master node data struct */
 extern CO_Data ObjDict_Data;
-extern ODCallback_t Transmit_PDO_1_Parameter_callbacks[];		/* Callbacks of index0x1800 */
-extern ODCallback_t Transmit_PDO_2_Parameter_callbacks[];		/* Callbacks of index0x1801 */
-extern ODCallback_t Transmit_PDO_3_Parameter_callbacks[];		/* Callbacks of index0x1802 */
 extern UNS8 Read_Inputs_8_Bit[1];		/* Mapped at index 0x6000, subindex 0x01 - 0x01 */
 extern UNS8 Polarity_Input_8_Bit[1];		/* Mapped at index 0x6002, subindex 0x01 - 0x01 */
 extern UNS8 Write_Outputs_8_Bit[1];		/* Mapped at index 0x6200, subindex 0x01 - 0x01 */
