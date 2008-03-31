@@ -47,7 +47,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //#define LSS_FS_TIMEOUT_MS	(TIMEVAL)100  /* ms */
 
 /* Returns the LSS ident field from a Message struct */
-#define getLSSIdent(msg) ((msg->data[4] << 24) | (msg->data[3] << 16) | (msg->data[2] << 8) | (msg->data[1]))
+#define getLSSIdent(msg) (((UNS32)msg->data[4] << 24) | ((UNS32)msg->data[3] << 16) | (msg->data[2] << 8) | (msg->data[1]))
+
 
 /* Returns the LSS switch delay field from a Message struct */
 #define getLSSDelay(msg) ((msg->data[2] << 8) | (msg->data[1]))
