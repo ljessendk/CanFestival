@@ -341,8 +341,12 @@ UNS32 _setODentry( CO_Data* d,
 
       /* Callbacks */
       if(Callback && Callback[bSubindex]){
-        (*Callback[bSubindex])(d, ptrTable, bSubindex);
-      }
+        errorCode = (Callback[bSubindex])(d, ptrTable, bSubindex);
+        if(errorCode != OD_SUCCESSFUL)
+        {
+            return errorCode;
+        }
+       }
 
       /* TODO : Store dans NVRAM */
       if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
