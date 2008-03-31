@@ -1178,7 +1178,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
     break;  
 
    case 4:
-     abortCode = (*m).data[3] |
+     abortCode = 
+      (UNS32)m->data[4] |
       ((UNS32)m->data[5] << 8) |
       ((UNS32)m->data[6] << 16) |
       ((UNS32)m->data[7] << 24);
