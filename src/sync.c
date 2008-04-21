@@ -86,14 +86,14 @@ UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS
 **/ 
 void startSYNC(CO_Data* d)
 {
-	RegisterSetODentryCallBack(d, 0x1005, 0, &OnCOB_ID_SyncUpdate);
-	RegisterSetODentryCallBack(d, 0x1006, 0, &OnCOB_ID_SyncUpdate);
-
 	if(d->syncTimer != TIMER_NONE){
 		stopSYNC(d);
 	}
-	
-	if(*d->COB_ID_Sync & UNS32_LE(0x40000000) && *d->Sync_Cycle_Period)
+
+	RegisterSetODentryCallBack(d, 0x1005, 0, &OnCOB_ID_SyncUpdate);
+	RegisterSetODentryCallBack(d, 0x1006, 0, &OnCOB_ID_SyncUpdate);
+
+	if(*d->COB_ID_Sync & 0x40000000ul && *d->Sync_Cycle_Period)
 	{
 		d->syncTimer = SetAlarm(
 				d,
