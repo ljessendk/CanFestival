@@ -52,11 +52,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #define MAX_NB_CAN_PORTS 16
 
+/** CAN port structure */
 typedef struct {
-  char used;
-  CAN_HANDLE fd;
-  TASK_HANDLE receiveTask;
-  CO_Data* d;
+  char used;  /**< flag indicating CAN port usage, will be used to abort Receiver task*/
+  CAN_HANDLE fd; /**< CAN port file descriptor*/
+  TASK_HANDLE receiveTask; /**< CAN Receiver task*/
+  CO_Data* d; /**< CAN object data*/
 } CANPort;
 
 #include "can_driver.h"
@@ -84,7 +85,12 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 	return -1;
 }
 
-/*Loads the dll and get funcs ptr*/
+/**
+ * Loads the dll and get funcs ptr
+ *
+ * @param driver_name String containing driver's dynamic library name
+ * @return Library handle
+ */
 LIB_HANDLE LoadCanDriver(char* driver_name)
 {
 	LIB_HANDLE handle = NULL;
@@ -122,6 +128,12 @@ UNS8 canReceive(CAN_PORT port, Message *m)
 }
 */
 
+/**
+ * CAN send routine
+ * @param port CAN port
+ * @param m CAN message
+ * @return success or error
+ */
 UNS8 canSend(CAN_PORT port, Message *m)
 {
 	if(port){
@@ -134,11 +146,15 @@ UNS8 canSend(CAN_PORT port, Message *m)
 	return 1; // NOT OK
 }
 
+/**
+ * CAN Receiver Task
+ * @param port CAN port
+ */
 void canReceiveLoop(CAN_PORT port)
 {
        Message m;
 
-       while (1) {
+       while (((CANPort*)port)->used) {
                if (DLL_CALL(canReceive)(((CANPort*)port)->fd, &m) != 0)
                        break;
 
@@ -147,6 +163,13 @@ void canReceiveLoop(CAN_PORT port)
                LeaveMutex();
        }
 }
+
+/**
+ * CAN open routine
+ * @param board device name and baudrate
+ * @param d CAN object data
+ * @return valid CAN_PORT pointer or NULL
+ */
 CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 {
 	int i;
@@ -180,21 +203,37 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 	}
 }
 
+/**
+ * CAN close routine
+ * @param d CAN object data
+ * @return success or error
+ */
 int canClose(CO_Data * d)
 {
+	UNS8 res;
+
 	EnterMutex();
 	((CANPort*)d->canHandle)->used = 0;
 	CANPort* tmp = (CANPort*)d->canHandle;
 	d->canHandle = NULL;
 	LeaveMutex();
 	
-	int res = DLL_CALL(canClose)(tmp->fd);
-	
+	// close CAN port
+	res = DLL_CALL(canClose)(tmp->fd);
+
+	// kill receiver task
 	WaitReceiveTaskEnd(&tmp->receiveTask);
+	
 	return res;
 }
 
 
+/**
+ * CAN change baudrate routine
+ * @param port CAN port
+ * @param baud baudrate
+ * @return success or error
+ */
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
 {
    if(port){
