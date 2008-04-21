@@ -56,6 +56,11 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
   m->len = peakMsg.LEN;					/* count of data bytes (0..8) */
   for(data = 0  ; data < peakMsg.LEN ; data++)             			
     m->data[data] = peakMsg.DATA[data];         	/* data bytes, up to 8 */
+
+#if defined DEBUG_MSG_CONSOLE_ON
+  printf("in : ");
+  print_message(m);
+#endif
   
   return 0;
 }
@@ -76,6 +81,10 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   for(data = 0 ; data <  m->len; data ++)
   	peakMsg.DATA[data] = m->data[data];         	/* data bytes, up to 8 */
   
+#if defined DEBUG_MSG_CONSOLE_ON
+  printf("out : ");
+  print_message(m);
+#endif
   if((errno = CAN_Write(fd0, & peakMsg))) {
     perror("canSend_driver (Peak_Linux) : error of writing.\n");
     return 1;
