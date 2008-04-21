@@ -392,7 +392,7 @@ def ParseEDSFile(filepath):
                     elif values["DATATYPE"] in (0x08, 0x11):
                         values["PARAMETERVALUE"] = float(values["PARAMETERVALUE"])
                     elif values["DATATYPE"] == 0x01:
-                        values["PARAMETERVALUE"] = {0 : True, 1 : False}[values["PARAMETERVALUE"]]
+                        values["PARAMETERVALUE"] = {0 : False, 1 : True}[values["PARAMETERVALUE"]]
                     else:
                         if type(values["PARAMETERVALUE"]) != IntType and values["PARAMETERVALUE"].find("$NODEID") == -1:
                             raise
@@ -529,7 +529,10 @@ def GenerateFileContent(filepath):
             text += "ObjectType=0x7\n"
             text += "DataType=0x%4.4X\n"%subentry_infos["type"]
             text += "AccessType=%s\n"%subentry_infos["access"]
-            text += "DefaultValue=%s\n"%values
+            if subentry_infos["type"] == 1:
+                text += "DefaultValue=%s\n"%BOOL_TRANSLATE[values]
+            else:
+                text += "DefaultValue=%s\n"%values
             text += "PDOMapping=%s\n"%BOOL_TRANSLATE[subentry_infos["pdo"]]
         else:
             # Generate EDS informations for the entry
@@ -553,7 +556,10 @@ def GenerateFileContent(filepath):
                     subtext += "ObjectType=0x7\n"
                     subtext += "DataType=0x%4.4X\n"%subentry_infos["type"]
                     subtext += "AccessType=%s\n"%subentry_infos["access"]
-                    subtext += "DefaultValue=%s\n"%value
+                    if subentry_infos["type"] == 1:
+                        subtext += "DefaultValue=%s\n"%BOOL_TRANSLATE[value]
+                    else:
+                        subtext += "DefaultValue=%s\n"%value
                     subtext += "PDOMapping=%s\n"%BOOL_TRANSLATE[subentry_infos["pdo"]]
                     # Increment number of subindex defined 
                     nb_subentry += 1
