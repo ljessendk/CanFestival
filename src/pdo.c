@@ -122,7 +122,7 @@ buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 UNS8
 sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
 {
-  UNS16 *pwCobId;
+  UNS32 *pwCobId;
   UNS16 offset = d->firstIndex->PDO_RCV;
   UNS16 lastIndex = d->lastIndex->PDO_RCV;
 
@@ -138,12 +138,12 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
       if (offset <= lastIndex)
         {
           /* get the CobId */
-          pwCobId = (UNS16 *) d->objdict[offset].pSubindex[1].pObject;
+          pwCobId = d->objdict[offset].pSubindex[1].pObject;
 
           MSG_WAR (0x3930, "sendPDOrequest cobId is : ", *pwCobId);
           {
             Message pdo;
-            pdo.cob_id = *pwCobId;
+            pdo.cob_id = UNS16_LE(*pwCobId);
             pdo.rtr = REQUEST;
             pdo.len = 0;
             return canSend (d->canHandle, &pdo);
@@ -176,7 +176,7 @@ proceedPDO (CO_Data * d, Message * m)
   UNS32 *pMappingParameter = NULL;
   UNS8 *pTransmissionType = NULL;       /* pointer to the transmission
                                            type */
-  UNS16 *pwCobId = NULL;
+  UNS32 *pwCobId = NULL;
   UNS8 Size;
   UNS8 offset;
   UNS8 status;
@@ -186,7 +186,7 @@ proceedPDO (CO_Data * d, Message * m)
 
   status = state2;
 
-  MSG_WAR (0x3935, "proceedPDO, cobID : ", ((*m).cob_id & UNS16_LE (0x7ff)));
+  MSG_WAR (0x3935, "proceedPDO, cobID : ", (UNS16_LE(m->cob_id) & 0x7ff));
   offset = 0x00;
   numPdo = 0;
   numMap = 0;
@@ -209,11 +209,11 @@ proceedPDO (CO_Data * d, Message * m)
                 /* get CobId of the dictionary correspondant to the received
                    PDO */
                 pwCobId =
-                  (UNS16 *) d->objdict[offsetObjdict].pSubindex[1].pObject;
+                  d->objdict[offsetObjdict].pSubindex[1].pObject;
                 /* check the CobId coherance */
                 /*pwCobId is the cobId read in the dictionary at the state 3
                  */
-                if (*pwCobId == (*m).cob_id)
+                if (*pwCobId == UNS16_LE(m->cob_id))
                   {
                     /* The cobId is recognized */
                     status = state4;
@@ -291,7 +291,7 @@ proceedPDO (CO_Data * d, Message * m)
 
                         MSG_WAR (0x3942,
                                  "Variable updated with value received by PDO cobid : ",
-                                 m->cob_id);
+                                 UNS16_LE(m->cob_id));
                         MSG_WAR (0x3943, "         Mapped at index : ",
                                  (*pMappingParameter) >> 16);
                         MSG_WAR (0x3944, "                subindex : ",
@@ -302,8 +302,6 @@ proceedPDO (CO_Data * d, Message * m)
                     numMap++;
                   }             /* end loop while on mapped variables */
 
-                offset = 0x00;
-                numMap = 0;
                 return 0;
 
               }                 /* end switch status */
@@ -311,7 +309,7 @@ proceedPDO (CO_Data * d, Message * m)
     }                           /* end if Donnees */
   else if ((*m).rtr == REQUEST)
     {
-      MSG_WAR (0x3946, "Receive a PDO request cobId : ", m->cob_id);
+      MSG_WAR (0x3946, "Receive a PDO request cobId : ", UNS16_LE(m->cob_id));
       status = state1;
       offsetObjdict = d->firstIndex->PDO_TRS;
       lastIndex = d->lastIndex->PDO_TRS;
@@ -327,9 +325,9 @@ proceedPDO (CO_Data * d, Message * m)
                 /* get CobId of the dictionary which match to the received PDO
                  */
                 pwCobId =
-                  (UNS16 *) (d->objdict +
+                   (d->objdict +
                              offsetObjdict)->pSubindex[1].pObject;
-                if (*pwCobId == (*m).cob_id)
+                if (*pwCobId == UNS16_LE(m->cob_id))
                   {
                     status = state4;
                     break;
@@ -369,7 +367,7 @@ proceedPDO (CO_Data * d, Message * m)
                         /* DS301 do not tell what to do in such a case... */
                         MSG_ERR (0x1947,
                                  "Not ready RTR_SYNC TPDO send current data : ",
-                                 m->cob_id);
+                                 UNS16_LE(m->cob_id));
                         status = state5;
                       }
                     break;
@@ -393,7 +391,7 @@ proceedPDO (CO_Data * d, Message * m)
                     /* The requested PDO is not to send on request. So, does
                        nothing. */
                     MSG_WAR (0x2947, "PDO is not to send on request : ",
-                             m->cob_id);
+                             UNS16_LE(m->cob_id));
                     return 0xFF;
                   }
 
@@ -402,7 +400,7 @@ proceedPDO (CO_Data * d, Message * m)
                   Message pdo;
                   if (buildPDO (d, numPdo, &pdo))
                     {
-                      MSG_ERR (0x1948, " Couldn't build TPDO n°", numPdo);
+                      MSG_ERR (0x1948, " Couldn't build TPDO nï¿½", numPdo);
                       return 0xFF;
                     }
                   canSend (d->canHandle, &pdo);
@@ -697,7 +695,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
             case state5:       /*Send the pdo */
               /*store_as_last_message */
               d->PDO_status[pdoNum].last_message = pdo;
-              MSG_WAR (0x396D, "sendPDO cobId :", pdo.cob_id);
+              MSG_WAR (0x396D, "sendPDO cobId :", UNS16_LE(pdo.cob_id));
               MSG_WAR (0x396E, "     Nb octets  : ", pdo.len);
 
               canSend (d->canHandle, &pdo);

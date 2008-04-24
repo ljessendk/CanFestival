@@ -493,7 +493,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   UNS8 found = 0;
   Message m;
   UNS8 i;
-  UNS16 * pwCobId = NULL;
+  UNS32 * pwCobId = NULL;
   UNS8 * pwNodeId = NULL;
 
   MSG_WAR(0x3A38, "sendSDO",0);
@@ -509,7 +509,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       MSG_ERR(0x1A42, "SendSDO : No SDO server found", 0); 
       return 0xFF;
     }
-    pwCobId = (UNS16*) d->objdict[offset].pSubindex[2].pObject;
+    pwCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
     MSG_WAR(0x3A41, "I am server. cobId : ", *pwCobId); 
   }
   else {			/*case client*/
@@ -542,10 +542,10 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       return 0xFF;
     }
     /* Second, read the cobid client->server */
-    pwCobId = (UNS16*) d->objdict[offset].pSubindex[1].pObject;
+    pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
-  m.cob_id = *pwCobId;
+  m.cob_id = UNS16_LE(*pwCobId);
   m.rtr = NOT_A_REQUEST; 
   /* the length of SDO must be 8 */
   m.len = 8;
@@ -610,7 +610,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS8 subIndex;
   UNS32 abortCode;
   UNS8 i,j;
-  UNS16 *pCobId = NULL;
+  UNS32 *pCobId = NULL;
   UNS16 offset;
   UNS16 lastIndex;
 
@@ -626,8 +626,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	  MSG_ERR(0x1A61, "Subindex 1  not found at index ", 0x1200 + j);
 	  return 0xFF;
 	}
-      pCobId = (UNS16*) d->objdict[offset].pSubindex[1].pObject;
-      if ( *pCobId == (*m).cob_id ) {
+      pCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
+      if ( *pCobId == UNS16_LE(m->cob_id) ) {
 	whoami = SDO_SERVER;
 	MSG_WAR(0x3A62, "proceedSDO. I am server. index : ", 0x1200 + j);
 	/* In case of server, the node id of the client may be unknown. So we put the index minus offset */
@@ -649,8 +649,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	 return 0xFF;
        }
        /* a) Looking for the cobid received. */
-       pCobId = (UNS16*) d->objdict[offset].pSubindex[2].pObject;
-       if (*pCobId == (*m).cob_id ) {
+       pCobId = (UNS32*) d->objdict[offset].pSubindex[2].pObject;
+       if (*pCobId == UNS16_LE(m->cob_id) ) {
 	 /* b) cobid found, so reading the node id of the server. */
 	 pNodeId = (UNS8*) d->objdict[offset].pSubindex[3].pObject;
 	 whoami = SDO_CLIENT;
@@ -669,7 +669,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 
   /* Test if the size of the SDO is ok */
   if ( (*m).len != 8) {
-    MSG_ERR(0x1A67, "Error size SDO. CobId  : ", (*m).cob_id);
+    MSG_ERR(0x1A67, "Error size SDO. CobId  : ", UNS16_LE(m->cob_id));
     failedSDO(d, nodeId, whoami, 0, 0, SDOABT_GENERAL_ERROR);
     return 0xFF;
   }
@@ -678,7 +678,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
     MSG_WAR(0x3A68, "I am CLIENT. Received SDO from nodeId : ", nodeId);
   }
   else {
-    MSG_WAR(0x3A69, "I am SERVER. Received SDO cobId : ", (*m).cob_id);
+    MSG_WAR(0x3A69, "I am SERVER. Received SDO cobId : ", UNS16_LE(m->cob_id));
   }
     
   /* Testing the command specifier */
