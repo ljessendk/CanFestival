@@ -194,6 +194,7 @@ Simplified directory structure.
 ./drivers/timers_kernel Linux kernel timer/threads
 ./drivers/timers_unix Posix timers/threads (Linux, Cygwin)
 ./drivers/can_virtual_kernel Fake CAN network (kernel space)
+./drivers/can_serial Serial point to point and PTY hub (*nix only)
 ./drivers/can_peak_linux PeakSystem CAN library interface
 ./drivers/can_peak_win32 PeakSystem PCAN-Light interface
 ./drivers/can_uvccm_win32 Acacetus's RS232 CAN-uVCCM interface
@@ -380,6 +381,21 @@ on your system.
 \begin{verbatim}
 	./configure --can=socket
 \end{verbatim}
+
+\paragraph{Serial}
+
+
+\begin{verbatim}
+	./configure --can=serial
+\end{verbatim}
+
+The CAN serial driver implements a 1:1 serial connection between 2 CAN devices.
+For example, you can connect 2 CANFestival applications via a NULL modem cable.
+
+Also with this driver comes a software hub, for up to 16 CANFestival apps to 
+be connected on a single PC, with an optional connection to another CAN driver.
+Note that only the serial driver is supported at this time.  The hub uses ptys 
+(pseudo ttys) available on a *nix like system.
 
 
 \paragraph{LinCan}
@@ -1193,7 +1209,7 @@ Because \canopen layer is coded with C, put a compilation option
 about that.
 
 
-\subsubsection{How to fit the library to an other microcontrôler ?}
+\subsubsection{How to fit the library to an other microcontrï¿½ler ?}
 
 First, be sure that you have at least 40K bytes of program memory,
 and about 2k of RAM.
@@ -1492,11 +1508,11 @@ We are using the stable RPM release 2.2 :
 \includegraphics[width=10cm]{Pictures/1000020100000258000000832C6FFAB4} 
 \par\end{center}
 
-Unité mixte de recherche INRETS -LCPC
+Unitï¿½ mixte de recherche INRETS -LCPC
 
-sur les Interractions Véhicule -Infrastructure -Conducteur
+sur les Interractions Vï¿½hicule -Infrastructure -Conducteur
 
-14, route de la minière
+14, route de la miniï¿½re
 
 78000 Versailles
 
@@ -1542,7 +1558,7 @@ Many thanks to the other contributors for their great work:
 
 Raphael ZULLIGER
 
-David DUMINY (sté A6R)
+David DUMINY (stï¿½ A6R)
 
 Zakaria BELAMRI
 
