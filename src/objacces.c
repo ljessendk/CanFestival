@@ -129,7 +129,7 @@ UNS32 _getODentry( CO_Data* d,
 
   if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType & WO)) {
     MSG_WAR(0x2B30, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
-    accessDictionaryError(wIndex, bSubindex, 0, 0, OD_WRITE_NOT_ALLOWED);
+    accessDictionaryError(wIndex, bSubindex, 0, 0, OD_READ_NOT_ALLOWED);
     return OD_READ_NOT_ALLOWED;
   }
 
