@@ -190,7 +190,7 @@ int read_write(int rd_port, port *p, CAN_HANDLE h, fd_set *wfds, int max_fd)
 	Message m;
 	int rv, i;
 	fd_set wfds_copy;
-	struct timeval tv = {.tv_sec = 0, .tv_usec = 0}; //wait 1 msec
+	struct timeval tv = {.tv_sec = 0, .tv_usec = 0}; //wait 0 msec
 
 	if (rd_port == MAX_HUB_PORTS) {
 		rv = DLL_CALL(canReceive)(h, &m);
@@ -221,7 +221,7 @@ int read_write(int rd_port, port *p, CAN_HANDLE h, fd_set *wfds, int max_fd)
 			continue;
 		}
 
-		if (rv <= 0 || !FD_ISSET(p[i].fd, &wfds_copy)) {
+		if (p[i].fd < 0 || !FD_ISSET(p[i].fd, &wfds_copy)) {
 			fprintf(stderr, "{%d} ", i);
 			continue;
 		}
@@ -428,7 +428,8 @@ int main(int argc, char **argv)
 
 		//as timeout is NULL, must be a rfds set.
 		for (i = 0; i < MAX_HUB_PORTS + 1; i++) {
-			if (FD_ISSET(hub_ports[i].fd, &rfds_copy)) {
+			if (hub_ports[i].fd >= 0 && 
+					FD_ISSET(hub_ports[i].fd, &rfds_copy)) {
 
 				rv = read_write(i, hub_ports, can_h, &rfds, max_fd);
 
@@ -437,20 +438,19 @@ int main(int argc, char **argv)
 					FD_CLR(hub_ports[i].fd, &rfds);
 
 					hub_close(&hub_ports[i]);
+				}						
+			}
 
-					rv = hub_open(&hub_ports[i]);
+			if (hub_ports[i].fd < 0 && i < MAX_HUB_PORTS) {
+				rv = hub_open(&hub_ports[i]);
 
-					if (rv < 0) {
-						ret = 1;
-						break;
-					}
-
+				if (rv >= 0) {
 					FD_SET(rv, &rfds);
 
 					if (rv > max_fd) {
 						max_fd = rv;
-					}					
-				}						
+					}
+				}
 			}
 		}
 	}
