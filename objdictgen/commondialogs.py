@@ -382,10 +382,10 @@ class MapVariableDialog(wx.Dialog):
             struct = 1
             number = None
         elif self.radioButton2.GetValue():
-            struct = 3
+            struct = 7
             number = int(self.Number.GetValue())
         elif self.radioButton3.GetValue():
-            struct = 7
+            struct = 3
             number = int(self.Number.GetValue())
         return index, name, struct, number
 
