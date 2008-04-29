@@ -675,6 +675,11 @@ class NodeManager:
                         node.SetEntry(index, subIndex, int(value))
                     except:
                         pass
+                elif editor == "float":
+                    try:
+                        node.SetEntry(index, subIndex, float(value))
+                    except:
+                        pass
                 elif editor == "domain":
                     try:
                         if len(value) % 2 != 0:

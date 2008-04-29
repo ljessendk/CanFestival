@@ -80,6 +80,16 @@ def GetValidTypeInfos(typename, items=[]):
             raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
     return typeinfos
 
+def ComputeValue(type, value):
+    if type == "visible_string":
+        return "\"%s\""%value, ""
+    elif type == "domain":
+        return "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value]), ""
+    elif type.startswith("real"):
+        return "%f"%value, ""
+    else:
+        return "0x%X"%value, "\t/* %s */"%str(value)
+
 def WriteFile(filepath, content):
     cfile = open(filepath,"w")
     cfile.write(content)
@@ -178,15 +188,7 @@ def GenerateFileContent(Node, headerfilepath):
                 texts["suffixe"] = "[%d]"%typeinfos[1]
             else:
                 texts["suffixe"] = ""
-            if typeinfos[2] == "visible_string":
-                texts["value"] = "\"%s\""%values
-                texts["comment"] = ""
-            elif typeinfos[2] == "domain":
-                texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
-                texts["comment"] = ""
-            else:
-                texts["value"] = "0x%X"%values
-                texts["comment"] = "\t/* %s */"%str(values)
+            texts["value"], texts["comment"] = ComputeValue(typeinfos[2], values)
             if index in variablelist:
                 texts["name"] = FormatName(subentry_infos["name"])
                 strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00*/\n"%texts
@@ -222,34 +224,20 @@ def GenerateFileContent(Node, headerfilepath):
                     mappedVariableContent += "%(subIndexType)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
-                        comment = ""
                         if subIndex > 0:
                             if subIndex == len(values)-1:
                                 sep = ""
-                            if typeinfos[2] == "visible_string":
-                                value = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
-                            elif typeinfos[2] == "domain":
-                                value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
-                            else:
-                                comment = "\t/* %s */"%str(value)
-                                value = "0x%X"%value
+                            value, comment = ComputeValue(typeinfos[2], value)
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
                 else:
                     strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
-                        comment = ""
                         if subIndex > 0:
                             if subIndex == len(values)-1:
                                 sep = ""
-                            if typeinfos[2] == "visible_string":
-                                value = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
-                            elif typeinfos[2] == "domain":
-                                value = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
-                            else:
-                                comment = "\t/* %s */"%str(value)
-                                value = "0x%X"%value
+                            value, comment = ComputeValue(typeinfos[2], value)
                             strIndex += "                      %s%s%s\n"%(value, sep, comment)
                     strIndex += "                    };\n"
             else:
@@ -267,15 +255,7 @@ def GenerateFileContent(Node, headerfilepath):
                             texts["suffixe"] = "[%d]"%typeinfos[1]
                         else:
                             texts["suffixe"] = ""
-                        if typeinfos[2] == "visible_string":
-                            texts["value"] = "\"%s%s\""%(value, "\\0" * (default_string_size - len(value)))
-                            texts["comment"] = ""
-                        elif typeinfos[2] == "domain":
-                            texts["value"] = "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value])
-                            texts["comment"] = ""			
-                        else:
-                            texts["value"] = "0x%X"%value
-                            texts["comment"] = "\t/* %s */"%str(value)
+                        texts["value"], texts["comment"] = ComputeValue(typeinfos[2], value)
                         texts["name"] = FormatName(subentry_infos["name"])
                         if index in variablelist:
                             strDeclareHeader += "extern %(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts

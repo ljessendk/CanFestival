@@ -753,10 +753,42 @@ class Node:
                 return True
             elif 0 <= subIndex < len(self.UserMapping[index]["values"]) and values != None:
                 if "type" in values:
-                    if self.IsStringType(values["type"]) and not self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
-                        self.SetEntry(index, subIndex, "")
-                    elif not self.IsStringType(values["type"]) and self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
-                        self.SetEntry(index, subIndex, 0)
+                    if self.UserMapping[index]["struct"] & OD_IdenticalSubindexes:
+                        if self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                            if self.IsRealType(values["type"]):
+                                for i in xrange(len(self.Dictionary[index])):
+                                    self.SetEntry(index, i + 1, 0.)
+                            elif not self.IsStringType(values["type"]):
+                                for i in xrange(len(self.Dictionary[index])):
+                                    self.SetEntry(index, i + 1, 0)
+                        elif self.IsRealType(self.UserMapping[index]["values"][subIndex]["type"]):
+                            if self.IsStringType(values["type"]):
+                                for i in xrange(len(self.Dictionary[index])):
+                                    self.SetEntry(index, i + 1, "")
+                            elif not self.IsRealType(values["type"]):
+                                for i in xrange(len(self.Dictionary[index])):
+                                    self.SetEntry(index, i + 1, 0)
+                        elif self.IsStringType(values["type"]):
+                            for i in xrange(len(self.Dictionary[index])):
+                                self.SetEntry(index, i + 1, "")
+                        elif self.IsRealType(values["type"]):
+                            for i in xrange(len(self.Dictionary[index])):
+                                self.SetEntry(index, i + 1, 0.)                        
+                    else:
+                        if self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                            if self.IsRealType(values["type"]):
+                                self.SetEntry(index, subIndex, 0.)
+                            elif not self.IsStringType(values["type"]):
+                                self.SetEntry(index, subIndex, 0)
+                        elif self.IsRealType(self.UserMapping[index]["values"][subIndex]["type"]):
+                            if self.IsStringType(values["type"]):
+                                self.SetEntry(index, subIndex, "")
+                            elif not self.IsRealType(values["type"]):
+                                self.SetEntry(index, subIndex, 0)
+                        elif self.IsStringType(values["type"]):
+                            self.SetEntry(index, subIndex, "")
+                        elif self.IsRealType(values["type"]):
+                            self.SetEntry(index, subIndex, 0.)
                 self.UserMapping[index]["values"][subIndex].update(values)
                 return True
         return False
@@ -1003,6 +1035,15 @@ class Node:
         elif 0xA0 <= index < 0x100:
             result = self.GetEntry(index, 1)
             if result is not None and result in (0x9, 0xA, 0xB):
+                return True
+        return False
+
+    def IsRealType(self, index):
+        if index in (0x8, 0x11):
+            return True
+        elif 0xA0 <= index < 0x100:
+            result = self.GetEntry(index, 1)
+            if result is not None and result in (0x8, 0x11):
                 return True
         return False
 

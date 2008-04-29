@@ -176,11 +176,9 @@ class SubindexTable(wx.grid.PyGridTableBase):
                         renderer = wx.grid.GridCellNumberRenderer()
                         if colname == "value" and "min" in editors and "max" in editors:
                             editor.SetParameters("%s,%s"%(editors["min"],editors["max"]))
-                    elif editortype == "real":
-                        editor = wx.grid.GridCellFloatEditor()
-                        renderer = wx.grid.GridCellFloatRenderer()
-                        if colname == "value" and "min" in editors and "max" in editors:
-                            editor.SetParameters("%s,%s"%(editors["min"],editors["max"]))
+                    elif editortype == "float":
+                        editor = wx.grid.GridCellTextEditor()
+                        renderer = wx.grid.GridCellStringRenderer()
                     elif editortype == "bool":
                         editor = wx.grid.GridCellChoiceEditor()
                         editor.SetParameters(BoolList)
