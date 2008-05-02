@@ -33,8 +33,10 @@ void LeaveMutex(void);
 void WaitReceiveTaskEnd(TASK_HANDLE*);
 
 // For use from application
-void StartTimerLoop(TimerCallback_t init_callback);
-void StopTimerLoop(void);
+void TimerInit(void);
+void TimerCleanup(void);
+void StartTimerLoop(TimerCallback_t);
+void StopTimerLoop(TimerCallback_t);
 void CreateReceiveTask(CAN_PORT , TASK_HANDLE* , void* );
 
 #endif

@@ -92,6 +92,10 @@ if [ "$XENO_CONFIG" = "" ]; then
 	XENO_CONFIG=/usr/xenomai/bin/xeno-config
 fi
 
+if [ "$RTAI_CONFIG" = "" ]; then
+	RTAI_CONFIG=/usr/realtime/bin/rtai-config
+fi
+
 ###########################################################################
 #                          ARGUMENTS PARSING                              #
 ###########################################################################
@@ -426,7 +430,14 @@ fi
 if [ "$SUB_TIMERS_DRIVER" = "xeno" ]; then
 	RT_LIB_DIR=`$XENO_CONFIG --library-dir`\ -Wl,-rpath\ `$XENO_CONFIG --library-dir`
     SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ `$XENO_CONFIG --xeno-ldflags`\ -L$RT_LIB_DIR\ -lnative\ -lrtdm
-	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ `$XENO_CONFIG --xeno-cflags`
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DUSE_XENO\ `$XENO_CONFIG --xeno-cflags`
+    RTCAN_SOCKET=1
+fi
+
+if [ "$SUB_TIMERS_DRIVER" = "rtai" ]; then
+	RT_LIB_DIR=`$RTAI_CONFIG --library-dir`\ -Wl,-rpath\ `$RTAI_CONFIG --library-dir`
+    SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ `$RTAI_CONFIG --lxrt-ldflags`\ -L$RT_LIB_DIR\ -llxrt\ -lrtdm
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DUSE_RTAI\ `$RTAI_CONFIG --lxrt-cflags`
     RTCAN_SOCKET=1
 fi
 

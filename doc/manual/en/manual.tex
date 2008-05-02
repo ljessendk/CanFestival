@@ -191,6 +191,7 @@ Simplified directory structure.
 ./drivers/unix Linux and Cygwin OS interface
 ./drivers/win32 Native Win32 OS interface
 ./drivers/timers_xeno Xenomai timers/threads (Linux only)
+./drivers/timers_rtai Rtai timers/threads (Linux only)
 ./drivers/timers_kernel Linux kernel timer/threads
 ./drivers/timers_unix Posix timers/threads (Linux, Cygwin)
 ./drivers/can_virtual_kernel Fake CAN network (kernel space)
@@ -328,17 +329,19 @@ installed.
 
 \subsubsection{Real -Time Linux node}
 
-
+With Xenomai :
 \begin{verbatim}
 	./configure --timers=xeno
 \end{verbatim}
-
-
+With Rtai :
+\begin{verbatim}
+	./configure --timers=rtai
+\end{verbatim}
 
 To do a \canopen node running on PC -Linux, you need :
 
 \begin{enumerate}
-\item A working Linux distribution patched with XENOMAI 2.1 or greater. 
+\item A working Linux distribution patched with XENOMAI (2.1 or greater) or RTAI (3.6). 
 \item One or more Peak system PC CAN interface and the last Peak Real Time
 Linux driver installed. 
 \end{enumerate}
@@ -419,7 +422,7 @@ Note that only the serial driver is supported at this time.  The hub uses ptys
 Virtual CAN interface use Unix pipes to emulate a virtual CAN network.
 Each message issued from a node is repeat to all other nodes. Currently
 only works with nodes running in the same process, and does not support
-work with Xenomai.
+work with Xenomai or Rtai.
 
 
 \subsection{Testing your CanFestival installation}

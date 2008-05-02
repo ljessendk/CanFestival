@@ -66,7 +66,7 @@ void TestMaster_initialisation(CO_Data* d)
 }
 
 // Step counts number of times ConfigureSlaveNode is called
-static init_step = 0;
+static int init_step = 0;
 
 /*Froward declaration*/
 static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId);

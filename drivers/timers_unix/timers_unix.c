@@ -17,6 +17,11 @@ struct timeval last_sig;
 
 timer_t timer;
 
+void TimerCleanup(void)
+{
+	/* only used in realtime apps */
+}
+
 void EnterMutex(void)
 {
 	pthread_mutex_lock(&CanFestival_mutex); 
@@ -36,7 +41,7 @@ void timer_notify(sigval_t val)
 //	printf("getCurrentTime() return=%u\n", p.tv_usec);
 }
 
-void initTimer(void)
+void TimerInit(void)
 {
 	struct sigevent sigev;
 
@@ -52,16 +57,16 @@ void initTimer(void)
 	timer_create (CLOCK_REALTIME, &sigev, &timer);
 }
 
-void StopTimerLoop(void)
+void StopTimerLoop(TimerCallback_t exitfunction)
 {
 	EnterMutex();
 	timer_delete (timer);
+	exitfunction(NULL,0);
 	LeaveMutex();
 }
 
 void StartTimerLoop(TimerCallback_t init_callback)
 {
-	initTimer();
 	EnterMutex();
 	// At first, TimeDispatch will call init_callback.
 	SetAlarm(NULL, 0, init_callback, 0, 0);

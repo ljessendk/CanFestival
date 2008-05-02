@@ -41,10 +41,6 @@ SILLYSLAVE_OBJS = SillySlave.o slave.o main.o
 
 OBJS = $(SILLYSLAVE_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a -lcanlib
 
-ifeq ($(TIMERS_DRIVER),timers_xeno)
-	PROGDEFINES = -DUSE_XENO
-endif
-
 all: SillySlave
 
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:

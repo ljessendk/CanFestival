@@ -54,6 +54,10 @@ ifeq ($(TIMERS_DRIVER),timers_xeno)
 	PROGDEFINES = -DUSE_XENO
 endif
 
+ifeq ($(TIMERS_DRIVER),timers_rtai)
+	PROGDEFINES = -DUSE_RTAI
+endif
+
 all: $(TESTMASTERSLAVE)
 
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:

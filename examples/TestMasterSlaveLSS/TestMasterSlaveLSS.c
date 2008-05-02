@@ -57,7 +57,7 @@ void catch_signal(int sig)
 }
 #endif
 
-void help()
+void help(void)
 {
   printf("**************************************************************\n");
   printf("*  TestMasterSlaveLSS                                        *\n");
@@ -120,6 +120,19 @@ void InitNodes(CO_Data* d, UNS32 id)
 		/* init */
 		setState(&TestMaster_Data, Initialisation);		
 	}
+}
+
+/***************************  EXIT  *****************************************/
+void Exit(CO_Data* d, UNS32 id)
+{
+	eprintf("Finishing.\n");
+	masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Stop_Node);
+
+	eprintf("reset\n");
+
+	// Stop master
+	setState(&TestMaster_Data, Stopped);
+
 }
 
 /****************************************************************************/
@@ -202,6 +215,7 @@ int main(int argc,char **argv)
   /* install signal handler for manual break */
 	signal(SIGTERM, catch_signal);
 	signal(SIGINT, catch_signal);
+	TimerInit();
 #endif
 
 #ifndef NOT_USE_DYNAMIC_LOADING
@@ -274,19 +288,8 @@ int main(int argc,char **argv)
 	
 	pause();
 
-	eprintf("Finishing.\n");
-    EnterMutex();
-	masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Stop_Node);
-    LeaveMutex();
-
-	eprintf("reset\n");
-	// Stop master
-    EnterMutex();
-	setState(&TestMaster_Data, Stopped);
-    LeaveMutex();
-	
 	// Stop timer thread
-	StopTimerLoop();
+	StopTimerLoop(&Exit);
 	
 	// Close CAN devices (and can threads)
 	if(strcmp(MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);	
@@ -295,5 +298,6 @@ fail_master:
 fail_slaveB:
 	if(strcmp(SlaveBoardA.baudrate, "none")) canClose(&TestSlaveA_Data);
 fail_slaveA:
+	TimerCleanup();
 	return 0;
 }

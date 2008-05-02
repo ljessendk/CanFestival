@@ -4,7 +4,9 @@
 
 #include <native/task.h>
 #include <native/timer.h>
+#include <native/sem.h>
 #include <native/mutex.h>
+#include <native/cond.h>
 #include <native/alarm.h>
 
 #include "applicfg.h"
@@ -13,74 +15,168 @@
 
 #define TIMERLOOP_TASK_CREATED        1
 
-RT_MUTEX CanFestival_mutex;
+TimerCallback_t exitall;
+
+RT_MUTEX condition_mutex;
+RT_SEM CanFestival_mutex;
+RT_SEM control_task; 
+RT_COND timer_set;	
 RT_TASK timerloop_task;
+ 
 RTIME last_time_read;
 RTIME last_occured_alarm;
-RTIME last_alarm_set;
+RTIME last_timeout_set;
 
-char stop_timer=0;
+int stop_timer = 0;
+
+/**
+ * Init Mutex, Semaphores and Condition variable
+ */
+void TimerInit(void)
+{
+  	int ret = 0;
+  	char taskname[32];
+
+  	mlockall(MCL_CURRENT | MCL_FUTURE);
+
+  	snprintf(taskname, sizeof(taskname), "S1-%d", getpid());
+	rt_sem_create(&CanFestival_mutex, taskname, 1, S_FIFO);
+
+  	snprintf(taskname, sizeof(taskname), "S2-%d", getpid());
+  	rt_sem_create(&control_task, taskname, 0, S_FIFO);
+  	  	
+  	snprintf(taskname, sizeof(taskname), "M1-%d", getpid());
+  	rt_mutex_create(&condition_mutex, taskname);
+  	
+  	snprintf(taskname, sizeof(taskname), "C1-%d", getpid());
+  	rt_cond_create(&timer_set, taskname);
+}
+
+/**
+ * Stop Timer Task
+ * @param exitfunction
+ */
+void StopTimerLoop(TimerCallback_t exitfunction)
+{
+	exitall = exitfunction;
+	stop_timer = 1;
+	rt_cond_signal(&timer_set);
+}
 
 void cleanup_all(void)
 {
 	rt_task_delete(&timerloop_task);
 }
-void StopTimerLoop(void)
+
+/**
+ * Clean all Semaphores, mutex, condition variable and main task
+ */
+void TimerCleanup(void)
 {
-	stop_timer = 1;
-	rt_task_unblock(&timerloop_task);
+	rt_sem_delete(&CanFestival_mutex);
+	rt_mutex_delete(&condition_mutex);
+	rt_cond_delete(&timer_set);
+	rt_sem_delete(&control_task);
 }
 
-
+/**
+ * Take a semaphore
+ */
 void EnterMutex(void)
 {
-	rt_mutex_lock(&CanFestival_mutex, TM_INFINITE); 
+	rt_sem_p(&CanFestival_mutex, TM_INFINITE);
 }
 
+/**
+ * Signaling a semaphore
+ */
 void LeaveMutex(void)
 {
-	rt_mutex_unlock(&CanFestival_mutex);
+	rt_sem_v(&CanFestival_mutex);
 }
 
+static TimerCallback_t init_callback;
+
+/**
+ * Timer Task
+ */
 void timerloop_task_proc(void *arg)
 {
-	int ret;
+	int ret = 0;
+  	// lock process in to RAM
+  	mlockall(MCL_CURRENT | MCL_FUTURE);
+
+	getElapsedTime();
+	last_timeout_set = 0;
+	last_occured_alarm = last_time_read;
+	
+	/* trigger first alarm */
+	SetAlarm(NULL, 0, init_callback, 0, 0);
+	RTIME current_time;
+	RTIME real_alarm;
 	do{
-		do{
-			last_occured_alarm = last_alarm_set;
-			EnterMutex();
-			TimeDispatch();
-			LeaveMutex();
-			while ((ret = rt_task_sleep_until(last_alarm_set)) == -EINTR);
-		}while (ret == 0);
-	}while (!stop_timer);
-	printf("End of TimerLoop, code %d\n",ret);
+		
+		rt_mutex_acquire(&condition_mutex, TM_INFINITE);
+		if(last_timeout_set == TIMEVAL_MAX)
+		{
+			ret = rt_cond_wait(
+				&timer_set,
+				&condition_mutex,
+				TM_INFINITE
+				);		/* Then sleep until next message*/
+			rt_mutex_release(&condition_mutex);
+		}else{
+			current_time = rt_timer_read();
+			real_alarm = last_time_read + last_timeout_set;
+			ret = rt_cond_wait( /* sleep until next deadline */
+				&timer_set,
+				&condition_mutex,
+				(real_alarm - current_time)); /* else alarm consider expired */   
+			if(ret = -ETIMEDOUT){
+				last_occured_alarm = real_alarm;
+				rt_mutex_release(&condition_mutex);
+				EnterMutex();
+				TimeDispatch();
+				LeaveMutex();
+			}else{ 
+				rt_mutex_release(&condition_mutex);
+			}
+		}
+	}while ((ret == 0 || ret == -EINTR || ret == -ETIMEDOUT) && !stop_timer);
+	
+	if(exitall){
+		EnterMutex();
+		exitall(NULL,0);
+		LeaveMutex();
+	}
+	
+	rt_task_delete(&timerloop_task);
 }
 
-void StartTimerLoop(TimerCallback_t init_callback)
+/**
+ * Create the Timer Task
+ * @param _init_callback
+ */
+void StartTimerLoop(TimerCallback_t _init_callback)
 {
-	int ret;
-	stop_timer = 0;
+	int ret = 0;
+	stop_timer = 0;	
+	init_callback = _init_callback;
+	
 	char taskname[32];
 	snprintf(taskname, sizeof(taskname), "timerloop-%d", getpid());
 
-	mlockall(MCL_CURRENT | MCL_FUTURE);
-
-	//create timerloop_task
+	/* create timerloop_task */
 	ret = rt_task_create(&timerloop_task, taskname, 0, 50, 0);
 	if (ret) {
 		printf("Failed to create timerloop_task, code %d\n",errno);
 		return;
 	}
  	
-	getElapsedTime();
-	last_alarm_set = last_time_read;
-	last_occured_alarm = last_alarm_set;
-	SetAlarm(NULL, 0, init_callback, 0, 0);
-	// start timerloop_task
+	/* start timerloop_task */
 	ret = rt_task_start(&timerloop_task,&timerloop_task_proc,NULL);
 	if (ret) {
-		printf("Failed to start timerloop_task, code %d\n",errno);
+		printf("Failed to start timerloop_task, code %u\n",errno);
 		goto error;
 	}
 	
@@ -90,43 +186,66 @@ error:
 	cleanup_all();
 }
 
+/**
+ * Create the CAN Receiver Task
+ * @param fd0 CAN port
+ * @param *ReceiveLoop_task CAN receiver task
+ * @param *ReceiveLoop_task_proc CAN receiver function
+ */
 void CreateReceiveTask(CAN_PORT fd0, TASK_HANDLE *ReceiveLoop_task, void* ReceiveLoop_task_proc)
-{
+{	
 	int ret;
 	static int id = 0;
 	char taskname[32];
 	snprintf(taskname, sizeof(taskname), "canloop%d-%d", id, getpid());
 	id++;
 
-	mlockall(MCL_CURRENT | MCL_FUTURE);
-
-	//create timerloop_task
+	/* create ReceiveLoop_task */
 	ret = rt_task_create(ReceiveLoop_task,taskname,0,50,0);
 	if (ret) {
 		printf("Failed to create ReceiveLoop_task number %d, code %d\n", id, errno);
 		return;
 	}
-	// start timerloop_task
-	ret = rt_task_start(ReceiveLoop_task,ReceiveLoop_task_proc,(void*)fd0);
+	/* start ReceiveLoop_task */
+	ret = rt_task_start(ReceiveLoop_task, ReceiveLoop_task_proc,(void*)fd0);
 	if (ret) {
 		printf("Failed to start ReceiveLoop_task number %d, code %d\n", id, errno);
 		return;
 	}
+	rt_sem_v(&control_task);
 }
 
-void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
+/**
+ * Wait for the CAN Receiver Task end
+ * @param *ReceiveLoop_task CAN receiver thread
+ */
+void WaitReceiveTaskEnd(TASK_HANDLE *ReceiveLoop_task)
 {
-	rt_task_delete(Thread);
+	rt_task_delete(ReceiveLoop_task);
 }
 
+/**
+ * Set timer for the next wakeup
+ * @param value
+ */
 void setTimer(TIMEVAL value)
 {
-	last_alarm_set = (value == TIMEVAL_MAX) ? TIMEVAL_MAX : last_time_read + value;
-	rt_task_unblock(&timerloop_task);
+	rt_mutex_acquire(&condition_mutex, TM_INFINITE);
+	last_timeout_set = (value == TIMEVAL_MAX) ? TIMEVAL_MAX : value;
+	rt_mutex_release(&condition_mutex);
+	rt_cond_signal(&timer_set);
 }
 
+/**
+ * Get the elapsed time since the last alarm
+ * @return a time in nanoseconds
+ */
 TIMEVAL getElapsedTime(void)
 {
-	last_time_read = rt_timer_ticks2ns(rt_timer_read());
-	return last_time_read - last_occured_alarm;
+	RTIME res;
+	rt_mutex_acquire(&condition_mutex, TM_INFINITE);
+	last_time_read = rt_timer_read();
+	res = last_time_read - last_occured_alarm;
+	rt_mutex_release(&condition_mutex);
+	return res;
 }

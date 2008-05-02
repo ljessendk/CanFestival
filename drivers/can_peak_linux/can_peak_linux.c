@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <stdlib.h>
 
 /* driver pcan pci for Peak board */
 //#include "libpcan.h"
@@ -58,7 +59,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
     m->data[data] = peakMsg.DATA[data];         	/* data bytes, up to 8 */
 
 #if defined DEBUG_MSG_CONSOLE_ON
-  printf("in : ");
+  MSG("in : ");
   print_message(m);
 #endif
   
@@ -82,7 +83,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
   	peakMsg.DATA[data] = m->data[data];         	/* data bytes, up to 8 */
   
 #if defined DEBUG_MSG_CONSOLE_ON
-  printf("out : ");
+  MSG("out : ");
   print_message(m);
 #endif
   if((errno = CAN_Write(fd0, & peakMsg))) {
@@ -121,7 +122,6 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
   HANDLE fd0 = NULL;
   char busname[64];
   char* pEnd;
-  int i;  
   int baudrate;
   
   if(strtol(board->busname, &pEnd,0) >= 0)

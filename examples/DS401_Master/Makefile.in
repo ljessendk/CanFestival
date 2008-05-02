@@ -41,10 +41,6 @@ MASTER_OBJS = TestMaster.o TestMasterMicroMod.o
 
 OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
 
-ifeq ($(TIMERS_DRIVER),timers_xeno)
-	PROGDEFINES = -DUSE_XENO
-endif
-
 all: DS401_Master
 
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:

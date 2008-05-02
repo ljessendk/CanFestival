@@ -82,7 +82,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
   memcpy (m->data, frame.data, 8);
 
 #if defined DEBUG_MSG_CONSOLE_ON
-  printf("in : ");
+  MSG("in : ");
   print_message(m);
 #endif
   return 0;
@@ -106,7 +106,7 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
     memcpy (frame.data, m->data, 8);
 
 #if defined DEBUG_MSG_CONSOLE_ON
-  printf("out : ");
+  MSG("out : ");
   print_message(m);
 #endif
   res = CAN_SEND (*(int *) fd0, &frame, sizeof (frame), 0);

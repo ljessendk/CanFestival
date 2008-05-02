@@ -190,12 +190,8 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 		canports[i].used = 1;
 		canports[i].fd = fd0;
 		canports[i].d = d;
-	
+		d->canHandle = (CAN_PORT)&canports[i];		
 		CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
-		
-		EnterMutex();
-		d->canHandle = (CAN_PORT)&canports[i];
-		LeaveMutex();
 		return (CAN_PORT)&canports[i];
 	}else{
         	MSG("CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate);
@@ -211,12 +207,10 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 int canClose(CO_Data * d)
 {
 	UNS8 res;
-
-	EnterMutex();
+	
 	((CANPort*)d->canHandle)->used = 0;
 	CANPort* tmp = (CANPort*)d->canHandle;
 	d->canHandle = NULL;
-	LeaveMutex();
 	
 	// close CAN port
 	res = DLL_CALL(canClose)(tmp->fd);

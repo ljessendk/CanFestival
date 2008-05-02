@@ -50,9 +50,9 @@ ifeq ($(TIMERS_DRIVER),timers_win32)
 	EXE_CFLAGS =
 endif
 
-ifeq ($(TIMERS_DRIVER),timers_xeno)
-	PROGDEFINES = -DUSE_XENO
-endif
+#ifeq ($(TIMERS_DRIVER),timers_xeno)
+#	PROGDEFINES = -DUSE_XENO
+#endif
 
 all: $(TESTMASTERSLAVELSS)
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:

@@ -82,7 +82,7 @@ void TestMaster_initialisation(CO_Data* d)
 			RW);  /* UNS8 checkAccess */
 }
 
-static init_step = 0;
+static int init_step = 0;
 
 /*Froward declaration*/
 static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId);
@@ -363,7 +363,7 @@ void catch_signal(int sig)
 }
 #endif
 
-void help()
+void help(void)
 {
   printf("**************************************************************\n");
   printf("*  TestMasterMicroMod                                        *\n");
@@ -407,6 +407,15 @@ void InitNodes(CO_Data* d, UNS32 id)
 		/* init */
 		setState(&TestMaster_Data, Initialisation);
 	}
+}
+
+/***************************  EXIT  *****************************************/
+void Exit(CO_Data* d, UNS32 id)
+{
+	masterSendNMTstateChange(&TestMaster_Data, 0x02, NMT_Reset_Node);
+
+    //Stop master
+	setState(&TestMaster_Data, Stopped);
 }
 
 /****************************************************************************/
@@ -466,6 +475,7 @@ int main(int argc,char **argv)
   /* install signal handler for manual break */
 	signal(SIGTERM, catch_signal);
 	signal(SIGINT, catch_signal);
+	TimerInit();
 #endif
 
 #ifndef NOT_USE_DYNAMIC_LOADING
@@ -499,12 +509,13 @@ int main(int argc,char **argv)
 	setState(&TestMaster_Data, Stopped);
 	
 	// Stop timer thread
-	StopTimerLoop();
+	StopTimerLoop(&Exit);
 	
 fail_master:
 	if(MasterBoard.baudrate) canClose(&TestMaster_Data);	
 
-  return 0;
+	TimerCleanup();
+  	return 0;
 }
 
 

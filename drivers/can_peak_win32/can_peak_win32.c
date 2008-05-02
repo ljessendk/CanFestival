@@ -135,7 +135,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 			for (data = 0; data < peakMsg.LEN; data++)
 				m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
 #if defined DEBUG_MSG_CONSOLE_ON
-			printf("in : ");
+			MSG("in : ");
 			print_message(m);
 #endif
 		}else{
@@ -202,7 +202,7 @@ canSend_driver (CAN_HANDLE fd0, Message * m)
 	}
 	while (errno != CAN_ERR_OK);
 #if defined DEBUG_MSG_CONSOLE_ON
-	printf("out : ");
+	MSG("out : ");
 	print_message(m);
 #endif
 	return 0;

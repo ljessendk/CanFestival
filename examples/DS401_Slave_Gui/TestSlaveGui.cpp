@@ -60,6 +60,12 @@ InitNodes (CO_Data * d, UNS32 id)
   setState (&ObjDict_Data, Initialisation);
 }
 
+/***************************  EXIT  *****************************************/
+void Exit(CO_Data* d, UNS32 id)
+{
+  	setState (&ObjDict_Data, Stopped);
+	canClose (&ObjDict_Data);
+}
 //****************************************************************************
 //***************************  MAIN  *****************************************
 //****************************************************************************
@@ -69,6 +75,7 @@ main_can (s_BOARD SlaveBoard, char *LibraryPath)
   printf ("Bus name: %s        Freq: %s       Driver: %s\n",
 	  SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
 
+  TimerInit();
 #ifndef NOT_USE_DYNAMIC_LOADING
   if (LoadCanDriver (LibraryPath) == NULL)
     *textLog << wxT ("Unable to load library\n");
@@ -99,12 +106,7 @@ main_can (s_BOARD SlaveBoard, char *LibraryPath)
 void
 stop_slave ()
 {
-  EnterMutex ();
-  setState (&ObjDict_Data, Stopped);
-  LeaveMutex ();
-
-  StopTimerLoop ();
-  canClose (&ObjDict_Data);
-
+  StopTimerLoop (&Exit);
+  TimerCleanup();
   return;
 }

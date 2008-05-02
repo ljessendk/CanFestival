@@ -22,12 +22,9 @@
 # 
 
 CC = SUB_CC
-CXX = SUB_CXX
-LD = SUB_LD
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
-EXE_CFLAGS = SUB_EXE_CFLAGS
 OS_NAME = SUB_OS_NAME
 ARCH_NAME = SUB_ARCH_NAME
 PREFIX = SUB_PREFIX
@@ -35,58 +32,29 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 
-EXEC = main
-SRCS = $(wildcard *.cpp)
-DEPFILE = .depend
-
-CPP_OBJS = $(SRCS:%.cpp=%.o)
-
-
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
-OBJS = ObjDict.o ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+OBJS = $(TIMERS_DRIVER).o
 
-all: DS401_Slave_Gui
+SRC_HFILES = ../../include/$(TIMERS_DRIVER)/timerscfg.h
 
-../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:
-	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
+TARGET_HFILES = $(PREFIX)/include/canfestival/timerscfg.h
 
+all: driver
 
-DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
-	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -o $@
+driver: $(OBJS)
+
 %o: %c
-	$(CC) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< -o $@
+	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
-ObjDict.c: ObjDict.od
-	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py ObjDict.od ObjDict.c
+install:
+	mkdir -p $(PREFIX)/include/canfestival
+	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
 
-.cpp.o:
-	$(CXX) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) `wx-config --cxxflags` $< -o $@
+uninstall:
+	rm -f $(TARGET_HFILES)
 
 clean:
-	rm -f $(MASTER_OBJS)
-	rm -f DS401_Slave_Gui
-	rm -f *~ *.o \#*
+	rm -f $(OBJS)
 
 mrproper: clean
-	rm -f ObjDict.c
-	rm -f ObjDict.h
-	$(RM) $(EXEC) $(DEPEND_FILE)
-	
-install: DS401_Slave_Gui
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
-	
-uninstall:
-	rm -f $(PREFIX)/bin/DS401_Slave_Gui
-
-$(EXEC): $(OBJS)
-	$(LD) $(OBJS) `wx-config --libs` -o $(EXEC)
-
--include $(DEPFILE)
-
-
-
-
-

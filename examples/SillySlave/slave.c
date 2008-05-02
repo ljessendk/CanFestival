@@ -44,6 +44,12 @@ void InitNode(CO_Data* d, UNS32 id)
     setState(&SillySlave_Data, Initialisation);
 }
 
+void Exit(CO_Data* d, UNS32 id)
+{
+	/* Stop slave */
+    setState(&SillySlave_Data, Stopped);
+}
+
 INTEGER8 InitCANdevice( UNS8 bus, UNS32 baudrate, UNS8 node )
 { 
 char busName[2];
@@ -83,11 +89,8 @@ s_BOARD board;
 	pause();
 	printf("\nFinishing.\n");
 	
-	/* Stop slave */
-    setState(&SillySlave_Data, Stopped);
-	
 	/* Stop timer thread */
-	StopTimerLoop();
+	StopTimerLoop(&Exit);
     return 0;
 }
 
