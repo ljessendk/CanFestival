@@ -380,6 +380,10 @@ if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
     SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lpcan
 fi
 
+if [ "$SUB_CAN_DRIVER" = "vscom" ]; then
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lvs_can_api
+fi
+
 PW32DIR=drivers/can_peak_win32
 if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 	if [ "$PCAN_HEADER" = "" -o "$PCAN_LIB" = "" ]; then
