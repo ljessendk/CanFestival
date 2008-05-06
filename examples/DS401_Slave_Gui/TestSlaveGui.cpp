@@ -72,10 +72,13 @@ void Exit(CO_Data* d, UNS32 id)
 int
 main_can (s_BOARD SlaveBoard, char *LibraryPath)
 {
-  printf ("Bus name: %s        Freq: %s       Driver: %s\n",
+#if !defined(WIN32) && !defined(__CYGWIN__)
+	TimerInit();
+#endif	
+	
+	printf ("Bus name: %s        Freq: %s       Driver: %s\n",
 	  SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
 
-  TimerInit();
 #ifndef NOT_USE_DYNAMIC_LOADING
   if (LoadCanDriver (LibraryPath) == NULL)
     *textLog << wxT ("Unable to load library\n");

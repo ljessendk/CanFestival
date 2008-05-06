@@ -216,6 +216,11 @@ TIMEVAL class_timers::get_elapsed_time()
 
 static class_timers s_timers;
 
+void TimerCleanup(void)
+{
+	/* only used in realtime apps */
+}
+
 void StartTimerLoop(TimerCallback_t init_callback)
    {
    s_timers.start_timer_thread();
@@ -225,7 +230,7 @@ void StartTimerLoop(TimerCallback_t init_callback)
    s_timers.resume_timer_thread();
    }
 
-void StopTimerLoop(void)
+void StopTimerLoop(TimerCallback_t init_callback)
    {
    s_timers.stop_timer_thread();
    }
