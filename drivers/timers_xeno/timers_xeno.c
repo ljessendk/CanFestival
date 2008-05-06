@@ -132,7 +132,7 @@ void timerloop_task_proc(void *arg)
 				&timer_set,
 				&condition_mutex,
 				(real_alarm - current_time)); /* else alarm consider expired */   
-			if(ret = -ETIMEDOUT){
+			if(ret == -ETIMEDOUT){
 				last_occured_alarm = real_alarm;
 				rt_mutex_release(&condition_mutex);
 				EnterMutex();
