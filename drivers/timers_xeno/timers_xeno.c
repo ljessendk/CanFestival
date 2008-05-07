@@ -37,6 +37,7 @@ void TimerInit(void)
   	int ret = 0;
   	char taskname[32];
 
+	// lock process in to RAM
   	mlockall(MCL_CURRENT | MCL_FUTURE);
 
   	snprintf(taskname, sizeof(taskname), "S1-%d", getpid());
@@ -77,6 +78,7 @@ void TimerCleanup(void)
 	rt_mutex_delete(&condition_mutex);
 	rt_cond_delete(&timer_set);
 	rt_sem_delete(&control_task);
+	rt_task_delete(&timerloop_task);
 }
 
 /**
@@ -103,8 +105,6 @@ static TimerCallback_t init_callback;
 void timerloop_task_proc(void *arg)
 {
 	int ret = 0;
-  	// lock process in to RAM
-  	mlockall(MCL_CURRENT | MCL_FUTURE);
 
 	getElapsedTime();
 	last_timeout_set = 0;
@@ -149,8 +149,6 @@ void timerloop_task_proc(void *arg)
 		exitall(NULL,0);
 		LeaveMutex();
 	}
-	
-	rt_task_delete(&timerloop_task);
 }
 
 /**
