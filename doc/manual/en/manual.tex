@@ -153,9 +153,10 @@ context sensitive help.
 \subsubsection{Windows (for native win32 target)}
 
 \begin{enumerate}
-\item Visual Studio Express 2005 or worst. 
-\item Microsoft platform SDK (requires Genuine Advantage) 
-\item Cygwin (for configuration only) 
+\item Visual Studio Express 2005 or worst.
+\item Microsoft platform SDK (requires Genuine Advantage)
+\item Cygwin (for configuration only)
+\item MinGW/MSYS
 \end{enumerate}
 
 \subsection{How to get CanFestival}
@@ -181,9 +182,7 @@ Then, enter :
 \section{Understanding Canfestival}
 
 \subsection{CanFestival Project tree layout}
-
 Simplified directory structure.
-
 \begin{verbatim}
 ./src ANSI-C source of \canopen stack
 ./include Exportables Header files
@@ -200,6 +199,7 @@ Simplified directory structure.
 ./drivers/can_peak_win32 PeakSystem PCAN-Light interface
 ./drivers/can_uvccm_win32 Acacetus's RS232 CAN-uVCCM interface
 ./drivers/can_virtual Fake CAN network (Linux, Cygwin)
+./drivers/can_vcom VScom VSCAN interface
 ./drivers/hcs12 HCS12 full target interface
 ./examples Examples
 ./examples/TestMasterSlave 2 nodes, NMT SYNC SDO PDO, win32+unix
@@ -229,7 +229,7 @@ Simplified directory structure.
 Because most CAN controllers and drivers implement FIFOs, CanFestival
 consider sending message as a non blocking operation.
 
-In order to prevent reentrent calls to the stack, messages reception
+In order to prevent reentrant calls to the stack, messages reception
 is implemented differently on {\textmu}C and OS.:
 
 \begin{enumerate}
@@ -242,7 +242,7 @@ is implemented differently on {\textmu}C and OS.:
 \par\end{center}
 
 \item OS must provide a receive thread, a timer thread and a mutex. CAN
-reception should be a bloking operation.\\
+reception should be a blocking operation.\\
 
 
 
@@ -358,18 +358,12 @@ To do a CANopen node running on PC-Linux in kernel space, you need:
 
 
 \subsubsection{CAN devices}
-
 Currently supported CAN devices and corresponding configure switch:
 
-
 \paragraph{Peak systems}
-
-
 \begin{verbatim}
 	./configure --can=peak_linux
 \end{verbatim}
-
-
 PeakSystems CAN interface is automatically chosen as default CAN interface
 if libpcan is present in the system.
 
@@ -377,21 +371,15 @@ Please download driver at \href{http://www.peak-system.com/linux}{http://www.pea
 -system.com/linux} and follow instructions in order to install driver
 on your system.
 
-
-\paragraph{Socket -Can (http://socketcan.berlios.de)}
-
-
+\paragraph{Socket-Can (http://socketcan.berlios.de)}
 \begin{verbatim}
 	./configure --can=socket
 \end{verbatim}
 
 \paragraph{Serial}
-
-
 \begin{verbatim}
 	./configure --can=serial
 \end{verbatim}
-
 The CAN serial driver implements a 1:1 serial connection between 2 CAN devices.
 For example, you can connect 2 CANFestival applications via a NULL modem cable.
 
@@ -400,31 +388,27 @@ be connected on a single PC, with an optional connection to another CAN driver.
 Note that only the serial driver is supported at this time.  The hub uses ptys 
 (pseudo ttys) available on a *nix like system.
 
-
 \paragraph{LinCan}
-
-
 \begin{verbatim}
 	./configure --can=lincan
 \end{verbatim}
 
-
 \paragraph{Virtual CAN interfaces (for test/debug)}
-
-
 \begin{verbatim}
 	./configure --can=virtual
 		or, for kernel space:
 	./configure --can=kernel_virtual
 \end{verbatim}
-
-
 Virtual CAN interface use Unix pipes to emulate a virtual CAN network.
 Each message issued from a node is repeat to all other nodes. Currently
 only works with nodes running in the same process, and does not support
-work with Xenomai or Rtai.
+work with Xenomai or RTAI.
 
-
+\paragraph{VScom}
+\begin{verbatim}
+	./configure --can=vscom
+\end{verbatim}
+The VSCAN API archive will be automatically downloaded and decompressed (unzip required). See \href{http://www.vscom.de/1_1_05.htm}{www.vscom.de} for available adapters.
 \subsection{Testing your CanFestival installation}
 
 \subsection{User space}

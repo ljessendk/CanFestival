@@ -37,7 +37,14 @@ CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS -L.
 ifeq ($(OS),CYGWIN)
 DLL_TYPE=dll
 CAN_VSCOM_DLL_FLAGS=-Wl,--export-all-symbols -Wl,--exclude-libs,ALL
-else
+endif
+
+ifeq ($(OS),MINGW32)
+DLL_TYPE=dll
+CAN_VSCOM_DLL_FLAGS=-Wl,--export-all-symbols -Wl,--exclude-libs,ALL
+endif
+
+ifeq ($(OS),Linux)
 DLL_TYPE=so
 CAN_VSCOM_DLL_FLAGS=-Wl,-soname,libcanfestival_$(CAN_DRIVER).so
 endif
