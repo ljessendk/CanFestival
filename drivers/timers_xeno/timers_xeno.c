@@ -66,6 +66,9 @@ void StopTimerLoop(TimerCallback_t exitfunction)
 
 void cleanup_all(void)
 {
+	if (rt_task_join(&timerloop_task) != 0){
+		printf("Failed to join with Timerloop task\n");
+	}
 	rt_task_delete(&timerloop_task);
 }
 
@@ -78,6 +81,9 @@ void TimerCleanup(void)
 	rt_mutex_delete(&condition_mutex);
 	rt_cond_delete(&timer_set);
 	rt_sem_delete(&control_task);
+	if (rt_task_join(&timerloop_task) != 0){
+		printf("Failed to join with Timerloop task\n");
+	}
 	rt_task_delete(&timerloop_task);
 }
 
@@ -165,7 +171,7 @@ void StartTimerLoop(TimerCallback_t _init_callback)
 	snprintf(taskname, sizeof(taskname), "timerloop-%d", getpid());
 
 	/* create timerloop_task */
-	ret = rt_task_create(&timerloop_task, taskname, 0, 50, 0);
+	ret = rt_task_create(&timerloop_task, taskname, 0, 50, T_JOINABLE);
 	if (ret) {
 		printf("Failed to create timerloop_task, code %d\n",errno);
 		return;
@@ -199,7 +205,7 @@ void CreateReceiveTask(CAN_PORT fd0, TASK_HANDLE *ReceiveLoop_task, void* Receiv
 	id++;
 
 	/* create ReceiveLoop_task */
-	ret = rt_task_create(ReceiveLoop_task,taskname,0,50,0);
+	ret = rt_task_create(ReceiveLoop_task,taskname,0,50,T_JOINABLE);
 	if (ret) {
 		printf("Failed to create ReceiveLoop_task number %d, code %d\n", id, errno);
 		return;
@@ -219,6 +225,9 @@ void CreateReceiveTask(CAN_PORT fd0, TASK_HANDLE *ReceiveLoop_task, void* Receiv
  */
 void WaitReceiveTaskEnd(TASK_HANDLE *ReceiveLoop_task)
 {
+	if (rt_task_join(ReceiveLoop_task) != 0){
+		printf("Failed to join with Receive task\n");
+	}
 	rt_task_delete(ReceiveLoop_task);
 }
 
