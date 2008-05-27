@@ -125,6 +125,7 @@ void InitNodes(CO_Data* d, UNS32 id)
 /***************************  EXIT  *****************************************/
 void Exit(CO_Data* d, UNS32 id)
 {
+	if(strcmp(MasterBoard.baudrate, "none")){
 	eprintf("Finishing.\n");
 	masterSendNMTstateChange (&TestMaster_Data, 0x00, NMT_Stop_Node);
 
@@ -132,7 +133,7 @@ void Exit(CO_Data* d, UNS32 id)
 
 	// Stop master
 	setState(&TestMaster_Data, Stopped);
-
+	}
 }
 
 /****************************************************************************/
