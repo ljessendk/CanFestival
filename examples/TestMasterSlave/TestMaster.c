@@ -338,6 +338,10 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                      };
 
 /* index 0x2000 :   Mapped variable MasterMap1 */
+                    ODCallback_t MasterMap1_callbacks[] = 
+                     {
+                       NULL,
+                     };
                     subindex TestMaster_Index2000[] = 
                      {
                        { RW, boolean, sizeof (UNS8), (void*)&MasterMap1 }
@@ -475,7 +479,7 @@ const indextable * TestMaster_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
 		case 0x1602: i = 16;break;
 		case 0x1603: i = 17;break;
 		case 0x1F22: i = 18;break;
-		case 0x2000: i = 19;break;
+		case 0x2000: i = 19;*callbacks = MasterMap1_callbacks; break;
 		case 0x2001: i = 20;break;
 		case 0x2002: i = 21;break;
 		case 0x2003: i = 22;break;

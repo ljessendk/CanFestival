@@ -45,7 +45,7 @@ void pause(void)
 
 UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
-	eprintf("OnSlaveMap1Update:%d\n", SlaveMap1);
+	eprintf("OnMasterMap1Update:%d\n", MasterMap1);
 	return 0;
 }
 
