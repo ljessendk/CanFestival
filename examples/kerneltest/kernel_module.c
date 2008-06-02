@@ -17,6 +17,9 @@ static struct task_struct *thread_start_p, *thread_stop_p;
 static DECLARE_MUTEX (canftest_mutex);
 static int canftest_stopped = 1;
 
+int thread_start (void* data);
+int thread_stop (void* data);
+
 // handler processing write() requests from user-space
 ssize_t canftest_write(struct file *filp, const char __user *buf, size_t count,
 		       loff_t *f_pos)
@@ -30,15 +33,33 @@ ssize_t canftest_write(struct file *filp, const char __user *buf, size_t count,
 	// process integer as command
 	switch (cmd) {
 		case CMD_START:
+			if (!canftest_stopped) break;
+			thread_start_p = kthread_create (thread_start, NULL, "canftest_start");
+
+			if (PTR_ERR(thread_start_p) == -ENOMEM) {
+				printk(KERN_WARNING "canftest: error creating start thread\n");
+				return -ENOMEM;
+			}
+
 			wake_up_process (thread_start_p);
 			break;
+
 		case CMD_STOP:
 			if (canftest_stopped) break;
+			thread_stop_p = kthread_create (thread_stop, NULL, "canftest_stop");
+
+			if (PTR_ERR(thread_stop_p) == -ENOMEM) {
+				printk(KERN_WARNING "canftest: error creating stop thread\n");
+				return -ENOMEM;
+			}
+
 			wake_up_process (thread_stop_p);
 			break;
+
 		// ignore new line character
 		case 10:
 			break;
+
 		default:
 			printk("canftest: bad command %d\n", cmd);
 			break;
@@ -112,14 +133,6 @@ int init_module(void)
 	if (ret) {
 		printk(KERN_WARNING "canftest: error %d adding char device\n", ret);
 		return ret;
-	}
-
-	thread_start_p = kthread_create (thread_start, NULL, "canftest_start");
-	thread_stop_p = kthread_create (thread_stop, NULL, "canftest_stop");
-	
-	if (PTR_ERR(thread_start_p) == -ENOMEM || PTR_ERR(thread_stop_p) == -ENOMEM) {
-		printk(KERN_WARNING "canftest: error creating threads\n");
-		return -ENOMEM;
 	}
 
 	return 0;

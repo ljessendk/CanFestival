@@ -124,7 +124,9 @@ EXPORT_SYMBOL (getElapsedTime);
 // timers_driver.h
 EXPORT_SYMBOL (EnterMutex);
 EXPORT_SYMBOL (LeaveMutex);
-EXPORT_SYMBOL (WaitReceiveTaskEnd);
+EXPORT_SYMBOL (TimerInit);
+EXPORT_SYMBOL (TimerCleanup);
 EXPORT_SYMBOL (StartTimerLoop);
 EXPORT_SYMBOL (StopTimerLoop);
 EXPORT_SYMBOL (CreateReceiveTask);
+EXPORT_SYMBOL (WaitReceiveTaskEnd);

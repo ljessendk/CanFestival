@@ -245,4 +245,5 @@ UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
 EXPORT_SYMBOL (canOpen);
 EXPORT_SYMBOL (canClose);
 EXPORT_SYMBOL (canSend);
+EXPORT_SYMBOL (canChangeBaudRate);
 #endif

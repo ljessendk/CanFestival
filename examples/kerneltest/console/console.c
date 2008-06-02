@@ -12,7 +12,7 @@ void showhelp(void) {
 	printf("\nCanFestival kernel test example console\n\n");
 
 	printf("start - start example\n");
-	printf("end   - end example\n");
+	printf("stop  - stop example\n");
 	printf("quit  - quit console\n");
 	printf("\n");
 }
@@ -42,7 +42,7 @@ int main(int argc,char *argv[])
 		if (strcmp(command,"start") == 0)
 			cmd = CMD_START;
 		
-		else if (strcmp(command,"end") == 0)
+		else if (strcmp(command,"stop") == 0)
 			cmd = CMD_STOP;
 		
 		else if (strcmp(command,"quit") == 0)

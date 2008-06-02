@@ -36,6 +36,15 @@ static TIMEVAL last_time_read,
 	last_occured_alarm,
 	last_alarm_set;
 
+void TimerInit(void)
+{
+	/* only used in realtime apps */
+}
+
+void TimerCleanup(void)
+{
+	/* only used in realtime apps */
+}
 
 void EnterMutex(void)
 {
@@ -71,10 +80,11 @@ void StartTimerLoop(TimerCallback_t init_callback)
 	LeaveMutex();
 }
 
-void StopTimerLoop(void)
+void StopTimerLoop(TimerCallback_t exitfunction)
 {
 	EnterMutex();
 	del_timer (&timer);
+	exitfunction(NULL,0);
 	LeaveMutex();
 }
 
@@ -99,7 +109,7 @@ void CreateReceiveTask(CAN_PORT port, TASK_HANDLE *Thread, void* ReceiveLoopPtr)
 	*Thread = kthread_run(ReceiveLoopPtr, port, "canReceiveLoop");
 }
 
-void WaitReceiveTaskEnd(TASK_HANDLE Thread)
+void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	force_sig (SIGTERM, Thread);
+	force_sig (SIGTERM, *Thread);
 }

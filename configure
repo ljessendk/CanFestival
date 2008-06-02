@@ -161,7 +161,7 @@ while [ $# -ge 1 ]; do
 		echo	"                 see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
 		echo	"               \"can4linux\" can4linux driver"
 		echo	"                 see http://www.port.de/engl/canprod/hw_can4linux.html"
-		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno' or 'kernel')"
+		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno', 'rtai' or 'kernel')"
 		echo 	" --wx=foo  force result of WxWidgets detection (0 or 1)"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo 	" --enable-lss  Enable the LSS services"

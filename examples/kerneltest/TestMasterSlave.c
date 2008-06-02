@@ -35,8 +35,20 @@ static void InitNodes(CO_Data* d, UNS32 id)
 	}
 }
 
+/***************************  EXIT  *****************************************/
+void Exit(CO_Data* d, UNS32 id)
+{
+	masterSendNMTstateChange(&TestMaster_Data, 0x02, NMT_Reset_Node);    
+
+	//Stop master
+	setState(&TestMaster_Data, Stopped);
+}
+
+
 int TestMasterSlave_start (void)
 {
+	TimerInit();
+
 	if(strcmp(SlaveBoard.baudrate, "none")){
 		
 		TestSlave_Data.heartbeatError = TestSlave_heartbeatError;
@@ -83,21 +95,13 @@ void TestMasterSlave_stop (void)
 {
 	eprintf("Finishing.\n");
 	
-	EnterMutex();
-	masterSendNMTstateChange (&TestMaster_Data, 0x02, NMT_Reset_Node);
-	LeaveMutex();
-	
-	// Stop master
-	EnterMutex();
-	setState(&TestMaster_Data, Stopped);
-	LeaveMutex();
-	
 	// Stop timer thread
-	StopTimerLoop();
+	StopTimerLoop(&Exit);
 	
 	// Close CAN devices (and can threads)
 	if(strcmp(SlaveBoard.baudrate, "none")) canClose(&TestSlave_Data);
 	if(strcmp(MasterBoard.baudrate, "none")) canClose(&TestMaster_Data);
 
+	TimerCleanup();
 	eprintf("End.\n");
 }
