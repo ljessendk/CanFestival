@@ -59,7 +59,11 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
 			   UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code);
 
 
-/* Reads an entry from the object dictionary.\n
+/* _getODentry() Reads an entry from the object dictionary.\n
+ * 
+ *    use getODentry() macro to read from object and endianize
+ *    use readLocalDict() macro to read from object and not endianize   
+ *
  *  \code
  *  // Example usage:
  *  UNS8  *pbData;
@@ -86,16 +90,34 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
  *  \param pDataType : The type of the data. See objdictdef.h
  *  \param CheckAccess if other than 0, do not read if the data is Write Only
  *                     [Not used today. Put always 0].
+ *  \param Endianize  when not 0, data is endianized into network byte order
+ *                    when 0, data is not endianized and copied in machine native
+ *                    endianness 
  *  \return OD_SUCCESSFUL or SDO abort code. (See file def.h)
  */
-UNS32 getODentry( CO_Data* d, 
-                  UNS16 wIndex,
+UNS32 _getODentry( CO_Data* d, 
+		  UNS16 wIndex,
 		  UNS8 bSubindex,
 		  void * pDestData,
 		  UNS8 * pExpectedSize,
 		  UNS8 * pDataType,
-		  UNS8 checkAccess);
+		  UNS8 checkAccess,
+		  UNS8 endianize);
 
+#define getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
+		          pDataType,  checkAccess)                         \
+       _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
+		          pDataType,  checkAccess, 1)            
+
+/*
+ * readLocalDict() reads an entry from the object dictionary, but in 
+ * contrast to getODentry(), readLocalDict() doesn't endianize entry and reads
+ * entry in machine native endianness.
+ */
+#define readLocalDict( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
+		          pDataType,  checkAccess)                         \
+       _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
+		          pDataType,  checkAccess, 0)
 
 /* By this function you can write an entry into the object dictionary\n
  *  \code
@@ -117,20 +139,27 @@ UNS32 getODentry( CO_Data* d,
  *  \param CheckAccess if other than 0, do not read if the data is Read Only or Constant
  *  \return OD_SUCCESSFUL or SDO abort code. (See file def.h)
  */
-UNS32 setODentry( CO_Data* d, 
-                  UNS16 wIndex,
-		  UNS8 bSubindex, 
-		  void * pSourceData, 
-		  UNS8 * pExpectedSize, 
-		  UNS8 checkAccess);
+UNS32 _setODentry( CO_Data* d,
+                   UNS16 wIndex,
+                   UNS8 bSubindex,
+                   void * pSourceData,
+                   UNS8 * pExpectedSize,
+                   UNS8 checkAccess,
+                   UNS8 endianize);
 
-/*The same, without endianisation*/
-UNS32 writeLocalDict( CO_Data* d, 
-                  UNS16 wIndex,
-		  UNS8 bSubindex, 
-		  void * pSourceData, 
-		  UNS8 * pExpectedSize, 
-		  UNS8 checkAccess);
+/*
+ * setODentry converts SourceData from network byte order to machine native 
+ *            format, and writes that to OD.
+ */
+#define setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
+       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 1)
+
+/*
+ * writeLocalDict writes machine native SourceData to OD.
+ */
+#define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
+       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
+
 
 
 /* Scan the index of object dictionary. Used only by setODentry and getODentry.

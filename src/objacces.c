@@ -52,10 +52,10 @@
 **
 ** @return
 **/
+#ifdef DEBUG_WAR_CONSOLE_ON
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
                            UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code)
 {
-#ifdef DEBUG_WAR_CONSOLE_ON
   MSG_WAR(0x2B09,"Dictionary index : ", index);
   MSG_WAR(0X2B10,"           subindex : ", subIndex);
   switch (code) {
@@ -84,9 +84,11 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
   default :
     MSG_WAR(0x2B20, "Unknown error code : ", code);
   }
-#endif
   return 0;
 }
+#else
+#define accessDictionaryError(index, subIndex, sizeDataDict, sizeDataGiven, code)
+#endif
 
 /*!
 **
@@ -190,68 +192,6 @@ UNS32 _getODentry( CO_Data* d,
                           *pExpectedSize, OD_LENGTH_DATA_INVALID);
     return OD_LENGTH_DATA_INVALID;
   }
-}
-
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param pDestData
-** @param pExpectedSize
-** @param pDataType
-** @param checkAccess
-**
-** @return
-**/
-UNS32 getODentry( CO_Data* d,
-                  UNS16 wIndex,
-                  UNS8 bSubindex,
-                  void * pDestData,
-                  UNS8 * pExpectedSize,
-                  UNS8 * pDataType,
-                  UNS8 checkAccess)
-{
-  return _getODentry( d,
-                      wIndex,
-                      bSubindex,
-                      pDestData,
-                      pExpectedSize,
-                      pDataType,
-                      checkAccess,
-                      1);//endianize
-}
-
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param pDestData
-** @param pExpectedSize
-** @param pDataType
-** @param checkAccess
-**
-** @return
-**/
-UNS32 readLocalDict( CO_Data* d,
-                     UNS16 wIndex,
-                     UNS8 bSubindex,
-                     void * pDestData,
-                     UNS8 * pExpectedSize,
-                     UNS8 * pDataType,
-                     UNS8 checkAccess)
-{
-  return _getODentry( d,
-                      wIndex,
-                      bSubindex,
-                      pDestData,
-                      pExpectedSize,
-                      pDataType,
-                      checkAccess,
-                      0);//do not endianize
 }
 
 /*!
@@ -365,62 +305,6 @@ UNS32 _setODentry( CO_Data* d,
 **
 ** @param d
 ** @param wIndex
-** @param bSubindex
-** @param pSourceData
-** @param pExpectedSize
-** @param checkAccess
-**
-** @return
-**/
-UNS32 setODentry( CO_Data* d,
-                  UNS16 wIndex,
-                  UNS8 bSubindex,
-                  void * pSourceData,
-                  UNS8 * pExpectedSize,
-                  UNS8 checkAccess)
-{
-  return _setODentry( d,
-                      wIndex,
-                      bSubindex,
-                      pSourceData,
-                      pExpectedSize,
-                      checkAccess,
-                      1);//endianize
-}
-
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param pSourceData
-** @param pExpectedSize
-** @param checkAccess
-**
-** @return
-**/
-UNS32 writeLocalDict( CO_Data* d,
-                      UNS16 wIndex,
-                      UNS8 bSubindex,
-                      void * pSourceData,
-                      UNS8 * pExpectedSize,
-                      UNS8 checkAccess)
-{
-  return _setODentry( d,
-                      wIndex,
-                      bSubindex,
-                      pSourceData,
-                      pExpectedSize,
-                      checkAccess,
-                      0);//do not endianize
-}
-
-/*!
-**
-**
-** @param d
-** @param wIndex
 ** @param errorCode
 ** @param Callback
 **
@@ -443,11 +327,12 @@ const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCa
 **/
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
-  UNS32 errorCode;
-  ODCallback_t *CallbackList;
+UNS32 errorCode;
+ODCallback_t *CallbackList;
+const indextable *odentry;
 
-  scanIndexOD (d, wIndex, &errorCode, &CallbackList);
-  if(errorCode == OD_SUCCESSFUL && CallbackList)
+  odentry = scanIndexOD (d, wIndex, &errorCode, &CallbackList);
+  if(errorCode == OD_SUCCESSFUL  &&  CallbackList  &&  bSubindex < odentry->bSubCount) 
     CallbackList[bSubindex] = Callback;
   return errorCode;
 }
