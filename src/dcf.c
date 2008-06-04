@@ -130,10 +130,29 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
         	UNS8 target_Subindex;
         	UNS32 target_Size;
 
-        	/* pointer to the DCF string for NodeID */
-        	target_Index = UNS16_LE(*((UNS16*)(d->dcf_cursor))); d->dcf_cursor += 2;
-        	target_Subindex = *((UNS8*)((UNS8*)d->dcf_cursor++));
-        	target_Size = UNS32_LE(*((UNS32*)(d->dcf_cursor))); d->dcf_cursor += 4;
+			/* DCF data may not be 32/16b aligned, 
+			 * we cannot directly dereference d->dcf_cursor 
+			 * as UNS16 or UNS32 
+			 * Do it byte per byte taking care on endianess*/
+#ifdef CANOPEN_BIG_ENDIAN
+        	target_Index = *(d->dcf_cursor++) << 8 | 
+        	               *(d->dcf_cursor++);
+#else
+        	memcpy(&target_Index, d->dcf_cursor,4);
+        	d->dcf_cursor+=2;
+#endif
+
+        	target_Subindex = *(d->dcf_cursor++);
+
+#ifdef CANOPEN_BIG_ENDIAN
+        	target_Size = *(d->dcf_cursor++) << 24 | 
+        	              *(d->dcf_cursor++) << 16 | 
+        	              *(d->dcf_cursor++) << 8 | 
+        	              *(d->dcf_cursor++);
+#else
+        	memcpy(&target_Size, d->dcf_cursor,4);
+        	d->dcf_cursor+=4;
+#endif
 	
     	    _writeNetworkDict(d, /* CO_Data* d*/
                                 nodeId, /* UNS8 nodeId*/
@@ -165,7 +184,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
  	
    	/* Check the next element*/
    	nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
-   	if(nodeId==d->dcf_odentry->bSubCount)nodeId=1;
+   	if(nodeId==0)nodeId=1;
    	d->dcf_cursor = NULL;
 
   }
