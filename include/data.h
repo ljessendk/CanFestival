@@ -55,9 +55,9 @@ struct struct_CO_Data {
 	UNS8 *bDeviceNodeId;
 	const indextable *objdict;
 	s_PDO_status *PDO_status;
-	quick_index *firstIndex;
-	quick_index *lastIndex;
-	UNS16 *ObjdictSize;
+	const quick_index *firstIndex;
+	const quick_index *lastIndex;
+	const UNS16 *ObjdictSize;
 	const UNS8 *iam_a_slave;
 	valueRangeTest_t valueRangeTest;
 	
@@ -72,7 +72,9 @@ struct struct_CO_Data {
 	preOperational_t preOperational;
 	operational_t operational;
 	stopped_t stopped;
-
+     void (*NMT_Slave_Node_Reset_Callback)(CO_Data*);
+     void (*NMT_Slave_Communications_Reset_Callback)(CO_Data*);
+     
 	/* NMT-heartbeat */
 	UNS8 *ConsumerHeartbeatCount;
 	UNS32 *ConsumerHeartbeatEntries;
@@ -219,6 +221,8 @@ struct struct_CO_Data {
 	_preOperational,     /* preOperational */\
 	_operational,        /* operational */\
 	_stopped,            /* stopped */\
+	NULL,                /* NMT node reset callback */\
+	NULL,                /* NMT communications reset callback */\
 	\
 	/* NMT-heartbeat */\
 	& NODE_PREFIX ## _highestSubIndex_obj1016, /* ConsumerHeartbeatCount */\

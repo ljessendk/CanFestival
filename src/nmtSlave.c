@@ -73,6 +73,8 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
         break;
 
       case NMT_Reset_Node:
+         if(d->NMT_Slave_Node_Reset_Callback != NULL)
+            d->NMT_Slave_Node_Reset_Callback(d);
 #ifdef CO_ENABLE_LSS
   		if(getNodeId(d)!=d->lss_transfer.nodeID)
   			setNodeId(d, d->lss_transfer.nodeID);
@@ -81,6 +83,8 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
         break;
 
       case NMT_Reset_Comunication:
+         if(d->NMT_Slave_Communications_Reset_Callback != NULL)
+            d->NMT_Slave_Communications_Reset_Callback(d);
 #ifdef CO_ENABLE_LSS
   		if(getNodeId(d)!=d->lss_transfer.nodeID && getNodeId(d)>0 && getNodeId(d)<=127)
   			setNodeId(d, d->lss_transfer.nodeID);
