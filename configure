@@ -67,11 +67,6 @@ LSS_FS_TIMEOUT_MS=100
 #                             DEFAULT BUILD OPTIONS                       #
 ###########################################################################
 
-# Leave empty for automatic detection
-CC=
-CXX=
-LD=
-
 #default target
 SUB_TARGET=
 
@@ -106,6 +101,7 @@ while [ $# -ge 1 ]; do
 	--cc=*)		CC=$optarg;;
 	--cxx=*)	CXX=$optarg;;
 	--ld=*)		LD=$optarg;;
+	--binutils=*)   BINUTILS_PREFIX=$optarg;;
 	--arch=*)	SUB_ARCH_NAME=$optarg;;
 	--os=*)		SUB_OS_NAME=$optarg;;
 	--kerneldir=*)	SUB_KERNELDIR=$optarg;;
@@ -162,7 +158,8 @@ while [ $# -ge 1 ]; do
 		echo	"               \"can4linux\" can4linux driver"
 		echo	"                 see http://www.port.de/engl/canprod/hw_can4linux.html"
 		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno', 'rtai' or 'kernel')"
-		echo 	" --wx=foo  force result of WxWidgets detection (0 or 1)"
+		echo 	" --wx=foo      Force result of WxWidgets detection (0 or 1)"
+		echo 	" --binutils=path   Override binutils path detection (as regards \$CC content)"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
 		echo 	" --enable-lss  Enable the LSS services"
 		echo 	" --enable-lss-fs  Enable the LSS FastScan service"
@@ -496,7 +493,11 @@ fi
 
 echo "Using ${CC} as a C compiler"
 
-SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
+if [ "$BINUTILS_PREFIX" = "" ]; then
+	SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
+else
+	SUB_BINUTILS_PREFIX=$BINUTILS_PREFIX
+fi
 
 if [ "$CXX" = "" ]; then
 	CXX=${SUB_BINUTILS_PREFIX}g++
