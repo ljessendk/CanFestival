@@ -2,7 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,7 @@
    height="595.27557pt"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.46"
    sodipodi:docbase="/home/kgad/CVS/CanFestival-3/doc/manual/en"
    sodipodi:docname="canfestival_OS.svg"
    version="1.0"
@@ -22,6 +22,13 @@
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 372.04724 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1052.3622 : 372.04724 : 1"
+       inkscape:persp3d-origin="526.18109 : 248.03149 : 1"
+       id="perspective254" />
     <marker
        inkscape:stockid="Arrow2Mend"
        orient="auto"
@@ -116,20 +123,20 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      showgrid="false"
-     gridspacingy="1cm"
-     gridspacingx="1cm"
-     gridoriginy="0cm"
-     gridoriginx="0cm"
      inkscape:grid-points="true"
      gridtolerance="0.1cm">
-    <sodipodi:guide
-       orientation="vertical"
-       position="753.6122"
-       id="guide6590" />
-    <sodipodi:guide
-       orientation="horizontal"
-       position="388.30944"
-       id="guide6592" />
+    <inkscape:grid
+       id="GridFromPre046Settings"
+       type="xygrid"
+       originx="0px"
+       originy="0cm"
+       spacingx="1cm"
+       spacingy="1cm"
+       color="#0000ff"
+       empcolor="#0000ff"
+       opacity="0.2"
+       empopacity="0.4"
+       empspacing="5" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -150,14 +157,14 @@
        ry="35.82243"
        y="173.54816"
        x="419.59946"
-       height="559.34753"
-       width="623.53339"
+       height="582.34222"
+       width="624.41779"
        id="rect11124"
-       style="color:#000000;fill:#6f6f6f;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.34228134;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
+       style="fill:#6f6f6f;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:4.34228134;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
        rx="35.822395" />
     <path
        style="color:#000000;fill:#ff0000;fill-opacity:0.24437298;fill-rule:nonzero;stroke:#ff0000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4.0999999;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-       d="M 1008.7679,619.56757 L 780.04054,619.56757 C 764.77664,619.56757 752.48844,631.50525 752.48844,646.33366 L 752.48844,660.15582 L 658.72419,643.96468 L 752.48844,687.80013 L 752.48844,701.62229 C 752.48844,716.4507 764.77664,728.38837 780.04054,728.38837 L 1008.7679,728.38837 C 1024.0318,728.38837 1036.3201,716.4507 1036.3201,701.62229 L 1036.3201,646.33366 C 1036.3201,631.50525 1024.0318,619.56757 1008.7679,619.56757 z "
+       d="M 998.15495,633.71817 L 769.42759,633.71817 C 754.16369,633.71817 741.87549,645.65585 741.87549,660.48426 L 741.87549,674.30642 L 658.72419,643.96468 L 741.87549,701.95073 L 741.87549,715.77289 C 741.87549,730.6013 754.16369,742.53897 769.42759,742.53897 L 998.15495,742.53897 C 1013.4189,742.53897 1025.7072,730.6013 1025.7072,715.77289 L 1025.7072,660.48426 C 1025.7072,645.65585 1013.4189,633.71817 998.15495,633.71817 z"
        id="rect8790"
        sodipodi:nodetypes="cccccccccccc" />
     <text
@@ -466,7 +473,7 @@
     <path
        id="rect6582"
        style="color:#000000;fill:#ff0000;fill-opacity:0.3118971;fill-rule:evenodd;stroke:#000000;stroke-width:1.44212246;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;visibility:visible;display:inline;overflow:visible"
-       d="M 422.98364,289.80847 C 431.51755,289.80847 729.63003,289.92349 738.16393,289.92349 C 746.69783,289.92349 753.56813,283.05339 753.56813,274.51969 C 753.56813,265.98599 753.48779,41.796139 753.48779,33.262434 C 753.48779,24.728729 760.35806,17.858635 768.89197,17.858635 L 1018.4444,17.858635 C 1026.9783,17.858635 1033.8486,24.728729 1033.8486,33.262434 C 1033.8486,41.796139 1033.8487,428.98473 1033.8487,437.51843 C 1033.8487,446.05213 1026.9784,452.92222 1018.4445,452.92222 L 422.98364,452.92222 C 414.44973,452.92222 407.57946,446.05213 407.57946,437.51843 L 407.57946,305.21227 C 407.57946,296.67856 414.44973,289.80847 422.98364,289.80847 z "
+       d="M 422.98364,289.80847 C 431.51755,289.80847 729.63003,289.92349 738.16393,289.92349 C 746.69783,289.92349 753.56813,283.05339 753.56813,274.51969 C 753.56813,265.98599 753.48779,41.796139 753.48779,33.262434 C 753.48779,24.728729 760.35806,17.858635 768.89197,17.858635 L 1018.4444,17.858635 C 1026.9783,17.858635 1033.8486,24.728729 1033.8486,33.262434 C 1033.8486,41.796139 1033.8487,460.98473 1033.8487,469.51843 C 1033.8487,478.05213 1026.9784,484.92222 1018.4445,484.92222 L 422.98364,484.92222 C 414.44973,484.92222 407.57946,478.05213 407.57946,469.51843 L 407.57946,305.21227 C 407.57946,296.67856 414.44973,289.80847 422.98364,289.80847 z"
        sodipodi:nodetypes="ccccccccccccc" />
     <text
        xml:space="preserve"
@@ -712,7 +719,7 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:15.25994587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Courier New"
+       style="font-size:15.25994587px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Courier New"
        x="466.21942"
        y="231.06906"
        id="text5118"
@@ -727,31 +734,31 @@
          id="tspan5267"> </tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="261.58895"
+         y="261.58896"
          id="tspan5285">//GUI generated header </tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="276.8489"
+         y="276.84891"
          id="tspan5277">#include MyNode.h</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="292.10884"
+         y="292.10886"
          id="tspan5265" /><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="307.36879"
+         y="307.3688"
          id="tspan5389">void InitNode(CO_Data* d, UNS32 id)</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="322.62874"
+         y="322.62872"
          id="tspan5409">{</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="337.88868"
+         y="337.88867"
          id="tspan5417"> setNodeId(&amp;MyNode_Data, 0x01);</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="353.14863"
+         y="353.14862"
          id="tspan5421"> setState(&amp;MyNode_Data, Initialisation);</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
@@ -767,7 +774,7 @@
          id="tspan2420">void Exit(CO_Data*d, UNS32 id){}</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="414.18841"
+         y="414.18842"
          id="tspan2422" /><tspan
          sodipodi:role="line"
          x="466.21942"
@@ -775,92 +782,92 @@
          id="tspan6600">void Operational()</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="444.7083"
+         y="444.70831"
          id="tspan6602">{</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="459.96825"
+         y="459.96826"
          id="tspan6606"> /* Your code for Operational State */</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="475.2282"
+         y="475.22821"
          id="tspan6604">}</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="490.48814"
+         y="490.48813"
          id="tspan6598" /><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="505.74809"
+         y="505.74808"
          id="tspan6596">int main(int argc, char *argv[])</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="521.00803"
+         y="521.00806"
          id="tspan5393">{</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="536.26798"
+         y="536.26801"
          id="tspan5260"> LoadCanDriver(&quot;can_peak_win32.dll&quot;);</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="551.52792"
+         y="551.52795"
          id="tspan6610" /><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="566.78787"
+         y="566.78784"
          id="tspan6612"> MyNode_Data.operational = Operational;</tspan><tspan
          sodipodi:role="line"
          id="tspan5226"
          x="466.21942"
-         y="582.04782" /><tspan
+         y="582.04779" /><tspan
          sodipodi:role="line"
          id="tspan5230"
          x="466.21942"
-         y="597.30776"> s_BOARD MyBoard = {&quot;0&quot;, &quot;500K&quot;};</tspan><tspan
+         y="597.30774"> s_BOARD MyBoard = {&quot;0&quot;, &quot;500K&quot;};</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="612.56771"
-         id="tspan5279"> MyCanHandle = canOpen(&amp;MyBoard,&amp;MyNode_Data);</tspan><tspan
+         y="612.56769"
+         id="tspan5279"> TimerInit();</tspan><tspan
          sodipodi:role="line"
-         id="tspan5232"
          x="466.21942"
-         y="627.82765"> TimerInit();</tspan><tspan
+         y="627.82764"
+         id="tspan2629"> MyCanHandle = canOpen(&amp;MyBoard,&amp;MyNode_Data);</tspan><tspan
          sodipodi:role="line"
          id="tspan5236"
          x="466.21942"
-         y="643.0876"> StartTimerLoop(&amp;InitNode);</tspan><tspan
+         y="643.08759"> StartTimerLoop(&amp;InitNode);</tspan><tspan
          sodipodi:role="line"
          id="tspan5238"
          x="466.21942"
-         y="658.34755" /><tspan
+         y="658.34753" /><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="673.60749"
+         y="673.60748"
          id="tspan5401"> /*    Your Code Here    */</tspan><tspan
          sodipodi:role="line"
          id="tspan5246"
          x="466.21942"
-         y="688.86744"> </tspan><tspan
+         y="688.86743"> </tspan><tspan
          sodipodi:role="line"
          id="tspan5250"
          x="466.21942"
          y="704.12738"> StopTimerLoop(&amp;Exit);</tspan><tspan
          sodipodi:role="line"
-         id="tspan5252"
          x="466.21942"
-         y="719.38733"> TimerCleanup();</tspan><tspan
+         y="719.38733"
+         id="tspan2633"> canClose(&amp;MyNode_Data);</tspan><tspan
          sodipodi:role="line"
          id="tspan5256"
          x="466.21942"
-         y="734.64727"> canClose(&amp;MyNode_Data);</tspan><tspan
+         y="749.90723"> TimerCleanup();</tspan><tspan
          sodipodi:role="line"
          x="466.21942"
-         y="749.90722"
+         y="765.16718"
          id="tspan5395">}</tspan><tspan
          sodipodi:role="line"
          id="tspan5258"
          x="466.21942"
-         y="765.16717" /></text>
+         y="780.42712" /></text>
     <path
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
        d="M 901.72023,227.88056 C 946.99304,257.23786 885.53123,272.66927 802.41689,308.87468"
@@ -949,7 +956,7 @@
     <path
        sodipodi:nodetypes="cc"
        id="path6666"
-       d="M 467.41056,504.38606 C 423.45302,498.09823 344.62678,375.13935 225.70053,362.40075"
+       d="M 470.0638,532.68725 C 426.10626,526.39942 344.62678,375.13935 225.70053,362.40075"
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
     <path
        sodipodi:nodetypes="cc"
@@ -964,7 +971,7 @@
     <path
        sodipodi:nodetypes="cc"
        id="path6674"
-       d="M 471.43332,612.07934 C 273.57991,551.84863 439.02683,366.4133 255.84509,332.25619"
+       d="M 469.6645,640.38053 C 271.81109,580.14982 439.02683,366.4133 255.84509,332.25619"
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
     <g
        transform="translate(-415.56229,204.83931)"
@@ -993,7 +1000,7 @@
     <path
        sodipodi:nodetypes="cc"
        id="path6684"
-       d="M 459.69362,699.59173 C 301.49979,550.48664 296.23708,454.58598 214.15732,449.53785"
+       d="M 462.34685,621.76345 C 386.40337,542.52693 296.23708,454.58598 214.15732,449.53785"
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
     <path
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
@@ -1077,7 +1084,7 @@
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible" />
     <path
        style="opacity:1;color:#ff0000;fill:none;fill-opacity:0.75;fill-rule:evenodd;stroke:#ff0000;stroke-width:3.4000001;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:url(#Arrow2Mend);stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible"
-       d="M 466.94586,580.07602 C 422.98832,573.78819 352.55956,414.80324 210.62826,409.20413"
+       d="M 469.5991,731.31052 C 288.55766,618.89322 352.55956,414.80324 210.62826,409.20413"
        id="path6670"
        sodipodi:nodetypes="cc" />
     <path
@@ -1133,16 +1140,20 @@
     <text
        sodipodi:linespacing="100%"
        id="text6804"
-       y="601.85828"
-       x="757.27936"
-       style="font-size:11.42314053px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Bitstream Vera Sans"
+       y="589.85828"
+       x="897.27936"
+       style="font-size:11.42314053px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
          id="tspan6808"
-         y="601.85828"
-         x="757.27936"
-         sodipodi:role="line">Start the scheduler with InitNode as the first</tspan><tspan
-         y="613.28142"
-         x="757.27936"
+         y="589.85828"
+         x="897.27936"
+         sodipodi:role="line">Start the scheduler with </tspan><tspan
+         y="601.28143"
+         x="897.27936"
+         sodipodi:role="line"
+         id="tspan2627">InitNode as the first</tspan><tspan
+         y="612.70453"
+         x="897.27936"
          sodipodi:role="line"
          id="tspan6812">scheduled function call.</tspan></text>
     <path
@@ -1183,33 +1194,33 @@
     <text
        sodipodi:linespacing="100%"
        id="text7799"
-       y="647.98663"
-       x="934.95795"
-       style="font-size:22.45409584px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:center;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:middle;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Bitstream Vera Sans"
+       y="661.25281"
+       x="926.19818"
+       style="font-size:22.45409584px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:center;text-decoration:none;line-height:100%;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;font-family:Bitstream Vera Sans"
        xml:space="preserve"><tspan
-         y="647.98663"
-         x="938.53218"
+         y="661.25281"
+         x="929.7724"
          sodipodi:role="line"
          id="tspan8772">Always surround </tspan><tspan
-         y="670.44073"
-         x="934.95794"
+         y="683.70691"
+         x="926.19818"
          sodipodi:role="line"
          id="tspan8782">stack calls with</tspan><tspan
-         y="692.89482"
-         x="934.95795"
+         y="706.16101"
+         x="926.19818"
          sodipodi:role="line"
          id="tspan8778">EnterMutex()</tspan><tspan
-         y="715.34892"
-         x="938.53218"
+         y="728.61511"
+         x="929.7724"
          sodipodi:role="line"
          id="tspan8780">LeaveMutex() </tspan><tspan
-         y="737.80302"
-         x="934.95795"
+         y="751.06921"
+         x="926.19818"
          sodipodi:role="line"
          id="tspan8776" /></text>
     <path
        sodipodi:type="star"
-       style="opacity:1;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:15.60000038;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4.0999999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#ff0000;stroke-width:15.60000038;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4.0999999;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
        id="path8784"
        sodipodi:sides="3"
        sodipodi:cx="87.505402"
@@ -1221,21 +1232,21 @@
        inkscape:flatsided="false"
        inkscape:rounded="0"
        inkscape:randomized="0"
-       d="M 157.46467,635.27754 L 87.505403,635.27754 L 17.546133,635.27754 L 52.525767,574.69104 L 87.505402,514.10453 L 122.48504,574.69103 L 157.46467,635.27754 z "
-       transform="matrix(0.6104602,0,0,0.6104602,751.66073,326.06345)" />
+       d="M 157.46467,635.27754 L 87.505403,635.27754 L 17.546133,635.27754 L 52.525767,574.69104 L 87.505402,514.10453 L 122.48504,574.69103 L 157.46467,635.27754 z"
+       transform="matrix(0.6104602,0,0,0.6104602,742.90098,339.32963)" />
     <text
        xml:space="preserve"
        style="font-size:48px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="795.45819"
-       y="702.97998"
+       x="786.69843"
+       y="716.24615"
        id="text8786"><tspan
          sodipodi:role="line"
          id="tspan8788"
-         x="795.45819"
-         y="702.97998">!</tspan></text>
+         x="786.69843"
+         y="716.24615">!</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       d="M 713.22509,608.90986 L 756.97779,603.86147"
+       d="M 839.69604,596.52809 L 887.87081,587.05764"
        id="path8795"
        sodipodi:nodetypes="cc" />
     <path
@@ -1280,7 +1291,7 @@
          id="tspan9790">it with the CanOpen node.</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 797.66594,569.88477 L 850.11309,558.1052"
+       d="M 823.3139,567.23153 L 850.11309,558.1052"
        id="path9786"
        sodipodi:nodetypes="cc" />
     <text
@@ -1306,14 +1317,5 @@
          x="179.44179"
          y="713.27274"
          id="tspan10820">OS</tspan></text>
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot2412"><flowRegion
-         id="flowRegion2414"><rect
-           id="rect2416"
-           width="353.96164"
-           height="208.87489"
-           x="462.7767"
-           y="442.66425" /></flowRegion><flowPara
-         id="flowPara2418">+</flowPara></flowRoot>  </g>
+  </g>
 </svg>
