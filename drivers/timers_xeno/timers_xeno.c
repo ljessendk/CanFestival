@@ -238,7 +238,7 @@ void WaitReceiveTaskEnd(TASK_HANDLE *ReceiveLoop_task)
 void setTimer(TIMEVAL value)
 {
 	rt_mutex_acquire(&condition_mutex, TM_INFINITE);
-	last_timeout_set = (value == TIMEVAL_MAX) ? TIMEVAL_MAX : value;
+	last_timeout_set = value;
 	rt_mutex_release(&condition_mutex);
 	rt_cond_signal(&timer_set);
 }
