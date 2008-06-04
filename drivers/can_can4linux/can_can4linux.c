@@ -168,7 +168,7 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
   dev_name[prefix_len+name_len] = 0;
 
   fd0 = open(dev_name, O_RDWR|o_flags);
-  if(fd0 <= 0){
+  if(fd0 == -1){
     fprintf(stderr,"!!! %s is unknown. See can4linux.c\n", dev_name);
     goto error_ret;
   }
@@ -192,8 +192,16 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 /***************************************************************************/
 int canClose_driver(CAN_HANDLE fd0)
 {
-  if((int)fd0<=0)
-    return -1;
-  close(fd0);
-  return 0;
+  if((int)fd0 != -1) {
+      return close((int)fd0);
+  }
+
+  return -1;
 }
+
+int canfd_driver(CAN_HANDLE fd0)
+{
+        return ((int)fd0);
+}
+
+
