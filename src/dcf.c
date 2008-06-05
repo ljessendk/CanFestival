@@ -138,7 +138,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
         	target_Index = *(d->dcf_cursor++) << 8 | 
         	               *(d->dcf_cursor++);
 #else
-        	memcpy(&target_Index, d->dcf_cursor,4);
+        	memcpy(&target_Index, d->dcf_cursor,2);
         	d->dcf_cursor+=2;
 #endif
 
