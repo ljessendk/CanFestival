@@ -43,6 +43,12 @@ extern UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 
 static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId);
 
+/* Seek to next NodeID's DCF */
+#define SEEK_NEXT_DCF() \
+   	nodeId=(nodeId+1) % d->dcf_odentry->bSubCount; \
+   	if(nodeId==0) nodeId=1; \
+   	d->dcf_cursor = NULL;
+
 /**
 **
 **
@@ -51,7 +57,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId);
 */
 static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 {
-  UNS32 abortCode;
+  UNS32 abortCode = 0;
 
   if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
     {
@@ -60,6 +66,13 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
     }
 
   closeSDOtransfer(d, nodeId, SDO_CLIENT);
+  /* Timedout ? */
+  if(abortCode == SDOABT_TIMED_OUT){
+    /* Node may not be ready, try another one */
+    /* Warning, this might leed to endless attempts */
+    /* if node does never answer */
+	SEEK_NEXT_DCF()
+  }
   send_consise_dcf_loop(d,nodeId);
 }
 
@@ -182,11 +195,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
       	}
  	}
  	
-   	/* Check the next element*/
-   	nodeId=(nodeId+1) % d->dcf_odentry->bSubCount;
-   	if(nodeId==0)nodeId=1;
-   	d->dcf_cursor = NULL;
-
+	SEEK_NEXT_DCF()
   }
 
 }
