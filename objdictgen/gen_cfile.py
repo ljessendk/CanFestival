@@ -412,7 +412,7 @@ def GenerateFileContent(Node, headerfilepath):
                     maxPDOtransmit += 1
     texts["maxPDOtransmit"] = max(1, maxPDOtransmit)
     for index_cat in index_categories:
-        strQuickIndex += "\nquick_index %s_%s = {\n"%(texts["NodeName"], index_cat)
+        strQuickIndex += "\nconst quick_index %s_%s = {\n"%(texts["NodeName"], index_cat)
         sep = ","
         for i, (cat, idx_min, idx_max) in enumerate(categories):
             if i == len(categories) - 1:
@@ -508,7 +508,7 @@ s_PDO_status %(NodeName)s_PDO_status[%(maxPDOtransmit)d] = {"""%texts
 
     fileContent += strQuickIndex
     fileContent += """
-UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]); 
+const UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]); 
 
 CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
