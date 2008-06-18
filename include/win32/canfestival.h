@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 typedef HINSTANCE LIB_HANDLE;
 
 UNS8 UnLoadCanDriver(LIB_HANDLE handle);
-LIB_HANDLE LoadCanDriver(char* driver_name);
+LIB_HANDLE LoadCanDriver(const char* driver_name);
 UNS8 canSend(CAN_PORT port, Message *m);
 CAN_PORT canOpen(s_BOARD *board, CO_Data * d);
 int canClose(CO_Data * d);

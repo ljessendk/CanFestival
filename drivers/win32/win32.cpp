@@ -122,7 +122,7 @@ struct driver_data
 
 driver_procs s_driver_procs;
 
-LIB_HANDLE LoadCanDriver(char* driver_name)
+LIB_HANDLE LoadCanDriver(const char* driver_name)
    {
 		return s_driver_procs.load_canfestival_driver((LPCTSTR)driver_name);
    }

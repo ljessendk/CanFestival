@@ -91,7 +91,7 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
  * @param driver_name String containing driver's dynamic library name
  * @return Library handle
  */
-LIB_HANDLE LoadCanDriver(char* driver_name)
+LIB_HANDLE LoadCanDriver(const char* driver_name)
 {
 	LIB_HANDLE handle = NULL;
 	char *error;
