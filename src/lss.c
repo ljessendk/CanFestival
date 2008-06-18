@@ -36,12 +36,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 **
 */
 
-#ifdef CO_ENABLE_LSS
 
 #include "data.h"
 #include "lss.h"
 #include "canfestival.h"
 #include "sysdep.h"
+
+#ifdef CO_ENABLE_LSS
 
 //#define LSS_TIMEOUT_MS	(TIMEVAL)1000  /* ms */
 //#define LSS_FS_TIMEOUT_MS	(TIMEVAL)100  /* ms */
@@ -645,7 +646,6 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 					setState(d, Initialisation);
 				}
 				else{/* The nodeID will be changed on NMT_Reset Request*/
-					setNodeId(d, d->lss_transfer.nodeID);
 				}
 			}
 			d->lss_transfer.mode=LSS_WAITING_MODE;
