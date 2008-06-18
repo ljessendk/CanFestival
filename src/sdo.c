@@ -503,7 +503,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
   }  				
 
   /*get the server->client cobid*/
-  if ( whoami == SDO_SERVER )	{/*case server. Easy because today only one server SDO is authorized in CanFestival*/
+  if ( whoami == SDO_SERVER )	{/*case server. only one SDO server*/
     offset = d->firstIndex->SDO_SVR;
     if (offset == 0) {
       MSG_ERR(0x1A42, "SendSDO : No SDO server found", 0); 
@@ -521,7 +521,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       MSG_ERR(0x1A42, "SendSDO : No SDO client index found", 0); 
       return 0xFF;
     }
-    /* First, have to find at the index where is defined the communication with the server node */
+    /* find index for communication server node */
     while (offset <= lastIndex){
       MSG_WAR(0x3A43,"Reading index : ", 0x1280 + sdoNum);
       if (d->objdict[offset].bSubCount <= 3) {
@@ -541,7 +541,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
       MSG_WAR (0x2A45, "No SDO client corresponds to the mesage to send to node ", sdo.nodeId);
       return 0xFF;
     }
-    /* Second, read the cobid client->server */
+    /* read the client->server cobid */
     pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
