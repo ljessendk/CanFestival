@@ -95,7 +95,10 @@ def WriteFile(filepath, content):
     cfile.write(content)
     cfile.close()
 
-def GenerateFileContent(Node, headerfilepath):
+def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
+    """
+    pointers_dict = {(Idx,Sidx):"VariableName",...}
+    """
     global type
     global internal_types
     global default_string_size
@@ -162,6 +165,7 @@ def GenerateFileContent(Node, headerfilepath):
 #-------------------------------------------------------------------------------
 
     mappedVariableContent = ""
+    pointedVariableContent = ""
     strDeclareHeader = ""
     strDeclareCallback = ""
     indexContents = {}
@@ -319,9 +323,12 @@ def GenerateFileContent(Node, headerfilepath):
             else:
                 save = ""
             strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,name,sep)
+            pointer_name = pointers_dict.get((index, subIndex), None)
+            if pointer_name is not None:
+                pointedVariableContent += "%s* %s = &%s;\n"%(typeinfos[0], pointer_name, name)
         strIndex += "                     };\n"
         indexContents[index] = strIndex
-
+        
 #-------------------------------------------------------------------------------
 #                     Declaration of Particular Parameters
 #-------------------------------------------------------------------------------
@@ -430,13 +437,13 @@ def GenerateFileContent(Node, headerfilepath):
 
     fileContent += """
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 """ + mappedVariableContent
 
     fileContent += """
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 """ + valueRangeContent
 
@@ -473,6 +480,12 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     contentlist.sort()
     for index in contentlist:
         fileContent += indexContents[index]
+
+    fileContent += """
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
+""" + pointedVariableContent
 
     fileContent += """
 const indextable %(NodeName)s_objdict[] = 
@@ -542,10 +555,10 @@ extern CO_Data %(NodeName)s_Data;
 #                             Main Function
 #-------------------------------------------------------------------------------
 
-def GenerateFile(filepath, node):
+def GenerateFile(filepath, node, pointers_dict = {}):
     try:
         headerfilepath = os.path.splitext(filepath)[0]+".h"
-        content, header = GenerateFileContent(node, os.path.split(headerfilepath)[1])
+        content, header = GenerateFileContent(node, os.path.split(headerfilepath)[1], pointers_dict)
         WriteFile(filepath, content)
         WriteFile(headerfilepath, header)
         return None
