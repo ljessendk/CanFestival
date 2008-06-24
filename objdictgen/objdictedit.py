@@ -126,7 +126,8 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 class objdictedit(wx.Frame):
     def _init_coll_MenuBar_Menus(self, parent):
-        parent.Append(menu=self.FileMenu, title='File')
+        if self.ModeSolo:
+            parent.Append(menu=self.FileMenu, title='File')
         parent.Append(menu=self.EditMenu, title='Edit')
         parent.Append(menu=self.AddMenu, title='Add')
         parent.Append(menu=self.HelpMenu, title='Help')
@@ -228,7 +229,7 @@ class objdictedit(wx.Frame):
         parent.Append(help='', id=wx.ID_HELP_CONTEXT,
               kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
         self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu, id=wx.ID_HELP_CONTEXT)
-        if Html_Window:
+        if Html_Window and self.ModeSolo:
             parent.Append(help='', id=wx.ID_ABOUT,
                   kind=wx.ITEM_NORMAL, text='About')
             self.Bind(wx.EVT_MENU, self.OnAboutMenu, id=wx.ID_ABOUT)
@@ -246,13 +247,15 @@ class objdictedit(wx.Frame):
         self.MenuBar = wx.MenuBar()
         self.MenuBar.SetEvtHandlerEnabled(True)
 
-        self.FileMenu = wx.Menu(title='')
+        if self.ModeSolo:
+            self.FileMenu = wx.Menu(title='')
         self.EditMenu = wx.Menu(title='')
         self.AddMenu = wx.Menu(title='')
         self.HelpMenu = wx.Menu(title='')
 
         self._init_coll_MenuBar_Menus(self.MenuBar)
-        self._init_coll_FileMenu_Items(self.FileMenu)
+        if self.ModeSolo:
+            self._init_coll_FileMenu_Items(self.FileMenu)
         self._init_coll_EditMenu_Items(self.EditMenu)
         self._init_coll_AddMenu_Items(self.AddMenu)
         self._init_coll_HelpMenu_Items(self.HelpMenu)
@@ -265,6 +268,10 @@ class objdictedit(wx.Frame):
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.MenuBar)
         self.Bind(wx.EVT_CLOSE, self.OnCloseFrame)
+        if not self.ModeSolo:
+            self.Bind(wx.EVT_MENU, self.OnSaveMenu, id=wx.ID_SAVE)
+            accel = wx.AcceleratorTable([wx.AcceleratorEntry(wx.ACCEL_CTRL, 83, wx.ID_SAVE)])
+            self.SetAcceleratorTable(accel)
 
         self.FileOpened = wx.Notebook(id=ID_OBJDICTEDITFILEOPENED,
               name='FileOpened', parent=self, pos=wx.Point(0, 0),
@@ -277,25 +284,35 @@ class objdictedit(wx.Frame):
         self._init_coll_HelpBar_Fields(self.HelpBar)
         self.SetStatusBar(self.HelpBar)
 
-    def __init__(self, parent, filesOpen = []):
+    def __init__(self, parent, manager = None, filesOpen = []):
+        self.ModeSolo = manager == None
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
-        self.ModeSolo = True
+        self.BusId = None
         
         icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.ico"),wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
         
-        self.Manager = NodeManager()
-        for filepath in filesOpen:
-            result = self.Manager.OpenFileInCurrent(filepath)
-            if type(result) == IntType:
+        if self.ModeSolo:
+            self.Manager = NodeManager()
+            for filepath in filesOpen:
+                result = self.Manager.OpenFileInCurrent(filepath)
+                if type(result) == IntType:
+                    new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
+                    new_editingpanel.SetIndex(result)
+                    self.FileOpened.AddPage(new_editingpanel, "")
+        else:
+            self.Manager = manager
+            for index in self.Manager.GetBufferIndexes():
                 new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
-                new_editingpanel.SetIndex(result)
+                new_editingpanel.SetIndex(index)
                 self.FileOpened.AddPage(new_editingpanel, "")
-            window = self.FileOpened.GetPage(0)
-            if window:
-                self.Manager.ChangeCurrentNode(window.GetIndex())
-                self.FileOpened.SetSelection(0)
+        
+        window = self.FileOpened.GetPage(0)
+        if window:
+            self.Manager.ChangeCurrentNode(window.GetIndex())
+            self.FileOpened.SetSelection(0)
+        
         if self.Manager.CurrentDS302Defined():
             self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, True)
         else:
@@ -305,6 +322,12 @@ class objdictedit(wx.Frame):
         self.RefreshProfileMenu()
         self.RefreshTitle()
         self.RefreshMainMenu()
+
+    def SetBusId(self, bus_id):
+        self.BusId = bus_id
+
+    def GetBusId(self):
+        return self.BusId
 
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
@@ -401,7 +424,11 @@ class objdictedit(wx.Frame):
         event.Skip()
     
     def OnCloseFrame(self, event):
-        if self.Manager.OneFileHasChanged():
+        if not self.ModeSolo:
+            if getattr(self, "_onclose", None) != None:
+                self._onclose()
+            event.Skip()
+        elif self.Manager.OneFileHasChanged():
             dialog = wx.MessageDialog(self, "There are changes, do you want to save?",  "Close Application", wx.YES_NO|wx.CANCEL|wx.ICON_QUESTION)
             answer = dialog.ShowModal()
             dialog.Destroy()
@@ -477,23 +504,33 @@ class objdictedit(wx.Frame):
                         self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
-        if self.FileMenu:
+        if self:
             if self.FileOpened.GetPageCount() > 0:
-                self.MenuBar.EnableTop(1, True)
-                self.MenuBar.EnableTop(2, True)
-                self.FileMenu.Enable(wx.ID_CLOSE, True)
-                self.FileMenu.Enable(wx.ID_SAVE, True)
-                self.FileMenu.Enable(wx.ID_SAVEAS, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, True)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, True)
+                if self.ModeSolo:
+                    self.MenuBar.EnableTop(1, True)
+                    self.MenuBar.EnableTop(2, True)
+                    if self.FileMenu:
+                        self.FileMenu.Enable(wx.ID_CLOSE, True)
+                        self.FileMenu.Enable(wx.ID_SAVE, True)
+                        self.FileMenu.Enable(wx.ID_SAVEAS, True)
+                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, True)
+                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, True)
+                else:
+                    self.MenuBar.EnableTop(0, True)
+                    self.MenuBar.EnableTop(1, True)
             else:
-                self.MenuBar.EnableTop(1, False)
-                self.MenuBar.EnableTop(2, False)
-                self.FileMenu.Enable(wx.ID_CLOSE, False)
-                self.FileMenu.Enable(wx.ID_SAVE, False)
-                self.FileMenu.Enable(wx.ID_SAVEAS, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, False)
-                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, False)
+                if self.ModeSolo:
+                    self.MenuBar.EnableTop(1, False)
+                    self.MenuBar.EnableTop(2, False)
+                    if self.FileMenu:
+                        self.FileMenu.Enable(wx.ID_CLOSE, False)
+                        self.FileMenu.Enable(wx.ID_SAVE, False)
+                        self.FileMenu.Enable(wx.ID_SAVEAS, False)
+                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, False)
+                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, False)
+                else:
+                    self.MenuBar.EnableTop(0, False)
+                    self.MenuBar.EnableTop(1, False)
 
     def RefreshEditMenu(self):
         if self.EditMenu:
@@ -614,7 +651,10 @@ class objdictedit(wx.Frame):
         event.Skip()
 
     def OnSaveMenu(self, event):
-        self.Save()
+        if not self.ModeSolo and getattr(self, "_onsave", None) != None:
+            self._onsave()
+        else:
+            self.Save()
         event.Skip()
     
     def OnSaveAsMenu(self, event):
@@ -999,7 +1039,7 @@ if __name__ == '__main__':
     # Install a exception handle for bug reports
     AddExceptHook(os.getcwd(),__version__)
     
-    frame = objdictedit(None, args)
+    frame = objdictedit(None, filesOpen = args)
 
     frame.Show()
     app.MainLoop()

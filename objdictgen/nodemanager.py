@@ -789,6 +789,9 @@ class NodeManager:
     def GetBufferNumber(self):
         return len(self.UndoBuffers)
 
+    def GetBufferIndexes(self):
+        return self.UndoBuffers.keys()
+
     def LoadCurrentPrevious(self):
         self.CurrentNode = self.UndoBuffers[self.NodeIndex].Previous().Copy()
     

@@ -596,7 +596,7 @@ class networkedit(wx.Frame):
                         self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
-        if self.MenuBar:
+        if self and self.MenuBar:
             self.NetworkMenu.Enable(ID_NETWORKEDITNETWORKMENUBUILDMASTER, False)
             if self.NodeList == None:
                 if self.ModeSolo:

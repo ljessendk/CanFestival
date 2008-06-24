@@ -449,7 +449,23 @@ class EditingPanel(wx.SplitterWindow):
     def OnSubindexGridCellLeftClick(self, event):
         if not self.ParentWindow.ModeSolo:
             col = event.GetCol()
-            if not self.Editable and col == 0:
+            if self.Editable and col == 0:
+                selected = self.IndexList.GetSelection()
+                if selected != wx.NOT_FOUND:
+                    index = self.ListIndex[selected]
+                    subindex = event.GetRow()
+                    entry_infos = self.Manager.GetEntryInfos(index)
+                    if not entry_infos["struct"] & OD_MultipleSubindexes or subindex != 0:
+                        subentry_infos = self.Manager.GetSubentryInfos(index, subindex)
+                        typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
+                        if typeinfos:
+                            bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
+                            size = typeinfos["size"]
+                            data = wx.TextDataObject(str(("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), "location")))
+                            dragSource = wx.DropSource(self.SubindexGrid)
+                            dragSource.SetData(data)
+                            dragSource.DoDragDrop()
+            elif col == 0:
                 selected = self.IndexList.GetSelection()
                 if selected != wx.NOT_FOUND:
                     index = self.ListIndex[selected]
