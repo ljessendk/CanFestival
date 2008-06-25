@@ -890,7 +890,7 @@ class CreateNodeDialog(wx.Dialog):
         
         self.SetSizer(self.flexGridSizer1)
 
-    def _init_ctrls(self, prnt):
+    def _init_ctrls(self, prnt, buttons):
         wx.Dialog.__init__(self, id=ID_CREATENODEDIALOG,
               name='CreateNodeDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(450, 350), style=wx.DEFAULT_DIALOG_STYLE,
@@ -994,13 +994,13 @@ class CreateNodeDialog(wx.Dialog):
               name='Spacer', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
 
-        self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
+        self.ButtonSizer = self.CreateButtonSizer(buttons)
         self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
         
         self._init_sizers()
 
-    def __init__(self, parent):
-        self._init_ctrls(parent)
+    def __init__(self, parent,buttons=wx.OK|wx.CANCEL):
+        self._init_ctrls(parent,buttons)
         
         self.staticText3.Hide()
         self.NodeID.Hide()
@@ -1238,7 +1238,12 @@ class AddSlaveDialog(wx.Dialog):
                 self.EndModal(wx.ID_OK)
 
     def OnImportEDSButton(self, event):
-        dialog = wx.FileDialog(self, "Choose an EDS file", os.getcwd(), "",  "EDS files (*.eds)|*.eds|All files|*.*", wx.OPEN|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self,
+                               "Choose an EDS file",
+                               os.getcwd(),
+                               "",
+                               "EDS files (*.eds)|*.eds|All files|*.*",
+                               wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
