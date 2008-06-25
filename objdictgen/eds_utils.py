@@ -76,7 +76,7 @@ ENTRY_TYPES = {7 : {"name" : " VAR",
 
 # Function that search into Node Mappings the informations about an index or a subindex
 # and return the default value
-def GetDefaultValue(index, subIndex = None):
+def GetDefaultValue(Node, index, subIndex = None):
     infos = Node.GetEntryInfos(index)
     if infos["struct"] & node.OD_MultipleSubindexes:
         # First case entry is a record
@@ -427,17 +427,20 @@ def WriteFile(filepath, content):
 
 
 # Function that generate the EDS file content for the current node in the manager
-def GenerateFileContent(filepath):
+def GenerateFileContent(Node, filepath):
     # Dictionary of each index contents
     indexContents = {}
     
     # Extract local time
     current_time = localtime()
     # Extract node informations
-    nodename, nodeid, nodetype, description = Manager.GetCurrentNodeInfos()
+    nodename = Node.GetNodeName()
+    nodeid = Node.GetNodeID()
+    nodetype = Node.GetNodeType() 
+    description = Node.GetNodeDescription()
     
-    # Compiling lists of indexes defined
-    entries = [idx for name, idx in Manager.GetCurrentValidIndexes(0, 0xFFFF)]
+    # Retreiving lists of indexes defined
+    entries = Node.GetIndexes()
     
     # Generate FileInfo section
     fileContent = "[FileInfo]\n"
@@ -467,10 +470,10 @@ def GenerateFileContent(filepath):
     fileContent += "\n[DeviceInfo]\n"
     fileContent += "VendorName=CANFestival\n"
     # Use information typed by user in Identity entry
-    fileContent += "VendorNumber=0x%8.8X\n"%Manager.GetCurrentEntry(0x1018, 1)
+    fileContent += "VendorNumber=0x%8.8X\n"%Node.GetEntry(0x1018, 1)
     fileContent += "ProductName=%s\n"%nodename
-    fileContent += "ProductNumber=0x%8.8X\n"%Manager.GetCurrentEntry(0x1018, 2)
-    fileContent += "RevisionNumber=0x%8.8X\n"%Manager.GetCurrentEntry(0x1018, 3)
+    fileContent += "ProductNumber=0x%8.8X\n"%Node.GetEntry(0x1018, 2)
+    fileContent += "RevisionNumber=0x%8.8X\n"%Node.GetEntry(0x1018, 3)
     # CANFestival support all baudrates as soon as driver choosen support them
     fileContent += "BaudRate_10=1\n"
     fileContent += "BaudRate_20=1\n"
@@ -516,14 +519,14 @@ def GenerateFileContent(filepath):
     # For each entry, we generate the entry section or sections if there is subindexes
     for entry in entries:
         # Extract infos and values for the entry
-        entry_infos = Manager.GetEntryInfos(entry)
-        values = Manager.GetCurrentEntry(entry, compute = False)
+        entry_infos = Node.GetEntryInfos(entry)
+        values = Node.GetEntry(entry, compute = False)
         # Define section name
         text = "\n[%X]\n"%entry
         # If there is only one value, it's a VAR entry
         if type(values) != ListType:
             # Extract the informations of the first subindex
-            subentry_infos = Manager.GetSubentryInfos(entry, 0)
+            subentry_infos = Node.GetSubentryInfos(entry, 0)
             # Generate EDS informations for the entry
             text += "ParameterName=%s\n"%subentry_infos["name"]
             text += "ObjectType=0x7\n"
@@ -548,7 +551,7 @@ def GenerateFileContent(filepath):
             nb_subentry = 0
             for subentry, value in enumerate(values):
                 # Extract the informations of each subindex
-                subentry_infos = Manager.GetSubentryInfos(entry, subentry)
+                subentry_infos = Node.GetSubentryInfos(entry, subentry)
                 # If entry is not for the compatibility, generate informations for subindex
                 if subentry_infos["name"] != "Compatibility Entry":
                     subtext += "\n[%Xsub%X]\n"%(entry, subentry)
@@ -619,12 +622,10 @@ def GenerateFileContent(filepath):
 
 
 # Function that generates EDS file from current node edited
-def GenerateEDSFile(filepath, manager):
-    global Manager
-    Manager = manager
+def GenerateEDSFile(filepath, node):
     try:
         # Generate file content
-        content = GenerateFileContent(filepath)
+        content = GenerateFileContent(node, filepath)
         # Write file
         WriteFile(filepath, content)
         return None
@@ -650,7 +651,6 @@ def GenerateCPJContent(nodelist):
 
 # Function that generates Node from an EDS file
 def GenerateNode(filepath, nodeID = 0):
-    global Node
     # Create a new node
     Node = node.Node(id = nodeID)
     try:
@@ -746,7 +746,7 @@ def GenerateNode(filepath, nodeID = 0):
                         value = values["DEFAULTVALUE"]
                     # Find default value for value type of the entry
                     else:
-                        value = GetDefaultValue(entry)
+                        value = GetDefaultValue(Node, entry)
                     Node.AddEntry(entry, 0, value)
                 # Second case, entry is an ARRAY or a RECORD
                 elif values["OBJECTTYPE"] in (8, 9):
@@ -770,7 +770,7 @@ def GenerateNode(filepath, nodeID = 0):
                                 value = values["subindexes"][subindex]["DEFAULTVALUE"]
                             # Find default value for value type of the subindex
                             elif subindex in values["subindexes"] or not consecutive:
-                                value = GetDefaultValue(entry, subindex)
+                                value = GetDefaultValue(Node, entry, subindex)
                             else:
                                 raise SyntaxError, "Error on entry 0x%4.4X:\nCan't recompose implemented subindexes in this ARRAY or RECORD entry"%entry
                             Node.AddEntry(entry, subindex, value)
