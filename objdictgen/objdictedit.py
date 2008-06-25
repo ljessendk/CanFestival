@@ -653,6 +653,7 @@ class objdictedit(wx.Frame):
     def OnSaveMenu(self, event):
         if not self.ModeSolo and getattr(self, "_onsave", None) != None:
             self._onsave()
+            self.RefreshBufferState()
         else:
             self.Save()
         event.Skip()
