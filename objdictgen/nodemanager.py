@@ -225,6 +225,9 @@ class NodeManager:
                     AddIndexList.extend([0x1010, 0x1011, 0x1020])
                 elif option == "StoreEDS":
                     AddIndexList.extend([0x1021, 0x1022])
+            if type == "slave":
+                # add default SDO server
+                AddIndexList.extend([0x1280])
             # Add a new buffer 
             index = self.AddNodeBuffer(self.CurrentNode.Copy(), False)
             self.SetCurrentFilePath("")
