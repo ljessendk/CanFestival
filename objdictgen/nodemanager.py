@@ -299,7 +299,7 @@ class NodeManager:
     """
     def CloseCurrent(self, ignore = False):
         # Verify if it's not forced that the current node is saved before closing it
-        if self.UndoBuffers[self.NodeIndex].IsCurrentSaved() or ignore:
+        if self.NodeIndex in self.UndoBuffers and (self.UndoBuffers[self.NodeIndex].IsCurrentSaved() or ignore):
             self.RemoveNodeBuffer(self.NodeIndex)
             if len(self.UndoBuffers) > 0:
                 previousindexes = [idx for idx in self.UndoBuffers.keys() if idx < self.NodeIndex]
@@ -335,7 +335,7 @@ class NodeManager:
     Export to an eds file and store it in a new buffer if no node edited
     """
     def ExportCurrentToEDSFile(self, filepath):
-        return eds_utils.GenerateEDSFile(filepath, self)
+        return eds_utils.GenerateEDSFile(filepath, self.CurrentNode)
     
     """
     Build the C definition of Object Dictionary for current node 
