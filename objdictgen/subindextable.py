@@ -511,17 +511,20 @@ class EditingPanel(wx.SplitterWindow):
         event.Skip()
 
     def OnPartListBoxClick(self, event):
-        self.SubindexGrid.SetGridCursor(0, 0)
-        self.RefreshIndexList()
+        if not self.ParentWindow.IsClosing():
+            self.SubindexGrid.SetGridCursor(0, 0)
+            self.RefreshIndexList()
         event.Skip()
 
     def OnIndexListClick(self, event):
-        self.SubindexGrid.SetGridCursor(0, 0)
-        self.RefreshTable()
+        if not self.ParentWindow.IsClosing():
+            self.SubindexGrid.SetGridCursor(0, 0)
+            self.RefreshTable()
         event.Skip()
 
     def OnSubindexGridSelectCell(self, event):
-        wx.CallAfter(self.ParentWindow.RefreshStatusBar)
+        if not self.ParentWindow.IsClosing():
+            wx.CallAfter(self.ParentWindow.RefreshStatusBar)
         event.Skip()
 
 #-------------------------------------------------------------------------------

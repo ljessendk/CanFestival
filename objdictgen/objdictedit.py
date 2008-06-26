@@ -289,6 +289,7 @@ class objdictedit(wx.Frame):
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
         self.BusId = None
+        self.Closing = False
         
         icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.ico"),wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
@@ -308,10 +309,11 @@ class objdictedit(wx.Frame):
                 new_editingpanel.SetIndex(index)
                 self.FileOpened.AddPage(new_editingpanel, "")
         
-        window = self.FileOpened.GetPage(0)
-        if window:
-            self.Manager.ChangeCurrentNode(window.GetIndex())
-            self.FileOpened.SetSelection(0)
+        if self.Manager.GetBufferNumber() > 0:
+            window = self.FileOpened.GetPage(0)
+            if window:
+                self.Manager.ChangeCurrentNode(window.GetIndex())
+                self.FileOpened.SetSelection(0)
         
         if self.Manager.CurrentDS302Defined():
             self.EditMenu.Enable(ID_OBJDICTEDITEDITMENUDS302PROFILE, True)
@@ -328,6 +330,9 @@ class objdictedit(wx.Frame):
 
     def GetBusId(self):
         return self.BusId
+
+    def IsClosing(self):
+        return self.Closing
 
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
@@ -362,15 +367,16 @@ class objdictedit(wx.Frame):
         event.Skip()
 
     def OnFileSelectedChanged(self, event):
-        selected = event.GetSelection()
-        # At init selected = -1
-        if selected >= 0:
-            window = self.FileOpened.GetPage(selected)
-            if window:
-                self.Manager.ChangeCurrentNode(window.GetIndex())
-                wx.CallAfter(self.RefreshBufferState)
-                self.RefreshStatusBar()
-                self.RefreshProfileMenu()
+        if not self.Closing:
+            selected = event.GetSelection()
+            # At init selected = -1
+            if selected >= 0:
+                window = self.FileOpened.GetPage(selected)
+                if window:
+                    self.Manager.ChangeCurrentNode(window.GetIndex())
+                    wx.CallAfter(self.RefreshBufferState)
+                    self.RefreshStatusBar()
+                    self.RefreshProfileMenu()
         event.Skip()
 
     def OnHelpDS301Menu(self, event):
@@ -424,6 +430,7 @@ class objdictedit(wx.Frame):
         event.Skip()
     
     def OnCloseFrame(self, event):
+        self.Closing = True
         if not self.ModeSolo:
             if getattr(self, "_onclose", None) != None:
                 self._onclose()
@@ -433,10 +440,7 @@ class objdictedit(wx.Frame):
             answer = dialog.ShowModal()
             dialog.Destroy()
             if answer == wx.ID_YES:
-                self.Manager.ChangeCurrentNode(0)
-                for i in xrange(self.FileOpened.GetPageCount()):
-                    window = self.FileOpened.GetPage(i)
-                    self.Manager.ChangeCurrentNode(window.GetIndex())
+                for i in xrange(self.Manager.GetBufferNumber()):
                     if self.Manager.CurrentIsSaved():
                         self.Manager.CloseCurrent()
                     else:
@@ -444,10 +448,9 @@ class objdictedit(wx.Frame):
                         self.Manager.CloseCurrent(True)
                 event.Skip()
             elif answer == wx.ID_NO:
-                for i in xrange(self.FileOpened.GetPageCount()):
-                    self.Manager.CloseCurrent(True)
-                wx.CallAfter(self.Close)
                 event.Skip()
+            else:
+                event.Veto()
         else:
             event.Skip()
 
@@ -471,97 +474,91 @@ class objdictedit(wx.Frame):
         window.RefreshIndexList()
 
     def RefreshStatusBar(self):
-        if self and self.HelpBar:
-            selected = self.FileOpened.GetSelection()
-            if selected >= 0:
-                window = self.FileOpened.GetPage(selected)
-                selection = window.GetSelection()
-                if selection:
-                    index, subIndex = selection
-                    if self.Manager.IsCurrentEntry(index):
-                        self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
-                        self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
-                        entryinfos = self.Manager.GetEntryInfos(index)
-                        name = entryinfos["name"]
-                        category = "Optional"
-                        if entryinfos["need"]:
-                            category = "Mandatory"
-                        struct = "VAR"
-                        number = ""
-                        if entryinfos["struct"] & OD_IdenticalIndexes:
-                            number = " possibly defined %d times"%entryinfos["nbmax"]
-                        if entryinfos["struct"] & OD_IdenticalSubindexes:
-                            struct = "REC"
-                        elif entryinfos["struct"] & OD_MultipleSubindexes:
-                            struct = "ARRAY"
-                        text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
-                        self.HelpBar.SetStatusText(text, 2)
-                    else:
-                        for i in xrange(3):
-                            self.HelpBar.SetStatusText("", i)
+        selected = self.FileOpened.GetSelection()
+        if selected >= 0:
+            window = self.FileOpened.GetPage(selected)
+            selection = window.GetSelection()
+            if selection:
+                index, subIndex = selection
+                if self.Manager.IsCurrentEntry(index):
+                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
+                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
+                    entryinfos = self.Manager.GetEntryInfos(index)
+                    name = entryinfos["name"]
+                    category = "Optional"
+                    if entryinfos["need"]:
+                        category = "Mandatory"
+                    struct = "VAR"
+                    number = ""
+                    if entryinfos["struct"] & OD_IdenticalIndexes:
+                        number = " possibly defined %d times"%entryinfos["nbmax"]
+                    if entryinfos["struct"] & OD_IdenticalSubindexes:
+                        struct = "REC"
+                    elif entryinfos["struct"] & OD_MultipleSubindexes:
+                        struct = "ARRAY"
+                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
+                    self.HelpBar.SetStatusText(text, 2)
                 else:
                     for i in xrange(3):
                         self.HelpBar.SetStatusText("", i)
+            else:
+                for i in xrange(3):
+                    self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
-        if self:
-            if self.FileOpened.GetPageCount() > 0:
-                if self.ModeSolo:
-                    self.MenuBar.EnableTop(1, True)
-                    self.MenuBar.EnableTop(2, True)
-                    if self.FileMenu:
-                        self.FileMenu.Enable(wx.ID_CLOSE, True)
-                        self.FileMenu.Enable(wx.ID_SAVE, True)
-                        self.FileMenu.Enable(wx.ID_SAVEAS, True)
-                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, True)
-                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, True)
-                else:
-                    self.MenuBar.EnableTop(0, True)
-                    self.MenuBar.EnableTop(1, True)
+        if self.FileOpened.GetPageCount() > 0:
+            if self.ModeSolo:
+                self.MenuBar.EnableTop(1, True)
+                self.MenuBar.EnableTop(2, True)
+                self.FileMenu.Enable(wx.ID_CLOSE, True)
+                self.FileMenu.Enable(wx.ID_SAVE, True)
+                self.FileMenu.Enable(wx.ID_SAVEAS, True)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, True)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, True)
             else:
-                if self.ModeSolo:
-                    self.MenuBar.EnableTop(1, False)
-                    self.MenuBar.EnableTop(2, False)
-                    if self.FileMenu:
-                        self.FileMenu.Enable(wx.ID_CLOSE, False)
-                        self.FileMenu.Enable(wx.ID_SAVE, False)
-                        self.FileMenu.Enable(wx.ID_SAVEAS, False)
-                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, False)
-                        self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, False)
-                else:
-                    self.MenuBar.EnableTop(0, False)
-                    self.MenuBar.EnableTop(1, False)
+                self.MenuBar.EnableTop(0, True)
+                self.MenuBar.EnableTop(1, True)
+        else:
+            if self.ModeSolo:
+                self.MenuBar.EnableTop(1, False)
+                self.MenuBar.EnableTop(2, False)
+                self.FileMenu.Enable(wx.ID_CLOSE, False)
+                self.FileMenu.Enable(wx.ID_SAVE, False)
+                self.FileMenu.Enable(wx.ID_SAVEAS, False)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTEDS, False)
+                self.FileMenu.Enable(ID_OBJDICTEDITFILEMENUEXPORTC, False)
+            else:
+                self.MenuBar.EnableTop(0, False)
+                self.MenuBar.EnableTop(1, False)
 
     def RefreshEditMenu(self):
-        if self.EditMenu:
-            if self.FileOpened.GetPageCount() > 0:
-                undo, redo = self.Manager.GetCurrentBufferState()
-                self.EditMenu.Enable(wx.ID_UNDO, undo)
-                self.EditMenu.Enable(wx.ID_REDO, redo)
-            else:
-                self.EditMenu.Enable(wx.ID_UNDO, False)
-                self.EditMenu.Enable(wx.ID_REDO, False)
+        if self.FileOpened.GetPageCount() > 0:
+            undo, redo = self.Manager.GetCurrentBufferState()
+            self.EditMenu.Enable(wx.ID_UNDO, undo)
+            self.EditMenu.Enable(wx.ID_REDO, redo)
+        else:
+            self.EditMenu.Enable(wx.ID_UNDO, False)
+            self.EditMenu.Enable(wx.ID_REDO, False)
 
     def RefreshProfileMenu(self):
-        if self.EditMenu:
-            profile = self.Manager.GetCurrentProfileName()
-            edititem = self.EditMenu.FindItemById(ID_OBJDICTEDITEDITMENUOTHERPROFILE)
-            if edititem:
-                length = self.AddMenu.GetMenuItemCount()
-                for i in xrange(length-6):
-                    additem = self.AddMenu.FindItemByPosition(6)
-                    self.AddMenu.Delete(additem.GetId())
-                if profile not in ("None", "DS-301"):
-                    edititem.SetText("%s Profile"%profile)
-                    edititem.Enable(True)
-                    self.AddMenu.AppendSeparator()
-                    for text, indexes in self.Manager.GetCurrentSpecificMenu():
-                        new_id = wx.NewId()
-                        self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
-                        self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
-                else:
-                    edititem.SetText("Other Profile")
-                    edititem.Enable(False)
+        profile = self.Manager.GetCurrentProfileName()
+        edititem = self.EditMenu.FindItemById(ID_OBJDICTEDITEDITMENUOTHERPROFILE)
+        if edititem:
+            length = self.AddMenu.GetMenuItemCount()
+            for i in xrange(length-6):
+                additem = self.AddMenu.FindItemByPosition(6)
+                self.AddMenu.Delete(additem.GetId())
+            if profile not in ("None", "DS-301"):
+                edititem.SetText("%s Profile"%profile)
+                edititem.Enable(True)
+                self.AddMenu.AppendSeparator()
+                for text, indexes in self.Manager.GetCurrentSpecificMenu():
+                    new_id = wx.NewId()
+                    self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
+                    self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
+            else:
+                edititem.SetText("Other Profile")
+                edititem.Enable(False)
         
 
 #-------------------------------------------------------------------------------
@@ -751,7 +748,6 @@ class objdictedit(wx.Frame):
                 message.Destroy()
         dialog.Destroy()
         event.Skip()
-
 
     def OnExportEDSMenu(self, event):
         dialog = wx.FileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], "EDS files (*.eds)|*.eds|All files|*.*", wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)

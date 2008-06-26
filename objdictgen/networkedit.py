@@ -290,6 +290,7 @@ class networkedit(wx.Frame):
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
         self.BusId = None
+        self.Closing = False
         
         icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.ico"),wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
@@ -321,6 +322,9 @@ class networkedit(wx.Frame):
     def GetBusId(self):
         return self.BusId
 
+    def IsClosing(self):
+        return self.Closing
+
     def GetCurrentNodeId(self):
         selected = self.NetworkNodes.GetSelection()
         # At init selected = -1
@@ -331,6 +335,7 @@ class networkedit(wx.Frame):
             return 0
 
     def OnCloseFrame(self, event):
+        self.Closing = True
         if not self.ModeSolo and getattr(self, "_onclose", None) != None:
             self._onclose()
         event.Skip()
@@ -377,13 +382,14 @@ class networkedit(wx.Frame):
         event.Skip()
 
     def OnNodeSelectedChanged(self, event):
-        selected = event.GetSelection()
-        # At init selected = -1
-        if selected >= 0:
-            window = self.NetworkNodes.GetPage(selected)
-            self.NodeList.SetCurrentSelected(window.GetIndex())
-        wx.CallAfter(self.RefreshMainMenu)
-        wx.CallAfter(self.RefreshStatusBar)
+        if not self.Closing:
+            selected = event.GetSelection()
+            # At init selected = -1
+            if selected >= 0:
+                window = self.NetworkNodes.GetPage(selected)
+                self.NodeList.SetCurrentSelected(window.GetIndex())
+            wx.CallAfter(self.RefreshMainMenu)
+            wx.CallAfter(self.RefreshStatusBar)
         event.Skip()
 
 #-------------------------------------------------------------------------------
@@ -563,94 +569,91 @@ class networkedit(wx.Frame):
                 self.NetworkNodes.AddPage(new_editingpanel, "")
 
     def RefreshStatusBar(self):
-        if self:
-            selected = self.NetworkNodes.GetSelection()
-            if self.HelpBar and selected >= 0:
-                window = self.NetworkNodes.GetPage(selected)
-                selection = window.GetSelection()
-                if selection:
-                    index, subIndex = selection
-                    if self.NodeList.IsCurrentEntry(index):
-                        self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
-                        self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
-                        entryinfos = self.NodeList.GetEntryInfos(index)
-                        name = entryinfos["name"]
-                        category = "Optional"
-                        if entryinfos["need"]:
-                            category = "Mandatory"
-                        struct = "VAR"
-                        number = ""
-                        if entryinfos["struct"] & OD_IdenticalIndexes:
-                            number = " possibly defined %d times"%entryinfos["nbmax"]
-                        if entryinfos["struct"] & OD_IdenticalSubindexes:
-                            struct = "REC"
-                        elif entryinfos["struct"] & OD_MultipleSubindexes:
-                            struct = "ARRAY"
-                        text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
-                        self.HelpBar.SetStatusText(text, 2)
-                    else:
-                        for i in xrange(3):
-                            self.HelpBar.SetStatusText("", i)
+        selected = self.NetworkNodes.GetSelection()
+        if self.HelpBar and selected >= 0:
+            window = self.NetworkNodes.GetPage(selected)
+            selection = window.GetSelection()
+            if selection:
+                index, subIndex = selection
+                if self.NodeList.IsCurrentEntry(index):
+                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
+                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
+                    entryinfos = self.NodeList.GetEntryInfos(index)
+                    name = entryinfos["name"]
+                    category = "Optional"
+                    if entryinfos["need"]:
+                        category = "Mandatory"
+                    struct = "VAR"
+                    number = ""
+                    if entryinfos["struct"] & OD_IdenticalIndexes:
+                        number = " possibly defined %d times"%entryinfos["nbmax"]
+                    if entryinfos["struct"] & OD_IdenticalSubindexes:
+                        struct = "REC"
+                    elif entryinfos["struct"] & OD_MultipleSubindexes:
+                        struct = "ARRAY"
+                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
+                    self.HelpBar.SetStatusText(text, 2)
                 else:
                     for i in xrange(3):
                         self.HelpBar.SetStatusText("", i)
+            else:
+                for i in xrange(3):
+                    self.HelpBar.SetStatusText("", i)
 
     def RefreshMainMenu(self):
-        if self and self.MenuBar:
-            self.NetworkMenu.Enable(ID_NETWORKEDITNETWORKMENUBUILDMASTER, False)
-            if self.NodeList == None:
-                if self.ModeSolo:
-                    self.MenuBar.EnableTop(1, False)
-                    self.MenuBar.EnableTop(2, False)
-                    self.MenuBar.EnableTop(3, False)
-                    if self.FileMenu:
-                        self.FileMenu.Enable(wx.ID_CLOSE, False)
-                        self.FileMenu.Enable(wx.ID_SAVE, False)
-                else:
-                    self.MenuBar.EnableTop(0, False)
-                    self.MenuBar.EnableTop(1, False)
-                    self.MenuBar.EnableTop(2, False)
+        self.NetworkMenu.Enable(ID_NETWORKEDITNETWORKMENUBUILDMASTER, False)
+        if self.NodeList == None:
+            if self.ModeSolo:
+                self.MenuBar.EnableTop(1, False)
+                self.MenuBar.EnableTop(2, False)
+                self.MenuBar.EnableTop(3, False)
+                if self.FileMenu:
+                    self.FileMenu.Enable(wx.ID_CLOSE, False)
+                    self.FileMenu.Enable(wx.ID_SAVE, False)
             else:
-                if self.ModeSolo:
-                    self.MenuBar.EnableTop(1, True)
-                    if self.FileMenu:
-                        self.FileMenu.Enable(wx.ID_CLOSE, True)
-                        self.FileMenu.Enable(wx.ID_SAVE, True)
-                    if self.NetworkNodes.GetSelection() == 0:
-                        self.MenuBar.EnableTop(2, True)
-                        self.MenuBar.EnableTop(3, True)
-                    else:
-                        self.MenuBar.EnableTop(2, False)      
-                        self.MenuBar.EnableTop(3, False)
+                self.MenuBar.EnableTop(0, False)
+                self.MenuBar.EnableTop(1, False)
+                self.MenuBar.EnableTop(2, False)
+        else:
+            if self.ModeSolo:
+                self.MenuBar.EnableTop(1, True)
+                if self.FileMenu:
+                    self.FileMenu.Enable(wx.ID_CLOSE, True)
+                    self.FileMenu.Enable(wx.ID_SAVE, True)
+                if self.NetworkNodes.GetSelection() == 0:
+                    self.MenuBar.EnableTop(2, True)
+                    self.MenuBar.EnableTop(3, True)
                 else:
-                    self.MenuBar.EnableTop(0, True)
-                    if self.NetworkNodes.GetSelection() == 0:
-                        self.MenuBar.EnableTop(1, True)
-                        self.MenuBar.EnableTop(2, True)
-                    else:
-                        self.MenuBar.EnableTop(1, False)      
-                        self.MenuBar.EnableTop(2, False)
+                    self.MenuBar.EnableTop(2, False)      
+                    self.MenuBar.EnableTop(3, False)
+            else:
+                self.MenuBar.EnableTop(0, True)
+                if self.NetworkNodes.GetSelection() == 0:
+                    self.MenuBar.EnableTop(1, True)
+                    self.MenuBar.EnableTop(2, True)
+                else:
+                    self.MenuBar.EnableTop(1, False)      
+                    self.MenuBar.EnableTop(2, False)
 
     def RefreshProfileMenu(self):
-        if self.EditMenu:
-            profile = self.Manager.GetCurrentProfileName()
-            edititem = self.EditMenu.FindItemById(ID_NETWORKEDITEDITMENUOTHERPROFILE)
-            if edititem:
-                length = self.AddMenu.GetMenuItemCount()
-                for i in xrange(length-6):
-                    additem = self.AddMenu.FindItemByPosition(6)
-                    self.AddMenu.Delete(additem.GetId())
-                if profile not in ("None", "DS-301"):
-                    edititem.SetText("%s Profile"%profile)
-                    edititem.Enable(True)
-                    self.AddMenu.AppendSeparator()
-                    for text, indexes in self.Manager.GetCurrentSpecificMenu():
-                        new_id = wx.NewId()
-                        self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
-                        self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
-                else:
-                    edititem.SetText("Other Profile")
-                    edititem.Enable(False)
+        profile = self.Manager.GetCurrentProfileName()
+        edititem = self.EditMenu.FindItemById(ID_NETWORKEDITEDITMENUOTHERPROFILE)
+        if edititem:
+            length = self.AddMenu.GetMenuItemCount()
+            for i in xrange(length-6):
+                additem = self.AddMenu.FindItemByPosition(6)
+                self.AddMenu.Delete(additem.GetId())
+            if profile not in ("None", "DS-301"):
+                edititem.SetText("%s Profile"%profile)
+                edititem.Enable(True)
+                self.AddMenu.AppendSeparator()
+                for text, indexes in self.Manager.GetCurrentSpecificMenu():
+                    new_id = wx.NewId()
+                    self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
+                    self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
+            else:
+                edititem.SetText("Other Profile")
+                edititem.Enable(False)
 
     def GetProfileCallBack(self, text):
         def ProfileCallBack(event):
@@ -665,7 +668,7 @@ class networkedit(wx.Frame):
 #-------------------------------------------------------------------------------
 
     def RefreshBufferState(self):
-        if self.NodeList:
+        if self.NodeList is not None:
             nodeID = self.Manager.GetCurrentNodeID()
             if nodeID != None:
                 nodename = "0x%2.2X %s"%(nodeID, self.Manager.GetCurrentNodeName())
