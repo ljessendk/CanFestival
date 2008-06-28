@@ -200,6 +200,7 @@ class NodeManager:
             self.CurrentNode.SetNodeType(type)
             self.CurrentNode.SetNodeDescription(description)
             AddIndexList = self.GetMandatoryIndexes()
+            AddSubIndexList = []
             if NMT == "NodeGuarding":
                 AddIndexList.extend([0x100C, 0x100D])
             elif NMT == "Heartbeat":
@@ -227,12 +228,22 @@ class NodeManager:
                     AddIndexList.extend([0x1021, 0x1022])
             if type == "slave":
                 # add default SDO server
-                AddIndexList.extend([0x1280])
+                AddIndexList.append(0x1200)
+                # add default 4 receive and 4 transmit PDO
+                for comm, mapping in [(0x1400, 0x1600),(0x1800, 0x1A00)]:
+                    firstparamindex = self.GetLineFromIndex(comm)
+                    firstmappingindex = self.GetLineFromIndex(mapping)
+                    AddIndexList.extend(range(firstparamindex, firstparamindex + 4))
+                    for idx in range(firstmappingindex, firstmappingindex + 4):
+                        AddIndexList.append(idx)
+                        AddSubIndexList.append((idx, 8))
             # Add a new buffer 
             index = self.AddNodeBuffer(self.CurrentNode.Copy(), False)
             self.SetCurrentFilePath("")
             # Add Mandatory indexes
             self.ManageEntriesOfCurrent(AddIndexList, [])
+            for idx, num in AddSubIndexList:
+                self.AddSubentriesToCurrent(idx, num)
             return index
         else:
             return result

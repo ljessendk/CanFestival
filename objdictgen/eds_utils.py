@@ -516,6 +516,14 @@ def GenerateFileContent(Node, filepath):
     optionals = []
     manufacturers = []
     
+    # Remove all unused PDO
+    for entry in entries[:]:
+        if 0x1600 <= entry < 0x1800 or 0x1A00 <= entry < 0x1C00:
+            subentry_value = Node.GetEntry(entry, 1)
+            if subentry_value is None or subentry_value == 0:
+                entries.remove(entry)
+                entries.remove(entry - 0x200)
+                
     # For each entry, we generate the entry section or sections if there is subindexes
     for entry in entries:
         # Extract infos and values for the entry
