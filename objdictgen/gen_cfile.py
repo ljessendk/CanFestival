@@ -372,7 +372,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         entry_infos = Node.GetEntryInfos(0x1014)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x1014] = """\n/* index 0x1014 :   %(EntryName)s */
-                    UNS32 %(NodeName)s_obj1014 = 0x0;   /* 0 */
+                    UNS32 %(NodeName)s_obj1014 = 0x80 + 0x%(NodeID)02X;   /* 128 + NodeID */
 """%texts
 
     if 0x1016 in communicationlist:
