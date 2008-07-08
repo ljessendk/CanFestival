@@ -145,6 +145,8 @@ while [ $# -ge 1 ]; do
 		echo	"               \"win32\" for win32 systems (native, mingw or VC++)"
 		echo	"               \"hcs12\" for HCS12 micro-controller"
 		echo 	" --can=foo	Use 'foo' as CAN driver"
+		echo	"               \"anagate_linux\" use AnaGate CAN(duo) driver for linux"	
+		echo	"               \"anagate_win32\" use AnaGate CAN(duo) driver for win32"				
 		echo	"               \"peak_linux\" use Linux build host installed Peak driver and library"
 		echo	"                 see http://www.peak-system.com/linux/"
 		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin" 
@@ -286,6 +288,9 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 		elif [ -e /usr/lib/libcanlib.so ]; then 
 			echo "Choosing installed Kvaser driver as CAN driver. (unix)"
 			SUB_CAN_DRIVER=kvaser
+		elif [ -e /usr/local/lib/libAnaGateAPIDLL.so ]; then 
+			echo "Choosing installed AnaGate driver as CAN driver. (unix)"
+			SUB_CAN_DRIVER=anagate_linux
 		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "$KVASER_DLL_PATH" != "" ]; then
 			echo "Choosing installed Kvaser driver as CAN driver. (cygwin)"
 			SUB_CAN_DRIVER=kvaser
@@ -312,6 +317,14 @@ fi
 if [ "$SUB_CAN_DRIVER" = "peak" ]; then
 	if [ ! -e /usr/lib/libpcan.so ]; then 
 		echo "Peak driver hasn't been installed !"
+		exit -1
+	fi
+fi
+
+# Warn for unstalled peak driver if choosen
+if [ "$SUB_CAN_DRIVER" = "anagate_linux" ]; then
+	if [ ! -e /usr/local/lib/libAnaGateAPIDLL.so ]; then 
+		echo "AnaGateCAN driver hasn't been installed !"
 		exit -1
 	fi
 fi
@@ -377,8 +390,18 @@ if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
     SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lpcan
 fi
 
+if [ "$SUB_CAN_DRIVER" = "anagate_linux" ]; then
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lAnaGateAPIDLL
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lAnaCommon
+fi
+
+
 if [ "$SUB_CAN_DRIVER" = "vscom" ]; then
     SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lvs_can_api
+fi
+
+if [ "$SUB_CAN_DRIVER" = "anagate_win32" ]; then
+    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lAnaGateCan
 fi
 
 PW32DIR=drivers/can_peak_win32
