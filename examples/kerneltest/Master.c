@@ -224,7 +224,7 @@ void TestMaster_post_TPDO(CO_Data* d)
 #if 0
 	if(waiting_answer){
 		UNS32 abortCode;			
-		UNS8 size;			
+		UNS8 size = 1;			
 		switch(getReadResultNetworkDict (
 			&TestMaster_Data, 
 			0x02,
