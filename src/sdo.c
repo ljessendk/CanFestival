@@ -1509,15 +1509,15 @@ UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 }
 
 /*!                                                                                                
-**                                                                                                 
-**                                                                                                 
-** @param d                                                                                        
-** @param nodeId                                                                                   
-** @param data                                                                                     
-** @param size                                                                                     
-** @param abortCode                                                                                
-**                                                                                                 
-** @return                                                                                         
+**
+**
+** @param d
+** @param nodeId
+** @param data
+** @param size pointer to expected size, changed into returned size. Expected size will be truncated to transfered data size 
+** @param abortCode
+**
+** @return
 **/   
 UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, 
 			       UNS32 * abortCode)
@@ -1537,7 +1537,9 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
     return d->transfers[line].state;
 
   /* Transfert is finished. Put the value in the data. */
-  * size = (UNS8)d->transfers[line].count;
+  /* use transfers[line].count as max size */
+  if( (UNS8)d->transfers[line].count < *size )
+  	*size = (UNS8)d->transfers[line].count;
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
     if (d->transfers[line].dataType != visible_string)
