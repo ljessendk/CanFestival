@@ -262,15 +262,15 @@ proceedPDO (CO_Data * d, Message * m)
 
                     Size = (UNS8) (*pMappingParameter & (UNS32) 0x000000FF);
 
-                    /* set variable only if Size != 0 and Size is lower than remaining bits in the PDO */
+                    /* set variable only if Size != 0 and 
+                     * Size is lower than remaining bits in the PDO */
                     if (Size && ((offset + Size) <= (m->len << 3)))
                       {
                         /* copy bit per bit in little endian */
                         CopyBits (Size, (UNS8 *) & m->data[offset >> 3],
                                   offset % 8, 0, ((UNS8 *) tmp), 0, 0);
-
-                        ByteSize = 1 + ((Size - 1) >> 3);       /*1->8 => 1 ; 9->16 =>
-                                                                   2, ... */
+                        /*1->8 => 1 ; 9->16 =>2, ... */
+                        ByteSize = 1 + ((Size - 1) >> 3);
 
                         objDict =
                           setODentry (d, (UNS16) ((*pMappingParameter) >> 16),
@@ -290,13 +290,12 @@ proceedPDO (CO_Data * d, Message * m)
                           }
 
                         MSG_WAR (0x3942,
-                                 "Variable updated with value received by PDO cobid : ",
+                                 "Variable updated by PDO cobid : ",
                                  UNS16_LE(m->cob_id));
                         MSG_WAR (0x3943, "         Mapped at index : ",
                                  (*pMappingParameter) >> 16);
                         MSG_WAR (0x3944, "                subindex : ",
                                  ((*pMappingParameter) >> 8) & 0xFF);
-                        /* MSG_WAR(0x3945, "                data : ",*((UNS32*)pMappedAppObject)); */
                         offset += Size;
                       }
                     numMap++;
@@ -349,8 +348,8 @@ proceedPDO (CO_Data * d, Message * m)
                   {
                     status = state5;
                     break;
-                    /* RTR_SYNC mean data is prepared at SYNC, and transmitted on RTR */
                   }
+                /* RTR_SYNC means data prepared at SYNC, transmitted on RTR */
                 else if ((*pTransmissionType == TRANS_RTR_SYNC))
                   {
                     if (d->PDO_status[numPdo].
@@ -363,7 +362,7 @@ proceedPDO (CO_Data * d, Message * m)
                       }
                     else
                       {
-                        /* if SYNC did never occur, force emission with current data */
+                        /* if SYNC did never occur, transmit current data */
                         /* DS301 do not tell what to do in such a case... */
                         MSG_ERR (0x1947,
                                  "Not ready RTR_SYNC TPDO send current data : ",
@@ -382,7 +381,8 @@ proceedPDO (CO_Data * d, Message * m)
                       DelAlarm (d->PDO_status[numPdo].inhibit_timer);
                     d->PDO_status[numPdo].transmit_type_parameter &=
                       ~PDO_INHIBITED;
-                    /* Call  PDOEventTimerAlarm for this TPDO, this will trigger emission et reset timers */
+                    /* Call  PDOEventTimerAlarm for this TPDO, 
+                     * this will trigger emission et reset timers */
                     PDOEventTimerAlarm (d, numPdo);
                     return 0;
                   }
@@ -538,13 +538,15 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
   /* study all PDO stored in the objects dictionary */
   if (offsetObjdict)
     {
-      Message pdo = Message_Initializer;
+      Message pdo;/* = Message_Initializer;*/
+      memset(&pdo, 0, sizeof(pdo));
       while (offsetObjdict <= lastIndex)
         {
           switch (status)
             {
             case state3:
-              if (              /*d->objdict[offsetObjdict].bSubCount < 5 || not necessary with objdictedit (always 5) */
+              if ( /* bSubCount always 5 with objdictedit -> check disabled */
+                   /*d->objdict[offsetObjdict].bSubCount < 5 ||*/
                    /* check if TPDO is not valid */
                    *(UNS32 *) d->objdict[offsetObjdict].pSubindex[1].
                    pObject & 0x80000000)
@@ -560,7 +562,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
               MSG_WAR (0x3962, "Reading PDO at index : ", 0x1800 + pdoNum);
 
               /* check if transmission type is SYNCRONOUS */
-              /* The message is transmited every n SYNC with n=TransmissionType */
+              /* message transmited every n SYNC with n=TransmissionType */
               if (isSyncEvent &&
                   (*pTransmissionType >= TRANS_SYNC_MIN) &&
                   (*pTransmissionType <= TRANS_SYNC_MAX) &&
@@ -571,10 +573,11 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                   d->PDO_status[pdoNum].transmit_type_parameter = 0;
                   MSG_WAR (0x3964, "  PDO is on SYNCHRO. Trans type : ",
                            *pTransmissionType);
-                  {
+                  memset(&pdo, 0, sizeof(pdo));
+                  /*{
                     Message msg_init = Message_Initializer;
                     pdo = msg_init;
-                  }
+                  }*/
                   if (buildPDO (d, pdoNum, &pdo))
                     {
                       MSG_ERR (0x1906, " Couldn't build TPDO number : ",
@@ -615,10 +618,11 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                 {
                   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
                            *pTransmissionType);
-                  {
+                  memset(&pdo, 0, sizeof(pdo));
+                  /*{
                     Message msg_init = Message_Initializer;
                     pdo = msg_init;
-                  }
+                  }*/
                   if (buildPDO (d, pdoNum, &pdo))
                     {
                       MSG_ERR (0x3907, " Couldn't build TPDO number : ",
@@ -629,8 +633,8 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
 
                   /*Compare new and old PDO */
                   if (d->PDO_status[pdoNum].last_message.cob_id == pdo.cob_id
-                      && d->PDO_status[pdoNum].last_message.len == pdo.len &&
-		      memcmp(d->PDO_status[pdoNum].last_message.data, 
+                      && d->PDO_status[pdoNum].last_message.len == pdo.len
+                      && memcmp(d->PDO_status[pdoNum].last_message.data, 
 							pdo.data, 8) == 0
                     )
                     {
