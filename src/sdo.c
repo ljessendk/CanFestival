@@ -136,7 +136,7 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
     /*Set aborted state*/
     d->transfers[id].state = SDO_ABORTED_INTERNAL;
     /* Sending a SDO abort */
-    sendSDOabort(d, d->transfers[id].whoami, 
+    sendSDOabort(d, d->transfers[id].whoami, d->transfers[id].nodeId,
 		 d->transfers[id].index, d->transfers[id].subIndex, SDOABT_TIMED_OUT);
     d->transfers[id].abortCode = SDOABT_TIMED_OUT;
     /* Call the user function to inform of the problem.*/
@@ -312,7 +312,7 @@ UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index,
     d->transfers[line].state = SDO_ABORTED_INTERNAL;
   }
   MSG_WAR(0x3A22, "Sending SDO abort ", 0);
-  err = sendSDOabort(d, whoami, index, subIndex, abortCode);
+  err = sendSDOabort(d, whoami, nodeId, index, subIndex, abortCode);
   if (err) {
     MSG_WAR(0x3A23, "Unable to send the SDO abort", 0);
     return 0xFF;
@@ -566,12 +566,23 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
 **                                                                                                 
 ** @return                                                                                         
 **/   
-UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode)
+UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 nodeID, UNS16 index, UNS8 subIndex, UNS32 abortCode)
 {
   s_SDO sdo;
   UNS8 ret;
+  UNS8* pNodeIdServer;
+  UNS8 nodeIdServer;
+  UNS16 offset;
+  
   MSG_WAR(0x2A50,"Sending SDO abort ", abortCode);
-  sdo.nodeId = *d->bDeviceNodeId;
+  if(whoami == SDO_SERVER)
+  {
+	sdo.nodeId = *d->bDeviceNodeId;
+  }
+  else
+  {
+    sdo.nodeId = nodeID;
+  }
   sdo.body.data[0] = 0x80;
   /* Index */
   sdo.body.data[1] = index & 0xFF; /* LSB */
@@ -1526,6 +1537,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
   UNS8 err;
   UNS8 line;
   * size = 0;
+  * abortCode = 0;
 
   /* Looking for the line tranfert. */
   err = getSDOlineOnUse(d, nodeId, SDO_CLIENT, &line);
@@ -1550,6 +1562,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
     ( (char *) data)[i] = d->transfers[line].data[i];
 # endif
   } 
+  * abortCode = d->transfers[line].abortCode;
   return SDO_FINISHED;
 }
 

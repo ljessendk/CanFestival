@@ -188,7 +188,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo);
  * Write a read only object
  * whoami takes 2 values : SDO_CLIENT or SDO_SERVER
  */
-UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode);
+UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS32 abortCode);
 
 /** Treat a SDO frame reception
  * bus_id is hardware dependant
