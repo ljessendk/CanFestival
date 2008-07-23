@@ -1565,13 +1565,15 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.RefreshValues()
     
     def GetValues(self):
-        value = LE_to_BE(len(self.Values), 4)
-        for row in self.Values:
-            value += LE_to_BE(row["Index"], 2)
-            value += LE_to_BE(row["Subindex"], 1)
-            value += LE_to_BE(row["Size"], 4)
-            value += LE_to_BE(row["Value"], row["Size"])
-        return value
+        if len(self.Values) > 0:
+            value = LE_to_BE(len(self.Values), 4)
+            for row in self.Values:
+                value += LE_to_BE(row["Index"], 2)
+                value += LE_to_BE(row["Subindex"], 1)
+                value += LE_to_BE(row["Size"], 4)
+                value += LE_to_BE(row["Value"], row["Size"])
+            return value
+        return ""
     
     def RefreshValues(self):
         if len(self.Table.data) > 0:
