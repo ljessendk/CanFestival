@@ -333,6 +333,8 @@ void resetSDOline ( CO_Data* d, UNS8 line )
   initSDOline(d, line, 0, 0, 0, SDO_RESET);
   for (i = 0 ; i < SDO_MAX_LENGTH_TRANSFERT ; i++)
     d->transfers[line].data[i] = 0;
+  d->transfers[line].whoami = 0;
+  d->transfers[line].abortCode = 0;
 }
 
 /*!                                                                                                
