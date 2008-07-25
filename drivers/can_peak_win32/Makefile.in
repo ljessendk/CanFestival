@@ -70,6 +70,6 @@ uninstall:
 	rm -f $(TARGET_SOFILES)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) cyg$(CAN_DRIVER).dll
 
 mrproper: clean
