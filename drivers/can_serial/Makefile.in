@@ -73,7 +73,7 @@ uninstall:
 	rm -f $(TARGET_BINFILES)
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) libcanfestival_$(CAN_DRIVER).so
 	rm -f $(HUB)
 
 mrproper: clean
