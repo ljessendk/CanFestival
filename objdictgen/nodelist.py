@@ -130,10 +130,10 @@ class NodeList:
         if result != None:
             return result
     
-    def ImportEDSFile(self, edspath):
+    def ImportEDSFile(self, edspath, force = False):
         dir, file = os.path.split(edspath)
         eds = os.path.join(self.EDSFolder, file)
-        if os.path.isfile(eds):
+        if not force and os.path.isfile(eds):
             return "EDS file already imported"
         else:
             shutil.copy(edspath, self.EDSFolder)
