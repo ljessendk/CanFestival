@@ -1547,6 +1547,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
     MSG_ERR(0x1AF0, "SDO error : No line found for communication with node : ", nodeId); 
     return SDO_ABORTED_INTERNAL;
   }
+  * abortCode = d->transfers[line].abortCode;
   if (d->transfers[line].state != SDO_FINISHED)
     return d->transfers[line].state;
 
@@ -1564,7 +1565,6 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
     ( (char *) data)[i] = d->transfers[line].data[i];
 # endif
   } 
-  * abortCode = d->transfers[line].abortCode;
   return SDO_FINISHED;
 }
 
