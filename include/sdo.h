@@ -1,5 +1,5 @@
 /*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
+This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 
@@ -30,44 +30,44 @@ struct struct_s_transfer;
 typedef void (*SDOCallback_t)(CO_Data* d, UNS8 nodeId);
 
 /* The Transfer structure
-Used to store the different segments of 
- - a SDO received before writing in the dictionary  
- - the reading of the dictionary to put on a SDO to transmit 
+Used to store the different segments of
+ - a SDO received before writing in the dictionary
+ - the reading of the dictionary to put on a SDO to transmit
 */
 
 struct struct_s_transfer {
   UNS8           nodeId;     /*own ID if server, or node ID of the server if client */
-  
+
   UNS8           whoami;     /* Takes the values SDO_CLIENT or SDO_SERVER */
   UNS8           state;      /* state of the transmission : Takes the values SDO_... */
   UNS8           toggle;
   UNS32          abortCode;  /* Sent or received */
   /* index and subindex of the dictionary where to store */
   /* (for a received SDO) or to read (for a transmit SDO) */
-  UNS16          index; 
-  UNS8           subIndex; 
+  UNS16          index;
+  UNS8           subIndex;
   UNS32          count;      /* Number of data received or to be sent. */
   UNS32          offset;     /* stack pointer of data[]
                               * Used only to tranfer part of a line to or from a SDO.
                               * offset is always pointing on the next free cell of data[].
-                              * WARNING s_transfer.data is subject to ENDIANISATION 
+                              * WARNING s_transfer.data is subject to ENDIANISATION
                               * (with respect to CANOPEN_BIG_ENDIAN)
                               */
   UNS8           data [SDO_MAX_LENGTH_TRANSFERT];
-  UNS8           dataType;   /* Defined in objdictdef.h Value is visible_string 
-                              * if it is a string, any other value if it is not a string, 
+  UNS8           dataType;   /* Defined in objdictdef.h Value is visible_string
+                              * if it is a string, any other value if it is not a string,
                               * like 0. In fact, it is used only if client.
                               */
   TIMER_HANDLE   timer;      /* Time counter to implement a timeout in milliseconds.
-                              * It is automatically incremented whenever 
-                              * the line state is in SDO_DOWNLOAD_IN_PROGRESS or 
-                              * SDO_UPLOAD_IN_PROGRESS, and reseted to 0 
+                              * It is automatically incremented whenever
+                              * the line state is in SDO_DOWNLOAD_IN_PROGRESS or
+                              * SDO_UPLOAD_IN_PROGRESS, and reseted to 0
                               * when the response SDO have been received.
                               */
   SDOCallback_t Callback;   /* The user callback func to be called at SDO transaction end */
 };
 typedef struct struct_s_transfer s_transfer;
-  
+
 
 #include "data.h"
 
@@ -85,7 +85,7 @@ struct struct_s_SDO {
 
 typedef struct struct_s_SDO s_SDO;
 
-/** Reset of a SDO exchange on timeout. 
+/** Reset of a SDO exchange on timeout.
  * Send a SDO abort
  */
 void SDOTimeoutAlarm(CO_Data* d, UNS32 id);
@@ -96,38 +96,38 @@ void resetSDO (CO_Data* d);
 
 
 /** Copy the data received from the SDO line transfert to the object dictionary
- * Returns SDO error code if error. Else, returns 0; 
+ * Returns SDO error code if error. Else, returns 0;
  */
 UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line);
 
 /** Copy the data from the object dictionary to the SDO line for a network transfert.
- * Returns SDO error code if error. Else, returns 0; 
+ * Returns SDO error code if error. Else, returns 0;
  */
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line);
 
 /** copy data from an existant line in the argument "* data"
- * Returns 0xFF if error. Else, returns 0; 
+ * Returns 0xFF if error. Else, returns 0;
  */
 UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8 * data);
 
 /** Add data to an existant line
- * Returns 0xFF if error. Else, returns 0; 
+ * Returns 0xFF if error. Else, returns 0;
  */
 UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8 * data);
 
 /** Called when an internal SDO abort occurs.
- * Release the line * Only if server * 
+ * Release the line * Only if server *
  * If client, the line must be released manually in the core application.
  * The reason of that is to permit the program to read the transfers[][] structure before its reset,
  * because many informations are stored on it : index, subindex, data received or trasmited, ...
  * In all cases, sends a SDO abort.
  * Returns 0
  */
-UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index, 
+UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index,
 		UNS8 subIndex, UNS32 abortCode);
 
 /** Reset an unused line.
- * 
+ *
  */
 void resetSDOline (CO_Data* d, UNS8 line);
 
@@ -150,7 +150,7 @@ UNS8 getSDOfreeLine (CO_Data* d, UNS8 whoami, UNS8 *line);
  * beginning of the reception of a fragmented SDO
  * whoami takes 2 values : look for a line opened as SDO_CLIENT or SDO_SERVER
  * bus_id is hardware dependant
- * nodeId correspond to the message node-id 
+ * nodeId correspond to the message node-id
  * return 0xFF if error.  Else, return 0
  */
 UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
@@ -207,14 +207,21 @@ UNS8 proceedSDO (CO_Data* d, Message *m);
  * bus_id is hardware dependant
  * return 0xFF if error, else return 0
  */
-UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data); 
+UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data);
 /** Used to send a SDO request frame to write in a distant node dictionnary.
  * The function Callback	which must be defined in the user code is called at the
  * end of the exchange. (on succes or abort).
- */       		       
-UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index, 
+ */
+UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
 		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback);
+/** Used to send a SDO request frame to write in a distant node dictionnary.
+ * The function Callback	which must be defined in the user code is called at the
+ * end of the exchange. (on succes or abort). First free SDO client parameter is
+ * automatically initialized for specific node if not already defined.
+ */
+UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
+		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 /** Used by the application to send a SDO request frame to read
  * in the dictionary of a server node whose node_id is ID
  * at the index and subIndex indicated
@@ -222,21 +229,28 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
  * datatype (defined in objdictdef.h) : put "visible_string" for strings, 0 for integers or reals or other value.
  * return 0xFF if error, else return 0
  */
-UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, 
+UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 		      UNS8 subIndex, UNS8 dataType);
-		       
+
 /** Used to send a SDO request frame to read in a distant node dictionnary.
  * The function Callback	which must be defined in the user code is called at the
  * end of the exchange. (on succes or abort).
- */   
+ */
 UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback);
+
+/** Used to send a SDO request frame to read in a distant node dictionnary.
+ * The function Callback which must be defined in the user code is called at the
+ * end of the exchange. (on succes or abort). First free SDO client parameter is
+ * automatically initialized for specific node if not already defined.
+ */
+UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback);
 
 /** Use this function after a readNetworkDict to get the result.
   Returns : SDO_FINISHED             // data is available
             SDO_ABORTED_RCV          // Transfert failed. (abort SDO received)
             SDO_ABORTED_INTERNAL     // Transfert failed. Internal abort.
             SDO_UPLOAD_IN_PROGRESS   // Data not yet available
-	    SDO_DOWNLOAD_IN_PROGRESS // Should not arrive ! 
+	    SDO_DOWNLOAD_IN_PROGRESS // Should not arrive !
 
   dataType (defined in objdictdef.h) : type expected. put "visible_string" for strings, 0 for integers or reals.
   abortCode : 0 = not available. Else : SDO abort code. (received if return SDO_ABORTED_RCV)
@@ -246,7 +260,7 @@ UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
   readNetworkDict(0, 0x05, 0x1016, 1, 0) // get the data index 1016 subindex 1 of node 5
   while (getReadResultNetworkDict (0, 0x05, &data, &size) != SDO_UPLOAD_IN_PROGRESS);
 */
-UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, 
+UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data,
 			       UNS8 *size, UNS32 * abortCode);
 
 /**
@@ -256,18 +270,18 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data,
             SDO_ABORTED_RCV          // Transfert failed. (abort SDO received)
             SDO_ABORTED_INTERNAL     // Transfert failed. Internal abort.
             SDO_DOWNLOAD_IN_PROGRESS // Data not yet available
-	    SDO_UPLOAD_IN_PROGRESS   // Should not arrive ! 
+	    SDO_UPLOAD_IN_PROGRESS   // Should not arrive !
   abortCode : 0 = not available. Else : SDO abort code. (received if return SDO_ABORTED_RCV)
   example :
   UNS32 data = 0x50;
   UNS8 size;
   UNS32 abortCode;
   writeNetworkDict(0, 0x05, 0x1016, 1, size, &data) // write the data index 1016 subindex 1 of node 5
-  while ( getWriteResultNetworkDict (0, 0x05, &abortCode) != SDO_DOWNLOAD_IN_PROGRESS);  
+  while ( getWriteResultNetworkDict (0, 0x05, &abortCode) != SDO_DOWNLOAD_IN_PROGRESS);
 */
 UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode);
 
 
- 
+
 
 #endif
