@@ -77,7 +77,7 @@ void canReceiveLoop_signal(int sig)
 {
 }
 /* We assume that ReceiveLoop_task_proc is always the same */
-static void (*rtai_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
+static void (*unixtimer_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
 
 /**
  * Enter in realtime and start the CAN receiver loop
@@ -88,12 +88,13 @@ void unixtimer_canReceiveLoop(CAN_PORT port)
        
     /*get signal*/
     signal(SIGTERM, canReceiveLoop_signal);
-    rtai_ReceiveLoop_task_proc(port);
+    unixtimer_ReceiveLoop_task_proc(port);
 }
 
 void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 {
-	pthread_create(Thread, NULL, ReceiveLoopPtr, (void*)port);
+    unixtimer_ReceiveLoop_task_proc = ReceiveLoopPtr;
+	pthread_create(Thread, NULL, unixtimer_canReceiveLoop, (void*)port);
 }
 
 void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
