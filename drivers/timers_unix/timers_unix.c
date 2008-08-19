@@ -73,6 +73,24 @@ void StartTimerLoop(TimerCallback_t init_callback)
 	LeaveMutex();
 }
 
+void canReceiveLoop_signal(int sig)
+{
+}
+/* We assume that ReceiveLoop_task_proc is always the same */
+static void (*rtai_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
+
+/**
+ * Enter in realtime and start the CAN receiver loop
+ * @param port
+ */
+void unixtimer_canReceiveLoop(CAN_PORT port)
+{
+       
+    /*get signal*/
+    signal(SIGTERM, canReceiveLoop_signal);
+    rtai_ReceiveLoop_task_proc(port);
+}
+
 void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 {
 	pthread_create(Thread, NULL, ReceiveLoopPtr, (void*)port);
