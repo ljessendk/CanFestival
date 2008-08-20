@@ -55,15 +55,25 @@ is_string = lambda x: type(x) in (StringType, UnicodeType)
 is_boolean = lambda x: x in (0, 1)
 
 # Define checking of value for each attribute
-ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, "PARAMETERNAME" : is_string, 
-                    "OBJECTTYPE" : lambda x: x in (7, 8, 9), "DATATYPE" : is_integer, 
-                    "LOWLIMIT" : is_integer, "HIGHLIMIT" : is_integer,
+ENTRY_ATTRIBUTES = {"SUBNUMBER" : is_integer, 
+                    "PARAMETERNAME" : is_string, 
+                    "OBJECTTYPE" : lambda x: x in (2, 7, 8, 9), 
+                    "DATATYPE" : is_integer, 
+                    "LOWLIMIT" : is_integer, 
+                    "HIGHLIMIT" : is_integer,
                     "ACCESSTYPE" : lambda x: x.upper() in ACCESS_TRANSLATE.keys(),
-                    "DEFAULTVALUE" : lambda x: True, "PDOMAPPING" : is_boolean,
-                    "OBJFLAGS" : is_integer, "PARAMETERVALUE" : lambda x: True,}
+                    "DEFAULTVALUE" : lambda x: True, 
+                    "PDOMAPPING" : is_boolean,
+                    "OBJFLAGS" : is_integer, 
+                    "PARAMETERVALUE" : lambda x: True,
+                    "UPLOADFILE" : is_string,
+                    "DOWNLOADFILE" : is_string}
 
 # Define entry parameters by entry ObjectType number
-ENTRY_TYPES = {7 : {"name" : " VAR",
+ENTRY_TYPES = {2 : {"name" : " DOMAIN",
+                    "require" : ["PARAMETERNAME", "OBJECTTYPE"],
+                    "optional" : ["DATATYPE", "ACCESSTYPE", "DEFAULTVALUE", "OBJFLAGS"]},
+               7 : {"name" : " VAR",
                     "require" : ["PARAMETERNAME", "DATATYPE", "ACCESSTYPE"],
                     "optional" : ["OBJECTTYPE", "DEFAULTVALUE", "PDOMAPPING", "LOWLIMIT", "HIGHLIMIT", "OBJFLAGS", "PARAMETERVALUE"]},
                8 : {"name" : "n ARRAY",
@@ -356,18 +366,14 @@ def ParseEDSFile(filepath):
         # If entry is an index or a subindex
         if is_entry:
             # Verify that entry has an ObjectType
-            if "OBJECTTYPE" in values.keys():
-                # Extract entry ObjectType
-                objecttype = values["OBJECTTYPE"]
-            else:
-                # Set ObjectType to VAR by default
-                objecttype = 7
+            values["OBJECTTYPE"] = values.get("OBJECTTYPE", 7)
             # Extract parameters defined
             keys = Set(values.keys())
             keys.discard("subindexes")
             # Extract possible parameters and parameters required
-            possible = Set(ENTRY_TYPES[objecttype]["require"] + ENTRY_TYPES[objecttype]["optional"])
-            required = Set(ENTRY_TYPES[objecttype]["require"])
+            possible = Set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"] + 
+                           ENTRY_TYPES[values["OBJECTTYPE"]]["optional"])
+            required = Set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"])
             # Verify that parameters defined contains all the parameters required
             if not keys.issuperset(required):
                 missing = required.difference(keys)._data.keys()
@@ -375,7 +381,7 @@ def ParseEDSFile(filepath):
                     attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in missing])
                 else:
                     attributes = "Attribute \"%s\" is"%missing[0]
-                raise SyntaxError, "Error on section \"[%s]\":\n%s required for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
+                raise SyntaxError, "Error on section \"[%s]\":\n%s required for a%s entry"%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
             # Verify that parameters defined are all in the possible parameters
             if not keys.issubset(possible):
                 unsupported = keys.difference(possible)._data.keys()
@@ -383,37 +389,27 @@ def ParseEDSFile(filepath):
                     attributes = "Attributes %s are"%", ".join(["\"%s\""%attribute for attribute in unsupported])
                 else:
                     attributes = "Attribute \"%s\" is"%unsupported[0]
-                raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[objecttype]["name"])
+                raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
             
-            if "PARAMETERVALUE" in values:
-                try:
-                    if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
-                        values["PARAMETERVALUE"] = str(values["PARAMETERVALUE"])
-                    elif values["DATATYPE"] in (0x08, 0x11):
-                        values["PARAMETERVALUE"] = float(values["PARAMETERVALUE"])
-                    elif values["DATATYPE"] == 0x01:
-                        values["PARAMETERVALUE"] = {0 : False, 1 : True}[values["PARAMETERVALUE"]]
-                    else:
-                        if type(values["PARAMETERVALUE"]) != IntType and values["PARAMETERVALUE"].find("$NODEID") == -1:
-                            raise
-                except:
-                    raise SyntaxError, "Error on section \"[%s]\":\nParameterValue incompatible with DataType"%section_name
-            
-            if "DEFAULTVALUE" in values:
-                try:
-                    if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
-                        values["DEFAULTVALUE"] = str(values["DEFAULTVALUE"])
-                    elif values["DATATYPE"] in (0x08, 0x11):
-                        values["DEFAULTVALUE"] = float(values["DEFAULTVALUE"])
-                    elif values["DATATYPE"] == 0x01:
-                        values["DEFAULTVALUE"] = {0 : True, 1 : False}[values["DEFAULTVALUE"]]
-                    else:
-                        if type(values["DEFAULTVALUE"]) != IntType and values["DEFAULTVALUE"].find("$NODEID") == -1:
-                            raise
-                except:
-                    raise SyntaxError, "Error on section \"[%s]\":\nDefaultValue incompatible with DataType"%section_name
+            VerifyValue(values, "ParameterValue")
+            VerifyValue(values, "DefaultValue")
             
     return eds_dict
+
+def VerifyValue(values, param):
+    if param.upper() in values:
+        try:
+            if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
+                values[param.upper()] = str(values[param.upper()])
+            elif values["DATATYPE"] in (0x08, 0x11):
+                values[param.upper()] = float(values[param.upper()])
+            elif values["DATATYPE"] == 0x01:
+                values[param.upper()] = {0 : False, 1 : True}[values[param.upper()]]
+            else:
+                if type(values[param.upper()]) != IntType and values[param.upper()].find("$NODEID") == -1:
+                    raise
+        except:
+            raise SyntaxError, "Error on section \"[%s]\":\n%s incompatible with DataType"%(section_name, param)
 
 
 # Function that write an EDS file after generate it's content
@@ -665,9 +661,9 @@ def GenerateNode(filepath, nodeID = 0):
         # Parse file and extract dictionary of EDS entry
         eds_dict = ParseEDSFile(filepath)
         # Extract Profile Number from Device Type entry
-        ProfileNb = eds_dict[0x1000]["DEFAULTVALUE"] & 0x0000ffff
+        ProfileNb = eds_dict[0x1000].get("DEFAULTVALUE", 0) & 0x0000ffff
         # If profile is not DS-301 or DS-302
-        if ProfileNb not in [301, 302]:
+        if ProfileNb not in [0, 301, 302]:
             # Compile Profile name and path to .prf file
             ProfileName = "DS-%d"%ProfileNb
             ProfilePath = os.path.join(os.path.split(__file__)[0], "config/%s.prf"%ProfileName)
@@ -692,8 +688,12 @@ def GenerateNode(filepath, nodeID = 0):
                 
                 # If no informations are available, then we write them
                 if not entry_infos:
-                    # First case, entry is a VAR
-                    if values["OBJECTTYPE"] == 7:
+                    # First case, entry is a DOMAIN or VAR
+                    if values["OBJECTTYPE"] in [2, 7]:
+                        if values["OBJECTTYPE"] == 2:
+                            values["DATATYPE"] = values.get("DATATYPE", 0xF)
+                            if values["DATATYPE"] != 0xF:
+                                raise SyntaxError, "Domain entry 0x%4.4X DataType must be 0xF(DOMAIN) if defined"%entry
                         # Add mapping for entry
                         Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 1)
                         # Add mapping for first subindex
@@ -745,8 +745,8 @@ def GenerateNode(filepath, nodeID = 0):
                 
                 # Define entry for the new node
                 
-                # First case, entry is a VAR
-                if values["OBJECTTYPE"] == 7:
+                # First case, entry is a DOMAIN or VAR
+                if values["OBJECTTYPE"] in [2, 7]:
                     # Take default value if it is defined
                     if "PARAMETERVALUE" in values:
                         value = values["PARAMETERVALUE"]
@@ -757,7 +757,7 @@ def GenerateNode(filepath, nodeID = 0):
                         value = GetDefaultValue(Node, entry)
                     Node.AddEntry(entry, 0, value)
                 # Second case, entry is an ARRAY or a RECORD
-                elif values["OBJECTTYPE"] in (8, 9):
+                elif values["OBJECTTYPE"] in [8, 9]:
                     # Verify that "Subnumber" attribute is defined and has a valid value
                     if "SUBNUMBER" in values and values["SUBNUMBER"] > 0:
                         consecutive = False
