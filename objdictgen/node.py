@@ -128,13 +128,13 @@ MappingDictionary = {
                  {"name" : "Save All Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Save Communication Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Save Application Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
-                 {"name" : "Save Manufacturer Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
+                 {"name" : "Save Manufacturer Parameters %d[(sub - 3)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
     0x1011 : {"name" : "Restore Default Parameters", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Restore All Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Restore Communication Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Restore Application Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
-                 {"name" : "Restore Manufacturer Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
+                 {"name" : "Restore Manufacturer Defined Default Parameters %d[(sub - 3)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
     0x1012 : {"name" : "TIME COB ID", "struct" : var, "need" : False, "values" :
                 [{"name" : "TIME COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1013 : {"name" : "High Resolution Timestamp", "struct" : var, "need" : False, "values" :
@@ -300,22 +300,35 @@ def FindSubentryInfos(index, subIndex, mappingdictionary):
     base_index = FindIndex(index, mappingdictionary)
     if base_index:
         struct = mappingdictionary[base_index]["struct"]
+        if struct & OD_IdenticalIndexes:
+            incr = mappingdictionary[base_index]["incr"]
+        else:
+            incr = 1
         if struct & OD_Subindex:
+            infos = None
             if struct & OD_IdenticalSubindexes:
-                if struct & OD_IdenticalIndexes:
-                    incr = mappingdictionary[base_index]["incr"]
-                else:
-                    incr = 1
                 if subIndex == 0:
-                    return mappingdictionary[base_index]["values"][0].copy()
+                    infos = mappingdictionary[base_index]["values"][0].copy()
                 elif 0 < subIndex <= mappingdictionary[base_index]["values"][1]["nbmax"]:
-                    copy = mappingdictionary[base_index]["values"][1].copy()
-                    copy["name"] = StringFormat(copy["name"], (index - base_index) / incr + 1, subIndex)
-                    return copy
-            elif struct & OD_MultipleSubindexes and 0 <= subIndex < len(mappingdictionary[base_index]["values"]):
-                return mappingdictionary[base_index]["values"][subIndex].copy()
+                    infos = mappingdictionary[base_index]["values"][1].copy()
+            elif struct & OD_MultipleSubindexes:
+                idx = 0
+                for subindex_infos in mappingdictionary[base_index]["values"]:
+                    if "nbmax" in subindex_infos:
+                        if idx <= subIndex < idx + subindex_infos["nbmax"]:
+                            infos = subindex_infos.copy()
+                            break;
+                        idx += subindex_infos["nbmax"]
+                    else:
+                        if subIndex == idx:
+                            infos = subindex_infos.copy()
+                            break;
+                        idx += 1
             elif subIndex == 0:
-                return mappingdictionary[base_index]["values"][0].copy()
+                infos = mappingdictionary[base_index]["values"][0].copy()
+            if infos is not None:
+                infos["name"] = StringFormat(infos["name"], (index - base_index) / incr + 1, subIndex)
+            return infos
     return None
 
 """
