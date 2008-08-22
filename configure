@@ -246,12 +246,6 @@ fi
 echo "Host OS: ${SUB_OS_NAME}"
 echo "Host arch: ${SUB_ARCH_NAME}"
 
-if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
-	# Only if we are on x86_64 and using gcc
-	# For shared library generation, it needs this
-	SUB_PROG_CFLAGS=-fPIC
-fi
-
 if [ "$SUB_ARCH_NAME" = "ppc" -o "$SUB_ARCH_NAME" = "powerpc" ]; then
 	# PowerPC uses big endian format
 	CANOPEN_BIG_ENDIAN=1
@@ -515,6 +509,12 @@ if [ "$CC" = "" ]; then
 fi
 
 echo "Using ${CC} as a C compiler"
+
+if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
+	# Only if we are on x86_64 and using gcc
+	# For shared library generation, it needs this
+	SUB_PROG_CFLAGS=-fPIC
+fi
 
 if [ "$BINUTILS_PREFIX" = "" ]; then
 	SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
