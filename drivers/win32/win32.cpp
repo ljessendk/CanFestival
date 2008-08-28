@@ -207,8 +207,8 @@ int canClose(CO_Data * d)
 			d->canHandle = NULL;
 			data->continue_receive_thread = false;}
 		  LeaveMutex();
-		  WaitReceiveTaskEnd(&data->receive_thread);
 		  (*s_driver_procs.m_canClose)(data->inst);
+		  WaitReceiveTaskEnd(&data->receive_thread);
 		  delete data;
 		  return 0;
       }
