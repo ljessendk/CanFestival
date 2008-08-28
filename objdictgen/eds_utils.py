@@ -391,12 +391,12 @@ def ParseEDSFile(filepath):
                     attributes = "Attribute \"%s\" is"%unsupported[0]
                 raise SyntaxError, "Error on section \"[%s]\":\n%s unsupported for a%s entry"%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
             
-            VerifyValue(values, "ParameterValue")
-            VerifyValue(values, "DefaultValue")
+            VerifyValue(values, section_name, "ParameterValue")
+            VerifyValue(values, section_name, "DefaultValue")
             
     return eds_dict
 
-def VerifyValue(values, param):
+def VerifyValue(values, section_name, param):
     if param.upper() in values:
         try:
             if values["DATATYPE"] in (0x09, 0x0A, 0x0B, 0x0F):
@@ -406,7 +406,7 @@ def VerifyValue(values, param):
             elif values["DATATYPE"] == 0x01:
                 values[param.upper()] = {0 : False, 1 : True}[values[param.upper()]]
             else:
-                if type(values[param.upper()]) != IntType and values[param.upper()].find("$NODEID") == -1:
+                if not isinstance(values[param.upper()], (IntType, LongType)) and values[param.upper()].upper().find("$NODEID") == -1:
                     raise
         except:
             raise SyntaxError, "Error on section \"[%s]\":\n%s incompatible with DataType"%(section_name, param)

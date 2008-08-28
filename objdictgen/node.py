@@ -917,12 +917,12 @@ class Node:
         return result
             
     def CompileValue(self, value, index, compute = True):
-        if type(value) == StringType and value.find("$NODEID") != -1:
+        if isinstance(value, (StringType, UnicodeType)) and value.find("$NODEID") != -1:
             base = self.GetBaseIndex(index)
             try:
                 raw = eval(value)
                 if compute:
-                    return eval(raw.replace("$NODEID","self.ID"))
+                    return eval(raw.upper().replace("$NODEID","self.ID"))
                 return raw
             except:
                 return 0
