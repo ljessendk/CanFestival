@@ -1027,7 +1027,7 @@ class NodeManager:
             editors = []
             values = node.GetEntry(index, compute = False)
             params = node.GetParamsEntry(index)
-            if type(values) == ListType:
+            if isinstance(values, ListType):
                 for i, value in enumerate(values):
                     data.append({"value" : value})
                     data[-1].update(params[i])      
@@ -1042,7 +1042,7 @@ class NodeManager:
                 dic["access"] = AccessType[infos["access"]]
                 dic["save"] = OptionType[dic["save"]]
                 editor = {"subindex" : None, "save" : "option", "callback" : "option", "comment" : "string"}
-                if type(values) == ListType and i == 0:
+                if isinstance(values, ListType) and i == 0:
                     editor["name"] = None
                     editor["type"] = None
                     if 0x1600 <= index <= 0x17FF or 0x1A00 <= index <= 0x1C00:

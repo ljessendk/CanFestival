@@ -705,13 +705,13 @@ class networkedit(wx.Frame):
                 find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
-                if type(result) == StringType:
+                if isinstance(result, (StringType, UnicodeType)):
                     message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
-            if type(result) == StringType:
+            if isinstance(result, (StringType, UnicodeType)):
                 message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
@@ -817,7 +817,7 @@ class networkedit(wx.Frame):
             if dialog.ShowModal() == wx.ID_OK:
                 index, name, struct, number = dialog.GetValues()
                 result = self.Manager.AddMapVariableToCurrent(index, name, struct, number)
-                if type(result) != StringType:
+                if not isinstance(result, (StringType, UnicodeType)):
                     self.RefreshBufferState()
                     self.RefreshCurrentIndexList()
                 else:

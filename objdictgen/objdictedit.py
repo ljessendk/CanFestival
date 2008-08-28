@@ -298,7 +298,7 @@ class objdictedit(wx.Frame):
             self.Manager = NodeManager()
             for filepath in filesOpen:
                 result = self.Manager.OpenFileInCurrent(filepath)
-                if type(result) == IntType:
+                if isinstance(result, (IntType, LongType)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -389,13 +389,13 @@ class objdictedit(wx.Frame):
                 find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
-                if type(result) == StringType:
+                if isinstance(result, (StringType, UnicodeType)):
                     message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
-            if type(result) == StringType:
+            if isinstance(result, (StringType, UnicodeType)):
                 message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
@@ -598,7 +598,7 @@ class objdictedit(wx.Frame):
             NMT = dialog.GetNMTManagement()
             options = dialog.GetOptions()
             result = self.Manager.CreateNewNode(name, id, nodetype, description, profile, filepath, NMT, options)
-            if type(result) == IntType:
+            if isinstance(result, (IntType, LongType)):
                 new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                 new_editingpanel.SetIndex(result)
                 self.FileOpened.AddPage(new_editingpanel, "")
@@ -627,7 +627,7 @@ class objdictedit(wx.Frame):
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
                 result = self.Manager.OpenFileInCurrent(filepath)
-                if type(result) == IntType:
+                if isinstance(result, (IntType, LongType)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -663,7 +663,7 @@ class objdictedit(wx.Frame):
         result = self.Manager.SaveCurrentInFile()
         if not result:
             self.SaveAs()
-        elif type(result) != StringType:
+        elif not isinstance(result, (StringType, UnicodeType)):
             self.RefreshBufferState()
         else:
             message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
@@ -681,7 +681,7 @@ class objdictedit(wx.Frame):
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
                 result = self.Manager.SaveCurrentInFile(filepath)
-                if type(result) != StringType:
+                if not isinstance(result, (StringType, UnicodeType)):
                     self.RefreshBufferState()
                 else:
                     message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
@@ -726,7 +726,7 @@ class objdictedit(wx.Frame):
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
                 result = self.Manager.ImportCurrentFromEDSFile(filepath)
-                if type(result) == IntType:
+                if isinstance(result, (IntType, LongType)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -881,7 +881,7 @@ class objdictedit(wx.Frame):
             if dialog.ShowModal() == wx.ID_OK:
                 index, name, struct, number = dialog.GetValues()
                 result = self.Manager.AddMapVariableToCurrent(index, name, struct, number)
-                if type(result) != StringType:
+                if not isinstance(result, (StringType, UnicodeType)):
                     self.RefreshBufferState()
                     self.RefreshCurrentIndexList()
                 else:

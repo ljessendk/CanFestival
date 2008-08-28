@@ -183,7 +183,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             strIndex += "\n/* index 0x%(index)04X :   %(EntryName)s. */\n"%texts
         
         # Entry type is VAR
-        if type(values) != ListType:
+        if isinstance(values, ListType):
             subentry_infos = Node.GetSubentryInfos(index, 0)
             typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename, [values])
