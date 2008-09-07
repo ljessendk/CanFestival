@@ -1635,7 +1635,6 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
   UNS8 i;
   UNS8 err;
   UNS8 line;
-  * size = 0;
   * abortCode = 0;
 
   /* Looking for the line tranfert. */
