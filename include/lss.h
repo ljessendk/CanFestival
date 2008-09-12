@@ -82,6 +82,15 @@ struct struct_lss_transfer;
 
 //#include "timer.h"
 
+#ifdef CO_ENABLE_LSS_FS
+struct struct_lss_fs_transfer {
+	UNS32 FS_LSS_ID[4];
+	UNS8 FS_BitChecked[4];
+};
+
+typedef struct struct_lss_fs_transfer lss_fs_transfer_t;
+#endif
+
 /* The Transfer structure
 * Used to store the different fields of the internal state of the LSS  
 */
@@ -130,6 +139,10 @@ struct struct_lss_transfer {
   TIMER_HANDLE timerFS;		/* timerFS is automatically incremented when the FastScan service
   							 * has been requested and reseted to 0 when the protocol ends.
                               */
+#ifdef CO_ENABLE_LSS_FS
+  lss_fs_transfer_t lss_fs_transfer;
+#endif
+  
 #endif                           
 };
 
@@ -139,7 +152,8 @@ typedef struct struct_lss_transfer lss_transfer_t;
 typedef UNS8 lss_transfer_t;
 #endif
   
-  
+
+
 void startLSS(CO_Data* d);
 void stopLSS(CO_Data* d);
 

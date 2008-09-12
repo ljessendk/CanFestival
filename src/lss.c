@@ -108,10 +108,13 @@ void LssAlarmMSG(CO_Data* d, UNS32 id)
 		if(d->lss_transfer.FastScan_SM==LSS_FS_RESET){
    			/* if at least one node had answered before the timer expired, start the FastScan protocol*/
    			if(d->lss_transfer.LSSanswer!=0){
+   				UNS32 Mask=0xFFFFFFFF;
    				d->lss_transfer.LSSanswer=0;
-   				d->lss_transfer.BitChecked=31;
-   				d->lss_transfer.IDNumber=0;
+   				d->lss_transfer.BitChecked=d->lss_transfer.lss_fs_transfer.FS_BitChecked[0];
+   				Mask=(UNS32)((UNS64)Mask<<(d->lss_transfer.BitChecked+1));
+   				d->lss_transfer.IDNumber=d->lss_transfer.lss_fs_transfer.FS_LSS_ID[0] & Mask;
    				d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;
+   				//printf("BitChecked=%d, IDNumber=%x MASK=%x\n",d->lss_transfer.BitChecked,d->lss_transfer.IDNumber,Mask);
    				StartLSS_FS_TIMER();
    				sendMasterLSSMessage(d,LSS_IDENT_FASTSCAN,0,0);
    				return;
@@ -126,6 +129,8 @@ void LssAlarmMSG(CO_Data* d, UNS32 id)
    		else{
 			/* This should not happen, an error ocurred*/
 			MSG_ERR(0x1D07, "LSS FastScan timeout. FastScan_SM inconsisten state.", d->lss_transfer.FastScan_SM);
+			d->lss_transfer.state = LSS_ABORTED_INTERNAL;
+			d->lss_transfer.FastScan_SM=LSS_FS_RESET;
    		}
 	}
 	else
@@ -140,6 +145,9 @@ void LssAlarmMSG(CO_Data* d, UNS32 id)
     	MSG_WAR(0x2D0A, "LSS timeout command specifier : ", d->lss_transfer.command);
     	/* Set aborted state */
     	d->lss_transfer.state = LSS_ABORTED_INTERNAL;
+#ifdef CO_ENABLE_LSS_FS
+    	d->lss_transfer.FastScan_SM = LSS_FS_RESET;
+#endif
     }
     	
     /* Call the user function to inform of the problem.*/
@@ -220,7 +228,7 @@ void LssAlarmFS(CO_Data* d, UNS32 id)
 		else{
 			d->lss_transfer.BitChecked--;
 		}
-   			
+		//printf("BitChecked=%d, IDNumber=%x\n",d->lss_transfer.BitChecked,d->lss_transfer.IDNumber);
    		d->lss_transfer.LSSanswer=0;
   		StartLSS_FS_TIMER();
    		sendMasterLSSMessage(d,LSS_IDENT_FASTSCAN,0,0);
@@ -245,11 +253,14 @@ void LssAlarmFS(CO_Data* d, UNS32 id)
 				d->lss_transfer.dat1=0;
 			}
 			else{
+				UNS32 Mask=0xFFFFFFFF;
 				/* Start with the next LSS-ID[sub] */
 				d->lss_transfer.LSSSub++;
-				d->lss_transfer.BitChecked=31;
-   				d->lss_transfer.IDNumber=0;
+				d->lss_transfer.BitChecked=d->lss_transfer.lss_fs_transfer.FS_BitChecked[d->lss_transfer.LSSSub];
+				Mask=(UNS32)((UNS64)Mask<<(d->lss_transfer.BitChecked+1));
+   				d->lss_transfer.IDNumber=d->lss_transfer.lss_fs_transfer.FS_LSS_ID[d->lss_transfer.LSSSub] & Mask;
    				d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;
+   				//printf("BitChecked=%d, IDNumber=%x MASK=%x\n",d->lss_transfer.BitChecked,d->lss_transfer.IDNumber,Mask);
    				StartLSS_FS_TIMER();
    				sendMasterLSSMessage(d,LSS_IDENT_FASTSCAN,0,0);
    				return;
@@ -258,8 +269,11 @@ void LssAlarmFS(CO_Data* d, UNS32 id)
 		else{
 			/* This should not happen, an error ocurred*/
 			MSG_ERR(0x1D0E, "LSS FastScan timeout. FastScan response not received.", 0);
+			MSG_ERR(0x1D0E, "There is not any node with LSS_ID# =>", d->lss_transfer.LSSSub);
+			MSG_ERR(0x1D0E, "with the value =>", d->lss_transfer.IDNumber);
 			/* Set aborted state */
     		d->lss_transfer.state = LSS_ABORTED_INTERNAL;
+    		d->lss_transfer.FastScan_SM = LSS_FS_RESET;
 		}
 	}
 	break;
@@ -469,6 +483,24 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   	break;
 #ifdef CO_ENABLE_LSS_FS
   case LSS_IDENT_FASTSCAN:
+	  	if(d->lss_transfer.FastScan_SM==LSS_FS_RESET){
+	  		UNS8 i;
+	  		 /* Initialize the lss_fs_transfer FastScan parameters */
+	  		for(i=0;i<4;i++){
+	  			d->lss_transfer.lss_fs_transfer.FS_LSS_ID[i]=(*(lss_fs_transfer_t*)dat1).FS_LSS_ID[i];
+	  			d->lss_transfer.lss_fs_transfer.FS_BitChecked[i]=(*(lss_fs_transfer_t*)dat1).FS_BitChecked[i];
+	  			/* Adjust BitChecked from 32-1 to 31-0 */
+	  			if(d->lss_transfer.lss_fs_transfer.FS_BitChecked[i]>0)d->lss_transfer.lss_fs_transfer.FS_BitChecked[i]--;
+	  		}
+	  		
+	  		d->lss_transfer.IDNumber=0;
+	  		d->lss_transfer.BitChecked=128;
+	  		d->lss_transfer.LSSSub=0;
+	  		d->lss_transfer.LSSNext=0;
+	  				
+	  		/* it will generate a response only if it is the start of the FastScan protocol*/
+	  		hasResponse=1;
+	  	}
 		m.data[1]=(UNS8)(d->lss_transfer.IDNumber & 0xFF);
 		m.data[2]=(UNS8)(d->lss_transfer.IDNumber>>8 & 0xFF);
 		m.data[3]=(UNS8)(d->lss_transfer.IDNumber>>16 & 0xFF);
@@ -476,8 +508,6 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
 		m.data[5]=d->lss_transfer.BitChecked;
 		m.data[6]=d->lss_transfer.LSSSub;
 		m.data[7]=d->lss_transfer.LSSNext;
-		/* it will generate a response only if it is the start of the FastScan protocol*/
-		if(d->lss_transfer.FastScan_SM==LSS_FS_RESET)hasResponse=1;
 	break;
 #endif
   default:
@@ -645,7 +675,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 					setNodeId(d, d->lss_transfer.nodeID);
 					setState(d, Initialisation);
 				}
-				else{/* The nodeID will be changed on NMT_Reset Request*/
+				else{/* The nodeID will be changed on NMT_Reset_Comunication Request*/
 				}
 			}
 			d->lss_transfer.mode=LSS_WAITING_MODE;

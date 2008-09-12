@@ -244,12 +244,16 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   
 #ifdef CO_ENABLE_LSS
   d->lss_transfer.nodeID=nodeId;
-  if(nodeId==0xFF)
-  {
+  if(nodeId==0xFF){
   	*d->bDeviceNodeId = nodeId;
   	return;
   }
+  else
 #endif
+  if(!(nodeId>0 && nodeId<=127)){
+	  MSG_WAR(0x2D01, "Invalid NodeID",nodeId);
+	  return;
+  }
 
   if(offset){
     /* Adjust COB-ID Client->Server (rx) only id already set to default value or id not valid (id==0xFF)*/

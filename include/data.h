@@ -157,7 +157,8 @@ struct struct_CO_Data {
   		0, 						/* LSSNext */\
   		0, 						/* LSSPos */\
   		LSS_FS_RESET,			/* FastScan_SM */\
-  		-1						/* timerFS */
+  		-1,						/* timerFS */\
+  		{{0,0,0,0},{0,0,0,0}}   /* lss_fs_transfer */
 #else
 #define lss_fs_Initializer
 #endif		

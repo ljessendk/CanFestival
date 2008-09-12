@@ -216,13 +216,16 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 	
 				/* The slaves are now configured (nodeId and Baudrate) via the LSS services.
    			 	* Switch the LSS state to WAITING and restart the slaves. */
+				
+				/*TODO: change the baud rate of the master!!*/
    			 	MasterBoard.baudrate="250K";
-   	
+   			 	
+   			 	
 	   			printf("Master : Switch Delay period finished. Switching to LSS WAITING state\n");
    				configNetworkNode(d,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
 	   			
    				printf("Master : Restarting all the slaves\n");
-   				masterSendNMTstateChange (d, 0x00, NMT_Reset_Node);
+   				masterSendNMTstateChange (d, 0x00, NMT_Reset_Comunication);
 	   			
    				printf("Master : Starting the SYNC producer\n");
    				writeLocalDict( d, /*CO_Data* d*/
@@ -342,9 +345,20 @@ static void ConfigureLSSNode(CO_Data* d)
 			break;
 #ifdef CO_ENABLE_LSS_FS
 		case 2:	/* LSS=>FastScan */
+		{
+			lss_fs_transfer_t lss_fs;
 			eprintf("LSS=>FastScan\n");
-			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_FASTSCAN,0,0,CheckLSSAndContinue);
-			break;
+			/* The VendorID and ProductCode are partialy known, except the last two digits (8 bits). */
+			lss_fs.FS_LSS_ID[0]=Vendor_ID;
+			lss_fs.FS_BitChecked[0]=8;
+			lss_fs.FS_LSS_ID[1]=Product_Code;
+			lss_fs.FS_BitChecked[1]=8;
+			/* serialNumber and RevisionNumber are unknown, i.e. the 8 digits (32bits) are unknown. */
+			lss_fs.FS_BitChecked[2]=32;
+			lss_fs.FS_BitChecked[3]=32;
+			res=configNetworkNode(&TestMaster_Data,LSS_IDENT_FASTSCAN,&lss_fs,0,CheckLSSAndContinue);
+		}
+		break;
 #else
 		case 2:	/* LSS=>identify node */
 			eprintf("LSS=>identify node\n");

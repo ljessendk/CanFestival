@@ -81,8 +81,13 @@ void TestSlaveA_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
 	eprintf("SlaveA received EMCY message. Node: %2.2x  ErrorCode: %4.4x  ErrorRegister: %2.2x\n", nodeID, errCode, errReg);
 }
 
+void TestSlaveA_NMT_Slave_Communications_Reset_Callback(CO_Data* d)
+{
+	eprintf("TestSlaveA_NMT_Slave_Communications_Reset_Callback\n");
+}
+
 void TestSlaveA_StoreConfiguration(CO_Data* d, UNS8 *error, UNS8 *spec_error)
 {
-	printf("TestSlaveA_StoreConfiguration\n");
+	eprintf("TestSlaveA_StoreConfiguration\n");
 }
 

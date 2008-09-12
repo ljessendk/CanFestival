@@ -66,24 +66,24 @@ void help(void)
   printf("*  nodes in the same process. A master and 2 slaves. All     *\n");
   printf("*  communicate together, exchanging periodically NMT, SYNC,  *\n");
   printf("*  SDO and PDO. Master configure heartbeat producer time     *\n");
-  printf("*  at 0 ms for slave node-id 0x02 and 0x03 by concise DCF.   *\n");                                  
+  printf("*  at 1000 ms for the slaves by concise DCF.                 *\n");                                  
   printf("*                                                            *\n");
   printf("*   Usage:                                                   *\n");
   printf("*   ./TestMasterSlaveLSS  [OPTIONS]                          *\n");
   printf("*                                                            *\n");
   printf("*   OPTIONS:                                                 *\n");
-  printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]   *\n");
+  printf("*     -l : Can library [\"libcanfestival_can_virtual.so\"]     *\n");
   printf("*                                                            *\n");
   printf("*    SlaveA:                                                 *\n");
-  printf("*     -a : bus name [\"0\"]                                  *\n");
+  printf("*     -a : bus name [\"0\"]                                    *\n");
   printf("*     -A : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
-   printf("*    SlaveB:                                                *\n");
-  printf("*     -b : bus name [\"1\"]                                  *\n");
+  printf("*    SlaveB:                                                 *\n");
+  printf("*     -b : bus name [\"1\"]                                    *\n");
   printf("*     -B : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
   printf("*    Master:                                                 *\n");
-  printf("*     -m : bus name [\"2\"]                                  *\n");
+  printf("*     -m : bus name [\"2\"]                                    *\n");
   printf("*     -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *\n");
   printf("*                                                            *\n");
   printf("**************************************************************\n");
@@ -236,7 +236,8 @@ int main(int argc,char **argv)
 		TestSlaveA_Data.post_TPDO = TestSlaveA_post_TPDO;
 		TestSlaveA_Data.storeODSubIndex = TestSlaveA_storeODSubIndex;
 		TestSlaveA_Data.post_emcy = TestSlaveA_post_emcy;
-		/* in this example the slave doesn't support Store configuration*/
+		/* in this example the slave doesn't implement NMT_Slave_Communications_Reset_Callback */
+		//TestSlaveA_Data.NMT_Slave_Communications_Reset_Callback = TestSlaveA_NMT_Slave_Communications_Reset_Callback;
 		TestSlaveA_Data.lss_StoreConfiguration = TestSlaveA_StoreConfiguration;
 
 		if(!canOpen(&SlaveBoardA,&TestSlaveA_Data)){
@@ -256,6 +257,7 @@ int main(int argc,char **argv)
 		TestSlaveB_Data.post_TPDO = TestSlaveB_post_TPDO;
 		TestSlaveB_Data.storeODSubIndex = TestSlaveB_storeODSubIndex;
 		TestSlaveB_Data.post_emcy = TestSlaveB_post_emcy;
+		TestSlaveB_Data.NMT_Slave_Communications_Reset_Callback = TestSlaveB_NMT_Slave_Communications_Reset_Callback;
 		TestSlaveB_Data.lss_StoreConfiguration = TestSlaveB_StoreConfiguration;
 
 		if(!canOpen(&SlaveBoardB,&TestSlaveB_Data)){

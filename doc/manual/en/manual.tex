@@ -122,6 +122,10 @@ Supported features should conform to DS301. V.4.02 13 february 2002.
 
 Only concise DFC is supported.
 
+\subsubsection{DS-305}
+
+LSS services are fully supported although they have to be enabled at compile time. Additionally, FastScan LSS service is also optionally enabled. 
+
 \section{How to start}
 
 \subsection{Host requirements}
@@ -203,6 +207,7 @@ Simplified directory structure.
 ./drivers/hcs12 HCS12 full target interface
 ./examples Examples
 ./examples/TestMasterSlave 2 nodes, NMT SYNC SDO PDO, win32+unix
+./examples/TestMasterSlaveLSS 3 nodes, NMT SYNC SDO PDO LSS, win32+unix
 ./examples/TestMasterMicroMod 1 node, control Peak I/O Module, unix
 ./examples/gene_SYNC_HCS12 Just send periodic SYNC on HCS12
 ./examples/win32test Ask some DS301 infos to a node (win32)
@@ -409,9 +414,21 @@ work with Xenomai or RTAI.
 	./configure --can=vscom
 \end{verbatim}
 The VSCAN API archive will be automatically downloaded and decompressed (unzip required). See \href{http://www.vscom.de/1_1_05.htm}{www.vscom.de} for available adapters.
+
+\subsubsection{LSS services}
+Canfestival optionally supports LSS services but they must be enabled.
+\begin{verbatim}
+	./configure --enable-lss
+\end{verbatim}
+
+Additionally, the FastScan LSS service can also be enabled.
+\begin{verbatim}
+	./configure --enable-lss --enable-lss-fs
+\end{verbatim}
+
 \subsection{Testing your CanFestival installation}
 
-\subsection{User space}
+\subsubsection{User space}
 
 Sample provided in /example/TestMasterSlave is installed into your
 system during installation.
@@ -435,8 +452,9 @@ CAN ports. Another example using Peak{\textquotesingle}s dual PCMCIA
 	TestMasterSlave -l libcanfestival_can_peak.so -s 40 -m 41
 \end{verbatim}
 
+If the LSS services are enabled the sample provided in /example/TestMasterSlaveLSS will be also installed. It behaves the same as TestMasterSlave except that there are 2 slave nodes without a valid nodeID so the the initializations is done via  the LSS services. If FastScan optional service is enabled the example will use it. 
 
-\subsection{Kernel space}
+\subsubsection{Kernel space}
 
 
 \begin{verbatim}
@@ -985,6 +1003,63 @@ console it'll remove modules from kernel.
   **************************************************************
 \end{verbatim}
 
+\subsection{TestMasterSlaveLSS}
+
+
+\begin{verbatim}
+**************************************************************
+*  TestMasterSlaveLSS                                        *
+*                                                            *
+*  A LSS example for PC. It does implement 3 CanOpen         *
+*  nodes in the same process. A master and 2 slaves. All     *
+*  communicate together, exchanging periodically NMT, SYNC,  *
+*  SDO and PDO. Master configure heartbeat producer time     *
+*  at 1000 ms for the slaves by concise DCF.                 *
+*                                                            *
+*   Usage:                                                   *
+*   ./TestMasterSlaveLSS  [OPTIONS]                          *
+*                                                            *
+*   OPTIONS:                                                 *
+*     -l : Can library ["libcanfestival_can_virtual.so"]     *
+*                                                            *
+*    SlaveA:                                                 *
+*     -a : bus name ["0"]                                    *
+*     -A : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *
+*                                                            *
+*    SlaveB:                                                 *
+*     -b : bus name ["1"]                                    *
+*     -B : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *
+*                                                            *
+*    Master:                                                 *
+*     -m : bus name ["2"]                                    *
+*     -M : 1M,500K,250K,125K,100K,50K,20K,10K,none(disable)  *
+*                                                            *
+**************************************************************
+\end{verbatim}
+
+The function used to request LSS services is \textit{configNetworkNode}. It works similar to \textit{writeNetworkDict} and its model is the following:
+\begin{verbatim}
+UNS8 configNetworkNode (CO_Data* d, UNS8 command, void *dat1, void* dat2, 
+LSSCallback_t Callback)
+\end{verbatim}
+
+\subsection{FastScan}
+FastScan is a special LSS service that allow the dynamically identification of the slave nodes even if they do not have a valid nodeID. This identification is based on the LSS address, composed by vendor ID, product code, revision number and serial number (refer to the DS305 for more information). The LSS address can be partially known or fully unknown. To represent this fact in Canfestival, we use the structure \textit{lss\_fs\_transfer\_t}. The parameter \textit{FS\_LSS\_ID} is an array of four elements which represents the four elements of the LSS address. The other parameter, \textit{FS\_BitChecked}, is also an array and it represents how many bits of each LSS address element are UNKNOWN. The next example is taken from \textit{TestMasterSlaveLSS}, where only the last two digits (8 bits) of vendor ID and product code are unknown and revision number and serial number are totally unknown. 
+
+\begin{verbatim}
+lss_fs_transfer_t lss_fs;
+/* The VendorID and ProductCode are partialy known, */
+/* except the last two digits (8 bits). */
+lss_fs.FS_LSS_ID[0]=Vendor_ID;
+lss_fs.FS_BitChecked[0]=8;
+lss_fs.FS_LSS_ID[1]=Product_Code;
+lss_fs.FS_BitChecked[1]=8;
+/* serialNumber and RevisionNumber are unknown, */
+/* i.e. the 8 digits (32bits) are unknown. */
+lss_fs.FS_BitChecked[2]=32;
+lss_fs.FS_BitChecked[3]=32;
+res=configNetworkNode(&d,LSS_IDENT_FASTSCAN,&lss_fs,0,CheckLSSAndContinue);
+\end{verbatim}
 
 \section{Developing a new node}
 
