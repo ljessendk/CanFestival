@@ -1649,7 +1649,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
 
   /* Transfert is finished. Put the value in the data. */
   /* use transfers[line].count as max size */
-  if( (UNS8)d->transfers[line].count < *size )
+  if( (UNS8)d->transfers[line].count > *size )
   	*size = (UNS8)d->transfers[line].count;
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
