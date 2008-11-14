@@ -56,48 +56,40 @@ TIMER_HANDLE last_timer_raw = -1;
 **/   
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
 {
-	/*printf("SetAlarm(UNS32 id=%d, TimerCallback_t callback=%x, TIMEVAL value=%d, TIMEVAL period=%d)\n", id, callback, value, period); */
-	TIMER_HANDLE i;
-	TIMER_HANDLE row_number = TIMER_NONE;
+	TIMER_HANDLE row_number;
 	s_timer_entry *row;
 
 	/* in order to decide new timer setting we have to run over all timer rows */
-	for(i=0, row=timers; i <= last_timer_raw + 1 && i < MAX_NB_TIMER; i++, row++)
+	for(row_number=0, row=timers; row_number <= last_timer_raw + 1 && row_number < MAX_NB_TIMER; row_number++, row++)
 	{
 		if (callback && 	/* if something to store */
 		   row->state == TIMER_FREE) /* and empty row */
 		{	/* just store */
+			TIMEVAL real_timer_value;
+			TIMEVAL elapsed_time;
+			
+			if (row_number == last_timer_raw + 1) last_timer_raw++;
+			
+			elapsed_time = getElapsedTime();
+			/* set next wakeup alarm if new entry is sooner than others, or if it is alone */
+			real_timer_value = value > elapsed_time ? value - elapsed_time : 0;
+			real_timer_value = min_val(real_timer_value, TIMEVAL_MAX);
+	
+			if (total_sleep_time > elapsed_time && total_sleep_time - elapsed_time > real_timer_value)
+			{
+				total_sleep_time = elapsed_time + real_timer_value;
+				setTimer(real_timer_value);
+			}
 			row->callback = callback;
 			row->d = d;
 			row->id = id;
-			row->val = value;
+			row->val = value + elapsed_time;
 			row->interval = period;
 			row->state = TIMER_ARMED;
-			row_number = i;
-			break;
+			return row_number;
 		}
 	}
 	
-	if (row_number != TIMER_NONE) /* if successfull **/
-	{
-		TIMEVAL real_timer_value;
-		TIMEVAL elapsed_time;
-		
-		if (row_number == last_timer_raw + 1) last_timer_raw++;
-		
-		/* set next wakeup alarm if new entry is sooner than others, or if it is alone */
-		real_timer_value = min_val(value, TIMEVAL_MAX);
-		elapsed_time = getElapsedTime();
-
-		/*printf("elapsed_time=%d real_timer_value=%d total_sleep_time=%d\n", elapsed_time, real_timer_value, total_sleep_time); */
-		if (total_sleep_time > elapsed_time && total_sleep_time - elapsed_time > real_timer_value)
-		{
-			total_sleep_time = elapsed_time + real_timer_value;
-			setTimer(real_timer_value);
-		}
-		/*printf("SetAlarm() return %d\n", row_number); */
-		return row_number;
-	}
 	return TIMER_NONE;
 }
 
@@ -124,7 +116,8 @@ TIMER_HANDLE DelAlarm(TIMER_HANDLE handle)
 /*!                                                                                                
 ** ------  TimeDispatch is called on each timer expiration ----                                                                                                
 **                                                                                                 
-**/  
+**/
+int tdcount=0;  
 void TimeDispatch(void)
 {
 	TIMER_HANDLE i;
@@ -134,7 +127,6 @@ void TimeDispatch(void)
 	TIMEVAL overrun = getElapsedTime();
 	
 	TIMEVAL real_total_sleep_time = total_sleep_time + overrun;
-	/*printf("total_sleep_time %d + overrun %d\n", total_sleep_time , overrun); */
 
 	s_timer_entry *row;
 
@@ -144,7 +136,6 @@ void TimeDispatch(void)
 		{
 			if (row->val <= real_total_sleep_time) /* to be trigged */
 			{
-				/*printf("row->val(%d) <= (%d)real_total_sleep_time\n", row->val, real_total_sleep_time); */
 				if (!row->interval) /* if simply outdated */
 				{
 					row->state = TIMER_TRIG; /* ask for trig */
