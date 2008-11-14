@@ -1043,7 +1043,7 @@ class Node:
 #-------------------------------------------------------------------------------
 
     def IsStringType(self, index):
-        if index in (0x9, 0xA, 0xB):
+        if index in (0x9, 0xA, 0xB, 0xF):
             return True
         elif 0xA0 <= index < 0x100:
             result = self.GetEntry(index, 1)
