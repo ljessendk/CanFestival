@@ -46,12 +46,10 @@
 ** @return
 **/
 
-UNS8
-buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
+UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
   const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
-  const indextable *TPDO_map =
-    d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
+  const indextable *TPDO_map = d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
 
   UNS8 prp_j = 0x00;
   UNS8 offset = 0x00;
@@ -644,8 +642,8 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                   else
                     {
 
-                      UNS16 EventTimerDuration;
-                      UNS16 InhibitTimerDuration;
+                      TIMEVAL EventTimerDuration;
+                      TIMEVAL InhibitTimerDuration;
 
                       MSG_WAR (0x306A, "Changes TPDO number : ", pdoNum);
                       /* Changes detected -> transmit message */
@@ -721,7 +719,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
 **
 ** @param d
 ** @param OD_entry
-** @param bSubindex 
+** @param bSubindex
 ** @return always 0
 **/
 
