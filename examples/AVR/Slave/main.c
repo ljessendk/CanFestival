@@ -26,7 +26,7 @@ Test projekt for a DS 401 slave, running on Atmel's STK500 with AT90CAN128
 Short description:
   PORTA:	Inputs (Keys, low active)
   PORTB:	Outputs (LEDs, low active)
-  PORTC:	Node ID (1 BCD switch)
+  PORTC:	Node ID (1 BCD switch, low active)
 
 ******************************************************************************/
 #include "hardware.h"
@@ -104,7 +104,7 @@ INPUT	LOCK_STATES *lock_states
 OUTPUT	void
 ******************************************************************************/
 {
-  OSCCAL = 0x43;
+  OSCCAL = 0x43;                        // adjust the RC oszillator
   
   PORTA = 0xFF;	                        // Inputs (Keys, low active) with pullup
   DDRA  = 0x00;		                // 
