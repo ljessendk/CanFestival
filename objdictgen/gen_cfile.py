@@ -67,15 +67,16 @@ def GetValidTypeInfos(typename, items=[]):
                     size = max(size, int(values[1]))
                 typeinfos = ("UNS8", size, "visible_string", False)
             elif values[0] == "DOMAIN":
-                size = 0
+                size = default_string_size
                 for item in items:
                     size = max(size, len(item))
-                typeinfos = ("UNS8*", size, "domain", False)
+                typeinfos = ("UNS8", size, "domain", False)
             elif values[0] == "BOOLEAN":
                 typeinfos = ("UNS8", None, "boolean", False)
             else:
                 raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
-            internal_types[typename] = typeinfos
+            if typeinfos[2] not in ["visible_string", "domain"]:
+                internal_types[typename] = typeinfos
         else:
             raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
     return typeinfos
@@ -219,13 +220,15 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 texts["subIndexType"] = typeinfos[0]
                 if typeinfos[1] is not None:
                     texts["suffixe"] = "[%d]"%typeinfos[1]
+                    texts["type_suffixe"] = "*"
                 else:
                     texts["suffixe"] = ""
+                    texts["type_suffixe"] = ""
                 texts["length"] = values[0]
                 if index in variablelist:
                     texts["name"] = FormatName(entry_infos["name"])
-                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(length)d]%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
-                    mappedVariableContent += "%(subIndexType)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
+                    strDeclareHeader += "extern %(subIndexType)s%(type_suffixe)s %(name)s[];\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
+                    mappedVariableContent += "%(subIndexType)s%(type_suffixe)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         if subIndex > 0:
@@ -235,7 +238,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
                 else:
-                    strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
+                    strIndex += "                    %(subIndexType)s%(type_suffixe)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         if subIndex > 0:
@@ -289,7 +292,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 sep = ""
             typename = Node.GetTypeName(subentry_infos["type"])
             if entry_infos["struct"] & OD_IdenticalSubindexes:
-                typeinfos = GetValidTypeInfos(typename, values)
+                typeinfos = GetValidTypeInfos(typename, values[1:])
             else:
                 typeinfos = GetValidTypeInfos(typename, [values[subIndex]])
             if subIndex == 0:
