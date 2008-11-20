@@ -297,7 +297,7 @@ class objdictedit(wx.Frame):
         if self.ModeSolo:
             self.Manager = NodeManager()
             for filepath in filesOpen:
-                result = self.Manager.OpenFileInCurrent(filepath)
+                result = self.Manager.OpenFileInCurrent(os.path.abspath(filepath))
                 if isinstance(result, (IntType, LongType)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)

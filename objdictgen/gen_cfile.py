@@ -67,7 +67,7 @@ def GetValidTypeInfos(typename, items=[]):
                     size = max(size, int(values[1]))
                 typeinfos = ("UNS8", size, "visible_string", False)
             elif values[0] == "DOMAIN":
-                size = default_string_size
+                size = 0
                 for item in items:
                     size = max(size, len(item))
                 typeinfos = ("UNS8", size, "domain", False)
@@ -188,6 +188,9 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             subentry_infos = Node.GetSubentryInfos(index, 0)
             typename = Node.GetTypeName(subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename, [values])
+            if typename is "DOMAIN" and index in variablelist:
+                if not typeinfos[1]:
+                    raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex 0x00"%index)
             texts["subIndexType"] = typeinfos[0]
             if typeinfos[1] is not None:
                 texts["suffixe"] = "[%d]"%typeinfos[1]
@@ -235,6 +238,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             if subIndex == len(values)-1:
                                 sep = ""
                             value, comment = ComputeValue(typeinfos[2], value)
+                            if len(value) is 2 and typename is "DOMAIN":
+                                raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex 0x%02X"%(index, subIndex))
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
                 else:
