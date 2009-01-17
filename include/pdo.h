@@ -20,6 +20,12 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** @defgroup pdo Process Data Object (PDO)
+ *  PDO is a communication object defined by the DPO communication parameter and PDA mapping parameter objects.
+ *  It is an uncomfirmed communication service without protocol overhead.
+ *  @ingroup comobj
+ */
+ 
 #ifndef __pdo_h__
 #define __pdo_h__
 
@@ -59,46 +65,86 @@ struct struct_s_PDO_status {
 #define TRANS_EVENT_SPECIFIC  254  /* Transmission on event */
 #define TRANS_EVENT_PROFILE   255  /* Transmission on event */
 
-/** Prepare the PDO defined at index to be sent 
- * 
- * 
- * 
- * Copy all the data to transmit in process_var
+/**
+ * @ingroup pdo 
+ * @brief Copy all the data to transmit in process_var
+ * Prepare the PDO defined at index to be sent
  * *pwCobId : returns the value of the cobid. (subindex 1)
- * Return 0 or 0xFF if error.
+ * @param *d Pointer on a CAN object data structure
+ * @param numPdo The PDO number
+ * @param *pdo Pointer on a CAN message structure
+ * @return 0 or 0xFF if error.
  */
 UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo);
 
-/** Transmit a PDO request frame on the bus bus_id
+/** 
+ * @ingroup pdo
+ * @brief Transmit a PDO request frame on the bus bus_id
  * to the slave.
  * bus_id is hardware dependant
- * Returns 0xFF if error, other in success.
+ * @param *d Pointer on a CAN object data structure
+ * @param RPDOIndex Index of the receive PDO
+ * @return 0xFF if error, other in success.
  */
 UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex );
 
-/** Compute a PDO frame reception
+/**
+ * @brief Compute a PDO frame reception
  * bus_id is hardware dependant
- * return 0xFF if error, else return 0
+ * @param *d Pointer on a CAN object data structure
+ * @param *m Pointer on a CAN message structure
+ * @return 0xFF if error, else return 0
  */
 UNS8 proceedPDO (CO_Data* d, Message *m);
 
-/** Used by the application to signal changes in process data
+/**
+ * @ingroup pdo 
+ * @brief Used by the application to signal changes in process data
  * that could be mapped to some TPDO.
  * This do not necessarily imply PDO emission.
  * Function iterates on all TPDO and look TPDO transmit 
  * type and content change before sending it.    
+ * @param *d Pointer on a CAN object data structure
  */
 UNS8 sendPDOevent (CO_Data* d);
 
-/** Function iterates on all TPDO and look TPDO transmit 
+/** 
+ * @ingroup pdo
+ * @brief Function iterates on all TPDO and look TPDO transmit 
  * type and content change before sending it.
+ * @param *d Pointer on a CAN object data structure
+ * @param isSyncEvent
  */
 UNS8 _sendPDOevent(CO_Data* d, UNS8 isSyncEvent);
 
-
+/** 
+ * @ingroup pdo
+ * @brief Initialize PDO feature 
+ * @param *d Pointer on a CAN object data structure
+ */
 void PDOInit(CO_Data* d);
+
+/** 
+ * @ingroup pdo
+ * @brief Stop PDO feature 
+ * @param *d Pointer on a CAN object data structure
+ */
 void PDOStop(CO_Data* d);
+
+/** 
+ * @ingroup pdo
+ * @brief Set timer for PDO event
+ * @param *d Pointer on a CAN object data structure
+ * @param pdoNum The PDO number
+ */
 void PDOEventTimerAlarm(CO_Data* d, UNS32 pdoNum);
+
+/** 
+ * @ingroup pdo
+ * @brief Inhibit timer for PDO event
+ * @param *d Pointer on a CAN object data structure
+ * @param pdoNum The PDO number
+ */
 void PDOInhibitTimerAlarm(CO_Data* d, UNS32 pdoNum);
 
 /* copy bit per bit in little endian */

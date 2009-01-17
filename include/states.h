@@ -20,6 +20,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** @defgroup statemachine State Machine
+ *  @ingroup userapi
+ */
+ 
 #ifndef __states_h__
 #define __states_h__
 
@@ -56,7 +60,8 @@ typedef struct
 	INTEGER8 csLSS;
 } s_state_communication;
 
-/** Function that user app can overload
+/** 
+ * @brief Function that user app can overload
  * 
  */
 typedef void (*initialisation_t)(CO_Data*);
@@ -64,43 +69,77 @@ typedef void (*preOperational_t)(CO_Data*);
 typedef void (*operational_t)(CO_Data*);
 typedef void (*stopped_t)(CO_Data*);
 
-void _initialisation(CO_Data*);
-void _preOperational(CO_Data*);
-void _operational(CO_Data*);
-void _stopped(CO_Data*);
+/** 
+ * @brief Function that user app can overload
+ * @param *d Pointer on a CAN object data structure
+ */
+void _initialisation(CO_Data* d);
+
+/** 
+ * @brief Function that user app can overload
+ * @param *d Pointer on a CAN object data structure
+ */
+void _preOperational(CO_Data* d);
+
+/** 
+ * @brief Function that user app can overload
+ * @param *d Pointer on a CAN object data structure
+ */
+void _operational(CO_Data* d);
+
+/** 
+ * @brief Function that user app can overload
+ * @param *d Pointer on a CAN object data structure
+ */
+void _stopped(CO_Data* d);
 
 #include "data.h"
 
 /************************* prototypes ******************************/
 
-/** Called by driver/app when receiving messages
-*/
+/** 
+ * @brief Called by driver/app when receiving messages
+ * @param *d Pointer on a CAN object data structure
+ * @param *m Pointer on a CAN message structure
+ */
 void canDispatch(CO_Data* d, Message *m);
 
-/** Returns the state of the node 
-*/
+/** 
+ * @ingroup statemachine
+ * @brief Returns the state of the node
+ * @param *d Pointer on a CAN object data structure
+ * @return The node state
+ */
 e_nodeState getState (CO_Data* d);
 
-/** Change the state of the node 
-*/
+/** 
+ * @ingroup statemachine
+ * @brief Change the state of the node 
+ * @param *d Pointer on a CAN object data structure
+ * @param newState The state to assign
+ * @return 
+ */
 UNS8 setState (CO_Data* d, e_nodeState newState);
 
-/** Returns the nodId 
-*/
+/**
+ * @ingroup statemachine 
+ * @brief Returns the nodId 
+ * @param *d Pointer on a CAN object data structure
+ * @return
+ */
 UNS8 getNodeId (CO_Data* d);
 
-/** Define the node ID. Initialize the object dictionary
-*/
+/** 
+ * @ingroup statemachine
+ * @brief Define the node ID. Initialize the object dictionary
+ * @param *d Pointer on a CAN object data structure
+ * @param nodeId The node ID to assign
+ */
 void setNodeId (CO_Data* d, UNS8 nodeId);
 
-/** Some stuff to do when the node enter in reset mode
- *
- */
-/* void initResetMode (CO_Data* d); */
-
-
-/** Some stuff to do when the node enter in pre-operational mode
- *
+/** 
+ * @brief Some stuff to do when the node enter in pre-operational mode
+ * @param *d Pointer on a CAN object data structure
  */
 void initPreOperationalMode (CO_Data* d);
 

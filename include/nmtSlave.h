@@ -20,24 +20,35 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** @defgroup nmtslave NMT Slave
+ *  @ingroup networkmanagement
+ */
+ 
 #ifndef __nmtSlave_h__
 #define __nmtSlave_h__
 
 #include <applicfg.h>
 #include "data.h"
 
-/** Threat the reception of a NMT message from the master
- * *m is a pointer to the message received
+/** 
+ * @ingroup nmtslave
+ * @brief Threat the reception of a NMT message from the master
  * bus_id is hardware dependant
- * return 0 if OK, -1 if the slave is not allowed, by its state,
- * to receive the message
+ * @param *d Pointer on the CAN data structure
+ * @param *m Pointer on the message received
+ * @return 
+ *  -  0 if OK 
+ *  - -1 if the slave is not allowed, by its state, to receive the message
  */
 void proceedNMTstateChange (CO_Data* d, Message * m);
 
-/** Transmit the boot-Up frame when the slave is moving from initialization
+/** 
+ * @ingroup nmtslave
+ * @brief Transmit the boot-Up frame when the slave is moving from initialization
  * state to pre_operational state.
  * bus_id is hardware dependant
- * return canSend(bus_id,&m)
+ * @param *d Pointer on the CAN data structure
+ * @return canSend(bus_id,&m)
  */
 UNS8 slaveSendBootUp (CO_Data* d);
 

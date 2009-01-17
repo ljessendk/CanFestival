@@ -20,23 +20,64 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** @defgroup timer Timer Management
+ *  @ingroup userapi
+ */
+
 #ifndef __timer_driver_h__
 #define __timer_driver_h__
 
 #include "timerscfg.h"
 #include "timer.h"
-/*void initTimer();*/
 
 // For use from CAN driver
+/**
+ * @ingroup timer
+ * @brief Acquire mutex
+ */
 void EnterMutex(void);
+
+/**
+ * @ingroup timer
+ * @brief Release mutex
+ */
 void LeaveMutex(void);
 void WaitReceiveTaskEnd(TASK_HANDLE*);
 
-// For use from application
+/**
+ * @ingroup timer
+ * @brief Initialize Timer 
+ * 
+ */
 void TimerInit(void);
+
+/**
+ * @ingroup timer
+ * @brief Cleanup Timer  
+ */
 void TimerCleanup(void);
-void StartTimerLoop(TimerCallback_t);
-void StopTimerLoop(TimerCallback_t);
-void CreateReceiveTask(CAN_PORT , TASK_HANDLE* , void* );
+
+/**
+ * @ingroup timer
+ * @brief Start the timer task
+ * @param Callback A callback function
+ */
+void StartTimerLoop(TimerCallback_t Callback);
+
+/**
+ * @ingroup timer
+ * @brief Stop the timer task
+ * @param Callback A callback function
+ */
+void StopTimerLoop(TimerCallback_t Callback);
+/** @} */
+
+/**
+ * @brief Stop the timer task
+ * @param port CanFestival file descriptor
+ * @param *handle handle of receive loop thread
+ * @param *ReceiveLoopPtr Pointer on the receive loop function
+ */
+void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* handle, void* ReceiveLoopPtr);
 
 #endif

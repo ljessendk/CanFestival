@@ -30,10 +30,16 @@ typedef struct struct_s_BOARD s_BOARD;
 #include "applicfg.h"
 #include "can.h"
 
+/** 
+ * @brief The CAN board configuration 
+ * @ingroup can
+ * @{
+ */
 struct struct_s_BOARD {
   char * busname;
   char * baudrate;
 };
+/** @} */
 
 #ifndef DLL_CALL
 #define DLL_CALL(funcname) funcname##_driver

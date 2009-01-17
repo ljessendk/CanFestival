@@ -20,6 +20,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** 
+ * @defgroup can CAN Management 
+ * @ingroup userapi
+ */
+
 #ifndef __can_h__
 #define __can_h__
 
@@ -37,14 +42,19 @@ typedef struct {
 } SHORT_CAN;
 */
 
-/** Can message structure */
+/** 
+ * @brief The CAN message structure 
+ * @ingroup can
+ * @{
+ */
 typedef struct {
   UNS16 cob_id;	/* l'ID du mesg */
-  UNS8 rtr;			/* remote transmission request. 0 if not rtr, 
+  UNS8 rtr;			/**< remote transmission request. 0 if not rtr, 
                    1 for a rtr message */
-  UNS8 len;			/* message length (0 to 8) */
-  UNS8 data[8]; /* data */
+  UNS8 len;			/**< message length (0 to 8) */
+  UNS8 data[8]; /**< data */
 } Message;
+/** @} */
 
 #define Message_Initializer {0,0,0,{0,0,0,0,0,0,0,0}}
 

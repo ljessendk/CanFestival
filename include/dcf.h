@@ -20,5 +20,10 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
+/** 
+ * @brief Send the consise dcf to node corresping to nodeId
+ * @param *d Pointer on a CAN object data structure
+ * @param nodeId Id of the slave node
+ * @return
+ */
 UNS8 send_consise_dcf(CO_Data* d, UNS8 nodeId);

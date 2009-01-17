@@ -49,7 +49,10 @@ typedef struct struct_CO_Data CO_Data;
 #include "lss.h"
 #endif
 
-/* This structurs contains all necessary information for a CanOpen node */
+/**
+ * @ingroup od
+ * @brief This structure contains all necessary information for a CanOpen node 
+ */
 struct struct_CO_Data {
 	/* Object dictionary */
 	UNS8 *bDeviceNodeId;

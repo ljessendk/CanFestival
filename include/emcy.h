@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 **
 **
 */
-
+ 
 #ifndef __emcy_h__
 #define __emcy_h__
 
@@ -59,24 +59,44 @@ void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg);
  * Functions
  *************************************************************************/
 
-/** Sets a new error with code errCode. Also sets corresponding bits in Error register (1001h)
+/** 
+ * @ingroup emcy
+ * @brief Sets a new error with code errCode. Also sets corresponding bits in Error register (1001h)
+ * @param *d Pointer on a CAN object data structure
+ * @param errCode The error code
+ * @param errRegMask
+ * @param addInfo
+ * @return
  */
 UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo);
 
-/** Indicates it has recovered from error errCode. Also clears corresponding bits in Error register (1001h)
+/**
+ * @ingroup emcy 
+ * @brief Indicates it has recovered from error errCode. Also clears corresponding bits in Error register (1001h)
+ * @param *d Pointer on a CAN object data structure
+ * @param errCode The error code
  */
 void EMCY_errorRecovered(CO_Data* d, UNS16 errCode);
 
-/** Start EMCY consumer and producer
+/**
+ * @ingroup emcy 
+ * @brief Start EMCY consumer and producer
+ * @param *d Pointer on a CAN object data structure
  */
 void emergencyInit(CO_Data* d);
 
-/** Stop EMCY producer and consumer 
+/** 
+ * @ingroup emcy
+ * @brief Stop EMCY producer and consumer
+ * @param *d Pointer on a CAN object data structure 
  */
 void emergencyStop(CO_Data* d);
 
-/** This function is responsible to process an EMCY canopen-message 
- *  \param Message The CAN-message which has to be analysed.
+/** 
+ * @ingroup emcy
+ * @brief This function is responsible to process an EMCY canopen-message
+ * @param *d Pointer on a CAN object data structure 
+ * @param *m Pointer on the CAN-message which has to be analysed.
  */
 void proceedEMCY(CO_Data* d, Message* m);
 

@@ -38,28 +38,37 @@ void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID);
  * Functions
  *************************************************************************/
 
-
-/** To read the state of a node
- *  This can be used by the master after having sent a life guard request,
- *  of by any node if it is waiting for heartbeat.
+/** 
+ * @brief To read the state of a node
+ * This can be used by the master after having sent a life guard request,
+ * of by any node if it is waiting for heartbeat.
+ * @param *d Pointer on a CAN object data structure
+ * @param nodeId Id of a node
+ * @return e_nodeState State of the node corresponding to the nodeId
  */
 e_nodeState getNodeState (CO_Data* d, UNS8 nodeId);
 
-/** Start heartbeat consumer and producer
- *  with respect to 0x1016 and 0x1017
- *  object dictionary entries
+/** 
+ * @brief Start heartbeat consumer and producer
+ * with respect to 0x1016 and 0x1017
+ * object dictionary entries
+ * @param *d Pointer on a CAN object data structure
  */
 void heartbeatInit(CO_Data* d);
 
-/** Stop heartbeat consumer and producer
+/** 
+ * @brief Stop heartbeat consumer and producer
+ * @param *d Pointer on a CAN object data structure
  */
 void heartbeatStop(CO_Data* d);
 
-/** This function is responsible to process a canopen-message which seams to be an NMT Error Control
- *  Messages. At them moment we assume that every NMT error control message
- *  is a heartbeat message.
- *  \param Message The CAN-message which has to be analysed.
- *  If a BootUp message is detected, it will return the nodeId of the Slave who booted up
+/** 
+ * @brief This function is responsible to process a canopen-message which seams to be an NMT Error Control
+ * Messages. At them moment we assume that every NMT error control message
+ * is a heartbeat message.
+ * If a BootUp message is detected, it will return the nodeId of the Slave who booted up
+ * @param *d Pointer on a CAN object data structure 
+ * @param *m Pointer on the CAN-message which has to be analysed.
  */
 void proceedNODE_GUARD (CO_Data* d, Message* m);
 
