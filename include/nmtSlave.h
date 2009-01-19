@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 /** @defgroup nmtslave NMT Slave
+ *  @brief The NMT Slave methods are called automatically when a NMT message from Master are received. 
  *  @ingroup networkmanagement
  */
  
@@ -31,7 +32,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 
 /** 
- * @ingroup nmtslave
  * @brief Threat the reception of a NMT message from the master
  * bus_id is hardware dependant
  * @param *d Pointer on the CAN data structure
@@ -43,7 +43,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 void proceedNMTstateChange (CO_Data* d, Message * m);
 
 /** 
- * @ingroup nmtslave
  * @brief Transmit the boot-Up frame when the slave is moving from initialization
  * state to pre_operational state.
  * bus_id is hardware dependant

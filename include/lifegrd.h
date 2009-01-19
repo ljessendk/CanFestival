@@ -20,6 +20,14 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+/** @defgroup heartbeato Heartbeat Object
+ *  The heartbeat mechanism for a device is established through cyclically transmitting a message by a
+ *	heartbeat producer. One or more devices in the network are aware of this heartbeat message. If the
+ *	heartbeat cycle fails for the heartbeat producer the local application on the heartbeat consumer will be
+ *	informed about that event.
+ *  @ingroup comobj
+ */
+					 
 #ifndef __lifegrd_h__
 #define __lifegrd_h__
 
@@ -39,6 +47,7 @@ void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID);
  *************************************************************************/
 
 /** 
+ * @ingroup statemachine
  * @brief To read the state of a node
  * This can be used by the master after having sent a life guard request,
  * of by any node if it is waiting for heartbeat.

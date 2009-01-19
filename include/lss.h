@@ -20,7 +20,14 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-/** @defgroup lss Layer setting Object
+/** @defgroup lss Layer Setting Services Object
+ * @brief LSS offers the possibility to inquire and change the settings of certain parameters of the local layers on
+ * a CANopen module with LSS Slave capabilities by a CANopen module with LSS Master capabilities via the
+ * CAN Network.
+ * The following parameters can be inquired and/or changed by the use of LSS:
+ *               - Node-ID of the CANopen Slave
+ *               - Bit timing parameters of the physical layer (baud rate)
+ *               - LSS address (/2/ Identity Object, Index 1018H)
  *  @ingroup comobj
  */
 					 
@@ -198,26 +205,39 @@ UNS8 proceedLSS_Slave (CO_Data* d, Message* m );
  */
 //UNS8 configNetworkNode(CO_Data* d, UNS8 command, void *dat1, void* dat2);
 
-/** Used by the Master application to send a LSS command, WITH response, to the slave. 
- * The function Callback, which must be defined in the user code, is called at the
+/** 
+ * @ingroup lss
+ * @brief Used by the Master application to send a LSS command, WITH response, to the slave. 
+ * @param *d Pointer on a CAN object data structure
+ * @param command
+ * @param *dat1
+ * @param *dat2
+ * @param Callback The function Callback, which must be defined in the user code, is called at the
  * end of the exchange (on succes or abort) and can be NULL.
+ * @return sendLSS(d,command,dat1,dat2)
  * The LSS_MSG_TIMER timer is started to control the timeout
- * return sendLSS(d,command,dat1,dat2)
  */
 UNS8 configNetworkNode (CO_Data* d, UNS8 command, void *dat1, void* dat2, LSSCallback_t Callback);
 
-/** Use this function after a configNetworkNode or configNetworkNodeCallBack to get the result.
-  Returns : LSS_RESET				// Transmission not started. Init state.
-			LSS_FINISHED			// data are available                           
-			LSS_ABORTED_INTERNAL	// Aborted but not because of an abort message. 
-			LSS_TRANS_IN_PROGRESS	// Data not yet available
-
-  * command: the LSS command (unused).
-  * example:
-  * UNS32 dat1;
-  * UNS8 dat2;
-  res=configNetworkNodeCallBack(&_Data,LSS_INQ_NODE_ID,0,0,NULL); // inquire the nodeID
-  while (getConfigResultNetworkNode (&_Data, LSS_INQ_NODE_ID, &dat1, &dat2) != LSS_TRANS_IN_PROGRESS);
+/**
+ * @ingroup lss 
+ * @brief Use this function after a configNetworkNode or configNetworkNodeCallBack to get the result.
+ * @param *d Pointer on a CAN object data structure
+ * @param command The LSS command (unused).
+ * @param *dat1
+ * @param *dat2
+ * @return : 
+ *          - LSS_RESET				// Transmission not started. Init state.
+ *          - LSS_FINISHED			// data are available                           
+ *          - LSS_ABORTED_INTERNAL	// Aborted but not because of an abort message. 
+ *          - LSS_TRANS_IN_PROGRESS	// Data not yet available
+ * @code
+ * example:
+ * UNS32 dat1;
+ * UNS8 dat2;
+ * res=configNetworkNodeCallBack(&_Data,LSS_INQ_NODE_ID,0,0,NULL); // inquire the nodeID
+ * while (getConfigResultNetworkNode (&_Data, LSS_INQ_NODE_ID, &dat1, &dat2) != LSS_TRANS_IN_PROGRESS);
+ * @endcode
 */
 UNS8 getConfigResultNetworkNode (CO_Data* d, UNS8 command, UNS32* dat1, UNS8* dat2);
 

@@ -30,6 +30,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 **
 */
  
+/** @defgroup emcyo Emergency Object
+ *  Emergency Object is used to communicate device and application failures.
+ *  @ingroup comobj
+ */
+					 
 #ifndef __emcy_h__
 #define __emcy_h__
 

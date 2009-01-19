@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /** @defgroup synco Synchronisation Object
  *  SYNC object is a CANopen message forcing the receiving nodes to sample the inputs mapped into synchronous TPDOS.
- *  Receiving this message causse the node to set the outputs to values received in the previous synchronous RPDO.
+ *  Receiving this message cause the node to set the outputs to values received in the previous synchronous RPDO.
  *  @ingroup comobj
  */
 					 
@@ -40,7 +40,6 @@ typedef void (*post_TPDO_t)(CO_Data*);
 void _post_TPDO(CO_Data* d);
 
 /** 
- * @ingroup synco
  * @brief Transmit a SYNC message and trigger sync TPDOs
  * @param *d Pointer on a CAN object data structure
  * @return
@@ -48,7 +47,6 @@ void _post_TPDO(CO_Data* d);
 UNS8 sendSYNC (CO_Data* d);
 
 /** 
- * @ingroup synco
  * @brief Transmit a SYNC message on CAN bus
  * @param *d Pointer on a CAN object data structure
  * @return

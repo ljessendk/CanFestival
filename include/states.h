@@ -62,7 +62,7 @@ typedef struct
 
 /** 
  * @brief Function that user app can overload
- * 
+ * @ingroup statemachine
  */
 typedef void (*initialisation_t)(CO_Data*);
 typedef void (*preOperational_t)(CO_Data*);

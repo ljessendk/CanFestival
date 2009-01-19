@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *  @ingroup userapi
  */
 /** @defgroup nmtmaster NMT Master
+ *  @brief NMT master provides mechanisms that control and monitor the state of nodes and their behavior in the network.
  *  @ingroup networkmanagement
  */
  
@@ -48,7 +49,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *  - initialisation  ---> pre-operational (Automatic transition)
  *  - pre-operational <--> operational
  *  - pre-operational <--> stopped
- *  - pre-operational, operational, stopped -> initialisation
+ *  - pre-operational, operational, stopped -> initialisation\n
  * @param *d Pointer on a CAN object data structure
  * @param Node_ID Id of the slave node
  * @param cs State changement

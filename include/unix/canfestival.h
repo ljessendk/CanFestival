@@ -44,7 +44,6 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle);
 LIB_HANDLE LoadCanDriver(const char* driver_name);
 
 /**
- * @ingroup can
  * @brief Send a CAN message
  * @param port CanFestival file descriptor
  * @param *m The message to send
@@ -63,7 +62,7 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d);
 
 /**
  * @ingroup can
- * @brief Stop the timer task
+ * @brief Close a CANopen device
  * @param *d Pointer on the CAN object data structure
  * @return 0 if succes
  */
@@ -71,7 +70,7 @@ int canClose(CO_Data * d);
 
 /**
  * @ingroup can
- * @brief Stop the timer task
+ * @brief Change the CANopen device baudrate 
  * @param port CanFestival file descriptor 
  * @param *baud The new baudrate to assign
  * @return 0 if succes

@@ -32,6 +32,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /** @defgroup od Object Dictionary Management
+ *  @brief The Object Dictionary is the heart of each CANopen device containing all communication and application objects.
  *  @ingroup userapi
  */
  

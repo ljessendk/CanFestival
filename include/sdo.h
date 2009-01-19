@@ -324,7 +324,9 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
  * @param dataType (defined in objdictdef.h) : put "visible_string" for strings, 0 for integers or reals or other value.
  * @param *data Pointer on data
  * @param Callback Callback function
- * @param endianize
+ * @param endianize When not 0, data is endianized into network byte order
+ *                  when 0, data is not endianized and copied in machine native
+ *                  endianness
  * @return 0xFF if error, else return 0
  */
 UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
@@ -389,12 +391,13 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
  *           - SDO_ABORTED_INTERNAL     // Transfert failed. Internal abort.
  *           - SDO_UPLOAD_IN_PROGRESS   // Data not yet available
  *           - SDO_DOWNLOAD_IN_PROGRESS // Should not arrive !
- *
+ * @code
  * example :
  * UNS32 data;
  * UNS8 size;
  * readNetworkDict(0, 0x05, 0x1016, 1, 0) // get the data index 1016 subindex 1 of node 5
  * while (getReadResultNetworkDict (0, 0x05, &data, &size) != SDO_UPLOAD_IN_PROGRESS);
+ * @endcode
 */
 UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, UNS32 * abortCode);
 
@@ -412,12 +415,14 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, 
  *           - SDO_DOWNLOAD_IN_PROGRESS // Data not yet available
  *           - SDO_UPLOAD_IN_PROGRESS   // Should not arrive !
  * 
+ * @code
  * example :
  * UNS32 data = 0x50;
  * UNS8 size;
  * UNS32 abortCode;
  * writeNetworkDict(0, 0x05, 0x1016, 1, size, &data) // write the data index 1016 subindex 1 of node 5
  * while (getWriteResultNetworkDict (0, 0x05, &abortCode) != SDO_DOWNLOAD_IN_PROGRESS);
+ * @endcode
 */
 UNS8 getWriteResultNetworkDict (CO_Data* d, UNS8 nodeId, UNS32 * abortCode);
 

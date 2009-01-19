@@ -65,8 +65,7 @@ struct struct_s_PDO_status {
 #define TRANS_EVENT_SPECIFIC  254  /* Transmission on event */
 #define TRANS_EVENT_PROFILE   255  /* Transmission on event */
 
-/**
- * @ingroup pdo 
+/** 
  * @brief Copy all the data to transmit in process_var
  * Prepare the PDO defined at index to be sent
  * *pwCobId : returns the value of the cobid. (subindex 1)
@@ -97,8 +96,7 @@ UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex );
  */
 UNS8 proceedPDO (CO_Data* d, Message *m);
 
-/**
- * @ingroup pdo 
+/** 
  * @brief Used by the application to signal changes in process data
  * that could be mapped to some TPDO.
  * This do not necessarily imply PDO emission.
@@ -118,14 +116,12 @@ UNS8 sendPDOevent (CO_Data* d);
 UNS8 _sendPDOevent(CO_Data* d, UNS8 isSyncEvent);
 
 /** 
- * @ingroup pdo
  * @brief Initialize PDO feature 
  * @param *d Pointer on a CAN object data structure
  */
 void PDOInit(CO_Data* d);
 
 /** 
- * @ingroup pdo
  * @brief Stop PDO feature 
  * @param *d Pointer on a CAN object data structure
  */
