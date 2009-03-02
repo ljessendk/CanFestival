@@ -17,11 +17,21 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-
+DLL_LIST=
+CF_CONFIG=/usr/share/CanFestival-3/objdictgen/canfestival_config.py
+CF_CONFIG_TEMP=/usr/share/CanFestival-3/objdictgen/canfestival_config_ori.py
 case "$1" in
     configure)
-	ln -sf /usr/share/CanFestival-3/objdictgen/objdictedit.py /usr/bin/objdictedit 
-	ln -sf /usr/share/objdictgen/objdictedit.py /usr/bin/objdictgen
+    ldconfig
+    cd /usr/lib
+    DLL_LIST=
+	FILES=
+	for file in libcanfestival_can*
+	do
+		DLL_LIST="$file,""$DLL_LIST"
+	done
+	cat $CF_CONFIG_TEMP > $CF_CONFIG
+	echo "DLL_LIST=[$DLL_LIST]" >> $CF_CONFIG
 	;;
 	
     abort-upgrade|abort-remove|abort-deconfigure)

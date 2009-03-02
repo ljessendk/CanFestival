@@ -27,45 +27,25 @@ endif
 config.status: configure
 	#### CONFIG.STATUS ####	
 	dh_testdir
+	
 	# Add here commands to configure the package.
-	cp debian/control-$(shell echo $(CAN_INTERFACE)) debian/control
-	./configure --can=$(shell echo $(CAN_INTERFACE)) --prefix=/usr 
-
-##############
-# And now the simple things for dpatch. Here we only apply/unapply the patches.
-# You can do more things with dpatch, like having patches only applied on
-# a special architecture - see the non-dh version of the sample for this!
-patch: patch-stamp
-patch-stamp:
-	dpatch apply-all
-	dpatch cat-all >patch-stamp
-	touch patch-stamp
-
-unpatch:
-	dpatch deapply-all
-	rm -rf patch-stamp debian/patched
-
-##################
-#Architecture 
-build: build-arch build-indep
-
-build-arch: build-arch-stamp
-build-arch-stamp:  config.status patch
-	#### BUILD-ARCH-STAMP ####
-	# Add here commands to compile the arch part of the package.
-	$(MAKE) 
-	touch $@
+	cp debian/control-$(shell echo $(CAN_INTERFACE)) debian/control; \
+	./configure --can=$(shell echo $(CAN_INTERFACE)) --prefix=/usr
+	 
+build: build-indep
 
 build-indep: build-indep-stamp
+
 build-indep-stamp:  config.status
 	#### BUILD-INDEP-STAMP ####
 	# Add here commands to compile the indep part of the package.
-
-clean: unpatch
+	$(MAKE)
+	
+clean:
 	#### CLEAN ####
 	dh_testdir
 	dh_testroot
-	rm -f build-arch-stamp build-indep-stamp #CONFIGURE-STAMP#
+	rm -f build-indep-stamp #CONFIGURE-STAMP#
 
 	# Add here commands to clean up after the build process.
 	-$(MAKE) clean
@@ -89,30 +69,26 @@ install-indep:
 
 	# Add here commands to install the indep part of the package into
 	# debian/<package>-doc.
+	$(MAKE) -C drivers PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C src PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C drivers PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C examples PREFIX=$(CURDIR)/debian/canfestival/usr install
+	$(MAKE) -C objdictgen PREFIX=$(CURDIR)/debian/canfestival/usr/share/CanFestival-3 install
+
+	mkdir -p $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/src
+	mkdir -p $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/include
+	mkdir -p $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/drivers/unix
+	cp -a $(CURDIR)/debian/canfestival/usr/include/canfestival/* $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/include
+	cp -a $(CURDIR)/debian/canfestival/usr/lib/* $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/src
+	cp -a $(CURDIR)/debian/canfestival/usr/lib/libcanfestival_unix.a $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/drivers/unix
+	cp $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen/canfestival_config.py $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen/canfestival_config_ori.py 
+	
+	mkdir -p $(CURDIR)/debian/canfestival/usr/share/applications
+	cp objdictgen/networkedit.png $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen
+	cp debian/objdictedit.desktop $(CURDIR)/debian/canfestival/usr/share/applications/objdictedit.desktop
 	
 	dh_install -i --sourcedir=debian/canfestival
 
-install-arch:
-	#### INSTALL-ARCH ####
-	dh_testdir
-	dh_testroot
-	dh_clean -k -s 
-	dh_installdirs -s
-
-	# Add here commands to install the arch part of the package into 
-	# debian/tmp.
-
-	$(MAKE) -C src PREFIX=$(CURDIR)/debian/canfestival/usr install	
-	$(MAKE) -C drivers PREFIX=$(CURDIR)/debian/canfestival/usr install
-	$(MAKE) -C examples PREFIX=$(CURDIR)/debian/canfestival/usr install
-	$(MAKE) -C objdictgen PREFIX=$(CURDIR)/debian/canfestival/usr/share install
-	cp debian/objdictedit.desktop $(CURDIR)/debian/canfestival/usr/share/applications/objdictedit.desktop
-	cp debian/objdictedit.png $(CURDIR)/debian/canfestival/usr/share/objdictgen/objdictedit.png
-	dh_install -s
-
-# Must not depend on anything. This is to be called by
-# binary-arch/binary-indep
-# in another 'make' thread.
 binary-common:
 	#### BINARY-COMMON ####
 	dh_testdir
@@ -144,13 +120,7 @@ binary-common:
 	dh_builddeb
 # Build architecture independant packages using the common target.
 binary-indep: build-indep install-indep
-	#### BINARY-INDEP ####
 	$(MAKE) -f debian/rules DH_OPTIONS=-i binary-common
 
-# Build architecture dependant packages using the common target.
-binary-arch: build-arch install-arch
-	#### BINARY-ARCH ####
-	$(MAKE) -f debian/rules DH_OPTIONS=-s binary-common
-
-binary: binary-arch binary-indep
-.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch patch unpatch
+binary: binary-indep
+.PHONY: build clean binary-indep binary install install-indep
