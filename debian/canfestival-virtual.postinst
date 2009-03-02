@@ -28,7 +28,7 @@ case "$1" in
 	FILES=
 	for file in libcanfestival_can*
 	do
-		DLL_LIST="$file,""$DLL_LIST"
+		DLL_LIST="'$file',""$DLL_LIST"
 	done
 	cat $CF_CONFIG_TEMP > $CF_CONFIG
 	echo "DLL_LIST=[$DLL_LIST]" >> $CF_CONFIG
