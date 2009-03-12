@@ -1071,6 +1071,9 @@ class Node:
         list.sort()
         return ",".join(list)
 
+    def GenerateMapName(self, name, index, subindex):
+        return "%s (0x%4.4X)" % (name, index)
+
     """
     Generate the list of variables that can be mapped for the current node
     """
@@ -1082,8 +1085,9 @@ class Node:
         for index, subIndex, size, name in list:
             self.MapList += ",%s"%name
             map = "%04X%02X%02X"%(index,subIndex,size)
-            self.NameTranslation[name] = map
-            self.MapTranslation[map] = name
+            mapname = self.GenerateMapName(name, index, subIndex)
+            self.NameTranslation[mapname] = map
+            self.MapTranslation[map] = mapname
 
     def GetMapValue(self, mapname):
         if mapname == "None":
@@ -1091,7 +1095,7 @@ class Node:
         else:
             list = self.GetMapVariableList()
             for index, subIndex, size, name in list:
-                if mapname == name:
+                if mapname == self.GenerateMapName(name, index, subIndex):
                     return (index << 16) + (subIndex << 8) + size
             return None
     
@@ -1101,14 +1105,14 @@ class Node:
             subindex = (value >> 8) % (1 << 8)
             result = self.GetSubentryInfos(index, subindex)
             if result:
-                return result["name"]
+                return self.GenerateMapName(result["name"], index, subindex)
         return "None"
     
     """
     Return the list of variables that can be mapped for the current node
     """
     def GetMapList(self):
-        list = ["None"] + [name for index, subIndex, size, name in self.GetMapVariableList()]
+        list = ["None"] + [self.GenerateMapName(name, index, subIndex) for index, subIndex, size, name in self.GetMapVariableList()]
         return ",".join(list)
 
 def BE_to_LE(value):
