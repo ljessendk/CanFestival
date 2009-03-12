@@ -808,7 +808,7 @@ class objdictedit(wx.Frame):
     
     def OnOtherCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentDS302Lists()
-        self.EditProfile("Edit DS-301 Profile", dictionary, current)
+        self.EditProfile("Edit DS-302 Profile", dictionary, current)
         event.Skip()
     
     def OnEditProfileMenu(self, event):
