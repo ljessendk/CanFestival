@@ -54,7 +54,7 @@
 **/
 #ifdef DEBUG_WAR_CONSOLE_ON
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
-                           UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code)
+                           UNS32 sizeDataDict, UNS32 sizeDataGiven, UNS32 code)
 {
   MSG_WAR(0x2B09,"Dictionary index : ", index);
   MSG_WAR(0X2B10,"           subindex : ", subIndex);
@@ -108,14 +108,14 @@ UNS32 _getODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
                    void * pDestData,
-                   UNS8 * pExpectedSize,
+                   UNS32 * pExpectedSize,
                    UNS8 * pDataType,
                    UNS8 checkAccess,
                    UNS8 endianize)
 { /* DO NOT USE MSG_ERR because the macro may send a PDO -> infinite
     loop if it fails. */
   UNS32 errorCode;
-  UNS8 szData;
+  UNS32 szData;
   const indextable *ptrTable;
   ODCallback_t *Callback;
 
@@ -211,11 +211,11 @@ UNS32 _setODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
                    void * pSourceData,
-                   UNS8 * pExpectedSize,
+                   UNS32 * pExpectedSize,
                    UNS8 checkAccess,
                    UNS8 endianize)
 {
-  UNS8 szData;
+  UNS32 szData;
   UNS8 dataType;
   UNS32 errorCode;
   const indextable *ptrTable;

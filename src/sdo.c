@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ** @return
 **/
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 
 /*!
 ** Called by readNetworkDict
@@ -184,10 +184,10 @@ void resetSDO (CO_Data* d)
 **/
 UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 {
-  UNS8      size;
+  UNS32 size;
   UNS32 errorCode;
   MSG_WAR(0x3A08, "Enter in SDOlineToObjdict ", line);
-  size = (UNS8)d->transfers[line].count;
+  size = d->transfers[line].count;
   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
 			 (void *) d->transfers[line].data, &size, 1);
   if (errorCode != OD_SUCCESSFUL)
@@ -207,7 +207,7 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 **/
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 {
-  UNS8  size = 0;
+  UNS32  size = 0;
   UNS8  dataType;
   UNS32 errorCode;
 
@@ -238,9 +238,9 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 **
 ** @return
 **/
-UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data) {
+UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
   UNS8 i;
-  UNS8 offset;
+  UNS32 offset;
 
   if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A10,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
@@ -250,7 +250,7 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data) {
     MSG_ERR(0x1A11,"SDO Size of data too large. Exceed count", nbBytes);
     return 0xFF;
   }
-  offset = (UNS8)d->transfers[line].offset;
+  offset = d->transfers[line].offset;
   for (i = 0 ; i < nbBytes ; i++)
     * (data + i) = d->transfers[line].data[offset + i];
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
@@ -267,19 +267,21 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data) {
 **
 ** @return
 **/
-UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8* data)
+UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 {
   UNS8 i;
-  UNS8 offset;
+  UNS32 offset;
 
   if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A15,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
     return 0xFF;
   }
-  offset = (UNS8)d->transfers[line].offset;
+  offset = d->transfers[line].offset;
   for (i = 0 ; i < nbBytes ; i++)
     d->transfers[line].data[offset + i] = * (data + i);
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
+  d->transfers[line].count = d->transfers[line].offset; 
+  
   return 0;
 }
 
@@ -328,7 +330,7 @@ UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index,
 **/
 void resetSDOline ( CO_Data* d, UNS8 line )
 {
-  UNS8 i;
+  UNS32 i;
   MSG_WAR(0x3A25, "reset SDO line nb : ", line);
   initSDOline(d, line, 0, 0, 0, SDO_RESET);
   for (i = 0 ; i < SDO_MAX_LENGTH_TRANSFERT ; i++)
@@ -451,12 +453,13 @@ UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
 **
 ** @return
 **/
-UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 * nbBytes)
+UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 {
   if (d->transfers[line].count == 0) /* if received initiate SDO protocol with e=0 and s=0 */
     * nbBytes = 0;
   else
-    * nbBytes = (UNS8)d->transfers[line].count - (UNS8)d->transfers[line].offset;
+    * nbBytes = d->transfers[line].count - d->transfers[line].offset;
+  
   return 0;
 }
 
@@ -469,7 +472,7 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 * nbBytes)
 **
 ** @return
 **/
-UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 nbBytes)
+UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes)
 {
   if (nbBytes > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A35,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
@@ -613,7 +616,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 {
   UNS8 err;
   UNS8 line;
-  UNS8 nbBytes; /* received or to be transmited. */
+  UNS32 nbBytes; /* received or to be transmited. */
   UNS8 nodeId = 0;  /* The node from which the SDO is received */
   UNS8 *pNodeId = NULL;
   UNS8 whoami = SDO_UNKNOWN;  /* SDO_SERVER or SDO_CLIENT.*/
@@ -864,8 +867,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       }
       else {/* So, if it is not an expedited transfert */
 	if (getSDOs(m->data[0])) {
-	  /* TODO : if e and s = 0, not reading m->data[4] but put nbBytes = 0 */
-	  nbBytes = m->data[4]; /* Transfert limited to 255 bytes. */
+	  nbBytes = 0; 
 	  err = setSDOlineRestBytes(d, nodeId, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1248,13 +1250,14 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 ** @return
 **/
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)
 {
   UNS8 err;
   UNS8 SDOfound = 0;
   UNS8 line;
   s_SDO sdo;    /* SDO to transmit */
-  UNS8 i, j;
+  UNS8 i;
+  UNS32 j;
   UNS16     lastIndex;
   UNS16     offset;
   UNS8      *pNodeIdServer;
@@ -1333,9 +1336,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   }
   else { /** Normal transfert */
     sdo.body.data[0] = (1 << 5) | 1;
-    sdo.body.data[4] = count; /* nb of byte to transmit. Max = 255. (canfestival2 limitation). */
-    for (i = 5 ; i < 8 ; i++)
-      sdo.body.data[i] = 0;
+    for (i = 4 ; i < 8 ; i++)
+      sdo.body.data[i] = 0;   
   }
   sdo.body.data[1] = index & 0xFF;        /* LSB */
   sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
@@ -1369,7 +1371,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 ** @return
 **/
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data)
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data)
 {
 	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, NULL, 1);
 }
@@ -1389,13 +1391,13 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 ** @return
 **/
 UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback)
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback)
 {
 	return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, Callback, 1);
 }
 
 UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize)
 {
 	UNS8 ret;
 	UNS16 lastIndex;
@@ -1629,10 +1631,10 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
 **
 ** @return
 **/
-UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
+UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
 			       UNS32 * abortCode)
 {
-  UNS8 i;
+  UNS32 i;
   UNS8 err;
   UNS8 line;
   * abortCode = 0;
@@ -1649,8 +1651,8 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size,
 
   /* Transfert is finished. Put the value in the data. */
   /* use transfers[line].count as max size */
-  if( (UNS8)d->transfers[line].count < *size )
-  	*size = (UNS8)d->transfers[line].count;
+  if( d->transfers[line].count < *size )
+  	*size = d->transfers[line].count;
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
     if (d->transfers[line].dataType != visible_string)

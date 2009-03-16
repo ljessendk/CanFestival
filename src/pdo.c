@@ -71,12 +71,12 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
       UNS32 *pMappingParameter =
         (UNS32 *) TPDO_map->pSubindex[prp_j + 1].pObject;
       UNS16 index = (UNS16) ((*pMappingParameter) >> 16);
-      UNS8 Size = (UNS8) (*pMappingParameter & (UNS32) 0x000000FF);     /* Size in bits */
+      UNS32 Size = (UNS32) (*pMappingParameter & (UNS32) 0x000000FF);     /* Size in bits */
 
       /* get variable only if Size != 0 and Size is lower than remaining bits in the PDO */
       if (Size && ((offset + Size) <= 64))
         {
-          UNS8 ByteSize = 1 + ((Size - 1) >> 3);        /*1->8 => 1 ; 9->16 => 2, ... */
+          UNS32 ByteSize = 1 + ((Size - 1) >> 3);        /*1->8 => 1 ; 9->16 => 2, ... */
           UNS8 subIndex =
             (UNS8) (((*pMappingParameter) >> (UNS8) 8) & (UNS32) 0x000000FF);
 
@@ -241,7 +241,7 @@ proceedPDO (CO_Data * d, Message * m)
                 while (numMap < *pMappingCount)
                   {
                     UNS8 tmp[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
-                    UNS8 ByteSize;
+                    UNS32 ByteSize;
                     pMappingParameter =
                       (UNS32 *) (d->objdict + offsetObjdict +
                                  numPdo)->pSubindex[numMap + 1].pObject;
@@ -268,7 +268,7 @@ proceedPDO (CO_Data * d, Message * m)
                         CopyBits (Size, (UNS8 *) & m->data[offset >> 3],
                                   offset % 8, 0, ((UNS8 *) tmp), 0, 0);
                         /*1->8 => 1 ; 9->16 =>2, ... */
-                        ByteSize = 1 + ((Size - 1) >> 3);
+                        ByteSize = (UNS32)(1 + ((Size - 1) >> 3));
 
                         objDict =
                           setODentry (d, (UNS16) ((*pMappingParameter) >> 16),

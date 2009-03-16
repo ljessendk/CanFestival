@@ -135,7 +135,7 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line);
  * @param *data Pointer on the data
  * @return 0xFF if error. Else, returns 0.
  */
-UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8 * data);
+UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8 * data);
 
 /** 
  * @brief Add data to an existant line
@@ -145,7 +145,7 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8 * data);
  * @param *data Pointer on the data
  * @return 0xFF if error. Else, returns 0.
  */
-UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS8 nbBytes, UNS8 * data);
+UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8 * data);
 
 /** 
  * @brief Called when an internal SDO abort occurs.
@@ -224,7 +224,7 @@ UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami);
  * @param *nbBytes Pointer on nbBytes
  * @return 0.
  */
-UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 * nbBytes);
+UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes);
 
 /** 
  * @brief Store in the line structure the nb of bytes which must be transmited (or received)
@@ -234,7 +234,7 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 * nbBytes);
  * @param nbBytes
  * @return 0 if success, 0xFF if error.
  */
-UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS8 nbBytes);
+UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes);
 
 /**
  * @brief Transmit a SDO frame on the bus bus_id
@@ -290,7 +290,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m);
  * @return 0xFF if error, else return 0
  */
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data);
 
 /** 
  * @ingroup sdo
@@ -308,7 +308,7 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  * @return 0xFF if error, else return 0
  */
 UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback);
 
 /**
  * @ingroup sdo 
@@ -330,7 +330,7 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
  * @return 0xFF if error, else return 0
  */
 UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS8 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
 
 /**
  * @ingroup sdo 
@@ -399,7 +399,7 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
  * while (getReadResultNetworkDict (0, 0x05, &data, &size) != SDO_UPLOAD_IN_PROGRESS);
  * @endcode
 */
-UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS8 *size, UNS32 * abortCode);
+UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size, UNS32 * abortCode);
 
 /**
  * @brief Use this function after a writeNetworkDict to get the result of the write

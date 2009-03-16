@@ -64,7 +64,7 @@ void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
  * @return
  */ 
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex, 
-			   UNS8 sizeDataDict, UNS8 sizeDataGiven, UNS32 code);
+			   UNS32 sizeDataDict, UNS32 sizeDataGiven, UNS32 code);
 
 
 /* _getODentry() Reads an entry from the object dictionary.\n
@@ -108,7 +108,7 @@ UNS32 _getODentry( CO_Data* d,
 		  UNS16 wIndex,
 		  UNS8 bSubindex,
 		  void * pDestData,
-		  UNS8 * pExpectedSize,
+		  UNS32 * pExpectedSize,
 		  UNS8 * pDataType,
 		  UNS8 checkAccess,
 		  UNS8 endianize);
@@ -188,7 +188,7 @@ UNS32 _setODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
                    void * pSourceData,
-                   UNS8 * pExpectedSize,
+                   UNS32 * pExpectedSize,
                    UNS8 checkAccess,
                    UNS8 endianize);
 

@@ -85,7 +85,7 @@ typedef struct td_subindex
 {
     UNS8                    bAccessType;
     UNS8                    bDataType; /* Defines of what datatype the entry is */
-    UNS8                    size;      /* The size (in Byte) of the variable */
+    UNS32                   size;      /* The size (in Byte) of the variable */
     void*                   pObject;   /* This is the pointer of the Variable */
 } subindex;
 
