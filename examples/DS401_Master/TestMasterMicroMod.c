@@ -38,7 +38,7 @@ void pause(void)
 #include "canfestival.h"
 #include "TestMasterMicroMod.h"
 #include "TestMaster.h"
-UNS8 slavenodeid;
+unsigned int slavenodeid;
 
 
 /*****************************************************************************/
@@ -56,7 +56,7 @@ void TestMaster_initialisation(CO_Data* d)
 {
 	UNS32 PDO1_COBID = 0x0180 + slavenodeid; 
 	UNS32 PDO2_COBID = 0x0200 + slavenodeid;
-	UNS8 size = sizeof(UNS32); 
+	UNS32 size = sizeof(UNS32); 
 
 	eprintf("TestMaster_initialisation\n");
 

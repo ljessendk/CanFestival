@@ -40,7 +40,7 @@ void TestMaster_initialisation(CO_Data* d)
 {
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0282;
-	UNS8 size = sizeof(UNS32); 
+	UNS32 size = sizeof(UNS32); 
 	UNS32 SINC_cicle=0;
 	UNS8 data_type = 0;
 	

@@ -83,12 +83,12 @@ static void (*unixtimer_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
  * Enter in realtime and start the CAN receiver loop
  * @param port
  */
-void unixtimer_canReceiveLoop(CAN_PORT port)
+void* unixtimer_canReceiveLoop(void* port)
 {
        
     /*get signal*/
     signal(SIGTERM, canReceiveLoop_signal);
-    unixtimer_ReceiveLoop_task_proc(port);
+    unixtimer_ReceiveLoop_task_proc((CAN_PORT)port);
 }
 
 void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
