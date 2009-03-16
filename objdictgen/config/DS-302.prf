@@ -32,7 +32,7 @@ Mapping = {
 
     0x1F53 : {"name" : "Expected Application SW Date", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of different programs on the node", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Program number %d[(sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]}
+                 {"name" : "Program number %d[(sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7F}]},
 
     0x1F55 : {"name" : "Expected Application SW Time", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of different programs on the node", "type" : 0x05, "access" : 'ro', "pdo" : False},
