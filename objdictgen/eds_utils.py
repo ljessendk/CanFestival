@@ -322,9 +322,9 @@ def ParseEDSFile(filepath):
                     # value can be preceded and followed by whitespaces, so we escape them
                     value = value.strip()
                     # First case, value starts with "$NODEID", then it's a formula
-                    if value.startswith("$NODEID"):
+                    if value.upper().startswith("$NODEID"):
                         try:
-                            test = int(value.replace("$NODEID+", ""), 16)
+                            test = int(value.upper().replace("$NODEID+", ""), 16)
                             computed_value = "\"%s\""%value
                         except:
                             raise SyntaxError, "\"%s\" is not a valid formula for attribute \"%s\" of section \"[%s]\""%(value, keyname, section_name)
