@@ -300,14 +300,14 @@ class MapVariableDialog(wx.Dialog):
 
         self.radioButton2 = wx.RadioButton(id=ID_MAPVARIABLEDIALOGRADIOBUTTON2,
               label='ARRAY', name='radioButton2', parent=self,
-              pos=wx.Point(0, 0), size=wx.Size(80, 24), style=wx.RB_SINGLE)
+              pos=wx.Point(0, 0), size=wx.Size(80, 24), style=0)
         self.radioButton2.SetValue(False)
         self.radioButton2.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton2Click,
               id=ID_MAPVARIABLEDIALOGRADIOBUTTON2)
 
         self.radioButton3 = wx.RadioButton(id=ID_MAPVARIABLEDIALOGRADIOBUTTON3,
               label='REC', name='radioButton3', parent=self,
-              pos=wx.Point(0, 0), size=wx.Size(80, 24), style=wx.RB_SINGLE)
+              pos=wx.Point(0, 0), size=wx.Size(80, 24), style=0)
         self.radioButton3.SetValue(False)
         self.radioButton3.Bind(wx.EVT_RADIOBUTTON, self.OnRadioButton3Click,
               id=ID_MAPVARIABLEDIALOGRADIOBUTTON3)
@@ -937,7 +937,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self.NMT_None = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_NONE,
               label='None', name='NMT_None', parent=self,
-              pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
+              pos=wx.Point(0, 0), size=wx.Size(0, 24), style=wx.RB_GROUP)
         self.NMT_None.SetValue(True)
 
         self.NMT_NodeGuarding = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_NODEGUARDING,
