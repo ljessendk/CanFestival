@@ -187,6 +187,9 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
   UNS32 size;
   UNS32 errorCode;
   MSG_WAR(0x3A08, "Enter in SDOlineToObjdict ", line);
+  /* if SDO initiated with e=0 and s=0 count is null, offset carry effective size*/
+  if( d->transfers[line].count == 0)
+  	d->transfers[line].count = d->transfers[line].offset;
   size = d->transfers[line].count;
   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
 			 (void *) d->transfers[line].data, &size, 1);
@@ -280,8 +283,6 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
   for (i = 0 ; i < nbBytes ; i++)
     d->transfers[line].data[offset + i] = * (data + i);
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
-  d->transfers[line].count = d->transfers[line].offset; 
-  
   return 0;
 }
 
@@ -455,11 +456,11 @@ UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
 **/
 UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 {
-  if (d->transfers[line].count == 0) /* if received initiate SDO protocol with e=0 and s=0 */
+  /* SDO initiated with e=0 and s=0 have count set to null */
+  if (d->transfers[line].count == 0)
     * nbBytes = 0;
   else
     * nbBytes = d->transfers[line].count - d->transfers[line].offset;
-  
   return 0;
 }
 
@@ -867,7 +868,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       }
       else {/* So, if it is not an expedited transfert */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = 0; 
+	  nbBytes = m->data[4] + m->data[5]<<8 + m->data[6]<<16 + m->data[7]<<24;
 	  err = setSDOlineRestBytes(d, nodeId, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1059,7 +1060,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       else { /* So, if it is not an expedited transfert */
 	/* Storing the nb of data to receive. */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = m->data[4]; /* Remember the limitation to 255 bytes to transfert */
+	  nbBytes = m->data[4] + m->data[5]<<8 + m->data[6]<<16 + m->data[7]<<24;
 	  err = setSDOlineRestBytes(d, line, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1336,8 +1337,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   }
   else { /** Normal transfert */
     sdo.body.data[0] = (1 << 5) | 1;
-    for (i = 4 ; i < 8 ; i++)
-      sdo.body.data[i] = 0;   
+    for (i = 0 ; i < 4 ; i++)
+      sdo.body.data[i+4] = count << (i<<3); /* i*8 */
   }
   sdo.body.data[1] = index & 0xFF;        /* LSB */
   sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
@@ -1649,10 +1650,13 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
   if (d->transfers[line].state != SDO_FINISHED)
     return d->transfers[line].state;
 
-  /* Transfert is finished. Put the value in the data. */
+  /* if SDO initiated with e=0 and s=0 count is null, offset carry effective size*/
+  if( d->transfers[line].count == 0)
+  	d->transfers[line].count = d->transfers[line].offset;
   /* use transfers[line].count as max size */
   if( d->transfers[line].count < *size )
   	*size = d->transfers[line].count;
+  /* Copy payload to data pointer */
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
     if (d->transfers[line].dataType != visible_string)
