@@ -677,7 +677,7 @@ class NodeManager:
             if name == "value":
                 if editor == "map":
                     value = node.GetMapValue(value)
-                    if value:
+                    if value is not None:
                         node.SetEntry(index, subIndex, value)
                 elif editor == "bool":
                     value = value == "True"
