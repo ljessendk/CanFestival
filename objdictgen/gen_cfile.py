@@ -230,7 +230,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 texts["length"] = values[0]
                 if index in variablelist:
                     texts["name"] = FormatName(entry_infos["name"])
-                    strDeclareHeader += "extern %(subIndexType)s%(type_suffixe)s %(name)s[];\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
+                    texts["values_count"] =  str(len(values)-1)
+                    strDeclareHeader += "extern %(subIndexType)s%(type_suffixe)s %(name)s[%(values_count)s];\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
                     mappedVariableContent += "%(subIndexType)s%(type_suffixe)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
