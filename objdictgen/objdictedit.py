@@ -939,7 +939,7 @@ An error happens.
 Click on OK for saving an error report.
 
 Please contact LOLITech at:
-+33 (0)3 29 52 95 67
++33 (0)3 29 57 60 42
 bugs_objdictedit@lolitech.fr
 
 
