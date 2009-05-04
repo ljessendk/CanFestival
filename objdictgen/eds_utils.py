@@ -704,11 +704,7 @@ def GenerateNode(filepath, nodeID = 0):
                     # Second case, entry is an ARRAY or RECORD
                     elif values["OBJECTTYPE"] in [8, 9]:
                         # Extract maximum subindex number defined
-                        try:
-                            max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
-                        except:
-                            max_subindex = max(*values["subindexes"].keys())
-                            #raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or RECORD entry"%entry
+                        max_subindex = max(values["subindexes"].keys())
                         # Add mapping for entry
                         Node.AddMappingEntry(entry, name = values["PARAMETERNAME"], struct = 3)
                         # Add mapping for first subindex
@@ -760,14 +756,8 @@ def GenerateNode(filepath, nodeID = 0):
                 elif values["OBJECTTYPE"] in [8, 9]:
                     # Verify that "Subnumber" attribute is defined and has a valid value
                     if "SUBNUMBER" in values and values["SUBNUMBER"] > 0:
-                        consecutive = False
                         # Extract maximum subindex number defined
-                        try:
-                            max_subindex = values["subindexes"][0]["DEFAULTVALUE"]
-                        except:
-                            max_subindex = values["SUBNUMBER"] - 1
-                            consecutive = True
-                            #raise SyntaxError, "Error on entry 0x%4.4X:\nSubindex 0 must be defined for an ARRAY or a RECORD entry"%entry
+                        max_subindex = max(values["subindexes"].keys())
                         Node.AddEntry(entry, value = [])
                         # Define value for all subindexes except the first 
                         for subindex in xrange(1, int(max_subindex) + 1):
@@ -777,10 +767,8 @@ def GenerateNode(filepath, nodeID = 0):
                             elif subindex in values["subindexes"] and "DEFAULTVALUE" in values["subindexes"][subindex]:
                                 value = values["subindexes"][subindex]["DEFAULTVALUE"]
                             # Find default value for value type of the subindex
-                            elif subindex in values["subindexes"] or not consecutive:
-                                value = GetDefaultValue(Node, entry, subindex)
                             else:
-                                raise SyntaxError, "Error on entry 0x%4.4X:\nCan't recompose implemented subindexes in this ARRAY or RECORD entry"%entry
+                                value = GetDefaultValue(Node, entry, subindex)
                             Node.AddEntry(entry, subindex, value)
                     else:
                         raise SyntaxError, "Array or Record entry 0x%4.4X must have a \"SubNumber\" attribute"%entry
