@@ -84,7 +84,8 @@ install-indep:
 	cp $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen/canfestival_config.py $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen/canfestival_config_ori.py 
 	
 	mkdir -p $(CURDIR)/debian/canfestival/usr/share/applications
-	cp objdictgen/networkedit.png $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen
+	cp objdictgen/networkedit.ico $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen
+	cp objdictgen/networkedit.png $(CURDIR)/debian/canfestival/usr/share/CanFestival-3/objdictgen	
 	cp debian/objdictedit.desktop $(CURDIR)/debian/canfestival/usr/share/applications/objdictedit.desktop
 	
 	dh_install -i --sourcedir=debian/canfestival
