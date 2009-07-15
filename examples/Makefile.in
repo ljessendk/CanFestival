@@ -50,6 +50,7 @@ define build_command_seq
 endef
 else
 define build_command_seq
+	$(MAKE) -C CANOpenShell $@
 	$(MAKE) -C TestMasterSlave $@
 	$(MAKE) -C TestMasterMicroMod $@
 	$(build_command_seq_wx)
