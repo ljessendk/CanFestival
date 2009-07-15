@@ -852,6 +852,67 @@ Press the reset of your HCS12 board.
 The {}``examples'' directory contains some test program you can
 use as example for your own developments.
 
+\subsection{CANOpenShell}
+
+This example provides a node that can execute some user commands through stdin. 
+
+With this example you can:
+\begin{enumerate}
+\item scan network (reset all nodes and display node's bootup message)
+\item start / stop /reset a remote node
+\item get informations about a remote node
+\item read / write a specific entry of a remote node
+\end{enumerate}
+
+The node can be started as a master node or a slave node. The only difference is 
+that when is started as a master, all nodes on the network are reseted.
+
+Be careful, the first command must be the "load" command.
+
+\begin{verbatim}
+	****************************************************************************
+	*  CANOpenShell                                                            *
+	*                                                                          *
+  	*   MANDATORY COMMAND (must be the first command)                          *
+	*     load#CanLibraryPath,channel,baudrate,nodeid,type (0:slave, 1:master) *
+	*                                                                          *
+	*   NETWORK: (if nodeid=0x00 : broadcast)                                  *
+	*     ssta#nodeid : Start a node                                           *
+	*     ssto#nodeid : Stop a node                                            *
+	*     srst#nodeid : Reset a node                                           *
+	*     scan : Reset all nodes and print message when bootup                 *
+	*     wait#seconds : Sleep for n seconds                                   *
+	*                                                                          *
+	*   SDO: (size in bytes)                                                   *
+	*     info#nodeid                                                          *
+	*     rsdo#nodeid,index,subindex : read sdo                                *
+	*        ex : rsdo#42,1018,01                                              *
+	*     wsdo#nodeid,index,subindex,size,data : write sdo                     *
+	*        ex : wsdo#42,6200,01,01,FF                                        *
+	*                                                                          *
+	*   Note: All numbers are hex                                              *
+	*                                                                          *
+	*     help : Display this menu                                             *
+	*     quit : Quit application                                              *
+	****************************************************************************
+\end{verbatim}
+
+Minimal launch command :
+\begin{verbatim}
+	./CANOpenShell load#libcanfestival_can_peak_linux.so,32,125K,8,0
+\end{verbatim}
+This command start the node as a slave with nodeid 8 at 125K on channel 32.
+
+Advanced launch command :
+\begin{verbatim}
+	./CANOpenShell load#libcanfestival_can_peak_linux.so,32,125K,8,1 \
+	 help \
+	 wait#5 \
+	 wsdo#42,6200,01,01,FF
+\end{verbatim}
+This command starts the node as a master with nodeid 8 at 125K on channel 32, 
+displays help menu, wait 5 seconds for node's NMT bootup, 
+and write FF value at index 6200, subindex 01 to the remote node with id 42.
 
 \subsection{TestMasterSlave}
 
@@ -884,7 +945,7 @@ use as example for your own developments.
 \end{verbatim}
 
 
-Notes aboute use of voncise DCF :
+Notes aboute use of concise DCF :
 
 In this example, Master configure heartbeat producer time
 at 1000 ms for slave node -id 0x02 by concise DCF according DS -302
@@ -1598,14 +1659,14 @@ Laurent ROMIEUX
 \par\end{center}
 
 LOLITECH
-
+24, rue Pierre Evrat
 204, rue du Haut du Pin
 
-88470 Saint -Michel sur Meurthe
+88100 Saint-Dié-des-Vosges
 
 FRANCE
 
-Tel : +33 3 29 52 95 67
+Tel : +33 3 29 57 60 42
 
 \href{http://www.lolitech.fr/}{http://www.lolitech.fr}
 
