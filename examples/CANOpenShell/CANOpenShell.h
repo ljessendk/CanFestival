@@ -28,13 +28,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "canfestival.h"
 
 void help(void);
-void StartNode(CO_Data*, UNS8);
-void StopNode(CO_Data*, UNS8);
-void ResetNode(CO_Data*, UNS8);
-void DiscoverNodes(CO_Data*);
+void StartNode(UNS8);
+void StopNode(UNS8);
+void ResetNode(UNS8);
+void DiscoverNodes(void);
 void CheckReadInfoSDO(CO_Data*, UNS8);
-void GetSlaveNodeInfo(CO_Data*, UNS8);
+void GetSlaveNodeInfo(UNS8);
 void CheckReadSDO(CO_Data*, UNS8);
 void CheckWriteSDO(CO_Data*, UNS8);
-void ReadDeviceEntry(CO_Data*, char*);
-void WriteDeviceEntry(CO_Data*, char*);
+void ReadDeviceEntry(char*);
+void WriteDeviceEntry(char*);
+void SleepFunction(int);

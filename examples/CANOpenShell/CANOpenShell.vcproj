@@ -173,15 +173,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\getopt.c"
-				>
-			</File>
-			<File
 				RelativePath=".\CANOpenShell.c"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellOD.c"
+				RelativePath=".\CANOpenShellMasterOD.c"
+				>
+			</File>
+			<File
+				RelativePath=".\CANOpenShellSlaveOD.c"
 				>
 			</File>
 		</Filter>
@@ -191,15 +191,15 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\getopt.h"
-				>
-			</File>
-			<File
 				RelativePath=".\CANOpenShell.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellOD.h"
+				RelativePath=".\CANOpenShellMasterOD.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CANOpenShellSlaveOD.h"
 				>
 			</File>
 		</Filter>
