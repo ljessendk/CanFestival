@@ -46,7 +46,7 @@ all: driver
 
 driver: $(OBJS)
 
-%o: %cpp
+%o: %c
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 install:

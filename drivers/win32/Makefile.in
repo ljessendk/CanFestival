@@ -54,7 +54,7 @@ all: driver
 driver: $(OBJS)
 
 
-%o: %cpp
+%o: %c
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 #../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:
