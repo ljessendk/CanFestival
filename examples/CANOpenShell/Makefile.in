@@ -67,9 +67,12 @@ $(CANOPENSHELL): $(OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 	mkdir -p Debug; cp $(CANOPENSHELL) Debug
 	
-CANOpenShellOD.c: CANOpenShellOD.od
+CANOpenShellMasterOD.c: CANOpenShellMasterOD.od
 	$(MAKE) -C ../../objdictgen gnosis
 	python ../../objdictgen/objdictgen.py CANOpenShellMasterOD.od CANOpenShellMasterOD.c
+
+CANOpenShellSlaveOD.c: CANOpenShellSlaveOD.od
+	$(MAKE) -C ../../objdictgen gnosis
 	python ../../objdictgen/objdictgen.py CANOpenShellSlaveOD.od CANOpenShellSlaveOD.c
 
 %o: %c
