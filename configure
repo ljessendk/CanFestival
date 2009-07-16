@@ -427,6 +427,8 @@ if [ "$SUB_CAN_DRIVER" = "peak_win32" ]; then
 		echo "CAN_* calls redefined to CAN2_* "
 		echo '#define CAN_Init CAN2_Init' >> $PW32DIR/cancfg.h
 		echo '#define CAN_Read CAN2_Read' >> $PW32DIR/cancfg.h
+		echo '#define CAN_ReadEx CAN2_ReadEx' >> $PW32DIR/cancfg.h
+		echo '#define CAN_SetRcvEvent CAN2_SetRcvEvent' >> $PW32DIR/cancfg.h
 		echo '#define CAN_Write CAN2_Write' >> $PW32DIR/cancfg.h
 		echo '#define CAN_Close CAN2_Close' >> $PW32DIR/cancfg.h
 	fi
