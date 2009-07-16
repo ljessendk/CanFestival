@@ -78,11 +78,13 @@ UNS8 buildPDO(CO_Data* d, UNS8 numPdo, Message *pdo);
 
 /** 
  * @ingroup pdo
- * @brief Transmit a PDO request frame on the bus bus_id
- * to the slave.
- * bus_id is hardware dependant
+ * @brief Transmit a PDO request frame on the network to the slave.
  * @param *d Pointer on a CAN object data structure
  * @param RPDOIndex Index of the receive PDO
+ * @return
+ *       - CanFestival file descriptor is returned upon success.
+ *       - 0xFF is returned if RPDO Index is not found.
+ 
  * @return 0xFF if error, other in success.
  */
 UNS8 sendPDOrequest( CO_Data* d, UNS16 RPDOIndex );

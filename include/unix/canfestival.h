@@ -24,59 +24,64 @@ typedef void* LIB_HANDLE;
 
 /**
  * @ingroup can
- * @{
- */
-
-/**
- * @ingroup can
  * @brief Unload CAN driver interface
  * @param handle The library handle
- * @return 0 if succes
+ * @return
+ *       -  0 is returned upon success.
+ *       - -1 is returned if the CAN driver interface can't be unloaded.
  */
 UNS8 UnLoadCanDriver(LIB_HANDLE handle);
 
 /**
  * @ingroup can
- * @brief Load CAN driver interface
+ * @brief Load CAN driver interface.
  * @param *driver_name The location of the library to load
- * @return handle The library handle
+ * @return
+ *       - handle of the CAN driver interface is returned upon success.
+ *       - NULL is returned if the CAN driver interface can't be loaded.
  */
 LIB_HANDLE LoadCanDriver(const char* driver_name);
 
 /**
  * @brief Send a CAN message
  * @param port CanFestival file descriptor
- * @param *m The message to send
+ * @param *m The CAN message to send
  * @return 0 if succes
  */
 UNS8 canSend(CAN_PORT port, Message *m);
 
 /**
  * @ingroup can
- * @brief Open a CANopen device
- * @param *board Pointer on the board structure that contains busname and baudrate 
- * @param *d Pointer on the CAN object data structure
- * @return port CanFestival file descriptor
+ * @brief Open a CANOpen device
+ * @param *board Pointer to the board structure that contains busname and baudrate 
+ * @param *d Pointer to the CAN object data structure
+ * @return
+ *       - CanFestival file descriptor is returned upon success.
+ *       - NULL is returned if the CANOpen board can't be opened.
  */
 CAN_PORT canOpen(s_BOARD *board, CO_Data * d);
 
 /**
  * @ingroup can
- * @brief Close a CANopen device
- * @param *d Pointer on the CAN object data structure
- * @return 0 if succes
+ * @brief Close a CANOpen device
+ * @param *d Pointer to the CAN object data structure
+ * @return
+ *       - 0 is returned upon success.
+ *       - errorcode if error. (if implemented)  
  */
 int canClose(CO_Data * d);
 
 /**
  * @ingroup can
- * @brief Change the CANopen device baudrate 
+ * @brief Change the CANOpen device baudrate 
  * @param port CanFestival file descriptor 
  * @param *baud The new baudrate to assign
- * @return 0 if succes
+ * @return
+ *       - 0 is returned upon success or if not supported by the CAN driver.
+ *       - errorcode from the CAN driver is returned if an error occurs. (if implemented in the CAN driver)
  */
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud);
-/** @} */
+
 
 
 #ifdef __cplusplus

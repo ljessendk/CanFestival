@@ -32,10 +32,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "data.h"
 
 /** 
- * @brief Threat the reception of a NMT message from the master
- * bus_id is hardware dependant
- * @param *d Pointer on the CAN data structure
- * @param *m Pointer on the message received
+ * @brief Threat the reception of a NMT message from the master.
+ * @param *d Pointer to the CAN data structure
+ * @param *m Pointer to the message received
  * @return 
  *  -  0 if OK 
  *  - -1 if the slave is not allowed, by its state, to receive the message
@@ -45,7 +44,6 @@ void proceedNMTstateChange (CO_Data* d, Message * m);
 /** 
  * @brief Transmit the boot-Up frame when the slave is moving from initialization
  * state to pre_operational state.
- * bus_id is hardware dependant
  * @param *d Pointer on the CAN data structure
  * @return canSend(bus_id,&m)
  */

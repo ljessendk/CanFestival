@@ -51,7 +51,7 @@ typedef struct struct_CO_Data CO_Data;
 
 /**
  * @ingroup od
- * @brief This structure contains all necessary information for a CanOpen node 
+ * @brief This structure contains all necessary informations to define a CANOpen node 
  */
 struct struct_CO_Data {
 	/* Object dictionary */

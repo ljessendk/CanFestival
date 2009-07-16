@@ -46,7 +46,6 @@ typedef void (* storeODSubIndex_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 
 /**
- * @ingroup od
  * @brief Print MSG_WAR (s) if error to the access to the object dictionary occurs.
  * 
  * You must uncomment the lines in the file objaccess.c :\n
@@ -85,7 +84,7 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
  *     // error handling
  * }
  * @endcode 
- * @param *d Pointer on a CAN object data structure
+ * @param *d Pointer to a CAN object data structure
  * @param wIndex The index in the object dictionary where you want to read
  *               an entry
  * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
@@ -96,13 +95,15 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
  *                   the value of this object dictionary entry should be copied
  * @param pExpectedSize This function writes the size of the copied value (in Byte)
  *                      into this variable.
- * @param *pDataType Pointer on the type of the data. See objdictdef.h
+ * @param *pDataType Pointer to the type of the data. See objdictdef.h
  * @param CheckAccess if other than 0, do not read if the data is Write Only
  *                    [Not used today. Put always 0].
  * @param Endianize  When not 0, data is endianized into network byte order
  *                   when 0, data is not endianized and copied in machine native
  *                   endianness 
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
  */
 UNS32 _getODentry( CO_Data* d, 
 		  UNS16 wIndex,
@@ -116,7 +117,7 @@ UNS32 _getODentry( CO_Data* d,
 /** 
  * @ingroup od
  * @brief getODentry() to read from object and endianize
- * @param OD Pointer on a CAN object data structure
+ * @param OD Pointer to a CAN object data structure
  * @param wIndex The index in the object dictionary where you want to read
  *                an entry
  * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
@@ -127,11 +128,12 @@ UNS32 _getODentry( CO_Data* d,
  *                   the value of this object dictionary entry should be copied
  * @param pExpectedSize This function writes the size of the copied value (in Byte)
  *                      into this variable.
- * @param *pDataType Pointer on the type of the data. See objdictdef.h
- * @param checkAccess if other than 0, do not read if the data is Write Only
- *                    [Not used today. Put always 0].
+ * @param *pDataType Pointer to the type of the data. See objdictdef.h
+ * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
  * @param endianize  Set to 1 : endianized into network byte order 
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
  */
 #define getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess)                         \
@@ -143,7 +145,7 @@ UNS32 _getODentry( CO_Data* d,
  * @brief readLocalDict() reads an entry from the object dictionary, but in 
  * contrast to getODentry(), readLocalDict() doesn't endianize entry and reads
  * entry in machine native endianness. 
- * @param OD Pointer on a CAN object data structure
+ * @param OD Pointer to a CAN object data structure
  * @param wIndex The index in the object dictionary where you want to read
  *                an entry
  * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
@@ -154,21 +156,22 @@ UNS32 _getODentry( CO_Data* d,
  *                   the value of this object dictionary entry should be copied
  * @param pExpectedSize This function writes the size of the copied value (in Byte)
  *                      into this variable.
- * @param *pDataType Pointer on the type of the data. See objdictdef.h
+ * @param *pDataType Pointer to the type of the data. See objdictdef.h
  * @param checkAccess if other than 0, do not read if the data is Write Only
  *                    [Not used today. Put always 0].
  * @param endianize Set to 0, data is not endianized and copied in machine native
  *                  endianness 
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
  */
 #define readLocalDict( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess)                         \
        _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess, 0)
 
-/**
- * @brief By this function you can write an entry into the object dictionary
- * @param *d Pointer on a CAN object data structure
+/* By this function you can write an entry into the object dictionary
+ * @param *d Pointer to a CAN object data structure
  * @param wIndex The index in the object dictionary where you want to write
  *               an entry
  * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
@@ -178,11 +181,13 @@ UNS32 _getODentry( CO_Data* d,
  * @param *pSourceData Pointer to the variable that holds the value that should
  *                     be copied into the object dictionary
  * @param *pExpectedSize The size of the value (in Byte).
- * @param checkAccess if other than 0, do not read if the data is Read Only or Constant
+ * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
  * @param endianize When not 0, data is endianized into network byte order
  *                  when 0, data is not endianized and copied in machine native
  *                  endianness   
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
  */
 UNS32 _setODentry( CO_Data* d,
                    UNS16 wIndex,
@@ -203,7 +208,7 @@ UNS32 _setODentry( CO_Data* d,
  *
  * retcode = setODentry( (UNS16)0x1800, (UNS8)2, &B, sizeof(UNS8), 1 );
  * @endcode
- * @param d Pointer on a CAN object data structure
+ * @param d Pointer to a CAN object data structure
  * @param wIndex The index in the object dictionary where you want to write
  *               an entry
  * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
@@ -213,16 +218,37 @@ UNS32 _setODentry( CO_Data* d,
  * @param *pSourceData Pointer to the variable that holds the value that should
  *                     be copied into the object dictionary
  * @param *pExpectedSize The size of the value (in Byte).
- * @param checkAccess if other than 0, do not read if the data is Read Only or Constant
+ * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
  * @param endianize Set to 1 : endianized into network byte order
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
  */
-#define setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
-       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 1)
+#define setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
+                  checkAccess) \
+       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
+                  checkAccess, 1)
 
-/**
+/** @fn UNS32 writeLocalDict(d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess)
  * @ingroup od
+ * @hideinitializer
  * @brief Writes machine native SourceData to OD.
+ * @param d Pointer to a CAN object data structure
+ * @param wIndex The index in the object dictionary where you want to write
+ *               an entry
+ * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
+ *                  used to tell you how many valid entries you can find
+ *                  in this index. Look at the canopen standard for further
+ *                  information
+ * @param *pSourceData Pointer to the variable that holds the value that should
+ *                     be copied into the object dictionary
+ * @param *pExpectedSize The size of the value (in Byte).
+ * @param checkAccess Flag that indicate if a check rights must be perfomed (0 : no , other than 0 : yes)
+ * @param endianize Data is not endianized and copied in machine native endianness 
+ * @return 
+ * - OD_SUCCESSFUL is returned upon success. 
+ * - SDO abort code is returned if error occurs . (See file def.h)
+ * \n\n
  * @code
  * // Example usage:
  * UNS8 B;
@@ -230,19 +256,6 @@ UNS32 _setODentry( CO_Data* d,
  *
  * retcode = writeLocalDict( (UNS16)0x1800, (UNS8)2, &B, sizeof(UNS8), 1 );
  * @endcode
- * @param d Pointer on a CAN object data structure
- * @param wIndex The index in the object dictionary where you want to write
- *               an entry
- * @param bSubindex The subindex of the Index. e.g. mostly subindex 0 is
- *                  used to tell you how many valid entries you can find
- *                  in this index. Look at the canopen standard for further
- *                  information
- * @param *pSourceData Pointer to the variable that holds the value that should
- *                     be copied into the object dictionary
- * @param *pExpectedSize The size of the value (in Byte).
- * @param checkAccess if other than 0, do not read if the data is Read Only or Constant
- * @param endianize Data is not endianized and copied in machine native endianness 
- * @return OD_SUCCESSFUL or SDO abort code. (See file def.h)
  */
 #define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
        _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
@@ -251,7 +264,7 @@ UNS32 _setODentry( CO_Data* d,
 
 /**
  * @brief Scan the index of object dictionary. Used only by setODentry and getODentry.
- * @param *d Pointer on a CAN object data structure
+ * @param *d Pointer to a CAN object data structure
  * @param wIndex
  * @param *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)
  * @param **Callback

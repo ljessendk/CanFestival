@@ -31,6 +31,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "timer.h"
 
 // For use from CAN driver
+
+
 /**
  * @ingroup timer
  * @brief Acquire mutex
@@ -42,12 +44,12 @@ void EnterMutex(void);
  * @brief Release mutex
  */
 void LeaveMutex(void);
+
 void WaitReceiveTaskEnd(TASK_HANDLE*);
 
 /**
  * @ingroup timer
- * @brief Initialize Timer 
- * 
+ * @brief Initialize Timer
  */
 void TimerInit(void);
 
@@ -70,7 +72,6 @@ void StartTimerLoop(TimerCallback_t Callback);
  * @param Callback A callback function
  */
 void StopTimerLoop(TimerCallback_t Callback);
-/** @} */
 
 /**
  * @brief Stop the timer task

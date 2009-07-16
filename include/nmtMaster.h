@@ -35,49 +35,49 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 /** 
  * @ingroup nmtmaster
- * @brief Transmit a NMT message on the bus number bus_id
- * to the slave whose node_id is ID
+ * @brief Transmit a NMT message on the network to the slave whose nodeId is node ID.
  * 
- * bus_id is hardware dependant
- * cs represents the order of state changement:
- *  - cs =  NMT_Start_Node            // Put the node in operational mode             
- *  - cs =	 NMT_Stop_Node		   // Put the node in stopped mode
- *  - cs =	 NMT_Enter_PreOperational  // Put the node in pre_operational mode  
- *  - cs =  NMT_Reset_Node		   // Put the node in initialization mode 
- *  - cs =  NMT_Reset_Comunication	   // Put the node in initialization mode 
+ * @param *d Pointer to a CAN object data structure
+ * @param nodeId Id of the slave node
+ * @param cs The order of state changement \n\n
+ * 
+ * Allowed states :
+ *  - cs =  NMT_Start_Node               // Put the node in operational mode             
+ *  - cs =	NMT_Stop_Node		         // Put the node in stopped mode
+ *  - cs =	NMT_Enter_PreOperational     // Put the node in pre_operational mode  
+ *  - cs =  NMT_Reset_Node		         // Put the node in initialization mode 
+ *  - cs =  NMT_Reset_Comunication	     // Put the node in initialization mode
+ *  
  * The mode is changed according to the slave state machine mode :
  *  - initialisation  ---> pre-operational (Automatic transition)
  *  - pre-operational <--> operational
  *  - pre-operational <--> stopped
- *  - pre-operational, operational, stopped -> initialisation\n
- * @param *d Pointer on a CAN object data structure
- * @param Node_ID Id of the slave node
- * @param cs State changement
- * @return canSend(bus_id,&m)               
+ *  - pre-operational, operational, stopped -> initialisation
+ * \n\n
+ * @return errorcode
+ *                   - 0 if the NMT message was send
+ *                   - 1 if an error occurs 
  */
-UNS8 masterSendNMTstateChange (CO_Data* d, UNS8 Node_ID, UNS8 cs);
+UNS8 masterSendNMTstateChange (CO_Data* d, UNS8 nodeId, UNS8 cs);
 
 /**
  * @ingroup nmtmaster 
- * @brief Transmit a Node_Guard message on the bus number bus_id
- * to the slave whose node_id is nodeId
+ * @brief Transmit a NodeGuard message on the network to the slave whose nodeId is node ID
  * 
- * bus_id is hardware dependant
- * @param *d Pointer on a CAN object data structure
+ * @param *d Pointer to a CAN object data structure
  * @param nodeId Id of the slave node
- * @return canSend(bus_id,&m)
+ * @return
+ *         - 0 is returned if the NodeGuard message was send.
+ *         - 1 is returned if an error occurs.
  */
 UNS8 masterSendNMTnodeguard (CO_Data* d, UNS8 nodeId);
 
 /** 
  * @ingroup nmtmaster
- * @brief Prepare a Node_Guard message transmission on the bus number bus_id
- * to the slave whose node_id is nodeId
+ * @brief Ask the state of the slave node whose nodeId is node Id.
  * 
- * Put nodeId = 0 to send an NMT broadcast.
- * This message will ask for the slave, whose node_id is nodeId, its state
- * bus_id is hardware dependant
- * @param *d Pointer on a CAN object data structure
+ * To ask states of all nodes on the network (NMT broadcast), nodeId must be equal to 0
+ * @param *d Pointer to a CAN object data structure
  * @param nodeId Id of the slave node
  */
 void masterRequestNodeState (CO_Data* d, UNS8 nodeId);

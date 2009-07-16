@@ -1,5 +1,5 @@
 /*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
+This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 
@@ -30,16 +30,20 @@ typedef struct struct_s_BOARD s_BOARD;
 #include "applicfg.h"
 #include "can.h"
 
-/** 
- * @brief The CAN board configuration 
+/**
+ * @brief The CAN board configuration
  * @ingroup can
- * @{
  */
+
+//struct struct_s_BOARD {
+//  char busname[100]; /**< The bus name on which the CAN board is connected */
+//  char baudrate[4]; /**< The board baudrate */
+//};
+
 struct struct_s_BOARD {
-  char * busname;
-  char * baudrate;
+  char * busname;  /**< The bus name on which the CAN board is connected */
+  char * baudrate; /**< The board baudrate */
 };
-/** @} */
 
 #ifndef DLL_CALL
 #define DLL_CALL(funcname) funcname##_driver
@@ -69,7 +73,7 @@ static inline void print_message(Message *m)
     fc = m->cob_id >> 7;
     switch(fc)
     {
-        case SYNC: 
+        case SYNC:
             if(m->cob_id == 0x080)
                 MSG("SYNC ");
             else
