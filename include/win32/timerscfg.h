@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <windows.h>
 
-// Time unit : us
-// Time resolution : 64bit (~584942 years)
+// Time unit : 100 ns
 #define TIMEVAL unsigned long long
 #define TIMEVAL_MAX ~(TIMEVAL)0
 
