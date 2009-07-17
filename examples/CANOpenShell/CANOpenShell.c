@@ -97,31 +97,33 @@ int get_info_step = 0;
 void CheckReadInfoSDO(CO_Data* d, UNS8 nodeid)
 {
 	UNS32 abortCode;
-	UNS32 data;
+	UNS32 data=0;
 	UNS32 size=64;
 
 	if(getReadResultNetworkDict(CANOpenShellOD_Data, nodeid, &data, &size, &abortCode) != SDO_FINISHED)
 		printf("Master : Failed in getting information for slave %2.2x, AbortCode :%4.4x \n", nodeid, abortCode);
-
+	else
+	{
+		/* Display data received */
+		switch(get_info_step)
+		{
+			case 1:
+					printf("Device type     : %x\n", data);
+					break;
+			case 2:
+					printf("Vendor ID       : %x\n", data);
+					break;
+			case 3:
+					printf("Product Code    : %x\n", data);
+					break;
+			case 4:
+					printf("Revision Number : %x\n", data);
+					break;
+		}
+	}
 	/* Finalize last SDO transfer with this node */
 	closeSDOtransfer(CANOpenShellOD_Data, nodeid, SDO_CLIENT);
 
-	/* Display data received */
-	switch(get_info_step)
-	{
-		case 1:
-				printf("Device type     : %x\n", data);
-				break;
-		case 2:
-				printf("Vendor ID       : %x\n", data);
-				break;
-		case 3:
-				printf("Product Code    : %x\n", data);
-				break;
-		case 4:
-				printf("Revision Number : %x\n", data);
-				break;
-	}
 	GetSlaveNodeInfo(nodeid);
 }
 
@@ -158,7 +160,7 @@ void GetSlaveNodeInfo(UNS8 nodeid)
 void CheckReadSDO(CO_Data* d, UNS8 nodeid)
 {
 	UNS32 abortCode;
-	UNS32 data;
+	UNS32 data=0;
 	UNS32 size=64;
 
 	if(getReadResultNetworkDict(CANOpenShellOD_Data, nodeid, &data, &size, &abortCode) != SDO_FINISHED)
@@ -300,13 +302,9 @@ void Exit(CO_Data* d, UNS32 nodeid)
 int NodeInit(int NodeID, int NodeType)
 {
 	if(NodeType)
-	{
 		CANOpenShellOD_Data = &CANOpenShellMasterOD_Data;
-	}
 	else
-	{
 		CANOpenShellOD_Data = &CANOpenShellSlaveOD_Data;
-	}
 
 	/* Load can library */
 	LoadCanDriver(LibraryPath);
@@ -473,6 +471,9 @@ int main(int argc, char** argv)
 
 	// Stop timer thread
 	StopTimerLoop(&Exit);
+
+	/* Close CAN board */
+	canClose(CANOpenShellOD_Data);
 
 init_fail:
 	TimerCleanup();
