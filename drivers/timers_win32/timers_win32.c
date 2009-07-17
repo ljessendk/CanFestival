@@ -69,15 +69,16 @@ void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 
 int TimerThreadLoop(void)
 {
-	int ret = 0;
 	EnterMutex();
 	// At first, TimeDispatch will call init_callback.
 	SetAlarm(NULL, 0, init_callback, 0, 0);
 	LeaveMutex();
 
-	while(!stop_timer && ret == WAIT_OBJECT_0)
+	while(!stop_timer)
 	{
-		ret = WaitForSingleObject(timer, INFINITE);
+		WaitForSingleObject(timer, INFINITE);
+		if(stop_timer)
+			break;
 		_ftime(&timebuffer);
 		EnterMutex();
 		TimeDispatch();
@@ -93,7 +94,7 @@ void TimerInit(void)
 
 	InitializeCriticalSection(&CanFestival_mutex);
 
-	timer = CreateWaitableTimer(NULL, TRUE, NULL);
+	timer = CreateWaitableTimer(NULL, FALSE, NULL);
 	if(NULL == timer)
     {
         printf("CreateWaitableTimer failed (%d)\n", GetLastError());
@@ -115,8 +116,9 @@ void StopTimerLoop(TimerCallback_t exitfunction)
 	LeaveMutex();
 
 	stop_timer = 1;
-	CloseHandle(timer);
+	setTimer(0);
 	WaitForSingleObject(timer_thread, INFINITE);
+	CloseHandle(timer);
 	CloseHandle(timer_thread);
 }
 
@@ -132,10 +134,7 @@ void StartTimerLoop(TimerCallback_t _init_callback)
 void setTimer(TIMEVAL value)
 {
 	if(value == TIMEVAL_MAX)
-	{
-		/* cancel timer */
 		CancelWaitableTimer(timer);
-	}
 	else
 	{
 		LARGE_INTEGER liDueTime;
@@ -156,6 +155,6 @@ TIMEVAL getElapsedTime(void)
 {
 	struct _timeb timetmp;
 	_ftime(&timetmp);
-	return (timetmp.time - timebuffer.time) * 1000000 + (timetmp.millitm - timebuffer.millitm) * 1000;
+	return (timetmp.time - timebuffer.time) * 10000000 + (timetmp.millitm - timebuffer.millitm) * 10000;
 }
 
