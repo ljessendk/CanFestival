@@ -123,80 +123,79 @@ UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
 	TPCANTimestamp peakRcvTime;
 	DWORD Res;
 	DWORD result;
-
+	// loop until valid message or fatal error
+	do{
 #ifdef PCAN2_HEADER_
-	// if not the first handler
-	if(second_board == (s_BOARD *)fd0) {
-		//wait for CAN msg...
-		result = WaitForSingleObject(hEvent2, INFINITE);
-		if (result == WAIT_OBJECT_0)
-			Res = CAN2_ReadEx(&peakMsg, &peakRcvTime);
-			if(Res == (CAN_ERR_QRCVEMPTY | CAN_ERRMASK_ILLHANDLE))
-			{
-				ResetEvent(hEvent2);
-				return 1;
-			}
-	}
-	else
-#endif
-
-	// We read the queue looking for messages.
-	if(first_board == (s_BOARD *)fd0) {
-		result = WaitForSingleObject(hEvent1, INFINITE);
-		if (result == WAIT_OBJECT_0)
-		{
-			Res = CAN_ReadEx(&peakMsg, &peakRcvTime);
-			if(Res == (CAN_ERR_QRCVEMPTY | CAN_ERRMASK_ILLHANDLE))
-			{
-				ResetEvent(hEvent1);
-				return 1;
-			}
+		// if not the first handler
+		if(second_board == (s_BOARD *)fd0) {
+			//wait for CAN msg...
+			result = WaitForSingleObject(hEvent2, INFINITE);
+			if (result == WAIT_OBJECT_0)
+				Res = CAN2_ReadEx(&peakMsg, &peakRcvTime);
+				// Exit receive thread when handle is no more valid
+				if(Res & CAN_ERRMASK_ILLHANDLE)
+					return 1;
 		}
-	}
-	else
-		Res = CAN_ERR_BUSOFF;
-
-	// A message was received : we process the message(s)
-	if (Res == CAN_ERR_OK)
-	{
-		// if something different that 11bit or rtr... problem
-		if (peakMsg.MSGTYPE & ~(MSGTYPE_STANDARD | MSGTYPE_RTR))
-		{
-			if (peakMsg.MSGTYPE == CAN_ERR_BUSOFF)
-			{
-				printf ("!!! Peak board read : re-init\n");
-				canInit((s_BOARD*) fd0);
-				usleep (10000);
-			}
-
-			// If status, return status if 29bit, return overrun
-			return peakMsg.MSGTYPE ==
-				MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
-		}
-		m->cob_id = peakMsg.ID;
-
-		if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)	/* bits of MSGTYPE_ */
-			m->rtr = 0;
 		else
-			m->rtr = 1;
-		m->len = peakMsg.LEN;	/* count of data bytes (0..8) */
-		for (data = 0; data < peakMsg.LEN; data++)
-			m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
-#if defined DEBUG_MSG_CONSOLE_ON
-		MSG("in : ");
-		print_message(m);
 #endif
-	}
-	else
-	{
-		if (!(Res & CAN_ERR_QRCVEMPTY
-				|| Res & CAN_ERR_BUSLIGHT
-				|| Res & CAN_ERR_BUSHEAVY))
-		{
-			printf ("canReceive returned error (%d)\n", Res);
-			return 1;
+
+		// We read the queue looking for messages.
+		if(first_board == (s_BOARD *)fd0) {
+			result = WaitForSingleObject(hEvent1, INFINITE);
+			if (result == WAIT_OBJECT_0)
+			{
+				Res = CAN_ReadEx(&peakMsg, &peakRcvTime);
+				// Exit receive thread when handle is no more valid
+				if(Res & CAN_ERRMASK_ILLHANDLE)
+					return 1;
+			}
 		}
-	}
+		else
+			Res = CAN_ERR_BUSOFF;
+
+		// A message was received : we process the message(s)
+		if (Res == CAN_ERR_OK)
+		{
+			// if something different that 11bit or rtr... problem
+			if (peakMsg.MSGTYPE & ~(MSGTYPE_STANDARD | MSGTYPE_RTR))
+			{
+				if (peakMsg.MSGTYPE == CAN_ERR_BUSOFF)
+				{
+					printf ("!!! Peak board read : re-init\n");
+					canInit((s_BOARD*) fd0);
+					usleep (10000);
+				}
+
+				// If status, return status if 29bit, return overrun
+				return peakMsg.MSGTYPE ==
+					MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
+			}
+			m->cob_id = peakMsg.ID;
+
+			if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)	/* bits of MSGTYPE_ */
+				m->rtr = 0;
+			else
+				m->rtr = 1;
+			m->len = peakMsg.LEN;	/* count of data bytes (0..8) */
+			for (data = 0; data < peakMsg.LEN; data++)
+				m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
+#if defined DEBUG_MSG_CONSOLE_ON
+			MSG("in : ");
+			print_message(m);
+#endif
+		}
+		else
+		{
+			// not benign error => fatal error
+			if (!(Res & CAN_ERR_QRCVEMPTY
+					|| Res & CAN_ERR_BUSLIGHT
+					|| Res & CAN_ERR_BUSHEAVY))
+			{
+				printf ("canReceive returned error (%d)\n", Res);
+				return 1;
+			}
+		}
+	}while(Res != CAN_ERR_OK);
 	return 0;
 }
 
@@ -297,15 +296,17 @@ int canClose_driver (CAN_HANDLE fd0)
 	// if not the first handler
 	if(second_board == (s_BOARD *)fd0)
 	{
-		SetEvent(hEvent2);
+		CAN2_SetRcvEvent(NULL);
 		CAN2_Close ();
+		SetEvent(hEvent2);
 		second_board = (s_BOARD *)NULL;
 	}else
 #endif
 	if(first_board == (s_BOARD *)fd0)
 	{
-		SetEvent(hEvent1);
+		CAN_SetRcvEvent(NULL);
 		CAN_Close ();
+		SetEvent(hEvent1);
 		first_board = (s_BOARD *)NULL;
 	}
 	return 0;
