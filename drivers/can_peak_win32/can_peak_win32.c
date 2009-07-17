@@ -70,16 +70,20 @@ int TranslateBaudeRate(char* optarg){
 	return 0x0000;
 }
 
-void canInit (s_BOARD *board)
+UNS8 canInit (s_BOARD *board)
 {
 	int baudrate;
+	int ret = 0;
 
 #ifdef PCAN2_HEADER_
 	// if not the first handler
 	if(second_board == (s_BOARD *)board) {
 		if(baudrate = TranslateBaudeRate(board->baudrate))
-			CAN2_Init (baudrate,
-			  CAN_INIT_TYPE_ST extra_PCAN_init_params);
+		{
+			ret = CAN2_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
+			if(ret != CAN_ERR_OK)
+				return 0;
+		}
 
 		//Create the Event for the first board
 		hEvent2 = CreateEvent(NULL, // lpEventAttributes
@@ -94,10 +98,12 @@ void canInit (s_BOARD *board)
 #endif
 	if(first_board == (s_BOARD *)board) {
 		if(baudrate = TranslateBaudeRate(board->baudrate))
-			CAN_Init (baudrate,
-			  CAN_INIT_TYPE_ST extra_PCAN_init_params);
-
-	//Create the Event for the first board
+		{
+			ret = CAN_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
+			if(ret != CAN_ERR_OK)
+				return 0;
+		}
+		//Create the Event for the first board
 		hEvent1 = CreateEvent(NULL, // lpEventAttributes
 							FALSE,  // bManualReset
 							FALSE,  // bInitialState
@@ -105,6 +111,7 @@ void canInit (s_BOARD *board)
 		//Set Event Handle for CANReadExt
 		CAN_SetRcvEvent(hEvent1);
 	}
+	return 1;
 }
 
 /********* functions which permit to communicate with the board ****************/
@@ -124,6 +131,11 @@ UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
 		result = WaitForSingleObject(hEvent2, INFINITE);
 		if (result == WAIT_OBJECT_0)
 			Res = CAN2_ReadEx(&peakMsg, &peakRcvTime);
+			if(Res == (CAN_ERR_QRCVEMPTY | CAN_ERRMASK_ILLHANDLE))
+			{
+				ResetEvent(hEvent2);
+				return 1;
+			}
 	}
 	else
 #endif
@@ -132,7 +144,14 @@ UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
 	if(first_board == (s_BOARD *)fd0) {
 		result = WaitForSingleObject(hEvent1, INFINITE);
 		if (result == WAIT_OBJECT_0)
+		{
 			Res = CAN_ReadEx(&peakMsg, &peakRcvTime);
+			if(Res == (CAN_ERR_QRCVEMPTY | CAN_ERRMASK_ILLHANDLE))
+			{
+				ResetEvent(hEvent1);
+				return 1;
+			}
+		}
 	}
 	else
 		Res = CAN_ERR_BUSOFF;
@@ -247,22 +266,25 @@ CAN_HANDLE canOpen_driver (s_BOARD * board)
 {
   char busname[64];
   char* pEnd;
+  int ret;
 
   //printf ("Board Busname=%d.\n",strtol(board->busname, &pEnd,0));
   if (strtol(board->busname, &pEnd,0) == 0)
   {
       first_board = board;
-      printf ("First Board selected\n");
-      canInit(board);
-      return (CAN_HANDLE)board;
+      //printf ("First Board selected\n");
+      ret = canInit(board);
+      if(ret)
+    	  return (CAN_HANDLE)board;
   }
   #ifdef PCAN2_HEADER_
   if (strtol(board->busname, &pEnd,0) == 1)
   {
       second_board = board;
-      printf ("Second Board selected\n");
-      canInit(board);
-      return (CAN_HANDLE)board;
+      //printf ("Second Board selected\n");
+      ret = canInit(board);
+      if(ret)
+    	  return (CAN_HANDLE)board;
   }
   #endif
   return NULL;
@@ -275,14 +297,14 @@ int canClose_driver (CAN_HANDLE fd0)
 	// if not the first handler
 	if(second_board == (s_BOARD *)fd0)
 	{
-		ResetEvent(hEvent2);
+		SetEvent(hEvent2);
 		CAN2_Close ();
 		second_board = (s_BOARD *)NULL;
 	}else
 #endif
 	if(first_board == (s_BOARD *)fd0)
 	{
-		ResetEvent(hEvent1);
+		SetEvent(hEvent1);
 		CAN_Close ();
 		first_board = (s_BOARD *)NULL;
 	}
