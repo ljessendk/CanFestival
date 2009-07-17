@@ -45,5 +45,8 @@ Please read can festival documentation to know how to obtain one."""
                 os.system("xpdf -remote DS301 %s &"%os.path.join(cwd, "doc","301_v04000201.pdf"))
         return True
     except:
-        return """Check if xpdf is correctly installed on your computer"""
-	
+        if wx.Platform == '__WXMSW__':
+            return """Check if Acrobat Reader is correctly installed on your computer"""
+        else:
+            return """Check if xpdf is correctly installed on your computer"""
+        

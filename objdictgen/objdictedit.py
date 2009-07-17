@@ -408,8 +408,18 @@ class objdictedit(wx.Frame):
             readerexepath = os.path.join(readerpath,"AcroRd32.exe")
             if(os.path.isfile(readerexepath)):
                 os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", '"%s"'%os.path.join(ScriptDirectory, "doc","manual_en.pdf"))
+            else:
+                message = wx.MessageDialog(self, """Check if Acrobat Reader is correctly installed on your computer""", "ERROR", wx.OK|wx.ICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
+                
         else:
-            os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
+            try:
+                os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
+            except:
+                message = wx.MessageDialog(self, """Check if xpdf is correctly installed on your computer""", "ERROR", wx.OK|wx.ICON_ERROR)
+                message.ShowModal()
+                message.Destroy()
         event.Skip()
 
     def OnAboutMenu(self, event):
