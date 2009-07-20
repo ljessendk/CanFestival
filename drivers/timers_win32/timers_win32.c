@@ -25,11 +25,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <stdlib.h>
 #include <sys/timeb.h>
 
+extern "C"
+{
 #include "applicfg.h"
 #include "can_driver.h"
 #include "timer.h"
 #include "timers_driver.h"
-
+};
 
 struct _timeb timebuffer;
 

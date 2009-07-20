@@ -26,11 +26,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include <windows.h>
-
+extern "C"
+{
 #include "canfestival.h"
 #include "timer.h"
 #include "timers_driver.h"
-
+};
 // GetProcAddress doesn't have an UNICODE version for NT
 #ifdef UNDER_CE
   #define myTEXT(str) TEXT(str)
@@ -92,8 +93,8 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	{
 		handle = LoadLibrary(driver_name);
 	}
-	
-	if (!handle) 
+
+	if (!handle)
 	{
 		fprintf (stderr, "%s\n", GetLastError());
     	return NULL;
@@ -104,7 +105,7 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
 	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
 	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
-	
+
 	return handle;
 }
 
@@ -143,14 +144,14 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 		break;
 	}
 
-	#ifndef NOT_USE_DYNAMIC_LOADING	
+	#ifndef NOT_USE_DYNAMIC_LOADING
 	if (m_canOpen == NULL)
 	{
 	   	fprintf(stderr,"CanOpen : Can Driver dll not loaded\n");
 	   	return NULL;
 	}
 	#endif
-	
+
 	CAN_HANDLE fd0 = m_canOpen(board);
 	if(fd0)
 	{
@@ -158,7 +159,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 		canports[i].fd = fd0;
 		canports[i].d = d;
 		d->canHandle = (CAN_PORT)&canports[i];
-		CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
+		CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, (void *)canReceiveLoop);
 		return (CAN_PORT)&canports[i];
 	}
 	else
@@ -172,17 +173,16 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 int canClose(CO_Data * d)
 {
 	UNS8 res;
-	
+
 	((CANPort*)d->canHandle)->used = 0;
 	CANPort* tmp = (CANPort*)d->canHandle;
 	d->canHandle = NULL;
-	
+
 	// close CAN port
 	res = m_canClose(tmp->fd);
 
 	// kill receiver task
 	WaitReceiveTaskEnd(&tmp->receiveTask);
-	
 	return res;
 }
 
@@ -194,7 +194,7 @@ UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
 		res = m_canChangeBaudRate(((CANPort*)port)->fd, baud);
 		//EnterMutex();
 		return res; // OK
-	}               
+	}
 	return 1; // NOT OK
 }
 
