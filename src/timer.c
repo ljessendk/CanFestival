@@ -1,5 +1,5 @@
 /*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
+This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 
@@ -43,17 +43,17 @@ TIMER_HANDLE last_timer_raw = -1;
 
 #define min_val(a,b) ((a<b)?a:b)
 
-/*!                                                                                                
-** -------  Use this to declare a new alarm ------                                                                                                
-**                                                                                                 
-** @param d                                                                                        
-** @param id                                                                                       
-** @param callback                                                                                 
-** @param value                                                                                    
-** @param period                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/   
+/*!
+** -------  Use this to declare a new alarm ------
+**
+** @param d
+** @param id
+** @param callback
+** @param value
+** @param period
+**
+** @return
+**/
 TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL value, TIMEVAL period)
 {
 	TIMER_HANDLE row_number;
@@ -67,14 +67,14 @@ TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL va
 		{	/* just store */
 			TIMEVAL real_timer_value;
 			TIMEVAL elapsed_time;
-			
+
 			if (row_number == last_timer_raw + 1) last_timer_raw++;
-			
+
 			elapsed_time = getElapsedTime();
 			/* set next wakeup alarm if new entry is sooner than others, or if it is alone */
-			real_timer_value = value > elapsed_time ? value - elapsed_time : 0;
+			real_timer_value = value;
 			real_timer_value = min_val(real_timer_value, TIMEVAL_MAX);
-	
+
 			if (total_sleep_time > elapsed_time && total_sleep_time - elapsed_time > real_timer_value)
 			{
 				total_sleep_time = elapsed_time + real_timer_value;
@@ -89,35 +89,35 @@ TIMER_HANDLE SetAlarm(CO_Data* d, UNS32 id, TimerCallback_t callback, TIMEVAL va
 			return row_number;
 		}
 	}
-	
+
 	return TIMER_NONE;
 }
 
-/*!                                                                                                
-**  -----  Use this to remove an alarm ----                                                                                             
-**                                                                                                 
-** @param handle                                                                                   
-**                                                                                                 
-** @return                                                                                         
-**/  
+/*!
+**  -----  Use this to remove an alarm ----
+**
+** @param handle
+**
+** @return
+**/
 TIMER_HANDLE DelAlarm(TIMER_HANDLE handle)
 {
 	/* Quick and dirty. system timer will continue to be trigged, but no action will be preformed. */
 	MSG_WAR(0x3320, "DelAlarm. handle = ", handle);
 	if(handle != TIMER_NONE)
 	{
-		if(handle == last_timer_raw) 
+		if(handle == last_timer_raw)
 			last_timer_raw--;
-		timers[handle].state = TIMER_FREE; 		
+		timers[handle].state = TIMER_FREE;
 	}
 	return TIMER_NONE;
 }
 
-/*!                                                                                                
-** ------  TimeDispatch is called on each timer expiration ----                                                                                                
-**                                                                                                 
+/*!
+** ------  TimeDispatch is called on each timer expiration ----
+**
 **/
-int tdcount=0;  
+int tdcount=0;
 void TimeDispatch(void)
 {
 	TIMER_HANDLE i;
@@ -125,7 +125,7 @@ void TimeDispatch(void)
 	/* First run : change timer state depending on time */
 	/* Get time since timer signal */
 	TIMEVAL overrun = getElapsedTime();
-	
+
 	TIMEVAL real_total_sleep_time = total_sleep_time + overrun;
 
 	s_timer_entry *row;
@@ -147,7 +147,7 @@ void TimeDispatch(void)
 					row->state = TIMER_TRIG_PERIOD; /* ask for trig, periodic */
 					/* Check if this new timer value is the soonest */
 					if(row->val < next_wakeup)
-						next_wakeup = row->val;   
+						next_wakeup = row->val;
 				}
 			}
 			else
@@ -157,11 +157,11 @@ void TimeDispatch(void)
 
 				/* Check if this new timer value is the soonest */
 				if(row->val < next_wakeup)
-					next_wakeup = row->val;   
+					next_wakeup = row->val;
 			}
 		}
 	}
-	
+
 	/* Remember how much time we should sleep. */
 	total_sleep_time = next_wakeup;
 
