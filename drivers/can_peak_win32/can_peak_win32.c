@@ -35,10 +35,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef extra_PCAN_init_params
 	#define extra_PCAN_init_params /**/
 #else
+	long int print_getenv(const char* pcanparam)
+	{
+		char* param=NULL;
+		long int res=0;
+
+		param = getenv(pcanparam);
+		if(param != NULL){
+			res = strtol(param,NULL,0);
+		}
+		else
+			printf("Environment variable %s not defined !\n", pcanparam);
+		printf("Found environment variable %s : %ld\n", pcanparam ,res);
+		return res;
+	}
 	#define extra_PCAN_init_params\
-		,getenv("PCANHwType") ? strtol(getenv("PCANHwType"),NULL,0):0\
-		,getenv("PCANIO_Port") ? strtol(getenv("PCANIO_Port"),NULL,0):0\
-		,getenv("PCANInterupt") ? strtol(getenv("PCANInterupt"),NULL,0):0
+		,print_getenv("PCANHwType")\
+		,print_getenv("PCANIO_Port")\
+		,print_getenv("PCANInterupt")
 #endif
 
 static s_BOARD *first_board = NULL;
