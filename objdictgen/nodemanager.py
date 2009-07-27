@@ -1039,40 +1039,29 @@ class NodeManager:
                 dic["subindex"] = "0x%02X"%i
                 dic["name"] = infos["name"]
                 dic["type"] = node.GetTypeName(infos["type"])
+                if dic["type"] is None:
+                    dic["type"] = "Unknown"
                 dic["access"] = AccessType[infos["access"]]
                 dic["save"] = OptionType[dic["save"]]
-                editor = {"subindex" : None, "save" : "option", "callback" : "option", "comment" : "string"}
+                editor = {"subindex" : None, "name" : None, 
+                          "type" : None, "value" : None,
+                          "access" : None, "save" : "option", 
+                          "callback" : "option", "comment" : "string"}
                 if isinstance(values, ListType) and i == 0:
-                    editor["name"] = None
-                    editor["type"] = None
                     if 0x1600 <= index <= 0x17FF or 0x1A00 <= index <= 0x1C00:
                         editor["access"] = "raccess"
-                    else:
-                        editor["access"] = None
-                    editor["value"] = None
                 else:
                     if infos["user_defined"]:
                         if entry_infos["struct"] & OD_IdenticalSubindexes:
-                            editor["name"] = None
-                            if i > 1:
-                                editor["type"] = None
-                                editor["access"] = None
-                            else:
+                            if i == 0:
                                 editor["type"] = "type"
                                 editor["access"] = "access"
                         else:
                             if entry_infos["struct"] & OD_MultipleSubindexes:
                                 editor["name"] = "string"
-                            else:
-                                editor["name"] = None
                             editor["type"] = "type"
                             editor["access"] = "access"
-                    else:
-                        editor["name"] = None
-                        editor["type"] = None
-                        editor["access"] = None
                     if index < 0x260:
-                        editor["value"] = None
                         if i == 1:
                             dic["value"] = node.GetTypeName(dic["value"])
                     elif 0x1600 <= index <= 0x17FF or 0x1A00 <= index <= 0x1C00:
