@@ -2,7 +2,7 @@ Source: canfestival
 Section: devel
 Priority: standard
 Maintainer: lolitech <gregory.trelat@lolitech.fr>
-Build-Depends: debhelper (>= 5), libwxgtk2.8-dev
+Build-Depends: debhelper (>= 5)
 Standards-Version: 3.7.2
 
 Package: canfestival-devel
@@ -31,7 +31,7 @@ Description: Virtual Can Interfaces
 
 Package: canfestival-objdictedit
 Architecture: all
-Depends: python-wxgtk2.8, xpdf, docutils
+Depends: python-wxgtk2.8
 Description: A CanOpen Node Editor
  Objdictedit, the Object Dictionary Editor, is a WxPython based GUI that is used to
  create the C file needed to create a new CanOpen node.
