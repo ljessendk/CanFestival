@@ -215,9 +215,9 @@ class NodeManager:
                             self.CurrentNode.SetDS302Profile(Mapping)
                             self.CurrentNode.ExtendSpecificMenu(AddMenuEntries)
                         except:
-                            return "Problem with DS-302! Syntax Error."
+                            return _("Problem with DS-302! Syntax Error.")
                     else:
-                        return "Couldn't find DS-302 in 'config' folder!"
+                        return _("Couldn't find DS-302 in 'config' folder!")
                 elif option == "GenSYNC":
                     AddIndexList.extend([0x1005, 0x1006])
                 elif option == "Emergency":
@@ -261,7 +261,7 @@ class NodeManager:
                 node.SetSpecificMenu(AddMenuEntries)
                 return None
             except:
-                return "Syntax Error\nBad OD Profile file!"
+                return _("Syntax Error\nBad OD Profile file!")
         else:
             # Default profile
             node.SetProfileName("None")
@@ -285,7 +285,7 @@ class NodeManager:
             self.SetCurrentFilePath(filepath)
             return index
         except:
-            return "Unable to load file \"%s\"!"%filepath
+            return _("Unable to load file \"%s\"!")%filepath
 
     """
     Save current node in  a file
@@ -624,9 +624,9 @@ class NodeManager:
                     self.BufferCurrentNode()
                 return None
             else:
-                return "Index 0x%04X already defined!"%index
+                return _("Index 0x%04X already defined!")%index
         else:
-            return "Index 0x%04X isn't a valid index for Map Variable!"%index
+            return _("Index 0x%04X isn't a valid index for Map Variable!")%index
 
     def AddUserTypeToCurrent(self, type, min, max, length):
         index = 0xA0
@@ -656,7 +656,7 @@ class NodeManager:
             self.BufferCurrentNode()
             return None
         else:
-            return "Too many User Types have already been defined!"
+            return _("Too many User Types have already been defined!")
 
 #-------------------------------------------------------------------------------
 #                      Modify Entry and Mapping Functions
@@ -850,7 +850,7 @@ class NodeManager:
         self.FilePaths[self.NodeIndex] = filepath
         if filepath == "":
             self.LastNewIndex += 1
-            self.FileNames[self.NodeIndex] = "Unnamed%d"%self.LastNewIndex
+            self.FileNames[self.NodeIndex] = _("Unnamed%d")%self.LastNewIndex
         else:
             self.FileNames[self.NodeIndex] = os.path.splitext(os.path.basename(filepath))[0]
                 

@@ -26,8 +26,10 @@ from types import *
 
 from nodemanager import *
 
+_ = lambda x: x
+
 def usage():
-    print "\nUsage of objdictgen.py :"
+    print _("\nUsage of objdictgen.py :")
     print "\n   %s XMLFilePath CFilePath\n"%sys.argv[0]
 
 try:
@@ -55,7 +57,7 @@ if __name__ == '__main__':
     if fileIn != "" and fileOut != "":
         manager = NodeManager()
         if os.path.isfile(fileIn):
-            print "Parsing input file"
+            print _("Parsing input file")
             result = manager.OpenFileInCurrent(fileIn)
             if not isinstance(result, (StringType, UnicodeType)):
                 Node = result
@@ -63,12 +65,12 @@ if __name__ == '__main__':
                 print result
                 sys.exit(-1)
         else:
-            print "%s is not a valid file!"%fileIn
+            print _("%s is not a valid file!")%fileIn
             sys.exit(-1)
-        print "Writing output file"
+        print _("Writing output file")
         result = manager.ExportCurrentToCFile(fileOut)
         if isinstance(result, (UnicodeType, StringType)):
             print result
             sys.exit(-1)
-        print "All done"
+        print _("All done")
     

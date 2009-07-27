@@ -74,11 +74,11 @@ def GetValidTypeInfos(typename, items=[]):
             elif values[0] == "BOOLEAN":
                 typeinfos = ("UNS8", None, "boolean", False)
             else:
-                raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
+                raise ValueError, _("""!!! %s isn't a valid type for CanFestival.""")%typename
             if typeinfos[2] not in ["visible_string", "domain"]:
                 internal_types[typename] = typeinfos
         else:
-            raise ValueError, """!!! %s isn't a valid type for CanFestival."""%typename
+            raise ValueError, _("""!!! %s isn't a valid type for CanFestival.""")%typename
     return typeinfos
 
 def ComputeValue(type, value):
@@ -95,6 +95,12 @@ def WriteFile(filepath, content):
     cfile = open(filepath,"w")
     cfile.write(content)
     cfile.close()
+
+def GetTypeName(Node, typenumber):
+    typename = Node.GetTypeName(typenumber)
+    if typename is None:
+        raise ValueError, _("""!!! Datatype with value "0x%4.4X" isn't defined in CanFestival.""")%typenumber
+    return typename
 
 def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     """
@@ -186,11 +192,11 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         # Entry type is VAR
         if not isinstance(values, ListType):
             subentry_infos = Node.GetSubentryInfos(index, 0)
-            typename = Node.GetTypeName(subentry_infos["type"])
+            typename = GetTypeName(Node, subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename, [values])
             if typename is "DOMAIN" and index in variablelist:
                 if not typeinfos[1]:
-                    raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex 0x00"%index)
+                    raise ValueError, _("\nDomain variable not initialized\nindex : 0x%04X\nsubindex : 0x00")%index
             texts["subIndexType"] = typeinfos[0]
             if typeinfos[1] is not None:
                 texts["suffixe"] = "[%d]"%typeinfos[1]
@@ -206,7 +212,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             values = [values]
         else:
             subentry_infos = Node.GetSubentryInfos(index, 0)
-            typename = Node.GetTypeName(subentry_infos["type"])
+            typename = GetTypeName(Node, subentry_infos["type"])
             typeinfos = GetValidTypeInfos(typename)
             if index == 0x1003:
                 texts["value"] = 0
@@ -240,7 +246,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                                 sep = ""
                             value, comment = ComputeValue(typeinfos[2], value)
                             if len(value) is 2 and typename is "DOMAIN":
-                                raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex 0x%02X"%(index, subIndex))
+                                raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex : 0x%02X"%(index, subIndex))
                             mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
                 else:
@@ -261,7 +267,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                     texts["subIndex"] = subIndex
                     if subIndex > 0:
                         subentry_infos = Node.GetSubentryInfos(index, subIndex)
-                        typename = Node.GetTypeName(subentry_infos["type"])
+                        typename = GetTypeName(Node, subentry_infos["type"])
                         typeinfos = GetValidTypeInfos(typename, [values[subIndex]])
                         texts["subIndexType"] = typeinfos[0]
                         if typeinfos[1] is not None:
@@ -572,5 +578,5 @@ def GenerateFile(filepath, node, pointers_dict = {}):
         WriteFile(headerfilepath, header)
         return None
     except ValueError, message:
-        return "Unable to Generate C File\n%s"%message
+        return _("Unable to Generate C File\n%s")%message
 

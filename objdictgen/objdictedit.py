@@ -26,7 +26,52 @@ import wx
 from types import *
 import os, re, platform, sys, time, traceback, getopt
 
-__version__ = "$Revision$"
+__version__ = "$Revision: 1.48 $"
+
+if __name__ == '__main__':
+    def usage():
+        print _("\nUsage of objdictedit.py :")
+        print "\n   %s [Filepath, ...]\n"%sys.argv[0]
+
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
+    except getopt.GetoptError:
+        # print help information and exit:
+        usage()
+        sys.exit(2)
+
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            usage()
+            sys.exit()
+    
+    app = wx.PySimpleApp()
+
+ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
+
+# Import module for internationalization
+import gettext
+import __builtin__
+
+# Get folder containing translation files
+localedir = os.path.join(ScriptDirectory,"locale")
+# Get the default language
+langid = wx.LANGUAGE_DEFAULT
+# Define translation domain (name of translation files)
+domain = "objdictgen"
+
+# Define locale for wx
+loc = __builtin__.__dict__.get('loc', None)
+if loc is None:
+    loc = wx.Locale(langid)
+    __builtin__.__dict__['loc'] = loc
+# Define location for searching translation files
+loc.AddCatalogLookupPathPrefix(localedir)
+# Define locale domain
+loc.AddCatalog(domain)
+
+if __name__ == '__main__':
+    __builtin__.__dict__['_'] = wx.GetTranslation
 
 from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
 
@@ -97,15 +142,13 @@ try:
             try:
                 import webbrowser
             except ImportError:
-                wx.MessageBox('Please point your browser at: %s' % url)
+                wx.MessageBox(_('Please point your browser at: %s') % url)
             else:
                 webbrowser.open(url)
 
     Html_Window = True
 except:
     Html_Window = False
-
-ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 [ID_OBJDICTEDIT, ID_OBJDICTEDITFILEOPENED, 
  ID_OBJDICTEDITHELPBAR,
@@ -127,33 +170,33 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 class objdictedit(wx.Frame):
     def _init_coll_MenuBar_Menus(self, parent):
         if self.ModeSolo:
-            parent.Append(menu=self.FileMenu, title='File')
-        parent.Append(menu=self.EditMenu, title='Edit')
-        parent.Append(menu=self.AddMenu, title='Add')
-        parent.Append(menu=self.HelpMenu, title='Help')
+            parent.Append(menu=self.FileMenu, title=_('File'))
+        parent.Append(menu=self.EditMenu, title=_('Edit'))
+        parent.Append(menu=self.AddMenu, title=_('Add'))
+        parent.Append(menu=self.HelpMenu, title=_('Help'))
 
     def _init_coll_FileMenu_Items(self, parent):
         parent.Append(help='', id=wx.ID_NEW,
-              kind=wx.ITEM_NORMAL, text='New\tCTRL+N')
+              kind=wx.ITEM_NORMAL, text=_('New\tCTRL+N'))
         parent.Append(help='', id=wx.ID_OPEN,
-              kind=wx.ITEM_NORMAL, text='Open\tCTRL+O')
+              kind=wx.ITEM_NORMAL, text=_('Open\tCTRL+O'))
         parent.Append(help='', id=wx.ID_CLOSE,
-              kind=wx.ITEM_NORMAL, text='Close\tCTRL+W')
+              kind=wx.ITEM_NORMAL, text=_('Close\tCTRL+W'))
         parent.AppendSeparator()
         parent.Append(help='', id=wx.ID_SAVE,
-              kind=wx.ITEM_NORMAL, text='Save\tCTRL+S')
+              kind=wx.ITEM_NORMAL, text=_('Save\tCTRL+S'))
         parent.Append(help='', id=wx.ID_SAVEAS,
-              kind=wx.ITEM_NORMAL, text='Save As...\tALT+S')
+              kind=wx.ITEM_NORMAL, text=_('Save As...\tALT+S'))
         parent.AppendSeparator()
         parent.Append(help='', id=ID_OBJDICTEDITFILEMENUIMPORTEDS,
-              kind=wx.ITEM_NORMAL, text='Import EDS file')
+              kind=wx.ITEM_NORMAL, text=_('Import EDS file'))
         parent.Append(help='', id=ID_OBJDICTEDITFILEMENUEXPORTEDS,
-              kind=wx.ITEM_NORMAL, text='Export to EDS file')
+              kind=wx.ITEM_NORMAL, text=_('Export to EDS file'))
         parent.Append(help='', id=ID_OBJDICTEDITFILEMENUEXPORTC,
-              kind=wx.ITEM_NORMAL, text='Build Dictionary\tCTRL+B')
+              kind=wx.ITEM_NORMAL, text=_('Build Dictionary\tCTRL+B'))
         parent.AppendSeparator()
         parent.Append(help='', id=wx.ID_EXIT,
-              kind=wx.ITEM_NORMAL, text='Exit')
+              kind=wx.ITEM_NORMAL, text=_('Exit'))
         self.Bind(wx.EVT_MENU, self.OnNewMenu, id=wx.ID_NEW)
         self.Bind(wx.EVT_MENU, self.OnOpenMenu, id=wx.ID_OPEN)
         self.Bind(wx.EVT_MENU, self.OnCloseMenu, id=wx.ID_CLOSE)
@@ -169,21 +212,21 @@ class objdictedit(wx.Frame):
 
     def _init_coll_EditMenu_Items(self, parent):
         parent.Append(help='', id=wx.ID_REFRESH,
-              kind=wx.ITEM_NORMAL, text='Refresh\tCTRL+R')
+              kind=wx.ITEM_NORMAL, text=_('Refresh\tCTRL+R'))
         parent.AppendSeparator()
         parent.Append(help='', id=wx.ID_UNDO,
-              kind=wx.ITEM_NORMAL, text='Undo\tCTRL+Z')
+              kind=wx.ITEM_NORMAL, text=_('Undo\tCTRL+Z'))
         parent.Append(help='', id=wx.ID_REDO,
-              kind=wx.ITEM_NORMAL, text='Redo\tCTRL+Y')
+              kind=wx.ITEM_NORMAL, text=_('Redo\tCTRL+Y'))
         parent.AppendSeparator()
         parent.Append(help='', id=ID_OBJDICTEDITEDITMENUNODEINFOS,
-              kind=wx.ITEM_NORMAL, text='Node infos')
+              kind=wx.ITEM_NORMAL, text=_('Node infos'))
         parent.Append(help='', id=ID_OBJDICTEDITEDITMENUDS301PROFILE,
-              kind=wx.ITEM_NORMAL, text='DS-301 Profile')
+              kind=wx.ITEM_NORMAL, text=_('DS-301 Profile'))
         parent.Append(help='', id=ID_OBJDICTEDITEDITMENUDS302PROFILE,
-              kind=wx.ITEM_NORMAL, text='DS-302 Profile')
+              kind=wx.ITEM_NORMAL, text=_('DS-302 Profile'))
         parent.Append(help='', id=ID_OBJDICTEDITEDITMENUOTHERPROFILE,
-              kind=wx.ITEM_NORMAL, text='Other Profile')
+              kind=wx.ITEM_NORMAL, text=_('Other Profile'))
         self.Bind(wx.EVT_MENU, self.OnRefreshMenu, id=wx.ID_REFRESH)
         self.Bind(wx.EVT_MENU, self.OnUndoMenu, id=wx.ID_UNDO)
         self.Bind(wx.EVT_MENU, self.OnRedoMenu, id=wx.ID_REDO)
@@ -198,17 +241,17 @@ class objdictedit(wx.Frame):
 
     def _init_coll_AddMenu_Items(self, parent):
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUSDOSERVER,
-              kind=wx.ITEM_NORMAL, text='SDO Server')
+              kind=wx.ITEM_NORMAL, text=_('SDO Server'))
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUSDOCLIENT,
-              kind=wx.ITEM_NORMAL, text='SDO Client')
+              kind=wx.ITEM_NORMAL, text=_('SDO Client'))
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUPDOTRANSMIT,
-              kind=wx.ITEM_NORMAL, text='PDO Transmit')
+              kind=wx.ITEM_NORMAL, text=_('PDO Transmit'))
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUPDORECEIVE,
-              kind=wx.ITEM_NORMAL, text='PDO Receive')
+              kind=wx.ITEM_NORMAL, text=_('PDO Receive'))
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUMAPVARIABLE,
-              kind=wx.ITEM_NORMAL, text='Map Variable')
+              kind=wx.ITEM_NORMAL, text=_('Map Variable'))
         parent.Append(help='', id=ID_OBJDICTEDITADDMENUUSERTYPE,
-              kind=wx.ITEM_NORMAL, text='User Type')
+              kind=wx.ITEM_NORMAL, text=_('User Type'))
         self.Bind(wx.EVT_MENU, self.OnAddSDOServerMenu,
               id=ID_OBJDICTEDITADDMENUSDOSERVER)
         self.Bind(wx.EVT_MENU, self.OnAddSDOClientMenu,
@@ -224,14 +267,14 @@ class objdictedit(wx.Frame):
 
     def _init_coll_HelpMenu_Items(self, parent):
         parent.Append(help='', id=wx.ID_HELP,
-              kind=wx.ITEM_NORMAL, text='DS-301 Standard\tF1')
+              kind=wx.ITEM_NORMAL, text=_('DS-301 Standard\tF1'))
         self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu, id=wx.ID_HELP)
         parent.Append(help='', id=wx.ID_HELP_CONTEXT,
-              kind=wx.ITEM_NORMAL, text='CAN Festival Docs\tF2')
+              kind=wx.ITEM_NORMAL, text=_('CAN Festival Docs\tF2'))
         self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu, id=wx.ID_HELP_CONTEXT)
         if Html_Window and self.ModeSolo:
             parent.Append(help='', id=wx.ID_ABOUT,
-                  kind=wx.ITEM_NORMAL, text='About')
+                  kind=wx.ITEM_NORMAL, text=_('About'))
             self.Bind(wx.EVT_MENU, self.OnAboutMenu, id=wx.ID_ABOUT)
 
     def _init_coll_HelpBar_Fields(self, parent):
@@ -263,7 +306,7 @@ class objdictedit(wx.Frame):
     def _init_ctrls(self, prnt):
         wx.Frame.__init__(self, id=ID_OBJDICTEDIT, name='objdictedit',
               parent=prnt, pos=wx.Point(149, 178), size=wx.Size(1000, 700),
-              style=wx.DEFAULT_FRAME_STYLE, title='Objdictedit')
+              style=wx.DEFAULT_FRAME_STYLE, title=_('Objdictedit'))
         self._init_utils()
         self.SetClientSize(wx.Size(1000, 700))
         self.SetMenuBar(self.MenuBar)
@@ -390,13 +433,13 @@ class objdictedit(wx.Frame):
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
                 if isinstance(result, (StringType, UnicodeType)):
-                    message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
             if isinstance(result, (StringType, UnicodeType)):
-                message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         event.Skip()
@@ -409,21 +452,20 @@ class objdictedit(wx.Frame):
             if(os.path.isfile(readerexepath)):
                 os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", '"%s"'%os.path.join(ScriptDirectory, "doc","manual_en.pdf"))
             else:
-                message = wx.MessageDialog(self, """Check if Acrobat Reader is correctly installed on your computer""", "ERROR", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("Check if Acrobat Reader is correctly installed on your computer"), _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-                
         else:
             try:
                 os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
             except:
-                message = wx.MessageDialog(self, """Check if xpdf is correctly installed on your computer""", "ERROR", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("Check if xpdf is correctly installed on your computer"), _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         event.Skip()
 
     def OnAboutMenu(self, event):
-        self.OpenHtmlFrame("About CAN Festival", os.path.join(ScriptDirectory, "doc/about.html"), wx.Size(500, 450))
+        self.OpenHtmlFrame(_("About CAN Festival"), os.path.join(ScriptDirectory, "doc/about.html"), wx.Size(500, 450))
         event.Skip()
 
     def OpenHtmlFrame(self, title, file, size):
@@ -446,7 +488,7 @@ class objdictedit(wx.Frame):
                 self._onclose()
             event.Skip()
         elif self.Manager.OneFileHasChanged():
-            dialog = wx.MessageDialog(self, "There are changes, do you want to save?",  "Close Application", wx.YES_NO|wx.CANCEL|wx.ICON_QUESTION)
+            dialog = wx.MessageDialog(self, _("There are changes, do you want to save?"),  _("Close Application"), wx.YES_NO|wx.CANCEL|wx.ICON_QUESTION)
             answer = dialog.ShowModal()
             dialog.Destroy()
             if answer == wx.ID_YES:
@@ -470,9 +512,9 @@ class objdictedit(wx.Frame):
 
     def RefreshTitle(self):
         if self.FileOpened.GetPageCount() > 0:
-            self.SetTitle("Objdictedit - %s"%self.Manager.GetCurrentFilename())
+            self.SetTitle(_("Objdictedit - %s")%self.Manager.GetCurrentFilename())
         else:
-            self.SetTitle("Objdictedit")
+            self.SetTitle(_("Objdictedit"))
 
     def OnRefreshMenu(self, event):
         self.RefreshCurrentIndexList()
@@ -491,22 +533,22 @@ class objdictedit(wx.Frame):
             if selection:
                 index, subIndex = selection
                 if self.Manager.IsCurrentEntry(index):
-                    self.HelpBar.SetStatusText("Index: 0x%04X"%index, 0)
-                    self.HelpBar.SetStatusText("Subindex: 0x%02X"%subIndex, 1)
+                    self.HelpBar.SetStatusText(_("Index: 0x%04X")%index, 0)
+                    self.HelpBar.SetStatusText(_("Subindex: 0x%02X")%subIndex, 1)
                     entryinfos = self.Manager.GetEntryInfos(index)
                     name = entryinfos["name"]
-                    category = "Optional"
+                    category = _("Optional")
                     if entryinfos["need"]:
-                        category = "Mandatory"
+                        category = _("Mandatory")
                     struct = "VAR"
                     number = ""
                     if entryinfos["struct"] & OD_IdenticalIndexes:
-                        number = " possibly defined %d times"%entryinfos["nbmax"]
+                        number = _(" possibly defined %d times")%entryinfos["nbmax"]
                     if entryinfos["struct"] & OD_IdenticalSubindexes:
                         struct = "REC"
                     elif entryinfos["struct"] & OD_MultipleSubindexes:
                         struct = "ARRAY"
-                    text = "%s: %s entry of struct %s%s."%(name,category,struct,number)
+                    text = _("%s: %s entry of struct %s%s.")%(name,category,struct,number)
                     self.HelpBar.SetStatusText(text, 2)
                 else:
                     for i in xrange(3):
@@ -559,7 +601,7 @@ class objdictedit(wx.Frame):
                 additem = self.AddMenu.FindItemByPosition(6)
                 self.AddMenu.Delete(additem.GetId())
             if profile not in ("None", "DS-301"):
-                edititem.SetText("%s Profile"%profile)
+                edititem.SetText(_("%s Profile")%profile)
                 edititem.Enable(True)
                 self.AddMenu.AppendSeparator()
                 for text, indexes in self.Manager.GetCurrentSpecificMenu():
@@ -567,7 +609,7 @@ class objdictedit(wx.Frame):
                     self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
                     self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
             else:
-                edititem.SetText("Other Profile")
+                edititem.SetText(_("Other Profile"))
                 edititem.Enable(False)
         
 
@@ -620,7 +662,7 @@ class objdictedit(wx.Frame):
                 self.RefreshProfileMenu()
                 self.RefreshMainMenu()
             else:
-                message = wx.MessageDialog(self, result, "ERROR", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
@@ -632,7 +674,7 @@ class objdictedit(wx.Frame):
             directory = os.path.dirname(filepath)
         else:
             directory = os.getcwd()
-        dialog = wx.FileDialog(self, "Choose a file", directory, "",  "OD files (*.od)|*.od|All files|*.*", wx.OPEN|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), directory, "",  _("OD files (*.od)|*.od|All files|*.*"), wx.OPEN|wx.CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
@@ -651,7 +693,7 @@ class objdictedit(wx.Frame):
                     self.RefreshProfileMenu()
                     self.RefreshMainMenu()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         dialog.Destroy()
@@ -676,7 +718,7 @@ class objdictedit(wx.Frame):
         elif not isinstance(result, (StringType, UnicodeType)):
             self.RefreshBufferState()
         else:
-            message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+            message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
 
@@ -686,7 +728,7 @@ class objdictedit(wx.Frame):
             directory, filename = os.path.split(filepath)
         else:
             directory, filename = os.getcwd(), "%s.od"%self.Manager.GetCurrentNodeInfos()[0]
-        dialog = wx.FileDialog(self, "Choose a file", directory, filename,  "OD files (*.od)|*.od|All files|*.*", wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), directory, filename,  _("OD files (*.od)|*.od|All files|*.*"), wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
@@ -694,11 +736,11 @@ class objdictedit(wx.Frame):
                 if not isinstance(result, (StringType, UnicodeType)):
                     self.RefreshBufferState()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
             else:
-                message = wx.MessageDialog(self, "%s is not a valid folder!"%os.path.dirname(filepath), "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("%s is not a valid folder!")%os.path.dirname(filepath), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
@@ -707,7 +749,7 @@ class objdictedit(wx.Frame):
         answer = wx.ID_YES
         result = self.Manager.CloseCurrent()
         if not result:
-            dialog = wx.MessageDialog(self, "There are changes, do you want to save?",  "Close File", wx.YES_NO|wx.CANCEL|wx.ICON_QUESTION)
+            dialog = wx.MessageDialog(self, _("There are changes, do you want to save?"),  _("Close File"), wx.YES_NO|wx.CANCEL|wx.ICON_QUESTION)
             answer = dialog.ShowModal()
             dialog.Destroy()
             if answer == wx.ID_YES:
@@ -731,7 +773,7 @@ class objdictedit(wx.Frame):
 #-------------------------------------------------------------------------------
 
     def OnImportEDSMenu(self, event):
-        dialog = wx.FileDialog(self, "Choose a file", os.getcwd(), "",  "EDS files (*.eds)|*.eds|All files|*.*", wx.OPEN|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), "",  _("EDS files (*.eds)|*.eds|All files|*.*"), wx.OPEN|wx.CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
@@ -745,22 +787,22 @@ class objdictedit(wx.Frame):
                     self.RefreshCurrentIndexList()
                     self.RefreshProfileMenu()
                     self.RefreshMainMenu()
-                    message = wx.MessageDialog(self, "Import successful", "Information", wx.OK|wx.ICON_INFORMATION)
+                    message = wx.MessageDialog(self, _("Import successful"), _("Information"), wx.OK|wx.ICON_INFORMATION)
                     message.ShowModal()
                     message.Destroy()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
             else:
-                message = wx.MessageDialog(self, "\"%s\" is not a valid file!"%filepath, "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("\"%s\" is not a valid file!")%filepath, _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
         event.Skip()
 
     def OnExportEDSMenu(self, event):
-        dialog = wx.FileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], "EDS files (*.eds)|*.eds|All files|*.*", wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], _("EDS files (*.eds)|*.eds|All files|*.*"), wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
@@ -769,22 +811,22 @@ class objdictedit(wx.Frame):
                     filepath = path + ".eds"
                 result = self.Manager.ExportCurrentToEDSFile(filepath)
                 if not result:
-                    message = wx.MessageDialog(self, "Export successful", "Information", wx.OK|wx.ICON_INFORMATION)
+                    message = wx.MessageDialog(self, _("Export successful"), _("Information"), wx.OK|wx.ICON_INFORMATION)
                     message.ShowModal()
                     message.Destroy()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
             else:
-                message = wx.MessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("\"%s\" is not a valid folder!")%os.path.dirname(filepath), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
         event.Skip()
 
     def OnExportCMenu(self, event):
-        dialog = wx.FileDialog(self, "Choose a file", os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  "CANFestival C files (*.c)|*.c|All files|*.*", wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  _("CANFestival C files (*.c)|*.c|All files|*.*"), wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
@@ -793,15 +835,15 @@ class objdictedit(wx.Frame):
                     filepath = path + ".c"
                 result = self.Manager.ExportCurrentToCFile(filepath)
                 if not result:
-                    message = wx.MessageDialog(self, "Export successful", "Information", wx.OK|wx.ICON_INFORMATION)
+                    message = wx.MessageDialog(self, _("Export successful"), _("Information"), wx.OK|wx.ICON_INFORMATION)
                     message.ShowModal()
                     message.Destroy()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
             else:
-                message = wx.MessageDialog(self, "\"%s\" is not a valid folder!"%os.path.dirname(filepath), "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("\"%s\" is not a valid folder!")%os.path.dirname(filepath), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
@@ -813,16 +855,16 @@ class objdictedit(wx.Frame):
 
     def OnCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentCommunicationLists()
-        self.EditProfile("Edit DS-301 Profile", dictionary, current)
+        self.EditProfile(_("Edit DS-301 Profile"), dictionary, current)
         event.Skip()
     
     def OnOtherCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentDS302Lists()
-        self.EditProfile("Edit DS-302 Profile", dictionary, current)
+        self.EditProfile(_("Edit DS-302 Profile"), dictionary, current)
         event.Skip()
     
     def OnEditProfileMenu(self, event):
-        title = "Edit %s Profile"%self.Manager.GetCurrentProfileName()
+        title = _("Edit %s Profile")%self.Manager.GetCurrentProfileName()
         dictionary,current = self.Manager.GetCurrentProfileLists()
         self.EditProfile(title, dictionary, current)
         event.Skip()
@@ -895,12 +937,12 @@ class objdictedit(wx.Frame):
                     self.RefreshBufferState()
                     self.RefreshCurrentIndexList()
                 else:
-                    message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
             dialog.Destroy()
         else:
-            message = wx.MessageDialog(self, result, "No map variable index left!", wx.OK|wx.ICON_ERROR)
+            message = wx.MessageDialog(self, result, _("No map variable index left!"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
         
@@ -914,7 +956,7 @@ class objdictedit(wx.Frame):
                 self.RefreshBufferState()
                 self.RefreshCurrentIndexList()
             else:
-                message = wx.MessageDialog(self, result, "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
@@ -929,12 +971,12 @@ Max_Traceback_List_Size = 20
 def Display_Exception_Dialog(e_type,e_value,e_tb):
     trcbck_lst = []
     for i,line in enumerate(traceback.extract_tb(e_tb)):
-        trcbck = " " + str(i+1) + ". "
+        trcbck = " " + str(i+1) + _(". ")
         if line[0].find(os.getcwd()) == -1:
-            trcbck += "file : " + str(line[0]) + ",   "
+            trcbck += _("file : ") + str(line[0]) + _(",   ")
         else:
-            trcbck += "file : " + str(line[0][len(os.getcwd()):]) + ",   "
-        trcbck += "line : " + str(line[1]) + ",   " + "function : " + str(line[2])
+            trcbck += _("file : ") + str(line[0][len(os.getcwd()):]) + _(",   ")
+        trcbck += _("line : ") + str(line[1]) + _(",   ") + _("function : ") + str(line[2])
         trcbck_lst.append(trcbck)
         
     # Allow clicking....
@@ -943,7 +985,7 @@ def Display_Exception_Dialog(e_type,e_value,e_tb):
         cap.ReleaseMouse()
 
     dlg = wx.SingleChoiceDialog(None, 
-        """
+        _("""
 An error happens.
 
 Click on OK for saving an error report.
@@ -954,9 +996,9 @@ bugs_objdictedit@lolitech.fr
 
 
 Error:
-""" +
-        str(e_type) + " : " + str(e_value), 
-        "Error",
+""") +
+        str(e_type) + _(" : ") + str(e_value), 
+        _("Error"),
         trcbck_lst)
     try:
         res = (dlg.ShowModal() == wx.ID_OK)
@@ -966,7 +1008,7 @@ Error:
     return res
 
 def Display_Error_Dialog(e_value):
-    message = wx.MessageDialog(None, str(e_value), "Error", wx.OK|wx.ICON_ERROR)
+    message = wx.MessageDialog(None, str(e_value), _("Error"), wx.OK|wx.ICON_ERROR)
     message.ShowModal()
     message.Destroy()
 
@@ -1024,23 +1066,6 @@ def AddExceptHook(path, app_version='[No version]'):#, ignored_exceptions=[]):
     sys.excepthook = handle_exception
 
 if __name__ == '__main__':
-    def usage():
-        print "\nUsage of objdictedit.py :"
-        print "\n   %s [Filepath, ...]\n"%sys.argv[0]
-
-    try:
-        opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
-    except getopt.GetoptError:
-        # print help information and exit:
-        usage()
-        sys.exit(2)
-
-    for o, a in opts:
-        if o in ("-h", "--help"):
-            usage()
-            sys.exit()
-    
-    app = wx.PySimpleApp()
     wx.InitAllImageHandlers()
     
     # Install a exception handle for bug reports

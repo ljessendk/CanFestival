@@ -24,8 +24,8 @@ def get_acroversion():
 
 def OpenPDFDocIndex(index, cwd):
     if not os.path.isfile(os.path.join(cwd, "doc","301_v04000201.pdf")):
-        return """No documentation file available.
-Please read can festival documentation to know how to obtain one."""
+        return _("""No documentation file available.
+Please read can festival documentation to know how to obtain one.""")
     try:
         if index in DS301_PDF_INDEX:
             if wx.Platform == '__WXMSW__':
@@ -46,7 +46,7 @@ Please read can festival documentation to know how to obtain one."""
         return True
     except:
         if wx.Platform == '__WXMSW__':
-            return """Check if Acrobat Reader is correctly installed on your computer"""
+            return _("Check if Acrobat Reader is correctly installed on your computer")
         else:
-            return """Check if xpdf is correctly installed on your computer"""
+            return _("Check if xpdf is correctly installed on your computer")
         

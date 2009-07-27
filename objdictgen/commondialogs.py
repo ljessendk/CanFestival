@@ -109,11 +109,11 @@ class CommunicationDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_COMMUNICATIONDIALOG,
               name='CommunicationDialog', parent=prnt, pos=wx.Point(234, 216),
               size=wx.Size(726, 437), style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER,
-              title='Edit Communication Profile')
+              title=_('Edit Communication Profile'))
         self.SetClientSize(wx.Size(726, 437))
 
         self.staticText1 = wx.StaticText(id=ID_COMMUNICATIONDIALOGSTATICTEXT1,
-              label='Possible Profile Indexes:', name='staticText1',
+              label=_('Possible Profile Indexes:'), name='staticText1',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0,
               17), style=0)
 
@@ -137,7 +137,7 @@ class CommunicationDialog(wx.Dialog):
               id=ID_COMMUNICATIONDIALOGUNSELECT)
 
         self.staticText2 = wx.StaticText(id=ID_COMMUNICATIONDIALOGSTATICTEXT2,
-              label='Current Profile Indexes:', name='staticText2',
+              label=_('Current Profile Indexes:'), name='staticText2',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0,
               17), style=0)
 
@@ -272,23 +272,23 @@ class MapVariableDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_MAPVARIABLEDIALOG,
               name='CommunicationDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(444, 186), style=wx.DEFAULT_DIALOG_STYLE,
-              title='Add Map Variable')
+              title=_('Add Map Variable'))
         self.SetClientSize(wx.Size(444, 186))
 
         self.staticText1 = wx.StaticText(id=ID_MAPVARIABLEDIALOGSTATICTEXT1,
-              label='Index:', name='staticText1', parent=self,
+              label=_('Index:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_MAPVARIABLEDIALOGSTATICTEXT2,
-              label='Type:', name='staticText2', parent=self,
+              label=_('Type:'), name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText3 = wx.StaticText(id=ID_MAPVARIABLEDIALOGSTATICTEXT3,
-              label='Name:', name='staticText3', parent=self,
+              label=_('Name:'), name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText4 = wx.StaticText(id=ID_MAPVARIABLEDIALOGSTATICTEXT4,
-              label='Number:', name='staticText4', parent=self,
+              label=_('Number:'), name='staticText4', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 16), style=0)
 
         self.radioButton1 = wx.RadioButton(id=ID_MAPVARIABLEDIALOGRADIOBUTTON1,
@@ -318,7 +318,7 @@ class MapVariableDialog(wx.Dialog):
         
         self.IndexName = wx.TextCtrl(id=ID_MAPVARIABLEDIALOGINDEXNAME,
               name='IndexName', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 24), style=0, value='Undefined')
+              size=wx.Size(0, 24), style=0, value=_('Undefined'))
         
         self.Number = wx.TextCtrl(id=ID_MAPVARIABLEDIALOGNUMBER,
               name='Number', parent=self, pos=wx.Point(0, 0),
@@ -350,26 +350,22 @@ class MapVariableDialog(wx.Dialog):
         try:
             int(self.Index.GetValue(), 16)
         except:
-            error.append("Index")
+            error.append(_("Index"))
         if self.radioButton2.GetValue() or self.radioButton3.GetValue():
             try:
                 int(self.Number.GetValue())
             except:
-                error.append("Number")
+                error.append(_("Number"))
         if len(error) > 0:
             text = ""
-            if len(error) > 1:
-                suffix = "s"
-            else:
-                suffix = ""
             for i, item in enumerate(error):
                 if i == 0:
                     text += item
                 elif i == len(error) - 1:
-                    text += " and %s"%item
+                    text += (" and %s")%item + _(" must be integers!")
                 else:
-                    text += ", %s"%item
-            message = wx.MessageDialog(self, "Form isn't valid. %s must be integer%s!"%(text,suffix), "Error", wx.OK|wx.ICON_ERROR)
+                    text += _(", %s")%item + _(" must be integer!")
+            message = wx.MessageDialog(self, _("Form isn't valid. %s")%text, _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
         else:
@@ -476,11 +472,11 @@ class UserTypeDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         wx.Dialog.__init__(self, id=ID_USERTYPEDIALOG, name='UserTypeDialog',
               parent=prnt, pos=wx.Point(376, 223), size=wx.Size(444, 210),
-              style=wx.DEFAULT_DIALOG_STYLE, title='Add User Type')
+              style=wx.DEFAULT_DIALOG_STYLE, title=_('Add User Type'))
         self.SetClientSize(wx.Size(444, 210))
 
         self.staticText1 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT1,
-              label='Type:', name='staticText1', parent=self,
+              label=_('Type:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=ID_USERTYPEDIALOGTYPE,
@@ -494,11 +490,11 @@ class UserTypeDialog(wx.Dialog):
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
 
         self.staticBox1 = wx.StaticBox(id=ID_USERTYPEDIALOGSTATICBOX1,
-              label='Values', name='staticBox1', parent=self,
+              label=_('Values'), name='staticBox1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 0), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT2,
-              label='Minimum:', name='staticText2', parent=self,
+              label=_('Minimum:'), name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Min = wx.TextCtrl(id=ID_USERTYPEDIALOGMIN, name='Min',
@@ -506,7 +502,7 @@ class UserTypeDialog(wx.Dialog):
               style=wx.TE_RIGHT, value='0')
 
         self.staticText3 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT3,
-              label='Maximum:', name='staticText3', parent=self,
+              label=_('Maximum:'), name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Max = wx.TextCtrl(id=ID_USERTYPEDIALOGMAX, name='Max',
@@ -514,7 +510,7 @@ class UserTypeDialog(wx.Dialog):
               style=wx.TE_RIGHT, value='0')
 
         self.staticText4 = wx.StaticText(id=ID_USERTYPEDIALOGSTATICTEXT4,
-              label='Length:', name='staticText4', parent=self,
+              label=_('Length:'), name='staticText4', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(80, 17), style=0)
 
         self.Length = wx.TextCtrl(id=ID_USERTYPEDIALOGLENGTH, name='Length',
@@ -534,8 +530,7 @@ class UserTypeDialog(wx.Dialog):
     def OnOK(self, event):
         error = []
         good = True
-        firstmessage = ""
-        secondmessage = ""
+        message = None
         name = self.Type.GetStringSelection()
         if name != "":
             valuetype = self.TypeDictionary[name][1]
@@ -543,36 +538,32 @@ class UserTypeDialog(wx.Dialog):
                 try:
                     int(self.Min.GetValue(), 16)
                 except:
-                    error.append("Minimum")
+                    error.append(_("Minimum"))
                     good = False
                 try:
                     int(self.Max.GetValue(), 16)
                 except:
-                    error.append("Maximum")
+                    error.append(_("Maximum"))
                     good = False
             elif valuetype == 1:
                 try:
                     int(self.Length.GetValue(), 16)
                 except:
-                    error.append("Length")
+                    error.append(_("Length"))
                     good = False
             if len(error) > 0:
-                secondmessage = ". "
+                message = ""
                 for i, item in enumerate(error):
                     if i == 0:
-                        secondmessage += item
+                        message += item
                     elif i == len(error) - 1:
-                        secondmessage += " and %s"%item
+                        message += _(" and %s")%item + _(" must be integers!")
                     else:
-                        secondmessage += ", %s"%item
-                secondmessage += " must be integer"
-                if len(error) > 1:
-                    secondmessage += "s"
+                        message += _(", %s")%item + _(" must be integer!")
         else:
-            firstmessage = ". A type must be selected"
-            good = False
-        if not good:
-            message = wx.MessageDialog(self, "Form isn't valid%s%s%s!"%(firstmessage,secondmessage), "Error", wx.OK|wx.ICON_ERROR)
+            message = _("A type must be selected!")
+        if message is not None:
+            message = wx.MessageDialog(self, _("Form isn't valid. %s")%(firstmessage,secondmessage), _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
         else:
@@ -652,6 +643,11 @@ class UserTypeDialog(wx.Dialog):
  ID_NODEINFOSDIALOGSTATICTEXT5, 
 ] = [wx.NewId() for _init_ctrls in range(11)]
 
+def GetNodeTypes():
+    _ = lambda x : x
+    return [_("master"), _("slave")]
+NODE_TYPES_DICT = dict([(_(node_type), node_type) for node_type in GetNodeTypes()])
+
 class NodeInfosDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
         parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
@@ -691,11 +687,11 @@ class NodeInfosDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_NODEINFOSDIALOG,
               name='NodeInfosDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(300, 280), style=wx.DEFAULT_DIALOG_STYLE,
-              title='Node Infos')
+              title=_('Node infos'))
         self.SetClientSize(wx.Size(300, 280))
 
         self.staticText1 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT1,
-              label='Name:', name='staticText1', parent=self,
+              label=_('Name:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.NodeName = wx.TextCtrl(id=ID_NODEINFOSDIALOGNAME, name='NodeName',
@@ -703,7 +699,7 @@ class NodeInfosDialog(wx.Dialog):
               style=0, value='')
 
         self.staticText2 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT2,
-              label='Node ID:', name='staticText2', parent=self,
+              label=_('Node ID:'), name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.NodeID = wx.TextCtrl(id=ID_NODEINFOSDIALOGNODEID, name='NodeID',
@@ -711,7 +707,7 @@ class NodeInfosDialog(wx.Dialog):
               style=wx.TE_RIGHT, value='')
 
         self.staticText3 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT3,
-              label='Type:', name='staticText3', parent=self,
+              label=_('Type:'), name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=ID_NODEINFOSDIALOGTYPE,
@@ -719,7 +715,7 @@ class NodeInfosDialog(wx.Dialog):
               size=wx.Size(0, 25), style=0)
 
         self.staticText4 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT4,
-              label='Default String Size:', name='staticText4', parent=self,
+              label=_('Default String Size:'), name='staticText4', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.DefaultStringSize = wx.SpinCtrl(id=ID_NODEINFOSDIALOGDEFAULTSTRINGSIZE, 
@@ -727,7 +723,7 @@ class NodeInfosDialog(wx.Dialog):
               size=wx.Size(0, 25), style=wx.TE_RIGHT)
         
         self.staticText5 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT5,
-              label='Description:', name='staticText5', parent=self,
+              label=_('Description:'), name='staticText5', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Description = wx.TextCtrl(id=ID_NODEINFOSDIALOGDESCRIPTION, 
@@ -745,8 +741,8 @@ class NodeInfosDialog(wx.Dialog):
         self.staticText2.Hide()
         self.NodeID.Hide()
         
-        self.Type.Append("master")
-        self.Type.Append("slave")
+        for node_type in GetNodeTypes():
+            self.Type.Append(_(node_type))
 
     def OnOK(self, event):
         name = self.NodeName.GetValue()
@@ -756,14 +752,14 @@ class NodeInfosDialog(wx.Dialog):
             for item in name.split("_"):
                 good &= item.isalnum()
             if not good:
-                message = "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!"
+                message = _("Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!")
         if message != "":
             try:
                 nodeid = int(self.NodeID.GetValue(), 16)
             except:
-                message = "Node ID must be integer!"
+                message = _("Node ID must be integer!")
         if message != "":
-            message = wx.MessageDialog(self, message, "ERROR", wx.OK|wx.ICON_ERROR)
+            message = wx.MessageDialog(self, message, _("ERROR"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
             self.NodeName.SetFocus()
@@ -773,14 +769,14 @@ class NodeInfosDialog(wx.Dialog):
     def SetValues(self, name, id, type, description, defaultstringsize):
         self.NodeName.SetValue(name)
         self.NodeID.SetValue("0x%02X"%id)
-        self.Type.SetStringSelection(type)
+        self.Type.SetStringSelection(_(type))
         self.Description.SetValue(description)
         self.DefaultStringSize.SetValue(defaultstringsize)
 
     def GetValues(self):
         name = self.NodeName.GetValue()
         nodeid = int(self.NodeID.GetValue(), 16)
-        type = self.Type.GetStringSelection()
+        type = NODE_TYPES_DICT[self.Type.GetStringSelection()]
         description = self.Description.GetValue()
         defaultstringsize = self.DefaultStringSize.GetValue()
         return name, nodeid, type, description, defaultstringsize
@@ -894,23 +890,23 @@ class CreateNodeDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_CREATENODEDIALOG,
               name='CreateNodeDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(450, 350), style=wx.DEFAULT_DIALOG_STYLE,
-              title='Create a new Node')
+              title=_('Create a new Node'))
         self.SetClientSize(wx.Size(450, 350))
 
         self.staticText1 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT1,
-              label='Type:', name='staticText1', parent=self,
+              label=_('Type:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT2,
-              label='Name:', name='staticText2', parent=self,
+              label=_('Name:'), name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText3 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT3,
-              label='Node ID:', name='staticText3', parent=self,
+              label=_('Node ID:'), name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.staticText4 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT4,
-              label='Profile:', name='staticText4', parent=self,
+              label=_('Profile:'), name='staticText4', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Type = wx.Choice(choices=[], id=ID_CREATENODEDIALOGTYPE,
@@ -932,58 +928,58 @@ class CreateNodeDialog(wx.Dialog):
               id=ID_CREATENODEDIALOGPROFILE)
 
         self.staticText5 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT5,
-              label='Network Management:', name='staticText5',
+              label=_('Network Management:'), name='staticText5',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.NMT_None = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_NONE,
-              label='None', name='NMT_None', parent=self,
+              label=_('None'), name='NMT_None', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=wx.RB_GROUP)
         self.NMT_None.SetValue(True)
 
         self.NMT_NodeGuarding = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_NODEGUARDING,
-              label='Node Guarding', name='NMT_NodeGuarding', parent=self, 
+              label=_('Node Guarding'), name='NMT_NodeGuarding', parent=self, 
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.NMT_NodeGuarding.SetValue(False)
 
         self.NMT_Heartbeat = wx.RadioButton(id=ID_CREATENODEDIALOGNMT_HEARTBEAT,
-              label='Heartbeat', name='NMT_Heartbeat', parent=self,
+              label=_('Heartbeat'), name='NMT_Heartbeat', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.NMT_Heartbeat.SetValue(False)
 
         self.staticText6 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT6,
-              label='Options:', name='staticText6', parent=self,
+              label=_('Options:'), name='staticText6', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.DS302 = wx.CheckBox(id=ID_CREATENODEDIALOGGENSYNC,
-              label='DS-302 Profile', name='DS302', parent=self,
+              label=_('DS-302 Profile'), name='DS302', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.DS302.SetValue(False)
         #self.DS302.Enable(False)
 
         self.GenSYNC = wx.CheckBox(id=ID_CREATENODEDIALOGGENSYNC,
-              label='Generate SYNC', name='GenSYNC', parent=self,
+              label=_('Generate SYNC'), name='GenSYNC', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.GenSYNC.SetValue(False)
 
         self.Emergency = wx.CheckBox(id=ID_CREATENODEDIALOGEMERGENCY,
-              label='Emergency support', name='Emergency',
+              label=_('Emergency support'), name='Emergency',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.Emergency.SetValue(False)
 
         self.SaveConfig = wx.CheckBox(id=ID_CREATENODEDIALOGSAVECONFIG,
-              label='Save Configuration', name='SaveConfig', parent=self, 
+              label=_('Save Configuration'), name='SaveConfig', parent=self, 
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.SaveConfig.SetValue(False)
         self.SaveConfig.Enable(False)
 
         self.StoreEDS = wx.CheckBox(id=ID_CREATENODEDIALOGSTOREEDS,
-              label='Store EDS', name='StoreEDS', parent=self,
+              label=_('Store EDS'), name='StoreEDS', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 24), style=0)
         self.StoreEDS.SetValue(False)
         self.StoreEDS.Hide()
 
         self.staticText7 = wx.StaticText(id=ID_CREATENODEDIALOGSTATICTEXT7,
-              label='Description:', name='staticText7', parent=self,
+              label=_('Description:'), name='staticText7', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.Description = wx.TextCtrl(id=ID_CREATENODEDIALOGDESCRIPTION, 
@@ -1006,12 +1002,12 @@ class CreateNodeDialog(wx.Dialog):
         self.NodeID.Hide()
         
         self.NodeID.SetValue("0x00")
-        self.Type.Append("master")
-        self.Type.Append("slave")
-        self.Type.SetStringSelection("slave")
+        for node_type in GetNodeTypes():
+            self.Type.Append(_(node_type))
+        self.Type.SetStringSelection(_("slave"))
         self.Description.SetValue("")
         self.ListProfile = {"None" : ""}
-        self.Profile.Append("None")
+        self.Profile.Append(_("None"))
         self.Directory = os.path.join(ScriptDirectory, "config")
         listfiles = os.listdir(self.Directory)
         listfiles.sort()
@@ -1020,8 +1016,8 @@ class CreateNodeDialog(wx.Dialog):
             if os.path.isfile(os.path.join(self.Directory, item)) and extend == ".prf" and name != "DS-302":
                 self.ListProfile[name] = os.path.join(self.Directory, item)
                 self.Profile.Append(name)
-        self.Profile.Append("Other")
-        self.Profile.SetStringSelection("None")
+        self.Profile.Append(_("Other"))
+        self.Profile.SetStringSelection(_("None"))
         self.NodeName.SetFocus()
         
     def OnOK(self, event):
@@ -1032,14 +1028,14 @@ class CreateNodeDialog(wx.Dialog):
             for item in name.split("_"):
                 good &= item.isalnum()
             if not good:
-                message = "Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!"
+                message = _("Node name can't be undefined or start with a digit and must be composed of alphanumerical characters or underscore!")
         if message != "":
             try:
                 nodeid = int(self.NodeID.GetValue(), 16)
             except:
-                message = "Node ID must be an integer!"
+                message = _("Node ID must be integer!")
         if message != "":
-            message = wx.MessageDialog(self, message, "ERROR", wx.OK|wx.ICON_ERROR)
+            message = wx.MessageDialog(self, message, _("ERROR"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
             self.NodeName.SetFocus()
@@ -1051,12 +1047,14 @@ class CreateNodeDialog(wx.Dialog):
         nodeid = 0
         if self.NodeID.GetValue() != "":
             nodeid = int(self.NodeID.GetValue(), 16)
-        type = self.Type.GetStringSelection()
+        type = NODE_TYPES_DICT[self.Type.GetStringSelection()]
         description = self.Description.GetValue()
         return name, nodeid, type, description
 
     def GetProfile(self):
         name = self.Profile.GetStringSelection()
+        if name == _("None"):
+            name = "None"
         return name, self.ListProfile[name]
 
     def GetNMTManagement(self):
@@ -1083,8 +1081,8 @@ class CreateNodeDialog(wx.Dialog):
         return options
 
     def OnProfileChoice(self, event):
-        if self.Profile.GetStringSelection() == "Other":
-            dialog = wx.FileDialog(self, "Choose a file", self.Directory, "",  "OD Profile files (*.prf)|*.prf|All files|*.*", wx.OPEN|wx.CHANGE_DIR)
+        if self.Profile.GetStringSelection() == _("Other"):
+            dialog = wx.FileDialog(self, _("Choose a file"), self.Directory, "",  _("OD Profile files (*.prf)|*.prf|All files|*.*"), wx.OPEN|wx.CHANGE_DIR)
             dialog.ShowModal()
             filepath = dialog.GetPath()
             dialog.Destroy()
@@ -1095,7 +1093,7 @@ class CreateNodeDialog(wx.Dialog):
                 self.Profile.Insert(name, length - 2)
                 self.Profile.SetStringSelection(name)
             else:
-                self.Profile.SetStringSelection("None")
+                self.Profile.SetStringSelection(_("None"))
         event.Skip()
 
 
@@ -1151,11 +1149,11 @@ class AddSlaveDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_ADDSLAVEDIALOG,
               name='AddSlaveDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(300, 250), style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER,
-              title='Add a slave to nodelist')
+              title=_('Add a slave to nodelist'))
         self.SetClientSize(wx.Size(300, 250))
 
         self.staticText1 = wx.StaticText(id=ID_ADDSLAVEDIALOGSTATICTEXT1,
-              label='Slave Name:', name='staticText1', parent=self,
+              label=_('Slave Name:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.SlaveName = wx.TextCtrl(id=ID_ADDSLAVEDIALOGSLAVENAME,
@@ -1163,7 +1161,7 @@ class AddSlaveDialog(wx.Dialog):
               size=wx.Size(0, 24), style=0)
 
         self.staticText2 = wx.StaticText(id=ID_ADDSLAVEDIALOGSTATICTEXT2,
-              label='Slave Node ID:', name='staticText2', parent=self,
+              label=_('Slave Node ID:'), name='staticText2', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.SlaveNodeID = wx.TextCtrl(id=ID_ADDSLAVEDIALOGSLAVENODEID,
@@ -1171,14 +1169,14 @@ class AddSlaveDialog(wx.Dialog):
               size=wx.Size(0, 24), style=wx.ALIGN_RIGHT)
 
         self.staticText3 = wx.StaticText(id=ID_ADDSLAVEDIALOGSTATICTEXT3,
-              label='EDS File:', name='staticText3', parent=self,
+              label=_('EDS File:'), name='staticText3', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(0, 17), style=0)
 
         self.EDSFile = wx.Choice(id=ID_ADDSLAVEDIALOGEDSFILE,
               name='EDSFile', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(0, 24), style=0)
         
-        self.ImportEDS = wx.Button(id=ID_ADDSLAVEDIALOGIMPORTEDS, label='Import EDS',
+        self.ImportEDS = wx.Button(id=ID_ADDSLAVEDIALOGIMPORTEDS, label=_('Import EDS'),
               name='ImportEDS', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(100, 32), style=0)
         self.ImportEDS.Bind(wx.EVT_BUTTON, self.OnImportEDSButton,
@@ -1197,21 +1195,21 @@ class AddSlaveDialog(wx.Dialog):
     def OnOK(self, event):
         error = []
         if self.SlaveName.GetValue() == "":
-            error.append("Slave Name")
+            error.append(_("Slave Name"))
         if self.SlaveNodeID.GetValue() == "":
-            error.append("Slave Node ID")
+            error.append(_("Slave Node ID"))
         if self.EDSFile.GetStringSelection() == "":
-            error.append("EDS File")
+            error.append(_("EDS File"))
         if len(error) > 0:
             text = ""
             for i, item in enumerate(error):
                 if i == 0:
                     text += item
                 elif i == len(error) - 1:
-                    text += " and %s"%item
+                    text += _(" and %s")%item
                 else:
-                    text += ", %s"%item 
-            message = wx.MessageDialog(self, "Form isn't complete. %s must be filled!"%text, "Error", wx.OK|wx.ICON_ERROR)
+                    text += _(", %s")%item 
+            message = wx.MessageDialog(self, _("Form isn't complete. %s must be filled!")%text, _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
         else:
@@ -1222,16 +1220,16 @@ class AddSlaveDialog(wx.Dialog):
                 else:
                     nodeid = int(nodeid)
             except:
-                message = wx.MessageDialog(self, "Slave Node ID must be a value in decimal or hexadecimal!", "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("Slave Node ID must be a value in decimal or hexadecimal!"), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
                 return
             if not 0 <= nodeid <= 127:
-                message = wx.MessageDialog(self, "Slave Node ID must be between 0 and 127!", "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("Slave Node ID must be between 0 and 127!"), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
             elif nodeid == 0 or nodeid in self.NodeList.SlaveNodes.keys():
-                message = wx.MessageDialog(self, "A Node with this ID already exist in the network!", "Error", wx.OK|wx.ICON_ERROR)
+                message = wx.MessageDialog(self, _("A Node with this ID already exist in the network!"), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
             else:
@@ -1239,17 +1237,17 @@ class AddSlaveDialog(wx.Dialog):
 
     def OnImportEDSButton(self, event):
         dialog = wx.FileDialog(self,
-                               "Choose an EDS file",
+                               _("Choose an EDS file"),
                                os.getcwd(),
                                "",
-                               "EDS files (*.eds)|*.eds|All files|*.*",
+                               _("EDS files (*.eds)|*.eds|All files|*.*"),
                                wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
                 result = self.NodeList.ImportEDSFile(filepath)
                 if result:
-                    message = wx.MessageDialog(self, "%s\nWould you like to replace it ?"%result, "Question", wx.YES_NO|wx.ICON_QUESTION)
+                    message = wx.MessageDialog(self, _("%s\nWould you like to replace it ?")%result, _("Question"), wx.YES_NO|wx.ICON_QUESTION)
                     if message.ShowModal() == wx.ID_YES:
                         self.NodeList.ImportEDSFile(filepath, True)
                     message.Destroy()
@@ -1284,6 +1282,10 @@ class AddSlaveDialog(wx.Dialog):
 #                            Editing DCF Entry Dialog
 #-------------------------------------------------------------------------------
 
+def DCFEntryTableColnames():
+    _ = lambda x : x
+    return [_("Index"), _("Subindex"), _("Size"), _("Value")]
+
 class DCFEntryValuesTable(wx.grid.PyGridTableBase):
     
     """
@@ -1296,7 +1298,7 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
         self.colnames = colnames
         self.Parent = parent
         # XXX
-        # we need to store the row length and collength to
+        # we need to store the row length and col length to
         # see if the table has changed size
         self._rows = self.GetNumberRows()
         self._cols = self.GetNumberCols()
@@ -1307,27 +1309,29 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
     def GetNumberRows(self):
         return len(self.data)
 
-    def GetColLabelValue(self, col):
+    def GetColLabelValue(self, col, translate=True):
         if col < len(self.colnames):
+            if translate:
+                return _(self.colnames[col])
             return self.colnames[col]
 
-    def GetRowLabelValues(self, row):
+    def GetRowLabelValues(self, row, translate=True):
         return row
 
     def GetValue(self, row, col):
         if row < self.GetNumberRows():
-            return str(self.data[row].get(self.GetColLabelValue(col), ""))
+            return str(self.data[row].get(self.GetColLabelValue(col, False), ""))
             
     def GetEditor(self, row, col):
         if row < self.GetNumberRows():
-            return self.editors[row].get(self.GetColLabelValue(col), "")
+            return self.editors[row].get(self.GetColLabelValue(col, False), "")
     
     def GetValueByName(self, row, colname):
         return self.data[row].get(colname)
 
     def SetValue(self, row, col, value):
         if col < len(self.colnames):
-            self.data[row][self.GetColLabelValue(col)] = value
+            self.data[row][self.GetColLabelValue(col, False)] = value
         
     def ResetView(self, grid):
         """
@@ -1437,11 +1441,11 @@ class DCFEntryValuesDialog(wx.Dialog):
         wx.Dialog.__init__(self, id=ID_DCFENTRYVALUESDIALOG,
               name='DCFEntryValuesDialog', parent=prnt, pos=wx.Point(376, 223),
               size=wx.Size(400, 300), style=wx.DEFAULT_DIALOG_STYLE|wx.RESIZE_BORDER,
-              title='Edit DCF Entry Values')
+              title=_('Edit DCF Entry Values'))
         self.SetClientSize(wx.Size(400, 300))
 
         self.staticText1 = wx.StaticText(id=ID_VARIABLEEDITORPANELSTATICTEXT1,
-              label='Entry Values:', name='staticText1', parent=self,
+              label=_('Entry Values:'), name='staticText1', parent=self,
               pos=wx.Point(0, 0), size=wx.Size(95, 17), style=0)
 
         self.ValuesGrid = wx.grid.Grid(id=ID_DCFENTRYVALUESDIALOGVALUESGRID,
@@ -1461,12 +1465,12 @@ class DCFEntryValuesDialog(wx.Dialog):
             wx.grid.EVT_GRID_CELL_CHANGE(self.ValuesGrid, self.OnValuesGridCellChange)
             wx.grid.EVT_GRID_SELECT_CELL(self.ValuesGrid, self.OnValuesGridSelectCell)
         
-        self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label='Add',
+        self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label=_('Add'),
               name='AddButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(72, 32), style=0)
         self.Bind(wx.EVT_BUTTON, self.OnAddButton, id=ID_DCFENTRYVALUESDIALOGADDBUTTON)
 
-        self.DeleteButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON, label='Delete',
+        self.DeleteButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON, label=_('Delete'),
               name='DeleteButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(72, 32), style=0)
         self.Bind(wx.EVT_BUTTON, self.OnDeleteButton, id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON)
@@ -1491,7 +1495,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.Values = []
         self.DefaultValue = {"Index" : 0, "Subindex" : 0, "Size" : 1, "Value" : 0}
         
-        self.Table = DCFEntryValuesTable(self, [], ["Index", "Subindex", "Size", "Value"])
+        self.Table = DCFEntryValuesTable(self, [], DCFEntryTableColnames())
         self.ValuesGrid.SetTable(self.Table)
         
     def OnValuesGridCellChange(self, event):
@@ -1501,7 +1505,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         try:
             self.Values[row][colname] = int(value, 16)
         except:
-            message = wx.MessageDialog(self, "\"%s\" is not a valid value!"%value, "Error", wx.OK|wx.ICON_ERROR)
+            message = wx.MessageDialog(self, _("\"%s\" is not a valid value!")%value, _("Error"), wx.OK|wx.ICON_ERROR)
             message.ShowModal()
             message.Destroy()
         wx.CallAfter(self.RefreshValues)
