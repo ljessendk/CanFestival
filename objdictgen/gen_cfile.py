@@ -59,7 +59,7 @@ def GetValidTypeInfos(typename, items=[]):
                 typeinfos = ("INTEGER%s"%values[1], None, "int%s"%values[1], False)
             elif values[0] == "REAL" and int(values[1]) in (32, 64):
                 typeinfos = ("%s%s"%(values[0], values[1]), None, "real%s"%values[1], False)
-            elif values[0] == "VISIBLE_STRING":
+            elif values[0] in ["VISIBLE_STRING", "OCTET_STRING"]:
                 size = default_string_size
                 for item in items:
                     size = max(size, len(item))
