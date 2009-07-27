@@ -86,3 +86,9 @@ mrproper: clean
 	rm -f CANOpenShellMasterOD.c
 	rm -f CANOpenShellSlaveOD.c
 
+install: $(CANOPENSHELL)
+	mkdir -p $(PREFIX)/bin/
+	cp $< $(PREFIX)/bin/
+	
+uninstall:
+	rm -f $(PREFIX)/bin/$(CANOPENSHELL)
