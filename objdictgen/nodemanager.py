@@ -744,9 +744,11 @@ class NodeManager:
                     value = dic[value]
                     if editor == "raccess" and not node.IsMappingEntry(index):
                         entry_infos = self.GetEntryInfos(index)
+                        subIndex0_infos = self.GetSubentryInfos(index, 0, False).copy()
+                        subIndex1_infos = self.GetSubentryInfos(index, 1, False).copy()
                         node.AddMappingEntry(index, name = entry_infos["name"], struct = 7)
-                        node.AddMappingEntry(index, 0, values = self.GetSubentryInfos(index, 0, False).copy())
-                        node.AddMappingEntry(index, 1, values = self.GetSubentryInfos(index, 1, False).copy())
+                        node.AddMappingEntry(index, 0, values = subIndex0_infos)
+                        node.AddMappingEntry(index, 1, values = subIndex1_infos)
                 node.SetMappingEntry(index, subIndex, values = {name : value})
             if not disable_buffer:
                 self.BufferCurrentNode()
@@ -1131,23 +1133,23 @@ class NodeManager:
         else:
             return None, None
 
-    def GetEntryName(self, index):
+    def GetEntryName(self, index, compute=True):
         if self.CurrentNode:
-            return self.CurrentNode.GetEntryName(index)
+            return self.CurrentNode.GetEntryName(index, compute)
         else:
-            return FindEntryName(index, MappingDictionary)
+            return FindEntryName(index, MappingDictionary, compute)
     
-    def GetEntryInfos(self, index):
+    def GetEntryInfos(self, index, compute=True):
         if self.CurrentNode:
-            return self.CurrentNode.GetEntryInfos(index)
+            return self.CurrentNode.GetEntryInfos(index, compute)
         else:
-            return FindEntryInfos(index, MappingDictionary)
+            return FindEntryInfos(index, MappingDictionary, compute)
     
-    def GetSubentryInfos(self, index, subindex):
+    def GetSubentryInfos(self, index, subindex, compute=True):
         if self.CurrentNode:
-            return self.CurrentNode.GetSubentryInfos(index, subindex)
+            return self.CurrentNode.GetSubentryInfos(index, subindex, compute)
         else:
-            result = FindSubentryInfos(index, subindex, MappingDictionary)
+            result = FindSubentryInfos(index, subindex, MappingDictionary, compute)
             if result:
                 result["user_defined"] = False
             return result
@@ -1170,9 +1172,9 @@ class NodeManager:
         else:
             return FindTypeDefaultValue(typeindex, MappingDictionary)
     
-    def GetMapVariableList(self):
+    def GetMapVariableList(self, compute=True):
         if self.CurrentNode:
-            return self.CurrentNode.GetMapVariableList()
+            return self.CurrentNode.GetMapVariableList(compute)
         else:
             return []
 

@@ -37,20 +37,20 @@ def GetAccessList(write=True):
     if write:
         return [_("Read Only"), _("Write Only"), _("Read/Write")]
     return [_("Read Only"), _("Read/Write")]
-AccessList = ",".join(GetAccessList())
-RAccessList = ",".join(GetAccessList(False))
+AccessList = ",".join(map(_, GetAccessList()))
+RAccessList = ",".join(map(_, GetAccessList(False)))
 ACCESS_LIST_DICT = dict([(_(access), access) for access in GetAccessList()])
 
 def GetBoolList():
     _ = lambda x : x
     return [_("True"), _("False")]
-BoolList = ",".join(GetBoolList())
+BoolList = ",".join(map(_, GetBoolList()))
 BOOL_LIST_DICT = dict([(_(bool), bool) for bool in GetBoolList()])
 
 def GetOptionList():
     _ = lambda x : x
     return [_("Yes"), _("No")]
-OptionList = ",".join(GetOptionList())
+OptionList = ",".join(map(_, GetOptionList()))
 OPTION_LIST_DICT = dict([(_(option), option) for option in GetOptionList()])
 
 [USER_TYPE, SDO_SERVER, SDO_CLIENT, 
@@ -137,11 +137,13 @@ class SubindexTable(wx.grid.PyGridTableBase):
     def GetRowLabelValues(self, row, translate=True):
         return row
 
-    def GetValue(self, row, col):
+    def GetValue(self, row, col, translate=True):
         if row < self.GetNumberRows():
             colname = self.GetColLabelValue(col, False)
             value = unicode(self.data[row].get(colname, ""))
-            if self.editors[row][colname] in ["access", "raccess", "bool", "option"]:
+            if translate and (colname == "access" or 
+                              self.editors[row][colname] in ["bool", "option"] or
+                              self.editors[row][colname] == "map" and value == "None"):
                 value = _(value)
             return value
             
@@ -155,12 +157,14 @@ class SubindexTable(wx.grid.PyGridTableBase):
     def SetValue(self, row, col, value):
         if col < len(self.colnames):
             colname = self.GetColLabelValue(col, False)
-            if self.editors[row][colname] in ["access", "raccess"]:
+            if colname == "access":
                 value = ACCESS_LIST_DICT[value]
             elif self.editors[row][colname] == "bool":
                 value = BOOL_LIST_DICT[value]
             elif self.editors[row][colname] == "option":
                 value = OPTION_LIST_DICT[value]
+            elif self.editors[row][colname] == "map" and value == _("None"):
+                value = "None"
             self.data[row][colname] = value
         
     def ResetView(self, grid):
@@ -679,8 +683,8 @@ class EditingPanel(wx.SplitterWindow):
             index = self.Table.GetCurrentIndex()
             subIndex = event.GetRow()
             col = event.GetCol()
-            name = self.Table.GetColLabelValue(col)
-            value = self.Table.GetValue(subIndex, col)
+            name = self.Table.GetColLabelValue(col, False)
+            value = self.Table.GetValue(subIndex, col, False)
             editor = self.Table.GetEditor(subIndex, col)
             self.Manager.SetCurrentEntry(index, subIndex, value, name, editor)
             self.ParentWindow.RefreshBufferState()
