@@ -221,6 +221,8 @@ class SubindexTable(wx.grid.PyGridTableBase):
         maplist = None
         for row in range(self.GetNumberRows()):
             editors = self.editors[row]
+            grid.SetRowMinimalHeight(row, 28)
+            grid.AutoSizeRow(row, False)
             for col in range(self.GetNumberCols()):
                 editor = None
                 renderer = None
@@ -464,9 +466,9 @@ class EditingPanel(wx.SplitterWindow):
         self.AddButton.Bind(wx.EVT_BUTTON, self.OnAddButtonClick,
               id=ID_EDITINGPANELADDBUTTON)
 
-        self.IndexChoice = wx.Choice(choices=[], id=ID_EDITINGPANELINDEXCHOICE,
+        self.IndexChoice = wx.ComboBox(choices=[], id=ID_EDITINGPANELINDEXCHOICE,
               name='IndexChoice', parent=self.IndexListPanel, pos=wx.Point(50,
-              0), size=wx.Size(-1, 30), style=0)
+              0), size=wx.Size(-1, 30), style=wx.CB_READONLY)
 
         self._init_sizers()
 
