@@ -30,6 +30,7 @@ EXPORTS
 
         ; lifegrd.h
         _heartbeatError
+        _post_SlaveBootup
         getNodeState
         heartbeatInit
         heartbeatStop
@@ -111,6 +112,12 @@ EXPORTS
         sendSYNC
         proceedSYNC
         
+        ; emcy.h
+        emergencyInit
+        emergencyStop
+        EMCY_setError
+        EMCY_errorRecovered
+        _post_emcy
         
         ; timer.h
         SetAlarm
@@ -120,6 +127,8 @@ EXPORTS
         getElapsedTime
         
         ; timers_driver.h
+        TimerInit
+        TimerCleanup
         StartTimerLoop
         StopTimerLoop
         CreateReceiveTask
