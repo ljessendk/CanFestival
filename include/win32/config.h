@@ -28,13 +28,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define NMT_MAX_NODE_ID 128
 #define SDO_TIMEOUT_MS 3000
 #define MAX_NB_TIMER 32
-// CANOPEN_BIG_ENDIAN is not defined
-
-#define US_TO_TIMEVAL_FACTOR 1
+/* CANOPEN_BIG_ENDIAN is not defined */
+/* US_TO_TIMEVAL_FACTOR is not defined */
+/* TIMEVAL is not defined */
+/* TIMEVAL_MAX is not defined */
+/* RTCAN_SOCKET is not defined */
+#define EMCY_MAX_ERRORS 8
+#define LSS_TIMEOUT_MS 1000
+#define LSS_FS_TIMEOUT_MS 100
 
 #define REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(repeat)\
 repeat repeat repeat repeat
 #define REPEAT_NMT_MAX_NODE_ID_TIMES(repeat)\
 repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat
-
+#define REPEAT_EMCY_MAX_ERRORS_TIMES(repeat)\
+repeat repeat repeat repeat repeat repeat repeat repeat
 #endif /* _CONFIG_H_ */
