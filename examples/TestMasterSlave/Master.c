@@ -106,7 +106,6 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 	 * for slave node-id 0x02 by DCF concise */
 	 
 	UNS8 Transmission_Type = 0x01;
-	UNS32 abortCode;
 	UNS8 res;
 	eprintf("Master : ConfigureSlaveNode %2.2x\n", nodeId);
 
@@ -205,66 +204,15 @@ static int MasterSyncCount = 0;
 void TestMaster_post_TPDO(CO_Data* d)
 {
 	eprintf("TestMaster_post_TPDO MasterSyncCount = %d \n", MasterSyncCount);
-//
-//	{
-//		char zero = 0;
-//		if(MasterMap4 > 0x80){
-//			writeNetworkDict (
-//				&TestMaster_Data,
-//				TestSlave_Data->bDeviceNodeId,
-//				0x2002,
-//				0x00,
-//				1,
-//				0,
-//				&zero); 
-//		}
-//	}
-
-#if 0
-	if(waiting_answer){
-		UNS32 abortCode;			
-		UNS8 size = 1;			
-		switch(getReadResultNetworkDict (
-			&TestMaster_Data, 
-			0x02,
-			&query_result,
-			&size,
-			&abortCode))
-		{
-			case SDO_FINISHED:
-				/* Do something with result here !!*/
-				eprintf("Got SDO answer (0x2002, 0x00), %d %d\n",query_result,size);
-			case SDO_ABORTED_RCV:
-			case SDO_ABORTED_INTERNAL:
-			case SDO_RESET:
-				waiting_answer = 0;
-				closeSDOtransfer(
-					&TestMaster_Data,
-					0x02,
-					SDO_CLIENT);
-			break;
-			case SDO_DOWNLOAD_IN_PROGRESS:
-			case SDO_UPLOAD_IN_PROGRESS:
-			break;
-		}
-	}else if(MasterSyncCount % 10 == 0){
-		readNetworkDict (
-			&TestMaster_Data,
-			0x02,
-			0x2002,
-			0x00,
-			0);
-		waiting_answer = 1;
-	}
-#endif	
 	if(MasterSyncCount % 17 == 0){
 		eprintf("Master : Ask RTR PDO (0x1402)\n");
 		sendPDOrequest(&TestMaster_Data, 0x1402 );
 		sendPDOrequest(&TestMaster_Data, 0x1403 );
 	}
 	if(MasterSyncCount % 50 == 0){
+		UNS8 transmitiontype;
 		eprintf("Master : Change slave's transmit type to 0xFF\n");
-		UNS8 transmitiontype = 0xFF;
+		transmitiontype = 0xFF;
 		writeNetworkDictCallBack (&TestMaster_Data, /*CO_Data* d*/
 					2, /*UNS8 nodeId*/
 					0x1802, /*UNS16 index*/
@@ -275,8 +223,8 @@ void TestMaster_post_TPDO(CO_Data* d)
 					CheckSDO); /*SDOCallback_t Callback*/
 	}
 	if(MasterSyncCount % 50 == 25){
-		eprintf("Master : Change slave's transmit type to 0x00\n");
 		UNS8 transmitiontype = 0x00;
+		eprintf("Master : Change slave's transmit type to 0x00\n");
 		writeNetworkDictCallBack (&TestMaster_Data, /*CO_Data* d*/
 					2, /*UNS8 nodeId*/
 					0x1802, /*UNS16 index*/
