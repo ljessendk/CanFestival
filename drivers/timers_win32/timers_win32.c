@@ -25,13 +25,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <stdlib.h>
 #include <sys/timeb.h>
 
-extern "C"
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "applicfg.h"
 #include "can_driver.h"
 #include "timer.h"
 #include "timers_driver.h"
+
+#ifdef __cplusplus
 };
+#endif
 
 struct _timeb timebuffer;
 
@@ -142,7 +147,7 @@ void setTimer(TIMEVAL value)
 		LARGE_INTEGER liDueTime;
 
 		/* arg 2 of SetWaitableTimer take 100 ns interval */
-		liDueTime.QuadPart = -value;
+		liDueTime.QuadPart = (-1 * value);
 		//printf("SetTimer(%llu)\n", value);
 
 		if (!SetWaitableTimer(timer, &liDueTime, 0, NULL, NULL, FALSE))

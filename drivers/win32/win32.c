@@ -26,12 +26,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #include <windows.h>
-extern "C"
-{
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "canfestival.h"
 #include "timer.h"
 #include "timers_driver.h"
+
+#ifdef __cplusplus
 };
+#endif
+
 // GetProcAddress doesn't have an UNICODE version for NT
 #ifdef UNDER_CE
   #define myTEXT(str) TEXT(str)
@@ -138,6 +145,8 @@ void canReceiveLoop(CAN_PORT port)
 CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 {
 	int i;
+    CAN_HANDLE fd0;
+
 	for(i=0; i < MAX_NB_CAN_PORTS; i++)
 	{
 		if(!canports[i].used)
@@ -152,7 +161,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 	}
 	#endif
 
-	CAN_HANDLE fd0 = m_canOpen(board);
+	fd0 = m_canOpen(board);
 	if(fd0)
 	{
 		canports[i].used = 1;
@@ -173,16 +182,24 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 int canClose(CO_Data * d)
 {
 	UNS8 res;
+	CANPort* tmp;
 
-	((CANPort*)d->canHandle)->used = 0;
-	CANPort* tmp = (CANPort*)d->canHandle;
+	if((CANPort*)d->canHandle)
+	{
+	  ((CANPort*)d->canHandle)->used = 0;
+	}
+
+	tmp = (CANPort*)d->canHandle;
 	d->canHandle = NULL;
 
-	// close CAN port
-	res = m_canClose(tmp->fd);
+	if(tmp)
+	{
+	  // close CAN port
+	  res = m_canClose(tmp->fd);
 
-	// kill receiver task
-	WaitReceiveTaskEnd(&tmp->receiveTask);
+	  // kill receiver task
+	  WaitReceiveTaskEnd(&tmp->receiveTask);
+	}
 	return res;
 }
 
