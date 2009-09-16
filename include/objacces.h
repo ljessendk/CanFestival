@@ -41,6 +41,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <applicfg.h>
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 typedef UNS32 (*valueRangeTest_t)(UNS8 typeValue, void *Value);
 typedef void (* storeODSubIndex_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
@@ -105,14 +111,15 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
-UNS32 _getODentry( CO_Data* d, 
-		  UNS16 wIndex,
-		  UNS8 bSubindex,
-		  void * pDestData,
-		  UNS32 * pExpectedSize,
-		  UNS8 * pDataType,
-		  UNS8 checkAccess,
-		  UNS8 endianize);
+UNS32 _getODentry( CO_Data* d,
+                   UNS16 wIndex,
+                   UNS8 bSubindex,
+                   void * pDestData,
+                   UNS32 * pExpectedSize,
+                   UNS8 * pDataType,
+                   UNS8 checkAccess,
+                   UNS8 endianize);
+
 
 /** 
  * @ingroup od
@@ -135,10 +142,13 @@ UNS32 _getODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
-#define getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
-		          pDataType,  checkAccess)                         \
-       _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
-		          pDataType,  checkAccess, 1)            
+UNS32 getODentry( CO_Data* d,
+                  UNS16 wIndex,
+                  UNS8 bSubindex,
+                  void * pDestData,
+                  UNS32 * pExpectedSize,
+                  UNS8 * pDataType,
+                  UNS8 checkAccess);
 
 /** 
  * @ingroup od
@@ -165,10 +175,13 @@ UNS32 _getODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
-#define readLocalDict( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
-		          pDataType,  checkAccess)                         \
-       _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
-		          pDataType,  checkAccess, 0)
+UNS32 readLocalDict( CO_Data* d,
+                     UNS16 wIndex,
+                     UNS8 bSubindex,
+                     void * pDestData,
+                     UNS32 * pExpectedSize,
+                     UNS8 * pDataType,
+                     UNS8 checkAccess);
 
 /* By this function you can write an entry into the object dictionary
  * @param *d Pointer to a CAN object data structure
@@ -224,10 +237,12 @@ UNS32 _setODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
-#define setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
-                  checkAccess) \
-       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
-                  checkAccess, 1)
+UNS32 setODentry( CO_Data* d,
+                   UNS16 wIndex,
+                   UNS8 bSubindex,
+                   void * pSourceData,
+                   UNS32 * pExpectedSize,
+                   UNS8 checkAccess);
 
 /** @fn UNS32 writeLocalDict(d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess)
  * @ingroup od
@@ -257,11 +272,12 @@ UNS32 _setODentry( CO_Data* d,
  * retcode = writeLocalDict( (UNS16)0x1800, (UNS8)2, &B, sizeof(UNS8), 1 );
  * @endcode
  */
-#define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
-       _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
-
-
-
+UNS32 writeLocalDict( CO_Data* d,
+                      UNS16 wIndex,
+                      UNS8 bSubindex,
+                      void * pSourceData,
+                      UNS32 * pExpectedSize,
+                      UNS8 checkAccess);
 /**
  * @brief Scan the index of object dictionary. Used only by setODentry and getODentry.
  * @param *d Pointer to a CAN object data structure
@@ -273,5 +289,9 @@ UNS32 _setODentry( CO_Data* d,
  const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback);
 
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __objacces_h__ */

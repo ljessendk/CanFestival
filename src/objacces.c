@@ -40,18 +40,6 @@
 
 #include "data.h"
 
-
-/*!
-**
-**
-** @param index
-** @param subIndex
-** @param sizeDataDict
-** @param sizeDataGiven
-** @param code
-**
-** @return
-**/
 #ifdef DEBUG_WAR_CONSOLE_ON
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
                            UNS32 sizeDataDict, UNS32 sizeDataGiven, UNS32 code)
@@ -90,20 +78,6 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
 #define accessDictionaryError(index, subIndex, sizeDataDict, sizeDataGiven, code)
 #endif
 
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param pDestData
-** @param pExpectedSize
-** @param pDataType
-** @param checkAccess
-** @param endianize
-**
-** @return
-**/
 UNS32 _getODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
@@ -194,19 +168,30 @@ UNS32 _getODentry( CO_Data* d,
   }
 }
 
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param pSourceData
-** @param pExpectedSize
-** @param checkAccess
-** @param endianize
-**
-** @return
-**/
+UNS32 getODentry( CO_Data* OD,
+                  UNS16 wIndex,
+                  UNS8 bSubindex,
+                  void * pDestData,
+                  UNS32 * pExpectedSize,
+                  UNS8 * pDataType,
+                  UNS8 checkAccess)
+{
+	return _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize,
+                        pDataType,  checkAccess, 1);
+}
+
+UNS32 readLocalDict( CO_Data* OD,
+                     UNS16 wIndex,
+                     UNS8 bSubindex,
+                     void * pDestData,
+                     UNS32 * pExpectedSize,
+                     UNS8 * pDataType,
+                     UNS8 checkAccess)
+{
+  return _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize,
+                      pDataType,  checkAccess, 0);
+}
+
 UNS32 _setODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
@@ -300,31 +285,32 @@ UNS32 _setODentry( CO_Data* d,
     }
 }
 
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param errorCode
-** @param Callback
-**
-** @return
-**/
+UNS32 setODentry( CO_Data* d,
+                  UNS16 wIndex,
+                  UNS8 bSubindex,
+                  void * pSourceData,
+                  UNS32 * pExpectedSize,
+                  UNS8 checkAccess)
+{
+  return _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize,
+                      checkAccess, 1);
+}
+
+UNS32 writeLocalDict( CO_Data* d,
+                     UNS16 wIndex,
+                     UNS8 bSubindex,
+                     void * pSourceData,
+                     UNS32 * pExpectedSize,
+                     UNS8 checkAccess)
+{
+  return _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0);
+}
+
 const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)
 {
   return (*d->scanIndexOD)(wIndex, errorCode, Callback);
 }
 
-/*!
-**
-**
-** @param d
-** @param wIndex
-** @param bSubindex
-** @param Callback
-**
-** @return
-**/
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
 UNS32 errorCode;
@@ -337,10 +323,4 @@ const indextable *odentry;
   return errorCode;
 }
 
-/*!
-**
-**
-** @param wIndex
-** @param bSubindex
-**/
 void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex){}
