@@ -52,7 +52,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
   const indextable *TPDO_map = d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
 
   UNS8 prp_j = 0x00;
-  UNS8 offset = 0x00;
+  UNS32 offset = 0x00000000;
   const UNS8 *pMappingCount = (UNS8 *) TPDO_map->pSubindex[0].pObject;
 
   pdo->cob_id = UNS16_LE(*(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF);
@@ -93,8 +93,8 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
               return 0xFF;
             }
           /* copy bit per bit in little endian */
-          CopyBits (Size, ((UNS8 *) tmp), 0, 0,
-                    (UNS8 *) & pdo->data[offset >> 3], offset % 8, 0);
+          CopyBits ((UNS8) Size, ((UNS8 *) tmp), 0, 0,
+                    (UNS8 *) & pdo->data[offset >> 3], (UNS8)(offset % 8), 0);
 
           offset += Size;
         }
@@ -102,7 +102,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
     }
   while (prp_j < *pMappingCount);
 
-  pdo->len = 1 + ((offset - 1) >> 3);
+  pdo->len = (UNS8)(1 + ((offset - 1) >> 3));
 
   MSG_WAR (0x3015, "  End scan mapped variable", 0);
 
@@ -141,7 +141,7 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
           MSG_WAR (0x3930, "sendPDOrequest cobId is : ", *pwCobId);
           {
             Message pdo;
-            pdo.cob_id = UNS16_LE(*pwCobId);
+            pdo.cob_id = (UNS16)UNS16_LE(*pwCobId);
             pdo.rtr = REQUEST;
             pdo.len = 0;
             return canSend (d->canHandle, &pdo);

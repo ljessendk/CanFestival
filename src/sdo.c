@@ -551,7 +551,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
     pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
-  m.cob_id = UNS16_LE(*pwCobId);
+  m.cob_id = (UNS8)UNS16_LE(*pwCobId);
   m.rtr = NOT_A_REQUEST;
   /* the length of SDO must be 8 */
   m.len = 8;
@@ -576,10 +576,7 @@ UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 nodeID, UNS16 index, UNS8 subIn
 {
   s_SDO sdo;
   UNS8 ret;
-  UNS8* pNodeIdServer;
-  UNS8 nodeIdServer;
-  UNS16 offset;
-
+  
   MSG_WAR(0x2A50,"Sending SDO abort ", abortCode);
   if(whoami == SDO_SERVER)
   {
@@ -626,7 +623,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
   UNS16 index;
   UNS8 subIndex;
   UNS32 abortCode;
-  UNS8 i,j;
+  UNS32 i;
+  UNS8	j;
   UNS32 *pCobId = NULL;
   UNS16 offset;
   UNS16 lastIndex;
@@ -868,7 +866,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       }
       else {/* So, if it is not an expedited transfert */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = m->data[4] + m->data[5]<<8 + m->data[6]<<16 + m->data[7]<<24;
+	  nbBytes = (m->data[4]) + (m->data[5]<<8) + (m->data[6]<<16) + (m->data[7]<<24);
 	  err = setSDOlineRestBytes(d, nodeId, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -935,7 +933,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	/* code to send the last segment. (cs = 0; c = 1)*/
 	d->transfers[line].toggle = ! d->transfers[line].toggle & 1;
 	sdo.nodeId = nodeId; /* The server node Id; */
-	sdo.body.data[0] = (d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1;
+	sdo.body.data[0] = (UNS8)((d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1);
 	err = lineToSDO(d, line, nbBytes, sdo.body.data + 1);
 	if (err) {
 	  failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -995,7 +993,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	sdo.body.data[1] = index & 0xFF;        /* LSB */
 	sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
 	sdo.body.data[3] = subIndex;
-        sdo.body.data[4] = nbBytes; /* Limitation of canfestival2 : Max tranfert is 256 bytes.*/
+    sdo.body.data[4] = (UNS8)nbBytes; /* Limitation of canfestival2 : Max tranfert is 256 bytes.*/
 	/* It takes too much memory to upgrate to 2^32 because the size of data is also coded */
 	/* in the object dictionary, at every index and subindex. */
 	for (i = 5 ; i < 8 ; i++)
@@ -1005,7 +1003,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       }
       else {
 	/* Expedited upload. (cs = 2 ; e = 1) */
-	sdo.body.data[0] = (2 << 5) | ((4 - nbBytes) << 2) | 3;
+	sdo.body.data[0] = (UNS8)((2 << 5) | ((4 - nbBytes) << 2) | 3);
 	sdo.body.data[1] = index & 0xFF;        /* LSB */
 	sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
 	sdo.body.data[3] = subIndex;
@@ -1060,7 +1058,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       else { /* So, if it is not an expedited transfert */
 	/* Storing the nb of data to receive. */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = m->data[4] + m->data[5]<<8 + m->data[6]<<16 + m->data[7]<<24;
+	  nbBytes = m->data[4] + (m->data[5]<<8) + (m->data[6]<<16) + (m->data[7]<<24);
 	  err = setSDOlineRestBytes(d, line, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1124,7 +1122,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	/* Last segment. */
 	/* code to send the last segment. (cs = 0; c = 1) */
 	sdo.nodeId = nodeId; /** The server node Id; */
-	sdo.body.data[0] = (d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1;
+	sdo.body.data[0] = (UNS8)((d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1);
 	err = lineToSDO(d, line, nbBytes, sdo.body.data + 1);
 	if (err) {
 	  failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1178,7 +1176,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	/* Last segment.*/
 	/* code to send the last segment. (cs = 0; c = 1)	*/
 	sdo.nodeId = nodeId; /* The server node Id; */
-	sdo.body.data[0] = (d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1;
+	sdo.body.data[0] = (UNS8)((d->transfers[line].toggle << 4) | ((7 - nbBytes) << 1) | 1);
 	err = lineToSDO(d, line, nbBytes, sdo.body.data + 1);
 	if (err) {
 	  failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1330,7 +1328,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   /* Send the SDO to the server. Initiate download, cs=1. */
   sdo.nodeId = nodeId;
   if (count <= 4) { /* Expedited transfert */
-    sdo.body.data[0] = (1 << 5) | ((4 - count) << 2) | 3;
+    sdo.body.data[0] = (UNS8)((1 << 5) | ((4 - count) << 2) | 3);
     for (i = 4 ; i < 8 ; i++)
       sdo.body.data[i] = d->transfers[line].data[i - 4];
     d->transfers[line].offset = count;
@@ -1338,7 +1336,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   else { /** Normal transfert */
     sdo.body.data[0] = (1 << 5) | 1;
     for (i = 0 ; i < 4 ; i++)
-      sdo.body.data[i+4] = count << (i<<3); /* i*8 */
+      sdo.body.data[i+4] = (UNS8)((count << (i<<3))); /* i*8 */
   }
   sdo.body.data[1] = index & 0xFF;        /* LSB */
   sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */

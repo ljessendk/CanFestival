@@ -87,7 +87,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 */
 UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
 {
-  UNS8 szData;
+  UNS32 szData;
   /* Fetch DCF OD entry, if not already done */
   if(!d->dcf_odentry)
   {
@@ -124,7 +124,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
   	if(d->dcf_odentry->pSubindex[nodeId].bAccessType & DCF_TO_SEND){   	 
         UNS8* dcfend;
   		UNS32 nb_entries;
-  		UNS8 szData = d->dcf_odentry->pSubindex[nodeId].size;
+  		UNS32 szData = d->dcf_odentry->pSubindex[nodeId].size;
       	 
    		{
 	   		UNS8* dcf = *((UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject);
@@ -171,7 +171,7 @@ static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
                                 nodeId, /* UNS8 nodeId*/
                                 target_Index, /* UNS16 index*/
                                 target_Subindex, /* UNS8 subindex*/
-                                target_Size, /* UNS8 count*/
+                                (UNS8)target_Size, /* UNS8 count*/
                                 0, /* UNS8 dataType*/
                                 d->dcf_cursor,/* void *data*/
                                 CheckSDOAndContinue,/* SDOCallback_t
