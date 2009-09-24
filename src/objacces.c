@@ -168,30 +168,6 @@ UNS32 _getODentry( CO_Data* d,
   }
 }
 
-UNS32 getODentry( CO_Data* OD,
-                  UNS16 wIndex,
-                  UNS8 bSubindex,
-                  void * pDestData,
-                  UNS32 * pExpectedSize,
-                  UNS8 * pDataType,
-                  UNS8 checkAccess)
-{
-	return _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize,
-                        pDataType,  checkAccess, 1);
-}
-
-UNS32 readLocalDict( CO_Data* OD,
-                     UNS16 wIndex,
-                     UNS8 bSubindex,
-                     void * pDestData,
-                     UNS32 * pExpectedSize,
-                     UNS8 * pDataType,
-                     UNS8 checkAccess)
-{
-  return _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize,
-                      pDataType,  checkAccess, 0);
-}
-
 UNS32 _setODentry( CO_Data* d,
                    UNS16 wIndex,
                    UNS8 bSubindex,
@@ -283,27 +259,6 @@ UNS32 _setODentry( CO_Data* d,
       accessDictionaryError(wIndex, bSubindex, szData, *pExpectedSize, OD_LENGTH_DATA_INVALID);
       return OD_LENGTH_DATA_INVALID;
     }
-}
-
-UNS32 setODentry( CO_Data* d,
-                  UNS16 wIndex,
-                  UNS8 bSubindex,
-                  void * pSourceData,
-                  UNS32 * pExpectedSize,
-                  UNS8 checkAccess)
-{
-  return _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize,
-                      checkAccess, 1);
-}
-
-UNS32 writeLocalDict( CO_Data* d,
-                     UNS16 wIndex,
-                     UNS8 bSubindex,
-                     void * pSourceData,
-                     UNS32 * pExpectedSize,
-                     UNS8 checkAccess)
-{
-  return _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0);
 }
 
 const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)

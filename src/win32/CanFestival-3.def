@@ -48,10 +48,8 @@ EXPORTS
         ; objacces.h
         _storeODSubIndex
         accessDictionaryError
-        getODentry
-        setODentry
-        writeLocalDict
-        readLocalDict
+        _getODentry
+        _setODentry
         scanIndexOD
         RegisterSetODentryCallBack
         
