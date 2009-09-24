@@ -66,6 +66,8 @@ driver: $(OBJS)
 libcanfestival_$(TARGET).a: $(OBJS)
 	@echo Building [libcanfestival_$(TARGET).a]
 	$(BINUTILS_PREFIX)ar rc $@ $(OBJS)
+	$(BINUTILS_PREFIX)ar x `$(BINUTILS_PREFIX)gcc -print-libgcc-file-name` _umoddi3.o _udivdi3.o
+	$(BINUTILS_PREFIX)ar r $@ _umoddi3.o _udivdi3.o
 	$(BINUTILS_PREFIX)ranlib $@
 
 install: libcanfestival_$(TARGET).a
