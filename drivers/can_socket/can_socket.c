@@ -37,6 +37,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAN_SEND       rt_dev_send
 #define CAN_BIND       rt_dev_bind
 #define CAN_IOCTL      rt_dev_ioctl
+#define CAN_SETSOCKOPT rt_dev_setsockopt
 #define CAN_ERRNO(err) (-err)
 #else
 #include <sys/socket.h>
@@ -55,6 +56,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAN_BIND       bind
 #define CAN_IOCTL      ioctl
 #define CAN_ERRNO(err) errno
+#define CAN_SETSOCKOPT setsockopt
 #endif
 
 #include "can_driver.h"
@@ -194,16 +196,25 @@ canOpen_driver (s_BOARD * board)
   
   {
     int loopback = 1;
-    setsockopt(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_LOOPBACK,
+    err = CAN_SETSOCKOPT(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_LOOPBACK,
                &loopback, sizeof(loopback));
+    if (err) {
+        fprintf(stderr, "rt_dev_setsockopt: %s\n", strerror (CAN_ERRNO (err)));
+        goto failure;
+    }
   }
   
+#ifndef RTCAN_SOCKET /*CAN_RAW_RECV_OWN_MSGS not supported in rtsocketcan*/
   {
     int recv_own_msgs = 0; /* 0 = disabled (default), 1 = enabled */
-
-    setsockopt(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_RECV_OWN_MSGS,
+    err = CAN_SETSOCKOPT(*(int *)fd0, SOL_CAN_RAW, CAN_RAW_RECV_OWN_MSGS,
                &recv_own_msgs, sizeof(recv_own_msgs));
+    if (err) {
+        fprintf(stderr, "rt_dev_setsockopt: %s\n", strerror (CAN_ERRNO (err)));
+        goto failure;
+    }
   }
+#endif
   
   addr.can_family = AF_CAN;
   addr.can_ifindex = ifr.ifr_ifindex;
