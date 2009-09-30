@@ -76,7 +76,7 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
   UNS16 tmp = nodeId | (NODE_GUARD << 7); 
   m.cob_id = UNS16_LE(tmp);
   m.rtr = REQUEST;
-  m.len = 1;
+  m.len = 0;
 
   MSG_WAR(0x3503, "Send_NODE_GUARD to node : ", nodeId);
 

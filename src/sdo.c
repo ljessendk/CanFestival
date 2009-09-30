@@ -551,7 +551,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo)
     pwCobId = (UNS32*) d->objdict[offset].pSubindex[1].pObject;
   }
   /* message copy for sending */
-  m.cob_id = (UNS8)UNS16_LE(*pwCobId);
+  m.cob_id = (UNS16)UNS16_LE(*pwCobId);
   m.rtr = NOT_A_REQUEST;
   /* the length of SDO must be 8 */
   m.len = 8;
