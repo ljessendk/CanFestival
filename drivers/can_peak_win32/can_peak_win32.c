@@ -217,6 +217,7 @@ UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
 UNS8 canSend_driver (CAN_HANDLE fd0, Message * m)
 {
 	UNS8 data;
+	DWORD localerrno;
 	TPCANMsg peakMsg;
 	peakMsg.ID = m->cob_id;	/* 11/29 bit code */
 	if (m->rtr == 0)
@@ -236,19 +237,19 @@ UNS8 canSend_driver (CAN_HANDLE fd0, Message * m)
 		// if not the first handler
 		if(second_board == (s_BOARD *)fd0)
 		{
-			errno = CAN2_Write (&peakMsg);
+			errno = localerrno = CAN2_Write (&peakMsg);
 		}
 		else
 #endif
 		if(first_board == (s_BOARD *)fd0)
 			{
-				errno = CAN_Write (&peakMsg);
+				errno = localerrno = CAN_Write (&peakMsg);
 			}
 		else
 			goto fail;
-		if (errno)
+		if (localerrno)
 		{
-			if (errno == CAN_ERR_BUSOFF)
+			if (localerrno == CAN_ERR_BUSOFF)
 			{
 				printf ("!!! Peak board write : re-init\n");
 				canInit((s_BOARD*)fd0);
@@ -257,7 +258,7 @@ UNS8 canSend_driver (CAN_HANDLE fd0, Message * m)
 			usleep (1000);
 		}
 	}
-	while (errno != CAN_ERR_OK);
+	while (localerrno != CAN_ERR_OK);
 #if defined DEBUG_MSG_CONSOLE_ON
 	MSG("out : ");
 	print_message(m);
