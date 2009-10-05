@@ -124,7 +124,10 @@ void StopTimerLoop(TimerCallback_t exitfunction)
 
 	stop_timer = 1;
 	setTimer(0);
-	WaitForSingleObject(timer_thread, INFINITE);
+	if(WaitForSingleObject(timer_thread,1000) == WAIT_TIMEOUT)
+	{
+		TerminateThread(timer_thread, -1);
+	}
 	CloseHandle(timer);
 	CloseHandle(timer_thread);
 }
