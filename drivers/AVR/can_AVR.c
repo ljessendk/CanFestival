@@ -174,6 +174,7 @@ ISR(CANIT_vect)
 CAN Interrupt
 ******************************************************************************/
 {
+  unsigned char saved_page = CANPAGE;
   unsigned char i;
 
   if (CANGIT & (1 << CANIT))	// is a messagebox interrupt
@@ -210,6 +211,8 @@ CAN Interrupt
       }
     }
   }
+
+  CANPAGE = saved_page;
 
   // Bus Off Interrupt Flag
   if (CANGIT & (1 << BOFFIT))    // Finaly clear the interrupt status register
