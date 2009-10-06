@@ -70,7 +70,10 @@ void CreateReceiveTask(CAN_HANDLE fd0, TASK_HANDLE* Thread, void* ReceiveLoopPtr
 
 void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	WaitForSingleObject(*Thread, INFINITE);
+	if(WaitForSingleObject(*Thread, 1000) == WAIT_TIMEOUT)
+	{
+		TerminateThread(*Thread, -1);
+	}
 	CloseHandle(*Thread);
 }
 
