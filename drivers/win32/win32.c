@@ -103,7 +103,7 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 
 	if (!handle)
 	{
-		fprintf (stderr, "%s\n", GetLastError());
+		fprintf (stderr, "%d\n", GetLastError());
     	return NULL;
 	}
 
@@ -181,7 +181,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
 {
-	UNS8 res;
+	UNS8 res = 1;
 	CANPort* tmp;
 
 	if((CANPort*)d->canHandle)

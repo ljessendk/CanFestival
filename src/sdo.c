@@ -113,7 +113,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 
 /** Returns the index from the bytes 1 and 2 of the SDO
  */
-#define getSDOindex(byte1, byte2) ((byte2 << 8) | (byte1))
+#define getSDOindex(byte1, byte2) (((UNS16)byte2 << 8) | ((UNS16)byte1))
 
 /** Returns the subIndex from the byte 3 of the SDO
  */
@@ -866,7 +866,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       }
       else {/* So, if it is not an expedited transfert */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = (m->data[4]) + (m->data[5]<<8) + (m->data[6]<<16) + (m->data[7]<<24);
+	  nbBytes = (m->data[4]) + ((UNS32)(m->data[5])<<8) + ((UNS32)(m->data[6])<<16) + ((UNS32)(m->data[7])<<24);
 	  err = setSDOlineRestBytes(d, nodeId, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -1058,7 +1058,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
       else { /* So, if it is not an expedited transfert */
 	/* Storing the nb of data to receive. */
 	if (getSDOs(m->data[0])) {
-	  nbBytes = m->data[4] + (m->data[5]<<8) + (m->data[6]<<16) + (m->data[7]<<24);
+	  nbBytes = m->data[4] + ((UNS32)(m->data[5])<<8) + ((UNS32)(m->data[6])<<16) + ((UNS32)(m->data[7])<<24);
 	  err = setSDOlineRestBytes(d, line, nbBytes);
 	  if (err) {
 	    failedSDO(d, nodeId, whoami, index, subIndex, SDOABT_GENERAL_ERROR);

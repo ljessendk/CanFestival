@@ -200,7 +200,7 @@ canOpen_driver (s_BOARD * board)
                &loopback, sizeof(loopback));
     if (err) {
         fprintf(stderr, "rt_dev_setsockopt: %s\n", strerror (CAN_ERRNO (err)));
-        goto failure;
+        goto error_close;
     }
   }
   
@@ -211,7 +211,7 @@ canOpen_driver (s_BOARD * board)
                &recv_own_msgs, sizeof(recv_own_msgs));
     if (err) {
         fprintf(stderr, "rt_dev_setsockopt: %s\n", strerror (CAN_ERRNO (err)));
-        goto failure;
+        goto error_close;
     }
   }
 #endif
