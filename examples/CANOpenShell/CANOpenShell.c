@@ -55,7 +55,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 //****************************************************************************
 // GLOBALS
-char BoardBusName[11];
+char BoardBusName[31];
 char BoardBaudRate[5];
 s_BOARD Board = {BoardBusName, BoardBaudRate};
 CO_Data* CANOpenShellOD_Data;
@@ -407,7 +407,7 @@ int ProcessCommand(char* command)
 					LeaveMutex();
 					return QUIT;
 		case cst_str4('l', 'o', 'a', 'd') : /* Library Interface*/
-					ret = sscanf(command, "load#%100[^,],%10[^,],%4[^,],%d,%d",
+					ret = sscanf(command, "load#%100[^,],%30[^,],%4[^,],%d,%d",
 							LibraryPath,
 							BoardBusName,
 							BoardBaudRate,
@@ -416,9 +416,13 @@ int ProcessCommand(char* command)
 
 					if(ret == 5)
 					{
-						ret = NodeInit(NodeID, NodeType);
 						LeaveMutex();
+						ret = NodeInit(NodeID, NodeType);
 						return ret;
+					}
+					else
+					{
+						printf("Invalid load parameters\n");
 					}
 					break;
 		default :
