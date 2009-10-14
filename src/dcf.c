@@ -118,7 +118,8 @@ UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
 
 static void send_consise_dcf_loop(CO_Data* d,UNS8 nodeId)
 {
-  /* Loop on all DCF subindexes, corresponding to node ID until there is no request*/
+  if(nodeId > d->dcf_odentry->bSubCount) return;
+/* Loop on all DCF subindexes, corresponding to node ID until there is no request*/
   //while (nodeId < d->dcf_odentry->bSubCount){
   while (d->dcf_request>0){
   	if(d->dcf_odentry->pSubindex[nodeId].bAccessType & DCF_TO_SEND){   	 
