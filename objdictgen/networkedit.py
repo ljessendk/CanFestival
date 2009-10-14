@@ -398,40 +398,33 @@ class networkedit(wx.Frame):
 
     def OnQuitMenu(self, event):
         self.Close()
-        event.Skip()
-
+        
     def OnAddSDOServerMenu(self, event):
         self.Manager.AddSDOServerToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-    
+        
     def OnAddSDOClientMenu(self, event):
         self.Manager.AddSDOClientToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddPDOTransmitMenu(self, event):
         self.Manager.AddPDOTransmitToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddPDOReceiveMenu(self, event):
         self.Manager.AddPDOReceiveToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddMapVariableMenu(self, event):
         self.AddMapVariable()
-        event.Skip()
-
+        
     def OnAddUserTypeMenu(self, event):
         self.AddUserType()
-        event.Skip()
-
+        
     def OnNodeSelectedChanged(self, event):
         if not self.Closing:
             selected = event.GetSelection()
@@ -473,8 +466,7 @@ class networkedit(wx.Frame):
                     message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
-        event.Skip()
-
+        
     def OnOpenProjectMenu(self, event):
         if self.NodeList:
             defaultpath = os.path.dirname(self.NodeList.GetRoot())
@@ -502,8 +494,7 @@ class networkedit(wx.Frame):
                     message.ShowModal()
                     message.Destroy()
         dialog.Destroy()
-        event.Skip()
-
+        
     def OnSaveProjectMenu(self, event):
         if not self.ModeSolo and getattr(self, "_onsave", None) != None:
             self._onsave()
@@ -513,8 +504,7 @@ class networkedit(wx.Frame):
                 message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-        event.Skip()
-
+        
     def OnCloseProjectMenu(self, event):
         if self.NodeList:
             if self.NodeList.HasChanged():
@@ -535,8 +525,7 @@ class networkedit(wx.Frame):
                 self.RefreshNetworkNodes()
                 self.RefreshTitle()
                 self.RefreshMainMenu()
-        event.Skip()
-
+        
 #-------------------------------------------------------------------------------
 #                             Slave Nodes Management
 #-------------------------------------------------------------------------------
@@ -560,8 +549,7 @@ class networkedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-        event.Skip()
-
+        
     def OnRemoveSlaveMenu(self, event):
         slavenames = self.NodeList.GetSlaveNames()
         slaveids = self.NodeList.GetSlaveIDs()
@@ -583,8 +571,7 @@ class networkedit(wx.Frame):
                 message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-        event.Skip()
-
+        
 #-------------------------------------------------------------------------------
 #                             Refresh Functions
 #-------------------------------------------------------------------------------
@@ -597,8 +584,7 @@ class networkedit(wx.Frame):
 
     def OnRefreshMenu(self, event):
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def RefreshCurrentIndexList(self):
         selected = self.NetworkNodes.GetSelection()
         if selected == 0:
@@ -711,7 +697,6 @@ class networkedit(wx.Frame):
             self.Manager.AddSpecificEntryToCurrent(text)
             self.RefreshBufferState()
             self.RefreshCurrentIndexList()
-            event.Skip()
         return ProfileCallBack
 
 #-------------------------------------------------------------------------------
@@ -734,13 +719,11 @@ class networkedit(wx.Frame):
         self.Manager.LoadCurrentPrevious()
         self.RefreshCurrentIndexList()
         self.RefreshBufferState()
-        event.Skip()
 
     def OnRedoMenu(self, event):
         self.Manager.LoadCurrentNext()
         self.RefreshCurrentIndexList()
         self.RefreshBufferState()
-        event.Skip()
 
 #-------------------------------------------------------------------------------
 #                                Help Method
@@ -766,7 +749,6 @@ class networkedit(wx.Frame):
                 message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-        event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
         #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(ScriptDirectory, "doc/canfestival.html"), wx.Size(1000, 600))
@@ -777,11 +759,9 @@ class networkedit(wx.Frame):
                 os.spawnl(os.P_DETACH, readerexepath, "AcroRd32.exe", '"%s"'%os.path.join(ScriptDirectory, "doc","manual_en.pdf"))
         else:
             os.system("xpdf -remote CANFESTIVAL %s %d &"%(os.path.join(ScriptDirectory, "doc/manual_en.pdf"),16))
-        event.Skip()
 
     def OnAboutMenu(self, event):
         self.OpenHtmlFrame(_("About CAN Festival"), os.path.join(ScriptDirectory, "doc/about.html"), wx.Size(500, 450))
-        event.Skip()
 
     def OpenHtmlFrame(self, title, file, size):
         if title not in self.HtmlFrameOpened:
@@ -799,18 +779,15 @@ class networkedit(wx.Frame):
     def OnCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentCommunicationLists()
         self.EditProfile(_("Edit DS-301 Profile"), dictionary, current)
-        event.Skip()
     
     def OnOtherCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentDS302Lists()
         self.EditProfile(_("Edit DS-302 Profile"), dictionary, current)
-        event.Skip()
     
     def OnEditProfileMenu(self, event):
         title = _("Edit %s Profile")%self.Manager.GetCurrentProfileName()
         dictionary,current = self.Manager.GetCurrentProfileLists()
         self.EditProfile(title, dictionary, current)
-        event.Skip()
     
     def EditProfile(self, title, dictionary, current):
         dialog = CommunicationDialog(self)
@@ -853,7 +830,6 @@ class networkedit(wx.Frame):
             if selected >= 0:
                 window = self.NetworkNodes.GetPage(selected)
                 window.RefreshTable()
-        event.Skip()
 
 
 #-------------------------------------------------------------------------------
