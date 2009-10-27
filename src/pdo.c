@@ -124,6 +124,11 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
   UNS16 offset = d->firstIndex->PDO_RCV;
   UNS16 lastIndex = d->lastIndex->PDO_RCV;
 
+  if (!d->CurrentCommunicationState.csPDO)
+    {
+      return 0;
+    }
+
   /* Sending the request only if the cobid have been found on the PDO
      receive */
   /* part dictionary */
@@ -478,6 +483,17 @@ CopyBits (UNS8 NbBits, UNS8 * SrcByteIndex, UNS8 SrcBitIndex,
 
 }
 
+static void sendPdo(CO_Data * d, UNS32 pdoNum, Message * pdo)
+{
+  /*store_as_last_message */
+  d->PDO_status[pdoNum].last_message = *pdo;
+  MSG_WAR (0x396D, "sendPDO cobId :", UNS16_LE(pdo.cob_id));
+  MSG_WAR (0x396E, "     Nb octets  : ", pdo.len);
+
+  canSend (d->canHandle, pdo);
+}
+
+
 /*!
 **
 **
@@ -493,6 +509,76 @@ sendPDOevent (CO_Data * d)
   return _sendPDOevent (d, 0);
 }
 
+UNS8
+sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
+{
+  if (!d->CurrentCommunicationState.csPDO ||
+      !(d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED))
+    {
+      return 0;
+    }
+
+  UNS16 offsetObjdict = d->firstIndex->PDO_TRS + pdoNum;
+  MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
+           *pTransmissionType);
+  Message pdo;
+  memset(&pdo, 0, sizeof(pdo));
+  if (buildPDO (d, pdoNum, &pdo))
+    {
+      MSG_ERR (0x3907, " Couldn't build TPDO number : ",
+               pdoNum);
+      return;
+    }
+
+  /*Compare new and old PDO */
+  if (d->PDO_status[pdoNum].last_message.cob_id == pdo.cob_id
+      && d->PDO_status[pdoNum].last_message.len == pdo.len
+      && memcmp(d->PDO_status[pdoNum].last_message.data,
+					pdo.data, 8) == 0
+    )
+    {
+      /* No changes -> go to next pdo */
+      return;
+    }
+  else
+    {
+
+      TIMEVAL EventTimerDuration;
+      TIMEVAL InhibitTimerDuration;
+
+      MSG_WAR (0x306A, "Changes TPDO number : ", pdoNum);
+      /* Changes detected -> transmit message */
+      EventTimerDuration =
+        *(UNS16 *) d->objdict[offsetObjdict].pSubindex[5].
+        pObject;
+      InhibitTimerDuration =
+        *(UNS16 *) d->objdict[offsetObjdict].pSubindex[3].
+        pObject;
+
+      /* Start both event_timer and inhibit_timer */
+      if (EventTimerDuration)
+        {
+          DelAlarm (d->PDO_status[pdoNum].event_timer);
+          d->PDO_status[pdoNum].event_timer =
+            SetAlarm (d, pdoNum, &PDOEventTimerAlarm,
+                      MS_TO_TIMEVAL (EventTimerDuration), 0);
+        }
+
+      if (InhibitTimerDuration)
+        {
+          DelAlarm (d->PDO_status[pdoNum].inhibit_timer);
+          d->PDO_status[pdoNum].inhibit_timer =
+            SetAlarm (d, pdoNum, &PDOInhibitTimerAlarm,
+                      US_TO_TIMEVAL (InhibitTimerDuration *
+                                     100), 0);
+          /* and inhibit TPDO */
+          d->PDO_status[pdoNum].transmit_type_parameter |=
+            PDO_INHIBITED;
+        }
+
+      sendPdo(d, pdoNum, &pdo);
+    }
+}
 
 void
 PDOEventTimerAlarm (CO_Data * d, UNS32 pdoNum)
@@ -501,7 +587,7 @@ PDOEventTimerAlarm (CO_Data * d, UNS32 pdoNum)
   d->PDO_status[pdoNum].event_timer = TIMER_NONE;
   /* force emission of PDO by artificially changing last emitted */
   d->PDO_status[pdoNum].last_message.cob_id = 0;
-  _sendPDOevent (d, 0);         /* not a Sync Event */
+  sendOnePDOevent (d, pdoNum);
 }
 
 void
@@ -511,7 +597,7 @@ PDOInhibitTimerAlarm (CO_Data * d, UNS32 pdoNum)
   d->PDO_status[pdoNum].inhibit_timer = TIMER_NONE;
   /* Remove inhibit flag */
   d->PDO_status[pdoNum].transmit_type_parameter &= ~PDO_INHIBITED;
-  _sendPDOevent (d, 0);         /* not a Sync Event */
+  sendOnePDOevent (d, pdoNum);
 }
 
 /*!
@@ -532,6 +618,12 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
   UNS16 offsetObjdict = d->firstIndex->PDO_TRS;
   UNS16 offsetObjdictMap = d->firstIndex->PDO_TRS_MAP;
   UNS16 lastIndex = d->lastIndex->PDO_TRS;
+
+  if (!d->CurrentCommunicationState.csPDO)
+    {
+      return 0;
+    }
+
 
   /* study all PDO stored in the objects dictionary */
   if (offsetObjdict)
@@ -606,78 +698,13 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                   /* If transmission on Event and not inhibited, check for changes */
                 }
               else
-                if ((isSyncEvent
-                     && (*pTransmissionType == TRANS_SYNC_ACYCLIC))
-                    ||
-                    ((*pTransmissionType == TRANS_EVENT_PROFILE
-                      || *pTransmissionType == TRANS_EVENT_SPECIFIC)
-                     && !(d->PDO_status[pdoNum].
-                          transmit_type_parameter & PDO_INHIBITED)))
+                if ( (isSyncEvent && (*pTransmissionType == TRANS_SYNC_ACYCLIC))
+                     ||
+                     (!isSyncEvent && (*pTransmissionType == TRANS_EVENT_PROFILE || *pTransmissionType == TRANS_EVENT_SPECIFIC)
+                       && !(d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED)))
                 {
-                  MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
-                           *pTransmissionType);
-                  memset(&pdo, 0, sizeof(pdo));
-                  /*{
-                    Message msg_init = Message_Initializer;
-                    pdo = msg_init;
-                  }*/
-                  if (buildPDO (d, pdoNum, &pdo))
-                    {
-                      MSG_ERR (0x3907, " Couldn't build TPDO number : ",
-                               pdoNum);
-                      status = state11;
-                      break;
-                    }
-
-                  /*Compare new and old PDO */
-                  if (d->PDO_status[pdoNum].last_message.cob_id == pdo.cob_id
-                      && d->PDO_status[pdoNum].last_message.len == pdo.len
-                      && memcmp(d->PDO_status[pdoNum].last_message.data, 
-							pdo.data, 8) == 0
-                    )
-                    {
-                      /* No changes -> go to next pdo */
-                      status = state11;
-                    }
-                  else
-                    {
-
-                      TIMEVAL EventTimerDuration;
-                      TIMEVAL InhibitTimerDuration;
-
-                      MSG_WAR (0x306A, "Changes TPDO number : ", pdoNum);
-                      /* Changes detected -> transmit message */
-                      EventTimerDuration =
-                        *(UNS16 *) d->objdict[offsetObjdict].pSubindex[5].
-                        pObject;
-                      InhibitTimerDuration =
-                        *(UNS16 *) d->objdict[offsetObjdict].pSubindex[3].
-                        pObject;
-
-                      status = state5;
-
-                      /* Start both event_timer and inhibit_timer */
-                      if (EventTimerDuration)
-                        {
-                          DelAlarm (d->PDO_status[pdoNum].event_timer);
-                          d->PDO_status[pdoNum].event_timer =
-                            SetAlarm (d, pdoNum, &PDOEventTimerAlarm,
-                                      MS_TO_TIMEVAL (EventTimerDuration), 0);
-                        }
-
-                      if (InhibitTimerDuration)
-                        {
-                          DelAlarm (d->PDO_status[pdoNum].inhibit_timer);
-                          d->PDO_status[pdoNum].inhibit_timer =
-                            SetAlarm (d, pdoNum, &PDOInhibitTimerAlarm,
-                                      US_TO_TIMEVAL (InhibitTimerDuration *
-                                                     100), 0);
-                          /* and inhibit TPDO */
-                          d->PDO_status[pdoNum].transmit_type_parameter |=
-                            PDO_INHIBITED;
-                        }
-
-                    }
+                  sendOnePDOevent(d, pdoNum);
+                  status = state11;
                 }
               else
                 {
@@ -688,12 +715,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
                 }
               break;
             case state5:       /*Send the pdo */
-              /*store_as_last_message */
-              d->PDO_status[pdoNum].last_message = pdo;
-              MSG_WAR (0x396D, "sendPDO cobId :", UNS16_LE(pdo.cob_id));
-              MSG_WAR (0x396E, "     Nb octets  : ", pdo.len);
-
-              canSend (d->canHandle, &pdo);
+              sendPdo(d, pdoNum, &pdo);
               status = state11;
               break;
             case state11:      /*Go to next TPDO */

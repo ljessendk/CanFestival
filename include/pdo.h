@@ -107,6 +107,7 @@ UNS8 proceedPDO (CO_Data* d, Message *m);
  * @param *d Pointer on a CAN object data structure
  */
 UNS8 sendPDOevent (CO_Data* d);
+UNS8 sendOnePDOevent (CO_Data* d, UNS32 pdoNum);
 
 /** 
  * @ingroup pdo
