@@ -48,6 +48,11 @@ void TimerInit(void)
 	// Take first absolute time ref.
 	gettimeofday(&last_sig,NULL);
 
+#if defined(__UCLIBC__)
+	int ret;
+	ret = timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &timer);
+	signal(SIGALRM, timer_notify);
+#else
 	memset (&sigev, 0, sizeof (struct sigevent));
 	sigev.sigev_value.sival_int = 0;
 	sigev.sigev_notify = SIGEV_THREAD;
@@ -55,6 +60,7 @@ void TimerInit(void)
 	sigev.sigev_notify_function = timer_notify;
 
 	timer_create (CLOCK_REALTIME, &sigev, &timer);
+#endif
 }
 
 void StopTimerLoop(TimerCallback_t exitfunction)

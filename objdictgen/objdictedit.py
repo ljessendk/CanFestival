@@ -381,34 +381,28 @@ class objdictedit(wx.Frame):
         self.Manager.AddSDOServerToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-    
+        
     def OnAddSDOClientMenu(self, event):
         self.Manager.AddSDOClientToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddPDOTransmitMenu(self, event):
         self.Manager.AddPDOTransmitToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddPDOReceiveMenu(self, event):
         self.Manager.AddPDOReceiveToCurrent()
         self.RefreshBufferState()
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def OnAddMapVariableMenu(self, event):
         self.AddMapVariable()
-        event.Skip()
-
+        
     def OnAddUserTypeMenu(self, event):
         self.AddUserType()
-        event.Skip()
-
+        
     def OnFileSelectedChanged(self, event):
         if not self.Closing:
             selected = event.GetSelection()
@@ -442,7 +436,6 @@ class objdictedit(wx.Frame):
                 message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-        event.Skip()
         
     def OnHelpCANFestivalMenu(self, event):
         #self.OpenHtmlFrame("CAN Festival Reference", os.path.join(ScriptDirectory, "doc/canfestival.html"), wx.Size(1000, 600))
@@ -462,12 +455,10 @@ class objdictedit(wx.Frame):
                 message = wx.MessageDialog(self, _("Check if xpdf is correctly installed on your computer"), _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-        event.Skip()
-
+        
     def OnAboutMenu(self, event):
         self.OpenHtmlFrame(_("About CAN Festival"), os.path.join(ScriptDirectory, "doc/about.html"), wx.Size(500, 450))
-        event.Skip()
-
+        
     def OpenHtmlFrame(self, title, file, size):
         if title not in self.HtmlFrameOpened:
             self.HtmlFrameOpened.append(title)
@@ -479,8 +470,7 @@ class objdictedit(wx.Frame):
 
     def OnQuitMenu(self, event):
         self.Close()
-        event.Skip()
-    
+        
     def OnCloseFrame(self, event):
         self.Closing = True
         if not self.ModeSolo:
@@ -518,8 +508,7 @@ class objdictedit(wx.Frame):
 
     def OnRefreshMenu(self, event):
         self.RefreshCurrentIndexList()
-        event.Skip()
-
+        
     def RefreshCurrentIndexList(self):
         selected = self.FileOpened.GetSelection()
         window = self.FileOpened.GetPage(selected)
@@ -628,14 +617,12 @@ class objdictedit(wx.Frame):
         self.Manager.LoadCurrentPrevious()
         self.RefreshCurrentIndexList()
         self.RefreshBufferState()
-        event.Skip()
-
+        
     def OnRedoMenu(self, event):
         self.Manager.LoadCurrentNext()
         self.RefreshCurrentIndexList()
         self.RefreshBufferState()
-        event.Skip()
-
+        
 
 #-------------------------------------------------------------------------------
 #                         Load and Save Funtions
@@ -666,8 +653,7 @@ class objdictedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-        event.Skip()
-
+        
     def OnOpenMenu(self, event):
         filepath = self.Manager.GetCurrentFilePath()
         if filepath != "":
@@ -697,19 +683,16 @@ class objdictedit(wx.Frame):
                     message.ShowModal()
                     message.Destroy()
         dialog.Destroy()
-        event.Skip()
-
+        
     def OnSaveMenu(self, event):
         if not self.ModeSolo and getattr(self, "_onsave", None) != None:
             self._onsave()
             self.RefreshBufferState()
         else:
             self.Save()
-        event.Skip()
-    
+        
     def OnSaveAsMenu(self, event):
         self.SaveAs()
-        event.Skip()
         
     def Save(self):
         result = self.Manager.SaveCurrentInFile()
@@ -765,7 +748,6 @@ class objdictedit(wx.Frame):
                 self.FileOpened.SetSelection(min(current, self.FileOpened.GetPageCount() - 1))
             self.RefreshBufferState()
             self.RefreshMainMenu()
-        event.Skip()
         
 
 #-------------------------------------------------------------------------------
@@ -799,7 +781,6 @@ class objdictedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-        event.Skip()
 
     def OnExportEDSMenu(self, event):
         dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0], _("EDS files (*.eds)|*.eds|All files|*.*"), wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
@@ -823,7 +804,6 @@ class objdictedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-        event.Skip()
 
     def OnExportCMenu(self, event):
         dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  _("CANFestival C files (*.c)|*.c|All files|*.*"), wx.SAVE|wx.OVERWRITE_PROMPT|wx.CHANGE_DIR)
@@ -847,7 +827,6 @@ class objdictedit(wx.Frame):
                 message.ShowModal()
                 message.Destroy()
         dialog.Destroy()
-        event.Skip()
 
 #-------------------------------------------------------------------------------
 #                          Editing Profiles functions
@@ -856,18 +835,15 @@ class objdictedit(wx.Frame):
     def OnCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentCommunicationLists()
         self.EditProfile(_("Edit DS-301 Profile"), dictionary, current)
-        event.Skip()
     
     def OnOtherCommunicationMenu(self, event):
         dictionary,current = self.Manager.GetCurrentDS302Lists()
         self.EditProfile(_("Edit DS-302 Profile"), dictionary, current)
-        event.Skip()
     
     def OnEditProfileMenu(self, event):
         title = _("Edit %s Profile")%self.Manager.GetCurrentProfileName()
         dictionary,current = self.Manager.GetCurrentProfileLists()
         self.EditProfile(title, dictionary, current)
-        event.Skip()
     
     def EditProfile(self, title, dictionary, current):
         dialog = CommunicationDialog(self)
@@ -896,7 +872,6 @@ class objdictedit(wx.Frame):
             self.Manager.AddSpecificEntryToCurrent(text)
             self.RefreshBufferState()
             self.RefreshCurrentIndexList()
-            event.Skip()
         return ProfileCallBack
 
 #-------------------------------------------------------------------------------
@@ -918,7 +893,6 @@ class objdictedit(wx.Frame):
             if selected >= 0:
                 window = self.FileOpened.GetPage(selected)
                 window.RefreshTable()
-        event.Skip()
 
 
 #-------------------------------------------------------------------------------

@@ -817,8 +817,7 @@ class EditingPanel(wx.SplitterWindow):
                         self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
                     dialog.Destroy()
-        event.Skip()
-
+        
     def OnModifyIndexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -837,7 +836,6 @@ class EditingPanel(wx.SplitterWindow):
                         self.Manager.SetCurrentUserType(index, type, min, max, length)
                         self.ParentWindow.RefreshBufferState()
                         self.RefreshIndexList()
-        event.Skip()
         
     def OnDeleteIndexMenu(self, event):
         if self.Editable:
@@ -848,8 +846,7 @@ class EditingPanel(wx.SplitterWindow):
                     self.Manager.ManageEntriesOfCurrent([],[index])
                     self.ParentWindow.RefreshBufferState()
                     self.RefreshIndexList()
-        event.Skip()
-
+        
     def OnAddSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -869,8 +866,7 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
-        event.Skip()
-
+        
     def OnDeleteSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -890,8 +886,7 @@ class EditingPanel(wx.SplitterWindow):
                             message.ShowModal()
                             message.Destroy()
                     dialog.Destroy()
-        event.Skip()
-
+        
     def OnDefaultValueSubindexMenu(self, event):
         if self.Editable:
             selected = self.IndexList.GetSelection()
@@ -902,4 +897,4 @@ class EditingPanel(wx.SplitterWindow):
                     self.Manager.SetCurrentEntryToDefault(index, row)
                     self.ParentWindow.RefreshBufferState()
                     self.RefreshIndexList()
-        event.Skip()
+        
