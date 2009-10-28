@@ -394,7 +394,7 @@ class networkedit(wx.Frame):
     def OnChar(self, event):
         if event.ControlDown() and event.GetKeyCode() == 83 and getattr(self, "_onsave", None) != None:
             self._onsave()
-        event.Skip()
+        #event.Skip()
 
     def OnQuitMenu(self, event):
         self.Close()

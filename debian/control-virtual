@@ -16,13 +16,7 @@ Description: Program's Examples for canfestival
  This package contains some test programs you can use as example
  for your own developments.
  - TestMasterSlave : Two CanOpen nodes in the same process
- - TestMasterMicromod : A CanOpen master that control a peak MicroMod module
- - DS401_Master : Master Node for the DS401_Slave_Gui
- - DS401_Slave_Gui : Simulate an I/O module with GUI
-
-Package: canfestival-doc
-Architecture: all
-Description: Documentation for canfestival
+ - CANOpenShell : A CanOpen node that can execute some user commands through stdin
 
 Package: canfestival-virtual
 Architecture: all
