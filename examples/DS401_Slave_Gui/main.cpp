@@ -277,7 +277,7 @@ MyFrame::MyFrame (const wxString & title):wxFrame (NULL, wxID_ANY, title, wxDefa
   menuBar->Append (helpMenu, _T ("&Help"));
   SetMenuBar (menuBar);
   CreateStatusBar (2);
-  SetStatusText (_T ("Lolitech."), 0);
+  SetStatusText (_T ("DS-401 GUI."), 0);
   SetStatusText (_T ("Welcome."), 1);
 
   book = new wxNotebook (this, BOOKCTRL);
