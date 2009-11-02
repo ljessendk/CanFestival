@@ -1,13 +1,12 @@
                   CanFestival Master/slave CANopen Library
    
-   Copyright (C): Francis DUPIN (LIVIC), Edouard TISSERANT and Laurent BESSARD (LOLITECH)
+   Copyright (C): Francis DUPIN (LIVIC), Edouard TISSERANT and Laurent BESSARD
 
-   LIVIC : Laboratoire Interractions Véhicule Infrastructure Conducteur
+   LIVIC : Laboratoire Interractions Vï¿½hicule Infrastructure Conducteur
            INRETS/LIVIC (http://www.inrets.fr) 
-              Institut National de Recherche sur les Transports et leur Sécurité                                 
-           LCPC Laboratoire Central des Ponts et Chaussées 
+              Institut National de Recherche sur les Transports et leur Sï¿½curitï¿½                                 
+           LCPC Laboratoire Central des Ponts et Chaussï¿½es 
 
-   LOLITECH : www.lolitech.fr - Logiciel Libre et Technologie.
                                                         
    This work is based on
    -     CanOpenMatic by  Edouard TISSERANT

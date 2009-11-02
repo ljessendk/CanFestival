@@ -964,9 +964,8 @@ An error happens.
 
 Click on OK for saving an error report.
 
-Please contact LOLITech at:
-+33 (0)3 29 57 60 42
-bugs_objdictedit@lolitech.fr
+Please be kind enough to send this file to:
+edouard.tisserant@gmail.com
 
 
 Error:

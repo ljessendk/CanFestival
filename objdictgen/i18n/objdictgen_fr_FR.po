@@ -7,24 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-07-27 15:15+0200\n"
-"PO-Revision-Date: 2009-07-27 15:17+0100\n"
+"POT-Creation-Date: 2009-11-02 11:29+0100\n"
+"PO-Revision-Date: 2009-11-02 11:33+0100\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../networkedit.py:926
+#: ../networkedit.py:902
+#: ../objdictedit.py:962
 msgid ""
 "\n"
 "An error happens.\n"
 "\n"
 "Click on OK for saving an error report.\n"
 "\n"
-"Please contact LOLITech at:\n"
-"+33 (0)3 29 57 60 42\n"
-"bugs_networkedit@lolitech.fr\n"
+"Please be kind enough to send this file to:\n"
+"edouard.tisserant@gmail.com\n"
 "\n"
 "\n"
 "Error:\n"
@@ -34,38 +34,11 @@ msgstr ""
 "\n"
 "Appuyez sur 'Valider' pour enregistrer un rapport d'erreur.\n"
 "\n"
-"Veuillez contacter LOLITech au :\n"
-"+33 (0)3 29 57 60 42\n"
-"bugs_networkedit@lolitech.fr\n"
+"Envoyez ce fichier à l'adresse :\n"
+"edouard.tisserant@gmail.com\n"
 "\n"
 "\n"
 "Erreur :\n"
-
-#: ../objdictedit.py:988
-msgid ""
-"\n"
-"An error happens.\n"
-"\n"
-"Click on OK for saving an error report.\n"
-"\n"
-"Please contact LOLITech at:\n"
-"+33 (0)3 29 57 60 42\n"
-"bugs_objdictedit@lolitech.fr\n"
-"\n"
-"\n"
-"Error:\n"
-msgstr ""
-"\n"
-"Une erreur est apparue.\n"
-"\n"
-"Appuyez sur 'Valider' pour enregistrer un rapport d'erreur.\n"
-"\n"
-"Veuillez contacter LOLITech au :\n"
-"+33 (0)3 29 57 60 42\n"
-"bugs_objdictedit@lolitech.fr\n"
-"\n"
-"\n"
-"Erreur:\n"
 
 #: ../gen_cfile.py:199
 #, python-format
@@ -104,8 +77,8 @@ msgstr ""
 "\n"
 "Utilisation de objdictgen.py :"
 
-#: ../networkedit.py:938
-#: ../objdictedit.py:1000
+#: ../networkedit.py:913
+#: ../objdictedit.py:973
 msgid " : "
 msgstr " : "
 
@@ -125,11 +98,11 @@ msgstr " doit être un entier !"
 msgid " must be integers!"
 msgstr " doivent être des entiers !"
 
-#: ../networkedit.py:640
-#: ../objdictedit.py:546
+#: ../networkedit.py:626
+#: ../objdictedit.py:535
 #, python-format
 msgid " possibly defined %d times"
-msgstr " peut être défini %s fois"
+msgstr " peut être défini %d fois"
 
 #: ../gen_cfile.py:77
 #: ../gen_cfile.py:81
@@ -162,13 +135,13 @@ msgstr "\"%s\" n'est pas une ligne de fichier CPJ valide"
 msgid "\"%s\" is not a valid EDS line"
 msgstr "\"%s\" n'est pas une ligne de fichier EDS valide"
 
-#: ../objdictedit.py:798
+#: ../objdictedit.py:780
 #, python-format
 msgid "\"%s\" is not a valid file!"
 msgstr "\"%s\" n'est pas un fichier valide !"
 
-#: ../objdictedit.py:822
-#: ../objdictedit.py:846
+#: ../objdictedit.py:803
+#: ../objdictedit.py:826
 #, python-format
 msgid "\"%s\" is not a valid folder!"
 msgstr "\"%s\" n'est pas un répertoire valide !"
@@ -219,8 +192,8 @@ msgstr ""
 "%s\n"
 "Voulez-vous le remplacer ?"
 
-#: ../networkedit.py:698
-#: ../objdictedit.py:604
+#: ../networkedit.py:684
+#: ../objdictedit.py:593
 #, python-format
 msgid "%s Profile"
 msgstr "Profil %s"
@@ -230,13 +203,13 @@ msgstr "Profil %s"
 msgid "%s is not a valid file!"
 msgstr "%s n'est pas un fichier valide !"
 
-#: ../objdictedit.py:743
+#: ../objdictedit.py:726
 #, python-format
 msgid "%s is not a valid folder!"
 msgstr "%s n'est pas un répertoir valide !"
 
-#: ../networkedit.py:645
-#: ../objdictedit.py:551
+#: ../networkedit.py:631
+#: ../objdictedit.py:540
 #, python-format
 msgid "%s: %s entry of struct %s%s."
 msgstr "%s : entrée %s de type %s%s."
@@ -246,12 +219,12 @@ msgstr "%s : entrée %s de type %s%s."
 msgid ", "
 msgstr ", "
 
-#: ../networkedit.py:914
-#: ../networkedit.py:916
-#: ../networkedit.py:917
-#: ../objdictedit.py:976
-#: ../objdictedit.py:978
-#: ../objdictedit.py:979
+#: ../networkedit.py:890
+#: ../networkedit.py:892
+#: ../networkedit.py:893
+#: ../objdictedit.py:950
+#: ../objdictedit.py:952
+#: ../objdictedit.py:953
 msgid ",   "
 msgstr ",   "
 
@@ -262,8 +235,8 @@ msgstr ",   "
 msgid ", %s"
 msgstr ", %s"
 
-#: ../networkedit.py:912
-#: ../objdictedit.py:974
+#: ../networkedit.py:888
+#: ../objdictedit.py:948
 msgid ". "
 msgstr ". "
 
@@ -280,15 +253,15 @@ msgstr "Un type doit être sélectionné !"
 msgid "About"
 msgstr "A propos"
 
-#: ../networkedit.py:783
-#: ../objdictedit.py:468
+#: ../networkedit.py:764
+#: ../objdictedit.py:460
 msgid "About CAN Festival"
 msgstr "A propos de CanFestival"
 
 #: ../commondialogs.py:1468
 #: ../networkedit.py:185
 #: ../objdictedit.py:175
-#: ../subindextable.py:456
+#: ../subindextable.py:463
 msgid "Add"
 msgstr "Ajouter"
 
@@ -308,12 +281,12 @@ msgstr "Ajouter un type utilisateur"
 msgid "Add a slave to nodelist"
 msgstr "Ajouter un esclave à la liste des noeuds"
 
-#: ../subindextable.py:338
-#: ../subindextable.py:853
+#: ../subindextable.py:345
+#: ../subindextable.py:857
 msgid "Add subindexes"
 msgstr "Ajouter des sous-indices"
 
-#: ../subindextable.py:346
+#: ../subindextable.py:353
 msgid "Add to DCF"
 msgstr "Ajouter à la DCF"
 
@@ -321,8 +294,8 @@ msgstr "Ajouter à la DCF"
 msgid "All done"
 msgstr "Terminé"
 
-#: ../subindextable.py:861
-#: ../subindextable.py:882
+#: ../subindextable.py:865
+#: ../subindextable.py:885
 msgid "An integer is required!"
 msgstr "Un entier est nécessaire !"
 
@@ -356,7 +329,7 @@ msgstr "Généré le dictionnaire du maître"
 msgid "CAN Festival Docs\tF2"
 msgstr "Documentation de CAN Festival\tF2"
 
-#: ../objdictedit.py:829
+#: ../objdictedit.py:809
 msgid "CANFestival C files (*.c)|*.c|All files|*.*"
 msgstr "Fichiers C de CANFestival (*.c)|*.c|Tous les fichiers|*.*"
 
@@ -365,29 +338,29 @@ msgstr "Fichiers C de CANFestival (*.c)|*.c|Tous les fichiers|*.*"
 msgid "Can't find node"
 msgstr "Impossible de trouver le noeud"
 
-#: ../objdictedit.py:455
+#: ../objdictedit.py:448
 msgid "Check if Acrobat Reader is correctly installed on your computer"
 msgstr "Vérifiez si Acrobat Reader est correctement installé sur votre ordinateur"
 
-#: ../objdictedit.py:462
+#: ../objdictedit.py:455
 msgid "Check if xpdf is correctly installed on your computer"
 msgstr "Vérifiez si xpdf est correctement installé sur votre ordinateur"
 
 #: ../commondialogs.py:1085
-#: ../objdictedit.py:677
-#: ../objdictedit.py:731
-#: ../objdictedit.py:776
-#: ../objdictedit.py:805
-#: ../objdictedit.py:829
+#: ../objdictedit.py:663
+#: ../objdictedit.py:714
+#: ../objdictedit.py:758
+#: ../objdictedit.py:786
+#: ../objdictedit.py:809
 msgid "Choose a file"
 msgstr "Choisissez un fichier"
 
-#: ../networkedit.py:455
-#: ../networkedit.py:483
+#: ../networkedit.py:448
+#: ../networkedit.py:475
 msgid "Choose a project"
 msgstr "Choisissez un projet"
 
-#: ../networkedit.py:568
+#: ../networkedit.py:556
 msgid "Choose a slave to remove"
 msgstr "Choisissez un esclave à supprimer"
 
@@ -400,15 +373,15 @@ msgstr "Choisissez un fichier EDS"
 msgid "Close\tCTRL+W"
 msgstr "Fermer\tCTRL+W"
 
-#: ../objdictedit.py:491
+#: ../objdictedit.py:481
 msgid "Close Application"
 msgstr "Fermer l'application"
 
-#: ../objdictedit.py:752
+#: ../objdictedit.py:735
 msgid "Close File"
 msgstr "Fermer le fichier"
 
-#: ../networkedit.py:521
+#: ../networkedit.py:511
 msgid "Close Project"
 msgstr "Fermer le projet"
 
@@ -444,17 +417,17 @@ msgstr "Profil DS-302"
 msgid "Default String Size:"
 msgstr "Taille des chaînes par défaut :"
 
-#: ../subindextable.py:343
+#: ../subindextable.py:350
 msgid "Default value"
 msgstr "Valeur par défaut"
 
 #: ../commondialogs.py:1473
-#: ../subindextable.py:363
+#: ../subindextable.py:370
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../subindextable.py:340
-#: ../subindextable.py:874
+#: ../subindextable.py:347
+#: ../subindextable.py:877
 msgid "Delete subindexes"
 msgstr "Supprimer les sous-indices"
 
@@ -481,23 +454,23 @@ msgid "EDS file already imported"
 msgstr "Le fichier EDS a déjà été importé"
 
 #: ../commondialogs.py:1243
-#: ../objdictedit.py:776
-#: ../objdictedit.py:805
+#: ../objdictedit.py:758
+#: ../objdictedit.py:786
 msgid "EDS files (*.eds)|*.eds|All files|*.*"
 msgstr "Fichiers EDS (*.eds)|*.eds|Tous les fichiers|*.*"
 
 #: ../commondialogs.py:762
 #: ../commondialogs.py:1038
-#: ../networkedit.py:473
-#: ../networkedit.py:760
-#: ../networkedit.py:766
+#: ../networkedit.py:466
+#: ../networkedit.py:743
+#: ../networkedit.py:749
+#: ../objdictedit.py:430
 #: ../objdictedit.py:436
-#: ../objdictedit.py:442
+#: ../objdictedit.py:448
 #: ../objdictedit.py:455
-#: ../objdictedit.py:462
-#: ../objdictedit.py:665
-#: ../subindextable.py:861
-#: ../subindextable.py:882
+#: ../objdictedit.py:652
+#: ../subindextable.py:865
+#: ../subindextable.py:885
 msgid "ERROR"
 msgstr "ERREUR"
 
@@ -506,8 +479,8 @@ msgstr "ERREUR"
 msgid "Edit"
 msgstr "Edition"
 
-#: ../networkedit.py:810
-#: ../objdictedit.py:867
+#: ../networkedit.py:788
+#: ../objdictedit.py:844
 #, python-format
 msgid "Edit %s Profile"
 msgstr "Editer le profil %s"
@@ -520,13 +493,13 @@ msgstr "Editer le profile de communication"
 msgid "Edit DCF Entry Values"
 msgstr "Editer les valeurs de l'entrée de la DCF"
 
-#: ../networkedit.py:801
-#: ../objdictedit.py:858
+#: ../networkedit.py:781
+#: ../objdictedit.py:837
 msgid "Edit DS-301 Profile"
 msgstr "Editer  le profil DS-301"
 
-#: ../networkedit.py:806
-#: ../objdictedit.py:863
+#: ../networkedit.py:785
+#: ../objdictedit.py:841
 msgid "Edit DS-302 Profile"
 msgstr "Editer le profil DS-302"
 
@@ -545,29 +518,29 @@ msgstr "Valeurs de l'entrée :"
 #: ../commondialogs.py:1228
 #: ../commondialogs.py:1232
 #: ../commondialogs.py:1508
-#: ../networkedit.py:501
-#: ../networkedit.py:513
-#: ../networkedit.py:527
-#: ../networkedit.py:559
-#: ../networkedit.py:583
-#: ../networkedit.py:875
-#: ../networkedit.py:894
-#: ../networkedit.py:939
-#: ../networkedit.py:949
-#: ../objdictedit.py:696
-#: ../objdictedit.py:721
-#: ../objdictedit.py:739
-#: ../objdictedit.py:743
-#: ../objdictedit.py:794
-#: ../objdictedit.py:798
-#: ../objdictedit.py:818
+#: ../networkedit.py:493
+#: ../networkedit.py:504
+#: ../networkedit.py:517
+#: ../networkedit.py:548
+#: ../networkedit.py:571
+#: ../networkedit.py:851
+#: ../networkedit.py:870
+#: ../networkedit.py:914
+#: ../networkedit.py:924
+#: ../objdictedit.py:682
+#: ../objdictedit.py:704
+#: ../objdictedit.py:722
+#: ../objdictedit.py:726
+#: ../objdictedit.py:776
+#: ../objdictedit.py:780
+#: ../objdictedit.py:799
+#: ../objdictedit.py:803
 #: ../objdictedit.py:822
-#: ../objdictedit.py:842
-#: ../objdictedit.py:846
-#: ../objdictedit.py:940
-#: ../objdictedit.py:959
-#: ../objdictedit.py:1001
-#: ../objdictedit.py:1011
+#: ../objdictedit.py:826
+#: ../objdictedit.py:914
+#: ../objdictedit.py:933
+#: ../objdictedit.py:974
+#: ../objdictedit.py:984
 msgid "Error"
 msgstr "Erreur"
 
@@ -603,8 +576,8 @@ msgstr ""
 msgid "Exit"
 msgstr "Quitter"
 
-#: ../objdictedit.py:814
-#: ../objdictedit.py:838
+#: ../objdictedit.py:795
+#: ../objdictedit.py:818
 msgid "Export successful"
 msgstr "Exportation réussie"
 
@@ -644,12 +617,12 @@ msgstr "Le formulaire est incomplet. %s"
 msgid "Generate SYNC"
 msgstr "Générer la synchro"
 
-#: ../subindextable.py:806
+#: ../subindextable.py:813
 #, python-format
 msgid "Give a new name for index 0x%04X"
 msgstr "Donnez un nouveau nom à l'indice 0x%04X"
 
-#: ../subindextable.py:443
+#: ../subindextable.py:450
 msgid "Have Callbacks"
 msgstr "Utilise des Callbacks"
 
@@ -670,7 +643,7 @@ msgstr "Importer un EDS"
 msgid "Import EDS file"
 msgstr "Importer un fichier EDS"
 
-#: ../objdictedit.py:790
+#: ../objdictedit.py:772
 msgid "Import successful"
 msgstr "L'importation a réussi"
 
@@ -693,15 +666,15 @@ msgstr "L'indice 0x%04X n'est pas valide pour un variable mappable !"
 msgid "Index:"
 msgstr "Indice :"
 
-#: ../networkedit.py:630
-#: ../objdictedit.py:536
+#: ../networkedit.py:616
+#: ../objdictedit.py:525
 #, python-format
 msgid "Index: 0x%04X"
 msgstr "Indice: 0x%04X"
 
-#: ../objdictedit.py:790
-#: ../objdictedit.py:814
-#: ../objdictedit.py:838
+#: ../objdictedit.py:772
+#: ../objdictedit.py:795
+#: ../objdictedit.py:818
 msgid "Information"
 msgstr "Information"
 
@@ -730,8 +703,8 @@ msgstr "Taille"
 msgid "Length:"
 msgstr "Taille:"
 
-#: ../networkedit.py:636
-#: ../objdictedit.py:542
+#: ../networkedit.py:622
+#: ../objdictedit.py:531
 msgid "Mandatory"
 msgstr "Obligatoire"
 
@@ -757,7 +730,7 @@ msgstr "Minimum"
 msgid "Minimum:"
 msgstr "Minimum :"
 
-#: ../subindextable.py:361
+#: ../subindextable.py:368
 msgid "Modify"
 msgstr "Modifier"
 
@@ -776,11 +749,11 @@ msgid "Network Management:"
 msgstr "Gestion de réseau :"
 
 #: ../networkedit.py:318
-#: ../networkedit.py:596
+#: ../networkedit.py:583
 msgid "Networkedit"
 msgstr "Networkedit"
 
-#: ../networkedit.py:594
+#: ../networkedit.py:581
 #, python-format
 msgid "Networkedit - %s"
 msgstr "Networkedit - %s"
@@ -794,8 +767,8 @@ msgstr "Nouveau\tCTRL+N"
 msgid "No"
 msgstr "Non"
 
-#: ../networkedit.py:880
-#: ../objdictedit.py:945
+#: ../networkedit.py:856
+#: ../objdictedit.py:919
 msgid "No map variable index left!"
 msgstr "Il n'y a plus d'indice disponible pour une varaible mappable !"
 
@@ -839,6 +812,7 @@ msgstr "Le noeud d'ID \"0x%2.2X\" n'existe pas"
 #: ../commondialogs.py:1020
 #: ../commondialogs.py:1056
 #: ../commondialogs.py:1096
+#: ../subindextable.py:166
 msgid "None"
 msgstr "Aucun"
 
@@ -846,11 +820,11 @@ msgstr "Aucun"
 msgid "Number"
 msgstr "Nombre"
 
-#: ../subindextable.py:852
+#: ../subindextable.py:856
 msgid "Number of subindexes to add:"
 msgstr "Nombre de sous-indices à ajouter :"
 
-#: ../subindextable.py:873
+#: ../subindextable.py:876
 msgid "Number of subindexes to delete:"
 msgstr "Nombre de sous-indices à supprimer :"
 
@@ -862,17 +836,17 @@ msgstr "Nombre :"
 msgid "OD Profile files (*.prf)|*.prf|All files|*.*"
 msgstr "Fichiers de profil d'OD (*.prf)|*.prf|Tous les fichiers|*.*"
 
-#: ../objdictedit.py:677
-#: ../objdictedit.py:731
+#: ../objdictedit.py:663
+#: ../objdictedit.py:714
 msgid "OD files (*.od)|*.od|All files|*.*"
 msgstr "Fichiers d'OD (*.od)|*.od|Tous les fichiers|*.*"
 
 #: ../objdictedit.py:309
-#: ../objdictedit.py:517
+#: ../objdictedit.py:507
 msgid "Objdictedit"
 msgstr "Objdictedit"
 
-#: ../objdictedit.py:515
+#: ../objdictedit.py:505
 #, python-format
 msgid "Objdictedit - %s"
 msgstr "Objdictedit - %s"
@@ -882,8 +856,8 @@ msgstr "Objdictedit - %s"
 msgid "Open\tCTRL+O"
 msgstr "Ouvrir\tCTRL+O"
 
-#: ../networkedit.py:634
-#: ../objdictedit.py:540
+#: ../networkedit.py:620
+#: ../objdictedit.py:529
 msgid "Optional"
 msgstr "Optionnel"
 
@@ -897,9 +871,9 @@ msgid "Other"
 msgstr "Autre"
 
 #: ../networkedit.py:236
-#: ../networkedit.py:706
+#: ../networkedit.py:692
 #: ../objdictedit.py:229
-#: ../objdictedit.py:612
+#: ../objdictedit.py:601
 msgid "Other Profile"
 msgstr "Autre profil"
 
@@ -965,15 +939,15 @@ msgstr "Actualiser\tCTRL+R"
 msgid "Remove Slave Node"
 msgstr "Supprimer un noeud esclave"
 
-#: ../networkedit.py:568
+#: ../networkedit.py:556
 msgid "Remove slave"
 msgstr "Supprimer un esclave"
 
-#: ../subindextable.py:359
+#: ../subindextable.py:366
 msgid "Rename"
 msgstr "Renommer"
 
-#: ../subindextable.py:807
+#: ../subindextable.py:814
 msgid "Rename an index"
 msgstr "Renommer un indice"
 
@@ -1044,8 +1018,8 @@ msgstr "Stocker l'EDS"
 msgid "Subindex"
 msgstr "Sous-indice"
 
-#: ../networkedit.py:631
-#: ../objdictedit.py:537
+#: ../networkedit.py:617
+#: ../objdictedit.py:526
 #, python-format
 msgid "Subindex: 0x%02X"
 msgstr "Sous-indice : 0x%02X"
@@ -1058,9 +1032,9 @@ msgstr ""
 "Erreur de syntaxe\n"
 "Fichier de profil d'OD incorrect !"
 
-#: ../networkedit.py:521
-#: ../objdictedit.py:491
-#: ../objdictedit.py:752
+#: ../networkedit.py:511
+#: ../objdictedit.py:481
+#: ../objdictedit.py:735
 msgid "There are changes, do you want to save?"
 msgstr "Il y a des changements, voulez-vous enregistrer ?"
 
@@ -1129,7 +1103,7 @@ msgstr "Inconnu"
 msgid "Undo\tCTRL+Z"
 msgstr "Défaire\tCTRL+Z"
 
-#: ../nodemanager.py:853
+#: ../nodemanager.py:855
 #, python-format
 msgid "Unnamed%d"
 msgstr "Sansnom%d"
@@ -1168,20 +1142,20 @@ msgstr "accès"
 msgid "comment"
 msgstr "commentaire"
 
-#: ../networkedit.py:914
-#: ../networkedit.py:916
-#: ../objdictedit.py:976
-#: ../objdictedit.py:978
+#: ../networkedit.py:890
+#: ../networkedit.py:892
+#: ../objdictedit.py:950
+#: ../objdictedit.py:952
 msgid "file : "
 msgstr "fichier :"
 
-#: ../networkedit.py:917
-#: ../objdictedit.py:979
+#: ../networkedit.py:893
+#: ../objdictedit.py:953
 msgid "function : "
 msgstr "fonction :"
 
-#: ../networkedit.py:917
-#: ../objdictedit.py:979
+#: ../networkedit.py:893
+#: ../objdictedit.py:953
 msgid "line : "
 msgstr "ligne :"
 
@@ -1213,20 +1187,3 @@ msgstr "type"
 #: ../subindextable.py:82
 msgid "value"
 msgstr "valeur"
-
-#, fuzzy
-#~ msgid " must be integer !"
-#~ msgstr " doit être un entier !"
-
-#, fuzzy
-#~ msgid " must be integers !"
-#~ msgstr " doivent être des entiers !"
-#~ msgid " must be integer"
-#~ msgstr " doit être un entier"
-#~ msgid "s"
-#~ msgstr "s"
-#~ msgid "Node ID must be an integer!"
-#~ msgstr "L'ID du noeud doit être un entier !"
-#~ msgid "Node Infos"
-#~ msgstr "Propriétés du noeud"
-
