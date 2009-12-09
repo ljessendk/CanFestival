@@ -761,7 +761,9 @@ if [ "$SUB_CAN_DRIVER" != "" ]; then
 fi
 
 # Target dependent Makefiles
-MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
+if [ "$SUB_TARGET" != "none" ]; then
+    MAKEFILES=$MAKEFILES\ drivers/$SUB_TARGET/Makefile.in
+fi
 
 if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "kernel" ]; then
 	MAKEFILES=$MAKEFILES\

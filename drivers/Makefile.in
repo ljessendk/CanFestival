@@ -36,7 +36,9 @@ endif
 ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
-	$(MAKE) -C $(TARGET) $@
+ifneq ($(TARGET),none)
+    $(MAKE) -C $(TARGET) $@
+endif
 
 install:
 
@@ -47,7 +49,9 @@ endif
 ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
-	$(MAKE) -C $(TARGET) $@
+ifneq ($(TARGET),none)
+    $(MAKE) -C $(TARGET) $@
+endif
 
 uninstall:
 
@@ -58,7 +62,9 @@ endif
 ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
-	$(MAKE) -C $(TARGET) $@
+ifneq ($(TARGET),none)
+    $(MAKE) -C $(TARGET) $@
+endif
 
 clean:
 
@@ -69,7 +75,9 @@ endif
 ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
-	$(MAKE) -C $(TARGET) $@
+ifneq ($(TARGET),none)
+    $(MAKE) -C $(TARGET) $@
+endif
 
 mrproper: clean
 
@@ -80,6 +88,8 @@ endif
 ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
-	$(MAKE) -C $(TARGET) $@
+ifneq ($(TARGET),none)
+    $(MAKE) -C $(TARGET) $@
+endif
 
 
