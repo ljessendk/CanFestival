@@ -527,7 +527,7 @@ sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
     {
       MSG_ERR (0x3907, " Couldn't build TPDO number : ",
                pdoNum);
-      return;
+      return 0;
     }
 
   /*Compare new and old PDO */
@@ -538,7 +538,7 @@ sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
     )
     {
       /* No changes -> go to next pdo */
-      return;
+      return 0;
     }
   else
     {
@@ -578,6 +578,7 @@ sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
 
       sendPdo(d, pdoNum, &pdo);
     }
+    return 1;
 }
 
 void

@@ -21,12 +21,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
-#ifneq ($(KERNELRELEASE),)
+ifneq ($(KERNELRELEASE),)
 # Kbuild part of Makefile
 obj-m := canfestival.o
 canfestival-objs := $(OBJS)
 
-#else
+else
 # Normal Makefile
 CC = SUB_CC
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -77,7 +77,7 @@ export EXTRA_CFLAGS
 canfestival:
 	@echo " "
 	@echo "*********************************************"
-	@echo "**Building [libcanfestival.o]"
+	@echo "**Building [canfestival.o]"
 	@echo "*********************************************"
 	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules
 
@@ -96,7 +96,11 @@ uninstall:
 else
 CFLAGS = SUB_OPT_CFLAGS
 
+ifeq ($(TARGET),none)
+canfestival: libcanfestival.o
+else
 canfestival: libcanfestival.a
+endif
 
 libcanfestival.a: $(OBJS)
 	@echo " "
@@ -105,6 +109,13 @@ libcanfestival.a: $(OBJS)
 	@echo "*********************************************"
 	$(BINUTILS_PREFIX)ar rc $@ $(OBJS)
 	$(BINUTILS_PREFIX)ranlib $@
+
+libcanfestival.o: $(OBJS)
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Prelink [libcanfestival.o]"
+	@echo "*********************************************"
+	$(BINUTILS_PREFIX)ld -r $(OBJS) -o $@
 
 $(TARGET)_%o: %c
 	@echo " "
@@ -124,9 +135,9 @@ uninstall:
 	rm -rf $(PREFIX)/include/canfestival
 
 clean:
-	rm -f $(OBJS) libcanfestival.a
+	rm -f $(OBJS) libcanfestival.a libcanfestival.o
 
 endif
 mrproper: clean
 
-#endif
+endif

@@ -555,7 +555,7 @@ if [ "$SUB_PREFIX" = "" ]; then
 		SUB_PREFIX=/usr/local
 		echo "Not cross-compiling. Will install in $SUB_PREFIX";
 	else
-		SUB_PREFIX=/usr/`$CC -dumpmachine`
+		SUB_PREFIX=/usr/`$CC -dumpmachine | tr -d '\r\n'`
 		echo "This is a cross-compiler. Will install in $SUB_PREFIX";			
 	fi
 fi

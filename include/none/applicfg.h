@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __APPLICFG_NONE__
 #define __APPLICFG_NONE__
 
+#include <string.h>
 #include <sys/types.h>
 
 /*  Define the architecture : little_endian or big_endian
@@ -45,7 +46,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /* Integers */
-#define INTEGER8 signed char
+#define INTEGER8 char
 #define INTEGER16 short
 #define INTEGER24 int
 #define INTEGER32 int

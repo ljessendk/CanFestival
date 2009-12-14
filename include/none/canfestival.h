@@ -6,12 +6,22 @@
 #include "data.h"
 #include "timers_driver.h"
 
+typedef void* LIB_HANDLE;
 
 /** @defgroup userapi User API */
 
 /** @defgroup can CAN management
  *  @ingroup userapi
  */
+/**
+ * @ingroup can
+ * @brief Load CAN driver interface.
+ * @param *driver_name The location of the library to load
+ * @return
+ *       - handle of the CAN driver interface is returned upon success.
+ *       - NULL is returned if the CAN driver interface can't be loaded.
+ */
+#define LoadCanDriver(driver_name) 1
 
 /**
  * @brief Send a CAN message

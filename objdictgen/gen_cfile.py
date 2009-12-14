@@ -65,12 +65,12 @@ def GetValidTypeInfos(typename, items=[]):
                     size = max(size, len(item))
                 if values[1] != "":
                     size = max(size, int(values[1]))
-                typeinfos = ("UNS8", size, "visible_string", False)
+                typeinfos = ("INTEGER8", size, "visible_string", False)
             elif values[0] == "DOMAIN":
                 size = 0
                 for item in items:
                     size = max(size, len(item))
-                typeinfos = ("UNS8", size, "domain", False)
+                typeinfos = ("INTEGER8", size, "domain", False)
             elif values[0] == "BOOLEAN":
                 typeinfos = ("UNS8", None, "boolean", False)
             else:
