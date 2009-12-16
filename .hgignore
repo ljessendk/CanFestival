@@ -60,3 +60,7 @@ syntax: regexp
 
 syntax: regexp
 ^include/config\.h$
+syntax: regexp
+^examples/TestMasterMicroMod/TestMasterMicroMod$
+syntax: regexp
+^examples/TestMasterSlave/TestMasterSlave$

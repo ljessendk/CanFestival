@@ -37,7 +37,7 @@ ifneq ($(CAN_DRIVER),can_)
 	$(MAKE) -C $(CAN_DRIVER) $@
 endif
 ifneq ($(TARGET),none)
-    $(MAKE) -C $(TARGET) $@
+	$(MAKE) -C $(TARGET) $@
 endif
 
 install:
