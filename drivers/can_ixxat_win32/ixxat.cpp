@@ -295,19 +295,19 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
 
 //------------------------------------------------------------------------
 extern "C"
-   UNS8 canReceive_driver(CAN_HANDLE inst, Message *m)
+   UNS8 __stdcall canReceive_driver(CAN_HANDLE inst, Message *m)
    {
    return (UNS8)reinterpret_cast<IXXAT*>(inst)->receive(m);
    }
                             
 extern "C"
-   UNS8 canSend_driver(CAN_HANDLE inst, Message const *m)
+   UNS8 __stdcall canSend_driver(CAN_HANDLE inst, Message const *m)
    {
    return (UNS8)reinterpret_cast<IXXAT*>(inst)->send(m);
    }
 
 extern "C"
-   CAN_HANDLE canOpen_driver(s_BOARD *board)
+   CAN_HANDLE __stdcall canOpen_driver(s_BOARD *board)
    {
    try
       {
@@ -320,14 +320,14 @@ extern "C"
    }
 
 extern "C"
-   int canClose_driver(CAN_HANDLE inst)
+   int __stdcall canClose_driver(CAN_HANDLE inst)
    {
    delete reinterpret_cast<IXXAT*>(inst);
    return 1;
    }
    
 extern "C"
-   UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+   UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 	{
 	//printf("canChangeBaudRate not yet supported by this driver\n");
 	return 0;
