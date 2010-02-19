@@ -137,3 +137,7 @@ EXPORTS
 		canSend
 		canOpen
 		canClose
+		
+		LeaveMutex
+		EnterMutex
+		
