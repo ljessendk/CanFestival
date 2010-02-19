@@ -136,13 +136,12 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 /***************************************************************************/
 UNS8 canSend(CAN_PORT port, Message *m)
 {
-	UNS8 res;
+	UNS8 res = 1; //NOT OK
 	if (port && (m_canSend != NULL))
 	{
 		res = m_canSend(((CANPort*)port)->fd, m);
-		if (res) return 1; // OK
 	}
-	return 0; // NOT OK
+	return res;
 }
 
 /***************************************************************************/
