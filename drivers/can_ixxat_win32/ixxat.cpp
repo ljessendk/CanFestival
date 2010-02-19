@@ -130,7 +130,8 @@ bool IXXAT::send(const Message *m)
       res = VCI_TransmitObj(m_BoardHdl, m_TxQueHdl, m->cob_id, m->len, const_cast<unsigned char*>(m->data));
    else
       res = VCI_RequestObj(m_BoardHdl, m_TxQueHdl, m->cob_id, m->len);
-   return (res == false); // false -> OK 
+
+   return (res == VCI_OK);
    }
 
 
@@ -297,13 +298,13 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
 extern "C"
    UNS8 __stdcall canReceive_driver(CAN_HANDLE inst, Message *m)
    {
-   return (UNS8)reinterpret_cast<IXXAT*>(inst)->receive(m);
+     return reinterpret_cast<IXXAT*>(inst)->receive(m) ? 0 : 1;
    }
                             
 extern "C"
    UNS8 __stdcall canSend_driver(CAN_HANDLE inst, Message const *m)
    {
-   return (UNS8)reinterpret_cast<IXXAT*>(inst)->send(m);
+     return reinterpret_cast<IXXAT*>(inst)->send(m) ? 0 : 1;
    }
 
 extern "C"
