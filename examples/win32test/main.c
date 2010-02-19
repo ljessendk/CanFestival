@@ -133,6 +133,8 @@ int main(int argc, char *argv[])
       return 1;
       }
    
+	TimerInit();
+
    if (canOpen(&MasterBoard,&win32test_Data))
       {
       /* Defining the node Id */
