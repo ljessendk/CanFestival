@@ -20,14 +20,9 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-
-#include <wx/wxprec.h>
-#include <wx/wx.h>
-#include <wx/textctrl.h>
-#include <iostream>
-
 #if defined(WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
+#include "getopt.h"
 #else
 #include <stdio.h>
 #include <string.h>
@@ -35,6 +30,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <stdlib.h>
 #include <signal.h>
 #endif
+
+
+#include <wx/wxprec.h>
+#include <wx/wx.h>
+#include <wx/textctrl.h>
+#include <iostream>
+
+
 
 //#include <can_driver.h>
 //#include <timers_driver.h>
@@ -73,9 +76,9 @@ int
 main_can (s_BOARD SlaveBoard, char *LibraryPath)
 {
 #if !defined(WIN32) && !defined(__CYGWIN__)
-	TimerInit();
+	//TimerInit();
 #endif	
-	
+	TimerInit();
 	printf ("Bus name: %s        Freq: %s       Driver: %s\n",
 	  SlaveBoard.busname, SlaveBoard.baudrate, LibraryPath);
 

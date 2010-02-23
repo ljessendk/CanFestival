@@ -1,3 +1,8 @@
+#if defined(WIN32) && !defined(__CYGWIN__)
+#include <windows.h>
+#include "getopt.h"
+#endif
+
 #include <wx/wxprec.h>
 #include <wx/wx.h>
 #include <wx/textctrl.h>
@@ -16,13 +21,13 @@
 
 //#include "monicone.xpm"
 
-#if defined(WIN32) && !defined(__CYGWIN__)
-#include <windows.h>
-extern "C"
-{
-#include "getopt.h"
-}
-#endif
+//#if defined(WIN32) && !defined(__CYGWIN__)
+//#include <windows.h>
+//extern "C"
+//{
+//#include "getopt.h"
+//}
+//#endif
 
 #include "main.h"
 #include "TestSlaveGui.h"
