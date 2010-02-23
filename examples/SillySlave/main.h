@@ -37,10 +37,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #if defined(WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 #include "getopt.h"
-void pause(void)
-{
-	system("PAUSE");
-}
+void pause(void);
 #else
 #include <unistd.h>
 #include <stdio.h>
@@ -55,11 +52,10 @@ void pause(void)
  * Please tune the following defines to suit your needs:
  */
 #define NODE_MASTER 0x1        
-#define NODE_SLAVE  0x12        
-#define DRIVER_LIBRARY "libcanfestival_can_kvaser.so"
-#define BAUDRATE 250000
+#define NODE_SLAVE  0x40      
+#define DRIVER_LIBRARY "can_ixxat_win32.dll"
+#define BAUDRATE 125
 #define BUS 0
 
 #endif /* _MAIN_H */
-
 

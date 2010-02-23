@@ -57,7 +57,7 @@ char baudRate[7];
 s_BOARD board;
 
     sprintf(busName, "%u", bus);
-    sprintf(baudRate, "%u", baudrate);
+    sprintf(baudRate, "%uK", baudrate);
     board.busname = busName;
     board.baudrate = baudRate;
 
@@ -73,6 +73,8 @@ s_BOARD board;
     SillySlave_Data.storeODSubIndex = SillySlave_storeODSubIndex;
     SillySlave_Data.post_emcy = SillySlave_post_emcy;
     
+	TimerInit();
+
     if(!canOpen(&board, &SillySlave_Data))
     {
         printf("\n\aInitCANdevice() CAN bus %s opening error, baudrate=%s\n",board.busname, board.baudrate);
@@ -82,7 +84,7 @@ s_BOARD board;
 
     printf("\nInitCANdevice(), canOpen() OK, starting timer loop...\n");
 
-    /* Start timer thread */
+	/* Start timer thread */
     StartTimerLoop(&InitNode); 
     
 	/* wait Ctrl-C */

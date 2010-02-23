@@ -43,6 +43,13 @@ void catch_signal(int sig)
 }
 #endif
 
+#if defined(WIN32) && !defined(__CYGWIN__)
+void pause(void)
+{
+	system("PAUSE");
+}
+#endif
+
 
 /**
  * Please edit main.h defines before compiling
