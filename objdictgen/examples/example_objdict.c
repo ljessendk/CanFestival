@@ -4,7 +4,7 @@
 #include "example_objdict.h"
 
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 UNS8 Time_seconds = 0x0;		/* Mapped at index 0x2000, subindex 0x01 */
 UNS8 Time_minutes = 0x0;		/* Mapped at index 0x2000, subindex 0x02 */
@@ -12,15 +12,19 @@ UNS8 Time_hours = 0x0;		/* Mapped at index 0x2000, subindex 0x03 */
 UNS8 Time_days = 0x0;		/* Mapped at index 0x2000, subindex 0x04 */
 UNS32 canopenErrNB = 0x0;		/* Mapped at index 0x2001, subindex 0x00 */
 UNS32 canopenErrVal = 0x0;		/* Mapped at index 0x2002, subindex 0x00 */
-UNS8 strTest[10] = "";		/* Mapped at index 0x2003, subindex 0x00 */
+INTEGER8 strTest[10] = "";		/* Mapped at index 0x2003, subindex 0x00 */
 
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 Linux_slave_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
+      break;
   }
   return 0;
 }
@@ -36,7 +40,7 @@ UNS8 Linux_slave_bDeviceNodeId = 0x00;
 
 const UNS8 Linux_slave_iam_a_slave = 1;
 
-TIMER_HANDLE Linux_slave_heartBeatTimers[1] = {TIMER_NONE,};
+TIMER_HANDLE Linux_slave_heartBeatTimers[1] = {TIMER_NONE};
 
 /*
 $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -60,6 +64,23 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RO, uint8, sizeof (UNS8), (void*)&Linux_slave_obj1001 }
                      };
 
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 Linux_slave_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 Linux_slave_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t Linux_slave_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex Linux_slave_Index1003[] = 
+                     {
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&Linux_slave_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&Linux_slave_obj1003[0] }
+                     };
+
 /* index 0x1005 :   SYNC COB ID */
                     UNS32 Linux_slave_obj1005 = 0x0;   /* 0 */
 
@@ -67,11 +88,14 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 Linux_slave_obj1006 = 0x0;   /* 0 */
 
 /* index 0x1008 :   Manufacturer Device Name. */
-                    UNS8 Linux_slave_obj1008[10] = "Appli_Slave_HC12";
+                    INTEGER8 Linux_slave_obj1008[16] = "Appli_Slave_HC12";
                     subindex Linux_slave_Index1008[] = 
                      {
                        { RO, visible_string, 16, (void*)&Linux_slave_obj1008 }
                      };
+
+/* index 0x1014 :   Emergency COB ID */
+                    UNS32 Linux_slave_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 Linux_slave_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
@@ -334,8 +358,12 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x2003 :   Mapped variable strTest */
                     subindex Linux_slave_Index2003[] = 
                      {
-                       { RW, visible_string, 0, (void*)&strTest }
+                       { RW, visible_string, 10, (void*)&strTest }
                      };
+
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
 
 const indextable Linux_slave_objdict[] = 
 {
@@ -405,7 +433,7 @@ const indextable * Linux_slave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODC
  */
 s_PDO_status Linux_slave_PDO_status[2] = {s_PDO_status_Initializer,s_PDO_status_Initializer};
 
-quick_index Linux_slave_firstIndex = {
+const quick_index Linux_slave_firstIndex = {
   0, /* SDO_SVR */
   5, /* SDO_CLT */
   6, /* PDO_RCV */
@@ -414,7 +442,7 @@ quick_index Linux_slave_firstIndex = {
   16 /* PDO_TRS_MAP */
 };
 
-quick_index Linux_slave_lastIndex = {
+const quick_index Linux_slave_lastIndex = {
   0, /* SDO_SVR */
   5, /* SDO_CLT */
   9, /* PDO_RCV */
@@ -423,7 +451,7 @@ quick_index Linux_slave_lastIndex = {
   17 /* PDO_TRS_MAP */
 };
 
-UNS16 Linux_slave_ObjdictSize = sizeof(Linux_slave_objdict)/sizeof(Linux_slave_objdict[0]); 
+const UNS16 Linux_slave_ObjdictSize = sizeof(Linux_slave_objdict)/sizeof(Linux_slave_objdict[0]); 
 
 CO_Data Linux_slave_Data = CANOPEN_NODE_DATA_INITIALIZER(Linux_slave);
 
