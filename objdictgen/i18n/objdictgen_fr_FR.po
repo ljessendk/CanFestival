@@ -318,11 +318,11 @@ msgstr "Les attributs %s sont"
 
 #: ../objdictedit.py:196
 msgid "Build Dictionary\tCTRL+B"
-msgstr "Généré le dictionnaire\tCTRL+B"
+msgstr "Générer le dictionnaire\tCTRL+B"
 
 #: ../networkedit.py:214
 msgid "Build Master Dictionary"
-msgstr "Généré le dictionnaire du maître"
+msgstr "Générer le dictionnaire du maître"
 
 #: ../networkedit.py:280
 #: ../objdictedit.py:273
