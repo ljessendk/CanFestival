@@ -748,14 +748,14 @@ class EditingPanel(wx.SplitterWindow):
                     else:
                         self.SubindexGridMenu.FindItemByPosition(0).Enable(False)
                         self.SubindexGridMenu.FindItemByPosition(1).Enable(False)
-                    if self.Table.GetColLabelValue(event.GetCol()) == "value":
+                    if self.Table.GetColLabelValue(event.GetCol(), False) == "value":
                         showpopup = True
                         self.SubindexGridMenu.FindItemByPosition(3).Enable(True)
                     else:
                         self.SubindexGridMenu.FindItemByPosition(3).Enable(False)
                     if showpopup:
                         self.PopupMenu(self.SubindexGridMenu)
-        elif self.Table.GetColLabelValue(event.GetCol()) == "value":
+        elif self.Table.GetColLabelValue(event.GetCol(), False) == "value":
             selected = self.IndexList.GetSelection()
             if selected != wx.NOT_FOUND:
                 index = self.ListIndex[selected]
