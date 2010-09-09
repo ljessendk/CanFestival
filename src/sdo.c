@@ -1458,7 +1458,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   else { /** Normal transfert */
     sdo.body.data[0] = (1 << 5) | 1;
     for (i = 0 ; i < 4 ; i++)
-      sdo.body.data[i+4] = (UNS8)((count << (i<<3))); /* i*8 */
+      sdo.body.data[i+4] = (UNS8)((count >> (i<<3))); /* i*8 */
   }
   sdo.body.data[1] = index & 0xFF;        /* LSB */
   sdo.body.data[2] = (index >> 8) & 0xFF; /* MSB */
