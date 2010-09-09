@@ -68,13 +68,17 @@ e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
 **/
 void ConsumerHearbeatAlarm(CO_Data* d, UNS32 id)
 {
+  UNS8 nodeId = (UNS8)(((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16);
   /*MSG_WAR(0x00, "ConsumerHearbeatAlarm", 0x00);*/
 
   /* timer have been notified and is now free (non periodic)*/
   /* -> avoid deleting re-assigned timer if message is received too late*/
   d->ConsumerHeartBeatTimers[id]=TIMER_NONE;
+  
+  /* set node state */
+  d->NMTable[nodeId] = Disconnected;
   /*! call heartbeat error with NodeId */
-  (*d->heartbeatError)(d, (UNS8)( ((d->ConsumerHeartbeatEntries[id]) & (UNS32)0x00FF0000) >> (UNS8)16 ));
+  (*d->heartbeatError)(d, nodeId);
 }
 
 /*!
@@ -120,11 +124,17 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
         }
 
     }else{ /* Not a request CAN */
+      /* The state is stored on 7 bit */
+      e_nodeState newNodeState = (e_nodeState) ((*m).data[0] & 0x7F);
 
       MSG_WAR(0x3110, "Received NMT nodeId : ", nodeId);
-      /* the slave's state receievd is stored in the NMTable */
-      /* The state is stored on 7 bit */
-      d->NMTable[nodeId] = (e_nodeState) ((*m).data[0] & 0x7F) ;
+      
+      if (d->NMTable[nodeId] != newNodeState)
+      {
+        (*d->post_SlaveStateChange)(d, nodeId, newNodeState);
+        /* the slave's state receievd is stored in the NMTable */
+        d->NMTable[nodeId] = newNodeState;
+      }
 
       /* Boot-Up frame reception */
       if ( d->NMTable[nodeId] == Initialisation)
@@ -262,3 +272,5 @@ void heartbeatStop(CO_Data* d)
 **/
 void _heartbeatError(CO_Data* d, UNS8 heartbeatID){}
 void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID){}
+void _post_SlaveStateChange(CO_Data* d, UNS8 nodeId, e_nodeState newNodeState){}
+

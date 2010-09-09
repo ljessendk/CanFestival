@@ -40,6 +40,9 @@ void _heartbeatError(CO_Data* d, UNS8 heartbeatID);
 typedef void (*post_SlaveBootup_t)(CO_Data*, UNS8);
 void _post_SlaveBootup(CO_Data* d, UNS8 SlaveID);
 
+typedef void (*post_SlaveStateChange_t)(CO_Data*, UNS8, e_nodeState);
+void _post_SlaveStateChange(CO_Data* d, UNS8 nodeId, e_nodeState newNodeState);
+
 #include "data.h"
 
 /*************************************************************************

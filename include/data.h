@@ -95,6 +95,7 @@ struct struct_CO_Data {
 	post_sync_t post_sync;
 	post_TPDO_t post_TPDO;
 	post_SlaveBootup_t post_SlaveBootup;
+  post_SlaveStateChange_t post_SlaveStateChange;
 	
 	/* General */
 	UNS8 toggle;
@@ -247,6 +248,7 @@ struct struct_CO_Data {
 	_post_sync,                 /* post_sync */\
 	_post_TPDO,                 /* post_TPDO */\
 	_post_SlaveBootup,			/* post_SlaveBootup */\
+  _post_SlaveStateChange,			/* post_SlaveStateChange */\
 	\
 	/* General */\
 	0,                                         /* toggle */\
