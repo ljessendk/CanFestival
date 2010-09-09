@@ -94,6 +94,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /// Definition of error and warning macros
 // --------------------------------------
 
+#ifndef _MSC_VER
+#error This block is for Visual only, please adapt it for your compiler.
+#elif (_MSC_VER >= 1400)
+//Visual Studio 2005 and above
 #ifdef UNICODE
 #define MSG(...) \
   do{wchar_t msg[300];\
@@ -107,10 +111,24 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
    sprintf(msg,##__VA_ARGS__);\
    OutputDebugString(msg);}while(0)
 */
-#endif  
+#endif
+#else //(_MSC_VER < 1400)
+//For Visual Studio 2003 and below, without VA_ARGS
+#ifdef UNICODE
+#define MSG(text) \
+  do{wchar_t msg[300];\
+   vswprintf(msg,L##text);\
+   OutputDebugString(msg);}while(0)
+#else
+#define MSG(text) \
+  do{printf text;fflush(stdout);}while(0)
+#endif
+
+#endif //_MSC_VER
+
 #define CANFESTIVAL_DEBUG_MSG(num, str, val)\
   {unsigned long value = val;\
-   MSG("%s(%d) : 0x%X %s 0x%X\n",__FILE__, __LINE__,num, str, value);\
+   MSG(("%s(%d) : 0x%X %s 0x%lX\n",__FILE__, __LINE__,num, str, value)); \
    }
 
 /// Definition of MSG_WAR
