@@ -65,6 +65,10 @@ struct struct_s_transfer {
                               * (with respect to CANOPEN_BIG_ENDIAN)
                               */
   UNS8           data [SDO_MAX_LENGTH_TRANSFERT];
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  UNS8           *dynamicData;
+  UNS32          dynamicDataSize;
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
   UNS8           dataType;   /**< Defined in objdictdef.h Value is visible_string
                               * if it is a string, any other value if it is not a string,
                               * like 0. In fact, it is used only if client.

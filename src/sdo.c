@@ -191,8 +191,23 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
   if( d->transfers[line].count == 0)
   	d->transfers[line].count = d->transfers[line].offset;
   size = d->transfers[line].count;
+
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  if (size > SDO_MAX_LENGTH_TRANSFERT)
+  {
+    errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
+			 (void *) d->transfers[line].dynamicData, &size, 1);
+  }
+  else
+  {
+   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
+			 (void *) d->transfers[line].data, &size, 1);
+  }
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
   errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
 			 (void *) d->transfers[line].data, &size, 1);
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
   MSG_WAR(0x3A08, "exit of SDOlineToObjdict ", line);
@@ -217,10 +232,18 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
   MSG_WAR(0x3A05, "objdict->line index : ", d->transfers[line].index);
   MSG_WAR(0x3A06, "  subIndex : ", d->transfers[line].subIndex);
 
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  //TODO: Read the size of the object. Depending o it put data into data or dynamicData
   errorCode = getODentry(d, 	d->transfers[line].index,
   				d->transfers[line].subIndex,
   				(void *)d->transfers[line].data,
   				&size, &dataType, 1);
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
+  errorCode = getODentry(d, 	d->transfers[line].index,
+  				d->transfers[line].subIndex,
+  				(void *)d->transfers[line].data,
+  				&size, &dataType, 1);
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
 
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
@@ -245,17 +268,38 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
   UNS8 i;
   UNS32 offset;
 
+#ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
   if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A10,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
     return 0xFF;
   }
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
     if ((d->transfers[line].offset + nbBytes) > d->transfers[line].count) {
     MSG_ERR(0x1A11,"SDO Size of data too large. Exceed count", nbBytes);
     return 0xFF;
   }
   offset = d->transfers[line].offset;
-  for (i = 0 ; i < nbBytes ; i++)
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  if (d->transfers[line].count <= SDO_MAX_LENGTH_TRANSFERT)
+  {
+    for (i = 0 ; i < nbBytes ; i++)
+      * (data + i) = d->transfers[line].data[offset + i];
+  }
+  else
+  {
+    if (d->transfers[line].dynamicData == NULL)
+    {
+      MSG_ERR(0x1A11,"SDO's dynamic buffer not allocated. Line", line);
+      return 0xFF;
+    }
+    for (i = 0 ; i < nbBytes ; i++)
+      * (data + i) = d->transfers[line].dynamicData[offset + i];
+  }
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
+    for (i = 0 ; i < nbBytes ; i++)
     * (data + i) = d->transfers[line].data[offset + i];
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
   return 0;
 }
@@ -274,14 +318,50 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 {
   UNS8 i;
   UNS32 offset;
-
+#ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
   if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A15,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
     return 0xFF;
   }
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
   offset = d->transfers[line].offset;
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  {
+    UNS8* lineData = d->transfers[line].data;
+    if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
+      if (d->transfers[line].dynamicData == NULL) {
+        d->transfers[line].dynamicData = (UNS8*) malloc(SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE);
+        d->transfers[line].dynamicDataSize = SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE;
+
+        if (d->transfers[line].dynamicData == NULL) {
+          MSG_ERR(0x1A15,"SDO allocating dynamic buffer failed, size", SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE);
+          return 0xFF;
+        }
+        //Copy present data
+        memcpy(d->transfers[line].dynamicData, d->transfers[line].data, offset);
+      }
+      else if ((d->transfers[line].offset + nbBytes) > d->transfers[line].dynamicDataSize)
+      {
+        UNS8* newDynamicBuffer = (UNS8*) realloc(d->transfers[line].dynamicData, d->transfers[line].dynamicDataSize + SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE);
+        if (newDynamicBuffer == NULL) {
+          MSG_ERR(0x1A15,"SDO reallocating dynamic buffer failed, size", d->transfers[line].dynamicDataSize + SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE);
+          return 0xFF;
+        }
+        d->transfers[line].dynamicData = newDynamicBuffer;
+        d->transfers[line].dynamicDataSize += SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE;
+      }
+      lineData = d->transfers[line].dynamicData;
+    }
+    
+    for (i = 0 ; i < nbBytes ; i++)
+      lineData[offset + i] = * (data + i);
+  }
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
   for (i = 0 ; i < nbBytes ; i++)
     d->transfers[line].data[offset + i] = * (data + i);
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
   d->transfers[line].offset = d->transfers[line].offset + nbBytes;
   return 0;
 }
@@ -338,6 +418,11 @@ void resetSDOline ( CO_Data* d, UNS8 line )
     d->transfers[line].data[i] = 0;
   d->transfers[line].whoami = 0;
   d->transfers[line].abortCode = 0;
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  free(d->transfers[line].dynamicData);
+  d->transfers[line].dynamicData = 0;
+  d->transfers[line].dynamicDataSize = 0;
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
 }
 
 /*!
@@ -369,6 +454,11 @@ UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex
   d->transfers[line].offset = 0;
   d->transfers[line].dataType = 0;
   d->transfers[line].Callback = NULL;
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  free(d->transfers[line].dynamicData);
+  d->transfers[line].dynamicData = 0;
+  d->transfers[line].dynamicDataSize = 0;
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
   return 0;
 }
 
@@ -417,7 +507,7 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line)
      (d->transfers[i].state != SDO_ABORTED_INTERNAL) &&
 	 (d->transfers[i].nodeId == nodeId) &&
 	 (d->transfers[i].whoami == whoami) ) {
-      *line = i;
+      if (line) *line = i;
       return 0;
     }
   }
@@ -476,10 +566,13 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 **/
 UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes)
 {
+#ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
   if (nbBytes > SDO_MAX_LENGTH_TRANSFERT) {
     MSG_ERR(0x1A35,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
     return 0xFF;
   }
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
   d->transfers[line].count = nbBytes;
   return 0;
 }
@@ -1315,8 +1408,35 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
   d->transfers[line].count = count;
   d->transfers[line].dataType = dataType;
 
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  {
+    UNS8* lineData = d->transfers[line].data;
+    if (count > SDO_MAX_LENGTH_TRANSFERT)
+    {
+      d->transfers[line].dynamicData = (UNS8*) malloc(count);
+      d->transfers[line].dynamicDataSize = count;
+      if (d->transfers[line].dynamicData == NULL)
+      {
+        MSG_ERR(0x1AC9, "SDO. Error. Could not allocate enough bytes : ", count);
+        return 0xFE;
+      }
+      lineData = d->transfers[line].dynamicData;
+    }
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+
   /* Copy data to transfers structure. */
   for (j = 0 ; j < count ; j++) {
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+# ifdef CANOPEN_BIG_ENDIAN
+      if (dataType == 0 && endianize)
+        lineData[count - 1 - j] = ((char *)data)[j];
+      else /* String of bytes. */
+        lineData[j] = ((char *)data)[j];
+#  else
+      lineData[j] = ((char *)data)[j];
+#  endif
+  }
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
 # ifdef CANOPEN_BIG_ENDIAN
     if (dataType == 0 && endianize)
       d->transfers[line].data[count - 1 - j] = ((char *)data)[j];
@@ -1325,6 +1445,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 #  else
     d->transfers[line].data[j] = ((char *)data)[j];
 #  endif
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
   }
   /* Send the SDO to the server. Initiate download, cs=1. */
   sdo.nodeId = nodeId;
@@ -1655,7 +1776,28 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
   /* use transfers[line].count as max size */
   if( d->transfers[line].count < *size )
   	*size = d->transfers[line].count;
+
   /* Copy payload to data pointer */
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+  {
+    UNS8 *lineData = d->transfers[line].data;
+
+    if (d->transfers[line].dynamicData && d->transfers[line].dynamicDataSize)
+    {
+      lineData = d->transfers[line].dynamicData;
+    }
+    for  ( i = 0 ; i < *size ; i++) {
+# ifdef CANOPEN_BIG_ENDIAN
+      if (d->transfers[line].dataType != visible_string)
+        ( (char *) data)[*size - 1 - i] = lineData[i];
+      else /* String of bytes. */
+        ( (char *) data)[i] = lineData[i];
+# else
+      ( (char *) data)[i] = lineData[i];
+# endif
+    }
+  }
+#else //SDO_DYNAMIC_BUFFER_ALLOCATION
   for  ( i = 0 ; i < *size ; i++) {
 # ifdef CANOPEN_BIG_ENDIAN
     if (d->transfers[line].dataType != visible_string)
@@ -1666,6 +1808,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
     ( (char *) data)[i] = d->transfers[line].data[i];
 # endif
   }
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
   return SDO_FINISHED;
 }
 

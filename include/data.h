@@ -128,6 +128,25 @@ struct struct_CO_Data {
 
 #define NMTable_Initializer Unknown_state,
 
+#ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
+#define s_transfer_Initializer {\
+		0,          /* nodeId */\
+		0,          /* wohami */\
+		SDO_RESET,  /* state */\
+		0,          /* toggle */\
+		0,          /* abortCode */\
+		0,          /* index */\
+		0,          /* subIndex */\
+		0,          /* count */\
+		0,          /* offset */\
+		{0},        /* data (static use, so that all the table is initialize at 0)*/\
+    NULL,       /* dynamicData */ \
+    0,          /* dynamicDataSize */ \
+		0,          /* dataType */\
+		-1,         /* timer */\
+		NULL        /* Callback */\
+	  },
+#else
 #define s_transfer_Initializer {\
 		0,          /* nodeId */\
 		0,          /* wohami */\
@@ -143,6 +162,7 @@ struct struct_CO_Data {
 		-1,         /* timer */\
 		NULL        /* Callback */\
 	  },
+#endif //SDO_DYNAMIC_BUFFER_ALLOCATION
 
 #define ERROR_DATA_INITIALIZER \
 	{\

@@ -22,9 +22,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#define CO_ENABLE_LSS
+
 #define MAX_CAN_BUS_ID 1
+#define SDO_DYNAMIC_BUFFER_ALLOCATION //New define, if SDO_MAX_LENGTH_TRANSFERT is exceeded allocate data buffer dynamically
+#define SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE (1024 * 128)
 #define SDO_MAX_LENGTH_TRANSFERT 32
-#define SDO_MAX_SIMULTANEOUS_TRANSFERTS 4
+#define SDO_MAX_SIMULTANEOUS_TRANSFERTS 32
 #define NMT_MAX_NODE_ID 128
 #define SDO_TIMEOUT_MS 3000
 #define MAX_NB_TIMER 32
@@ -38,7 +42,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define LSS_FS_TIMEOUT_MS 100
 
 #define REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(repeat)\
-repeat repeat repeat repeat
+repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat
 #define REPEAT_NMT_MAX_NODE_ID_TIMES(repeat)\
 repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat repeat
 #define REPEAT_EMCY_MAX_ERRORS_TIMES(repeat)\
