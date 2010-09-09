@@ -141,7 +141,7 @@ bool IXXAT::receive(Message *m)
    VCI_CAN_OBJ obj;
    if (m_RX_Que.extract_top(obj))
       {
-      m->cob_id = obj.id;
+      m->cob_id = static_cast<UNS16>(obj.id); //valid for 11Bit ids
       m->len = obj.len;
       m->rtr = (obj.rtr == VCI_RX_BUF) ? NOT_A_REQUEST : REQUEST;
       if (m->rtr == NOT_A_REQUEST)
