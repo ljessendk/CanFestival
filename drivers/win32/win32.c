@@ -75,6 +75,7 @@ CANPort canports[MAX_NB_CAN_PORTS] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0
 /***************************************************************************/
 UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 {
+#ifndef NOT_USE_DYNAMIC_LOADING
 	if(handle != NULL)
 	{
 		FreeLibrary(handle);
@@ -82,6 +83,10 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 		return 0;
 	}
 	return -1;
+#else
+  handle = NULL;
+  return 0;
+#endif //NOT_USE_DYNAMIC_LOADING
 }
 
 /***************************************************************************/
@@ -96,6 +101,7 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	// driver module handle
 	LIB_HANDLE handle = NULL;
 
+#ifndef NOT_USE_DYNAMIC_LOADING
 	if(handle == NULL)
 	{
 		handle = LoadLibrary(driver_name);
@@ -112,6 +118,17 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
 	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
 	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
+#else
+  //compiled in...
+  handle = 1; //TODO: remove this hack
+
+  m_canReceive = canReceive_driver;
+	m_canSend = canSend_driver;
+	m_canOpen = canOpen_driver;
+	m_canClose = canClose_driver;
+	m_canChangeBaudRate = canChangeBaudRate_driver;
+#endif
+
 
 	return handle;
 }
@@ -173,7 +190,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 	}
 	else
 	{
-		MSG("CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate);
+		MSG(("CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate));
 		return NULL;
 	}
 }
