@@ -414,6 +414,7 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line)
 
   for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; i++){
     if ( (d->transfers[i].state != SDO_RESET) &&
+     (d->transfers[i].state != SDO_ABORTED_INTERNAL) &&
 	 (d->transfers[i].nodeId == nodeId) &&
 	 (d->transfers[i].whoami == whoami) ) {
       *line = i;
