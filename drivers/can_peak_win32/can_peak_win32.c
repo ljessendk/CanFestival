@@ -100,11 +100,12 @@ UNS8 canInit (s_BOARD *board)
 		}
 
 		//Create the Event for the first board
-		hEvent2 = CreateEvent(NULL, // lpEventAttributes
-							FALSE,  // bManualReset
-							FALSE,  // bInitialState
-							"");    // lpName
-
+		if(hEvent2 != NULL){
+			hEvent2 = CreateEvent(NULL, // lpEventAttributes
+			                      FALSE,  // bManualReset
+			                      FALSE,  // bInitialState
+			                      "");    // lpName
+		}
 		//Set Event Handle for CANReadExt
 		CAN2_SetRcvEvent(hEvent2);
 	}
@@ -118,10 +119,12 @@ UNS8 canInit (s_BOARD *board)
 				return 0;
 		}
 		//Create the Event for the first board
-		hEvent1 = CreateEvent(NULL, // lpEventAttributes
-							FALSE,  // bManualReset
-							FALSE,  // bInitialState
-							"");    // lpName
+		if(hEvent1 != NULL){
+			hEvent1 = CreateEvent(NULL, // lpEventAttributes
+			                      FALSE,  // bManualReset
+			                      FALSE,  // bInitialState
+			                      "");    // lpName
+		}
 		//Set Event Handle for CANReadExt
 		CAN_SetRcvEvent(hEvent1);
 	}
@@ -308,21 +311,31 @@ CAN_HANDLE canOpen_driver (s_BOARD * board)
 int canClose_driver (CAN_HANDLE fd0)
 {
 #ifdef PCAN2_HEADER_
-	// if not the first handler
-	if(second_board == (s_BOARD *)fd0)
-	{
-		CAN2_SetRcvEvent(NULL);
-		CAN2_Close ();
-		SetEvent(hEvent2);
-		second_board = (s_BOARD *)NULL;
-	}else
+      // if not the first handler
+      if(second_board == (s_BOARD *)fd0)
+      {
+           CAN2_SetRcvEvent(NULL);
+           CAN2_Close ();
+           if(hEvent2)
+           {
+             SetEvent(hEvent2);
+             CloseHandle(hEvent2);
+             hEvent2 = NULL;
+           }
+           second_board = (s_BOARD *)NULL;
+      }else
 #endif
-	if(first_board == (s_BOARD *)fd0)
-	{
-		CAN_SetRcvEvent(NULL);
-		CAN_Close ();
-		SetEvent(hEvent1);
-		first_board = (s_BOARD *)NULL;
-	}
-	return 0;
+      if(first_board == (s_BOARD *)fd0)
+      {
+           CAN_SetRcvEvent(NULL);
+           CAN_Close ();
+           if(hEvent1)
+           {
+             SetEvent(hEvent1);
+             CloseHandle(hEvent1);
+             hEvent1 = NULL;
+            }
+           first_board = (s_BOARD *)NULL;
+      }
+      return 0;
 }
