@@ -150,7 +150,7 @@ UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
 			if (result == WAIT_OBJECT_0)
 				Res = CAN2_ReadEx(&peakMsg, &peakRcvTime);
 				// Exit receive thread when handle is no more valid
-				if(Res & CAN_ERRMASK_ILLHANDLE)
+				if(Res & CAN_ERR_ILLHANDLE)
 					return 1;
 		}
 		else
@@ -163,7 +163,7 @@ UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
 			{
 				Res = CAN_ReadEx(&peakMsg, &peakRcvTime);
 				// Exit receive thread when handle is no more valid
-				if(Res & CAN_ERRMASK_ILLHANDLE)
+				if(Res & CAN_ERR_ILLHANDLE)
 					return 1;
 			}
 		}
