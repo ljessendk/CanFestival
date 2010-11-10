@@ -57,8 +57,6 @@ extern "C" {
 #include "VCI2.h"
 #include "async_access_que.h"
 
-#pragma warning(disable:4996)
-
 #define CAN_NUM 0
 
 class IXXAT
@@ -80,15 +78,30 @@ class IXXAT
       static void VCI_CALLBACKATTR receive_queuedata_handler(UINT16 que_hdl, UINT16 count, VCI_CAN_OBJ* p_obj);
       static void VCI_CALLBACKATTR exception_handler(VCI_FUNC_NUM func_num, INT32 err_code, UINT16 ext_err, char* err_str);
       
+      static void CALLBACK canBusWatchdog(HWND hwnd, UINT msg, UINT_PTR idEvent, DWORD dwTime);
+      void watchdog();
    private:
       UINT16 m_BoardHdl;
       UINT16 m_TxQueHdl;
       UINT16 m_RxQueHdl;
       async_access_que<VCI_CAN_OBJ> m_RX_Que;
       static IXXAT* m_callbackPtr;
+      static UINT_PTR m_watchdogTimerId;
+      static const unsigned int CAN_BUS_WATCHDOG_INTERVAL_MSEC = 10000;
+
+      /** Bitmask inside sts from VCI_ReadCanStatus() that defines the can bus off state.*/
+      static const unsigned char STS_CAN_BUS_OFF = 0x80;
+
+      /** Bitmask inside sts from VCI_ReadCanStatus() that defines the can data overrun state.*/
+      static const unsigned char STS_CAN_DATA_OVERRUN = 0x20;
+
+      /** Bitmask inside sts from VCI_ReadCanStatus() that defines the remote queue overrun state.*/
+      static const unsigned char STS_REMOTE_QUEUE_OVERRUN = 0x04;
    };
 
 IXXAT *IXXAT::m_callbackPtr = NULL;
+
+UINT_PTR IXXAT::m_watchdogTimerId = 0;
 
 IXXAT::IXXAT(s_BOARD *board) : m_BoardHdl(0xFFFF),
                                m_TxQueHdl(0xFFFF),
@@ -214,13 +227,16 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
    res = VCI_ConfigQueue(m_BoardHdl, CAN_NUM, VCI_TX_QUE, 100 , 0, 0, 0,  &m_TxQueHdl);
    
    //  definition of Receive Queue (interrupt mode)
-   res = VCI_ConfigQueue(m_BoardHdl, CAN_NUM, VCI_RX_QUE, 50, 1, 0, 100,  &m_RxQueHdl);
+   res = VCI_ConfigQueue(m_BoardHdl, CAN_NUM, VCI_RX_QUE, 500, 1, 0, 100,  &m_RxQueHdl);
 
    //  assign the all IDs to the Receive Queue
    res = VCI_AssignRxQueObj(m_BoardHdl, m_RxQueHdl ,VCI_ACCEPT, 0, 0) ;
 
    //  And now start the CAN
    res = VCI_StartCan(m_BoardHdl, CAN_NUM);
+
+   //Start CAN Bus-Off watchdog
+   m_watchdogTimerId = SetTimer(NULL, NULL, IXXAT::CAN_BUS_WATCHDOG_INTERVAL_MSEC, IXXAT::canBusWatchdog);
    
    return true;
    }
@@ -293,6 +309,60 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
   ::sprintf(buf, "IXXAT Exception: %s (%i / %u) [%s]\n", Num2Function[func_num], err_code, ext_err, err_str);
   ::OutputDebugString(buf);
   }
+
+  void IXXAT::watchdog()
+  {
+    VCI_CAN_STS sts;
+    long res = VCI_ReadCanStatus(m_BoardHdl, CAN_NUM, &sts);
+
+    if (res < 0)
+    {
+      char buf[200];
+      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Reading the can state failed!\n");
+      ::OutputDebugString(buf);
+    }
+    else
+    {
+      if (sts.sts & (STS_CAN_BUS_OFF | STS_CAN_DATA_OVERRUN | STS_REMOTE_QUEUE_OVERRUN))
+      {
+        if (sts.sts & STS_CAN_BUS_OFF)
+        {
+          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN bus off detected!\n");
+        }
+        if (sts.sts & STS_CAN_DATA_OVERRUN)
+        {
+          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN data overrun detected!\n");
+        }
+        if (sts.sts & STS_REMOTE_QUEUE_OVERRUN)
+        {
+          ::OutputDebugString("\nIXXAT canBusWatchdog: Remote queue overrun detected!\n");
+        }
+
+        if (VCI_ResetCan(m_BoardHdl, CAN_NUM) < 0)
+        {
+          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed!\n");
+        }
+
+        if (VCI_StartCan(m_BoardHdl, CAN_NUM) < 0)
+        {
+          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed!\n");
+        }
+      }
+    }
+
+    if (SetTimer(NULL, m_watchdogTimerId, IXXAT::CAN_BUS_WATCHDOG_INTERVAL_MSEC, IXXAT::canBusWatchdog) == 0)
+    {
+      char buf[200];
+      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Creation of the watchdog timer failed!\n");
+      ::OutputDebugString(buf);
+    }
+  }
+
+void CALLBACK IXXAT::canBusWatchdog(HWND hwnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
+{
+   if (m_callbackPtr != NULL)
+      m_callbackPtr->watchdog();
+}
 
 //------------------------------------------------------------------------
 extern "C"
