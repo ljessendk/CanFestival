@@ -515,7 +515,7 @@ sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
   UNS16 offsetObjdict;
   Message pdo;
   if (!d->CurrentCommunicationState.csPDO ||
-      !(d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED))
+      (d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED))
     {
       return 0;
     }
