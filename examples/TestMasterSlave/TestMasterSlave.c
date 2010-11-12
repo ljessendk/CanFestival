@@ -189,8 +189,10 @@ int main(int argc,char **argv)
   /* install signal handler for manual break */
 	signal(SIGTERM, catch_signal);
 	signal(SIGINT, catch_signal);
-	TimerInit();
 #endif
+	// Also Windows needs to initialize the Timer!
+	// Moving this line into the ifndef leads to a lethal crash!
+	TimerInit();
 
 #ifndef NOT_USE_DYNAMIC_LOADING
 	if (LoadCanDriver(LibraryPath) == NULL)

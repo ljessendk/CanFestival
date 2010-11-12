@@ -1,0 +1,49 @@
+HOW TO configure CanFestival for a CO-PCICAN card for linux:
+
+
+
+pre-actions:
+- install the CO-PCICAN card
+- install and load the user space driver co_pcicanext.ko
+
+
+
+- unpack the package to your target (if not already done)
+
+- create empty file:
+  touch /usr/local/lib/libcanfestival_can_copcican_linux.so
+
+- perform package configuration:
+  sh ./configure --can=copcican_linux
+
+- build the CanFestival library:
+  cd src
+  make
+  make install
+
+- build the CanFestival Unix library:
+  cd drivers/unix
+  make
+  make install
+
+BUGFIX:
+  copy library into build directory back:
+  cp /usr/local/lib/libcanfestival_unix.a drivers/unix
+
+- build the CO-PCICAN driver interface:
+  cd drivers/can_copcican_linux
+  make
+  make install
+
+- build the example application:
+  cd examples/test_copcican_linux
+  make
+
+Run test_copcican_linux to see it works...
+
+
+
+Copyright (C) 2010 Cosateq GmbH & Co.KG
+              http://www.cosateq.com/
+              http://www.scale-rt.com/
+

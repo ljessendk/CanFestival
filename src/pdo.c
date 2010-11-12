@@ -487,8 +487,8 @@ static void sendPdo(CO_Data * d, UNS32 pdoNum, Message * pdo)
 {
   /*store_as_last_message */
   d->PDO_status[pdoNum].last_message = *pdo;
-  MSG_WAR (0x396D, "sendPDO cobId :", UNS16_LE(pdo->cob_id));
-  MSG_WAR (0x396E, "     Nb octets  : ", pdo->len);
+  MSG_WAR (0x396D, "sendPDO cobId :", UNS16_LE(pdo.cob_id));
+  MSG_WAR (0x396E, "     Nb octets  : ", pdo.len);
 
   canSend (d->canHandle, pdo);
 }
@@ -512,16 +512,18 @@ sendPDOevent (CO_Data * d)
 UNS8
 sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
 {
+  UNS16 offsetObjdict;
+  Message pdo;
   if (!d->CurrentCommunicationState.csPDO ||
-      (d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED))
+      !(d->PDO_status[pdoNum].transmit_type_parameter & PDO_INHIBITED))
     {
       return 0;
     }
 
-  UNS16 offsetObjdict = d->firstIndex->PDO_TRS + pdoNum;
+  offsetObjdict = d->firstIndex->PDO_TRS + pdoNum;
   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
            *pTransmissionType);
-  Message pdo;
+  
   memset(&pdo, 0, sizeof(pdo));
   if (buildPDO (d, pdoNum, &pdo))
     {

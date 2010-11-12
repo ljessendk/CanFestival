@@ -40,10 +40,12 @@
 
 #include "data.h"
 
-#ifdef DEBUG_WAR_CONSOLE_ON
+//We need the function implementation for linking
+//Only a placeholder with a define isnt enough!
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
                            UNS32 sizeDataDict, UNS32 sizeDataGiven, UNS32 code)
 {
+#ifdef DEBUG_WAR_CONSOLE_ON
   MSG_WAR(0x2B09,"Dictionary index : ", index);
   MSG_WAR(0X2B10,"           subindex : ", subIndex);
   switch (code) {
@@ -72,11 +74,10 @@ UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
   default :
     MSG_WAR(0x2B20, "Unknown error code : ", code);
   }
+  #endif
+
   return 0;
 }
-#else
-#define accessDictionaryError(index, subIndex, sizeDataDict, sizeDataGiven, code)
-#endif
 
 UNS32 _getODentry( CO_Data* d,
                    UNS16 wIndex,

@@ -1,5 +1,5 @@
 /*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
+This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 
@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #else
 #include <linux/module.h>
 #endif
+#include <linux/delay.h>
 
 #ifndef NOT_USE_DYNAMIC_LOADING
 #define DLL_CALL(funcname) (* funcname##_driver)
@@ -95,7 +96,7 @@ LIB_HANDLE LoadCanDriver(const char* driver_name)
 {
 	LIB_HANDLE handle = NULL;
 	char *error;
-	
+
 
 	if(handle==NULL)
 	{
@@ -106,7 +107,7 @@ LIB_HANDLE LoadCanDriver(const char* driver_name)
 		fprintf (stderr, "%s\n", dlerror());
         	return NULL;
 	}
- 
+
 	/*Get function ptr*/
 	DLSYM(canReceive)
 	DLSYM(canSend)
@@ -142,7 +143,7 @@ UNS8 canSend(CAN_PORT port, Message *m)
 		res = DLL_CALL(canSend)(((CANPort*)port)->fd, m);
 		//EnterMutex();
 		return res; // OK
-	}               
+	}
 	return 1; // NOT OK
 }
 
@@ -161,6 +162,13 @@ void canReceiveLoop(CAN_PORT port)
                EnterMutex();
                canDispatch(((CANPort*)port)->d, &m);
                LeaveMutex();
+
+#ifdef __KERNEL__
+#ifdef USE_XENO
+               /* periodic task for Xenomai kernel realtime */
+               rt_task_wait_period(NULL);
+#endif
+#endif
        }
 }
 
@@ -178,19 +186,19 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 		if(!canports[i].used)
 		break;
 	}
-	
+
 #ifndef NOT_USE_DYNAMIC_LOADING
 	if (&DLL_CALL(canOpen)==NULL) {
         	fprintf(stderr,"CanOpen : Can Driver dll not loaded\n");
         	return NULL;
 	}
-#endif	
+#endif
 	CAN_HANDLE fd0 = DLL_CALL(canOpen)(board);
 	if(fd0){
 		canports[i].used = 1;
 		canports[i].fd = fd0;
 		canports[i].d = d;
-		d->canHandle = (CAN_PORT)&canports[i];		
+		d->canHandle = (CAN_PORT)&canports[i];
 		CreateReceiveTask(&(canports[i]), &canports[i].receiveTask, &canReceiveLoop);
 		return (CAN_PORT)&canports[i];
 	}else{
@@ -207,17 +215,18 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
 int canClose(CO_Data * d)
 {
 	UNS8 res;
-	
+
 	((CANPort*)d->canHandle)->used = 0;
 	CANPort* tmp = (CANPort*)d->canHandle;
-	d->canHandle = NULL;
-	
+
+	// kill receiver task before port is closed and handle set to NULL
+	WaitReceiveTaskEnd(&tmp->receiveTask);
+
 	// close CAN port
 	res = DLL_CALL(canClose)(tmp->fd);
 
-	// kill receiver task
-	WaitReceiveTaskEnd(&tmp->receiveTask);
-	
+	d->canHandle = NULL;
+
 	return res;
 }
 
@@ -236,7 +245,7 @@ UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
 		res = DLL_CALL(canChangeBaudRate)(((CANPort*)port)->fd, baud);
 		//EnterMutex();
 		return res; // OK
-	}               
+	}
 	return 1; // NOT OK
 }
 

@@ -1,0 +1,55 @@
+HOW TO configure CanFestival for a CO-PCICAN card for COMEDI in the kernel (optionally with Xenomai):
+
+
+
+pre-actions:
+- install the CO-PCICAN card
+- install and load COMEDI and the corresponding driver co_pcican.ko
+  (COMEDI sources are expected in /usr/src/comedi)
+
+- optionally: install the Xenomai package
+  (Xenomai sources are expected in /usr/xenomai)
+
+
+
+- unpack the package to your target (if not already done)
+
+- perform package configuration:
+  sh ./configure --can=copcican_comedi --timers=kernel --kerneldir='/lib/modules/$(shell uname -r)/build'
+
+  optionally: use --timers=kernel_xeno for the realtime Xenomai timer functions
+
+- patch the sed "s:-I:-I$(src)/:g" statement to
+    's:-I../..:-I/canopeninstalldir:g' in drivers/unix/Makefile
+    's:-I..:-I/canopeninstalldir:g'    in src/Makefile
+  The original statement did not run on my computer !
+
+- build the CanFestival Unix library:
+  cd drivers/unix
+  make
+
+- build the CanFestival library:
+  cd src
+  make
+  make install
+
+- build the CO-PCICAN driver interface:
+  cd drivers/can_copcican_comedi
+  make
+  make install
+
+- build the example application (not for Xenomai):
+  cd examples/test_copcican_comedi
+  make
+  make install
+
+Run test_copcican_comedi with the insert.sh script to see it works...
+
+For Xenomai please use the example /usr/src/scale-rt-canopendemo of the SCALE-RT distribution.
+
+
+
+Copyright (C) 2010 Cosateq GmbH & Co.KG
+              http://www.cosateq.com/
+              http://www.scale-rt.com/
+

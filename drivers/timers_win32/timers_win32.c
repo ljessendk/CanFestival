@@ -77,7 +77,11 @@ void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 	CloseHandle(*Thread);
 }
 
+#if !defined(WIN32) || defined(__CYGWIN__)
 int TimerThreadLoop(void)
+#else
+DWORD TimerThreadLoop(LPVOID arg)
+#endif
 {
 
 

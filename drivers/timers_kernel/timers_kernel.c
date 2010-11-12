@@ -1,5 +1,5 @@
 /*
-This file is part of CanFestival, a library implementing CanOpen Stack. 
+This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 
@@ -111,5 +111,9 @@ void CreateReceiveTask(CAN_PORT port, TASK_HANDLE *Thread, void* ReceiveLoopPtr)
 
 void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	force_sig (SIGTERM, *Thread);
+        /* join thread here because force_sig() does not work */
+	while((*Thread)->state <= 0)
+	{
+	  ; /* >0 means stopped */
+	}
 }

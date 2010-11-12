@@ -2,41 +2,41 @@
 
 #
 # Copyright (C) 2004 Edouard TISSERRANT, Laurent BESSARD
-# Based on Gabriel Gerhardsson's cacheprobe configure script. 
-# 
-# This file is part of CanFestival, a library implementing CanOpen Stack. 
-# 
+# Based on Gabriel Gerhardsson's cacheprobe configure script.
+#
+# This file is part of CanFestival, a library implementing CanOpen Stack.
+#
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
 # License as published by the Free Software Foundation; either
 # version 2.1 of the License, or (at your option) any later version.
-# 
+#
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 # Lesser General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# 
+#
 
 ###########################################################################
 #                       DEFAULT CANFESTIVAL DEFINES                       #
 ###########################################################################
 
-# Number of can bus to use 
+# Number of can bus to use
 MAX_CAN_BUS_ID=1
 
 # max bytes to transmit by SDO Put 4 if you only support expedited transfert.
 #For a normal transfert, (usually for a string), put the maximum string size to transfer.
 SDO_MAX_LENGTH_TRANSFERT=32
 
-# Number of SDO from differents nodes that the node can manage concurrently.   
+# Number of SDO from differents nodes that the node can manage concurrently.
 #for a slave node, usually put 1.
 SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
 
-# Used for NMTable[bus][nodeId]	  
+# Used for NMTable[bus][nodeId]
 # You can put less of 128 if on the netwo
 # are connected only smaller nodeId node.
 NMT_MAX_NODE_ID=128
@@ -78,7 +78,7 @@ CC2=cc
 # Install prefix
 SUB_PREFIX=
 
-# Used for C compiler test/detection 
+# Used for C compiler test/detection
 CFLAGS=
 test=conftest
 rm -f $test $test.c
@@ -96,7 +96,7 @@ fi
 ###########################################################################
 while [ $# -ge 1 ]; do
 	optarg=`expr "x$1" : 'x[^=]*=\(.*\)'`
-	
+
 	case $1 in
 	--cc=*)		CC=$optarg;;
 	--cxx=*)	CXX=$optarg;;
@@ -145,11 +145,11 @@ while [ $# -ge 1 ]; do
 		echo	"               \"win32\" for win32 systems (native, mingw or VC++)"
 		echo	"               \"hcs12\" for HCS12 micro-controller"
 		echo 	" --can=foo	Use 'foo' as CAN driver"
-		echo	"               \"anagate_linux\" use AnaGate CAN(duo) driver for linux"	
-		echo	"               \"anagate_win32\" use AnaGate CAN(duo) driver for win32"				
+		echo	"               \"anagate_linux\" use AnaGate CAN(duo) driver for linux"
+		echo	"               \"anagate_win32\" use AnaGate CAN(duo) driver for win32"
 		echo	"               \"peak_linux\" use Linux build host installed Peak driver and library"
 		echo	"                 see http://www.peak-system.com/linux/"
-		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin" 
+		echo	"               \"peak_win32\" use win32 PcanLight Peak driver and library with Cygwin"
 		echo	"                 see http://www.peak-system.com/themen/download_gb.html"
 		echo	"               \"virtual\" use unix pipe based virtual can driver"
 		echo	"               \"virtual_kernel\" use kernel module virtual can driver"
@@ -159,7 +159,11 @@ while [ $# -ge 1 ]; do
 		echo	"                 see http://www.ocera.org/download/components/WP7/lincan-0.3.3.html"
 		echo	"               \"can4linux\" can4linux driver"
 		echo	"                 see http://www.port.de/engl/canprod/hw_can4linux.html"
-		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno', 'rtai' or 'kernel')"
+		echo	"               \"copcican_linux\" user space driver interface for CO-PCICAN card"
+		echo	"                 see http://www.cosateq.com/"
+		echo	"               \"copcican_comedi\" COMEDI driver interface for CO-PCICAN card"
+		echo	"                 see http://www.cosateq.com/"
+		echo 	" --timers=foo  Use 'foo' as TIMERS driver (can be 'unix', 'xeno', 'rtai', 'kernel' or 'kernel_xeno')"
 		echo 	" --wx=foo      Force result of WxWidgets detection (0 or 1)"
 		echo 	" --binutils=path   Override binutils path detection (as regards \$CC content)"
 		echo 	" --disable-dll Disable run-time dynamic linking of can, led and nvram drivers"
@@ -273,18 +277,24 @@ fi
 # Try to guess can
 if [ "$SUB_CAN_DRIVER" = "" ]; then
 	if [ "$SUB_TARGET" = "unix" ]; then
-		if [ -e /usr/lib/libpcan.so ]; then 
+		if [ -e /usr/lib/libpcan.so ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_linux
 		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "PCAN_LIB" != "" ]; then
 			echo "Choosing installed Peak driver as CAN driver."
-			SUB_CAN_DRIVER=peak_win32		
-		elif [ -e /usr/lib/libcanlib.so ]; then 
+			SUB_CAN_DRIVER=peak_win32
+		elif [ -e /usr/lib/libcanlib.so ]; then
 			echo "Choosing installed Kvaser driver as CAN driver. (unix)"
 			SUB_CAN_DRIVER=kvaser
-		elif [ -e /usr/local/lib/libAnaGateAPIDLL.so ]; then 
+		elif [ -e /usr/local/lib/libAnaGateAPIDLL.so ]; then
 			echo "Choosing installed AnaGate driver as CAN driver. (unix)"
 			SUB_CAN_DRIVER=anagate_linux
+		elif [ -e /usr/local/lib/libcanfestival_can_copcican_linux.so ]; then
+			echo "Choosing installed CO-PCICAN driver as CAN driver. (unix)"
+			SUB_CAN_DRIVER=copcican_linux
+		elif [ -e /usr/local/lib/libcanfestival_can_copcican_comedi.so ]; then
+			echo "Choosing installed CO-PCICAN driver as CAN driver. (unix)"
+			SUB_CAN_DRIVER=copcican_comedi
 		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "$KVASER_DLL_PATH" != "" ]; then
 			echo "Choosing installed Kvaser driver as CAN driver. (cygwin)"
 			SUB_CAN_DRIVER=kvaser
@@ -309,7 +319,7 @@ fi
 
 # Warn for unstalled peak driver if choosen
 if [ "$SUB_CAN_DRIVER" = "peak" ]; then
-	if [ ! -e /usr/lib/libpcan.so ]; then 
+	if [ ! -e /usr/lib/libpcan.so ]; then
 		echo "Peak driver hasn't been installed !"
 		exit -1
 	fi
@@ -317,8 +327,16 @@ fi
 
 # Warn for unstalled peak driver if choosen
 if [ "$SUB_CAN_DRIVER" = "anagate_linux" ]; then
-	if [ ! -e /usr/local/lib/libAnaGateAPIDLL.so ]; then 
+	if [ ! -e /usr/local/lib/libAnaGateAPIDLL.so ]; then
 		echo "AnaGateCAN driver hasn't been installed !"
+		exit -1
+	fi
+fi
+
+# Warn for unstalled CO-PCICAN driver if choosen
+if [ "$SUB_CAN_DRIVER" = "copcican_linux" ]; then
+	if [ ! -e /usr/local/lib/libcanfestival_can_copcican_linux.so ]; then
+		echo "CO-PCICAN driver hasn't been installed !"
 		exit -1
 	fi
 fi
@@ -326,12 +344,12 @@ fi
 # Warn for unstalled kvaser driver if choosen
 if [ "$SUB_CAN_DRIVER" = "kvaser" ]; then
 	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
-        if [ ! -e "$KVASER_DLL_PATH/canlib32.dll" ]; then 
+        if [ ! -e "$KVASER_DLL_PATH/canlib32.dll" ]; then
             echo "Kvaser driver hasn't been installed (cygwin)"
             exit -1
         fi
     elif  [ "$SUB_OS_NAME" = "LINUX" ]; then
-        if [ ! -e /usr/lib/libcanlib.so ]; then 
+        if [ ! -e /usr/lib/libcanlib.so ]; then
             echo "Kvaser driver hasn't been installed (unix)"
             exit -1
         fi
@@ -348,20 +366,20 @@ if [ "$SUB_TARGET" = "hcs12" ]; then
 	# search for gcc hcs12 compiler m6811-elf-gcc or m68hc12-gcc ?
 	if [ "$CC" = "" ]; then
 		which m6811-elf-gcc >/dev/null 2>&1
-		if (( $? )); then 
+		if (( $? )); then
 			which m68hc12-gcc >/dev/null 2>&1
-			if (( $? )); then 
+			if (( $? )); then
 				echo "Please use --cc flag to specify compiler"
 				exit 0
 			else
-				CC=m68hc12-gcc 
+				CC=m68hc12-gcc
 			fi
 		else
 			CC=m6811-elf-gcc
 			SUB_PROG_CFLAGS=-m68hc12
 		fi
 	fi
-fi	
+fi
 
 #### CAN_DRIVER ####
 
@@ -377,7 +395,7 @@ if [ "$SUB_CAN_DRIVER" = "kvaser" ]; then
                 SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -I$KVASER_INCLUDE_PATH
             fi
         fi
-    fi        
+    fi
 fi
 
 if [ "$SUB_CAN_DRIVER" = "peak_linux" ]; then
@@ -469,6 +487,20 @@ if [ "$SUB_TIMERS_DRIVER" = "kernel" ]; then
 	fi
 fi
 
+if [ "$SUB_TIMERS_DRIVER" = "kernel_xeno" ]; then
+	DISABLE_DLL=1
+	if [ "$SUB_KERNELDIR" = "" ]; then
+		# use directory of current kernel
+		SUB_KERNELDIR=/lib/modules/$(uname -r)/build
+	fi
+
+	# Also get the xenomai config
+	RT_LIB_DIR=`$XENO_CONFIG --library-dir`\ -Wl,-rpath\ `$XENO_CONFIG --library-dir`
+    SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ `$XENO_CONFIG --xeno-ldflags`\ -L$RT_LIB_DIR\ -lnative\ -lrtdm
+	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DUSE_XENO\ `$XENO_CONFIG --xeno-cflags`
+    RTCAN_SOCKET=1
+fi
+
 if [ "$SUB_TIMERS_DRIVER" = "none" ]; then
 	SUB_TIMERS_DRIVER=
 fi
@@ -489,7 +521,7 @@ EOF
 		echo "Checking for ${CC2}... No."
 	fi
 	rm -f $test.c $test.o
-	
+
 	# Check for first compiler, CC1
 	cat > $test.c <<EOF
 	int main() { return 0; }
@@ -538,7 +570,7 @@ if [ "$SUB_TARGET" = "win32" ]; then
 	if [ "$SUB_OS_NAME" = "CYGWIN" ]; then
 		SUB_PROG_CFLAGS="-mno-cygwin"
 	fi
-fi	
+fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	if [ "$LD" = "" ]; then
@@ -551,12 +583,12 @@ echo "Using ${LD} as a linker"
 # Guess prefix as regard cross compiling target machine
 if [ "$SUB_PREFIX" = "" ]; then
 	$CC -dumpspecs |grep -A 1 'cross_compile'|grep -q 1
-	if (( $? )); then 
+	if (( $? )); then
 		SUB_PREFIX=/usr/local
 		echo "Not cross-compiling. Will install in $SUB_PREFIX";
 	else
 		SUB_PREFIX=/usr/`$CC -dumpmachine | tr -d '\r\n'`
-		echo "This is a cross-compiler. Will install in $SUB_PREFIX";			
+		echo "This is a cross-compiler. Will install in $SUB_PREFIX";
 	fi
 fi
 
@@ -642,7 +674,7 @@ echo "/* $i is not defined */" >> include/config.h
 else
 echo "#define $i ${!i}" >> include/config.h
 fi
-done	
+done
 echo "" >> include/config.h
 
 for i in \
@@ -666,7 +698,7 @@ echo "#endif /* _CONFIG_H_ */" >> include/config.h
 
 save_ifs="$IFS"; IFS=','
 
-for DEBUG_METHOD in $DEBUG; 
+for DEBUG_METHOD in $DEBUG;
 	do
 	    IFS="$save_ifs"
 	    case $DEBUG_METHOD in
@@ -679,7 +711,7 @@ for DEBUG_METHOD in $DEBUG;
 	    	  echo "Possible Debug's methods are : \"ERR\", \"WAR\", \"MSG\", \"PDO\""
 	    	  exit -1
 	    	  ;;
-	esac	
+	esac
 done
 
 if [ $WAR ]; then
@@ -720,7 +752,7 @@ else
 	else
 		SUB_EXE_CFLAGS=$SUB_EXE_CFLAGS\ -ldl
 	fi
-	
+
 fi
 
 
@@ -767,7 +799,13 @@ fi
 
 if [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "kernel" ]; then
 	MAKEFILES=$MAKEFILES\
-\	examples/kerneltest/Makefile.in
+\	examples/kerneltest/Makefile.in\
+\	examples/test_copcican_comedi/Makefile.in
+
+elif [ "$SUB_TARGET" = "unix" -a "$SUB_TIMERS_DRIVER" = "kernel_xeno" ]; then
+	MAKEFILES=$MAKEFILES\
+\	examples/kerneltest/Makefile.in\
+\	examples/test_copcican_comedi/Makefile.in
 
 elif [ "$SUB_TARGET" = "unix" ]; then
 	MAKEFILES=$MAKEFILES\
@@ -775,7 +813,8 @@ elif [ "$SUB_TARGET" = "unix" ]; then
 \	examples/TestMasterSlave/Makefile.in\
 \	examples/TestMasterSlaveLSS/Makefile.in\
 \	examples/SillySlave/Makefile.in\
-\	examples/TestMasterMicroMod/Makefile.in
+\	examples/TestMasterMicroMod/Makefile.in\
+\	examples/test_copcican_linux/Makefile.in
 fi
 
 if [ "$SUB_TARGET" = "win32" ]; then

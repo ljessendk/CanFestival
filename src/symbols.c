@@ -50,10 +50,12 @@ EXPORT_SYMBOL (slaveSendBootUp);
 
 // objacces.h
 EXPORT_SYMBOL (_storeODSubIndex);
+#ifdef DEBUG_WAR_CONSOLE_ON
 EXPORT_SYMBOL (accessDictionaryError);
-EXPORT_SYMBOL (getODentry);
-EXPORT_SYMBOL (setODentry);
-EXPORT_SYMBOL (writeLocalDict);
+#endif
+EXPORT_SYMBOL (_getODentry);
+EXPORT_SYMBOL (_setODentry);
+//EXPORT_SYMBOL (writeLocalDict);
 EXPORT_SYMBOL (scanIndexOD);
 EXPORT_SYMBOL (RegisterSetODentryCallBack);
 

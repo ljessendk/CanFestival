@@ -46,7 +46,11 @@ struct struct_s_BOARD {
 };
 
 #ifndef DLL_CALL
+#if !defined(WIN32) || defined(__CYGWIN__)
 #define DLL_CALL(funcname) funcname##_driver
+#else
+//Windows was missing the definition of the calling convention
+#define DLL_CALL(funcname) __stdcall funcname##_driver
 #endif
 
 #ifndef FCT_PTR_INIT

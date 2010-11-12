@@ -124,7 +124,7 @@ void TimeDispatch(void)
 	TIMEVAL next_wakeup = TIMEVAL_MAX; /* used to compute when should normaly occur next wakeup */
 	/* First run : change timer state depending on time */
 	/* Get time since timer signal */
-	TIMEVAL overrun = getElapsedTime();
+	UNS32 overrun = (UNS32)getElapsedTime();
 
 	TIMEVAL real_total_sleep_time = total_sleep_time + overrun;
 
@@ -142,8 +142,9 @@ void TimeDispatch(void)
 				}
 				else /* or period have expired */
 				{
-					/* set val as interval, with overrun correction */
-					row->val = row->interval - (overrun % row->interval);
+					/* set val as interval, with 32 bit overrun correction, */
+					/* modulo for 64 bit not available on all platforms     */
+					row->val = row->interval - (overrun % (UNS32)row->interval);
 					row->state = TIMER_TRIG_PERIOD; /* ask for trig, periodic */
 					/* Check if this new timer value is the soonest */
 					if(row->val < next_wakeup)

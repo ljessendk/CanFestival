@@ -190,16 +190,18 @@ int canClose(CO_Data * d)
 	}
 
 	tmp = (CANPort*)d->canHandle;
-	d->canHandle = NULL;
 
 	if(tmp)
 	{
+	  // kill receiver task before port is closed and handle set to NULL
+	  WaitReceiveTaskEnd(&tmp->receiveTask);
+
 	  // close CAN port
 	  res = m_canClose(tmp->fd);
-
-	  // kill receiver task
-	  WaitReceiveTaskEnd(&tmp->receiveTask);
 	}
+
+	d->canHandle = NULL;
+
 	return res;
 }
 
