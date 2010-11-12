@@ -79,7 +79,7 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 }
 
 /***************************************************************************/
-UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
   VSCAN_MSG Msg[1];
   UNS8 i;

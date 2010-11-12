@@ -80,7 +80,7 @@ UNS8 masterSendNMTnodeguard (CO_Data* d, UNS8 nodeId);
  * @param *d Pointer to a CAN object data structure
  * @param nodeId Id of the slave node
  */
-void masterRequestNodeState (CO_Data* d, UNS8 nodeId);
+UNS8 masterRequestNodeState (CO_Data* d, UNS8 nodeId);
 
 
 #endif /* __nmtMaster_h__ */

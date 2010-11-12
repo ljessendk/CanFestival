@@ -59,7 +59,7 @@ struct struct_s_BOARD {
 
 
 UNS8 DLL_CALL(canReceive)(CAN_HANDLE, Message *)FCT_PTR_INIT;
-UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message *)FCT_PTR_INIT;
+UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message const *)FCT_PTR_INIT;
 CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *)FCT_PTR_INIT;
 int DLL_CALL(canClose)(CAN_HANDLE)FCT_PTR_INIT;
 UNS8 DLL_CALL(canChangeBaudRate)(CAN_HANDLE, char *)FCT_PTR_INIT;
@@ -69,7 +69,7 @@ UNS8 DLL_CALL(canChangeBaudRate)(CAN_HANDLE, char *)FCT_PTR_INIT;
 
 #define _P(fc) case fc: MSG(#fc" ");break;
 
-static inline void print_message(Message *m)
+static inline void print_message(Message const *m)
 {
     int i;
     UNS8 fc;

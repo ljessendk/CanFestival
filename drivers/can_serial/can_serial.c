@@ -102,7 +102,7 @@ retry:
 }
 
 /***************************************************************************/
-UNS8 canSend_driver(CAN_HANDLE fd0, Message * m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message const * m)
 {
 	int rv;
 

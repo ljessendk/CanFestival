@@ -88,8 +88,10 @@ UNS8 masterSendNMTnodeguard(CO_Data* d, UNS8 nodeId)
 **
 ** @param d
 ** @param nodeId
+**
+** @return
 **/
-void masterRequestNodeState(CO_Data* d, UNS8 nodeId)
+UNS8 masterRequestNodeState(CO_Data* d, UNS8 nodeId)
 {
   /* FIXME: should warn for bad toggle bit. */
 
@@ -105,6 +107,6 @@ void masterRequestNodeState(CO_Data* d, UNS8 nodeId)
       d->NMTable[i] = Unknown_state;
     }
   }
-  masterSendNMTnodeguard(d,nodeId);
+  return masterSendNMTnodeguard(d,nodeId);
 }
 

@@ -61,7 +61,7 @@ extern "C"
    }
 
 extern "C"
-   UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
+   UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
    {
         char s[1024];        
         sprintf(s,"{0x%3.3x,%1d,%1d,{0x%2.2x,0x%2.2x,0x%2.2x,0x%2.2x,0x%2.2x,0x%2.2x,0x%2.2x,0x%2.2x}}",

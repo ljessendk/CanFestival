@@ -40,13 +40,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define CAN_SETSOCKOPT rt_dev_setsockopt
 #define CAN_ERRNO(err) (-err)
 #else
+#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
 #include "linux/can.h"
 #include "linux/can/raw.h"
 #include "net/if.h"
+#ifndef PF_CAN
 #define PF_CAN 29
+#endif
+#ifndef AF_CAN
 #define AF_CAN PF_CAN
+#endif
 //#include "af_can.h"
 #define CAN_IFNAME     "can%s"
 #define CAN_SOCKET     socket
@@ -93,7 +98,7 @@ canReceive_driver (CAN_HANDLE fd0, Message * m)
 
 /***************************************************************************/
 UNS8
-canSend_driver (CAN_HANDLE fd0, Message * m)
+canSend_driver (CAN_HANDLE fd0, Message const * m)
 {
   int res;
   struct can_frame frame;
@@ -173,6 +178,11 @@ canOpen_driver (s_BOARD * board)
   can_baudrate_t *baudrate;
   can_mode_t *mode;
 #endif
+
+  if(!fd0)
+    {
+      return NULL;
+    }
 
   *(int *) fd0 = CAN_SOCKET (PF_CAN, SOCK_RAW, CAN_RAW);
   if (*(int *) fd0 < 0)

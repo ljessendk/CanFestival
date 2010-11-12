@@ -93,7 +93,7 @@ unsigned long timeStamp;
  * so fd0 needs to be decremented before use.
  *
  */ 
-UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
+UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
 canStatus retval = canOK;
 unsigned flags = 0;

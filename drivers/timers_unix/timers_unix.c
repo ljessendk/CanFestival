@@ -3,19 +3,16 @@
 #include <sys/time.h>
 #include <pthread.h> 
 #include <signal.h>
+#include <time.h>
 
 #include "applicfg.h"
 #include "timer.h"
 
-pthread_mutex_t CanFestival_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t CanFestival_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-TASK_HANDLE TimerLoopThread;
+static struct timeval last_sig;
 
-TIMEVAL last_time_set = TIMEVAL_MAX;
-
-struct timeval last_sig;
-
-timer_t timer;
+static timer_t timer;
 
 void TimerCleanup(void)
 {
@@ -24,17 +21,23 @@ void TimerCleanup(void)
 
 void EnterMutex(void)
 {
-	pthread_mutex_lock(&CanFestival_mutex); 
+	if(pthread_mutex_lock(&CanFestival_mutex)) {
+		fprintf(stderr, "pthread_mutex_lock() failed\n");
+	}
 }
 
 void LeaveMutex(void)
 {
-	pthread_mutex_unlock(&CanFestival_mutex);
+	if(pthread_mutex_unlock(&CanFestival_mutex)) {
+		fprintf(stderr, "pthread_mutex_unlock() failed\n");
+	}
 }
 
 void timer_notify(sigval_t val)
 {
-	gettimeofday(&last_sig,NULL);
+	if(gettimeofday(&last_sig,NULL)) {
+		perror("gettimeofday()");
+	}
 	EnterMutex();
 	TimeDispatch();
 	LeaveMutex();
@@ -46,7 +49,9 @@ void TimerInit(void)
 	struct sigevent sigev;
 
 	// Take first absolute time ref.
-	gettimeofday(&last_sig,NULL);
+	if(gettimeofday(&last_sig,NULL)){
+		perror("gettimeofday()");
+	}
 
 #if defined(__UCLIBC__)
 	int ret;
@@ -59,14 +64,18 @@ void TimerInit(void)
 	sigev.sigev_notify_attributes = NULL;
 	sigev.sigev_notify_function = timer_notify;
 
-	timer_create (CLOCK_REALTIME, &sigev, &timer);
+	if(timer_create (CLOCK_REALTIME, &sigev, &timer)) {
+		perror("timer_create()");
+	}
 #endif
 }
 
 void StopTimerLoop(TimerCallback_t exitfunction)
 {
 	EnterMutex();
-	timer_delete (timer);
+	if(timer_delete (timer)) {
+		perror("timer_delete()");
+	}
 	exitfunction(NULL,0);
 	LeaveMutex();
 }
@@ -91,22 +100,31 @@ static void (*unixtimer_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
  */
 void* unixtimer_canReceiveLoop(void* port)
 {
-       
     /*get signal*/
-    signal(SIGTERM, canReceiveLoop_signal);
+    if(signal(SIGTERM, canReceiveLoop_signal) == SIG_ERR) {
+		perror("signal()");
+	}
     unixtimer_ReceiveLoop_task_proc((CAN_PORT)port);
+
+    return NULL;
 }
 
 void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 {
     unixtimer_ReceiveLoop_task_proc = ReceiveLoopPtr;
-	pthread_create(Thread, NULL, unixtimer_canReceiveLoop, (void*)port);
+	if(pthread_create(Thread, NULL, unixtimer_canReceiveLoop, (void*)port)) {
+		perror("pthread_create()");
+	}
 }
 
 void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	pthread_kill(*Thread, SIGTERM);
-	pthread_join(*Thread, NULL);
+	if(pthread_kill(*Thread, SIGTERM)) {
+		perror("pthread_kill()");
+	}
+	if(pthread_join(*Thread, NULL)) {
+		perror("pthread_join()");
+	}
 }
 
 #define maxval(a,b) ((a>b)?a:b)
@@ -128,7 +146,9 @@ void setTimer(TIMEVAL value)
 TIMEVAL getElapsedTime(void)
 {
 	struct timeval p;
-	gettimeofday(&p,NULL);
+	if(gettimeofday(&p,NULL)) {
+		perror("gettimeofday()");
+	}
 //	printf("getCurrentTime() return=%u\n", p.tv_usec);
 	return (p.tv_sec - last_sig.tv_sec)* 1000000 + p.tv_usec - last_sig.tv_usec;
 }

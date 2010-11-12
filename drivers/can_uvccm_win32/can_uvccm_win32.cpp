@@ -323,7 +323,7 @@ extern "C"
    }
 
 extern "C"
-   UNS8 canSend_driver(CAN_HANDLE fd0, Message *m)
+   UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
    {
    return (UNS8)reinterpret_cast<can_uvccm_win32*>(fd0)->send(m);
    }

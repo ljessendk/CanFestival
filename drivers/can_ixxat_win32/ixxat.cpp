@@ -301,7 +301,7 @@ extern "C"
    }
                             
 extern "C"
-   UNS8 canSend_driver(CAN_HANDLE inst, Message *m)
+   UNS8 canSend_driver(CAN_HANDLE inst, Message const *m)
    {
    return (UNS8)reinterpret_cast<IXXAT*>(inst)->send(m);
    }
