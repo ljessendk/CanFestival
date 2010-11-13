@@ -132,7 +132,7 @@ UNS8 canInit (s_BOARD *board)
 }
 
 /********* functions which permit to communicate with the board ****************/
-UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
+UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
 {
 	int ret=0;
 	UNS8 data;
@@ -217,7 +217,7 @@ UNS8 canReceive_driver (CAN_HANDLE fd0, Message * m)
 }
 
 /***************************************************************************/
-UNS8 canSend_driver (CAN_HANDLE fd0, Message const * m)
+UNS8 __stdcall canSend_driver (CAN_HANDLE fd0, Message const * m)
 {
 	UNS8 data;
 	DWORD localerrno;
@@ -272,14 +272,14 @@ fail:
 }
 
 /***************************************************************************/
-UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 {
 	printf("canChangeBaudRate not yet supported by this driver\n");
 	return 0;
 }
 
 /***************************************************************************/
-CAN_HANDLE canOpen_driver (s_BOARD * board)
+CAN_HANDLE __stdcall canOpen_driver (s_BOARD * board)
 {
   char busname[64];
   char* pEnd;
@@ -308,7 +308,7 @@ CAN_HANDLE canOpen_driver (s_BOARD * board)
 }
 
 /***************************************************************************/
-int canClose_driver (CAN_HANDLE fd0)
+int __stdcall canClose_driver (CAN_HANDLE fd0)
 {
 #ifdef PCAN2_HEADER_
       // if not the first handler
