@@ -153,7 +153,7 @@ UNS32 _getODentry( CO_Data* d,
             *(ptr_dest++) = *(ptr++);
         } 
          
-        *pExpectedSize = ptr - ptr_start;
+        *pExpectedSize = (UNS32) (ptr - ptr_start);
         /* terminate string if not maximum length */
         if (*pExpectedSize < szData) 
             *(ptr) = 0; 
