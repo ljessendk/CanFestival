@@ -55,7 +55,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
   UNS32 offset = 0x00000000;
   const UNS8 *pMappingCount = (UNS8 *) TPDO_map->pSubindex[0].pObject;
 
-  pdo->cob_id = UNS16_LE(*(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF);
+  pdo->cob_id = (UNS16) UNS16_LE(*(UNS32*)TPDO_com->pSubindex[1].pObject & 0x7FF);
   pdo->rtr = NOT_A_REQUEST;
 
   MSG_WAR (0x3009, "  PDO CobId is : ",
@@ -510,7 +510,7 @@ sendPDOevent (CO_Data * d)
 }
 
 UNS8
-sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
+sendOnePDOevent (CO_Data * d, UNS8 pdoNum)
 {
   UNS16 offsetObjdict;
   Message pdo;
@@ -520,7 +520,7 @@ sendOnePDOevent (CO_Data * d, UNS32 pdoNum)
       return 0;
     }
 
-  offsetObjdict = d->firstIndex->PDO_TRS + pdoNum;
+  offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
            *pTransmissionType);
   
@@ -590,7 +590,7 @@ PDOEventTimerAlarm (CO_Data * d, UNS32 pdoNum)
   d->PDO_status[pdoNum].event_timer = TIMER_NONE;
   /* force emission of PDO by artificially changing last emitted */
   d->PDO_status[pdoNum].last_message.cob_id = 0;
-  sendOnePDOevent (d, pdoNum);
+  sendOnePDOevent (d, (UNS8) pdoNum);
 }
 
 void
@@ -600,7 +600,7 @@ PDOInhibitTimerAlarm (CO_Data * d, UNS32 pdoNum)
   d->PDO_status[pdoNum].inhibit_timer = TIMER_NONE;
   /* Remove inhibit flag */
   d->PDO_status[pdoNum].transmit_type_parameter &= ~PDO_INHIBITED;
-  sendOnePDOevent (d, pdoNum);
+  sendOnePDOevent (d, (UNS8) pdoNum);
 }
 
 /*!
@@ -762,7 +762,7 @@ TPDO_Communication_Parameter_Callback (CO_Data * d,
       case 5:                  /* Changed event time */
         {
           const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS;
-          UNS8 numPdo = OD_entry - TPDO_com;    /* number of the actual processed pdo-nr. */
+          UNS8 numPdo = (UNS8) (OD_entry - TPDO_com);    /* number of the actual processed pdo-nr. */
 
           /* Zap all timers and inhibit flag */
           d->PDO_status[numPdo].event_timer =
