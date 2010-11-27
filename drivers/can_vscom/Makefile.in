@@ -32,6 +32,7 @@ CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_DLL_DRIVERS=SUB_ENABLE_DLL_DRIVERS
 CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS -L.
+VSCAN_API_FILENAME=VSCAN_API_latest.zip
 
 # define target specific environment
 ifeq ($(OS),CYGWIN)
@@ -65,12 +66,12 @@ TARGET_SOFILES = $(PREFIX)/lib/$(DRIVER)
 all: driver
 
 vs_can_api.h:
-	wget http://www.vscom.de/download/multiio/linux/driver/VSCAN_API_1_0.zip
+	wget http://www.vscom.de/download/multiio/linux/driver/${VSCAN_API_FILENAME}
 	@if which unzip &> /dev/null; then \
-	unzip VSCAN_API_1_0.zip; \
+	unzip ${VSCAN_API_FILENAME}; \
 	chmod +x vs_can_api.dll; \
 	else \
-	echo "No unzip found. Please decompress VSCAN_API_1_0.zip manually"; \
+	echo "No unzip found. Please decompress ${VSCAN_API_FILENAME} manually"; \
 	exit 1; \
 	fi;
 
@@ -91,8 +92,7 @@ uninstall:
 
 clean:
 	rm -f $(OBJS)
-	rm -f *.zip
-	rm -f libvs_can_api*
-	rm -f vs_can_api*
+	rm -f *.zip *.a *.so *.dll *.h *.lib
+	rm -f CHANGES.TXT
 
 mrproper: clean
