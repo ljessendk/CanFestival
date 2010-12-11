@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <stdlib.h>
 #else
 #include <linux/module.h>
-#endif
 #include <linux/delay.h>
+#endif
 
 #ifndef NOT_USE_DYNAMIC_LOADING
 #define DLL_CALL(funcname) (* funcname##_driver)
