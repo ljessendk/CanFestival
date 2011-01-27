@@ -55,7 +55,7 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
   int i;
   
-  printf("%x->[ ", (CANPipe*)fd0 - &canpipes[0]); 
+  printf("%lx->[ ", (CANPipe*)fd0 - &canpipes[0]); 
   for(i=0; i < MAX_NB_CAN_PIPES; i++)
   {
   	if(canpipes[i].used && &canpipes[i] != (CANPipe*)fd0)
@@ -94,7 +94,7 @@ int TranslateBaudRate(char* optarg){
 
 UNS8 canChangeBaudRate_driver( CAN_HANDLE fd0, char* baud)
 {
-    printf("%x-> changing to baud rate %s[%d]\n", (CANPipe*)fd0 - &canpipes[0],baud,TranslateBaudRate(baud)); 
+    printf("%lx-> changing to baud rate %s[%d]\n", (CANPipe*)fd0 - &canpipes[0],baud,TranslateBaudRate(baud)); 
     return 0;
 }
 
