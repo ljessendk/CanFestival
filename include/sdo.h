@@ -211,6 +211,21 @@ UNS8 getSDOfreeLine (CO_Data* d, UNS8 whoami, UNS8 *line);
 UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
 
 /** 
+ * @brief Search for the line, in the transfers array, which contains the
+ * beginning of the reception of a fragmented SDO
+ *
+ * Because getSDOlineOnUse() does not return any line in state \c SDO_ABORTED_INTERNAL,
+ * this funtion is used to return them, too.
+ *
+ * @param *d Pointer on a CAN object data structure
+ * @param nodeId correspond to the message node-id
+ * @param whoami takes 2 values : look for a line opened as SDO_CLIENT or SDO_SERVER
+ * @param *line Pointer on a SDO line
+ * @return 0xFF if error.  Else, return 0
+ */
+UNS8 getSDOlineToClose (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
+
+/** 
  * @brief Close a transmission.
  * @param *d Pointer on a CAN object data structure
  * @param nodeId Node id of the server if both server or client

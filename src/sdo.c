@@ -145,6 +145,9 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
     	(*d->transfers[id].Callback)(d,d->transfers[id].nodeId);
     else if(d->transfers[id].whoami == SDO_SERVER)
     	/*Else, if server, reset the line*/
+    
+    /*Reset the line if (whoami == SDO_SERVER) or the callback did not close the line.
+      Otherwise this sdo transfer would never be closed. */
     	resetSDOline(d, (UNS8)id);
 }
 
@@ -520,6 +523,33 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line)
 ** @param d
 ** @param nodeId
 ** @param whoami
+** @param line
+**
+** @return
+**/
+UNS8 getSDOlineToClose (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line)
+{
+
+  UNS8 i;
+
+  for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; i++){
+    if ( (d->transfers[i].state != SDO_RESET) &&
+	 (d->transfers[i].nodeId == nodeId) &&
+	 (d->transfers[i].whoami == whoami) ) {
+      if (line) *line = i;
+      return 0;
+    }
+  }
+  return 0xFF;
+}
+
+
+/*!
+**
+**
+** @param d
+** @param nodeId
+** @param whoami
 **
 ** @return
 **/
@@ -527,7 +557,7 @@ UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
 {
   UNS8 err;
   UNS8 line;
-  err = getSDOlineOnUse(d, nodeId, whoami, &line);
+  err = getSDOlineToClose(d, nodeId, whoami, &line);
   if (err) {
     MSG_WAR(0x2A30, "No SDO communication to close for node : ", nodeId);
     return 0xFF;
