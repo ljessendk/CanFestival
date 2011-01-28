@@ -54,7 +54,7 @@ all: DS401_Slave_Gui
 
 DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -o $@
-%o: %c
+%.o: %.c
 	$(CC) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< -o $@
 
 ObjDict.c: ObjDict.od

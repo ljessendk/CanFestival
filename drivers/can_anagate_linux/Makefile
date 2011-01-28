@@ -49,7 +49,7 @@ all: driver
 
 driver: $(DRIVER)
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 libcanfestival_$(CAN_DRIVER).so: $(OBJS)

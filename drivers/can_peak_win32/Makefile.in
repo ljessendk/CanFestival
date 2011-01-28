@@ -51,7 +51,7 @@ all: driver
 
 driver: $(DRIVER)
 
-%o: %c cancfg.h
+%.o: %.c cancfg.h
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 cyg$(CAN_DRIVER).dll: $(OBJS)

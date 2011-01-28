@@ -56,7 +56,7 @@ all: test_copcican_linux
 test_copcican_linux: test_copcican_linux.c $(OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 clean:

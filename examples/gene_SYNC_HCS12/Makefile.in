@@ -61,7 +61,7 @@ LDFLAGS= -Wl,-m,m68hc12elfb  -L$(MEMORY_X)
 
 all: $(PGR).elf $(PGR).s19 $(PGR).b $(PGR).s MSG
 
-%o: %c
+%.o: %.c
 	@echo " "
 	@echo "*********************************************"
 	@echo "**Compiling $< -> $@"

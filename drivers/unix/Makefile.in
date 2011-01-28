@@ -89,7 +89,7 @@ CFLAGS = SUB_OPT_CFLAGS
 
 driver: $(OBJS)
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 #../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:

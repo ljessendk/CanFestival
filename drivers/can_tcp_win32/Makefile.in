@@ -59,10 +59,10 @@ $(SERVER).exe: Socket.o $(SERVER).cpp
 Socket.o: Socket.cpp Socket.h
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -c $< -o $@
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
-%o: %cpp
+%.o: %.cpp
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 $(DRIVER): $(OBJS)

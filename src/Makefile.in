@@ -124,7 +124,7 @@ libcanfestival.o: $(OBJS)
 	@echo "*********************************************"
 	$(BINUTILS_PREFIX)ld -r $(OBJS) -o $@
 
-$(TARGET)_%o: %c
+$(TARGET)_%.o: %.c
 	@echo " "
 	@echo "*********************************************"
 	@echo "**Compiling $< -> $@"

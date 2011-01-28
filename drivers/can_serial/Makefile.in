@@ -56,7 +56,7 @@ $(HUB): $(HUB).c
 
 driver: $(DRIVER) $(HUB)
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 libcanfestival_$(CAN_DRIVER).so: $(OBJS)

@@ -75,7 +75,7 @@ TestMaster.c: TestMaster.od
 	$(MAKE) -C ../../objdictgen gnosis
 	python ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 clean:

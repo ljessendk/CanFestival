@@ -53,10 +53,10 @@ all: driver
 driver: $(DRIVER)
 
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
-%o: %cpp
+%.o: %.cpp
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 $(DRIVER): $(OBJS)

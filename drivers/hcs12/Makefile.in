@@ -48,7 +48,7 @@ libcandriver.a: $(OBJS)
 	ar rc $@ $(OBJS)
 	ranlib $@
 
-%o: %c
+%.o: %.c
 	@echo " "
 	@echo "*********************************************"
 	@echo "**Compiling $< -> $@"

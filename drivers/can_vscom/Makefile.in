@@ -77,7 +77,7 @@ vs_can_api.h:
 
 driver: vs_can_api.h $(DRIVER)
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 libcanfestival_$(CAN_DRIVER).$(DLL_TYPE): $(OBJS)

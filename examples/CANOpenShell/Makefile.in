@@ -75,7 +75,7 @@ CANOpenShellSlaveOD.c: CANOpenShellSlaveOD.od
 	$(MAKE) -C ../../objdictgen gnosis
 	python ../../objdictgen/objdictgen.py CANOpenShellSlaveOD.od CANOpenShellSlaveOD.c
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 clean:

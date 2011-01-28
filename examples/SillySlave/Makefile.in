@@ -55,7 +55,7 @@ SillySlave.c: SillySlave.od
 	$(MAKE) -C ../../objdictgen gnosis
 	python ../../objdictgen/objdictgen.py SillySlave.od SillySlave.c
 
-%o: %c
+%.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 clean:
