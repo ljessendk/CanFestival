@@ -143,12 +143,10 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
     if(d->transfers[id].Callback)
     	/*If ther is a callback, it is responsible to close SDO transfer (client)*/
     	(*d->transfers[id].Callback)(d,d->transfers[id].nodeId);
-    else if(d->transfers[id].whoami == SDO_SERVER)
-    	/*Else, if server, reset the line*/
     
     /*Reset the line if (whoami == SDO_SERVER) or the callback did not close the line.
       Otherwise this sdo transfer would never be closed. */
-    	resetSDOline(d, (UNS8)id);
+    resetSDOline(d, (UNS8)id);
 }
 
 #define StopSDO_TIMER(id) \
