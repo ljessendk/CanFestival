@@ -973,8 +973,11 @@ class Node:
         while not result and i < len(mappings):
             result = FindEntryInfos(index, mappings[i], compute)
             i += 1
-        if result == None:
-            result = FindEntryInfos(index, MappingDictionary, compute)
+        r301 = FindEntryInfos(index, MappingDictionary, compute)
+        if r301 :
+            if result is not None:
+                r301.update(result)
+            return r301
         return result
     
     def GetSubentryInfos(self, index, subIndex, compute=True):
@@ -986,10 +989,13 @@ class Node:
             if result:
                 result["user_defined"] = i == len(mappings) - 1 and index >= 0x1000
             i += 1
-        if result == None:
-            result = FindSubentryInfos(index, subIndex, MappingDictionary, compute)
-            if result:
-                result["user_defined"] = False
+        r301 = FindSubentryInfos(index, subIndex, MappingDictionary, compute)
+        if r301 :
+            if result is not None:
+                r301.update(result)
+            else:
+                r301["user_defined"] = False
+            return r301
         return result
     
     def GetTypeIndex(self, typename):
