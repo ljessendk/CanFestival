@@ -512,7 +512,6 @@ sendPDOevent (CO_Data * d)
 UNS8
 sendOnePDOevent (CO_Data * d, UNS8 pdoNum)
 {
-  UNS8 *pTransmissionType;
   UNS16 offsetObjdict;
   Message pdo;
   if (!d->CurrentCommunicationState.csPDO ||
@@ -522,10 +521,9 @@ sendOnePDOevent (CO_Data * d, UNS8 pdoNum)
     }
 
   offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
-  pTransmissionType = (UNS8 *) d->objdict[offsetObjdict].pSubindex[2].pObject;
 
   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
-           *pTransmissionType);
+           *((UNS8 *) d->objdict[offsetObjdict].pSubindex[2].pObject));
   
   memset(&pdo, 0, sizeof(pdo));
   if (buildPDO (d, pdoNum, &pdo))
