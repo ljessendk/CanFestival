@@ -95,7 +95,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // --------------------------------------
 
 #ifndef _MSC_VER
-#error This block is for Visual only, please adapt it for your compiler.
+#define MSG(...) \
+  do{printf(__VA_ARGS__);fflush(stdout);}while(0)
 #elif (_MSC_VER >= 1400)
 //Visual Studio 2005 and above
 #ifdef UNICODE
