@@ -60,6 +60,7 @@ EXPORTS
         proceedPDO
         sendPDOevent
         _sendPDOevent
+        sendOnePDOevent
 		PDOInit
 		PDOStop
 		PDOEventTimerAlarm
