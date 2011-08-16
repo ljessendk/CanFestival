@@ -47,7 +47,7 @@ Used to store the different segments of
 */
 
 struct struct_s_transfer {
-  UNS8           nodeId;     /**<own ID if server, or node ID of the server if client */
+  UNS8           CliServNbr; /**< The index of the SDO client / server in our OD minus 0x1280 / 0x1200 */
 
   UNS8           whoami;     /**< Takes the values SDO_CLIENT or SDO_SERVER */
   UNS8           state;      /**< state of the transmission : Takes the values SDO_... */
@@ -86,7 +86,7 @@ typedef struct struct_s_transfer s_transfer;
 
 #include "data.h"
 
-
+#if 0
 struct BODY{
     UNS8 data[8]; /**< The 8 bytes data of the SDO */
 };
@@ -99,6 +99,8 @@ struct struct_s_SDO {
 
 
 typedef struct struct_s_SDO s_SDO;
+
+#endif
 
 /** 
  * @brief Reset of a SDO exchange on timeout.
@@ -159,14 +161,14 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8 * data);
  * because many informations are stored on it : index, subindex, data received or trasmited, ...
  * In all cases, sends a SDO abort.
  * @param *d Pointer on a CAN object data structure
- * @param nodeId
+ * @param CliServNbr
  * @param whoami
  * @param index
  * @param subIndex
  * @param abortCode
  * @return 0
  */
-UNS8 failedSDO (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode);
+UNS8 failedSDO (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS16 index, UNS8 subIndex, UNS32 abortCode);
 
 /** 
  * @brief Reset an unused line.
@@ -179,13 +181,13 @@ void resetSDOline (CO_Data* d, UNS8 line);
  * @brief Initialize some fields of the structure.
  * @param *d Pointer on a CAN object data structure
  * @param line
- * @param nodeId
+ * @param CliServNbr
  * @param index
  * @param subIndex
  * @param state
  * @return 0
  */
-UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 state);
+UNS8 initSDOline (CO_Data* d, UNS8 line, UNS8 CliServNbr, UNS16 index, UNS8 subIndex, UNS8 state);
 
 /** 
  * @brief Search for an unused line in the transfers array
@@ -203,12 +205,12 @@ UNS8 getSDOfreeLine (CO_Data* d, UNS8 whoami, UNS8 *line);
  * @brief Search for the line, in the transfers array, which contains the
  * beginning of the reception of a fragmented SDO
  * @param *d Pointer on a CAN object data structure
- * @param nodeId correspond to the message node-id
+ * @param CliServNbr Client or Server object involved
  * @param whoami takes 2 values : look for a line opened as SDO_CLIENT or SDO_SERVER
  * @param *line Pointer on a SDO line 
  * @return 0xFF if error.  Else, return 0
  */
-UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
+UNS8 getSDOlineOnUse (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line);
 
 /** 
  * @brief Search for the line, in the transfers array, which contains the
@@ -218,20 +220,20 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
  * this funtion is used to return them, too.
  *
  * @param *d Pointer on a CAN object data structure
- * @param nodeId correspond to the message node-id
+ * @param CliServNbr Client or Server object involved
  * @param whoami takes 2 values : look for a line opened as SDO_CLIENT or SDO_SERVER
  * @param *line Pointer on a SDO line
  * @return 0xFF if error.  Else, return 0
  */
-UNS8 getSDOlineToClose (CO_Data* d, UNS8 nodeId, UNS8 whoami, UNS8 *line);
+UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line);
 
 /** 
  * @brief Close a transmission.
  * @param *d Pointer on a CAN object data structure
- * @param nodeId Node id of the server if both server or client
+ * @param CliServNbr Client or Server object involved
  * @param whoami Line opened as SDO_CLIENT or SDO_SERVER
  */
-UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami);
+UNS8 closeSDOtransfer (CO_Data* d, UNS8 CliServNbr, UNS8 whoami);
 
 /** 
  * @brief Bytes in the line structure which must be transmited (or received)
@@ -255,10 +257,11 @@ UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes);
  * @brief Transmit a SDO frame on the bus bus_id
  * @param *d Pointer on a CAN object data structure
  * @param whoami Takes 2 values : SDO_CLIENT or SDO_SERVER
- * @param sdo SDO Structure which contains the sdo to transmit
+ * @param CliServNbr Client or Server object involved
+ * @param data Array of the 8 bytes to transmit
  * @return canSend(bus_id,&m) or 0xFF if error.
  */
-UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo);
+UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData);
 
 /** 
  * @brief Transmit a SDO error to the client. The reasons may be :
@@ -268,13 +271,13 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, s_SDO sdo);
  * Write a read only object
  * @param *d Pointer on a CAN object data structure
  * @param whoami takes 2 values : SDO_CLIENT or SDO_SERVER
- * @param nodeId
+ * @param CliServNbr
  * @param index
  * @param subIndex
  * @param abortCode
  * @return 0
  */
-UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS32 abortCode);
+UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS16 index, UNS8 subIndex, UNS32 abortCode);
 
 /** 
  * @brief Treat a SDO frame reception

@@ -101,9 +101,9 @@ static void (*unixtimer_ReceiveLoop_task_proc)(CAN_PORT) = NULL;
 void* unixtimer_canReceiveLoop(void* port)
 {
     /*get signal*/
-    if(signal(SIGTERM, canReceiveLoop_signal) == SIG_ERR) {
-		perror("signal()");
-	}
+  	//  if(signal(SIGTERM, canReceiveLoop_signal) == SIG_ERR) {
+	//		perror("signal()");
+	//}
     unixtimer_ReceiveLoop_task_proc((CAN_PORT)port);
 
     return NULL;
