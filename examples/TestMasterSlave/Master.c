@@ -119,7 +119,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 					break;
 		
 		case 2:	/*Second step*/
@@ -131,7 +132,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 					break;
 		case 3: 
 		
@@ -220,8 +222,9 @@ void TestMaster_post_TPDO(CO_Data* d)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&transmitiontype,/*void *data*/
-					CheckSDO); /*SDOCallback_t Callback*/
-	}
+					CheckSDO, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
+	}   
 	if(MasterSyncCount % 50 == 25){
 		UNS8 transmitiontype = 0x00;
 		eprintf("Master : Change slave's transmit type to 0x00\n");
@@ -232,7 +235,8 @@ void TestMaster_post_TPDO(CO_Data* d)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&transmitiontype,/*void *data*/
-					CheckSDO); /*SDOCallback_t Callback*/
+					CheckSDO, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 	}
 	MasterSyncCount++;
 }

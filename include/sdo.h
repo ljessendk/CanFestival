@@ -38,12 +38,19 @@ struct struct_s_transfer;
 
 #include "timer.h"
 
+/* Block mode : Data consumer receive step 
+ * - set to RXSTEP_STARTED when client receive initiate upload response 
+ * - set to RXSTEP_END when last segment of a block received 
+ */
+typedef enum {RXSTEP_INIT, RXSTEP_STARTED, RXSTEP_END } rxStep_t;
+
 typedef void (*SDOCallback_t)(CO_Data* d, UNS8 nodeId);
 
 /* The Transfer structure
 Used to store the different segments of
  - a SDO received before writing in the dictionary
  - the reading of the dictionary to put on a SDO to transmit
+WARNING : after a change in this structure check the macro s_transfer_Initializer in data.h
 */
 
 struct struct_s_transfer {
@@ -69,6 +76,17 @@ struct struct_s_transfer {
   UNS8           *dynamicData;
   UNS32          dynamicDataSize;
 #endif //SDO_DYNAMIC_BUFFER_ALLOCATION
+                                    
+  UNS8           peerCRCsupport;    /**< True if peer supports CRC */
+  UNS8           blksize;           /**< Number of segments per block with 0 < blksize < 128 */
+  UNS8           ackseq;            /**< sequence number of last segment that was received successfully */
+  UNS32          objsize;           /**< Size in bytes of the object provided by data producer */
+  UNS8           lastblockoffset;   /**< Value of offset before last block */
+  UNS8           seqno;             /**< Last sequence number received OK or transmitted */   
+  UNS8           endfield;          /**< nbr of bytes in last segment of last block that do not contain data */
+  rxStep_t       rxstep;            /**< data consumer receive step - set to true when last segment of a block received */
+  UNS8           tmpData[8];        /**< temporary segment storage */
+
   UNS8           dataType;   /**< Defined in objdictdef.h Value is visible_string
                               * if it is a string, any other value if it is not a string,
                               * like 0. In fact, it is used only if client.
@@ -85,22 +103,6 @@ typedef struct struct_s_transfer s_transfer;
 
 
 #include "data.h"
-
-#if 0
-struct BODY{
-    UNS8 data[8]; /**< The 8 bytes data of the SDO */
-};
-
-/* The SDO structure ...*/
-struct struct_s_SDO {
-  UNS8 nodeId;		/**< In any case, Node ID of the server (case sender or receiver).*/
-  struct BODY body;
-};
-
-
-typedef struct struct_s_SDO s_SDO;
-
-#endif
 
 /** 
  * @brief Reset of a SDO exchange on timeout.
@@ -307,7 +309,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m);
  * - 0xFF is returned when error occurs.
  */
 UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, UNS8 useBlockMode);
 
 /** 
  * @ingroup sdo
@@ -328,7 +330,7 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  * - 0xFF is returned when error occurs.
  */
 UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 useBlockMode);
 
 /**
  * @ingroup sdo 
@@ -352,7 +354,7 @@ UNS8 writeNetworkDictCallBack (CO_Data* d, UNS8 nodeId, UNS16 index,
  * - 0xFF is returned when error occurs.
  */
 UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
-		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize);
+		       UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize, UNS8 useBlockMode);
 
 /**
  * @ingroup sdo 
@@ -367,7 +369,7 @@ UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
  * - 0xFE is returned when no sdo client to communicate with node.
  * - 0xFF is returned when error occurs.
  */
-UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType);
+UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, UNS8 useBlockMode);
 
 /** 
  * @ingroup sdo
@@ -385,7 +387,7 @@ UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 
  * - 0xFE is returned when no sdo client to communicate with node.
  * - 0xFF is returned when error occurs.
  */
-UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback);
+UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback, UNS8 useBlockMode);
 
 /** 
  * @ingroup sdo
@@ -403,7 +405,7 @@ UNS8 readNetworkDictCallback (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
  * - 0 is returned upon success.
  * - 0xFF is returned when error occurs.
  */
-UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback);
+UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, SDOCallback_t Callback, UNS8 useBlockMode);
 
 /** 
  * @ingroup sdo
@@ -411,8 +413,9 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
  * 
  * @param *d Pointer to a CAN object data structure
  * @param nodeId Node Id of the slave
- * @param *data Pointer to the datas
- * @param *size Pointer to the size
+ * @param *data Pointer to the buffer to get the data
+ * @param *size Pointer to the size : MUST contain the size of the buffer before calling
+ *                                    The function set it to the actual number of written bytes
  * @param *abortCode Pointer to the abortcode. (0 = not available. Else : SDO abort code. (received if return SDO_ABORTED_RCV)
  * 
  * 
@@ -422,6 +425,7 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
  *           - SDO_ABORTED_INTERNAL     // Transfert failed (internal abort)
  *           - SDO_UPLOAD_IN_PROGRESS   // Datas are not yet available
  *           - SDO_DOWNLOAD_IN_PROGRESS // Download is in progress
+ *           - SDO_PROVIDED_BUFFER_TOO_SMALL //The value *size is not enough to store the received data
  * \n\n
  * example :
  * @code

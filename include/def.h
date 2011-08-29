@@ -75,6 +75,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define	SDO_ABORTED_INTERNAL     0x85     /* Aborted but not because of an abort message. */
 #define	SDO_DOWNLOAD_IN_PROGRESS 0x2 
 #define	SDO_UPLOAD_IN_PROGRESS   0x3   
+#define	SDO_BLOCK_DOWNLOAD_IN_PROGRESS 0x4 
+#define	SDO_BLOCK_UPLOAD_IN_PROGRESS   0x5
+
+/** getReadResultNetworkDict may return any of above status value or this one
+ */
+#define SDO_PROVIDED_BUFFER_TOO_SMALL   0x8A
 
 /* Status of the node during the SDO transfert : */
 #define SDO_SERVER  0x1
@@ -87,6 +93,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define INITIATE_UPLOAD_REQUEST      2
 #define UPLOAD_SEGMENT_REQUEST       3
 #define ABORT_TRANSFER_REQUEST       4
+#define BLOCK_UPLOAD_REQUEST         5
+#define BLOCK_DOWNLOAD_REQUEST       6
 
 /* SDOtx scs: server command specifier */
 #define UPLOAD_SEGMENT_RESPONSE      0
@@ -94,7 +102,27 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define INITIATE_DOWNLOAD_RESPONSE   3
 #define INITIATE_UPLOAD_RESPONSE     2
 #define ABORT_TRANSFER_REQUEST       4
+#define BLOCK_DOWNLOAD_RESPONSE    	 5
+#define BLOCK_UPLOAD_RESPONSE        6
 
+/* SDO block upload client subcommand */
+#define SDO_BCS_INITIATE_UPLOAD_REQUEST 0
+#define SDO_BCS_END_UPLOAD_REQUEST      1
+#define SDO_BCS_UPLOAD_RESPONSE         2
+#define SDO_BCS_START_UPLOAD            3
+
+/* SDO block upload server subcommand */
+#define SDO_BSS_INITIATE_UPLOAD_RESPONSE 0
+#define SDO_BSS_END_UPLOAD_RESPONSE      1
+
+/* SDO block download client subcommand */
+#define SDO_BCS_INITIATE_DOWNLOAD_REQUEST 0
+#define SDO_BCS_END_DOWNLOAD_REQUEST      1
+
+/* SDO block download server subcommand */
+#define SDO_BSS_INITIATE_DOWNLOAD_RESPONSE 0
+#define SDO_BSS_END_DOWNLOAD_RESPONSE      1
+#define SDO_BSS_DOWNLOAD_RESPONSE          2
 
 /*  Function Codes 
    ---------------

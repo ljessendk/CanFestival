@@ -136,19 +136,19 @@ void GetSlaveNodeInfo(UNS8 nodeid)
 				printf("##################################\n");
 				printf("#### Informations for node %x ####\n", nodeid);
 				printf("##################################\n");
-				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1000, 0x00, 0, CheckReadInfoSDO);
+				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1000, 0x00, 0, CheckReadInfoSDO, 0);
 				break;
 
 			case 2: /* Get Vendor ID */
-				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x01, 0, CheckReadInfoSDO);
+				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x01, 0, CheckReadInfoSDO, 0);
 				break;
 
 			case 3: /* Get Product Code */
-				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x02, 0, CheckReadInfoSDO);
+				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x02, 0, CheckReadInfoSDO, 0);
 				break;
 
 			case 4: /* Get Revision Number */
-				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x03, 0, CheckReadInfoSDO);
+				readNetworkDictCallback(CANOpenShellOD_Data, nodeid, 0x1018, 0x03, 0, CheckReadInfoSDO, 0);
 				break;
 
 			case 5: /* Print node info */
@@ -192,7 +192,7 @@ void ReadDeviceEntry(char* sdo)
 		printf("Index    : %4.4x\n", index);
 		printf("SubIndex : %2.2x\n", subindex);
 
-		readNetworkDictCallback(CANOpenShellOD_Data, (UNS8)nodeid, (UNS16)index, (UNS8)subindex, (UNS8)datatype, CheckReadSDO);
+		readNetworkDictCallback(CANOpenShellOD_Data, (UNS8)nodeid, (UNS16)index, (UNS8)subindex, (UNS8)datatype, CheckReadSDO, 0);
 	}
 	else
 		printf("Wrong command  : %s\n", sdo);
@@ -234,7 +234,7 @@ void WriteDeviceEntry(char* sdo)
 		printf("Size     : %2.2x\n", size);
 		printf("Data     : %x\n", data);
 
-		writeNetworkDictCallBack(CANOpenShellOD_Data, nodeid, index, subindex, size, 0, &data, CheckWriteSDO);
+		writeNetworkDictCallBack(CANOpenShellOD_Data, nodeid, index, subindex, size, 0, &data, CheckWriteSDO, 0);
 	}
 	else
 		printf("Wrong command  : %s\n", sdo);

@@ -32,6 +32,10 @@ MAX_CAN_BUS_ID=1
 #For a normal transfert, (usually for a string), put the maximum string size to transfer.
 SDO_MAX_LENGTH_TRANSFERT=32
 
+# For block transfert, number of segments transmitted at once.
+# SDO_BLOCK_SIZE CAN frames must fit into the CAN Tx buffer
+SDO_BLOCK_SIZE=16
+
 # Number of SDO from differents nodes that the node can manage concurrently.
 #for a slave node, usually put 1.
 SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
@@ -122,6 +126,7 @@ while [ $# -ge 1 ]; do
 	--debug=*)	DEBUG=$optarg;;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$optarg;;
 	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$optarg;;
+	--SDO_BLOCK_SIZE=*)	SDO_BLOCK_SIZE=$optarg;;
 	--SDO_MAX_SIMULTANEOUS_TRANSFERTS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERTS=$optarg;;
 	--NMT_MAX_NODE_ID=*)	NMT_MAX_NODE_ID=$optarg;;
 	--SDO_TIMEOUT_MS=*)	SDO_TIMEOUT_MS=$optarg;;
@@ -179,6 +184,7 @@ while [ $# -ge 1 ]; do
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
 		echo	" --SDO_MAX_LENGTH_TRANSFERT [=32] max bytes to transmit by SDO"
+		echo	" --SDO_BLOCK_SIZE [=16] max CAN frames transmitted at once for block transfert"
 		echo	" --SDO_MAX_SIMULTANEOUS_TRANSFERTS [=4] Number of SDO that the node can manage concurrently"
 		echo	" --NMT_MAX_NODE_ID [=128] can be reduced to gain memory on small network"
 		echo	" --SDO_TIMEOUT_MS [=3000] Timeout in milliseconds for SDO (None to disable the feature)"
@@ -657,6 +663,7 @@ echo "" >> include/config.h
 for i in \
  MAX_CAN_BUS_ID\
  SDO_MAX_LENGTH_TRANSFERT\
+ SDO_BLOCK_SIZE\
  SDO_MAX_SIMULTANEOUS_TRANSFERTS\
  NMT_MAX_NODE_ID\
  SDO_TIMEOUT_MS\

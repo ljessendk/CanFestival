@@ -95,7 +95,7 @@ struct struct_CO_Data {
 	post_sync_t post_sync;
 	post_TPDO_t post_TPDO;
 	post_SlaveBootup_t post_SlaveBootup;
-  post_SlaveStateChange_t post_SlaveStateChange;
+    post_SlaveStateChange_t post_SlaveStateChange;
 	
 	/* General */
 	UNS8 toggle;
@@ -130,7 +130,7 @@ struct struct_CO_Data {
 
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
 #define s_transfer_Initializer {\
-		0,          /* nodeId */\
+		0,          /* CliServNbr */\
 		0,          /* wohami */\
 		SDO_RESET,  /* state */\
 		0,          /* toggle */\
@@ -142,6 +142,15 @@ struct struct_CO_Data {
 		{0},        /* data (static use, so that all the table is initialize at 0)*/\
     NULL,       /* dynamicData */ \
     0,          /* dynamicDataSize */ \
+		0,          /* peerCRCsupport */\
+		0,          /* blksize */\
+		0,          /* ackseq */\
+		0,          /* objsize */\
+		0,          /* lastblockoffset */\
+		0,          /* seqno */\
+		0,          /* endfield */\
+		RXSTEP_INIT,/* rxstep */\
+		{0},        /* tmpData */\
 		0,          /* dataType */\
 		-1,         /* timer */\
 		NULL        /* Callback */\
@@ -158,9 +167,18 @@ struct struct_CO_Data {
 		0,          /* count */\
 		0,          /* offset */\
 		{0},        /* data (static use, so that all the table is initialize at 0)*/\
-		0,          /* dataType */\
-		-1,         /* timer */\
-		NULL        /* Callback */\
+		0,          /* peerCRCsupport */\
+		0,          /* blksize */\
+		0,          /* ackseq */\
+		0,          /* objsize */\
+		0,          /* lastblockoffset */\
+		0,          /* seqno */\
+		0,          /* endfield */\
+		RXSTEP_INIT,/* rxstep */\
+		{0},        /* tmpData */\
+		0,          /*  */\
+		-1,         /*  */\
+		NULL        /*  */\
 	  },
 #endif //SDO_DYNAMIC_BUFFER_ALLOCATION
 
