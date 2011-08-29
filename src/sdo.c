@@ -239,7 +239,7 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
  **/
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 {
-	UNS32  size = 0;
+    UNS32  size = SDO_MAX_LENGTH_TRANSFERT;
 	UNS8  dataType;
 	UNS32 errorCode;
 
@@ -247,11 +247,28 @@ UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 	MSG_WAR(0x3A06, "  subIndex : ", d->transfers[line].subIndex);
 
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
-	//TODO: Read the size of the object. Depending o it put data into data or dynamicData
+    /* Try to use the static buffer.                                            */
 	errorCode = getODentry(d, 	d->transfers[line].index,
 			d->transfers[line].subIndex,
 			(void *)d->transfers[line].data,
 			&size, &dataType, 1);
+    if (errorCode == SDOABT_OUT_OF_MEMORY) {
+        /* The static buffer is too small, try again using a dynamic buffer.      *
+        * 'size' now contains the real size of the requested object.             */
+        if (size <= SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE) {
+            d->transfers[line].dynamicData = (UNS8 *) malloc(size * sizeof(UNS8));
+            if (d->transfers[line].dynamicData != NULL) {
+                d->transfers[line].dynamicDataSize = size;
+                errorCode = getODentry(d,
+                d->transfers[line].index,
+                d->transfers[line].subIndex,
+                (void *) d->transfers[line].dynamicData,
+                &d->transfers[line].dynamicDataSize,
+                &dataType,
+                1);
+            }
+        }
+    }
 #else //SDO_DYNAMIC_BUFFER_ALLOCATION
 	errorCode = getODentry(d, 	d->transfers[line].index,
 			d->transfers[line].subIndex,

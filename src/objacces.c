@@ -110,63 +110,63 @@ UNS32 _getODentry( CO_Data* d,
     return OD_READ_NOT_ALLOWED;
   }
 
+  if (pDestData == 0) {
+    return SDOABT_GENERAL_ERROR;
+  }
+
+  if (ptrTable->pSubindex[bSubindex].size > *pExpectedSize) {
+    /* Requested variable is too large to fit into a transfer line, inform    *
+     * the caller about the real size of the requested variable.              */
+    *pExpectedSize = ptrTable->pSubindex[bSubindex].size;
+    return SDOABT_OUT_OF_MEMORY;
+  }
+
   *pDataType = ptrTable->pSubindex[bSubindex].bDataType;
   szData = ptrTable->pSubindex[bSubindex].size;
 
-  if(*pExpectedSize == 0 ||
-     *pExpectedSize == szData ||
-     /* allow to fetch a shorter string than expected */
-     (*pDataType >= visible_string && *pExpectedSize < szData)) { 
-
 #  ifdef CANOPEN_BIG_ENDIAN
-     if(endianize && *pDataType > boolean && !(
-            *pDataType >= visible_string && 
-            *pDataType <= domain)) {
-      /* data must be transmited with low byte first */
-      UNS8 i, j = 0;
-      MSG_WAR(boolean, "data type ", *pDataType);
-      MSG_WAR(visible_string, "data type ", *pDataType);
-      for ( i = szData ; i > 0 ; i--) {
-        MSG_WAR(i," ", j);
-        ((UNS8*)pDestData)[j++] =
-          ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
-      }
-      *pExpectedSize = szData;
+  if(endianize && *pDataType > boolean && !(
+         *pDataType >= visible_string &&
+         *pDataType <= domain)) {
+    /* data must be transmited with low byte first */
+    UNS8 i, j = 0;
+    MSG_WAR(boolean, "data type ", *pDataType);
+    MSG_WAR(visible_string, "data type ", *pDataType);
+    for ( i = szData ; i > 0 ; i--) {
+      MSG_WAR(i," ", j);
+      ((UNS8*)pDestData)[j++] =
+        ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
     }
-    else /* no endianisation change */
-#  endif
-    if(*pDataType != visible_string) {
-        memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
-        *pExpectedSize = szData;
-    }else{
-        /* TODO : CONFORM TO DS-301 : 
-         *  - stop using NULL terminated strings
-         *  - store string size in td_subindex 
-         * */
-        /* Copy null terminated string to user, and return discovered size */
-        UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
-        UNS8 *ptr_start = ptr;
-        /* *pExpectedSize IS < szData . if null, use szData */
-        UNS8 *ptr_end = ptr + (*pExpectedSize ? *pExpectedSize : szData) ; 
-        UNS8 *ptr_dest = (UNS8*)pDestData;
-        while( *ptr && ptr < ptr_end){
-            *(ptr_dest++) = *(ptr++);
-        } 
-         
-        *pExpectedSize = (UNS32) (ptr - ptr_start);
-        /* terminate string if not maximum length */
-        if (*pExpectedSize < szData) 
-            *(ptr) = 0; 
-    }
-
-    return OD_SUCCESSFUL;
-  }
-  else { /* Error ! */
     *pExpectedSize = szData;
-    accessDictionaryError(wIndex, bSubindex, szData,
-                          *pExpectedSize, OD_LENGTH_DATA_INVALID);
-    return OD_LENGTH_DATA_INVALID;
   }
+  else /* no endianisation change */
+#  endif
+
+  if(*pDataType != visible_string) {
+      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+      *pExpectedSize = szData;
+  }else{
+      /* TODO : CONFORM TO DS-301 :
+       *  - stop using NULL terminated strings
+       *  - store string size in td_subindex
+       * */
+      /* Copy null terminated string to user, and return discovered size */
+      UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
+      UNS8 *ptr_start = ptr;
+      /* *pExpectedSize IS < szData . if null, use szData */
+      UNS8 *ptr_end = ptr + (*pExpectedSize ? *pExpectedSize : szData) ;
+      UNS8 *ptr_dest = (UNS8*)pDestData;
+      while( *ptr && ptr < ptr_end){
+          *(ptr_dest++) = *(ptr++);
+      }
+
+    *pExpectedSize = (UNS32) (ptr - ptr_start);
+    /* terminate string if not maximum length */
+    if (*pExpectedSize < szData)
+            *(ptr) = 0;
+  }
+
+  return OD_SUCCESSFUL;
 }
 
 UNS32 _setODentry( CO_Data* d,
