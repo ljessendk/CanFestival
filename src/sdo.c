@@ -32,6 +32,8 @@
 /* #define DEBUG_WAR_CONSOLE_ON */
 /* #define DEBUG_ERR_CONSOLE_ON */
 
+#include <stdlib.h>
+
 #include "canfestival.h"
 #include "sysdep.h"
 
