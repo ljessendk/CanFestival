@@ -100,6 +100,7 @@ void canDispatch(CO_Data* d, Message *m)
 			{
 				proceedNMTstateChange(d,m);
 			}
+            break;
 #ifdef CO_ENABLE_LSS
 		case LSS:
 			if (!d->CurrentCommunicationState.csLSS)break;

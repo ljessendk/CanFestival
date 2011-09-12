@@ -97,7 +97,7 @@ UNS8 send_consise_dcf(CO_Data* d,UNS8 nodeId)
     /* If DCF entry do not exist... Nothing to do.*/
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
   }
-
+  if(d->dcf_odentry->bSubCount<=nodeId) goto DCF_finish; /* Fix DCF table overflow */
   szData = d->dcf_odentry->pSubindex[nodeId].size;
   
   /* if the entry for the nodeId is not empty. */

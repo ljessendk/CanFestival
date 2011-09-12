@@ -56,7 +56,11 @@ UNS32 OnHearbeatProducerUpdate(CO_Data* d, const indextable * unsused_indextable
 **/
 e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
 {
-  e_nodeState networkNodeState = d->NMTable[nodeId];
+  e_nodeState networkNodeState = Unknown_state;
+  #if NMT_MAX_NODE_ID>0
+  if(nodeId < NMT_MAX_NODE_ID)
+    networkNodeState = d->NMTable[nodeId];
+  #endif
   return networkNodeState;
 }
 
