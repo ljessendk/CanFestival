@@ -48,6 +48,8 @@
 
 /*Internals prototypes*/
 
+UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId );
+
 /*!
  ** Called by writeNetworkDict
  **
@@ -588,11 +590,16 @@ UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
  **
  ** @return
  **/
-UNS8 closeSDOtransfer (CO_Data* d, UNS8 CliServNbr, UNS8 whoami)
+UNS8 closeSDOtransfer (CO_Data* d, UNS8 nodeId, UNS8 whoami)
 {
 	UNS8 err;
 	UNS8 line;
-	err = getSDOlineToClose(d, CliServNbr, whoami, &line);
+    UNS8 CliNbr;
+	/* First let's find the corresponding SDO client in our OD  */
+	CliNbr = GetSDOClientFromNodeId(d, nodeId);
+	if(CliNbr >= 0xFE)
+		return SDO_ABORTED_INTERNAL;
+    err = getSDOlineToClose(d, CliNbr, whoami, &line);
 	if (err) {
 		MSG_WAR(0x2A30, "No SDO communication to close", 0);
 		return 0xFF;
@@ -1889,6 +1896,8 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 		MSG_ERR(0x1AC5, "SDO error : No line free, too many SDO in progress. Aborted for node : ", nodeId);
 		return (0xFF);
 	}
+	else
+		MSG_WAR(0x3AE1, "Transmission on line : ", line);
     if(useBlockMode) {
 	    initSDOline(d, line, CliNbr, index, subIndex, SDO_BLOCK_DOWNLOAD_IN_PROGRESS);
 	    d->transfers[line].objsize = count;

@@ -107,7 +107,9 @@ struct struct_CO_Data {
     const indextable* dcf_odentry;
 	UNS8* dcf_cursor;
 	UNS32 dcf_entries_count;
-	UNS8 dcf_request;
+	UNS8 dcf_status;
+    UNS32 dcf_size;
+    UNS8* dcf_data;
 	
 	/* EMCY */
 	e_errorState error_state;
@@ -297,7 +299,9 @@ struct struct_CO_Data {
     NULL,       /*dcf_odentry*/\
 	NULL,		/*dcf_cursor*/\
 	1,		/*dcf_entries_count*/\
-	0,		/* dcf_request*/\
+	0,		/* dcf_status*/\
+    0,      /* dcf_size */\
+    NULL,   /* dcf_data */\
 	\
 	/* EMCY */\
 	Error_free,                      /* error_state */\

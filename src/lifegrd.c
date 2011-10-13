@@ -142,23 +142,16 @@ void proceedNODE_GUARD(CO_Data* d, Message* m )
 
       /* Boot-Up frame reception */
       if ( d->NMTable[nodeId] == Initialisation)
-        {
+      {
           /*
           ** The device send the boot-up message (Initialisation)
           ** to indicate the master that it is entered in
           ** pre_operational mode
-          ** Because the  device enter automaticaly in pre_operational
-          ** mode,
-          ** the pre_operational mode is stored
-          ** NMTable[bus_id][nodeId] = Pre_operational
           */
           MSG_WAR(0x3100, "The NMT is a bootup from node : ", nodeId);
-          
-          if(!send_consise_dcf(d,nodeId)){
-             /* call post SlaveBootup with NodeId */
-		  	(*d->post_SlaveBootup)(d, nodeId);
-          }
-        }
+          /* call post SlaveBootup with NodeId */
+		  (*d->post_SlaveBootup)(d, nodeId);
+      }
 
       if( d->NMTable[nodeId] != Unknown_state ) {
         UNS8 index, ConsummerHeartBeat_nodeId ;
