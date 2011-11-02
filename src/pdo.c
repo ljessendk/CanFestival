@@ -186,6 +186,7 @@ proceedPDO (CO_Data * d, Message * m)
   UNS32 objDict;
   UNS16 offsetObjdict;
   UNS16 lastIndex;
+  TIMEVAL EventTimerDuration = 0;
 
   status = state2;
 
@@ -220,6 +221,7 @@ proceedPDO (CO_Data * d, Message * m)
                   {
                     /* The cobId is recognized */
                     status = state4;
+                    EventTimerDuration = *(UNS16 *)d->objdict[offsetObjdict].pSubindex[5].pObject;
                     MSG_WAR (0x3936, "cobId found at index ",
                              0x1400 + numPdo);
                     break;
@@ -303,7 +305,12 @@ proceedPDO (CO_Data * d, Message * m)
                       }
                     numMap++;
                   }             /* end loop while on mapped variables */
-
+                if (EventTimerDuration && d->RxPDO_EventTimers)
+                {
+                    DelAlarm (d->RxPDO_EventTimers[numPdo]);
+                    d->RxPDO_EventTimers[numPdo] = SetAlarm (d, numPdo, d->RxPDO_EventTimers_Handler,
+                    MS_TO_TIMEVAL (EventTimerDuration), 0);
+                }
                 return 0;
 
               }                 /* end switch status */
@@ -602,6 +609,11 @@ PDOInhibitTimerAlarm (CO_Data * d, UNS32 pdoNum)
   /* Remove inhibit flag */
   d->PDO_status[pdoNum].transmit_type_parameter &= ~PDO_INHIBITED;
   sendOnePDOevent (d, (UNS8) pdoNum);
+}
+
+void
+_RxPDO_EventTimers_Handler(CO_Data *d, UNS32 pdoNum)
+{
 }
 
 /*!

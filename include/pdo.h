@@ -38,6 +38,9 @@ typedef struct struct_s_PDO_status s_PDO_status;
 
 #include "data.h"
 
+/* Handler for RxPDO event timers : empty function that user can overload */
+void _RxPDO_EventTimers_Handler(CO_Data *d, UNS32 pdoNum);
+
 /* Status of the TPDO : */
 #define PDO_INHIBITED 0x01
 #define PDO_RTR_SYNC_READY 0x01

@@ -136,8 +136,9 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
-		}			
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
+        }			
 		break;
 
 		case 2: 
@@ -153,7 +154,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 
@@ -170,7 +172,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 					
@@ -187,7 +190,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 
@@ -205,7 +209,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}	
 		break;
 
@@ -222,7 +227,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 		
@@ -238,7 +244,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					2, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Heartbeat_Producer_Time,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 
@@ -255,7 +262,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;
 
@@ -272,7 +280,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}
 		break;			
 
@@ -289,7 +298,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					4, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&TPDO_COBId,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /* use block mode */
 		}			
 		break;			
 		

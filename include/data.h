@@ -58,6 +58,8 @@ struct struct_CO_Data {
 	UNS8 *bDeviceNodeId;
 	const indextable *objdict;
 	s_PDO_status *PDO_status;
+	TIMER_HANDLE *RxPDO_EventTimers;
+	void (*RxPDO_EventTimers_Handler)(CO_Data*, UNS32);
 	const quick_index *firstIndex;
 	const quick_index *lastIndex;
 	const UNS16 *ObjdictSize;
@@ -239,6 +241,8 @@ struct struct_CO_Data {
 	& NODE_PREFIX ## _bDeviceNodeId,     /* bDeviceNodeId */\
 	NODE_PREFIX ## _objdict,             /* objdict  */\
 	NODE_PREFIX ## _PDO_status,          /* PDO_status */\
+	NULL,                                /* RxPDO_EventTimers */\
+	_RxPDO_EventTimers_Handler,          /* RxPDO_EventTimers_Handler */\
 	& NODE_PREFIX ## _firstIndex,        /* firstIndex */\
 	& NODE_PREFIX ## _lastIndex,         /* lastIndex */\
 	& NODE_PREFIX ## _ObjdictSize,       /* ObjdictSize */\
