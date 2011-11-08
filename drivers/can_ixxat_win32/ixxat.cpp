@@ -338,14 +338,20 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
           ::OutputDebugString("\nIXXAT canBusWatchdog: Remote queue overrun detected!\n");
         }
 
-        if (VCI_ResetCan(m_BoardHdl, CAN_NUM) < 0)
+        res = VCI_ResetCan(m_BoardHdl, CAN_NUM);
+        if (res <= 0)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed!\n");
+          char buf[200];
+          ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed with code '%d'!\n", res);
+          ::OutputDebugString(buf);
         }
 
-        if (VCI_StartCan(m_BoardHdl, CAN_NUM) < 0)
+        res = VCI_StartCan(m_BoardHdl, CAN_NUM);
+        if (res <= 0)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed!\n");
+          char buf[200];
+          ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed with code '%d'!\n", res);
+          ::OutputDebugString(buf);
         }
       }
     }
