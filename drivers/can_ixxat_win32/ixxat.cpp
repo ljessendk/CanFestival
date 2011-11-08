@@ -198,7 +198,7 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
        }
    if (index == br_lut_size)
    {
-      MSG_ERR_DRV("IXXAT::open: The given baudrate %s is invalid.", baud_rate);
+      MSG_ERR_DRV("IXXAT::open: The given baudrate %S is invalid.", baud_rate);
       return false;
    }
    // close existing board   
@@ -273,7 +273,7 @@ void VCI_CALLBACKATTR IXXAT::receive_queuedata_handler(UINT16 que_hdl, UINT16 co
 
 void VCI_CALLBACKATTR IXXAT::message_handler(char *msg_str)
   {
-  MSG_ERR_DRV("IXXAT Message: [%s]\n", msg_str);
+  MSG_ERR_DRV("IXXAT Message: [%S]\n", msg_str);
   }
 
 void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_code, UINT16 ext_err, char* err_str)
@@ -310,7 +310,7 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
     "VCI_CciReqData"
     };
 
-  MSG_ERR_DRV("IXXAT Exception: %s (%i / %u) [%s]\n", Num2Function[func_num], err_code, ext_err, err_str);
+  MSG_ERR_DRV("IXXAT Exception: %S (%i / %u) [%S]\n", Num2Function[func_num], err_code, ext_err, err_str);
   }
 
   void IXXAT::watchdog()

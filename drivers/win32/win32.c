@@ -189,7 +189,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 	}
 	else
 	{
-		MSG(("CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate));
+		MSG("CanOpen : Cannot open board {busname='%S',baudrate='%S'}\n",board->busname, board->baudrate);
 		return NULL;
 	}
 }

@@ -102,7 +102,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifdef UNICODE
 #define MSG(...) \
   do{wchar_t msg[300];\
-   swprintf(msg,L##__VA_ARGS__);\
+   swprintf(msg,sizeof(msg)/sizeof(msg[0]), L##__VA_ARGS__); \
    OutputDebugString(msg);}while(0)
 #else
 #define MSG(...) \
