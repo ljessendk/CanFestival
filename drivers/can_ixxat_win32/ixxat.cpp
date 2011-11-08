@@ -196,8 +196,11 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
        if (::strcmp(br_lut[index].baud_rate,baud_rate)==0)
           break;
        }
-   if (index == br_lut_size)    
+   if (index == br_lut_size)
+   {
+      MSG_ERR_DRV("IXXAT::open: The given baudrate %s is invalid.", baud_rate);
       return false;
+   }
    // close existing board   
    close();
    // init IXXAT board
@@ -210,7 +213,10 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
                                    receive_queuedata_handler, // pointer to receive-callbackhandler
                                    exception_handler);        // pointer to exception-callbackhandler
    if (res < 0)
+   {
+      MSG_ERR_DRV("IXXAT::open: VCI2_PrepareBoard failed with code '%d'.", res);
       return false;
+   }
    m_BoardHdl = (UINT16)res;
 
    VCI_ResetBoard(m_BoardHdl);
@@ -267,9 +273,7 @@ void VCI_CALLBACKATTR IXXAT::receive_queuedata_handler(UINT16 que_hdl, UINT16 co
 
 void VCI_CALLBACKATTR IXXAT::message_handler(char *msg_str)
   {
-  char buf[200];
-  ::sprintf(buf,"IXXAT Message: [%s]\n", msg_str);
-  ::OutputDebugString(buf);
+  MSG_ERR_DRV("IXXAT Message: [%s]\n", msg_str);
   }
 
 void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_code, UINT16 ext_err, char* err_str)
@@ -305,9 +309,8 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
     "VCI_UpdateBufObj",
     "VCI_CciReqData"
     };
-  char buf[200];
-  ::sprintf(buf, "IXXAT Exception: %s (%i / %u) [%s]\n", Num2Function[func_num], err_code, ext_err, err_str);
-  ::OutputDebugString(buf);
+
+  MSG_ERR_DRV("IXXAT Exception: %s (%i / %u) [%s]\n", Num2Function[func_num], err_code, ext_err, err_str);
   }
 
   void IXXAT::watchdog()
@@ -317,9 +320,7 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
 
     if (res < 0)
     {
-      char buf[200];
-      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Reading the can state failed!\n");
-      ::OutputDebugString(buf);
+      MSG_ERR_DRV("\nIXXAT canBusWatchdog: ERROR: Reading the can state failed!\n");
     }
     else
     {
@@ -327,40 +328,34 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
       {
         if (sts.sts & STS_CAN_BUS_OFF)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN bus off detected!\n");
+          MSG_ERR_DRV("\nIXXAT canBusWatchdog: CAN bus off detected!\n");
         }
         if (sts.sts & STS_CAN_DATA_OVERRUN)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN data overrun detected!\n");
+          MSG_ERR_DRV("\nIXXAT canBusWatchdog: CAN data overrun detected!\n");
         }
         if (sts.sts & STS_REMOTE_QUEUE_OVERRUN)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: Remote queue overrun detected!\n");
+          MSG_ERR_DRV("\nIXXAT canBusWatchdog: Remote queue overrun detected!\n");
         }
 
         res = VCI_ResetCan(m_BoardHdl, CAN_NUM);
         if (res <= 0)
         {
-          char buf[200];
-          ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed with code '%d'!\n", res);
-          ::OutputDebugString(buf);
+          MSG_ERR_DRV("\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed with code '%d'!\n", res);
         }
 
         res = VCI_StartCan(m_BoardHdl, CAN_NUM);
         if (res <= 0)
         {
-          char buf[200];
-          ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed with code '%d'!\n", res);
-          ::OutputDebugString(buf);
+          MSG_ERR_DRV("\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed with code '%d'!\n", res);
         }
       }
     }
 
     if (SetTimer(NULL, m_watchdogTimerId, IXXAT::CAN_BUS_WATCHDOG_INTERVAL_MSEC, IXXAT::canBusWatchdog) == 0)
     {
-      char buf[200];
-      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Creation of the watchdog timer failed!\n");
-      ::OutputDebugString(buf);
+      MSG_ERR_DRV("\nIXXAT canBusWatchdog: ERROR: Creation of the watchdog timer failed!\n");
     }
   }
 
