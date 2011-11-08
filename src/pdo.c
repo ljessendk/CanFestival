@@ -410,7 +410,7 @@ proceedPDO (CO_Data * d, Message * m)
                   Message pdo;
                   if (buildPDO (d, numPdo, &pdo))
                     {
-                      MSG_ERR (0x1948, " Couldn't build TPDO n�", numPdo);
+                      MSG_ERR (0x1948, " Couldn't build TPDO number : ", numPdo);
                       return 0xFF;
                     }
                   canSend (d->canHandle, &pdo);
@@ -743,7 +743,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
               break;
 
             default:
-              MSG_ERR (0x1972, "Unknown state has been reached : %d", status);
+              MSG_ERR (0x1972, "Unknown state has been reached :", status);
               return 0xFF;
             }                   /* end switch case */
 
