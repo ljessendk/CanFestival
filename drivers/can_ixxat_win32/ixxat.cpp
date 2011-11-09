@@ -70,8 +70,8 @@ class IXXAT
       bool send(const Message *m);
       bool receive(Message *m);
    private:
-      bool open(const char* board_name, int board_number, const char* baud_rate);
-      bool close();                             
+      bool open(int board_number, const char* baud_rate);
+      bool close();
       void receive_queuedata(UINT16 que_hdl, UINT16 count, VCI_CAN_OBJ* p_obj);
       // VCI2 handler      
       static void VCI_CALLBACKATTR message_handler(char *msg_str);
@@ -108,19 +108,20 @@ IXXAT::IXXAT(s_BOARD *board) : m_BoardHdl(0xFFFF),
                                m_RxQueHdl(0xFFFF)
                                
    {
-   char busname[100];
-   ::strcpy(busname,board->busname);
-   char board_name[100];      
-   long board_number = 0;   
-   char *ptr = ::strrchr(busname,':');
-   if (ptr != 0)
+   if (!board)
       {
-      *ptr = 0;
-      ::strcpy(board_name,busname);
-      if (++ptr - busname < (int)::strlen(board->busname))
-         board_number = ::atoi(ptr);
+      close();
+      throw error();
       }
-   if (!open(board_name,board_number,board->baudrate))
+
+   long board_number = 0;
+
+   if (board->busname)
+      {
+      board_number = atol(board->busname);
+      }
+
+   if (!open(board_number, board->baudrate))
       {
       close();
       throw error();
@@ -165,7 +166,7 @@ bool IXXAT::receive(Message *m)
    return false;
    }
 
-bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate)
+bool IXXAT::open(int board_number, const char* baud_rate)
    {
    // check, if baudrate is supported
    struct IXXAT_baud_rate_param 
@@ -204,9 +205,8 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
    // close existing board   
    close();
    // init IXXAT board
-   unsigned long board_type = VCI_GetBrdTypeByName(const_cast<char*>(board_name));
-   long res = VCI2_PrepareBoard( board_type,                  // board type
-                                   board_number,              // unique board index
+   long res = VCI2_PrepareBoard(   0,                         // board type, unused in VCI2
+                                   board_number,              // unique board index, see XAT_EnumHwEntry() and XAT_GetConfig()
                                    NULL,                      // pointer to buffer for additional info 
                                    0,                         // length of additional info buffer
                                    message_handler,           // pointer to msg-callbackhandler
@@ -236,7 +236,7 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
    res = VCI_ConfigQueue(m_BoardHdl, CAN_NUM, VCI_RX_QUE, 500, 1, 0, 100,  &m_RxQueHdl);
 
    //  assign the all IDs to the Receive Queue
-   res = VCI_AssignRxQueObj(m_BoardHdl, m_RxQueHdl ,VCI_ACCEPT, 0, 0) ;
+   res = VCI_AssignRxQueObj(m_BoardHdl, m_RxQueHdl ,VCI_ACCEPT, 0, 0);
 
    //  And now start the CAN
    res = VCI_StartCan(m_BoardHdl, CAN_NUM);
