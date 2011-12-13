@@ -88,7 +88,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
         /* Check if data received match the DCF */
         if(size == d->dcf_size){
             match = 1;
-            while(--size)
+            while(size--)
                 if(buf[size] != d->dcf_data[size])
                     match = 0;
         }
