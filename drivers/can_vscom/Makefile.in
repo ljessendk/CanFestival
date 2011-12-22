@@ -31,7 +31,7 @@ OS = SUB_OS_NAME
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_DLL_DRIVERS=SUB_ENABLE_DLL_DRIVERS
-CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS -L.
+CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS
 VSCAN_API_FILENAME=VSCAN_API_latest.zip
 
 # define target specific environment
@@ -68,8 +68,7 @@ all: driver
 vs_can_api.h:
 	wget http://www.vscom.de/download/multiio/linux/driver/${VSCAN_API_FILENAME}
 	@if which unzip &> /dev/null; then \
-	unzip ${VSCAN_API_FILENAME}; \
-	chmod +x vs_can_api.dll; \
+	unzip -o ${VSCAN_API_FILENAME}; \
 	else \
 	echo "No unzip found. Please decompress ${VSCAN_API_FILENAME} manually"; \
 	exit 1; \
@@ -86,7 +85,7 @@ libcanfestival_$(CAN_DRIVER).$(DLL_TYPE): $(OBJS)
 install: libcanfestival_$(CAN_DRIVER).so
 	mkdir -p $(PREFIX)/lib/
 	cp $< $(PREFIX)/lib/
-		
+
 uninstall:
 	rm -f $(TARGET_SOFILES)
 
