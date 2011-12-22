@@ -6,7 +6,7 @@
 PROJECT = SlaveAVR
 MCU = at90can128
 TARGET = AVR
-CC = avr-gcc.exe
+CC = avr-gcc
 SRC = ../../../src
 DRV = ../../../drivers/AVR
 
@@ -35,7 +35,7 @@ HEX_EEPROM_FLAGS += --set-section-flags=.eeprom="alloc,load"
 HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 
 ## Include Directories
-INCLUDES = -I../../../include -I../../../include/AVR
+INCLUDES = -I../../../include/AVR -I../../../include
 
 ## Objects that must be built in order to link
 OBJECTS = 	$(DRV)/can_AVR.o\

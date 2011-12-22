@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Includes for the Canfestival
 #include "canfestival.h"
 #include "timer.h"
-#include "objdict.h"
+#include "ObjDict.h"
 
 
 unsigned char digital_input_handler(CO_Data* d, unsigned char *newInput, unsigned char size);

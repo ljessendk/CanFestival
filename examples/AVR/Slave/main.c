@@ -32,9 +32,8 @@ Short description:
 #include "hardware.h"
 #include "canfestival.h"
 #include "can_AVR.h"
-#include "objdict.h"
+#include "ObjDict.h"
 #include "ds401.h"
-
 
 unsigned char timer_interrupt = 0;		// Set if timer interrupt eclapsed
 unsigned char inputs;
