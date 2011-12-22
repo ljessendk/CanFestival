@@ -1017,7 +1017,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 				else {/* So, if it is not an expedited transfert */
 					if (getSDOs(m->data[0])) {
 						nbBytes = (m->data[4]) + ((UNS32)(m->data[5])<<8) + ((UNS32)(m->data[6])<<16) + ((UNS32)(m->data[7])<<24);
-						err = setSDOlineRestBytes(d, CliServNbr, nbBytes);
+						err = setSDOlineRestBytes(d, line, nbBytes);
 						if (err) {
 							failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
 							return 0xFF;
