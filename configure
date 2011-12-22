@@ -553,7 +553,7 @@ echo "Using ${CC} as a C compiler"
 if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 	# Only if we are on x86_64 and using gcc
 	# For shared library generation, it needs this
-	SUB_PROG_CFLAGS=-fPIC
+	SUB_PROG_CFLAGS+=\ -fPIC
 fi
 
 if [ "$BINUTILS_PREFIX" = "" ]; then
