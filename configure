@@ -415,7 +415,17 @@ fi
 
 
 if [ "$SUB_CAN_DRIVER" = "vscom" ]; then
-    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -lvs_can_api
+    if  [ "$SUB_OS_NAME" = "Linux" ]; then
+	if [ "$SUB_ARCH_NAME" = "x86" ]; then
+	    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -LLinux\ -lvs_can_api
+        elif [ "$SUB_ARCH_NAME" = "x86_64" ]; then
+	    SUB_CAN_DLL_CFLAGS=$SUB_CAN_DLL_CFLAGS\ -L\'Linux\ x86-64\'\ -lvs_can_api_x86-64
+	else
+	    echo "!!! ERROR !!! Please adapt the configure script for your SUB_ARCH_NAME" $SUB_ARCH_NAME
+        fi
+    else
+	echo "!!! ERROR !!! Please adapt the configure script for your SUB_OS_NAME" $SUB_OS_NAME
+    fi
 fi
 
 if [ "$SUB_CAN_DRIVER" = "anagate_win32" ]; then
