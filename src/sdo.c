@@ -143,7 +143,7 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
 	if ((offset == 0) || ((offset+d->transfers[id].CliServNbr) > d->lastIndex->SDO_CLT)) {
 		return ;
 	}
-	nodeId = *((UNS32*) d->objdict[offset+d->transfers[id].CliServNbr].pSubindex[3].pObject);
+	nodeId = (UNS8) *((UNS32*) d->objdict[offset+d->transfers[id].CliServNbr].pSubindex[3].pObject);
 	MSG_ERR(0x1A01, "SDO timeout. SDO response not received.", 0);
 	MSG_WAR(0x2A02, "server node id : ", nodeId);
 	MSG_WAR(0x2A02, "         index : ", d->transfers[id].index);
@@ -678,7 +678,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData)
 			MSG_ERR(0x1A42, "SendSDO : SDO server not found", 0);
 			return 0xFF;
 		}
-		m.cob_id = *((UNS32*) d->objdict[offset+CliServNbr].pSubindex[2].pObject);
+		m.cob_id = (UNS16) *((UNS32*) d->objdict[offset+CliServNbr].pSubindex[2].pObject);
 		MSG_WAR(0x3A41, "I am server Tx cobId : ", m.cob_id);
 	}
 	else {			/*case client*/
@@ -688,7 +688,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData)
 			MSG_ERR(0x1A42, "SendSDO : SDO client not found", 0);
 			return 0xFF;
 		}
-		m.cob_id = *((UNS32*) d->objdict[offset+CliServNbr].pSubindex[1].pObject);
+		m.cob_id = (UNS16) *((UNS32*) d->objdict[offset+CliServNbr].pSubindex[1].pObject);
 		MSG_WAR(0x3A41, "I am client Tx cobId : ", m.cob_id);
 	}
 	/* message copy for sending */
@@ -1137,10 +1137,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					data[1] = index & 0xFF;        /* LSB */
 					data[2] = (index >> 8) & 0xFF; /* MSB */
 					data[3] = subIndex;
-					data[4] = nbBytes; 
-					data[5] = nbBytes >> 8; 
-					data[6] = nbBytes >> 16; 
-					data[7] = nbBytes >> 24; 
+					data[4] = (UNS8) nbBytes;
+					data[5] = (UNS8) (nbBytes >> 8);
+					data[6] = (UNS8) (nbBytes >> 16);
+					data[7] = (UNS8) (nbBytes >> 24);
  					MSG_WAR(0x3A95, "SDO. Sending normal upload initiate response defined at index 0x1200 + ", nodeId);
 					sendSDO(d, whoami, CliServNbr, data);
 				}
@@ -1399,10 +1399,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					data[1] = index & 0xFF;        /* LSB */
 					data[2] = (index >> 8) & 0xFF; /* MSB */
 					data[3] = subIndex;
-					data[4] = nbBytes;
-					data[5] = nbBytes >> 8;
-					data[6] = nbBytes >> 16;
-					data[7] = nbBytes >> 24;
+					data[4] = (UNS8) nbBytes;
+					data[5] = (UNS8) (nbBytes >> 8);
+					data[6] = (UNS8) (nbBytes >> 16);
+					data[7] = (UNS8) (nbBytes >> 24);
 					MSG_WAR(0x3A9A, "SDO. Sending normal block upload initiate response defined at index 0x1200 + ", nodeId);
 					sendSDO(d, whoami, CliServNbr, data);
                 }
@@ -1459,7 +1459,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
            			}
                     else
 					    MSG_WAR(0x3AA2, "Received SDO block START upload defined at index 0x1200 + ", CliServNbr);
-                    d->transfers[line].lastblockoffset = d->transfers[line].offset;
+                    d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
                     for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1486,7 +1486,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						        data[i] = 0;
 					        MSG_WAR(0x3AA5, "SDO. Sending last upload segment defined at index 0x1200 + ", CliServNbr);
 					        sendSDO(d, whoami, CliServNbr, data);
-                            d->transfers[line].endfield = 7 - nbBytes;
+                            d->transfers[line].endfield = (UNS8) (7 - nbBytes);
                             break;
 				        }
                     }
@@ -1531,7 +1531,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					        return 0xFF;
                         }
 					}
-                 	d->transfers[line].lastblockoffset = d->transfers[line].offset;
+                 	d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
                 	for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1558,7 +1558,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						        data[i] = 0;
 					        MSG_WAR(0x3AAB, "SDO. Sending last download segment to node id ", nodeId);
 					        sendSDO(d, whoami, CliServNbr, data);
-                            d->transfers[line].endfield = 7 - nbBytes;
+                            d->transfers[line].endfield = (UNS8) (7 - nbBytes);
                             break;
 				        }
                     }
@@ -1606,8 +1606,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					if ((m->data[0]) & 2)	/* if data set size is indicated */
                     	d->transfers[line].objsize = (UNS32)m->data[4] + (UNS32)m->data[5]*256 + (UNS32)m->data[6]*256*256 + (UNS32)m->data[7]*256*256*256;
                     data[0] = (5 << 5) | SDO_BSS_INITIATE_DOWNLOAD_RESPONSE;
-					data[1] = index;        /* LSB */
-					data[2] = index >> 8;   /* MSB */
+					data[1] = (UNS8) index;        /* LSB */
+					data[2] = (UNS8) (index >> 8); /* MSB */
 					data[3] = subIndex;
 					data[4] = SDO_BLOCK_SIZE;
 					data[5] = data[6] = data[7] = 0;

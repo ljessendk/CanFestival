@@ -26,7 +26,7 @@ LIBRARY      "CanFestival-3.DLL"
 EXPORTS
 
         ; dcf.h
-        send_consise_dcf
+        check_and_start_node
 
         ; lifegrd.h
         _heartbeatError
@@ -61,11 +61,12 @@ EXPORTS
         sendPDOevent
         _sendPDOevent
         sendOnePDOevent
-		PDOInit
-		PDOStop
-		PDOEventTimerAlarm
-		PDOInhibitTimerAlarm
-		CopyBits
+        PDOInit
+        PDOStop
+        PDOEventTimerAlarm
+        PDOInhibitTimerAlarm
+        CopyBits
+        _RxPDO_EventTimers_Handler
 
         ; sdo.h
         SDOTimeoutAlarm
