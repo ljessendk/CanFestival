@@ -76,12 +76,12 @@ UNS8 GetChangeStateResults(UNS8 node_id, UNS8 expected_state, unsigned long time
    return 0xFF;
    }
 
-UNS8 ReadSDO(UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, void* data, UNS8* size)
+UNS8 ReadSDO(UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 dataType, void* data, UNS32* size)
    {
    UNS32 abortCode = 0;
    UNS8 res = SDO_UPLOAD_IN_PROGRESS;
    // Read SDO
-   UNS8 err = readNetworkDict (&win32test_Data, nodeId, index, subIndex, dataType);
+   UNS8 err = readNetworkDict (&win32test_Data, nodeId, index, subIndex, dataType, 0);
    if (err)
       return 0xFF;
    for(;;)
@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
          UNS32 COB_ID_Client_to_Server_Transmit_SDO = 0x600 + node_id;
          UNS32 COB_ID_Server_to_Client_Receive_SDO  = 0x580 + node_id;
          UNS32 Node_ID_of_the_SDO_Server = node_id;
-         UNS8 ExpectedSize = sizeof (UNS32);
+         UNS32 ExpectedSize = sizeof (UNS32);
 
          if (OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 1, &COB_ID_Client_to_Server_Transmit_SDO, &ExpectedSize, RW) 
               && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 2, &COB_ID_Server_to_Client_Receive_SDO, &ExpectedSize, RW) 
@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
             UNS32 vendor_id = 0;            
             UNS32 prod_code = 0;
             UNS32 ser_num = 0;
-            UNS8 size;
+            UNS32 size;
             UNS8 res;
 
             printf("\nnode_id: %d (%xh) info\n",(int)node_id,(int)node_id);

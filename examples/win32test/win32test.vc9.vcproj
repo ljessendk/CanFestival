@@ -2,9 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="CanFestival-3"
-	ProjectGUID="{50EF2507-9B87-4525-8B19-80EB42E67079}"
-	RootNamespace="CanFestival-3"
+	Name="win32test"
+	ProjectGUID="{BD8B1FE1-89CD-4F89-8275-0F553FA71059}"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -18,9 +17,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
+			OutputDirectory="../../Debug"
 			IntermediateDirectory="Debug"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
@@ -42,13 +41,12 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="./include;./include/win32"
-				PreprocessorDefinitions="WIN32;_DEBUG;_DEBUG;DEBUG_WAR_CONSOLE_ON;DEBUG_ERR_CONSOLE_ON;_CRT_SECURE_NO_DEPRECATE;_WIN32_WINNT=0x0400;EMCY_MAX_ERRORS=8"
+				AdditionalIncludeDirectories="../../include;../../include/win32"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
-				ProgramDataBaseFileName="$(IntDir)/CanFestival-3.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -64,12 +62,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				ModuleDefinitionFile="./src/win32/CanFestival-3.def"
+				OutputFile="$(OutDir)/win32test.exe"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="../../Debug UNICODE"
 				GenerateDebugInformation="true"
-				EnableCOMDATFolding="1"
-				OptimizeForWindows98="1"
+				ProgramDatabaseFile="$(OutDir)/win32test.pdb"
+				SubSystem="1"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -95,9 +97,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
+			OutputDirectory="../../Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
@@ -118,8 +120,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="./include;./include/win32"
-				PreprocessorDefinitions="WIN32;NDEBUG"
+				AdditionalIncludeDirectories="../../include;../../include/win32"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -137,10 +139,17 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				ModuleDefinitionFile="./src/win32/CanFestival-3.def"
-				OptimizeForWindows98="1"
+				OutputFile="$(OutDir)/win32test.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="../../Release"
+				GenerateDebugInformation="true"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				TargetMachine="1"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -174,61 +183,13 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\src\dcf.c"
+				RelativePath=".\main.c"
 				>
 			</File>
 			<File
-				RelativePath=".\src\emcy.c"
+				RelativePath=".\win32test.c"
 				>
 			</File>
-			<File
-				RelativePath=".\src\lifegrd.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\nmtMaster.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\nmtSlave.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\objacces.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\pdo.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\sdo.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\states.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\sync.c"
-				>
-			</File>
-			<File
-				RelativePath=".\src\timer.c"
-				>
-			</File>
-			<Filter
-				Name="win32"
-				>
-				<File
-					RelativePath=".\drivers\timers_win32\timers_win32.c"
-					>
-				</File>
-				<File
-					RelativePath=".\drivers\win32\win32.c"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -236,85 +197,9 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\include\can.h"
+				RelativePath=".\win32test.h"
 				>
 			</File>
-			<File
-				RelativePath=".\include\can_driver.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\data.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\dcf.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\def.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\lifegrd.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\nmtMaster.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\nmtSlave.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\objacces.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\objdictdef.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\pdo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\sdo.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\states.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\sync.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\timer.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\timers_driver.h"
-				>
-			</File>
-			<Filter
-				Name="win32"
-				>
-				<File
-					RelativePath=".\include\win32\applicfg.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\win32\canfestival.h"
-					>
-				</File>
-				<File
-					RelativePath=".\include\win32\timerscfg.h"
-					>
-				</File>
-			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -322,17 +207,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\src\win32\CanFestival-3.def"
-			>
-			<FileConfiguration
-				Name="Debug|Win32"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-				/>
-			</FileConfiguration>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

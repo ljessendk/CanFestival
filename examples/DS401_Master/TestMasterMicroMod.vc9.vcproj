@@ -2,11 +2,10 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="CANOpenShell"
-	ProjectGUID="{06B3C378-9EE4-4C56-A519-775FF499DAB5}"
-	RootNamespace="CANOpenShell"
+	Name="TestMasterMicroMod"
+	ProjectGUID="{B51A176D-5320-4534-913B-3025CED5B27E}"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="196613"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -18,10 +17,11 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="../../Debug"
+			IntermediateDirectory="Debug"
 			ConfigurationType="1"
-			CharacterSet="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,13 +41,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\include;..\..\include\win32"
-				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS"
+				AdditionalIncludeDirectories="../../include;../../include/win32"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -61,10 +62,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="&quot;..\..\lib\static\libcanfestival.lib&quot; &quot;..\..\lib\static\libcanfestival_win32.lib&quot;"
+				OutputFile="$(OutDir)/TestMasterMicroMod.exe"
 				LinkIncremental="2"
-				GenerateDebugInformation="false"
+				AdditionalLibraryDirectories="../../Debug UNICODE"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(OutDir)/TestMasterMicroMod.pdb"
 				SubSystem="1"
+				OptimizeForWindows98="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -91,11 +97,11 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="../../Release"
+			IntermediateDirectory="Release"
 			ConfigurationType="1"
-			CharacterSet="1"
-			WholeProgramOptimization="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -114,13 +120,12 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="../../include;../../include/win32"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -134,11 +139,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/TestMasterMicroMod.exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="../../Release"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -168,51 +178,47 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Fichiers sources"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			Name="Source Files"
+			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\CANOpenShell.c"
+				RelativePath=".\getopt.c"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellMasterOD.c"
+				RelativePath=".\TestMaster.c"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellSlaveOD.c"
+				RelativePath=".\TestMasterMicroMod.c"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Fichiers d&apos;en-t�te"
+			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\CANOpenShell.h"
+				RelativePath=".\getopt.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellMasterOD.h"
+				RelativePath=".\TestMaster.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CANOpenShellSlaveOD.h"
+				RelativePath=".\TestMasterMicroMod.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Fichiers de ressources"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
+			Name="Resource Files"
+			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\ReadMe.txt"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
