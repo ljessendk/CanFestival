@@ -117,8 +117,21 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
         if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
             goto dcferror;
         if(write_consise_dcf_next_entry(d, nodeId) == 0){
+#ifdef DCF_SAVE_NODE
             SaveNode(d, nodeId);
             d->dcf_status = DCF_STATUS_SAVED;
+#else //DCF_SAVE_NODE
+           masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
+           d->NMTable[nodeId] = Operational;
+           d->dcf_status = DCF_STATUS_INIT;
+           /* Look for other nodes waiting to be started */
+           for(node = 0 ; node<NMT_MAX_NODE_ID ; node++){
+               if(d->NMTable[node] != Initialisation)
+                   continue;
+               if(check_and_start_node(d, node) == 2)
+                   break;
+           }
+#endif //DCF_SAVE_NODE
         }
     }
     else if(d->dcf_status == DCF_STATUS_SAVED){
@@ -149,6 +162,7 @@ UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
     /* Fetch DCF OD entry */
     UNS32 errorCode;
     ODCallback_t *Callback;
+    UNS8* dcf;
     d->dcf_odentry = (*d->scanIndexOD)(0x1F22, &errorCode, &Callback);
     /* If DCF entry do not exist... Nothing to do.*/
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
@@ -156,7 +170,7 @@ UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
     if(nodeId > d->dcf_odentry->bSubCount) goto DCF_finish;
     /* If DCF empty... Nothing to do */
     if(! d->dcf_odentry->pSubindex[nodeId].size) goto DCF_finish;
-    UNS8* dcf = (UNS8*)d->dcf_odentry->pSubindex[nodeId].pObject;
+    dcf = *(UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject;
     // printf("%.2x %.2x %.2x %.2x\n",dcf[0],dcf[1],dcf[2],dcf[3]);
     d->dcf_cursor = dcf + 4;
     d->dcf_entries_count = 0;
@@ -171,12 +185,13 @@ UNS8 get_next_DCF_data(CO_Data* d, dcf_entry_t *dcf_entry, UNS8 nodeId)
   UNS8* dcfend;
   UNS32 nb_entries;
   UNS32 szData;
+  UNS8* dcf;
   if(!d->dcf_odentry)
      return 0;
   if(nodeId > d->dcf_odentry->bSubCount)
      return 0;
   szData = d->dcf_odentry->pSubindex[nodeId].size;
-  UNS8* dcf = (UNS8*)d->dcf_odentry->pSubindex[nodeId].pObject;
+  dcf = *(UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject;
   nb_entries = UNS32_LE(*((UNS32*)dcf));
   dcfend = dcf + szData;
   if((UNS8*)d->dcf_cursor + 7 < (UNS8*)dcfend && d->dcf_entries_count < nb_entries){
