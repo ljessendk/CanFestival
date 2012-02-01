@@ -89,7 +89,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
             {
               MSG_ERR (0x1013,
                        " Couldn't find mapped variable at index-subindex-size : ",
-                       (UNS16) (*pMappingParameter));
+                       (UNS32) (*pMappingParameter));
               return 0xFF;
             }
           /* copy bit per bit in little endian */
