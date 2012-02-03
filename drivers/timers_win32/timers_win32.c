@@ -45,7 +45,7 @@ CRITICAL_SECTION CanFestival_mutex;
 HANDLE timer_thread = NULL;
 HANDLE timer = NULL;
 
-int stop_timer=0;
+volatile int stop_timer=0;
 
 static TimerCallback_t init_callback;
 

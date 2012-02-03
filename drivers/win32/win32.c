@@ -3,6 +3,7 @@ This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 Copyright (C) Win32 Port Leonid Tochinski
+Modified by: Jaroslav Fojtik
 
 See COPYING file for copyrights details.
 
@@ -155,23 +156,31 @@ UNS8 canSend(CAN_PORT port, Message *m)
 }
 
 /***************************************************************************/
-void canReceiveLoop(CAN_PORT port)
+DWORD canReceiveLoop(CAN_PORT port)
 {
 	Message m;
 	while(((CANPort*)port)->used)
 	{
-		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) break;
+		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) continue;
 		EnterMutex();
 		canDispatch(((CANPort*)port)->d, &m);
 		LeaveMutex();
 	}
+	return 0;
 }
 
 /***************************************************************************/
 CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 {
 	int i;
-    CAN_HANDLE fd0;
+	CAN_HANDLE fd0;
+
+
+	  /* Fix of multiple opening one data set, added by J.Fojtik. */
+	if(d->canHandle)
+	{
+	  canClose(d);
+	}
 
 	for(i=0; i < MAX_NB_CAN_PORTS; i++)
 	{
@@ -207,28 +216,27 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
 {
-	UNS8 res = 1;
+	UNS8 res;
 	CANPort* tmp;
-
-	if((CANPort*)d->canHandle)
-	{
-	  ((CANPort*)d->canHandle)->used = 0;
-	}
 
 	tmp = (CANPort*)d->canHandle;
 
 	if(tmp)
 	{
-	  // kill receiver task before port is closed and handle set to NULL
+	  d->canHandle = NULL;
+
+		// close CAN port
+	  res = m_canClose(tmp->fd);
+
+		// kill receiver task
 	  WaitReceiveTaskEnd(&tmp->receiveTask);
 
-	  // close CAN port
-	  res = m_canClose(tmp->fd);
+		// release used flag as a last step.
+	  tmp->used = 0;
 	}
+  else res = 255;
 
-	d->canHandle = NULL;
-
-	return res;
+return res;
 }
 
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
