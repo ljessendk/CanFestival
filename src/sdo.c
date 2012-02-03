@@ -123,7 +123,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
 */
 #define getSDOsubIndex(byte3) (byte3)
 
-/** Returns the subcommand in SDO block transfert
+/** Returns the subcommand in SDO block transfer
 */
 #define getSDOblockSC(byte) (byte & 3)
 
@@ -188,7 +188,7 @@ void resetSDO (CO_Data* d)
 	UNS8 j;
 
 	/* transfer structure initialization */
-	for (j = 0 ; j < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; j++)
+	for (j = 0 ; j < SDO_MAX_SIMULTANEOUS_TRANSFERS ; j++)
 		resetSDOline(d, j);
 }
 
@@ -211,7 +211,7 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
 	size = d->transfers[line].count;
 
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
-	if (size > SDO_MAX_LENGTH_TRANSFERT)
+	if (size > SDO_MAX_LENGTH_TRANSFER)
 	{
 		errorCode = setODentry(d, d->transfers[line].index, d->transfers[line].subIndex,
 				(void *) d->transfers[line].dynamicData, &size, 1);
@@ -243,7 +243,7 @@ UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line)
  **/
 UNS32 objdictToSDOline (CO_Data* d, UNS8 line)
 {
-    UNS32  size = SDO_MAX_LENGTH_TRANSFERT;
+    UNS32  size = SDO_MAX_LENGTH_TRANSFER;
 	UNS8  dataType;
 	UNS32 errorCode;
 
@@ -304,8 +304,8 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
 	UNS32 offset;
 
 #ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
-	if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
-		MSG_ERR(0x1A10,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
+	if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFER) {
+		MSG_ERR(0x1A10,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFER", nbBytes);
 		return 0xFF;
 	}
 #endif //SDO_DYNAMIC_BUFFER_ALLOCATION
@@ -316,7 +316,7 @@ UNS8 lineToSDO (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data) {
 	}
 	offset = d->transfers[line].offset;
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
-	if (d->transfers[line].count <= SDO_MAX_LENGTH_TRANSFERT)
+	if (d->transfers[line].count <= SDO_MAX_LENGTH_TRANSFER)
 	{
 		for (i = 0 ; i < nbBytes ; i++)
 			* (data + i) = d->transfers[line].data[offset + i];
@@ -354,8 +354,8 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 	UNS8 i;
 	UNS32 offset;
 #ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
-	if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
-		MSG_ERR(0x1A15,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
+	if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFER) {
+		MSG_ERR(0x1A15,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFER", nbBytes);
 		return 0xFF;
 	}
 #endif //SDO_DYNAMIC_BUFFER_ALLOCATION
@@ -364,7 +364,7 @@ UNS8 SDOtoLine (CO_Data* d, UNS8 line, UNS32 nbBytes, UNS8* data)
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
 	{
 		UNS8* lineData = d->transfers[line].data;
-		if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFERT) {
+		if ((d->transfers[line].offset + nbBytes) > SDO_MAX_LENGTH_TRANSFER) {
 			if (d->transfers[line].dynamicData == NULL) {
 				d->transfers[line].dynamicData = (UNS8*) malloc(SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE);
 				d->transfers[line].dynamicDataSize = SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE;
@@ -450,7 +450,7 @@ void resetSDOline ( CO_Data* d, UNS8 line )
 	UNS32 i;
 	MSG_WAR(0x3A25, "reset SDO line nb : ", line);
 	initSDOline(d, line, 0, 0, 0, SDO_RESET);
-	for (i = 0 ; i < SDO_MAX_LENGTH_TRANSFERT ; i++)
+	for (i = 0 ; i < SDO_MAX_LENGTH_TRANSFER ; i++)
 		d->transfers[line].data[i] = 0;
 	d->transfers[line].whoami = 0;
 	d->transfers[line].abortCode = 0;
@@ -516,7 +516,7 @@ UNS8 getSDOfreeLine ( CO_Data* d, UNS8 whoami, UNS8 *line )
 
 	UNS8 i;
 
-	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; i++){
+	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERS ; i++){
 		if ( d->transfers[i].state == SDO_RESET ) {
 			*line = i;
 			d->transfers[i].whoami = whoami;
@@ -542,7 +542,7 @@ UNS8 getSDOlineOnUse (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 
 	UNS8 i;
 
-	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; i++){
+	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERS ; i++){
 		if ( (d->transfers[i].state != SDO_RESET) &&
 				(d->transfers[i].state != SDO_ABORTED_INTERNAL) &&
 				(d->transfers[i].CliServNbr == CliServNbr) &&
@@ -569,7 +569,7 @@ UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
 
 	UNS8 i;
 
-	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERTS ; i++){
+	for (i = 0 ; i < SDO_MAX_SIMULTANEOUS_TRANSFERS ; i++){
 		if ( (d->transfers[i].state != SDO_RESET) &&
 				(d->transfers[i].CliServNbr == CliServNbr) &&
 				(d->transfers[i].whoami == whoami) ) {
@@ -639,8 +639,8 @@ UNS8 getSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 * nbBytes)
 UNS8 setSDOlineRestBytes (CO_Data* d, UNS8 line, UNS32 nbBytes)
 {
 #ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
-	if (nbBytes > SDO_MAX_LENGTH_TRANSFERT) {
-		MSG_ERR(0x1A35,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFERT", nbBytes);
+	if (nbBytes > SDO_MAX_LENGTH_TRANSFER) {
+		MSG_ERR(0x1A35,"SDO Size of data too large. Exceed SDO_MAX_LENGTH_TRANSFER", nbBytes);
 		return 0xFF;
 	}
 #endif //SDO_DYNAMIC_BUFFER_ALLOCATION
@@ -761,10 +761,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	UNS32 *pCobId = NULL;
 	UNS16 offset;
 	UNS16 lastIndex;
-	UNS8 SubCommand;	/* Block transfert only */
-    UNS8 SeqNo;         /* Sequence number in block transfert */
+	UNS8 SubCommand;	/* Block transfer only */
+    UNS8 SeqNo;         /* Sequence number in block transfer */
     UNS8 AckSeq;        /* Sequence number of last segment that was received successfully */
-	UNS8 NbBytesNoData; /* Number of bytes that do not contain data in last segment of block transfert */ 
+	UNS8 NbBytesNoData; /* Number of bytes that do not contain data in last segment of block transfer */ 
 
 	MSG_WAR(0x3A60, "proceedSDO ", 0);
 	whoami = SDO_UNKNOWN;
@@ -833,12 +833,12 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 		MSG_WAR(0x3A69, "I am SERVER number ", CliServNbr);
 	}
 
-	/* Look for an SDO transfert already initiated. */
+	/* Look for an SDO transfer already initiated. */
 	err = getSDOlineOnUse( d, CliServNbr, whoami, &line );
 
 	/* Let's find cs value, first it is set as "not valid" */
 	cs = 0xFF; 
-	/* Special cases for block transfert : in frames with segment data cs is not spécified */
+	/* Special cases for block transfer : in frames with segment data cs is not spécified */
    	if (!err) {
 		if ((whoami == SDO_SERVER) && (d->transfers[line].state == SDO_BLOCK_DOWNLOAD_IN_PROGRESS) ||
 			(whoami == SDO_CLIENT) && (d->transfers[line].state == SDO_BLOCK_UPLOAD_IN_PROGRESS)) {		
@@ -860,7 +860,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 		case 0:
 			/* I am SERVER */
 			if (whoami == SDO_SERVER) {
-				/* Receiving a download segment data : an SDO transfert should have been yet initiated. */
+				/* Receiving a download segment data : an SDO transfer should have been yet initiated. */
 				if (!err)
 					err = d->transfers[line].state != SDO_DOWNLOAD_IN_PROGRESS;
 				if (err) {
@@ -882,7 +882,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 				}
 				/* Nb of data to be downloaded */
 				nbBytes = 7 - getSDOn3(m->data[0]);
-				/* Store the data in the transfert structure. */
+				/* Store the data in the transfer structure. */
 				err = SDOtoLine(d, line, nbBytes, (*m).data + 1);
 				if (err) {
 					failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
@@ -973,7 +973,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 				MSG_WAR(0x3A80, "Writing at index : ", index);
 				MSG_WAR(0x3A80, "Writing at subIndex : ", subIndex);
 
-				/* Search if a SDO transfert have been yet initiated */
+				/* Search if a SDO transfer have been yet initiated */
 				if (! err) {
 					MSG_ERR(0x1A81, "SDO error : Transmission yet started.", 0);
 					failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_LOCAL_CTRL_ERROR);
@@ -1001,9 +1001,9 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						return 0xFF;
 					}
 
-					/* SDO expedited -> transfert finished. Data can be stored in the dictionary. */
+					/* SDO expedited -> transfer finished. Data can be stored in the dictionary. */
 					/*The line will be reseted when it is downloading in the dictionary. */
-					MSG_WAR(0x3A83, "SDO Initiate Download is an expedited transfert. Finished. ", 0);
+					MSG_WAR(0x3A83, "SDO Initiate Download is an expedited transfer. Finished. ", 0);
 					/* Transfering line data to object dictionary. */
 					errorCode = SDOlineToObjdict(d, line);
 					if (errorCode) {
@@ -1014,7 +1014,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					/* Release of the line. */
 					resetSDOline(d, line);
 				}
-				else {/* So, if it is not an expedited transfert */
+				else {/* So, if it is not an expedited transfer */
 					if (getSDOs(m->data[0])) {
 						nbBytes = (m->data[4]) + ((UNS32)(m->data[5])<<8) + ((UNS32)(m->data[6])<<16) + ((UNS32)(m->data[7])<<24);
 						err = setSDOlineRestBytes(d, line, nbBytes);
@@ -1103,7 +1103,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						CliServNbr);
 				MSG_WAR(0x3A90, "Reading at index : ", index);
 				MSG_WAR(0x3A91, "Reading at subIndex : ", subIndex);
-				/* Search if a SDO transfert have been yet initiated*/
+				/* Search if a SDO transfer have been yet initiated*/
 				if (! err) {
 					MSG_ERR(0x1A92, "SDO error : Transmission yet started at line : ", line);
 					MSG_WAR(0x3A93, "Server Nbr = ", CliServNbr);
@@ -1131,7 +1131,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 				/* Preparing the response.*/
 				getSDOlineRestBytes(d, line, &nbBytes);	/* Nb bytes to transfer ? */
 				if (nbBytes > 4) {
-					/* normal transfert. (segmented). */
+					/* normal transfer. (segmented). */
 					/* code to send the initiate upload response. (cs = 2) */
 					data[0] = (2 << 5) | 1;
 					data[1] = index & 0xFF;        /* LSB */
@@ -1189,7 +1189,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_GENERAL_ERROR);
 						return 0xFF;
 					}
-					/* SDO expedited -> transfert finished. data are available via  getReadResultNetworkDict(). */
+					/* SDO expedited -> transfer finished. data are available via  getReadResultNetworkDict(). */
 					MSG_WAR(0x3A98, "SDO expedited upload finished. Response received from node : ", nodeId);
 					StopSDO_TIMER(line)
 						d->transfers[line].count = nbBytes;
@@ -1197,7 +1197,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					if(d->transfers[line].Callback) (*d->transfers[line].Callback)(d,nodeId);
 					return 0;
 				}
-				else { /* So, if it is not an expedited transfert */
+				else { /* So, if it is not an expedited transfer */
 					/* Storing the nb of data to receive. */
 					if (getSDOs(m->data[0])) {
 						nbBytes = m->data[4] + ((UNS32)(m->data[5])<<8) + ((UNS32)(m->data[6])<<16) + ((UNS32)(m->data[7])<<24);
@@ -1221,7 +1221,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 			/* I am SERVER */
 			if (whoami == SDO_SERVER) {
 				/* Receiving a upload segment. */
-				/* A SDO transfert should have been yet initiated. */
+				/* A SDO transfer should have been yet initiated. */
 				if (!err)
 					err = d->transfers[line].state != SDO_UPLOAD_IN_PROGRESS;
 				if (err) {
@@ -1366,7 +1366,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 						CliServNbr);
 				    MSG_WAR(0x3AB3, "Reading at index : ", index);
 				    MSG_WAR(0x3AB4, "Reading at subIndex : ", subIndex);
-				    /* Search if a SDO transfert have been yet initiated */
+				    /* Search if a SDO transfer have been yet initiated */
 				    if (! err) {
 					    MSG_ERR(0x1A93, "SDO error : Transmission yet started at line : ", line);
 					    MSG_WAR(0x3AB5, "Server Nbr = ", CliServNbr);
@@ -1408,7 +1408,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                 }
 				else if (SubCommand == SDO_BCS_END_UPLOAD_REQUEST) {
 				    MSG_WAR(0x3AA2, "Received SDO block END upload request defined at index 0x1200 + ", CliServNbr);
- 				    /* A SDO transfert should have been yet initiated. */
+ 				    /* A SDO transfer should have been yet initiated. */
 				    if (!err)
 					    err = d->transfers[line].state != SDO_BLOCK_UPLOAD_IN_PROGRESS;
 				    if (err) {
@@ -1421,7 +1421,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					resetSDOline(d, line);
                 }
 				else if ((SubCommand == SDO_BCS_UPLOAD_RESPONSE) || (SubCommand == SDO_BCS_START_UPLOAD)) {
- 				    /* A SDO transfert should have been yet initiated. */
+ 				    /* A SDO transfer should have been yet initiated. */
 				    if (!err)
 					    err = d->transfers[line].state != SDO_BLOCK_UPLOAD_IN_PROGRESS;
 				    if (err) {
@@ -1636,7 +1636,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					else {
 					   	if (SeqNo == (d->transfers[line].seqno + 1)) {	
 							d->transfers[line].seqno = SeqNo;
-							/* Store the data in the transfert structure. */
+							/* Store the data in the transfer structure. */
 							err = SDOtoLine(d, line, 7, (*m).data + 1);
 							if (err) {
 								failedSDO(d, CliServNbr, whoami, d->transfers[line].index,  d->transfers[line].subIndex, SDOABT_GENERAL_ERROR);
@@ -1664,7 +1664,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					}
     		    	RestartSDO_TIMER(line)
 					NbBytesNoData = (m->data[0]>>2) & 0x07;
-					/* Store the data in the transfert structure. */
+					/* Store the data in the transfer structure. */
 					err = SDOtoLine(d, line, 7-NbBytesNoData, d->transfers[line].tmpData + 1);
 					if (err) {
 						failedSDO(d, CliServNbr, whoami, d->transfers[line].index,  d->transfers[line].subIndex, SDOABT_GENERAL_ERROR);
@@ -1736,7 +1736,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					else {
 					   	if (SeqNo == (d->transfers[line].seqno + 1)) {	
 							d->transfers[line].seqno = SeqNo;
-							/* Store the data in the transfert structure. */
+							/* Store the data in the transfer structure. */
 							err = SDOtoLine(d, line, 7, (*m).data + 1);
 							if (err) {
 								failedSDO(d, CliServNbr, whoami, d->transfers[line].index,  d->transfers[line].subIndex, SDOABT_GENERAL_ERROR);
@@ -1762,7 +1762,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	    				return 0xFF;
 					}
 					NbBytesNoData = (m->data[0]>>2) & 0x07;
-					/* Store the data in the transfert structure. */
+					/* Store the data in the transfer structure. */
 					err = SDOtoLine(d, line, 7-NbBytesNoData, d->transfers[line].tmpData + 1);
 					if (err) {
 						failedSDO(d, CliServNbr, whoami, d->transfers[line].index,  d->transfers[line].subIndex, SDOABT_GENERAL_ERROR);
@@ -1909,7 +1909,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
 	{
 		UNS8* lineData = d->transfers[line].data;
-		if (count > SDO_MAX_LENGTH_TRANSFERT)
+		if (count > SDO_MAX_LENGTH_TRANSFER)
 		{
 			d->transfers[line].dynamicData = (UNS8*) malloc(count);
 			d->transfers[line].dynamicDataSize = count;
@@ -1952,13 +1952,13 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
     }
     else {
 	    /* Send the SDO to the server. Initiate download, cs=1. */
-	    if (count <= 4) { /* Expedited transfert */
+	    if (count <= 4) { /* Expedited transfer */
 		    buf[0] = (UNS8)((1 << 5) | ((4 - count) << 2) | 3);
 		    for (i = 4 ; i < 8 ; i++)
 			    buf[i] = d->transfers[line].data[i - 4];
 		    d->transfers[line].offset = count;
 	    }
-	    else { /** Normal transfert */
+	    else { /** Normal transfer */
 		    buf[0] = (1 << 5) | 1;
 		    for (i = 0 ; i < 4 ; i++)
 			    buf[i+4] = (UNS8)((count >> (i<<3))); /* i*8 */
@@ -2267,7 +2267,7 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
         return SDO_ABORTED_INTERNAL;
 	}
 
-    /* If transfert not finished just return, but if aborted set abort code and size to 0 */
+    /* If transfer not finished just return, but if aborted set abort code and size to 0 */
     if (d->transfers[line].state != SDO_FINISHED) {
 	    if((d->transfers[line].state == SDO_ABORTED_RCV) || (d->transfers[line].state == SDO_ABORTED_INTERNAL)) {
             *abortCode = d->transfers[line].abortCode;
