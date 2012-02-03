@@ -118,6 +118,17 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
 	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
 	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
+
+	if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
+	{
+	  m_canReceive = NULL;
+	  m_canSend = NULL;
+	  m_canOpen = NULL;
+	  m_canClose = NULL;
+	  m_canChangeBaudRate = NULL;
+	  FreeLibrary(handle);
+	  handle = NULL;
+	}
 #else
   //compiled in...
   handle = 1; //TODO: remove this hack
@@ -140,7 +151,7 @@ UNS8 canSend(CAN_PORT port, Message *m)
 	{
 		return m_canSend(((CANPort*)port)->fd, m);
 	}
-	return 1;
+	return 1; /* NOT OK */	
 }
 
 /***************************************************************************/
