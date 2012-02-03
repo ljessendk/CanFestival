@@ -1867,7 +1867,7 @@ __inline unsigned int AT91F_SPI_SendFrame(
 
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_SPI_Close
-//* \brief Close SPI: disable IT disable transfert, close PDC
+//* \brief Close SPI: disable IT disable transfer, close PDC
 //*----------------------------------------------------------------------------
 __inline void AT91F_SPI_Close (
 	AT91PS_SPI pSPI)     // \arg pointer to a SPI controller
