@@ -590,7 +590,7 @@ fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	if [ "$LD" = "" ]; then
-		LD=$CC
+		LD=$CXX
 	fi
 fi
 
