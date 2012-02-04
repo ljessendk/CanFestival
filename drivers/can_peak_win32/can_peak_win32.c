@@ -33,6 +33,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include "cancfg.h"
 #include "can_driver.h"
 #include "def.h"
+
+
+#define VERSION_2
+
+/* dummy implementation for older version. */
+#ifndef VERSION_2
+void CAN_SetRcvEvent(HANDLE hEventx)
+{
+  SetEvent(hEventx);
+}
+#endif
+
+
+
+
 #ifndef extra_PCAN_init_params
 	#define extra_PCAN_init_params /**/
 #else
@@ -56,22 +71,25 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 		,print_getenv("PCANInterupt")
 #endif
 
-static s_BOARD *first_board = NULL;
 
+static s_BOARD *first_board = NULL;
 //Create the Event for the first board
 HANDLE hEvent1 = NULL;
+CRITICAL_SECTION InitLock1;
+CRITICAL_SECTION InitLock2;
 
 
 #ifdef PCAN2_HEADER_
-	static s_BOARD *second_board = NULL;
-	HANDLE hEvent2 = NULL;
+  static s_BOARD *second_board = NULL;
+  HANDLE hEvent2 = NULL;
 #endif
 
 // Define for rtr CAN message
 #define CAN_INIT_TYPE_ST_RTR MSGTYPE_STANDARD | MSGTYPE_RTR
 
 /***************************************************************************/
-int TranslateBaudeRate(char* optarg){
+static int TranslateBaudeRate(char* optarg)
+{
 	if(!strcmp( optarg, "1M")) return CAN_BAUD_1M;
 	if(!strcmp( optarg, "500K")) return CAN_BAUD_500K;
 	if(!strcmp( optarg, "250K")) return CAN_BAUD_250K;
@@ -85,7 +103,7 @@ int TranslateBaudeRate(char* optarg){
 	return 0x0000;
 }
 
-UNS8 canInit (s_BOARD *board)
+static UNS8 canInit (s_BOARD *board)
 {
 	int baudrate;
 	int ret = 0;
@@ -93,52 +111,69 @@ UNS8 canInit (s_BOARD *board)
 #ifdef PCAN2_HEADER_
 	// if not the first handler
 	if(second_board == (s_BOARD *)board) {
-		if(baudrate = TranslateBaudeRate(board->baudrate))
-		{
-			ret = CAN2_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
-			if(ret != CAN_ERR_OK)
-				return 0;
+		if(hEvent2==NULL)
+		{	/* Create the Event for the first board */
+		  hEvent2 = CreateEvent(NULL, // lpEventAttributes
+							FALSE,  // bManualReset
+							FALSE,  // bInitialState
+							"");    // lpName
+		  InitializeCriticalSection(&InitLock2);
 		}
 
-		//Create the Event for the first board
-		if(hEvent2 != NULL){
-			hEvent2 = CreateEvent(NULL, // lpEventAttributes
-			                      FALSE,  // bManualReset
-			                      FALSE,  // bInitialState
-			                      "");    // lpName
+		EnterCriticalSection(&InitLock2);
+		if(baudrate = TranslateBaudeRate(board->baudrate))
+		{
+		  ret = CAN2_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
+		  if(ret != CAN_ERR_OK)
+		  {
+		    LeaveCriticalSection(&InitLock2);
+		    return 0;
+		  }
 		}
 		//Set Event Handle for CANReadExt
 		CAN2_SetRcvEvent(hEvent2);
+		LeaveCriticalSection(&InitLock2);
 	}
 	else
 #endif
 	if(first_board == (s_BOARD *)board) {
+		//Create the Event for the first board
+		if(hEvent1==NULL)
+		{
+		  hEvent1 = CreateEvent(NULL, // lpEventAttributes
+							FALSE,  // bManualReset
+							FALSE,  // bInitialState
+							"");    // lpName
+		  InitializeCriticalSection(&InitLock1);
+                }
+
+		EnterCriticalSection(&InitLock1);
 		if(baudrate = TranslateBaudeRate(board->baudrate))
 		{
-			ret = CAN_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
-			if(ret != CAN_ERR_OK)
-				return 0;
-		}
-		//Create the Event for the first board
-		if(hEvent1 != NULL){
-			hEvent1 = CreateEvent(NULL, // lpEventAttributes
-			                      FALSE,  // bManualReset
-			                      FALSE,  // bInitialState
-			                      "");    // lpName
+		  ret = CAN_Init(baudrate, CAN_INIT_TYPE_ST extra_PCAN_init_params);
+		  if(ret != CAN_ERR_OK)
+		  {
+		    LeaveCriticalSection(&InitLock1);
+		    return 0;
+		  }
 		}
 		//Set Event Handle for CANReadExt
 		CAN_SetRcvEvent(hEvent1);
+		LeaveCriticalSection(&InitLock1);
 	}
 	return 1;
 }
 
 /********* functions which permit to communicate with the board ****************/
-UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
+UNS8 LIBAPI canReceive_driver(CAN_HANDLE fd0, Message * m)
 {
+static int HeavyCounter = 0;
 	int ret=0;
 	UNS8 data;
 	TPCANMsg peakMsg;
+#ifdef CAN_READ_EX
 	TPCANTimestamp peakRcvTime;
+#endif
 	DWORD Res;
 	DWORD result;
 	// loop until valid message or fatal error
@@ -151,52 +186,82 @@ UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
 			if (result == WAIT_OBJECT_0)
 				Res = CAN2_ReadEx(&peakMsg, &peakRcvTime);
 				// Exit receive thread when handle is no more valid
-				if(Res & CAN_ERR_ILLHANDLE)
+				if(Res & CAN_ERRMASK_ILLHANDLE)
 					return 1;
 		}
 		else
 #endif
 
 		// We read the queue looking for messages.
-		if(first_board == (s_BOARD *)fd0) {
+		if(first_board == (s_BOARD *)fd0) 
+		{
+#ifdef VERSION_2
 			result = WaitForSingleObject(hEvent1, INFINITE);
 			if (result == WAIT_OBJECT_0)
+#endif
 			{
+#ifdef CAN_READ_EX
 				Res = CAN_ReadEx(&peakMsg, &peakRcvTime);
+#else
+				Res = CAN_Read(&peakMsg);
+#endif
 				// Exit receive thread when handle is no more valid
-				if(Res & CAN_ERR_ILLHANDLE)
-					return 1;
+#ifdef CAN_ERRMASK_ILLHANDLE
+				if(Res & CAN_ERRMASK_ILLHANDLE) return 1;
+#else
+				if(Res & CAN_ERR_ILLHANDLE) return 1;
+#endif				
+
+#ifndef VERSION_2
+				if(Res != CAN_ERR_OK) 
+					result = WaitForSingleObject(hEvent1, 1);  	//pooling
+#endif
 			}
 		}
+#ifdef VERSION_2
 		else
 			Res = CAN_ERR_BUSOFF;
-
+#endif
+		
 		// A message was received : we process the message(s)
-		if (Res == CAN_ERR_OK)
-		{
-			// if something different that 11bit or rtr... problem
-			if (peakMsg.MSGTYPE & ~(MSGTYPE_STANDARD | MSGTYPE_RTR))
-			{
-				if (peakMsg.MSGTYPE == CAN_ERR_BUSOFF)
-				{
-					printf ("!!! Peak board read : re-init\n");
-					canInit((s_BOARD*) fd0);
-					usleep (10000);
-				}
+		if(Res == CAN_ERR_OK)
+		{			
+		  switch(peakMsg.MSGTYPE)
+		  {
+		    case MSGTYPE_STATUS:
+			  switch(peakMsg.DATA[3])
+		          {
+			    case CAN_ERR_BUSHEAVY: 
+				      break;
+		            case CAN_ERR_BUSOFF: 
+			              printf ("Peak board read BUSOFF: re-init!!!\n");
+				      canInit((s_BOARD*)fd0);
+				      usleep(33);
+				      break;
+			  }
+			  return peakMsg.DATA[3];	/* if something different that 11bit or rtr... problem */
 
-				// If status, return status if 29bit, return overrun
-				return peakMsg.MSGTYPE ==
-					MSGTYPE_STATUS ? peakMsg.DATA[2] : CAN_ERR_OVERRUN;
-			}
-			m->cob_id = peakMsg.ID;
+		    case MSGTYPE_STANDARD:		/* bits of MSGTYPE_ */
+		    case MSGTYPE_EXTENDED:
+			  m->rtr = 0;
+			  break;
 
-			if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)	/* bits of MSGTYPE_ */
-				m->rtr = 0;
-			else
-				m->rtr = 1;
-			m->len = peakMsg.LEN;	/* count of data bytes (0..8) */
-			for (data = 0; data < peakMsg.LEN; data++)
-				m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
+		    case MSGTYPE_RTR:			/* bits of MSGTYPE_ */
+			  m->rtr = 1;
+			  break;
+
+		    default: return CAN_ERR_OVERRUN;	/* If status, return status if 29bit, return overrun. */
+		    
+		    }
+
+		   m->cob_id = peakMsg.ID;				
+		   if (peakMsg.MSGTYPE == CAN_INIT_TYPE_ST)  /* bits of MSGTYPE_ */
+                     m->rtr = 0;
+		   else
+		     m->rtr = 1;
+		   m->len = peakMsg.LEN;		/* count of data bytes (0..8) */
+		   for (data = 0; data < peakMsg.LEN; data++)
+			m->Data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
 #if defined DEBUG_MSG_CONSOLE_ON
 			MSG("in : ");
 			print_message(m);
@@ -213,27 +278,30 @@ UNS8 __stdcall canReceive_driver (CAN_HANDLE fd0, Message * m)
 				return 1;
 			}
 		}
-	}while(Res != CAN_ERR_OK);
+	} while(Res != CAN_ERR_OK);
 	return 0;
 }
 
 /***************************************************************************/
-UNS8 __stdcall canSend_driver (CAN_HANDLE fd0, Message const * m)
+UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
 	UNS8 data;
-	DWORD localerrno;
 	TPCANMsg peakMsg;
 	peakMsg.ID = m->cob_id;	/* 11/29 bit code */
 	if (m->rtr == 0)
-		peakMsg.MSGTYPE = CAN_INIT_TYPE_ST;	/* bits of MSGTYPE_ */
-	else
 	{
-		peakMsg.MSGTYPE = CAN_INIT_TYPE_ST_RTR;	/* bits of MSGTYPE_ */
+	  if(peakMsg.ID > 0x7FF)
+		peakMsg.MSGTYPE = MSGTYPE_EXTENDED;	/* bits of MSGTYPE_ */
+	  else
+		peakMsg.MSGTYPE = MSGTYPE_STANDARD;	/* bits of MSGTYPE_ */
 	}
+	else	
+		peakMsg.MSGTYPE = MSGTYPE_RTR;		/* bits of MSGTYPE_ */
+	
 	peakMsg.LEN = m->len;
 	/* count of data bytes (0..8) */
 	for (data = 0; data < m->len; data++)
-		peakMsg.DATA[data] = m->data[data];	/* data bytes, up to 8 */
+		peakMsg.DATA[data] = m->Data[data];	/* data bytes, up to 8 */
 
 	do
 	{
@@ -241,19 +309,19 @@ UNS8 __stdcall canSend_driver (CAN_HANDLE fd0, Message const * m)
 		// if not the first handler
 		if(second_board == (s_BOARD *)fd0)
 		{
-			errno = localerrno = CAN2_Write (&peakMsg);
+			errno = CAN2_Write (&peakMsg);
 		}
 		else
 #endif
 		if(first_board == (s_BOARD *)fd0)
 			{
-				errno = localerrno = CAN_Write (&peakMsg);
+				errno = CAN_Write (&peakMsg);
 			}
 		else
 			goto fail;
-		if (localerrno)
+		if (errno)
 		{
-			if (localerrno == CAN_ERR_BUSOFF)
+			if (errno == CAN_ERR_BUSOFF)
 			{
 				printf ("!!! Peak board write : re-init\n");
 				canInit((s_BOARD*)fd0);
@@ -262,7 +330,7 @@ UNS8 __stdcall canSend_driver (CAN_HANDLE fd0, Message const * m)
 			usleep (1000);
 		}
 	}
-	while (localerrno != CAN_ERR_OK);
+	while (errno != CAN_ERR_OK);
 #if defined DEBUG_MSG_CONSOLE_ON
 	MSG("out : ");
 	print_message(m);
@@ -273,16 +341,15 @@ fail:
 }
 
 /***************************************************************************/
-UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+UNS8 LIBAPI canChangeBaudRate_driver(CAN_HANDLE fd, char* baud)
 {
 	printf("canChangeBaudRate not yet supported by this driver\n");
 	return 0;
 }
 
 /***************************************************************************/
-CAN_HANDLE __stdcall canOpen_driver (s_BOARD * board)
+LIBPUBLIC CAN_HANDLE LIBAPI canOpen_driver(s_BOARD * board)
 {
-  char busname[64];
   char* pEnd;
   int ret;
 
@@ -308,35 +375,36 @@ CAN_HANDLE __stdcall canOpen_driver (s_BOARD * board)
   return NULL;
 }
 
+
 /***************************************************************************/
-int __stdcall canClose_driver (CAN_HANDLE fd0)
+int LIBAPI canClose_driver(CAN_HANDLE fd0)
 {
 #ifdef PCAN2_HEADER_
-      // if not the first handler
-      if(second_board == (s_BOARD *)fd0)
-      {
-           CAN2_SetRcvEvent(NULL);
-           CAN2_Close ();
-           if(hEvent2)
-           {
-             SetEvent(hEvent2);
-             CloseHandle(hEvent2);
-             hEvent2 = NULL;
-           }
-           second_board = (s_BOARD *)NULL;
-      }else
+	// if not the first handler
+	if(second_board == (s_BOARD *)fd0)
+	{
+		CAN2_SetRcvEvent(NULL);
+		CAN2_Close ();		
+		if(hEvent2)
+		{
+		  SetEvent(hEvent2);
+		  CloseHandle(hEvent2);		
+		  hEvent2 = NULL;
+		}
+		second_board = (s_BOARD *)NULL;
+	}else
 #endif
-      if(first_board == (s_BOARD *)fd0)
-      {
-           CAN_SetRcvEvent(NULL);
-           CAN_Close ();
-           if(hEvent1)
-           {
-             SetEvent(hEvent1);
-             CloseHandle(hEvent1);
-             hEvent1 = NULL;
-            }
-           first_board = (s_BOARD *)NULL;
-      }
-      return 0;
+	if(first_board == (s_BOARD *)fd0)
+	{
+		CAN_SetRcvEvent(NULL);
+		CAN_Close ();		
+		if(hEvent1) 
+		{
+                  SetEvent(hEvent1);
+		  CloseHandle(hEvent1);
+		  hEvent1 = NULL;
+                }
+		first_board = (s_BOARD *)NULL;
+	}
+	return 0;
 }
