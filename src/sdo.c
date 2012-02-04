@@ -1841,7 +1841,7 @@ UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId )
 		CliNbr++;
 	} /* end while */
 	if (!SDOfound) {
-		MSG_ERR(0x1AC9, "SDO. Error. No client found to communicate with node : ", nodeId);
+		MSG_WAR(0x1AC9, "SDO No preset client found to communicate with node : ", nodeId);
 		return 0xFE;
 	}
 	MSG_WAR(0x3AD0,"        SDO client defined at index  : ", 0x1280 + CliNbr);
