@@ -42,7 +42,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #define SDOABT_TOGGLE_NOT_ALTERNED   0x05030000
 #define SDOABT_TIMED_OUT             0x05040000
-#define SDOABT_OUT_OF_MEMORY         0x05040005 /* Size data exceed SDO_MAX_LENGTH_TRANSFERT */
+#define SDOABT_OUT_OF_MEMORY         0x05040005 /* Size data exceed SDO_MAX_LENGTH_TRANSFER */
 #define SDOABT_GENERAL_ERROR         0x08000000 /* Error size of SDO message */
 #define SDOABT_LOCAL_CTRL_ERROR      0x08000021 
 
@@ -82,7 +82,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #define SDO_PROVIDED_BUFFER_TOO_SMALL   0x8A
 
-/* Status of the node during the SDO transfert : */
+/* Status of the node during the SDO transfer : */
 #define SDO_SERVER  0x1
 #define SDO_CLIENT  0x2
 #define SDO_UNKNOWN 0x3             

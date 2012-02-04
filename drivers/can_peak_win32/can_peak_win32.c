@@ -2,6 +2,7 @@
 This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
+Modified by: Jaroslav Fojtik
 
 See COPYING file for copyrights details.
 

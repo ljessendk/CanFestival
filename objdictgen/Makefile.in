@@ -36,7 +36,7 @@ gnosis/version.py:
 
 install: gnosis
 	mkdir -p $(PREFIX)/objdictgen
-	cp -r *.py* config doc doc_index locale examples gnosis $(PREFIX)/objdictgen
+	cp -r *.py* config doc doc_index locale examples gnosis *.ico $(PREFIX)/objdictgen
 	chmod -R a+r $(PREFIX)/objdictgen
 	mkdir -p $(PREFIX)/bin
 	ln -sf $(PREFIX)/objdictgen/objdictedit.py $(PREFIX)/bin/objdictedit

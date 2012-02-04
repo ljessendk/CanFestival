@@ -28,17 +28,17 @@
 # Number of can bus to use
 MAX_CAN_BUS_ID=1
 
-# max bytes to transmit by SDO Put 4 if you only support expedited transfert.
-#For a normal transfert, (usually for a string), put the maximum string size to transfer.
-SDO_MAX_LENGTH_TRANSFERT=32
+# max bytes to transmit by SDO Put 4 if you only support expedited transfer.
+#For a normal transfer, (usually for a string), put the maximum string size to transfer.
+SDO_MAX_LENGTH_TRANSFER=32
 
-# For block transfert, number of segments transmitted at once.
+# For block transfer, number of segments transmitted at once.
 # SDO_BLOCK_SIZE CAN frames must fit into the CAN Tx buffer
 SDO_BLOCK_SIZE=16
 
 # Number of SDO from differents nodes that the node can manage concurrently.
 #for a slave node, usually put 1.
-SDO_MAX_SIMULTANEOUS_TRANSFERTS=4
+SDO_MAX_SIMULTANEOUS_TRANSFERS=4
 
 # Used for NMTable[bus][nodeId]
 # You can put less of 128 if on the netwo
@@ -125,9 +125,9 @@ while [ $# -ge 1 ]; do
 			echo "On user request: LSS FastScan service enabled";;
 	--debug=*)	DEBUG=$optarg;;
 	--MAX_CAN_BUS_ID=*)	MAX_CAN_BUS_ID=$optarg;;
-	--SDO_MAX_LENGTH_TRANSFERT=*)	SDO_MAX_LENGTH_TRANSFERT=$optarg;;
+	--SDO_MAX_LENGTH_TRANSFER=*)	SDO_MAX_LENGTH_TRANSFER=$optarg;;
 	--SDO_BLOCK_SIZE=*)	SDO_BLOCK_SIZE=$optarg;;
-	--SDO_MAX_SIMULTANEOUS_TRANSFERTS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERTS=$optarg;;
+	--SDO_MAX_SIMULTANEOUS_TRANSFERS=*)	SDO_MAX_SIMULTANEOUS_TRANSFERS=$optarg;;
 	--NMT_MAX_NODE_ID=*)	NMT_MAX_NODE_ID=$optarg;;
 	--SDO_TIMEOUT_MS=*)	SDO_TIMEOUT_MS=$optarg;;
 	--CANOPEN_BIG_ENDIAN=*)	CANOPEN_BIG_ENDIAN=$optarg;;
@@ -183,9 +183,9 @@ while [ $# -ge 1 ]; do
 		echo
 		echo	"Stack compilation constants"
 		echo	" --MAX_CAN_BUS_ID [=1] Number of can bus to use"
-		echo	" --SDO_MAX_LENGTH_TRANSFERT [=32] max bytes to transmit by SDO"
-		echo	" --SDO_BLOCK_SIZE [=16] max CAN frames transmitted at once for block transfert"
-		echo	" --SDO_MAX_SIMULTANEOUS_TRANSFERTS [=4] Number of SDO that the node can manage concurrently"
+		echo	" --SDO_MAX_LENGTH_TRANSFER [=32] max bytes to transmit by SDO"
+		echo	" --SDO_BLOCK_SIZE [=16] max CAN frames transmitted at once for block transfer"
+		echo	" --SDO_MAX_SIMULTANEOUS_TRANSFERS [=4] Number of SDO that the node can manage concurrently"
 		echo	" --NMT_MAX_NODE_ID [=128] can be reduced to gain memory on small network"
 		echo	" --SDO_TIMEOUT_MS [=3000] Timeout in milliseconds for SDO (None to disable the feature)"
 		echo	" --EMCY_MAX_ERRORS [=8] Max number of active errors managed in error_data structure"
@@ -590,7 +590,7 @@ fi
 
 if [ "$SUB_TARGET" = "unix" ]; then
 	if [ "$LD" = "" ]; then
-		LD=$CC
+		LD=$CXX
 	fi
 fi
 
@@ -672,9 +672,9 @@ echo "#define _CONFIG_H_" >> include/config.h
 echo "" >> include/config.h
 for i in \
  MAX_CAN_BUS_ID\
- SDO_MAX_LENGTH_TRANSFERT\
+ SDO_MAX_LENGTH_TRANSFER\
  SDO_BLOCK_SIZE\
- SDO_MAX_SIMULTANEOUS_TRANSFERTS\
+ SDO_MAX_SIMULTANEOUS_TRANSFERS\
  NMT_MAX_NODE_ID\
  SDO_TIMEOUT_MS\
  MAX_NB_TIMER\
@@ -695,7 +695,7 @@ done
 echo "" >> include/config.h
 
 for i in \
- SDO_MAX_SIMULTANEOUS_TRANSFERTS\
+ SDO_MAX_SIMULTANEOUS_TRANSFERS\
  NMT_MAX_NODE_ID\
  EMCY_MAX_ERRORS; do
 	echo "#define REPEAT_"$i"_TIMES(repeat)\\">> include/config.h

@@ -71,7 +71,7 @@ struct struct_s_transfer {
                               * WARNING s_transfer.data is subject to ENDIANISATION
                               * (with respect to CANOPEN_BIG_ENDIAN)
                               */
-  UNS8           data [SDO_MAX_LENGTH_TRANSFERT];
+  UNS8           data [SDO_MAX_LENGTH_TRANSFER];
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
   UNS8           *dynamicData;
   UNS32          dynamicDataSize;
@@ -120,7 +120,7 @@ void resetSDO (CO_Data* d);
 
 
 /** 
- * @brief Copy the data received from the SDO line transfert to the object dictionary.
+ * @brief Copy the data received from the SDO line transfer to the object dictionary.
  * @param *d Pointer on a CAN object data structure
  * @param line SDO line
  * @return SDO error code if error. Else, returns 0.
@@ -128,7 +128,7 @@ void resetSDO (CO_Data* d);
 UNS32 SDOlineToObjdict (CO_Data* d, UNS8 line);
 
 /** 
- * @brief Copy the data from the object dictionary to the SDO line for a network transfert.
+ * @brief Copy the data from the object dictionary to the SDO line for a network transfer.
  * @param *d Pointer on a CAN object data structure
  * @param line SDO line
  * @return SDO error code if error. Else, returns 0.
@@ -288,7 +288,7 @@ UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS16 index, UNS8 s
  * @param *m Pointer on a CAN message structure 
  * @return code : 
  * 		   - 0xFF if error
- *         - 0x80 if transfert aborted by the server
+ *         - 0x80 if transfer aborted by the server
  *         - 0x0  ok
  */
 UNS8 proceedSDO (CO_Data* d, Message *m);
@@ -421,8 +421,8 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
  * 
  * @return
  *           - SDO_FINISHED             // datas are available
- *           - SDO_ABORTED_RCV          // Transfert failed (abort SDO received)
- *           - SDO_ABORTED_INTERNAL     // Transfert failed (internal abort)
+ *           - SDO_ABORTED_RCV          // Transfer failed (abort SDO received)
+ *           - SDO_ABORTED_INTERNAL     // Transfer failed (internal abort)
  *           - SDO_UPLOAD_IN_PROGRESS   // Datas are not yet available
  *           - SDO_DOWNLOAD_IN_PROGRESS // Download is in progress
  *           - SDO_PROVIDED_BUFFER_TOO_SMALL //The value *size is not enough to store the received data
@@ -449,8 +449,8 @@ UNS8 getReadResultNetworkDict (CO_Data* d, UNS8 nodeId, void* data, UNS32 *size,
  * 
  * @return : 
  *           - SDO_FINISHED             // datas are available
- *           - SDO_ABORTED_RCV          // Transfert failed (abort SDO received)
- *           - SDO_ABORTED_INTERNAL     // Transfert failed (Internal abort)
+ *           - SDO_ABORTED_RCV          // Transfer failed (abort SDO received)
+ *           - SDO_ABORTED_INTERNAL     // Transfer failed (Internal abort)
  *           - SDO_DOWNLOAD_IN_PROGRESS // Datas are not yet available
  *           - SDO_UPLOAD_IN_PROGRESS   // Upload in progress
  * \n\n
