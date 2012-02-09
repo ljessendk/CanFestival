@@ -73,9 +73,8 @@ loc.AddCatalog(domain)
 if __name__ == '__main__':
     __builtin__.__dict__['_'] = wx.GetTranslation
 
-from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
-
 from nodemanager import *
+from nodeeditor import NodeEditorTemplate
 from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
@@ -167,7 +166,10 @@ except:
  ID_OBJDICTEDITADDMENUMAPVARIABLE, ID_OBJDICTEDITADDMENUUSERTYPE, 
 ] = [wx.NewId() for _init_coll_AddMenu_Items in range(6)]
 
-class objdictedit(wx.Frame):
+class objdictedit(wx.Frame, NodeEditorTemplate):
+    
+    EDITMENU_ID = ID_OBJDICTEDITEDITMENUOTHERPROFILE
+    
     def _init_coll_MenuBar_Menus(self, parent):
         if self.ModeSolo:
             parent.Append(menu=self.FileMenu, title=_('File'))
@@ -328,17 +330,17 @@ class objdictedit(wx.Frame):
         self.SetStatusBar(self.HelpBar)
 
     def __init__(self, parent, manager = None, filesOpen = []):
-        self.ModeSolo = manager == None
+        if manager is None:
+            NodeEditorTemplate.__init__(self, NodeManager(), self, True)
+        else:
+            NodeEditorTemplate.__init__(self, manager, self, False)
         self._init_ctrls(parent)
         self.HtmlFrameOpened = []
-        self.BusId = None
-        self.Closing = False
         
         icon = wx.Icon(os.path.join(ScriptDirectory,"networkedit.ico"),wx.BITMAP_TYPE_ICO)
         self.SetIcon(icon)
         
         if self.ModeSolo:
-            self.Manager = NodeManager()
             for filepath in filesOpen:
                 result = self.Manager.OpenFileInCurrent(os.path.abspath(filepath))
                 if isinstance(result, (IntType, LongType)):
@@ -346,7 +348,6 @@ class objdictedit(wx.Frame):
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
         else:
-            self.Manager = manager
             for index in self.Manager.GetBufferIndexes():
                 new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                 new_editingpanel.SetIndex(index)
@@ -368,41 +369,6 @@ class objdictedit(wx.Frame):
         self.RefreshTitle()
         self.RefreshMainMenu()
 
-    def SetBusId(self, bus_id):
-        self.BusId = bus_id
-
-    def GetBusId(self):
-        return self.BusId
-
-    def IsClosing(self):
-        return self.Closing
-
-    def OnAddSDOServerMenu(self, event):
-        self.Manager.AddSDOServerToCurrent()
-        self.RefreshBufferState()
-        self.RefreshCurrentIndexList()
-        
-    def OnAddSDOClientMenu(self, event):
-        self.Manager.AddSDOClientToCurrent()
-        self.RefreshBufferState()
-        self.RefreshCurrentIndexList()
-        
-    def OnAddPDOTransmitMenu(self, event):
-        self.Manager.AddPDOTransmitToCurrent()
-        self.RefreshBufferState()
-        self.RefreshCurrentIndexList()
-        
-    def OnAddPDOReceiveMenu(self, event):
-        self.Manager.AddPDOReceiveToCurrent()
-        self.RefreshBufferState()
-        self.RefreshCurrentIndexList()
-        
-    def OnAddMapVariableMenu(self, event):
-        self.AddMapVariable()
-        
-    def OnAddUserTypeMenu(self, event):
-        self.AddUserType()
-        
     def OnFileSelectedChanged(self, event):
         if not self.Closing:
             selected = event.GetSelection()
@@ -506,9 +472,6 @@ class objdictedit(wx.Frame):
         else:
             self.SetTitle(_("Objdictedit"))
 
-    def OnRefreshMenu(self, event):
-        self.RefreshCurrentIndexList()
-        
     def RefreshCurrentIndexList(self):
         selected = self.FileOpened.GetSelection()
         window = self.FileOpened.GetPage(selected)
@@ -518,33 +481,7 @@ class objdictedit(wx.Frame):
         selected = self.FileOpened.GetSelection()
         if selected >= 0:
             window = self.FileOpened.GetPage(selected)
-            selection = window.GetSelection()
-            if selection:
-                index, subIndex = selection
-                if self.Manager.IsCurrentEntry(index):
-                    self.HelpBar.SetStatusText(_("Index: 0x%04X")%index, 0)
-                    self.HelpBar.SetStatusText(_("Subindex: 0x%02X")%subIndex, 1)
-                    entryinfos = self.Manager.GetEntryInfos(index)
-                    name = entryinfos["name"]
-                    category = _("Optional")
-                    if entryinfos["need"]:
-                        category = _("Mandatory")
-                    struct = "VAR"
-                    number = ""
-                    if entryinfos["struct"] & OD_IdenticalIndexes:
-                        number = _(" possibly defined %d times")%entryinfos["nbmax"]
-                    if entryinfos["struct"] & OD_IdenticalSubindexes:
-                        struct = "REC"
-                    elif entryinfos["struct"] & OD_MultipleSubindexes:
-                        struct = "ARRAY"
-                    text = _("%s: %s entry of struct %s%s.")%(name,category,struct,number)
-                    self.HelpBar.SetStatusText(text, 2)
-                else:
-                    for i in xrange(3):
-                        self.HelpBar.SetStatusText("", i)
-            else:
-                for i in xrange(3):
-                    self.HelpBar.SetStatusText("", i)
+            self.SetStatusBarText(window.GetSelection(), self.Manager)
 
     def RefreshMainMenu(self):
         if self.FileOpened.GetPageCount() > 0:
@@ -581,27 +518,6 @@ class objdictedit(wx.Frame):
             self.EditMenu.Enable(wx.ID_UNDO, False)
             self.EditMenu.Enable(wx.ID_REDO, False)
 
-    def RefreshProfileMenu(self):
-        profile = self.Manager.GetCurrentProfileName()
-        edititem = self.EditMenu.FindItemById(ID_OBJDICTEDITEDITMENUOTHERPROFILE)
-        if edititem:
-            length = self.AddMenu.GetMenuItemCount()
-            for i in xrange(length-6):
-                additem = self.AddMenu.FindItemByPosition(6)
-                self.AddMenu.Delete(additem.GetId())
-            if profile not in ("None", "DS-301"):
-                edititem.SetText(_("%s Profile")%profile)
-                edititem.Enable(True)
-                self.AddMenu.AppendSeparator()
-                for text, indexes in self.Manager.GetCurrentSpecificMenu():
-                    new_id = wx.NewId()
-                    self.AddMenu.Append(help='', id=new_id, kind=wx.ITEM_NORMAL, text=text)
-                    self.Bind(wx.EVT_MENU, self.GetProfileCallBack(text), id=new_id)
-            else:
-                edititem.SetText(_("Other Profile"))
-                edititem.Enable(False)
-        
-
 #-------------------------------------------------------------------------------
 #                            Buffer Functions
 #-------------------------------------------------------------------------------
@@ -612,17 +528,6 @@ class objdictedit(wx.Frame):
             self.FileOpened.SetPageText(idx, filename)
         self.RefreshEditMenu()
         self.RefreshTitle()
-
-    def OnUndoMenu(self, event):
-        self.Manager.LoadCurrentPrevious()
-        self.RefreshCurrentIndexList()
-        self.RefreshBufferState()
-        
-    def OnRedoMenu(self, event):
-        self.Manager.LoadCurrentNext()
-        self.RefreshCurrentIndexList()
-        self.RefreshBufferState()
-        
 
 #-------------------------------------------------------------------------------
 #                         Load and Save Funtions
@@ -828,113 +733,6 @@ class objdictedit(wx.Frame):
                 message.Destroy()
         dialog.Destroy()
 
-#-------------------------------------------------------------------------------
-#                          Editing Profiles functions
-#-------------------------------------------------------------------------------
-
-    def OnCommunicationMenu(self, event):
-        dictionary,current = self.Manager.GetCurrentCommunicationLists()
-        self.EditProfile(_("Edit DS-301 Profile"), dictionary, current)
-    
-    def OnOtherCommunicationMenu(self, event):
-        dictionary,current = self.Manager.GetCurrentDS302Lists()
-        self.EditProfile(_("Edit DS-302 Profile"), dictionary, current)
-    
-    def OnEditProfileMenu(self, event):
-        title = _("Edit %s Profile")%self.Manager.GetCurrentProfileName()
-        dictionary,current = self.Manager.GetCurrentProfileLists()
-        self.EditProfile(title, dictionary, current)
-    
-    def EditProfile(self, title, dictionary, current):
-        dialog = CommunicationDialog(self)
-        dialog.SetTitle(title)
-        dialog.SetIndexDictionary(dictionary)
-        dialog.SetCurrentList(current)
-        dialog.RefreshLists()
-        if dialog.ShowModal() == wx.ID_OK:
-            new_profile = dialog.GetCurrentList()
-            addinglist = []
-            removinglist = []
-            for index in new_profile:
-                if index not in current:
-                    addinglist.append(index)
-            for index in current:
-                if index not in new_profile:
-                    removinglist.append(index)
-            self.Manager.ManageEntriesOfCurrent(addinglist, removinglist)
-            self.Manager.BufferCurrentNode()
-            self.RefreshBufferState()
-            self.RefreshCurrentIndexList()
-        dialog.Destroy()
-
-    def GetProfileCallBack(self, text):
-        def ProfileCallBack(event):
-            self.Manager.AddSpecificEntryToCurrent(text)
-            self.RefreshBufferState()
-            self.RefreshCurrentIndexList()
-        return ProfileCallBack
-
-#-------------------------------------------------------------------------------
-#                         Edit Node informations function
-#-------------------------------------------------------------------------------
-
-    def OnNodeInfosMenu(self, event):
-        dialog = NodeInfosDialog(self)
-        name, id, type, description = self.Manager.GetCurrentNodeInfos()
-        defaultstringsize = self.Manager.GetCurrentNodeDefaultStringSize()
-        dialog.SetValues(name, id, type, description, defaultstringsize)
-        if dialog.ShowModal() == wx.ID_OK:
-            name, id, type, description, defaultstringsize = dialog.GetValues()
-            self.Manager.SetCurrentNodeInfos(name, id, type, description)
-            self.Manager.SetCurrentNodeDefaultStringSize(defaultstringsize)
-            self.RefreshBufferState()
-            self.RefreshProfileMenu()
-            selected = self.FileOpened.GetSelection()
-            if selected >= 0:
-                window = self.FileOpened.GetPage(selected)
-                window.RefreshTable()
-
-
-#-------------------------------------------------------------------------------
-#                           Add User Types and Variables
-#-------------------------------------------------------------------------------
-        
-    def AddMapVariable(self):
-        index = self.Manager.GetCurrentNextMapIndex()
-        if index:
-            dialog = MapVariableDialog(self)
-            dialog.SetIndex(index)
-            if dialog.ShowModal() == wx.ID_OK:
-                index, name, struct, number = dialog.GetValues()
-                result = self.Manager.AddMapVariableToCurrent(index, name, struct, number)
-                if not isinstance(result, (StringType, UnicodeType)):
-                    self.RefreshBufferState()
-                    self.RefreshCurrentIndexList()
-                else:
-                    message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
-                    message.ShowModal()
-                    message.Destroy()
-            dialog.Destroy()
-        else:
-            message = wx.MessageDialog(self, result, _("No map variable index left!"), wx.OK|wx.ICON_ERROR)
-            message.ShowModal()
-            message.Destroy()
-        
-    def AddUserType(self):
-        dialog = UserTypeDialog(self)
-        dialog.SetTypeList(self.Manager.GetCustomisableTypes())
-        if dialog.ShowModal() == wx.ID_OK:
-            type, min, max, length = dialog.GetValues()
-            result = self.Manager.AddUserTypeToCurrent(type, min, max, length)
-            if not result:
-                self.RefreshBufferState()
-                self.RefreshCurrentIndexList()
-            else:
-                message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
-                message.ShowModal()
-                message.Destroy()
-        dialog.Destroy()
-    
 
 #-------------------------------------------------------------------------------
 #                               Exception Handler
