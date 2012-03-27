@@ -132,7 +132,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 		case 2: /* Second step : Set the new heartbeat producer time in the slave */
 		{
 			UNS32 Master_Cons_Heartbeat_T=Master_Cons_Heartbeat_Base + (nodeId * 0x10000);
-			UNS8 size = sizeof(UNS32); 
+			UNS32 size = sizeof(UNS32); 
 			
 			eprintf("Master : set slave %2.2x Producer Heartbeat Time = %d\n", nodeId,Slave_Prod_Heartbeat_T);
 			res = writeNetworkDictCallBack (d, /*CO_Data* d*/
@@ -214,7 +214,7 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
    			if(dat1==0){
    				UNS8 LSS_mode=LSS_WAITING_MODE;
 				UNS32 SINC_cicle=50000;// us
-				UNS8 size = sizeof(UNS32); 
+				UNS32 size = sizeof(UNS32); 
 	
 				/* The slaves are now configured (nodeId and Baudrate) via the LSS services.
    			 	* Switch the LSS state to WAITING and restart the slaves. */
