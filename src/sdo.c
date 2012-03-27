@@ -1992,6 +1992,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  ** @param count
  ** @param dataType
  ** @param data
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -2012,6 +2013,7 @@ UNS8 writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  ** @param dataType
  ** @param data
  ** @param Callback
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -2079,6 +2081,7 @@ UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
  ** @param subIndex
  ** @param dataType
  ** @param Callback
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -2156,6 +2159,7 @@ INLINE UNS8 _readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subInde
  ** @param index
  ** @param subIndex
  ** @param dataType
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -2173,6 +2177,7 @@ UNS8 readNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIndex, UNS8 
  ** @param subIndex
  ** @param dataType
  ** @param Callback
+ ** @param useBlockMode
  **
  ** @return
  **/

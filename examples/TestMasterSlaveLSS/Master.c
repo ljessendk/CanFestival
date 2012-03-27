@@ -41,7 +41,7 @@ void TestMaster_initialisation(CO_Data* d)
 {
 	UNS32 PDO1_COBID = 0x0182; 
 	UNS32 PDO2_COBID = 0x0183;
-	UNS8 size = sizeof(UNS32); 
+	UNS32 size = sizeof(UNS32); 
 	
 	eprintf("TestMaster_initialisation\n");
 
@@ -78,7 +78,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
 {
 	UNS32 abortCode;	
 	if(getWriteResultNetworkDict (d, nodeId, &abortCode) != SDO_FINISHED)
-		eprintf("Master : Failed in initializing slave %2.2x, step %d, AbortCode :%4.4x \n", nodeId, init_step, abortCode);
+		eprintf("Master : Failed in initializing slave %2.2x, AbortCode :%4.4x \n", nodeId, abortCode);
 
 	/* Finalise last SDO transfer with this node */
 	closeSDOtransfer(&TestMaster_Data, nodeId, SDO_CLIENT);
@@ -126,7 +126,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					1, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Transmission_Type,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /*UNS8 useBlockMode*/
 					break;
 		case 2: /* Second step : Set the new heartbeat producer time in the slave */
 		{
@@ -141,7 +142,8 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 					2, /*UNS8 count*/
 					0, /*UNS8 dataType*/
 					&Slave_Prod_Heartbeat_T,/*void *data*/
-					CheckSDOAndContinue); /*SDOCallback_t Callback*/
+					CheckSDOAndContinue, /*SDOCallback_t Callback*/
+                    0); /*UNS8 useBlockMode*/
 					break;
 					
 			/* Set the new heartbeat consumer time in the master*/
