@@ -101,9 +101,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //Visual Studio 2005 and above
 #ifdef UNICODE
 #define MSG(...) \
-  do{wchar_t msg[300];\
-   swprintf(msg,sizeof(msg)/sizeof(msg[0]), L##__VA_ARGS__); \
-   OutputDebugString(msg);}while(0)
+  do{char msg[300];\
+  sprintf(msg, __VA_ARGS__); \
+   OutputDebugStringA(msg);}while(0)
 #else
 #define MSG(...) \
 do{char msg[300];\
@@ -126,7 +126,7 @@ do{char msg[300];\
 
 #define CANFESTIVAL_DEBUG_MSG(num, str, val)\
   {unsigned long value = val;\
-   MSG(("%s(%d) : 0x%X %s 0x%lX\n",__FILE__, __LINE__,num, str, value)); \
+   MSG("%s(%d) : 0x%X %s 0x%lX\n",__FILE__, __LINE__,num, str, value); \
    }
 
 #define CANFESTIVAL_DEBUG_DRV_MSG(...)\
