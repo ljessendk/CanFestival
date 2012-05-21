@@ -102,16 +102,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifdef UNICODE
 #define MSG(...) \
   do{wchar_t msg[300];\
-   swprintf(msg,L##__VA_ARGS__);\
+   swprintf(msg,sizeof(msg)/sizeof(msg[0]), L##__VA_ARGS__); \
    OutputDebugString(msg);}while(0)
 #else
 #define MSG(...) \
-  do{printf(__VA_ARGS__);fflush(stdout);}while(0)
-
-/*do{char msg[300];\
+do{char msg[300];\
    sprintf(msg,##__VA_ARGS__);\
    OutputDebugString(msg);}while(0)
-*/
 #endif
 #else //(_MSC_VER < 1400)
 //For Visual Studio 2003 and below, without VA_ARGS
@@ -132,6 +129,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
    MSG(("%s(%d) : 0x%X %s 0x%lX\n",__FILE__, __LINE__,num, str, value)); \
    }
 
+#define CANFESTIVAL_DEBUG_DRV_MSG(...)\
+  MSG(__VA_ARGS__);
+
 /// Definition of MSG_WAR
 // ---------------------
 #ifdef DEBUG_WAR_CONSOLE_ON
@@ -148,6 +148,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    define MSG_ERR(num, str, val)
 #endif
 
+#ifdef DEBUG_ERR_DRIVER_CONSOLE_ON
+#    define MSG_ERR_DRV(...) CANFESTIVAL_DEBUG_DRV_MSG(__VA_ARGS__)
+#else
+#    define MSG_ERR_DRV(...)
+#endif
 
 
 typedef void* CAN_HANDLE;

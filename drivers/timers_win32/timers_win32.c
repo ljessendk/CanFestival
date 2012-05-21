@@ -38,14 +38,14 @@ extern "C" {
 };
 #endif
 
-struct _timeb timebuffer;
+DWORD timebuffer;
 
 /* Synchronization Object Implementation */
 CRITICAL_SECTION CanFestival_mutex;
 HANDLE timer_thread = NULL;
 HANDLE timer = NULL;
 
-int stop_timer=0;
+volatile int stop_timer=0;
 
 static TimerCallback_t init_callback;
 
@@ -90,8 +90,8 @@ DWORD TimerThreadLoop(LPVOID arg)
 		WaitForSingleObject(timer, INFINITE);
 		if(stop_timer)
 			break;
-		_ftime(&timebuffer);
 		EnterMutex();
+		timebuffer = GetTickCount();
 		TimeDispatch();
 		LeaveMutex();
 	}
@@ -112,7 +112,7 @@ void TimerInit(void)
     }
 
 	// Take first absolute time ref in milliseconds.
-	_ftime(&timebuffer);
+	timebuffer = GetTickCount();
 }
 
 void TimerCleanup(void)
@@ -158,7 +158,7 @@ void setTimer(TIMEVAL value)
 		LARGE_INTEGER liDueTime;
 
 		/* arg 2 of SetWaitableTimer take 100 ns interval */
-		liDueTime.QuadPart = (-1 * value);
+		liDueTime.QuadPart = ((long long) (-1) * value * 10000);
 		//printf("SetTimer(%llu)\n", value);
 
 		if (!SetWaitableTimer(timer, &liDueTime, 0, NULL, NULL, FALSE))
@@ -171,8 +171,7 @@ void setTimer(TIMEVAL value)
 /* Get the elapsed time since the last occured alarm */
 TIMEVAL getElapsedTime(void)
 {
-	struct _timeb timetmp;
-	_ftime(&timetmp);
-	return (timetmp.time - timebuffer.time) * 10000000 + (timetmp.millitm - timebuffer.millitm) * 10000;
+  DWORD timetmp = GetTickCount();
+  return (timetmp - timebuffer);
 }
 

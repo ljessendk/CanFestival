@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="can_uvccm_win32"
-	ProjectGUID="{39E3300A-29B4-4AA7-AF62-3B181FC26155}"
+	Name="can_peak_win32"
+	ProjectGUID="{732EC5B6-C6F1-4783-9BC8-924FFF67BF5A}"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -42,13 +42,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CANUVCCM_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CANpeak_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -62,16 +62,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/can_uvccm_win32.dll"
+				OutputFile="$(OutDir)/can_peak_win32.dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile="can_uvccm_win32.def"
+				ModuleDefinitionFile="can_peak_win32.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/can_uvccm_win32.pdb"
+				ProgramDatabaseFile="$(OutDir)/can_peak_win32.pdb"
 				SubSystem="2"
 				OptimizeForWindows98="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/can_uvccm_win32.lib"
+				ImportLibrary="$(OutDir)/can_peak_win32.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -122,11 +122,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CANUVCCM_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CANpeak_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -140,9 +140,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/can_uvccm_win32.dll"
+				OutputFile="$(OutDir)/can_peak_win32.dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile="can_uvccm_win32.def"
+				ModuleDefinitionFile="can_peak_win32.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -150,7 +150,7 @@
 				OptimizeForWindows98="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/can_uvccm_win32.lib"
+				ImportLibrary="$(OutDir)/can_peak_win32.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,11 +201,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CANUVCCM_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;CANpeak_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -219,9 +219,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/can_uvccm_win32.dll"
+				OutputFile="$(OutDir)/can_peak_win32.dll"
 				LinkIncremental="1"
-				ModuleDefinitionFile="can_uvccm_win32.def"
+				ModuleDefinitionFile="can_peak_win32.def"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -229,7 +229,7 @@
 				OptimizeForWindows98="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/can_uvccm_win32.lib"
+				ImportLibrary="$(OutDir)/can_peak_win32.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -281,13 +281,13 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CANUVCCM_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CANpeak_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
+				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -301,16 +301,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)/can_uvccm_win32.dll"
+				OutputFile="$(OutDir)/can_peak_win32.dll"
 				LinkIncremental="2"
-				ModuleDefinitionFile="can_uvccm_win32.def"
+				ModuleDefinitionFile="can_peak_win32.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/can_uvccm_win32.pdb"
+				ProgramDatabaseFile="$(OutDir)/can_peak_win32.pdb"
 				SubSystem="2"
 				OptimizeForWindows98="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/can_uvccm_win32.lib"
+				ImportLibrary="$(OutDir)/can_peak_win32.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -345,11 +345,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\can_uvccm_win32.cpp"
+				RelativePath=".\can_peak_win32.c"
 				>
 			</File>
 			<File
-				RelativePath=".\can_uvccm_win32.def"
+				RelativePath=".\can_peak_win32.def"
 				>
 			</File>
 		</Filter>
@@ -358,6 +358,10 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\cancfg.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -365,6 +369,14 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
+		<File
+			RelativePath="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_2pcc.lib"
+			>
+		</File>
+		<File
+			RelativePath="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_pcc.lib"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

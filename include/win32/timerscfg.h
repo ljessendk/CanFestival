@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <windows.h>
 
-// Time unit : 100 ns
-#define TIMEVAL unsigned long long
+// Time unit : 1msec
+#define TIMEVAL DWORD
 #define TIMEVAL_MAX ~(TIMEVAL)0
 
-#define MS_TO_TIMEVAL(ms) ms*10000
-#define US_TO_TIMEVAL(us) us*10
+#define MS_TO_TIMEVAL(ms) ms
+#define US_TO_TIMEVAL(us) (us / 1000)
 
 #define TASK_HANDLE HANDLE
 

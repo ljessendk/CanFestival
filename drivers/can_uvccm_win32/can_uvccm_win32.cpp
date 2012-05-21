@@ -317,19 +317,19 @@ bool can_uvccm_win32::set_can_data(const Message& m, std::string& can_cmd)
 
 //------------------------------------------------------------------------
 extern "C"
-   UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
+   UNS8 __stdcall canReceive_driver(CAN_HANDLE fd0, Message *m)
    {
    return (UNS8)(!(reinterpret_cast<can_uvccm_win32*>(fd0)->receive(m)));
    }
 
 extern "C"
-   UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
+   UNS8 __stdcall canSend_driver(CAN_HANDLE fd0, Message const *m)
    {
    return (UNS8)reinterpret_cast<can_uvccm_win32*>(fd0)->send(m);
    }
 
 extern "C"
-   CAN_HANDLE canOpen_driver(s_BOARD *board)
+   CAN_HANDLE __stdcall canOpen_driver(s_BOARD *board)
    {
    try
       {
@@ -342,14 +342,14 @@ extern "C"
    }
 
 extern "C"
-   int canClose_driver(CAN_HANDLE inst)
+   int __stdcall canClose_driver(CAN_HANDLE inst)
    {
    delete reinterpret_cast<can_uvccm_win32*>(inst);
    return 1;
    }
 
 extern "C"
-	UNS8 canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
+	UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 	{
 	return 0;
 	} 

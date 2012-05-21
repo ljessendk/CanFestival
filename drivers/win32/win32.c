@@ -3,6 +3,7 @@ This file is part of CanFestival, a library implementing CanOpen Stack.
 
 Copyright (C): Edouard TISSERANT and Francis DUPIN
 Copyright (C) Win32 Port Leonid Tochinski
+Modified by: Jaroslav Fojtik
 
 See COPYING file for copyrights details.
 
@@ -118,6 +119,17 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
 	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
 	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
+
+	if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
+	{
+	  m_canReceive = NULL;
+	  m_canSend = NULL;
+	  m_canOpen = NULL;
+	  m_canClose = NULL;
+	  m_canChangeBaudRate = NULL;
+	  FreeLibrary(handle);
+	  handle = NULL;
+	}
 #else
   //compiled in...
   handle = 1; //TODO: remove this hack
@@ -136,32 +148,39 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 /***************************************************************************/
 UNS8 canSend(CAN_PORT port, Message *m)
 {
-	UNS8 res = 1; //NOT OK
 	if (port && (m_canSend != NULL))
 	{
-		res = m_canSend(((CANPort*)port)->fd, m);
+		return m_canSend(((CANPort*)port)->fd, m);
 	}
-	return res;
+	return 1; /* NOT OK */	
 }
 
 /***************************************************************************/
-void canReceiveLoop(CAN_PORT port)
+DWORD canReceiveLoop(CAN_PORT port)
 {
 	Message m;
 	while(((CANPort*)port)->used)
 	{
-		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) break;
+		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) continue;
 		EnterMutex();
 		canDispatch(((CANPort*)port)->d, &m);
 		LeaveMutex();
 	}
+	return 0;
 }
 
 /***************************************************************************/
 CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 {
 	int i;
-    CAN_HANDLE fd0;
+	CAN_HANDLE fd0;
+
+
+	  /* Fix of multiple opening one data set, added by J.Fojtik. */
+	if(d->canHandle)
+	{
+	  canClose(d);
+	}
 
 	for(i=0; i < MAX_NB_CAN_PORTS; i++)
 	{
@@ -189,7 +208,7 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 	}
 	else
 	{
-		MSG(("CanOpen : Cannot open board {busname='%s',baudrate='%s'}\n",board->busname, board->baudrate));
+		MSG("CanOpen : Cannot open board {busname='%S',baudrate='%S'}\n",board->busname, board->baudrate);
 		return NULL;
 	}
 }
@@ -197,28 +216,27 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
 {
-	UNS8 res = 1;
+	UNS8 res;
 	CANPort* tmp;
-
-	if((CANPort*)d->canHandle)
-	{
-	  ((CANPort*)d->canHandle)->used = 0;
-	}
 
 	tmp = (CANPort*)d->canHandle;
 
 	if(tmp)
 	{
-	  // kill receiver task before port is closed and handle set to NULL
+	  d->canHandle = NULL;
+
+		// close CAN port
+	  res = m_canClose(tmp->fd);
+
+		// kill receiver task
 	  WaitReceiveTaskEnd(&tmp->receiveTask);
 
-	  // close CAN port
-	  res = m_canClose(tmp->fd);
+		// release used flag as a last step.
+	  tmp->used = 0;
 	}
+  else res = 255;
 
-	d->canHandle = NULL;
-
-	return res;
+return res;
 }
 
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud)

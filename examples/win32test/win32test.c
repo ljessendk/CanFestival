@@ -4,16 +4,20 @@
 #include "win32test.h"
 
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 win32test_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
+      break;
   }
   return 0;
 }
@@ -22,7 +26,7 @@ UNS32 win32test_valueRangeTest (UNS8 typeValue, void * value)
 /* The node id                                                            */
 /**************************************************************************/
 /* node_id default value.*/
-UNS8 win32test_bDeviceNodeId = 0x01;
+UNS8 win32test_bDeviceNodeId = 0x00;
 
 /**************************************************************************/
 /* Array of message processing information */
@@ -53,6 +57,23 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RO, uint8, sizeof (UNS8), (void*)&win32test_obj1001 }
                      };
 
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 win32test_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 win32test_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    ODCallback_t win32test_Index1003_callbacks[] = 
+                     {
+                       NULL,
+                       NULL,
+                     };
+                    subindex win32test_Index1003[] = 
+                     {
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&win32test_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), (void*)&win32test_obj1003[0] }
+                     };
+
 /* index 0x1005 :   SYNC COB ID. */
                     UNS32 win32test_obj1005 = 0x0;	/* 0 */
                     ODCallback_t win32test_Index1005_callbacks[] = 
@@ -66,6 +87,9 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1006 :   Communication / Cycle Period */
                     UNS32 win32test_obj1006 = 0x0;   /* 0 */
+
+/* index 0x1014 :   Emergency COB ID */
+                    UNS32 win32test_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
 /* index 0x1016 :   Consumer Heartbeat Time */
                     UNS8 win32test_highestSubIndex_obj1016 = 0;
@@ -93,14 +117,18 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS8 win32test_highestSubIndex_obj1280 = 3; /* number of subindex - 1*/
                     UNS32 win32test_obj1280_COB_ID_Client_to_Server_Transmit_SDO = 0x0;	/* 0 */
                     UNS32 win32test_obj1280_COB_ID_Server_to_Client_Receive_SDO = 0x0;	/* 0 */
-                    INTEGER32 win32test_obj1280_Node_ID_of_the_SDO_Server = 0x0;	/* 0 */
+                    UNS8 win32test_obj1280_Node_ID_of_the_SDO_Server = 0x0;	/* 0 */
                     subindex win32test_Index1280[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&win32test_highestSubIndex_obj1280 },
                        { RW, uint32, sizeof (UNS32), (void*)&win32test_obj1280_COB_ID_Client_to_Server_Transmit_SDO },
                        { RW, uint32, sizeof (UNS32), (void*)&win32test_obj1280_COB_ID_Server_to_Client_Receive_SDO },
-                       { RW, int32, sizeof (INTEGER32), (void*)&win32test_obj1280_Node_ID_of_the_SDO_Server }
+                       { RW, uint8, sizeof (UNS8), (void*)&win32test_obj1280_Node_ID_of_the_SDO_Server }
                      };
+
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
 
 const indextable win32test_objdict[] = 
 {
@@ -136,7 +164,7 @@ const indextable * win32test_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
  */
 s_PDO_status win32test_PDO_status[1] = {s_PDO_status_Initializer};
 
-quick_index win32test_firstIndex = {
+const quick_index win32test_firstIndex = {
   0, /* SDO_SVR */
   4, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -145,7 +173,7 @@ quick_index win32test_firstIndex = {
   0 /* PDO_TRS_MAP */
 };
 
-quick_index win32test_lastIndex = {
+const quick_index win32test_lastIndex = {
   0, /* SDO_SVR */
   4, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -154,7 +182,7 @@ quick_index win32test_lastIndex = {
   0 /* PDO_TRS_MAP */
 };
 
-UNS16 win32test_ObjdictSize = sizeof(win32test_objdict)/sizeof(win32test_objdict[0]); 
+const UNS16 win32test_ObjdictSize = sizeof(win32test_objdict)/sizeof(win32test_objdict[0]); 
 
 CO_Data win32test_Data = CANOPEN_NODE_DATA_INITIALIZER(win32test);
 

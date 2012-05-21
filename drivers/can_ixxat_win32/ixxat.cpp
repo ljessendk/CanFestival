@@ -70,8 +70,8 @@ class IXXAT
       bool send(const Message *m);
       bool receive(Message *m);
    private:
-      bool open(const char* board_name, int board_number, const char* baud_rate);
-      bool close();                             
+      bool open(int board_number, const char* baud_rate);
+      bool close();
       void receive_queuedata(UINT16 que_hdl, UINT16 count, VCI_CAN_OBJ* p_obj);
       // VCI2 handler      
       static void VCI_CALLBACKATTR message_handler(char *msg_str);
@@ -108,19 +108,20 @@ IXXAT::IXXAT(s_BOARD *board) : m_BoardHdl(0xFFFF),
                                m_RxQueHdl(0xFFFF)
                                
    {
-   char busname[100];
-   ::strcpy(busname,board->busname);
-   char board_name[100];      
-   long board_number = 0;   
-   char *ptr = ::strrchr(busname,':');
-   if (ptr != 0)
+   if (!board)
       {
-      *ptr = 0;
-      ::strcpy(board_name,busname);
-      if (++ptr - busname < (int)::strlen(board->busname))
-         board_number = ::atoi(ptr);
+      close();
+      throw error();
       }
-   if (!open(board_name,board_number,board->baudrate))
+
+   long board_number = 0;
+
+   if (board->busname)
+      {
+      board_number = atol(board->busname);
+      }
+
+   if (!open(board_number, board->baudrate))
       {
       close();
       throw error();
@@ -165,7 +166,7 @@ bool IXXAT::receive(Message *m)
    return false;
    }
 
-bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate)
+bool IXXAT::open(int board_number, const char* baud_rate)
    {
    // check, if baudrate is supported
    struct IXXAT_baud_rate_param 
@@ -196,21 +197,26 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
        if (::strcmp(br_lut[index].baud_rate,baud_rate)==0)
           break;
        }
-   if (index == br_lut_size)    
+   if (index == br_lut_size)
+   {
+      MSG_ERR_DRV("IXXAT::open: The given baudrate %S is invalid.", baud_rate);
       return false;
+   }
    // close existing board   
    close();
    // init IXXAT board
-   unsigned long board_type = VCI_GetBrdTypeByName(const_cast<char*>(board_name));
-   long res = VCI2_PrepareBoard( board_type,                  // board type
-                                   board_number,              // unique board index
+   long res = VCI2_PrepareBoard(   0,                         // board type, unused in VCI2
+                                   board_number,              // unique board index, see XAT_EnumHwEntry() and XAT_GetConfig()
                                    NULL,                      // pointer to buffer for additional info 
                                    0,                         // length of additional info buffer
                                    message_handler,           // pointer to msg-callbackhandler
                                    receive_queuedata_handler, // pointer to receive-callbackhandler
                                    exception_handler);        // pointer to exception-callbackhandler
    if (res < 0)
+   {
+      MSG_ERR_DRV("IXXAT::open: VCI2_PrepareBoard failed with code '%d'.", res);
       return false;
+   }
    m_BoardHdl = (UINT16)res;
 
    VCI_ResetBoard(m_BoardHdl);
@@ -230,7 +236,7 @@ bool IXXAT::open(const char* board_name, int board_number, const char* baud_rate
    res = VCI_ConfigQueue(m_BoardHdl, CAN_NUM, VCI_RX_QUE, 500, 1, 0, 100,  &m_RxQueHdl);
 
    //  assign the all IDs to the Receive Queue
-   res = VCI_AssignRxQueObj(m_BoardHdl, m_RxQueHdl ,VCI_ACCEPT, 0, 0) ;
+   res = VCI_AssignRxQueObj(m_BoardHdl, m_RxQueHdl ,VCI_ACCEPT, 0, 0);
 
    //  And now start the CAN
    res = VCI_StartCan(m_BoardHdl, CAN_NUM);
@@ -267,9 +273,7 @@ void VCI_CALLBACKATTR IXXAT::receive_queuedata_handler(UINT16 que_hdl, UINT16 co
 
 void VCI_CALLBACKATTR IXXAT::message_handler(char *msg_str)
   {
-  char buf[200];
-  ::sprintf(buf,"IXXAT Message: [%s]\n", msg_str);
-  ::OutputDebugString(buf);
+  MSG_ERR_DRV("IXXAT Message: [%S]", msg_str);
   }
 
 void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_code, UINT16 ext_err, char* err_str)
@@ -305,9 +309,8 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
     "VCI_UpdateBufObj",
     "VCI_CciReqData"
     };
-  char buf[200];
-  ::sprintf(buf, "IXXAT Exception: %s (%i / %u) [%s]\n", Num2Function[func_num], err_code, ext_err, err_str);
-  ::OutputDebugString(buf);
+
+  MSG_ERR_DRV("IXXAT Exception: %S (%i / %u) [%S]", Num2Function[func_num], err_code, ext_err, err_str);
   }
 
   void IXXAT::watchdog()
@@ -317,9 +320,7 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
 
     if (res < 0)
     {
-      char buf[200];
-      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Reading the can state failed!\n");
-      ::OutputDebugString(buf);
+      MSG_ERR_DRV("IXXAT canBusWatchdog: ERROR: Reading the can state failed!");
     }
     else
     {
@@ -327,34 +328,34 @@ void VCI_CALLBACKATTR IXXAT::exception_handler(VCI_FUNC_NUM func_num, INT32 err_
       {
         if (sts.sts & STS_CAN_BUS_OFF)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN bus off detected!\n");
+          MSG_ERR_DRV("IXXAT canBusWatchdog: CAN bus off detected!");
         }
         if (sts.sts & STS_CAN_DATA_OVERRUN)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: CAN data overrun detected!\n");
+          MSG_ERR_DRV("IXXAT canBusWatchdog: CAN data overrun detected!");
         }
         if (sts.sts & STS_REMOTE_QUEUE_OVERRUN)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: Remote queue overrun detected!\n");
+          MSG_ERR_DRV("IXXAT canBusWatchdog: Remote queue overrun detected!");
         }
 
-        if (VCI_ResetCan(m_BoardHdl, CAN_NUM) < 0)
+        res = VCI_ResetCan(m_BoardHdl, CAN_NUM);
+        if (res <= 0)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Resetting the can module failed!\n");
+          MSG_ERR_DRV("IXXAT canBusWatchdog: ERROR: Resetting the can module failed with code '%d'!", res);
         }
 
-        if (VCI_StartCan(m_BoardHdl, CAN_NUM) < 0)
+        res = VCI_StartCan(m_BoardHdl, CAN_NUM);
+        if (res <= 0)
         {
-          ::OutputDebugString("\nIXXAT canBusWatchdog: ERROR: Restaring the can module failed!\n");
+          MSG_ERR_DRV("IXXAT canBusWatchdog: ERROR: Restaring the can module failed with code '%d'!", res);
         }
       }
     }
 
     if (SetTimer(NULL, m_watchdogTimerId, IXXAT::CAN_BUS_WATCHDOG_INTERVAL_MSEC, IXXAT::canBusWatchdog) == 0)
     {
-      char buf[200];
-      ::sprintf(buf, "\nIXXAT canBusWatchdog: ERROR: Creation of the watchdog timer failed!\n");
-      ::OutputDebugString(buf);
+      MSG_ERR_DRV("IXXAT canBusWatchdog: ERROR: Creation of the watchdog timer failed!");
     }
   }
 

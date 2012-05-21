@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="windows-1251"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="can_ixxat_win32"
-	ProjectGUID="{8F57E7FF-1B73-4134-A2B2-9C0EADB2AEFB}"
-	RootNamespace="can_ixxat_win32"
+	Name="win32test"
+	ProjectGUID="{BD8B1FE1-89CD-4F89-8275-0F553FA71059}"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -20,7 +19,7 @@
 			Name="Debug|Win32"
 			OutputDirectory="../../Debug"
 			IntermediateDirectory="Debug"
-			ConfigurationType="2"
+			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
@@ -43,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -63,17 +62,15 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vci11un6.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)/win32test.exe"
 				LinkIncremental="2"
-				ModuleDefinitionFile="IXXAT.def"
+				AdditionalLibraryDirectories="../../Debug UNICODE"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
-				SubSystem="2"
-				OptimizeForWindows98="1"
+				ProgramDatabaseFile="$(OutDir)/win32test.pdb"
+				SubSystem="1"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/$(ProjectName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -102,7 +99,8 @@
 			Name="Release|Win32"
 			OutputDirectory="../../Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="2"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
 			>
 			<Tool
@@ -123,7 +121,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="../../include;../../include/win32"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -141,18 +139,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vci11un6.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)/win32test.exe"
 				LinkIncremental="1"
-				ModuleDefinitionFile="IXXAT.def"
+				AdditionalLibraryDirectories="../../Release"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				OptimizeForWindows98="1"
+				OptimizeForWindows98="0"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/$(ProjectName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -187,7 +183,11 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\IXXAT.cpp"
+				RelativePath=".\main.c"
+				>
+			</File>
+			<File
+				RelativePath=".\win32test.c"
 				>
 			</File>
 		</Filter>
@@ -197,15 +197,7 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\async_access_que.h"
-				>
-			</File>
-			<File
-				RelativePath=".\autoreleasecs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Vci2.h"
+				RelativePath=".\win32test.h"
 				>
 			</File>
 		</Filter>
@@ -215,14 +207,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\IXXAT.def"
-			>
-		</File>
-		<File
-			RelativePath=".\Vci11un6.lib"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

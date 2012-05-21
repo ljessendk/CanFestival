@@ -67,7 +67,7 @@ struct struct_CO_Data {
 	valueRangeTest_t valueRangeTest;
 	
 	/* SDO */
-	s_transfer transfers[SDO_MAX_SIMULTANEOUS_TRANSFERTS];
+	s_transfer transfers[SDO_MAX_SIMULTANEOUS_TRANSFERS];
 	/* s_sdo_parameter *sdo_parameters; */
 
 	/* State machine */
@@ -251,7 +251,7 @@ struct struct_CO_Data {
 	\
 	/* SDO, structure s_transfer */\
 	{\
-          REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERTS_TIMES(s_transfer_Initializer)\
+          REPEAT_SDO_MAX_SIMULTANEOUS_TRANSFERS_TIMES(s_transfer_Initializer)\
 	},\
 	\
 	/* State machine*/\

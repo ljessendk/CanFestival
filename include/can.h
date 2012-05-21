@@ -25,18 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "applicfg.h"
 
-/*
-union SHORT_CAN {
-  struct { UNS8 b0,b1; } b;
-  UNS32 w;
-};
-*/
-/*
-typedef struct {
-  UNS32 w;
-} SHORT_CAN;
-*/
-
 /** 
  * @brief The CAN message structure 
  * @ingroup can
