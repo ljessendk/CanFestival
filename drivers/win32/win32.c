@@ -97,7 +97,7 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
  * @param driver_name String containing driver's dynamic library name
  * @return Library handle
  */
-LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
+LIB_HANDLE LoadCanDriver(LPCSTR driver_name)
 {
 	// driver module handle
 	LIB_HANDLE handle = NULL;
@@ -105,7 +105,7 @@ LIB_HANDLE LoadCanDriver(LPCTSTR driver_name)
 #ifndef NOT_USE_DYNAMIC_LOADING
 	if(handle == NULL)
 	{
-		handle = LoadLibrary(driver_name);
+		handle = LoadLibraryA(driver_name);
 	}
 
 	if (!handle)
