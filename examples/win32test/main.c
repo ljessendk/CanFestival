@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
    /* process command line arguments */
    if (argc < 2)
       {
-      printf("USAGE: win32test <node_id> [can driver dll filename [baud rate]]\n");
+      printf("USAGE: win32test <node_id> [can driver dll filename [baud rate[bus name]]]\n");
       return 1;
       }
 
@@ -125,6 +125,9 @@ int main(int argc, char *argv[])
 
    if (argc > 3)
       MasterBoard.baudrate = argv[3];
+
+   if (argc > 4)
+	  MasterBoard.busname = argv[4];
 
    // load can driver
    if (!LoadCanDriver(dll_file_name))
