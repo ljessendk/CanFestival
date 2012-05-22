@@ -78,7 +78,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../include;../../include/win32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../include/win32;D:\myProjects/PCAN-Light API/Include/C++;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CANpeak_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -99,6 +99,7 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(OutDir)can_peak_win32.lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>D:\myProjects\PCAN-Light API\Win32\VC_LIB\PCAN_USB.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -183,10 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cancfg.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_2pcc.lib" />
-    <Library Include="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_pcc.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
