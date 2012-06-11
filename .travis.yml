@@ -1,0 +1,16 @@
+language: "c"
+install: "echo"
+#before_script:
+#    - sudo apt-get install libffi-dev libicu-dev libgmp3-dev clang llvm-dev zlib1g-dev gcc-multilib
+
+#script: "perl Configure.pl $PARROT_CONFIG_ARGS $PARROT_OPTIMIZE --cc=\"$CC\" --link=\"$CC\" --ld=\"$CC\" --ccflags='-g' ; make $PARROT_TEST"
+script: "./configure && make"
+branches:
+   only:
+     - master
+notifications:
+  recipients:
+    - hacking@taedcke.com
+  email:
+    on_success: change
+    on_failure: always
