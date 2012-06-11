@@ -1,10 +1,11 @@
 language: "c"
 install: "echo"
-#before_script:
-#    - sudo apt-get install libffi-dev libicu-dev libgmp3-dev clang llvm-dev zlib1g-dev gcc-multilib
 
-#script: "perl Configure.pl $PARROT_CONFIG_ARGS $PARROT_OPTIMIZE --cc=\"$CC\" --link=\"$CC\" --ld=\"$CC\" --ccflags='-g' ; make $PARROT_TEST"
-script: "./configure --can=\"$CAN_DRIVER\" && make"
+before_script:
+     - sudo apt-get install libxenomai-dev
+#    - sudo apt-get install gcc-avr binutils-avr avr-libc
+
+script: "./configure --can=\"$CAN_DRIVER\" --timers=\"$TIMERS\" && make"
 branches:
    only:
      - master
@@ -14,10 +15,13 @@ notifications:
   email:
     on_success: change
     on_failure: always
+  irc: "irc.freenode.org#canfestival"
 
 env:
-    - CAN_DRIVER="virtual"
-    - CAN_DRIVER="vscom"
-    - CAN_DRIVER="can4linux"
-    - CAN_DRIVER="lincan"
-    
+    - CAN_DRIVER="virtual"   TIMERS="unix"
+    - CAN_DRIVER="vscom"     TIMERS="unix"
+    - CAN_DRIVER="can4linux" TIMERS="unix"
+    - CAN_DRIVER="lincan"    TIMERS="unix"
+    - CAN_DRIVER="socket"    TIMERS="unix"
+    - CAN_DRIVER="virtual"   TIMERS="xeno"
+    - CAN_DRIVER="socket"    TIMERS="xeno"
