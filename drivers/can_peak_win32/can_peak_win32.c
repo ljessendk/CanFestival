@@ -261,7 +261,7 @@ static int HeavyCounter = 0;
 		     m->rtr = 1;
 		   m->len = peakMsg.LEN;		/* count of data bytes (0..8) */
 		   for (data = 0; data < peakMsg.LEN; data++)
-			m->Data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
+			m->data[data] = peakMsg.DATA[data];	/* data bytes, up to 8 */
 #if defined DEBUG_MSG_CONSOLE_ON
 			MSG("in : ");
 			print_message(m);
@@ -301,7 +301,7 @@ UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m)
 	peakMsg.LEN = m->len;
 	/* count of data bytes (0..8) */
 	for (data = 0; data < m->len; data++)
-		peakMsg.DATA[data] = m->Data[data];	/* data bytes, up to 8 */
+		peakMsg.DATA[data] = m->data[data];	/* data bytes, up to 8 */
 
 	do
 	{

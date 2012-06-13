@@ -69,6 +69,8 @@ class IXXAT
       ~IXXAT();
       bool send(const Message *m);
       bool receive(Message *m);
+
+	  static bool isDriverClosed() {return m_driverClosed;}
    private:
       bool open(int board_number, const char* baud_rate);
       bool close();
@@ -86,6 +88,8 @@ class IXXAT
       UINT16 m_RxQueHdl;
       async_access_que<VCI_CAN_OBJ> m_RX_Que;
       static IXXAT* m_callbackPtr;
+
+	  static bool m_driverClosed;
       static UINT_PTR m_watchdogTimerId;
       static const unsigned int CAN_BUS_WATCHDOG_INTERVAL_MSEC = 10000;
 
@@ -102,6 +106,8 @@ class IXXAT
 IXXAT *IXXAT::m_callbackPtr = NULL;
 
 UINT_PTR IXXAT::m_watchdogTimerId = 0;
+
+bool IXXAT::m_driverClosed = false;
 
 IXXAT::IXXAT(s_BOARD *board) : m_BoardHdl(0xFFFF),
                                m_TxQueHdl(0xFFFF),
@@ -244,11 +250,14 @@ bool IXXAT::open(int board_number, const char* baud_rate)
    //Start CAN Bus-Off watchdog
    m_watchdogTimerId = SetTimer(NULL, NULL, IXXAT::CAN_BUS_WATCHDOG_INTERVAL_MSEC, IXXAT::canBusWatchdog);
    
+   m_driverClosed = false;
+
    return true;
    }
 
 bool IXXAT::close()
    {
+	m_driverClosed = true;
    if (m_BoardHdl == 0xFFFF)
       return true;
    VCI_ResetBoard(m_BoardHdl);   
@@ -369,12 +378,14 @@ void CALLBACK IXXAT::canBusWatchdog(HWND hwnd, UINT msg, UINT_PTR idEvent, DWORD
 extern "C"
    UNS8 __stdcall canReceive_driver(CAN_HANDLE inst, Message *m)
    {
+	 if (IXXAT::isDriverClosed()) return 0;
      return reinterpret_cast<IXXAT*>(inst)->receive(m) ? 0 : 1;
    }
                             
 extern "C"
    UNS8 __stdcall canSend_driver(CAN_HANDLE inst, Message const *m)
    {
+	 if (IXXAT::isDriverClosed()) return 0;
      return reinterpret_cast<IXXAT*>(inst)->send(m) ? 0 : 1;
    }
 

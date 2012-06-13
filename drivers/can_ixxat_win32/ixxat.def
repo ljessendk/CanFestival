@@ -26,3 +26,4 @@ EXPORTS
    canSend_driver
    canOpen_driver
    canClose_driver
+   canChangeBaudRate_driver

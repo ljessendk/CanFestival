@@ -49,10 +49,13 @@ struct struct_s_BOARD {
 #if !defined(WIN32) || defined(__CYGWIN__)
 #define DLL_CALL(funcname) funcname##_driver
 #else
+#define LIBAPI __stdcall
 //Windows was missing the definition of the calling convention
-#define DLL_CALL(funcname) __stdcall funcname##_driver
+#define DLL_CALL(funcname) LIBAPI funcname##_driver
 #endif
 #endif //DLL_CALL
+
+#define LIBPUBLIC
 
 #ifndef FCT_PTR_INIT
 #define FCT_PTR_INIT

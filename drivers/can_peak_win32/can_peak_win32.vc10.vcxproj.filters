@@ -29,8 +29,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_2pcc.lib" />
-    <Library Include="..\..\..\..\PC-Card\Lib\Visual C++\Pcan_pcc.lib" />
-  </ItemGroup>
 </Project>

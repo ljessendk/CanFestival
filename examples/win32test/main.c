@@ -107,7 +107,7 @@ int main(int argc, char *argv[])
    /* process command line arguments */
    if (argc < 2)
       {
-      printf("USAGE: win32test <node_id> [can driver dll filename [baud rate]]\n");
+      printf("USAGE: win32test <node_id> [can driver dll filename [baud rate[bus name]]]\n");
       return 1;
       }
 
@@ -125,6 +125,9 @@ int main(int argc, char *argv[])
 
    if (argc > 3)
       MasterBoard.baudrate = argv[3];
+
+   if (argc > 4)
+	  MasterBoard.busname = argv[4];
 
    // load can driver
    if (!LoadCanDriver(dll_file_name))
@@ -158,12 +161,13 @@ int main(int argc, char *argv[])
          /* modify Client SDO 1 Parameter */
          UNS32 COB_ID_Client_to_Server_Transmit_SDO = 0x600 + node_id;
          UNS32 COB_ID_Server_to_Client_Receive_SDO  = 0x580 + node_id;
-         UNS32 Node_ID_of_the_SDO_Server = node_id;
-         UNS32 ExpectedSize = sizeof (UNS32);
+         UNS8 Node_ID_of_the_SDO_Server = node_id;
+         UNS32 ExpectedSize = sizeof(UNS32);
+         UNS32 ExpectedSizeNodeId = sizeof (UNS8);
 
          if (OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 1, &COB_ID_Client_to_Server_Transmit_SDO, &ExpectedSize, RW) 
               && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 2, &COB_ID_Server_to_Client_Receive_SDO, &ExpectedSize, RW) 
-              && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 3, &Node_ID_of_the_SDO_Server, &ExpectedSize, RW))
+              && OD_SUCCESSFUL ==  writeLocalDict(&win32test_Data, 0x1280, 3, &Node_ID_of_the_SDO_Server, &ExpectedSizeNodeId, RW))
             {
             UNS32 dev_type = 0;
             char device_name[64]="";
