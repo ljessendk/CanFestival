@@ -1244,14 +1244,20 @@ class AddSlaveDialog(wx.Dialog):
                                wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
-            if os.path.isfile(filepath):
-                result = self.NodeList.ImportEDSFile(filepath)
-                if result:
-                    message = wx.MessageDialog(self, _("%s\nWould you like to replace it ?")%result, _("Question"), wx.YES_NO|wx.ICON_QUESTION)
-                    if message.ShowModal() == wx.ID_YES:
-                        self.NodeList.ImportEDSFile(filepath, True)
-                    message.Destroy()
+        else:
+            filepath = ""
         dialog.Destroy()
+        if os.path.isfile(filepath):
+            result, question = self.NodeList.ImportEDSFile(filepath)
+            if result is not None and question:
+                dialog = wx.MessageDialog(self, _("%s\nWould you like to replace it ?")%result, _("Question"), wx.YES_NO|wx.ICON_QUESTION)
+                if dialog.ShowModal() == wx.ID_YES:
+                    dialog, question = self.NodeList.ImportEDSFile(filepath, True)
+                dialog.Destroy()
+            if result is not None and not question:
+                dialog = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
+                dialog.ShowModal()
+                dialog.Destroy()
         self.RefreshEDSFile()
         event.Skip()
 

@@ -74,6 +74,9 @@ class NodeList:
     def GetSlaveNumber(self):
         return len(self.SlaveNodes)
     
+    def GetSlaveName(self, idx):
+        return self.SlaveNodes[idx]["Name"]
+    
     def GetSlaveNames(self):
         nodes = self.SlaveNodes.keys()
         nodes.sort()
@@ -134,10 +137,10 @@ class NodeList:
         dir, file = os.path.split(edspath)
         eds = os.path.join(self.EDSFolder, file)
         if not force and os.path.isfile(eds):
-            return _("EDS file already imported")
+            return _("EDS file already imported"), True
         else:
             shutil.copy(edspath, self.EDSFolder)
-            return self.LoadEDS(file)
+            return self.LoadEDS(file), False
     
     def LoadEDS(self, eds):
         edspath = os.path.join(self.EDSFolder, eds)
