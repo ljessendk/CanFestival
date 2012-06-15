@@ -525,8 +525,9 @@ class EditingPanel(wx.SplitterWindow):
                         typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
                         if typeinfos:
                             bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
+                            var_name = "master_%04x_%02x" % (index, subindex)
                             size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), "location")))
+                            data = wx.TextDataObject(str(("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), "location", None, var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
@@ -542,8 +543,9 @@ class EditingPanel(wx.SplitterWindow):
                         if subentry_infos["pdo"] and typeinfos:
                             bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
                             node_id = self.ParentWindow.GetCurrentNodeId()
+                            var_name = "%s_%04x_%02x" % (self.Manager.GetSlaveName(node_id), index, subindex)
                             size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location")))
+                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location", None, var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
