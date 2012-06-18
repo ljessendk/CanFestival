@@ -271,7 +271,7 @@ class NetworkEditorTemplate(NodeEditorTemplate):
                     self.NetworkNodes.SetSelection(new_selection)
                     if new_selection > 0:
                         self.NodeList.SetCurrentSelected(slaveids[new_selection - 1])
-                    self.RefreshBufferState()
+                self.RefreshBufferState()
             else:
                 self.ShowErrorMessage(result)
         dialog.Destroy()

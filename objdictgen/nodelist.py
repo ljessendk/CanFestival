@@ -163,6 +163,7 @@ class NodeList:
     def RemoveSlaveNode(self, index):
         if index in self.SlaveNodes.keys():
             self.SlaveNodes.pop(index)
+            self.Changed = True
             return None
         else:
             return _("Node with \"0x%2.2X\" ID doesn't exist")
