@@ -46,6 +46,18 @@
 ** @return
 **/
 
+static void dbg(CO_Data * d, UNS8 v1, UNS8 v2)
+          {
+            Message pdo;
+            pdo.cob_id = 0x100;
+            pdo.rtr = NOT_A_REQUEST;
+            pdo.len = 2;
+            pdo.data[0] = v1;
+            pdo.data[1] = v2;
+            canSend (d->canHandle, &pdo);
+          }
+
+
 UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
   const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
@@ -120,7 +132,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 UNS8
 sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
 {
-  UNS32 *pwCobId;
+  UNS16 *pwCobId;
   UNS16 offset = d->firstIndex->PDO_RCV;
   UNS16 lastIndex = d->lastIndex->PDO_RCV;
 
@@ -146,7 +158,7 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
           MSG_WAR (0x3930, "sendPDOrequest cobId is : ", *pwCobId);
           {
             Message pdo;
-            pdo.cob_id = (UNS16)UNS16_LE(*pwCobId);
+            pdo.cob_id = UNS16_LE(*pwCobId);
             pdo.rtr = REQUEST;
             pdo.len = 0;
             return canSend (d->canHandle, &pdo);
@@ -179,14 +191,13 @@ proceedPDO (CO_Data * d, Message * m)
   UNS32 *pMappingParameter = NULL;
   UNS8 *pTransmissionType = NULL;       /* pointer to the transmission
                                            type */
-  UNS32 *pwCobId = NULL;
+  UNS16 *pwCobId = NULL;
   UNS8 Size;
   UNS8 offset;
   UNS8 status;
   UNS32 objDict;
   UNS16 offsetObjdict;
   UNS16 lastIndex;
-  TIMEVAL EventTimerDuration = 0;
 
   status = state2;
 
@@ -195,41 +206,29 @@ proceedPDO (CO_Data * d, Message * m)
   numPdo = 0;
   numMap = 0;
   if ((*m).rtr == NOT_A_REQUEST)
-    {                           /* The PDO received is not a
-                                   request. */
-
+    { 
       offsetObjdict = d->firstIndex->PDO_RCV;
       lastIndex = d->lastIndex->PDO_RCV;
 
-      /* study of all the PDO stored in the dictionary */
       if (offsetObjdict)
         while (offsetObjdict <= lastIndex)
           {
-
             switch (status)
               {
 
               case state2:
-                /* get CobId of the dictionary correspondant to the received
-                   PDO */
-                pwCobId =
-                  d->objdict[offsetObjdict].pSubindex[1].pObject;
-                /* check the CobId coherance */
-                /*pwCobId is the cobId read in the dictionary at the state 3
-                 */
+                pwCobId = d->objdict[offsetObjdict].pSubindex[1].pObject;
                 if (*pwCobId == UNS16_LE(m->cob_id))
                   {
                     /* The cobId is recognized */
                     status = state4;
-                    EventTimerDuration = *(UNS16 *)d->objdict[offsetObjdict].pSubindex[5].pObject;
                     MSG_WAR (0x3936, "cobId found at index ",
                              0x1400 + numPdo);
                     break;
                   }
                 else
                   {
-                    /* cobId received does not match with those write in the
-                       dictionnary */
+                    /* received cobId does not match */
                     numPdo++;
                     offsetObjdict++;
                     status = state2;
@@ -305,11 +304,14 @@ proceedPDO (CO_Data * d, Message * m)
                       }
                     numMap++;
                   }             /* end loop while on mapped variables */
-                if (EventTimerDuration && d->RxPDO_EventTimers)
+                if (d->RxPDO_EventTimers)
                 {
-                    DelAlarm (d->RxPDO_EventTimers[numPdo]);
-                    d->RxPDO_EventTimers[numPdo] = SetAlarm (d, numPdo, d->RxPDO_EventTimers_Handler,
-                    MS_TO_TIMEVAL (EventTimerDuration), 0);
+                    TIMEVAL EventTimerDuration = *(UNS16 *)d->objdict[offsetObjdict].pSubindex[5].pObject;
+                    if(EventTimerDuration){
+                        DelAlarm (d->RxPDO_EventTimers[numPdo]);
+                        d->RxPDO_EventTimers[numPdo] = SetAlarm (d, numPdo, d->RxPDO_EventTimers_Handler,
+                        MS_TO_TIMEVAL (EventTimerDuration), 0);
+                    }
                 }
                 return 0;
 

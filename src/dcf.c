@@ -50,6 +50,13 @@ static UNS8 read_consise_dcf_next_entry(CO_Data* d, UNS8 nodeId);
 static UNS8 write_consise_dcf_next_entry(CO_Data* d, UNS8 nodeId);
 UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId);
 
+
+inline void start_node(CO_Data* d, UNS8 nodeId){
+    /* Ask slave node to go in operational mode */
+    masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
+    d->NMTable[nodeId] = Operational;
+}
+
 /**
 ** @brief Function to be called from post_SlaveBootup
 **
@@ -61,13 +68,25 @@ UNS8 check_and_start_node(CO_Data* d, UNS8 nodeId)
     if(d->dcf_status != DCF_STATUS_INIT)
         return 0;
     if((init_consise_dcf(d, nodeId) == 0) || (read_consise_dcf_next_entry(d, nodeId) == 0)){
-	    /* Ask slave node to go in operational mode */
-        masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
-        d->NMTable[nodeId] = Operational;
+        start_node(d, nodeId);
         return 1;
     }
     d->dcf_status = DCF_STATUS_READ_CHECK;
     return 2;
+}
+
+inline void start_and_seek_node(CO_Data* d, UNS8 nodeId){
+   UNS8 node;
+   start_node(d,nodeId);
+   /* Look for other nodes waiting to be started */
+   for(node = 0 ; node<NMT_MAX_NODE_ID ; node++){
+       if(d->NMTable[node] != Initialisation)
+           continue;
+       if(check_and_start_node(d, node) == 2)
+           return;
+   }
+   /* No more node to start. Let's start our own node */
+   setState(d, Operational);
 }
 
 /**
@@ -94,16 +113,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
         }
         if(match) {
             if(read_consise_dcf_next_entry(d, nodeId) == 0){
-                masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
-                d->NMTable[nodeId] = Operational;
-                d->dcf_status = DCF_STATUS_INIT;
-                /* Look for other nodes waiting to be started */
-                for(node = 0 ; node<NMT_MAX_NODE_ID ; node++){
-                    if(d->NMTable[node] != Initialisation)
-                        continue;
-                    if(check_and_start_node(d, node) == 2)
-                        break;
-                }
+                start_and_seek_node(d, nodeId);
             }
         }
         else { /* Data received does not match : start rewriting all */
@@ -121,16 +131,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
             SaveNode(d, nodeId);
             d->dcf_status = DCF_STATUS_SAVED;
 #else //DCF_SAVE_NODE
-           masterSendNMTstateChange (d, nodeId, NMT_Start_Node);
-           d->NMTable[nodeId] = Operational;
-           d->dcf_status = DCF_STATUS_INIT;
-           /* Look for other nodes waiting to be started */
-           for(node = 0 ; node<NMT_MAX_NODE_ID ; node++){
-               if(d->NMTable[node] != Initialisation)
-                   continue;
-               if(check_and_start_node(d, node) == 2)
-                   break;
-           }
+           start_and_seek_node(d,nodeId);
 #endif //DCF_SAVE_NODE
         }
     }
