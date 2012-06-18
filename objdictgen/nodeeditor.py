@@ -1,3 +1,5 @@
+from types import *
+
 import wx
 
 from node import OD_Subindex, OD_MultipleSubindexes, OD_IdenticalSubindexes, OD_IdenticalIndexes
