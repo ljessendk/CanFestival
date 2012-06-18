@@ -46,18 +46,6 @@
 ** @return
 **/
 
-static void dbg(CO_Data * d, UNS8 v1, UNS8 v2)
-          {
-            Message pdo;
-            pdo.cob_id = 0x100;
-            pdo.rtr = NOT_A_REQUEST;
-            pdo.len = 2;
-            pdo.data[0] = v1;
-            pdo.data[1] = v2;
-            canSend (d->canHandle, &pdo);
-          }
-
-
 UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
   const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
