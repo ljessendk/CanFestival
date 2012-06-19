@@ -181,10 +181,6 @@ UNS8 setState(CO_Data* d, e_nodeState newState)
 				s_state_communication newCommunicationState = {0, 1, 1, 1, 1, 0, 1};
 				d->nodeState = Pre_operational;
 				switchCommunicationState(d, &newCommunicationState);
-				if (!(*(d->iam_a_slave)))
-				{
-					masterSendNMTstateChange (d, 0, NMT_Reset_Node);
-				}
                 (*d->preOperational)(d);
 			}
 			break;
@@ -313,6 +309,11 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 }
 
 void _initialisation(CO_Data* d){}
-void _preOperational(CO_Data* d){}
+void _preOperational(CO_Data* d){
+    if (!(*(d->iam_a_slave)))
+    {
+        masterSendNMTstateChange (d, 0, NMT_Reset_Node);
+    }
+}
 void _operational(CO_Data* d){}
 void _stopped(CO_Data* d){}
