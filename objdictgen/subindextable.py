@@ -94,6 +94,31 @@ DictionaryOrganisation = [
     {"minIndex" : 0x6000, "maxIndex" : 0x9FFF, "name" : "Standardized Device Profile"},
     {"minIndex" : 0xA000, "maxIndex" : 0xBFFF, "name" : "Standardized Interface Profile"}]
 
+IECTypeConversion = {
+    "BOOLEAN": "BOOL",
+    "INTEGER8": "SINT",
+    "INTEGER16": "INT",
+    "INTEGER32": "DINT",
+    "UNSIGNED8": "USINT",
+    "UNSIGNED16": "UINT",
+    "UNSIGNED32": "UDINT",
+    "REAL32": "REAL",
+    "VISIBLE_STRING": "STRING",
+    "OCTET_STRING": "STRING",
+    "UNICODE_STRING": "WSTRING",
+    "DOMAIN": "STRING",
+    "INTEGER24": "DINT",
+    "REAL64": "LREAL",
+    "INTEGER40": "LINT",
+    "INTEGER48": "LINT",
+    "INTEGER56": "LINT",
+    "INTEGER64": "LINT",
+    "UNSIGNED24": "UDINT",
+    "UNSIGNED40": "ULINT",
+    "UNSIGNED48": "ULINT",
+    "UNSIGNED56": "ULINT",
+    "UNSIGNED64": "ULINT",
+}
 SizeConversion = {1 : "X", 8 : "B", 16 : "W", 24 : "D", 32 : "D", 40 : "L", 48 : "L", 56 : "L", 64 : "L"}
 
 class SubindexTable(wx.grid.PyGridTableBase):
@@ -527,7 +552,11 @@ class EditingPanel(wx.SplitterWindow):
                             bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
                             var_name = "master_%04x_%02x" % (index, subindex)
                             size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), "location", None, var_name, "")))
+                            data = wx.TextDataObject(str(
+                                ("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), 
+                                 "location", 
+                                 IECTypeConversion.get(typeinfos["name"]), 
+                                 var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
@@ -545,7 +574,11 @@ class EditingPanel(wx.SplitterWindow):
                             node_id = self.ParentWindow.GetCurrentNodeId()
                             var_name = "%s_%04x_%02x" % (self.Manager.GetSlaveName(node_id), index, subindex)
                             size = typeinfos["size"]
-                            data = wx.TextDataObject(str(("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), "location", None, var_name, "")))
+                            data = wx.TextDataObject(str(
+                                ("%s%s.%d.%d.%d"%(SizeConversion[size], bus_id, node_id, index, subindex), 
+                                 "location", 
+                                 IECTypeConversion.get(typeinfos["name"]), 
+                                 var_name, "")))
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
