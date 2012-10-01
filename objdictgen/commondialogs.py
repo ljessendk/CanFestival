@@ -1228,7 +1228,7 @@ class AddSlaveDialog(wx.Dialog):
                 message = wx.MessageDialog(self, _("Slave Node ID must be between 0 and 127!"), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
-            elif nodeid == 0 or nodeid in self.NodeList.SlaveNodes.keys():
+            elif nodeid == self.NodeList.GetMasterNodeID() or nodeid in self.NodeList.GetSlaveIDs():
                 message = wx.MessageDialog(self, _("A Node with this ID already exist in the network!"), _("Error"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()

@@ -550,7 +550,7 @@ class EditingPanel(wx.SplitterWindow):
                         typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
                         if typeinfos:
                             bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
-                            var_name = "master_%04x_%02x" % (index, subindex)
+                            var_name = "%s_%04x_%02x" % (self.Manager.GetCurrentNodeName(), index, subindex)
                             size = typeinfos["size"]
                             data = wx.TextDataObject(str(
                                 ("%s%s.%d.%d"%(SizeConversion[size], bus_id, index, subindex), 

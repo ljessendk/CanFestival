@@ -198,14 +198,12 @@ class NetworkEditorTemplate(NodeEditorTemplate):
             self.NetworkNodes.DeleteAllPages()
         if self.NodeList:
             new_editingpanel = EditingPanel(self.NetworkNodes, self, self.Manager)
-            new_editingpanel.SetIndex(0)
+            new_editingpanel.SetIndex(self.Manager.GetCurrentNodeID())
             self.NetworkNodes.AddPage(new_editingpanel, "")
             for idx in self.NodeList.GetSlaveIDs():
                 new_editingpanel = EditingPanel(self.NetworkNodes, self, self.NodeList, False)
                 new_editingpanel.SetIndex(idx)
                 self.NetworkNodes.AddPage(new_editingpanel, "")
-    
-    
     
     def OnNodeSelectedChanged(self, event):
         if not self.Closing:

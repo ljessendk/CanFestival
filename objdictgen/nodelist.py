@@ -71,6 +71,9 @@ class NodeList:
         self.Root = newrootpath
         self.Manager.SetCurrentFilePath(os.path.join(self.Root, "master.od"))
     
+    def GetMasterNodeID(self):
+        return self.Manager.GetCurrentNodeID()
+    
     def GetSlaveNumber(self):
         return len(self.SlaveNodes)
     
