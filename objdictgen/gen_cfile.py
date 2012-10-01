@@ -416,6 +416,20 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         indexContents[0x1017] = """\n/* index 0x1017 :   %(EntryName)s */ 
                     UNS16 %(NodeName)s_obj1017 = 0x0;   /* 0 */
 """%texts
+    
+    if 0x100C not in communicationlist:
+        entry_infos = Node.GetEntryInfos(0x100C)
+        texts["EntryName"] = entry_infos["name"]
+        indexContents[0x100C] = """\n/* index 0x100C :   %(EntryName)s */ 
+                    UNS8 %(NodeName)s_obj100C = 0x0;   /* 0 */
+"""%texts
+    
+    if 0x100D not in communicationlist:
+        entry_infos = Node.GetEntryInfos(0x100D)
+        texts["EntryName"] = entry_infos["name"]
+        indexContents[0x100D] = """\n/* index 0x100D :   %(EntryName)s */ 
+                    UNS16 %(NodeName)s_obj100D = 0x0;   /* 0 */
+"""%texts
 
 #-------------------------------------------------------------------------------
 #               Declaration of navigation in the Object Dictionary

@@ -55,7 +55,7 @@ typedef struct
 	INTEGER8 csSDO;
 	INTEGER8 csEmergency;
 	INTEGER8 csSYNC;
-	INTEGER8 csHeartbeat;
+	INTEGER8 csLifeGuard;
 	INTEGER8 csPDO;
 	INTEGER8 csLSS;
 } s_state_communication;

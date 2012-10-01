@@ -92,7 +92,7 @@ void canDispatch(CO_Data* d, Message *m)
 				proceedSDO(d,m);
 			break;
 		case NODE_GUARD:
-			if (d->CurrentCommunicationState.csHeartbeat)
+			if (d->CurrentCommunicationState.csLifeGuard)
 				proceedNODE_GUARD(d,m);
 			break;
 		case NMT:
@@ -142,7 +142,7 @@ void switchCommunicationState(CO_Data* d, s_state_communication *newCommunicatio
 #endif
 	StartOrStop(csSDO,	None,		resetSDO(d))
 	StartOrStop(csSYNC,	startSYNC(d),		stopSYNC(d))
-	StartOrStop(csHeartbeat,	heartbeatInit(d),	heartbeatStop(d))
+	StartOrStop(csLifeGuard,	lifeGuardInit(d),	lifeGuardStop(d))
 	StartOrStop(csEmergency,	emergencyInit(d),	emergencyStop(d)) 
 	StartOrStop(csPDO,	PDOInit(d),	PDOStop(d))
 	StartOrStop(csBoot_Up,	None,	slaveSendBootUp(d))
