@@ -5,6 +5,8 @@ syntax: regexp
 syntax: regexp
 \.o$
 syntax: regexp
+\.so$
+syntax: regexp
 \.pyc$
 syntax: regexp
 \.a$
@@ -22,6 +24,12 @@ syntax: regexp
 ^drivers/unix/Makefile$
 syntax: regexp
 ^drivers/Makefile$
+syntax: regexp
+^drivers/can_peak_linux/Makefile$
+syntax: regexp
+^drivers/timers_rtai/Makefile$
+
+
 syntax: regexp
 ^examples/CANOpenShell/Debug$
 syntax: regexp
@@ -59,8 +67,31 @@ syntax: regexp
 ^src/Makefile$
 
 syntax: regexp
+^examples/.*/Makefile$
+
+syntax: regexp
+^examples/CANOpenShell/CANOpenShell$
+^examples/DS401_Master/DS401_Master$
+^examples/DS401_Slave_Gui/DS401_Slave_Gui$
+
+
+
+syntax: regexp
 ^include/config\.h$
 syntax: regexp
 ^examples/TestMasterMicroMod/TestMasterMicroMod$
 syntax: regexp
 ^examples/TestMasterSlave/TestMasterSlave$
+
+syntax: regexp
+^doc/doxygen/html$
+
+glob:examples/DS401_Master/TestMaster.c
+glob:examples/DS401_Master/TestMaster.h
+glob:examples/DS401_Slave_Gui/ObjDict.c
+glob:examples/DS401_Slave_Gui/ObjDict.h
+glob:examples/TestMasterSlave/TestMaster.c
+glob:examples/TestMasterSlave/TestMaster.h
+glob:examples/TestMasterSlave/TestSlave.c
+glob:examples/TestMasterSlave/TestSlave.h
+glob:examples/TestMasterMicroMod/TestMaster.c
