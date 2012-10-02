@@ -89,6 +89,14 @@ struct struct_CO_Data {
 	heartbeatError_t heartbeatError;
 	e_nodeState NMTable[NMT_MAX_NODE_ID]; 
 
+	/* NMT-nodeguarding */
+	TIMER_HANDLE GuardTimeTimer;
+	TIMER_HANDLE LifeTimeTimer;
+	nodeguardError_t nodeguardError;
+	UNS16 *GuardTime;
+	UNS8 *LifeTimeFactor;
+	UNS8 nodeGuardStatus[NMT_MAX_NODE_ID];
+
 	/* SYNC */
 	TIMER_HANDLE syncTimer;
 	UNS32 *COB_ID_Sync;
@@ -131,10 +139,11 @@ struct struct_CO_Data {
 };
 
 #define NMTable_Initializer Unknown_state,
+#define nodeGuardStatus_Initializer 0x00,
 
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
 #define s_transfer_Initializer {\
-		0,          /* CliServNbr */\
+		0,          /* CliServ{REPEAT_NMT_MAX_NODE_ID_TIMES(NMTable_Initializer)},Nbr */\
 		0,          /* wohami */\
 		SDO_RESET,  /* state */\
 		0,          /* toggle */\
@@ -283,6 +292,14 @@ struct struct_CO_Data {
 	\
 	{REPEAT_NMT_MAX_NODE_ID_TIMES(NMTable_Initializer)},\
                                                    /* is  well initialized at "Unknown_state". Is it ok ? (FD)*/\
+	\
+	/* NMT-nodeguarding */\
+	TIMER_NONE,                                /* GuardTimeTimer */\
+	TIMER_NONE,                                /* LifeTimeTimer */\
+	_nodeguardError,           /* nodeguardError */\
+	& NODE_PREFIX ## _obj100C,                 /* GuardTime */\
+	& NODE_PREFIX ## _obj100D,                 /* LifeTimeFactor */\
+	{REPEAT_NMT_MAX_NODE_ID_TIMES(nodeGuardStatus_Initializer)},\
 	\
 	/* SYNC */\
 	TIMER_NONE,                                /* syncTimer */\

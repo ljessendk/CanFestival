@@ -546,27 +546,12 @@ WARN_LOGFILE           =
 
 INPUT                  = \
 ../../include/unix/canfestival.h \
-../../include/can.h \
-../../include/can_driver.h \
-../../include/data.h \
-../../include/emcy.h \
-../../include/nmtMaster.h \
-../../include/nmtSlave.h \
-../../include/pdo.h \
-../../include/sdo.h \
-../../include/timers_driver.h \
-../../include/timer.h \
-../../include/states.h \
-../../include/objacces.h \
-../../src/nmtMaster.c \
+../../include/ \
+../../src/ \
 ../../drivers/unix/unix.c \
 ../../drivers/win32/win32.cpp \
-../../src/timer.c \
-../../src/objacces.c \
-../../src/states.c \
 ../../drivers/timers_unix/timers_unix.c \
-../../src/sdo.c \
-../../src/pdo.c
+
 
 #../../drivers/timers_win32/timers_win32.cpp \
 # This tag can be used to specify the character encoding of the source files 
@@ -630,7 +615,7 @@ FILE_PATTERNS          = *.c \
 # should be searched for input files as well. Possible values are YES and NO. 
 # If left blank NO is used.
 
-RECURSIVE              = YES
+RECURSIVE              = NO
 
 # The EXCLUDE tag can be used to specify files and/or directories that should 
 # excluded from the INPUT source files. This way you can easily exclude a 
@@ -1487,4 +1472,4 @@ DOT_CLEANUP            = YES
 # The SEARCHENGINE tag specifies whether or not a search engine should be 
 # used. If set to NO the values of all tags below this one will be ignored.
 
-SEARCHENGINE           = NO
+SEARCHENGINE           = YES

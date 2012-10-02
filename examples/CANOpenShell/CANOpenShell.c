@@ -64,7 +64,11 @@ char LibraryPath[512];
 /* Sleep for n seconds */
 void SleepFunction(int second)
 {
+#ifdef USE_RTAI
+	sleep(second);
+#else
 	SLEEP(second);
+#endif
 }
 
 /* Ask a slave node to go in operational mode */
