@@ -246,7 +246,10 @@ class SubindexTable(wx.grid.PyGridTableBase):
         maplist = None
         for row in range(self.GetNumberRows()):
             editors = self.editors[row]
-            grid.SetRowMinimalHeight(row, 28)
+            if wx.Platform == '__WXMSW__':
+                grid.SetRowMinimalHeight(row, 20)
+            else:
+                grid.SetRowMinimalHeight(row, 28)
             grid.AutoSizeRow(row, False)
             for col in range(self.GetNumberCols()):
                 editor = None
@@ -254,7 +257,10 @@ class SubindexTable(wx.grid.PyGridTableBase):
                 
                 colname = self.GetColLabelValue(col, False)
                 editortype = editors[colname]
-                if editortype and self.Editable:
+                if editortype == "dcf":
+                    editor = wx.grid.GridCellTextEditor()
+                    renderer = wx.grid.GridCellStringRenderer()
+                elif editortype and self.Editable:
                     grid.SetReadOnly(row, col, False)
                     if editortype == "string":
                         editor = wx.grid.GridCellTextEditor()
@@ -295,9 +301,6 @@ class SubindexTable(wx.grid.PyGridTableBase):
                         editor = wx.grid.GridCellTextEditor()
                         renderer = wx.grid.GridCellStringRenderer()
                     elif editortype == "domain":
-                        editor = wx.grid.GridCellTextEditor()
-                        renderer = wx.grid.GridCellStringRenderer()
-                    elif editortype == "dcf":
                         editor = wx.grid.GridCellTextEditor()
                         renderer = wx.grid.GridCellStringRenderer()
                 else:
@@ -428,8 +431,7 @@ class EditingPanel(wx.SplitterWindow):
               size=wx.Size(-1, -1), style=wx.SP_3D)
         self._init_utils()
         self.SetNeedUpdating(True)
-        self.SetMinimumPaneSize(1)
-
+        
         self.PartList = wx.ListBox(choices=[], id=ID_EDITINGPANELPARTLIST,
               name='PartList', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(-1, -1), style=0)
@@ -439,10 +441,9 @@ class EditingPanel(wx.SplitterWindow):
         self.SecondSplitter = wx.SplitterWindow(id=ID_EDITINGPANELSECONDSPLITTER,
               name='SecondSplitter', parent=self, point=wx.Point(0, 0), 
               size=wx.Size(-1, -1), style=wx.SP_3D)
-        self.SecondSplitter.SetMinimumPaneSize(1)
-        self.SplitHorizontally(self.PartList, self.SecondSplitter,
-              110)
-
+        self.SplitHorizontally(self.PartList, self.SecondSplitter, 110)
+        self.SetMinimumPaneSize(1)
+        
         self.SubindexGridPanel = wx.Panel(id=ID_EDITINGPANELSUBINDEXGRIDPANEL,
               name='SubindexGridPanel', parent=self.SecondSplitter, 
               pos=wx.Point(0, 0), size=wx.Size(-1, -1), style=wx.TAB_TRAVERSAL)
@@ -450,9 +451,9 @@ class EditingPanel(wx.SplitterWindow):
         self.IndexListPanel = wx.Panel(id=ID_EDITINGPANELINDEXLISTPANEL,
               name='IndexListPanel', parent=self.SecondSplitter, 
               pos=wx.Point(0, 0), size=wx.Size(-1, -1), style=wx.TAB_TRAVERSAL)
-        self.SecondSplitter.SplitVertically(self.IndexListPanel,
-              self.SubindexGridPanel, 280)
-
+        self.SecondSplitter.SplitVertically(self.IndexListPanel, self.SubindexGridPanel, 280)
+        self.SecondSplitter.SetMinimumPaneSize(1)
+        
         self.SubindexGrid = wx.grid.Grid(id=ID_EDITINGPANELSUBINDEXGRID,
               name='SubindexGrid', parent=self.SubindexGridPanel, pos=wx.Point(0,
               0), size=wx.Size(-1, -1), style=0)
@@ -562,7 +563,8 @@ class EditingPanel(wx.SplitterWindow):
                             dragSource.DoDragDrop()
             elif col == 0:
                 selected = self.IndexList.GetSelection()
-                if selected != wx.NOT_FOUND:
+                node_id = self.ParentWindow.GetCurrentNodeId()
+                if selected != wx.NOT_FOUND and node_id is not None:
                     index = self.ListIndex[selected]
                     subindex = event.GetRow()
                     entry_infos = self.Manager.GetEntryInfos(index)
@@ -571,7 +573,6 @@ class EditingPanel(wx.SplitterWindow):
                         typeinfos = self.Manager.GetEntryInfos(subentry_infos["type"])
                         if subentry_infos["pdo"] and typeinfos:
                             bus_id = '.'.join(map(str, self.ParentWindow.GetBusId()))
-                            node_id = self.ParentWindow.GetCurrentNodeId()
                             var_name = "%s_%04x_%02x" % (self.Manager.GetSlaveName(node_id), index, subindex)
                             size = typeinfos["size"]
                             data = wx.TextDataObject(str(
@@ -702,14 +703,14 @@ class EditingPanel(wx.SplitterWindow):
             event.Skip()
 
     def ShowDCFEntryDialog(self, row, col):
-        if self.Editable:
+        if self.Editable or self.ParentWindow.GetCurrentNodeId() is None:
             selected = self.IndexList.GetSelection()
             if selected != wx.NOT_FOUND:
                 index = self.ListIndex[selected]
                 if self.Manager.IsCurrentEntry(index):
-                    dialog = DCFEntryValuesDialog(self)
+                    dialog = DCFEntryValuesDialog(self, self.Editable)
                     dialog.SetValues(self.Table.GetValue(row, col).decode("hex_codec"))
-                    if dialog.ShowModal() == wx.ID_OK:
+                    if dialog.ShowModal() == wx.ID_OK and self.Editable:
                         value = dialog.GetValues()
                         self.Manager.SetCurrentEntry(index, row, value, "value", "dcf")
                         self.ParentWindow.RefreshBufferState()
@@ -790,7 +791,7 @@ class EditingPanel(wx.SplitterWindow):
                         self.SubindexGridMenu.FindItemByPosition(3).Enable(False)
                     if showpopup:
                         self.PopupMenu(self.SubindexGridMenu)
-        elif self.Table.GetColLabelValue(event.GetCol(), False) == "value":
+        elif self.Table.GetColLabelValue(event.GetCol(), False) == "value" and self.ParentWindow.GetCurrentNodeId() is not None:
             selected = self.IndexList.GetSelection()
             if selected != wx.NOT_FOUND:
                 index = self.ListIndex[selected]
@@ -932,4 +933,3 @@ class EditingPanel(wx.SplitterWindow):
                     self.Manager.SetCurrentEntryToDefault(index, row)
                     self.ParentWindow.RefreshBufferState()
                     self.RefreshIndexList()
-        

@@ -1238,7 +1238,7 @@ class AddSlaveDialog(wx.Dialog):
     def OnImportEDSButton(self, event):
         dialog = wx.FileDialog(self,
                                _("Choose an EDS file"),
-                               os.getcwd(),
+                               os.path.expanduser("~"),
                                "",
                                _("EDS files (*.eds)|*.eds|All files|*.*"),
                                wx.OPEN)
@@ -1386,7 +1386,8 @@ class DCFEntryValuesTable(wx.grid.PyGridTableBase):
             for col in range(self.GetNumberCols()):
                 editor = wx.grid.GridCellTextEditor()
                 renderer = wx.grid.GridCellStringRenderer()
-                    
+                
+                grid.SetReadOnly(row, col, self.Parent.Editable)
                 grid.SetCellEditor(row, col, editor)
                 grid.SetCellRenderer(row, col, renderer)
                 
@@ -1495,11 +1496,12 @@ class DCFEntryValuesDialog(wx.Dialog):
         
         self._init_sizers()
 
-    def __init__(self, parent):
+    def __init__(self, parent, editable=True):
         self._init_ctrls(parent)
         
         self.Values = []
         self.DefaultValue = {"Index" : 0, "Subindex" : 0, "Size" : 1, "Value" : 0}
+        self.Editable = editable
         
         self.Table = DCFEntryValuesTable(self, [], DCFEntryTableColnames())
         self.ValuesGrid.SetTable(self.Table)
@@ -1524,9 +1526,10 @@ class DCFEntryValuesDialog(wx.Dialog):
     def RefreshButtons(self):
         row = self.ValuesGrid.GetGridCursorRow()
         length = len(self.Table.data)
-        self.DeleteButton.Enable(length > 0)
-        self.UpButton.Enable(row > 0)
-        self.DownButton.Enable(row < length - 1)
+        self.AddButton.Enable(self.Editable)
+        self.DeleteButton.Enable(self.Editable and length > 0)
+        self.UpButton.Enable(self.Editable and row > 0)
+        self.DownButton.Enable(self.Editable and row < length - 1)
     
     def OnAddButton(self, event):
         new_row = self.DefaultValue.copy()
