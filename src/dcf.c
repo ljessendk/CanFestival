@@ -131,6 +131,7 @@ static void CheckSDOAndContinue(CO_Data* d, UNS8 nodeId)
             SaveNode(d, nodeId);
             d->dcf_status = DCF_STATUS_SAVED;
 #else //DCF_SAVE_NODE
+            d->dcf_status = DCF_STATUS_INIT;
            start_and_seek_node(d,nodeId);
 #endif //DCF_SAVE_NODE
         }
