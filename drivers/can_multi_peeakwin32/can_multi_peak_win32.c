@@ -20,6 +20,8 @@
 
 UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m);
 
+#define Data data  /* temporary fix */
+
 
 #define VERSION_2
 
