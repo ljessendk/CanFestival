@@ -141,31 +141,23 @@ UNS32 _getODentry( CO_Data* d,
   }
   else /* no endianisation change */
 #  endif
+  memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
 
-  if(*pDataType != visible_string) {
-      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+  if(*pDataType != visible_string)
       *pExpectedSize = szData;
-  }else{
-      /* TODO : CONFORM TO DS-301 :
-       *  - stop using NULL terminated strings
-       *  - store string size in td_subindex
-       * */
-      /* Copy null terminated string to user, and return discovered size */
-      UNS8 *ptr = (UNS8*)ptrTable->pSubindex[bSubindex].pObject;
-      UNS8 *ptr_start = ptr;
-      /* *pExpectedSize IS < szData . if null, use szData */
-      UNS8 *ptr_end = ptr + (*pExpectedSize ? *pExpectedSize : szData) ;
-      UNS8 *ptr_dest = (UNS8*)pDestData;
-      while( *ptr && ptr < ptr_end){
-          *(ptr_dest++) = *(ptr++);
-      }
-
-    *pExpectedSize = (UNS32) (ptr - ptr_start);
-    /* terminate string if not maximum length */
-    if (*pExpectedSize < szData)
-            *(ptr) = 0;
+  else {
+    /* VISIBLE_STRING objects are returned with \0 termination, if the user   *
+     * provided enough space.                                                 *
+     * Note:  If the parameter "Default String Size" of the Object Dictionary *
+     *        Editor is larger than the string, then the \0 byte will be      *
+     *        appended anyways!                                               */
+    if(*pExpectedSize > ptrTable->pSubindex[bSubindex].size) {
+      *((UNS8*)pDestData + szData) = '\0';
+      *pExpectedSize = szData + 1;
+    }
+    else
+       *pExpectedSize = szData;
   }
-
   return OD_SUCCESSFUL;
 }
 
