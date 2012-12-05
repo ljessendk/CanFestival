@@ -20,6 +20,8 @@
 
 UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m);
 
+#define Data data  /* temporary fix */
+
 
 #define VERSION_2
 
@@ -311,6 +313,8 @@ CONTINUE:
 
 
 /***************************************************************************/
+
+/* return 0 - OK; 1 - failure */
 UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
 UNS8 data;
@@ -370,7 +374,7 @@ int MaxLoops = 100;
     MSG("out : ");
     print_message(m);
 #endif
-    return 0;
+    return 0;					// OK
 }
 
 
@@ -383,7 +387,7 @@ UNS8 LIBAPI canChangeBaudRate_driver(CAN_HANDLE fd, char* baud)
 
 
 /***************************************************************************/
-LIBPUBLIC CAN_HANDLE LIBAPI canOpen_driver(s_BOARD * board)
+CAN_HANDLE LIBAPI canOpen_driver(s_BOARD * board)
 {
 int ret;
 int i;
