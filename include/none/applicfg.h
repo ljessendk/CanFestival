@@ -46,7 +46,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 /* Integers */
-#define INTEGER8 char
+#define INTEGER8 signed char
 #define INTEGER16 short
 #define INTEGER24 int
 #define INTEGER32 int
@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define INTEGER64 long long
 
 /* Unsigned integers */
-#define UNS8   unsigned char
+#define UNS8   char
 #define UNS16  unsigned short
 #define UNS32  unsigned int
 #define UNS24  unsigned int
