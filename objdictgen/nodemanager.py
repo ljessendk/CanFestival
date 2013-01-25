@@ -1055,7 +1055,7 @@ class NodeManager:
                 else:
                     if infos["user_defined"]:
                         if entry_infos["struct"] & OD_IdenticalSubindexes:
-                            if i == 0:
+                            if i == 1:
                                 editor["type"] = "type"
                                 editor["access"] = "access"
                         else:

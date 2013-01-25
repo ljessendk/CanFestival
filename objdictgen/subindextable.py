@@ -561,6 +561,7 @@ class EditingPanel(wx.SplitterWindow):
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
+                            return
             elif col == 0:
                 selected = self.IndexList.GetSelection()
                 node_id = self.ParentWindow.GetCurrentNodeId()
@@ -583,6 +584,7 @@ class EditingPanel(wx.SplitterWindow):
                             dragSource = wx.DropSource(self.SubindexGrid)
                             dragSource.SetData(data)
                             dragSource.DoDragDrop()
+                            return
         event.Skip()
 
     def OnAddButtonClick(self, event):

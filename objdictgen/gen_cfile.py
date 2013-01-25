@@ -73,12 +73,12 @@ def GetValidTypeInfos(typename, items=[]):
                     size = max(size, len(item))
                 if values[1] != "":
                     size = max(size, int(values[1]))
-                typeinfos = ("INTEGER8", size, "visible_string", False)
+                typeinfos = ("UNS8", size, "visible_string", False)
             elif values[0] == "DOMAIN":
                 size = 0
                 for item in items:
                     size = max(size, len(item))
-                typeinfos = ("INTEGER8", size, "domain", False)
+                typeinfos = ("UNS8", size, "domain", False)
             elif values[0] == "BOOLEAN":
                 typeinfos = ("UNS8", None, "boolean", False)
             else:
@@ -421,14 +421,14 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         entry_infos = Node.GetEntryInfos(0x100C)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x100C] = """\n/* index 0x100C :   %(EntryName)s */ 
-                    UNS8 %(NodeName)s_obj100C = 0x0;   /* 0 */
+                    UNS16 %(NodeName)s_obj100C = 0x0;   /* 0 */
 """%texts
     
     if 0x100D not in communicationlist:
         entry_infos = Node.GetEntryInfos(0x100D)
         texts["EntryName"] = entry_infos["name"]
         indexContents[0x100D] = """\n/* index 0x100D :   %(EntryName)s */ 
-                    UNS16 %(NodeName)s_obj100D = 0x0;   /* 0 */
+                    UNS8 %(NodeName)s_obj100D = 0x0;   /* 0 */
 """%texts
 
 #-------------------------------------------------------------------------------
