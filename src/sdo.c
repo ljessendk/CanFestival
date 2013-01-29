@@ -1373,6 +1373,12 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					    failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_LOCAL_CTRL_ERROR);
 					    return 0xFF;
 				    }
+					/* Check block size */
+					if(m->data[4] > 127){
+					    MSG_ERR(0x1A96, "SDO error : invalid block size", 0);
+					    failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_INVALID_BLOCK_SIZE);
+					    return 0xFF;
+					}
 				    /* No line on use. Great !*/
 				    /* Try to open a new line.*/
 				    err = getSDOfreeLine( d, whoami, &line );
@@ -1440,7 +1446,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                         d->transfers[line].blksize = m->data[2];
                         AckSeq = (m->data[1]) & 0x7f;
                         getSDOlineRestBytes(d, line, &nbBytes);
-                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoyé et confirmé reçu on envoi un block end upload response */
+						/* If everything have been sent and aknowledged we send a block end upload */
+                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){
                             data[0] = (6 << 5) | ((d->transfers[line].endfield) << 2) | SDO_BSS_END_UPLOAD_RESPONSE;
                             for (i = 1 ; i < 8 ; i++)
 						        data[i] = 0;
@@ -1502,19 +1509,30 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                         failedSDO(d, CliServNbr, whoami, 0, 0, SDOABT_LOCAL_CTRL_ERROR);
                         return 0xFF;
                     }
+                    index = d->transfers[line].index;
+                    subIndex = d->transfers[line].subIndex;
                     /* Reset the watchdog */
                     RestartSDO_TIMER(line)
                     if (SubCommand == SDO_BSS_INITIATE_DOWNLOAD_RESPONSE) {
-                           index = d->transfers[line].index;
-                        subIndex = d->transfers[line].subIndex;
+						if(m->data[4] > 127){
+							MSG_ERR(0x1A98, "SDO error : invalid block size", 0);
+					    	failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_INVALID_BLOCK_SIZE);
+					    	return 0xFF;
+						}
                         d->transfers[line].peerCRCsupport = ((m->data[0])>>2) & 1;
                         d->transfers[line].blksize = m->data[4];
                     }
                     else {
-                    	d->transfers[line].blksize = m->data[2];
+ 						if(m->data[2] > 127){
+							MSG_ERR(0x1A99, "SDO error : invalid block size", 0);
+					    	failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_INVALID_BLOCK_SIZE);
+					    	return 0xFF;
+						}
+                   		d->transfers[line].blksize = m->data[2];
                         AckSeq = (m->data[1]) & 0x7f;
                         getSDOlineRestBytes(d, line, &nbBytes);
-                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){ /* Si tout est envoyé et confirmé reçu on envoi un block end download request */
+						/* If everything have been sent and aknowledged we send a block end upload */
+                        if((nbBytes == 0) && (AckSeq == d->transfers[line].seqno)){
                             data[0] = (6 << 5) | ((d->transfers[line].endfield) << 2) | SDO_BCS_END_DOWNLOAD_REQUEST;
                             for (i = 1 ; i < 8 ; i++)
 						        data[i] = 0;
@@ -1527,7 +1545,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                         if(d->transfers[line].offset > d->transfers[line].count) { /* Bad AckSeq reveived (too high) */
 					        MSG_ERR(0x1AA1, "SDO error : Received upload segment with bad ackseq index 0x1200 + ",
 							    CliServNbr);
-					        failedSDO(d, CliServNbr, whoami, 0, 0, SDOABT_LOCAL_CTRL_ERROR);
+					        failedSDO(d, CliServNbr, whoami, index, subIndex, SDOABT_LOCAL_CTRL_ERROR);
 					        return 0xFF;
                         }
 					}
@@ -1789,6 +1807,10 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 			break;
 		default:
 			/* Error : Unknown cs */
+			if (!err)
+				failedSDO(d, CliServNbr, whoami, d->transfers[line].index,  d->transfers[line].subIndex, SDOABT_CS_NOT_VALID);
+			else
+				failedSDO(d, CliServNbr, whoami, 0,  0, SDOABT_CS_NOT_VALID);
 			MSG_ERR(0x1AB2, "SDO. Received unknown command specifier : ", cs);
 			return 0xFF;
 

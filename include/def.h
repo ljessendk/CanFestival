@@ -42,6 +42,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #define SDOABT_TOGGLE_NOT_ALTERNED   0x05030000
 #define SDOABT_TIMED_OUT             0x05040000
+#define SDOABT_CS_NOT_VALID          0x05040001
+#define SDOABT_INVALID_BLOCK_SIZE    0x05040002
 #define SDOABT_OUT_OF_MEMORY         0x05040005 /* Size data exceed SDO_MAX_LENGTH_TRANSFER */
 #define SDOABT_GENERAL_ERROR         0x08000000 /* Error size of SDO message */
 #define SDOABT_LOCAL_CTRL_ERROR      0x08000021 
