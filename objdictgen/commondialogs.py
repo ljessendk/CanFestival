@@ -1252,7 +1252,7 @@ class AddSlaveDialog(wx.Dialog):
             if result is not None and question:
                 dialog = wx.MessageDialog(self, _("%s\nWould you like to replace it ?")%result, _("Question"), wx.YES_NO|wx.ICON_QUESTION)
                 if dialog.ShowModal() == wx.ID_YES:
-                    dialog, question = self.NodeList.ImportEDSFile(filepath, True)
+                    result, question = self.NodeList.ImportEDSFile(filepath, True)
                 dialog.Destroy()
             if result is not None and not question:
                 dialog = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
