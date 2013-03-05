@@ -38,3 +38,5 @@ def getCFLAGS(Cpth):
 def getLDFLAGS(Cpth):
     return EXE_CFLAGS + ' "' + opj(Cpth,"src","libcanfestival.a") + '" "' + opj(Cpth,"drivers", TARGET, "libcanfestival_%s.a"%TARGET)+ '"'
 
+# herafter is appended DLL_LIST declaration
+
