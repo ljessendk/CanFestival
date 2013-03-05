@@ -40,7 +40,7 @@ OBJS =  Socket.o $(CAN_DRIVER).o
 
 ifeq ($(ENABLE_DLL_DRIVERS),1)
 #CFLAGS += -fPIC
-DRIVER = cyg$(CAN_DRIVER).dll
+DRIVER = $(CAN_DRIVER).dll
 else
 DRIVER = $(OBJS)
 endif
