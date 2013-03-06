@@ -91,10 +91,11 @@ extern "C"
    {
       Socket* s;
       try {
-        s = new SocketClient(board->busname, 11898);
-    
-        //s.SendLine("GET / HTTP/1.0");
-        //s.SendLine("Host: www.google.com");
+        char *dst = "127.0.0.1";
+        if(strlen(board->busname)){
+            dst=board->busname;
+        }
+        s = new SocketClient(dst, 11898);
       } 
       catch (const char* _s) {
         cerr << _s << endl;

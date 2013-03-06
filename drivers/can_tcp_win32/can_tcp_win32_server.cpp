@@ -38,12 +38,11 @@ unsigned __stdcall Connection(void* a) {
 
   g_connections.push_back(s);
 
-  //s->SendLine("Welcome to the Message Distributor");
   printf("Accepted new connection (0x%x).\n");
   while (1) {
     std::string r = s->ReceiveLine();
     if (r.empty()) break;
-    //cout << r  << endl;    
+    cout << r  << endl;    
     for (socket_list::iterator os =g_connections.begin();
                                os!=g_connections.end(); 
                                os++) {
