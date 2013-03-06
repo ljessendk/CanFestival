@@ -105,7 +105,7 @@ LIB_HANDLE LoadCanDriver(LPCSTR driver_name)
 #ifndef NOT_USE_DYNAMIC_LOADING
 	if(handle == NULL)
 	{
-		handle = LoadLibraryA(driver_name);
+		handle = LoadLibrary(driver_name);
 	}
 
 	if (!handle)
