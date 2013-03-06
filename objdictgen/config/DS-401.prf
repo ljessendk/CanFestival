@@ -65,7 +65,7 @@ Mapping = {
     0x6107 : {"name" : "Interrupt Mask Low to High 16 Bit", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Input 16 bit", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Interrupt Low to High 0x%X to 0x%X[(sub*16-15,sub*16)]", "type" : 0x06, "access" : 'rw', "pdo" : True, "nbmax" : 0xFE}]},
-    0x6106 : {"name" : "Interrupt Mask High to Low 16 Bit", "struct" : rec, "need" : False, "values" :
+    0x6108 : {"name" : "Interrupt Mask High to Low 16 Bit", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Input 16 bit", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Interrupt High to Low 0x%X to 0x%X[(sub*16-15,sub*16)]", "type" : 0x06, "access" : 'rw', "pdo" : True, "nbmax" : 0xFE}]},
 
@@ -112,7 +112,7 @@ Mapping = {
                  {"name" : "Write Outputs 0x%X[((idx-1)*128+sub)]", "type" : 0x01, "access" : 'rw', "pdo" : True, "nbmax" : 0x80}]},
     0x6240 : {"name" : "Change Polarity Outputs Bit %d to %d[(idx*128-127,idx*128)]", "struct" : plurirec, "incr" : 0x01,  "need" : False, "nbmax" : 0x08, "values" :
                 [{"name" : "Number of Output 1 Bit", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Write Outputs 0x%X[((idx-1)*128+sub)]", "type" : 0x01, "access" : 'rw', "pdo" : True, "nbmax" : 0x80}]},
+                 {"name" : "Change Polarity Outputs 0x%X[((idx-1)*128+sub)]", "type" : 0x01, "access" : 'rw', "pdo" : True, "nbmax" : 0x80}]},
     0x6250 : {"name" : "Error Mode Outputs Lines %d to %d[(idx*128-127,idx*128)]", "struct" : plurirec, "incr" : 0x01,  "need" : False, "nbmax" : 0x08, "values" :
                 [{"name" : "Number of Output 1 Bit", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Error Mode Outputs 0x%X[((idx-1)*128+sub)]", "type" : 0x01, "access" : 'rw', "pdo" : True, "nbmax" : 0x80}]},
@@ -274,4 +274,4 @@ Mapping = {
                  {"name" : "Analogue Output %d[(sub)]", "type" : 0x07, "access" : 'rw', "pdo" : True, "nbmax" : 0xFE}]}
 }
 
-AddMenuEntries = [("Read Input Bit",[0x6020, 0x6030, 0x6038, 0x6050, 0x6060, 0x6070]), ("Write Output Bit",[0x6220, 0x6240, 0x6250, 0x6260, 0x6270])]
+AddMenuEntries = []
