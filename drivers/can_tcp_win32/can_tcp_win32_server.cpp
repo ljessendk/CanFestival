@@ -69,9 +69,13 @@ int main() {
 		 "and repeat '\\n' terminated lines \n"
 		 "to each connected client\n"
 		 "\n"
-		 "Use netcat to monitor trafic\n"
+		 "Use netcat to monitor/log trafic\n"
 		 " nc 127.0.0.1 11898\n"
+		 "\n"
+         "CAN message format:\n"
+         "{COB_ID,RTR,data_len,{data}}\n"
 		 "\n");
+
   fflush(stdout);
   SocketServer in(11898,5);
   

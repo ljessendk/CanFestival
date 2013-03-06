@@ -99,50 +99,48 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
  */
 LIB_HANDLE LoadCanDriver(LPCSTR driver_name)
 {
-	// driver module handle
-	LIB_HANDLE handle = NULL;
+    // driver module handle
+    LIB_HANDLE handle = NULL;
 
 #ifndef NOT_USE_DYNAMIC_LOADING
-	if(handle == NULL)
-	{
-		handle = LoadLibrary(driver_name);
-	}
+    handle = LoadLibrary(driver_name);
 
-	if (!handle)
-	{
-		fprintf (stderr, "%d\n", GetLastError());
-    	return NULL;
-	}
+    if (!handle)
+    {
+        fprintf (stderr, "LoadLibrary error : %d\n", GetLastError());
+        return NULL;
+    }
 
-	m_canReceive = (CANRECEIVE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canReceive_driver"));
-	m_canSend = (CANSEND_DRIVER_PROC)GetProcAddress(handle, myTEXT("canSend_driver"));
-	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
-	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
-	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
+    m_canReceive = (CANRECEIVE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canReceive_driver"));
+    m_canSend = (CANSEND_DRIVER_PROC)GetProcAddress(handle, myTEXT("canSend_driver"));
+    m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
+    m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
+    m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
 
-	if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
-	{
-	  m_canReceive = NULL;
-	  m_canSend = NULL;
-	  m_canOpen = NULL;
-	  m_canClose = NULL;
-	  m_canChangeBaudRate = NULL;
-	  FreeLibrary(handle);
-	  handle = NULL;
-	}
+    if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
+    {
+        m_canReceive = NULL;
+        m_canSend = NULL;
+        m_canOpen = NULL;
+        m_canClose = NULL;
+        m_canChangeBaudRate = NULL;
+        FreeLibrary(handle);
+        fprintf (stderr, "GetProc error : %d\n", GetLastError());
+        return NULL;
+    }
 #else
-  //compiled in...
-  handle = 1; //TODO: remove this hack
+    //compiled in...
+    handle = 1; //TODO: remove this hack
 
-  m_canReceive = canReceive_driver;
-	m_canSend = canSend_driver;
-	m_canOpen = canOpen_driver;
-	m_canClose = canClose_driver;
-	m_canChangeBaudRate = canChangeBaudRate_driver;
+    m_canReceive = canReceive_driver;
+    m_canSend = canSend_driver;
+    m_canOpen = canOpen_driver;
+    m_canClose = canClose_driver;
+    m_canChangeBaudRate = canChangeBaudRate_driver;
 #endif
 
 
-	return handle;
+    return handle;
 }
 
 /***************************************************************************/

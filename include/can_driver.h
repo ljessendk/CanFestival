@@ -46,7 +46,8 @@ struct struct_s_BOARD {
 };
 
 #ifndef DLL_CALL
-#if !defined(WIN32) || defined(__CYGWIN__)
+#if !defined(WIN32) || defined(__CYGWIN__) || defined(__MINGW32__)
+#define LIBAPI
 #define DLL_CALL(funcname) funcname##_driver
 #else
 #define LIBAPI __stdcall
