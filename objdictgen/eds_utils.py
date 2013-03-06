@@ -92,10 +92,10 @@ ENTRY_TYPES = {2 : {"name" : " DOMAIN",
 def GetDefaultValue(Node, index, subIndex = None):
     infos = Node.GetEntryInfos(index)
     if infos["struct"] & node.OD_MultipleSubindexes:
-        # First case entry is a record
+        # First case entry is a array
         if infos["struct"] & node.OD_IdenticalSubindexes:
             subentry_infos = Node.GetSubentryInfos(index, 1)
-        # Second case entry is an array
+        # Second case entry is an record
         else:
             subentry_infos = Node.GetSubentryInfos(index, subIndex)
         # If a default value is defined for this subindex, returns it
@@ -323,7 +323,7 @@ def ParseEDSFile(filepath):
                 # verify that there is no whitespace into keyname
                 if keyname.isalnum():
                     # value can be preceded and followed by whitespaces, so we escape them
-                    value = value.strip().replace(" ", "")
+                    value = value.strip()
                     # First case, value starts with "$NODEID", then it's a formula
                     if value.upper().startswith("$NODEID"):
                         try:
@@ -548,9 +548,9 @@ def GenerateFileContent(Node, filepath):
             # Generate EDS informations for the entry
             text += "ParameterName=%s\n"%entry_infos["name"]
             if entry_infos["struct"] & node.OD_IdenticalSubindexes:
-                text += "ObjectType=0x9\n"
-            else:
                 text += "ObjectType=0x8\n"
+            else:
+                text += "ObjectType=0x9\n"
             
             # Generate EDS informations for subindexes of the entry in a separate text
             subtext = ""
