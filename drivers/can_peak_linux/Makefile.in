@@ -53,7 +53,7 @@ driver: $(DRIVER)
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 libcanfestival_$(CAN_DRIVER).so: $(OBJS)
-	$(CC) -shared -Wl,-soname,libcanfestival_$(CAN_DRIVER).so $(CAN_DLL_CFLAGS) -o $@ $<
+	$(CC) -shared -Wl,-soname,libcanfestival_$(CAN_DRIVER).so -o $@ $< $(CAN_DLL_CFLAGS)
 
 install: libcanfestival_$(CAN_DRIVER).so
 	mkdir -p $(PREFIX)/lib/
