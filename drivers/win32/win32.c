@@ -159,7 +159,8 @@ DWORD canReceiveLoop(CAN_PORT port)
 	Message m;
 	while(((CANPort*)port)->used)
 	{
-		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) continue;
+		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) 
+            break;
 		EnterMutex();
 		canDispatch(((CANPort*)port)->d, &m);
 		LeaveMutex();
@@ -214,27 +215,20 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
 {
-	UNS8 res;
-	CANPort* tmp;
+    int res = 0;
 
-	tmp = (CANPort*)d->canHandle;
+    CANPort* port = (CANPort*)d->canHandle;
+    if(port){
+        ((CANPort*)d->canHandle)->used = 0;
 
-	if(tmp)
-	{
-	  d->canHandle = NULL;
+        res = m_canClose(port->fd);
 
-		// close CAN port
-	  res = m_canClose(tmp->fd);
+        WaitReceiveTaskEnd(&port->receiveTask);
 
-		// kill receiver task
-	  WaitReceiveTaskEnd(&tmp->receiveTask);
+        d->canHandle = NULL;
+    }
 
-		// release used flag as a last step.
-	  tmp->used = 0;
-	}
-  else res = 255;
-
-return res;
+    return res;
 }
 
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud)

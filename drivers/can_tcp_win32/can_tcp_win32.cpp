@@ -86,30 +86,18 @@ UNS8 LIBAPI canSend_driver(CAN_HANDLE fd0, Message const *m)
 
 CAN_HANDLE LIBAPI canOpen_driver(s_BOARD *board)
 {
-    Socket* s;
+    char *dst = "127.0.0.1";
+    if(!strlen(board->busname)){
+      dst=board->busname;
+    }
     try {
-      char *dst = "127.0.0.1";
-      if(!strlen(board->busname)){
-          dst=board->busname;
-      }
-      s = new SocketClient(dst, 11898);
-    } 
-    catch (const char* _s) {
-      cerr << "can_tcp_win32 exception :\n";
-      cerr << _s << endl;
-      return NULL;
-    } 
-    catch (std::string _s) {
-      cerr << "can_tcp_win32 exception :\n";
-      cerr << _s << endl;
-      return NULL;
+      CAN_HANDLE res = (CAN_HANDLE) new SocketClient(dst, 11898);
+      return res;
     } 
     catch (...) {
-      cerr << "can_tcp_win32 exception :\n";
-      cerr << "unhandled exception\n";
+      cerr << "can_tcp_win32: couldn't connect to" << dst << endl;
       return NULL;
     }
-    return (CAN_HANDLE) s;
 }
 
 int LIBAPI canClose_driver(CAN_HANDLE inst)
