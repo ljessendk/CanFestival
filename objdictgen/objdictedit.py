@@ -74,7 +74,7 @@ if __name__ == '__main__':
     __builtin__.__dict__['_'] = wx.GetTranslation
 
 from nodemanager import *
-from nodeeditor import NodeEditorTemplate
+from nodeeditortemplate import NodeEditorTemplate
 from subindextable import *
 from commondialogs import *
 from doc_index.DS301_index import *
