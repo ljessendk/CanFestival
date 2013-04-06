@@ -1,6 +1,6 @@
 import wx
 
-from nodeeditor import NodeEditorTemplate
+from nodeeditortemplate import NodeEditorTemplate
 from subindextable import *
 from commondialogs import *
 
