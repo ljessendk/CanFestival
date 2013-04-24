@@ -37,7 +37,6 @@ class NodeList:
     
     def __init__(self, manager, netname = ""):
         self.Root = ""
-        self.EDSFolder = ""
         self.Manager = manager
         self.NetworkName = netname
         self.SlaveNodes = {}
@@ -60,16 +59,20 @@ class NodeList:
     def GetManager(self):
         return self.Manager
     
+    def GetEDSFolder(self, root_path=None):
+        if root_path is None:
+            root_path = self.Root
+        return os.path.join(root_path, "eds")
+    
     def GetRoot(self):
         return self.Root
 
     def SetRoot(self, newrootpath):
-        """
-        Define a new path for the CanOpen network project
-        !!! Does not check if new path is valid !!!
-        """
-        self.Root = newrootpath
-        self.Manager.SetCurrentFilePath(os.path.join(self.Root, "master.od"))
+        if os.path.isdir(newrootpath):
+            self.Root = newrootpath
+            self.Manager.SetCurrentFilePath(os.path.join(self.Root, "master.od"))
+            return True
+        return False
     
     def GetMasterNodeID(self):
         return self.Manager.GetCurrentNodeID()
@@ -104,14 +107,14 @@ class NodeList:
         if not os.path.exists(self.Root):
             return _("\"%s\" folder doesn't exist")%self.Root
         
-        self.EDSFolder = os.path.join(self.Root, "eds")
-        if not os.path.exists(self.EDSFolder):
-            os.mkdir(self.EDSFolder)
+        eds_folder = self.GetEDSFolder()
+        if not os.path.exists(eds_folder):
+            os.mkdir(eds_folder)
             #return "\"%s\" folder doesn't contain a \"eds\" folder"%self.Root
         
-        files = os.listdir(self.EDSFolder)
+        files = os.listdir(eds_folder)
         for file in files:
-            filepath = os.path.join(self.EDSFolder, file)
+            filepath = os.path.join(eds_folder, file)
             if os.path.isfile(filepath) and os.path.splitext(filepath)[-1] == ".eds":
                 result = self.LoadEDS(file)
                 if result != None:
@@ -138,15 +141,16 @@ class NodeList:
     
     def ImportEDSFile(self, edspath, force = False):
         dir, file = os.path.split(edspath)
-        eds = os.path.join(self.EDSFolder, file)
+        eds_folder = self.GetEDSFolder()
+        eds = os.path.join(eds_folder, file)
         if not force and os.path.isfile(eds):
             return _("EDS file already imported"), True
         else:
-            shutil.copy(edspath, self.EDSFolder)
+            shutil.copy(edspath, eds_folder)
             return self.LoadEDS(file), False
     
     def LoadEDS(self, eds):
-        edspath = os.path.join(self.EDSFolder, eds)
+        edspath = os.path.join(self.GetEDSFolder(), eds)
         node = eds_utils.GenerateNode(edspath)
         if isinstance(node, Node):
             self.EDSNodes[eds] = node
