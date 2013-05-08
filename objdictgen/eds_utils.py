@@ -379,19 +379,19 @@ def ParseEDSFile(filepath):
             required = set(ENTRY_TYPES[values["OBJECTTYPE"]]["require"])
             # Verify that parameters defined contains all the parameters required
             if not keys.issuperset(required):
-                missing = required.difference(keys)._data.keys()
+                missing = required.difference(keys)
                 if len(missing) > 1:
                     attributes = _("Attributes %s are")%_(", ").join(["\"%s\""%attribute for attribute in missing])
                 else:
-                    attributes = _("Attribute \"%s\" is")%missing[0]
+                    attributes = _("Attribute \"%s\" is")%missing.pop()
                 raise SyntaxError, _("Error on section \"[%s]\":\n%s required for a %s entry")%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
             # Verify that parameters defined are all in the possible parameters
             if not keys.issubset(possible):
-                unsupported = keys.difference(possible)._data.keys()
+                unsupported = keys.difference(possible)
                 if len(unsupported) > 1:
                     attributes = _("Attributes %s are")%_(", ").join(["\"%s\""%attribute for attribute in unsupported])
                 else:
-                    attributes = _("Attribute \"%s\" is")%unsupported[0]
+                    attributes = _("Attribute \"%s\" is")%unsupported.pop()
                 raise SyntaxError, _("Error on section \"[%s]\":\n%s unsupported for a %s entry")%(section_name, attributes, ENTRY_TYPES[values["OBJECTTYPE"]]["name"])
             
             VerifyValue(values, section_name, "ParameterValue")
