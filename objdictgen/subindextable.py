@@ -521,6 +521,9 @@ class EditingPanel(wx.SplitterWindow):
             self.IndexChoice.Disable()
             self.CallbackCheck.Disable()
             self.Table.Disable()
+            
+        wx.CallAfter(self.SetSashPosition, 110)
+        wx.CallAfter(self.SecondSplitter.SetSashPosition, 280)
 
     def GetIndex(self):
         return self.Index
