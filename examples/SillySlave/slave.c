@@ -162,7 +162,7 @@ void SillySlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
     printf("SillySlave_storeODSubIndex : %4.4x %2.2xh\n", wIndex,  bSubindex);
 }
 
-void SillySlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg)
+void SillySlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg, const UNS8 errSpec[5])
 {
     printf("Slave received EMCY message. Node: %2.2xh  ErrorCode: %4.4x  ErrorRegister: %2.2xh\n", nodeID, errCode, errReg);
 }

@@ -93,11 +93,13 @@ void emergencyStop(CO_Data* d)
 /*!
  **
  ** @param d
- ** @param cob_id
+ ** @param errCode Error Code
+ ** @param errRegister Error Register
+ ** @param errSpecific Pointer to char[5] containing Manufacturer Specific Error Field or NULL
  **
  ** @return
  **/
-UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const void *Specific, UNS8 SpecificLength)
+UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const UNS8 errSpecific[5])
 {
 	Message m;
   
@@ -105,26 +107,16 @@ UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const void *Specific,
   
 	m.cob_id = (UNS16)(*(UNS32*)d->error_cobid);
 	m.rtr = NOT_A_REQUEST;	
+	m.len = 8;
 	m.Data[0] = errCode & 0xFF;        /* LSB */
 	m.Data[1] = (errCode >> 8) & 0xFF; /* MSB */
 	m.Data[2] = errRegister;
 
-	if(Specific==NULL)
-	{
-	  m.Data[3] = 0;		/* Manufacturer specific Error Field omitted */
-	  m.Data[4] = 0;
-	  m.Data[5] = 0;
-	  m.Data[6] = 0;
-	  m.Data[7] = 0;
-	  SpecificLength = 5;
-	}
+	if (errSpecific == NULL)	/* Manufacturer Specific Error Field */
+		memset(&m.Data[3], 0, 5);
 	else
-	{
-          if(SpecificLength>5) SpecificLength = 5;
-	  memcpy(&m.Data[3],Specific,SpecificLength);	  
-	}
-	m.len = SpecificLength + 3;
-  
+		memcpy(&m.Data[3], errSpecific, 5);
+
 	return canSend(d->canHandle,&m);
 }
 
@@ -183,7 +175,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
 	
 	/* send EMCY message */
 	if (d->CurrentCommunicationState.csEmergency)
-		return sendEMCY(d, errCode, *d->error_register, NULL, 0);
+		return sendEMCY(d, errCode, *d->error_register, NULL);
 	else return 1;
 }
 
@@ -221,7 +213,7 @@ void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 			d->error_state = Error_free;
 			/* send a EMCY message with code "Error Reset or No Error" */
 			if (d->CurrentCommunicationState.csEmergency)
-				sendEMCY(d, 0x0000, 0x00, NULL, 0);
+				sendEMCY(d, 0x0000, 0x00, NULL);
 		}
 		*d->error_register = errRegister_tmp;
 	}
@@ -254,7 +246,7 @@ void proceedEMCY(CO_Data* d, Message* m)
 	nodeID = m->cob_id & 0x7F;
 	errCode = m->Data[0] | ((UNS16)m->Data[1] << 8);
 	errReg = m->Data[2];
-	(*d->post_emcy)(d, nodeID, errCode, errReg);
+	(*d->post_emcy)(d, nodeID, errCode, errReg, (const UNS8*)&m->Data[3]);
 }
 
-void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg){}
+void _post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg, const UNS8 errSpec[5]){}
