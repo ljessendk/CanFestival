@@ -99,50 +99,48 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
  */
 LIB_HANDLE LoadCanDriver(LPCSTR driver_name)
 {
-	// driver module handle
-	LIB_HANDLE handle = NULL;
+    // driver module handle
+    LIB_HANDLE handle = NULL;
 
 #ifndef NOT_USE_DYNAMIC_LOADING
-	if(handle == NULL)
-	{
-		handle = LoadLibraryA(driver_name);
-	}
+    handle = LoadLibrary(driver_name);
 
-	if (!handle)
-	{
-		fprintf (stderr, "%d\n", GetLastError());
-    	return NULL;
-	}
+    if (!handle)
+    {
+        fprintf (stderr, "LoadLibrary error : %d\n", GetLastError());
+        return NULL;
+    }
 
-	m_canReceive = (CANRECEIVE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canReceive_driver"));
-	m_canSend = (CANSEND_DRIVER_PROC)GetProcAddress(handle, myTEXT("canSend_driver"));
-	m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
-	m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
-	m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
+    m_canReceive = (CANRECEIVE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canReceive_driver"));
+    m_canSend = (CANSEND_DRIVER_PROC)GetProcAddress(handle, myTEXT("canSend_driver"));
+    m_canOpen = (CANOPEN_DRIVER_PROC)GetProcAddress(handle, myTEXT("canOpen_driver"));
+    m_canClose = (CANCLOSE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canClose_driver"));
+    m_canChangeBaudRate = (CANCHANGEBAUDRATE_DRIVER_PROC)GetProcAddress(handle, myTEXT("canChangeBaudRate_driver"));
 
-	if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
-	{
-	  m_canReceive = NULL;
-	  m_canSend = NULL;
-	  m_canOpen = NULL;
-	  m_canClose = NULL;
-	  m_canChangeBaudRate = NULL;
-	  FreeLibrary(handle);
-	  handle = NULL;
-	}
+    if(m_canReceive==NULL || m_canSend==NULL || m_canOpen==NULL || m_canClose==NULL || m_canChangeBaudRate==NULL)
+    {
+        m_canReceive = NULL;
+        m_canSend = NULL;
+        m_canOpen = NULL;
+        m_canClose = NULL;
+        m_canChangeBaudRate = NULL;
+        FreeLibrary(handle);
+        fprintf (stderr, "GetProc error : %d\n", GetLastError());
+        return NULL;
+    }
 #else
-  //compiled in...
-  handle = 1; //TODO: remove this hack
+    //compiled in...
+    handle = 1; //TODO: remove this hack
 
-  m_canReceive = canReceive_driver;
-	m_canSend = canSend_driver;
-	m_canOpen = canOpen_driver;
-	m_canClose = canClose_driver;
-	m_canChangeBaudRate = canChangeBaudRate_driver;
+    m_canReceive = canReceive_driver;
+    m_canSend = canSend_driver;
+    m_canOpen = canOpen_driver;
+    m_canClose = canClose_driver;
+    m_canChangeBaudRate = canChangeBaudRate_driver;
 #endif
 
 
-	return handle;
+    return handle;
 }
 
 /***************************************************************************/
@@ -161,7 +159,8 @@ DWORD canReceiveLoop(CAN_PORT port)
 	Message m;
 	while(((CANPort*)port)->used)
 	{
-		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) continue;
+		if(m_canReceive(((CANPort*)port)->fd, &m) != 0) 
+            break;
 		EnterMutex();
 		canDispatch(((CANPort*)port)->d, &m);
 		LeaveMutex();
@@ -216,27 +215,20 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 /***************************************************************************/
 int canClose(CO_Data * d)
 {
-	UNS8 res;
-	CANPort* tmp;
+    int res = 0;
 
-	tmp = (CANPort*)d->canHandle;
+    CANPort* port = (CANPort*)d->canHandle;
+    if(port){
+        ((CANPort*)d->canHandle)->used = 0;
 
-	if(tmp)
-	{
-	  d->canHandle = NULL;
+        res = m_canClose(port->fd);
 
-		// close CAN port
-	  res = m_canClose(tmp->fd);
+        WaitReceiveTaskEnd(&port->receiveTask);
 
-		// kill receiver task
-	  WaitReceiveTaskEnd(&tmp->receiveTask);
+        d->canHandle = NULL;
+    }
 
-		// release used flag as a last step.
-	  tmp->used = 0;
-	}
-  else res = 255;
-
-return res;
+    return res;
 }
 
 UNS8 canChangeBaudRate(CAN_PORT port, char* baud)

@@ -878,4 +878,7 @@ for makefile_in in $MAKEFILES; do
 	" > $makefile
 done
 
+# append driver list to canfestival_config.py
+echo "DLL_LIST=['can_$SUB_CAN_DRIVER']" >> objdictgen/canfestival_config.py
+
 echo "All done."

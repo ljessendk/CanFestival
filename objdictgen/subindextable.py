@@ -430,7 +430,6 @@ class EditingPanel(wx.SplitterWindow):
               name='MainSplitter', parent=prnt, point=wx.Point(0, 0),
               size=wx.Size(-1, -1), style=wx.SP_3D)
         self._init_utils()
-        self.SetNeedUpdating(True)
         
         self.PartList = wx.ListBox(choices=[], id=ID_EDITINGPANELPARTLIST,
               name='PartList', parent=self, pos=wx.Point(0, 0),
@@ -522,6 +521,9 @@ class EditingPanel(wx.SplitterWindow):
             self.IndexChoice.Disable()
             self.CallbackCheck.Disable()
             self.Table.Disable()
+            
+        wx.CallAfter(self.SetSashPosition, 110)
+        wx.CallAfter(self.SecondSplitter.SetSashPosition, 280)
 
     def GetIndex(self):
         return self.Index

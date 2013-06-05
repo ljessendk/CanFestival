@@ -106,7 +106,7 @@ MappingDictionary = {
                 [{"name" : "Manufacturer Status Register", "type" : 0x07, "access" : 'ro', "pdo" : True}]},
     0x1003 : {"name" : "Pre-defined Error Field", "struct" : rec, "need" : False, "callback" : True,  "values" :
                 [{"name" : "Number of Errors", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmax" : 0xFE}]},
+                 {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmin" : 1, "nbmax" : 0xFE}]},
     0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "SYNC COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1006 : {"name" : "Communication / Cycle Period", "struct" : var, "need" : False, "callback" : True, "values" :
@@ -154,10 +154,12 @@ MappingDictionary = {
                  {"name" : "Product Code", "type" : 0x07, "access" : 'ro', "pdo" : False},
                  {"name" : "Revision Number", "type" : 0x07, "access" : 'ro', "pdo" : False},
                  {"name" : "Serial Number", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+    0x1019 : {"name" : "Synchronous counter overflow value", "struct" : var, "need" : False, "values" :
+                [{"name" : "Synchronous counter overflow value", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1020 : {"name" : "Verify Configuration", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Configuration Date", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "Configuration Time", "type" : 0x07, "access" : 'ro', "pdo" : False}]},
+                 {"name" : "Configuration Date", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "Configuration Time", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
 #    0x1021 : {"name" : "Store EDS", "struct" : var, "need" : False, "values" :
 #                [{"name" : "Store EDS", "type" : 0x0F, "access" : 'rw', "pdo" : False}]},
 #    0x1022 : {"name" : "Storage Format", "struct" : var, "need" : False, "values" :
@@ -172,7 +174,7 @@ MappingDictionary = {
     0x1025 : {"name" : "OS Debugger Interface", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Command", "type" : 0x0A, "access" : 'rw', "pdo" : False},
-                 {"name" : "Status", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "Status", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Reply", "type" : 0x0A, "access" : 'ro', "pdo" : False}]},
     0x1026 : {"name" : "OS Prompt", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
@@ -184,7 +186,7 @@ MappingDictionary = {
                  {"name" : "Module %d[(sub)]", "type" : 0x06, "access" : 'ro', "pdo" : False, "nbmin" : 1, "nbmax" : 0xFE}]},
     0x1028 : {"name" : "Emergency Consumer", "struct" : rec, "need" : False, "values" :
                 [{"name" : "Number of Consumed Emergency Objects", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "Emergency Consumer", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 1, "nbmax" : 0x7E}]},
+                 {"name" : "Emergency Consumer", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 1, "nbmax" : 0x7F}]},
     0x1029 : {"name" : "Error Behavior", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Error Classes", "type" : 0x05, "access" : 'ro', "pdo" : False},
                  {"name" : "Communication Error", "type" : 0x05, "access" : 'rw', "pdo" : False},
@@ -209,7 +211,8 @@ MappingDictionary = {
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
+                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "SYNC start value", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1600 : {"name" : "Receive PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},
@@ -219,7 +222,8 @@ MappingDictionary = {
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
-                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
+                 {"name" : "Event Timer", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "SYNC start value", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1A00 : {"name" : "Transmit PDO %d Mapping[(idx)]", "struct" : plurirec, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "PDO %d Mapping for a process data variable %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},

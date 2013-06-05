@@ -63,12 +63,6 @@ typedef struct {
 
 #include "can_driver.h"
 
-/*Declares the funtion pointers for dll binding or simple protos*/
-/*UNS8 DLL_CALL(canReceive)(CAN_HANDLE, Message *);
-UNS8 DLL_CALL(canSend)(CAN_HANDLE, Message *);
-CAN_HANDLE DLL_CALL(canOpen)(s_BOARD *);
-int DLL_CALL(canClose)(CAN_HANDLE);
-*/
 CANPort canports[MAX_NB_CAN_PORTS] = {{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,},{0,}};
 
 #ifndef NOT_USE_DYNAMIC_LOADING
@@ -120,15 +114,6 @@ LIB_HANDLE LoadCanDriver(const char* driver_name)
 
 #endif
 
-
-
-/*Not needed -- canReceiveLoop calls _canReceive directly *//*
-UNS8 canReceive(CAN_PORT port, Message *m)
-{
-	return DLL_CALL(canReceive)(port->fd, Message *m);
-}
-*/
-
 /**
  * CAN send routine
  * @param port CAN port
@@ -162,13 +147,6 @@ void canReceiveLoop(CAN_PORT port)
                EnterMutex();
                canDispatch(((CANPort*)port)->d, &m);
                LeaveMutex();
-
-#ifdef __KERNEL__
-#ifdef USE_XENO
-               /* periodic task for Xenomai kernel realtime */
-               rt_task_wait_period(NULL);
-#endif
-#endif
        }
 }
 
@@ -214,18 +192,18 @@ CAN_PORT canOpen(s_BOARD *board, CO_Data * d)
  */
 int canClose(CO_Data * d)
 {
-	UNS8 res;
+	int res = 0;
 
-	((CANPort*)d->canHandle)->used = 0;
-	CANPort* tmp = (CANPort*)d->canHandle;
+	CANPort* port = (CANPort*)d->canHandle;
+    if(port){
+        ((CANPort*)d->canHandle)->used = 0;
 
-	// kill receiver task before port is closed and handle set to NULL
-	WaitReceiveTaskEnd(&tmp->receiveTask);
+        res = DLL_CALL(canClose)(port->fd);
 
-	// close CAN port
-	res = DLL_CALL(canClose)(tmp->fd);
+        WaitReceiveTaskEnd(&port->receiveTask);
 
-	d->canHandle = NULL;
+        d->canHandle = NULL;
+    }
 
 	return res;
 }
@@ -241,7 +219,7 @@ UNS8 canChangeBaudRate(CAN_PORT port, char* baud)
 {
    if(port){
 		UNS8 res;
-	        //LeaveMutex();
+	    //LeaveMutex();
 		res = DLL_CALL(canChangeBaudRate)(((CANPort*)port)->fd, baud);
 		//EnterMutex();
 		return res; // OK

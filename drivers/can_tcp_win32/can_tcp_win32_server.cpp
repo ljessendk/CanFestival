@@ -38,12 +38,11 @@ unsigned __stdcall Connection(void* a) {
 
   g_connections.push_back(s);
 
-  //s->SendLine("Welcome to the Message Distributor");
   printf("Accepted new connection (0x%x).\n");
   while (1) {
     std::string r = s->ReceiveLine();
     if (r.empty()) break;
-    //cout << r  << endl;    
+    cout << r  << endl;    
     for (socket_list::iterator os =g_connections.begin();
                                os!=g_connections.end(); 
                                os++) {
@@ -70,9 +69,13 @@ int main() {
 		 "and repeat '\\n' terminated lines \n"
 		 "to each connected client\n"
 		 "\n"
-		 "Use netcat to monitor trafic\n"
+		 "Use netcat to monitor/log trafic\n"
 		 " nc 127.0.0.1 11898\n"
+		 "\n"
+         "CAN message format:\n"
+         "{COB_ID,RTR,data_len,{data}}\n"
 		 "\n");
+
   fflush(stdout);
   SocketServer in(11898,5);
   
