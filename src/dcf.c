@@ -90,8 +90,7 @@ inline void start_and_seek_node(CO_Data* d, UNS8 nodeId){
        if(check_and_start_node(d, node) == 2)
            return;
    }
-   /* No more node to start. Let's start our own node */
-   setState(d, Operational);
+   d->dcf_status = DCF_STATUS_INIT;
 }
 
 /**
