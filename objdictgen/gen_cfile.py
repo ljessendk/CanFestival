@@ -229,7 +229,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             texts["subIndexType"] = typeinfos[0]
             strIndex += "                    %(subIndexType)s %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; /* number of subindex - 1*/\n"%texts
             
-            # Entry type is RECORD
+            # Entry type is ARRAY
             if entry_infos["struct"] & OD_IdenticalSubindexes:
                 subentry_infos = Node.GetSubentryInfos(index, 1)
                 typename = Node.GetTypeName(subentry_infos["type"])
@@ -245,8 +245,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 if index in variablelist:
                     texts["name"] = UnDigitName(FormatName(entry_infos["name"]))
                     texts["values_count"] =  str(len(values)-1)
-                    strDeclareHeader += "extern %(subIndexType)s%(type_suffixe)s %(name)s[%(values_count)s];\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
-                    mappedVariableContent += "%(subIndexType)s%(type_suffixe)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
+                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(values_count)s]%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
+                    mappedVariableContent += "%(subIndexType)s %(name)s[]%(suffixe)s =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         if subIndex > 0:
@@ -270,7 +270,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             else:
                 
                 texts["parent"] = UnDigitName(FormatName(entry_infos["name"]))
-                # Entry type is ARRAY
+                # Entry type is RECORD
                 for subIndex, value in enumerate(values):
                     texts["subIndex"] = subIndex
                     if subIndex > 0:
