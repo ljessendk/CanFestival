@@ -746,7 +746,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 {
 	UNS8 err;
 	UNS8 cs;
-	UNS8 line;
+	UNS8 line = 0;
 	UNS32 nbBytes; 		/* received or to be transmited. */
 	UNS8 nodeId = 0;  	/* The node Id of the server if client otherwise unused */
 	UNS8 CliServNbr;
@@ -840,8 +840,8 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 	cs = 0xFF; 
 	/* Special cases for block transfer : in frames with segment data cs is not spécified */
    	if (!err) {
-		if ((whoami == SDO_SERVER) && (d->transfers[line].state == SDO_BLOCK_DOWNLOAD_IN_PROGRESS) ||
-			(whoami == SDO_CLIENT) && (d->transfers[line].state == SDO_BLOCK_UPLOAD_IN_PROGRESS)) {		
+		if (((whoami == SDO_SERVER) && (d->transfers[line].state == SDO_BLOCK_DOWNLOAD_IN_PROGRESS)) ||
+			((whoami == SDO_CLIENT) && (d->transfers[line].state == SDO_BLOCK_UPLOAD_IN_PROGRESS))) {		
 			if(m->data[0] == 0x80)	/* If first byte is 0x80 it is an abort frame (seqno = 0 not allowed) */
 				cs = 4;
 			else
@@ -1466,7 +1466,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
            			}
                     else
 					    MSG_WAR(0x3AA2, "Received SDO block START upload defined at index 0x1200 + ", CliServNbr);
-                    d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
+                    d->transfers[line].lastblockoffset = d->transfers[line].offset;
                     for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1549,7 +1549,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					        return 0xFF;
                         }
 					}
-                 	d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
+                 	d->transfers[line].lastblockoffset = d->transfers[line].offset;
                 	for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1871,6 +1871,25 @@ UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId )
 	return CliNbr;
 }
 
+/*!
+ **
+ ** @param d
+ ** @param nodeId
+ **/
+void resetClientSDOLineFromNodeId(CO_Data* d, UNS8 nodeId)
+{
+	UNS8 line;
+	UNS8 CliNbr;
+	/* First let's find the corresponding SDO client in our OD  */
+	CliNbr = GetSDOClientFromNodeId( d, nodeId);
+	if(CliNbr >= 0xFE)
+		return;
+	/* Get the line */
+	if(getSDOlineOnUse(d, CliNbr, SDO_CLIENT, &line))
+		return;	// no client line in use for this nodeId
+	/* Reset the line */
+	resetSDOline(d, line);
+}
 
 /*!
  **
@@ -1901,6 +1920,12 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 	MSG_WAR(0x3AC1, "                                   At index : ", index);
 	MSG_WAR(0x3AC2, "                                   subIndex : ", subIndex);
 	MSG_WAR(0x3AC3, "                                   nb bytes : ", count);
+
+	/* Check that the data can fit in the transfer buffer */
+	if(count > SDO_MAX_LENGTH_TRANSFER){
+		MSG_ERR(0x1AC3, "SDO error : request for more than SDO_MAX_LENGTH_TRANSFER bytes to transfer to node : ", nodeId);
+		return 0xFF;
+	}
 
 	/* First let's find the corresponding SDO client in our OD  */
 	CliNbr = GetSDOClientFromNodeId( d, nodeId);
@@ -2081,6 +2106,7 @@ UNS8 writeNetworkDictCallBackAI (CO_Data* d, UNS8 nodeId, UNS16 index,
 				return _writeNetworkDict (d, nodeId, index, subIndex, count, dataType, data, Callback, endianize, useBlockMode);
 			}
 			offset++;
+			i++;
 		}
 		return 0xFF;
 	}
@@ -2243,6 +2269,7 @@ UNS8 readNetworkDictCallbackAI (CO_Data* d, UNS8 nodeId, UNS16 index, UNS8 subIn
 				return _readNetworkDict (d, nodeId, index, subIndex, dataType, Callback, useBlockMode);
 			}
 			offset++;
+			i++;
 		}
 		return 0xFF;
 	}

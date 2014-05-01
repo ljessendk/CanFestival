@@ -81,7 +81,7 @@ struct struct_s_transfer {
   UNS8           blksize;           /**< Number of segments per block with 0 < blksize < 128 */
   UNS8           ackseq;            /**< sequence number of last segment that was received successfully */
   UNS32          objsize;           /**< Size in bytes of the object provided by data producer */
-  UNS8           lastblockoffset;   /**< Value of offset before last block */
+  UNS32          lastblockoffset;   /**< Value of offset before last block */
   UNS8           seqno;             /**< Last sequence number received OK or transmitted */   
   UNS8           endfield;          /**< nbr of bytes in last segment of last block that do not contain data */
   rxStep_t       rxstep;            /**< data consumer receive step - set to true when last segment of a block received */
@@ -292,6 +292,15 @@ UNS8 sendSDOabort (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS16 index, UNS8 s
  *         - 0x0  ok
  */
 UNS8 proceedSDO (CO_Data* d, Message *m);
+
+/**
+ * @ingroup sdo
+ * @brief Reset the SDO client line used to communicate with the server nodeId
+ *		  Mustbe called after getRead/WriteResultNetworkDict in case of error
+ * @param d
+ * @param nodeId
+ */
+void resetClientSDOLineFromNodeId(CO_Data* d, UNS8 nodeId);
 
 /** 
  * @ingroup sdo
