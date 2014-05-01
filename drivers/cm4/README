@@ -1,0 +1,33 @@
+This is a short how to for ARM Cortex-M4 MCU support in Canfestival
+-------------------------------------------------------------------
+
+Only the STM32F373 is supported but code should be easily ported to other CM4
+MCUs. 
+The code use the ST periph lib so you need access to the headers.
+This is done thrue the LIB_ROOT var in the Makefiles or with a symlink.
+See below how to set this up.
+
+First put the toolchain binaries in your PATH :
+#export PATH=$PATH:/path/to/my/toolchain/bin
+
+run the canfestival configure script :
+#./configure ./configure --target=cm4
+
+If your toolchain prefix is not arm-none-eabi- you can use --cc=my-prefix-gcc
+but you will have to add your CFLAGS in the Makefiles.
+
+There are two Makefiles involved : src/Makefile and drivers/cm4/Makefile 
+Edit those two and adapt the LIB_ROOT path to your need, or better make in
+include/cm4 a symlink called stlib to the periph driver lib :
+#cd include/cm4
+#ln -s ~/STM32F37x_DSP_StdPeriph_Lib_V1.0.0/Libraries/ stdlib
+
+Finaly go to canfestival root directory and type:
+#make
+
+For simplification the driver/cm4 code is put in src/libcanfestival.a with all
+the stack code. So you only have to link with one library.
+
+François Beaulier <fbeaulier@ingelibre.fr>
+May 1st 2014
+

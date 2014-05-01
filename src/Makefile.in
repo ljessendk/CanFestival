@@ -49,11 +49,20 @@ ifeq ($(ENABLE_LSS),1)
 OBJS += $(TARGET)_lss.o
 endif
 
-# # # # Target specific paramters # # # #
+# # # # Target specific parameters # # # #
 
 ifeq ($(TARGET),hcs12)
 OPT_CFLAGS = -Os
 PROGDEFINES = -mnoshort -Wall -Wmissing-prototypes -fno-strict-aliasing
+endif
+
+ifeq ($(TARGET),cm4)
+  OBJS += ../drivers/cm4/cm4.o
+  LIB_ROOT = ../../include/cm4/stlib
+  INCLUDES += -I$(LIB_ROOT)/STM32F37x_StdPeriph_Driver/inc \
+              -I$(LIB_ROOT)/CMSIS/Include \
+              -I$(LIB_ROOT)/CMSIS/Device/ST/STM32F37x/Include
+  PROGDEFINES = -DSTM32F3XX -DUSE_STDPERIPH_DRIVER
 endif
 
 ifeq ($(TARGET),unix)
