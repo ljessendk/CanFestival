@@ -194,10 +194,11 @@ UNS32 _setODentry( CO_Data* d,
   dataType = ptrTable->pSubindex[bSubindex].bDataType;
   szData = ptrTable->pSubindex[bSubindex].size;
 
+  /* check the size, we allow to store less bytes for strings and domains */
   if( *pExpectedSize == 0 ||
       *pExpectedSize == szData ||
-      /* allow to store a shorter string than entry size */
-      (dataType == visible_string && *pExpectedSize < szData))
+      (dataType == visible_string && *pExpectedSize < szData) ||
+      (dataType == domain && *pExpectedSize < szData))
     {
 #ifdef CANOPEN_BIG_ENDIAN
       /* re-endianize do not occur for bool, strings time and domains */
