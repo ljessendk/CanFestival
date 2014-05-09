@@ -143,7 +143,7 @@ struct struct_CO_Data {
 
 #ifdef SDO_DYNAMIC_BUFFER_ALLOCATION
 #define s_transfer_Initializer {\
-		0,          /* CliServ{REPEAT_NMT_MAX_NODE_ID_TIMES(NMTable_Initializer)},Nbr */\
+		0,          /* CliServNbr */\
 		0,          /* wohami */\
 		SDO_RESET,  /* state */\
 		0,          /* toggle */\
@@ -170,7 +170,7 @@ struct struct_CO_Data {
 	  },
 #else
 #define s_transfer_Initializer {\
-		0,          /* nodeId */\
+		0,          /* CliServNbr */\
 		0,          /* wohami */\
 		SDO_RESET,  /* state */\
 		0,          /* toggle */\
