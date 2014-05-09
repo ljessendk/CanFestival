@@ -4,7 +4,7 @@
 #include "ObjDict.h"
 
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 UNS8 DI1 = 0x0;		/* Mapped at index 0x2000, subindex 0x00 */
 UNS8 DI2 = 0x0;		/* Mapped at index 0x2001, subindex 0x00 */
@@ -12,7 +12,7 @@ UNS8 DO1 = 0x0;		/* Mapped at index 0x2100, subindex 0x00 */
 UNS8 DO2 = 0x0;		/* Mapped at index 0x2101, subindex 0x00 */
 
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 
 #define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
@@ -100,8 +100,14 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint32, sizeof (UNS32), (void*)&ObjDict_obj1006 }
                      };
 
+/* index 0x100C :   Guard Time */ 
+                    UNS16 ObjDict_obj100C = 0x0;   /* 0 */
+
+/* index 0x100D :   Life Time Factor */ 
+                    UNS8 ObjDict_obj100D = 0x0;   /* 0 */
+
 /* index 0x1014 :   Emergency COB ID */
-                    UNS32 ObjDict_obj1014 = 0x0;   /* 0 */
+                    UNS32 ObjDict_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
 /* index 0x1016 :   Consumer Heartbeat Time. */
                     UNS8 ObjDict_highestSubIndex_obj1016 = 1; /* number of subindex - 1*/
@@ -248,6 +254,10 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        { RW, uint8, sizeof (UNS8), (void*)&DO2 }
                      };
 
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
+
 const indextable ObjDict_objdict[] = 
 {
   { (subindex*)ObjDict_Index1000,sizeof(ObjDict_Index1000)/sizeof(ObjDict_Index1000[0]), 0x1000},
@@ -268,7 +278,7 @@ const indextable ObjDict_objdict[] =
   { (subindex*)ObjDict_Index2101,sizeof(ObjDict_Index2101)/sizeof(ObjDict_Index2101[0]), 0x2101},
 };
 
-const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const indextable * ObjDict_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;
@@ -304,7 +314,7 @@ const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallb
  */
 s_PDO_status ObjDict_PDO_status[1] = {s_PDO_status_Initializer};
 
-quick_index ObjDict_firstIndex = {
+const quick_index ObjDict_firstIndex = {
   6, /* SDO_SVR */
   7, /* SDO_CLT */
   8, /* PDO_RCV */
@@ -313,7 +323,7 @@ quick_index ObjDict_firstIndex = {
   11 /* PDO_TRS_MAP */
 };
 
-quick_index ObjDict_lastIndex = {
+const quick_index ObjDict_lastIndex = {
   6, /* SDO_SVR */
   7, /* SDO_CLT */
   8, /* PDO_RCV */
@@ -322,7 +332,7 @@ quick_index ObjDict_lastIndex = {
   11 /* PDO_TRS_MAP */
 };
 
-UNS16 ObjDict_ObjdictSize = sizeof(ObjDict_objdict)/sizeof(ObjDict_objdict[0]); 
+const UNS16 ObjDict_ObjdictSize = sizeof(ObjDict_objdict)/sizeof(ObjDict_objdict[0]); 
 
 CO_Data ObjDict_Data = CANOPEN_NODE_DATA_INITIALIZER(ObjDict);
 

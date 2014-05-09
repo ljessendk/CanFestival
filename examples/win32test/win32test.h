@@ -8,7 +8,7 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 win32test_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * win32test_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * win32test_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data win32test_Data;

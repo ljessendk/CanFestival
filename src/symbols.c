@@ -56,7 +56,7 @@ EXPORT_SYMBOL (accessDictionaryError);
 EXPORT_SYMBOL (_getODentry);
 EXPORT_SYMBOL (_setODentry);
 //EXPORT_SYMBOL (writeLocalDict);
-EXPORT_SYMBOL (scanIndexOD);
+//EXPORT_SYMBOL (scanIndexOD);
 EXPORT_SYMBOL (RegisterSetODentryCallBack);
 
 // pdo.h

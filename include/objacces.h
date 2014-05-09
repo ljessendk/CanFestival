@@ -276,7 +276,7 @@ UNS32 _setODentry( CO_Data* d,
  * @param **Callback
  * @return NULL if index not found. Else : return the table part of the object dictionary.
  */
- const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback);
+ //const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback);
 
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback);
 

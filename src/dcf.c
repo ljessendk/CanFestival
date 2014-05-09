@@ -175,7 +175,7 @@ UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
     UNS32 errorCode;
     ODCallback_t *Callback;
     UNS8* dcf;
-    d->dcf_odentry = (*d->scanIndexOD)(0x1F22, &errorCode, &Callback);
+    d->dcf_odentry = (*d->scanIndexOD)(d, 0x1F22, &errorCode, &Callback);
     /* If DCF entry do not exist... Nothing to do.*/
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
     /* Fix DCF table overflow */

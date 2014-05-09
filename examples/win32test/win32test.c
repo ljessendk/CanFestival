@@ -88,6 +88,12 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x1006 :   Communication / Cycle Period */
                     UNS32 win32test_obj1006 = 0x0;   /* 0 */
 
+/* index 0x100C :   Guard Time */ 
+                    UNS16 win32test_obj100C = 0x0;   /* 0 */
+
+/* index 0x100D :   Life Time Factor */ 
+                    UNS8 win32test_obj100D = 0x0;   /* 0 */
+
 /* index 0x1014 :   Emergency COB ID */
                     UNS32 win32test_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
@@ -139,7 +145,7 @@ const indextable win32test_objdict[] =
   { (subindex*)win32test_Index1280,sizeof(win32test_Index1280)/sizeof(win32test_Index1280[0]), 0x1280},
 };
 
-const indextable * win32test_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const indextable * win32test_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;

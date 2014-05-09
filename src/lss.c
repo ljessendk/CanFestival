@@ -800,7 +800,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
   			
 		_SpecificNodeInfo=getLSSIdent(m);
 				
-		ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
+		ptrTable = (*d->scanIndexOD)(d, 0x1018, &errorCode, &Callback);
 		if(_SpecificNodeInfo==*(UNS32*)ptrTable->pSubindex[msg_cs-(LSS_SM_SELECTIVE_VENDOR-1)].pObject){
 			
 			d->lss_transfer.addr_sel_match|=(0x01<<(msg_cs-LSS_SM_SELECTIVE_VENDOR));
@@ -835,7 +835,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
   		
 		_SpecificNodeInfo=getLSSIdent(m);
 		
-		ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
+		ptrTable = (*d->scanIndexOD)(d, 0x1018, &errorCode, &Callback);
 			
 		/* Check if the data match the identity object. */
 		switch(msg_cs){
@@ -880,7 +880,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
   		ODCallback_t *Callback;
   		UNS32 _SpecificNodeInfo;
   
-  		ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
+  		ptrTable = (*d->scanIndexOD)(d, 0x1018, &errorCode, &Callback);
   		_SpecificNodeInfo=*(UNS32*)ptrTable->pSubindex[msg_cs-(LSS_INQ_VENDOR_ID-1)].pObject;
   		MSG_WAR(0x3D37, "SlaveLSS identity field inquired ", _SpecificNodeInfo);
 			
@@ -918,7 +918,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 			d->lss_transfer.LSSPos=0;
 			d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;
 			
-  			ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
+  			ptrTable = (*d->scanIndexOD)(d, 0x1018, &errorCode, &Callback);
   			d->lss_transfer.IDNumber=*(UNS32*)ptrTable->pSubindex[d->lss_transfer.LSSPos+1].pObject;
 			
 			sendSlaveLSSMessage(d,LSS_IDENT_SLAVE,0,0);
@@ -968,7 +968,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
   						ODCallback_t *Callback;
 		
 						d->lss_transfer.LSSPos=getLSSNext(m);
-						ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
+						ptrTable = (*d->scanIndexOD)(d, 0x1018, &errorCode, &Callback);
   						d->lss_transfer.IDNumber=*(UNS32*)ptrTable->pSubindex[d->lss_transfer.LSSPos+1].pObject;
 						d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;						
 					}

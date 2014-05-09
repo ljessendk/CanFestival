@@ -8,12 +8,10 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 SillySlave_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * SillySlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * SillySlave_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data SillySlave_Data;
-extern ODCallback_t Server_SDO_Parameter_callbacks[];		/* Callbacks of index0x1200 */
-extern ODCallback_t Transmit_PDO_1_Parameter_callbacks[];		/* Callbacks of index0x1800 */
 extern UNS8 LifeSignal;		/* Mapped at index 0x2001, subindex 0x00*/
 
 #endif // SILLYSLAVE_H

@@ -8,11 +8,10 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 ObjDict_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * ObjDict_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * ObjDict_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data ObjDict_Data;
-extern ODCallback_t Transmit_PDO_1_Parameter_callbacks[];		/* Callbacks of index0x1800 */
 extern UNS8 Read_Inputs_8_Bit[1];		/* Mapped at index 0x6000, subindex 0x01 - 0x01 */
 extern UNS8 Polarity_Input_8_Bit[1];		/* Mapped at index 0x6002, subindex 0x01 - 0x01 */
 extern UNS8 Filter_Constant_Input_8_Bit[1];		/* Mapped at index 0x6003, subindex 0x01 - 0x01 */

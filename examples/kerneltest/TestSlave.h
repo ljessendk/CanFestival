@@ -8,17 +8,10 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 TestSlave_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * TestSlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * TestSlave_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data TestSlave_Data;
-extern ODCallback_t Store_parameters_callbacks[];		/* Callbacks of index0x1010 */
-extern ODCallback_t Restore_Default_Parameters_callbacks[];		/* Callbacks of index0x1011 */
-extern ODCallback_t Transmit_PDO_1_Parameter_callbacks[];		/* Callbacks of index0x1800 */
-extern ODCallback_t Transmit_PDO_2_Parameter_callbacks[];		/* Callbacks of index0x1801 */
-extern ODCallback_t Transmit_PDO_3_Parameter_callbacks[];		/* Callbacks of index0x1802 */
-extern ODCallback_t Transmit_PDO_4_Parameter_callbacks[];		/* Callbacks of index0x1803 */
-extern ODCallback_t Transmit_PDO_5_Parameter_callbacks[];		/* Callbacks of index0x1804 */
 extern UNS8 SlaveMap1;		/* Mapped at index 0x2000, subindex 0x00*/
 extern UNS8 SlaveMap2;		/* Mapped at index 0x2001, subindex 0x00*/
 extern UNS8 SlaveMap3;		/* Mapped at index 0x2002, subindex 0x00*/

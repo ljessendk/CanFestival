@@ -532,7 +532,7 @@ const indextable %(NodeName)s_objdict[] =
     fileContent += strDeclareIndex
     fileContent += """};
 
-const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;
@@ -578,7 +578,7 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;
