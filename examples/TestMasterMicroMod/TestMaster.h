@@ -8,7 +8,7 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 TestMaster_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * TestMaster_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * TestMaster_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode);
 
 /* Master node data struct */
 extern CO_Data TestMaster_Data;

@@ -4,7 +4,7 @@
 #include "objdict.h"
 
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 UNS16 acceptanceFilter1 = 0x0;		/* Mapped at index 0x2015, subindex 0x00 */
 UNS16 acceptanceFilter2 = 0x0;		/* Mapped at index 0x2016, subindex 0x00 */
@@ -17,12 +17,16 @@ UNS16 mask4 = 0x0;		/* Mapped at index 0x2022, subindex 0x00 */
 UNS8 applyDownloadedFilters = 0x0;		/* Mapped at index 0x2023, subindex 0x00 */
 
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 
+#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
 UNS32 gene_SYNC_valueRangeTest (UNS8 typeValue, void * value)
 {
   switch (typeValue) {
+    case valueRange_EMC:
+      if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
+      break;
   }
   return 0;
 }
@@ -31,7 +35,7 @@ UNS32 gene_SYNC_valueRangeTest (UNS8 typeValue, void * value)
 /* The node id                                                            */
 /**************************************************************************/
 /* node_id default value.*/
-UNS8 gene_SYNC_bDeviceNodeId = 0x03;
+UNS8 gene_SYNC_bDeviceNodeId = 0x00;
 
 /**************************************************************************/
 /* Array of message processing information */
@@ -52,49 +56,61 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 gene_SYNC_obj1000 = 0x0;	/* 0 */
                     subindex gene_SYNC_Index1000[] = 
                      {
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1000 }
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1000, NULL }
                      };
 
 /* index 0x1001 :   Error Register. */
                     UNS8 gene_SYNC_obj1001 = 0x0;	/* 0 */
                     subindex gene_SYNC_Index1001[] = 
                      {
-                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_obj1001 }
+                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_obj1001, NULL }
+                     };
+
+/* index 0x1003 :   Pre-defined Error Field */
+                    UNS8 gene_SYNC_highestSubIndex_obj1003 = 0; /* number of subindex - 1*/
+                    UNS32 gene_SYNC_obj1003[] = 
+                    {
+                      0x0	/* 0 */
+                    };
+                    subindex gene_SYNC_Index1003[] = 
+                     {
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&gene_SYNC_highestSubIndex_obj1003, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1003[0], NULL }
                      };
 
 /* index 0x1005 :   SYNC COB ID. */
                     UNS32 gene_SYNC_obj1005 = 0x40000080;	/* 1073741952 */
-                    ODCallback_t gene_SYNC_Index1005_callbacks[] = 
-                     {
-                       NULL,
-                     };
                     subindex gene_SYNC_Index1005[] = 
                      {
-                       { RW, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1005 }
+                       { RW, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1005, NULL }
                      };
 
 /* index 0x1006 :   Communication / Cycle Period. */
                     UNS32 gene_SYNC_obj1006 = 0x2710;	/* 10000 */
-                    ODCallback_t gene_SYNC_Index1006_callbacks[] = 
-                     {
-                       NULL,
-                     };
                     subindex gene_SYNC_Index1006[] = 
                      {
-                       { RW, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1006 }
+                       { RW, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1006, NULL }
                      };
 
 /* index 0x1008 :   Manufacturer Device Name. */
                     UNS8 gene_SYNC_obj1008[10] = "GENE_SYNC";
                     subindex gene_SYNC_Index1008[] = 
                      {
-                       { RO, visible_string, sizeof (gene_SYNC_obj1008), (void*)&gene_SYNC_obj1008 }
+                       { RO, visible_string, 10, (void*)&gene_SYNC_obj1008, NULL }
                      };
+
+/* index 0x100C :   Guard Time */ 
+                    UNS16 gene_SYNC_obj100C = 0x0;   /* 0 */
+
+/* index 0x100D :   Life Time Factor */ 
+                    UNS8 gene_SYNC_obj100D = 0x0;   /* 0 */
+
+/* index 0x1014 :   Emergency COB ID */
+                    UNS32 gene_SYNC_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
 /* index 0x1016 :   Consumer Heartbeat Time */
                     UNS8 gene_SYNC_highestSubIndex_obj1016 = 0;
-                    UNS32 gene_SYNC_obj1016[];
-                    subindex gene_SYNC_Index1016[];
+                    UNS32 gene_SYNC_obj1016[]={0};
 
 /* index 0x1017 :   Producer Heartbeat Time */ 
                     UNS16 gene_SYNC_obj1017 = 0x0;   /* 0 */
@@ -107,11 +123,11 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 gene_SYNC_obj1018_Serial_Number = 0x0;	/* 0 */
                     subindex gene_SYNC_Index1018[] = 
                      {
-                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_highestSubIndex_obj1018 },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Vendor_ID },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Product_Code },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Revision_Number },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Serial_Number }
+                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_highestSubIndex_obj1018, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Vendor_ID, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Product_Code, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Revision_Number, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1018_Serial_Number, NULL }
                      };
 
 /* index 0x1200 :   Server SDO Parameter. */
@@ -120,64 +136,68 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 gene_SYNC_obj1200_COB_ID_Server_to_Client_Transmit_SDO = 0x0;	/* 0 */
                     subindex gene_SYNC_Index1200[] = 
                      {
-                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_highestSubIndex_obj1200 },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1200_COB_ID_Client_to_Server_Receive_SDO },
-                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1200_COB_ID_Server_to_Client_Transmit_SDO }
+                       { RO, uint8, sizeof (UNS8), (void*)&gene_SYNC_highestSubIndex_obj1200, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1200_COB_ID_Client_to_Server_Receive_SDO, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&gene_SYNC_obj1200_COB_ID_Server_to_Client_Transmit_SDO, NULL }
                      };
 
 /* index 0x2015 :   Mapped variable acceptanceFilter1 */
                     subindex gene_SYNC_Index2015[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter1 }
+                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter1, NULL }
                      };
 
 /* index 0x2016 :   Mapped variable acceptanceFilter2 */
                     subindex gene_SYNC_Index2016[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter2 }
+                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter2, NULL }
                      };
 
 /* index 0x2017 :   Mapped variable acceptanceFilter3 */
                     subindex gene_SYNC_Index2017[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter3 }
+                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter3, NULL }
                      };
 
 /* index 0x2018 :   Mapped variable acceptanceFilter4 */
                     subindex gene_SYNC_Index2018[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter4 }
+                       { RW, uint16, sizeof (UNS16), (void*)&acceptanceFilter4, NULL }
                      };
 
 /* index 0x2019 :   Mapped variable mask1 */
                     subindex gene_SYNC_Index2019[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&mask1 }
+                       { RW, uint16, sizeof (UNS16), (void*)&mask1, NULL }
                      };
 
 /* index 0x2020 :   Mapped variable mask2 */
                     subindex gene_SYNC_Index2020[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&mask2 }
+                       { RW, uint16, sizeof (UNS16), (void*)&mask2, NULL }
                      };
 
 /* index 0x2021 :   Mapped variable mask3 */
                     subindex gene_SYNC_Index2021[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&mask3 }
+                       { RW, uint16, sizeof (UNS16), (void*)&mask3, NULL }
                      };
 
 /* index 0x2022 :   Mapped variable mask4 */
                     subindex gene_SYNC_Index2022[] = 
                      {
-                       { RW, uint16, sizeof (UNS16), (void*)&mask4 }
+                       { RW, uint16, sizeof (UNS16), (void*)&mask4, NULL }
                      };
 
 /* index 0x2023 :   Mapped variable applyDownloadedFilters */
                     subindex gene_SYNC_Index2023[] = 
                      {
-                       { RW, uint8, sizeof (UNS8), (void*)&applyDownloadedFilters }
+                       { RW, uint8, sizeof (UNS8), (void*)&applyDownloadedFilters, NULL }
                      };
+
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
 
 const indextable gene_SYNC_objdict[] = 
 {
@@ -199,15 +219,14 @@ const indextable gene_SYNC_objdict[] =
   { (subindex*)gene_SYNC_Index2023,sizeof(gene_SYNC_Index2023)/sizeof(gene_SYNC_Index2023[0]), 0x2023},
 };
 
-const indextable * gene_SYNC_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const indextable * gene_SYNC_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode)
 {
 	int i;
-	*callbacks = NULL;
 	switch(wIndex){
 		case 0x1000: i = 0;break;
 		case 0x1001: i = 1;break;
-		case 0x1005: i = 2;*callbacks = gene_SYNC_Index1005_callbacks; break;
-		case 0x1006: i = 3;*callbacks = gene_SYNC_Index1006_callbacks; break;
+		case 0x1005: i = 2;break;
+		case 0x1006: i = 3;break;
 		case 0x1008: i = 4;break;
 		case 0x1018: i = 5;break;
 		case 0x1200: i = 6;break;
@@ -228,13 +247,14 @@ const indextable * gene_SYNC_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCal
 	return &gene_SYNC_objdict[i];
 }
 
-/* To count at which received SYNC a PDO must be sent.
+/* 
+ * To count at which received SYNC a PDO must be sent.
  * Even if no pdoTransmit are defined, at least one entry is computed
  * for compilations issues.
  */
-UNS8 gene_SYNC_count_sync[1] = {0,};
+s_PDO_status gene_SYNC_PDO_status[1] = {s_PDO_status_Initializer};
 
-quick_index gene_SYNC_firstIndex = {
+const quick_index gene_SYNC_firstIndex = {
   6, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -243,7 +263,7 @@ quick_index gene_SYNC_firstIndex = {
   0 /* PDO_TRS_MAP */
 };
 
-quick_index gene_SYNC_lastIndex = {
+const quick_index gene_SYNC_lastIndex = {
   6, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -252,7 +272,7 @@ quick_index gene_SYNC_lastIndex = {
   0 /* PDO_TRS_MAP */
 };
 
-UNS16 gene_SYNC_ObjdictSize = sizeof(gene_SYNC_objdict)/sizeof(gene_SYNC_objdict[0]); 
+const UNS16 gene_SYNC_ObjdictSize = sizeof(gene_SYNC_objdict)/sizeof(gene_SYNC_objdict[0]); 
 
 CO_Data gene_SYNC_Data = CANOPEN_NODE_DATA_INITIALIZER(gene_SYNC);
 

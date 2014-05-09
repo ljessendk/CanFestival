@@ -182,16 +182,13 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     mappedVariableContent = ""
     pointedVariableContent = ""
     strDeclareHeader = ""
-    strDeclareCallback = ""
     indexContents = {}
-    indexCallbacks = {}
     for index in listIndex:
         texts["index"] = index
         strIndex = ""
         entry_infos = Node.GetEntryInfos(index)
         texts["EntryName"] = entry_infos["name"].encode('ascii','replace')
         values = Node.GetEntry(index)
-        callbacks = Node.HasEntryCallbacks(index)
         if index in variablelist:
             strIndex += "\n/* index 0x%(index)04X :   Mapped variable %(EntryName)s */\n"%texts
         else:
@@ -291,19 +288,6 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
         
         # Generating Dictionary C++ entry
-        if callbacks:
-            if index in variablelist:
-                name = FormatName(entry_infos["name"])
-            else:
-                name = "%(NodeName)s_Index%(index)04X"%texts
-            name=UnDigitName(name);
-            strIndex += "                    ODCallback_t %s_callbacks[] = \n                     {\n"%name
-            for subIndex in xrange(len(values)):
-                strIndex += "                       NULL,\n"
-            strIndex += "                     };\n"
-            indexCallbacks[index] = "*callbacks = %s_callbacks; "%name
-        else:
-            indexCallbacks[index] = ""
         strIndex += "                    subindex %(NodeName)s_Index%(index)04X[] = \n                     {\n"%texts
         for subIndex in xrange(len(values)):
             subentry_infos = Node.GetSubentryInfos(index, subIndex)
@@ -346,7 +330,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 save = "|TO_BE_SAVE"
             else:
                 save = ""
-            strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
+            strIndex += "                       { %s%s, %s, %s, (void*)&%s, NULL }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
             pointer_name = pointers_dict.get((index, subIndex), None)
             if pointer_name is not None:
                 pointedVariableContent += "%s* %s = &%s;\n"%(typeinfos[0], pointer_name, name)
@@ -366,15 +350,10 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                     {
                       0x0	/* 0 */
                     };
-                    ODCallback_t %(NodeName)s_Index1003_callbacks[] = 
-                     {
-                       NULL,
-                       NULL,
-                     };
                     subindex %(NodeName)s_Index1003[] = 
                      {
-                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
-                       { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
+                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003, NULL },
+                       { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0], NULL }
                      };
 """%texts
 
@@ -447,7 +426,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     for i, index in enumerate(listIndex):
         texts["index"] = index
         strDeclareIndex += "  { (subindex*)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]), 0x%(index)04X},\n"%texts
-        strDeclareSwitch += "		case 0x%04X: i = %d;%sbreak;\n"%(index, i, indexCallbacks[index])
+        strDeclareSwitch += "		case 0x%04X: i = %d;break;\n"%(index, i)
         for cat, idx_min, idx_max in categories:
             if idx_min <= index <= idx_max:
                 quick_index["lastIndex"][cat] = i
@@ -532,10 +511,9 @@ const indextable %(NodeName)s_objdict[] =
     fileContent += strDeclareIndex
     fileContent += """};
 
-const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode)
 {
 	int i;
-	*callbacks = NULL;
 	switch(wIndex){
 """%texts
     fileContent += strDeclareSwitch
@@ -578,7 +556,7 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode);
 
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;

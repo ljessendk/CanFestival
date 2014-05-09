@@ -92,9 +92,8 @@ UNS32 _getODentry( CO_Data* d,
   UNS32 errorCode;
   UNS32 szData;
   const indextable *ptrTable;
-  ODCallback_t *Callback;
 
-  ptrTable = (*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
+  ptrTable = (*d->scanIndexOD)(d, wIndex, &errorCode);
 
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
@@ -173,9 +172,9 @@ UNS32 _setODentry( CO_Data* d,
   UNS8 dataType;
   UNS32 errorCode;
   const indextable *ptrTable;
-  ODCallback_t *Callback;
+  ODCallback_t Callback;
 
-  ptrTable =(*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
+  ptrTable =(*d->scanIndexOD)(d, wIndex, &errorCode);
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
 
@@ -193,6 +192,7 @@ UNS32 _setODentry( CO_Data* d,
 
   dataType = ptrTable->pSubindex[bSubindex].bDataType;
   szData = ptrTable->pSubindex[bSubindex].size;
+  Callback = ptrTable->pSubindex[bSubindex].callback;
 
   /* check the size, we allow to store less bytes for strings and domains */
   if( *pExpectedSize == 0 ||
@@ -235,15 +235,15 @@ UNS32 _setODentry( CO_Data* d,
       *pExpectedSize = szData;
 
       /* Callbacks */
-      if(Callback && Callback[bSubindex]){
-        errorCode = (Callback[bSubindex])(d, ptrTable, bSubindex);
+      if(Callback){
+        errorCode = (Callback)(d, ptrTable, bSubindex);
         if(errorCode != OD_SUCCESSFUL)
         {
             return errorCode;
         }
-       }
+      }
 
-      /* TODO : Store dans NVRAM */
+      /* TODO : Store value in NVRAM */
       if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
         (*d->storeODSubIndex)(d, wIndex, bSubindex);
       }
@@ -255,22 +255,15 @@ UNS32 _setODentry( CO_Data* d,
     }
 }
 
-/*
-const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)
-{
-  return (*d->scanIndexOD)(wIndex, errorCode, Callback);
-}
-*/
-
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
-UNS32 errorCode;
-ODCallback_t *CallbackList;
-const indextable *odentry;
+  UNS32 errorCode;
+  ODCallback_t *CallbackList;
+  const indextable *odentry;
 
-  odentry = d->scanIndexOD (d, wIndex, &errorCode, &CallbackList);
-  if(errorCode == OD_SUCCESSFUL  &&  CallbackList  &&  bSubindex < odentry->bSubCount) 
-    CallbackList[bSubindex] = Callback;
+  odentry = d->scanIndexOD (d, wIndex, &errorCode);
+  if(errorCode == OD_SUCCESSFUL &&  bSubindex < odentry->bSubCount) 
+    odentry->pSubindex[bSubindex].callback = Callback;
   return errorCode;
 }
 

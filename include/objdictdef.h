@@ -81,17 +81,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 /** This are some structs which are neccessary for creating the entries
  *  of the object dictionary.
  */
+typedef struct td_indextable indextable;
+
+typedef UNS32 (*ODCallback_t)(CO_Data* d, const indextable *, UNS8 bSubindex);
+
 typedef struct td_subindex
 {
     UNS8                    bAccessType;
     UNS8                    bDataType; /* Defines of what datatype the entry is */
     UNS32                   size;      /* The size (in Byte) of the variable */
     void*                   pObject;   /* This is the pointer of the Variable */
+	ODCallback_t            callback;  /* Callback function on write event */
 } subindex;
 
 /** Struct for creating entries in the communictaion profile
  */
-typedef struct td_indextable
+struct td_indextable
 {
     subindex*   pSubindex;   /* Pointer to the subindex */
     UNS8   bSubCount;   /* the count of valid entries for this subindex
@@ -99,7 +104,7 @@ typedef struct td_indextable
                          * allocated. this memory does not have to be used.
                          */
     UNS16   index;
-} indextable;
+};
 
 typedef struct s_quick_index{
 	UNS16 SDO_SVR;
@@ -111,9 +116,7 @@ typedef struct s_quick_index{
 }quick_index;
 
 
-/*typedef struct struct_CO_Data CO_Data; */
-typedef UNS32 (*ODCallback_t)(CO_Data* d, const indextable *, UNS8 bSubindex);
-typedef const indextable * (*scanIndexOD_t)(CO_Data* d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **Callback);
+typedef const indextable * (*scanIndexOD_t)(CO_Data* d, UNS16 wIndex, UNS32 * errorCode);
 
 /************************** MACROS *********************************/
 

@@ -8,7 +8,7 @@
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 ObjDict_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * ObjDict_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const indextable * ObjDict_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode);
 
 /* Master node data struct */
 extern CO_Data ObjDict_Data;

@@ -266,18 +266,6 @@ UNS32 _setODentry( CO_Data* d,
 #define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
        _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
 
-
-
-/**
- * @brief Scan the index of object dictionary. Used only by setODentry and getODentry.
- * @param *d Pointer to a CAN object data structure
- * @param wIndex
- * @param *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)
- * @param **Callback
- * @return NULL if index not found. Else : return the table part of the object dictionary.
- */
- //const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback);
-
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback);
 
 #ifdef __cplusplus
