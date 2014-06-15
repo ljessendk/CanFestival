@@ -593,6 +593,11 @@ if [ "$SUB_ARCH_NAME" = "x86_64" -a "$CC" = "gcc" ]; then
 	SUB_PROG_CFLAGS+=\ -fPIC
 fi
 
+if [ "$SUB_ARCH_NAME" = "arm" -a "${CC:(-3)}" = "gcc" ]; then
+	# On arm using gcc too
+	SUB_PROG_CFLAGS+=\ -fPIC
+fi
+
 if [ "$BINUTILS_PREFIX" = "" ]; then
 	SUB_BINUTILS_PREFIX=`echo "$CC" | sed 's/gcc$//'`
 else
