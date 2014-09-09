@@ -119,8 +119,8 @@ void CreateReceiveTask(CAN_PORT port, TASK_HANDLE* Thread, void* ReceiveLoopPtr)
 
 void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
-	if(pthread_kill(*Thread, SIGTERM)) {
-		perror("pthread_kill()");
+	if(pthread_cancel(*Thread)) {
+		perror("pthread_cancel()");
 	}
 	if(pthread_join(*Thread, NULL)) {
 		perror("pthread_join()");
