@@ -402,7 +402,7 @@ if [ "$SUB_TARGET" = "cm4" ]; then
 fi
 
 if [ "$SUB_TARGET" = "cm3" ]; then
-	# Only if we want to compile for a cortex-M4
+	# Only if we want to compile for a cortex-M3
 	if [ "$CC" = "" ]; then
 		which arm-none-eabi-gcc >/dev/null 2>&1
 		if (( $? )); then
