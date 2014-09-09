@@ -75,7 +75,7 @@ void proceedNMTstateChange(CO_Data* d, Message *m)
       case NMT_Reset_Node:
          if(d->NMT_Slave_Node_Reset_Callback != NULL)
             d->NMT_Slave_Node_Reset_Callback(d);
-        setState(d,Initialisation);
+        //setState(d,Initialisation);
         break;
 
       case NMT_Reset_Comunication:
