@@ -194,11 +194,10 @@ UNS32 _setODentry( CO_Data* d,
   szData = ptrTable->pSubindex[bSubindex].size;
   Callback = ptrTable->pSubindex[bSubindex].callback;
 
-  /* check the size, we allow to store less bytes for strings and domains */
-  if( *pExpectedSize == 0 ||
-      *pExpectedSize == szData ||
-      (dataType == visible_string && *pExpectedSize < szData) ||
-      (dataType == domain && *pExpectedSize < szData))
+  /* check the size, we must allow to store less bytes than data size, even for intergers
+	 (e.g. UNS40 : objdictedit will store it in a uint64_t, setting the size to 8 but PDO comes
+	 with 5 bytes so ExpectedSize is 5 */
+  if( *pExpectedSize == 0 || *pExpectedSize <= szData )
     {
 #ifdef CANOPEN_BIG_ENDIAN
       /* re-endianize do not occur for bool, strings time and domains */
