@@ -82,8 +82,28 @@ void TIM3_IRQHandler(void)
 	TimeDispatch();
 }
 
+/* prescaler values for 87.5%  sampling point (88.9% at 1Mbps)
+   if unknown bitrate default to 50k
+*/
+uint16_t brp_from_birate(uint32_t bitrate)
+{
+	if(bitrate == 10000)
+		return 225;
+	if(bitrate == 50000)
+		return 45;
+	if(bitrate == 125000)
+		return 18;
+	if(bitrate == 250000)
+		return 9;
+	if(bitrate == 500000)
+		return 9;
+	if(bitrate == 1000000)
+		return 4;
+	return 45;
+}
+
 //Initialize the CAN hardware 
-unsigned char canInit(CO_Data * d, unsigned int bitrate)
+unsigned char canInit(CO_Data * d, uint32_t bitrate)
 {
   GPIO_InitTypeDef  GPIO_InitStructure;
   NVIC_InitTypeDef  NVIC_InitStructure;
@@ -135,10 +155,21 @@ unsigned char canInit(CO_Data * d, unsigned int bitrate)
   CAN_InitStructure.CAN_Mode = CAN_Mode_Normal;
   CAN_InitStructure.CAN_SJW = CAN_SJW_1tq;
     
-  /* CAN Baudrate = 50khz (CAN clocked at 36 MHz)  36e6 / ( prescaler * (1+BS1+BS2))  */
-  CAN_InitStructure.CAN_BS1 = CAN_BS1_9tq;
-  CAN_InitStructure.CAN_BS2 = CAN_BS2_8tq;
-  CAN_InitStructure.CAN_Prescaler = 4;
+  /* CAN Baudrate (CAN clocked at 36 MHz)  36e6 / ( prescaler * (1+BS1+BS2))  */
+  CAN_InitStructure.CAN_SJW = CAN_SJW_1tq;
+  if(bitrate == 1000000){
+  	CAN_InitStructure.CAN_BS1 = CAN_BS1_7tq;
+  	CAN_InitStructure.CAN_BS2 = CAN_BS2_1tq;
+  }
+  else if(bitrate == 500000){
+  	CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq;
+  	CAN_InitStructure.CAN_BS2 = CAN_BS2_1tq;
+  }
+  else{
+ 	CAN_InitStructure.CAN_BS1 = CAN_BS1_13tq;
+  	CAN_InitStructure.CAN_BS2 = CAN_BS2_2tq;
+  }
+  CAN_InitStructure.CAN_Prescaler = brp_from_birate(bitrate);
   CAN_Init(CANx, &CAN_InitStructure);
 
   /* CAN filter init */

@@ -4,7 +4,7 @@
 
 #include "stm32f37x.h"
 
-// CAN bus defines for R2S Erio card
+// CAN bus defines for cortex-M4 STM32F373
 
 #define CANx                       CAN1
 #define CAN_CLK                    RCC_APB1Periph_CAN1
