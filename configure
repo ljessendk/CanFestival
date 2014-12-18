@@ -415,6 +415,20 @@ if [ "$SUB_TARGET" = "cm3" ]; then
 	fi
 fi
 
+if [ "$SUB_TARGET" = "cm0" ]; then
+	# Only if we want to compile for a cortex-M0
+	if [ "$CC" = "" ]; then
+		which arm-none-eabi-gcc >/dev/null 2>&1
+		if (( $? )); then
+			echo "Please put the arm-none-eabi-gcc command in the PATH"
+			exit 0
+		else
+			CC=arm-none-eabi-gcc
+			SUB_PROG_CFLAGS='-mthumb -mcpu=cortex-m0 -Wall -std=gnu90 -O2 -ffunction-sections -fdata-sections'
+		fi
+	fi
+fi
+
 #### CAN_DRIVER ####
 
 if [ "$SUB_CAN_DRIVER" = "kvaser" ]; then
