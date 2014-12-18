@@ -24,7 +24,7 @@
 CC = SUB_CC
 PROG_CFLAGS = SUB_PROG_CFLAGS
 
-LIB_ROOT = ../../include/cm4/stlib
+LIB_ROOT = ../../include/cm3/stlib
 
 INCLUDES = -I../../include \
 		   -I../../include/cm3 \
