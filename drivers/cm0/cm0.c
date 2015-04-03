@@ -78,6 +78,7 @@ void initTimer(void)
 	TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	TIM_TimeBaseInit(TIM17, &TIM_TimeBaseStructure);
 	
