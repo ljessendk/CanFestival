@@ -132,22 +132,41 @@ void TIM17_IRQHandler(void)
 
 /* prescaler values for 87.5%  sampling point 
    if unknown bitrate default to 50k
+   use if SystemCoreClock = 48Mhz
 */
-uint16_t brp_from_birate(uint32_t bitrate)
+uint16_t brp_from_birate_48(uint32_t bitrate)
 {
 	if(bitrate == 10000)
 		return 300;
 	if(bitrate == 50000)
 		return 60;
 	if(bitrate == 125000)
-		return 14;
+		return 24;
 	if(bitrate == 250000)
 		return 12;
 	if(bitrate == 500000)
-		return 3;
+		return 6;
 	if(bitrate == 1000000)
 		return 6;
-	return 45;
+	return 60;
+}
+
+// if SystemCoreClock = 24Mhz
+uint16_t brp_from_birate_24(uint32_t bitrate)
+{
+    if(bitrate == 10000)
+        return 150;
+    if(bitrate == 50000)
+        return 30;
+    if(bitrate == 125000)
+        return 12;
+    if(bitrate == 250000)
+        return 6;
+    if(bitrate == 500000)
+        return 3;  
+    if(bitrate == 1000000)
+        return 3;
+    return 30;
 }
 
 //Initialize the CAN hardware 
@@ -208,15 +227,14 @@ unsigned char canInit(CO_Data * d, uint32_t bitrate)
   	CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq;
   	CAN_InitStructure.CAN_BS2 = CAN_BS2_1tq;
   }
-  else if(bitrate == 500000){
-  	CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq;
-  	CAN_InitStructure.CAN_BS2 = CAN_BS2_1tq;
-  }
   else{
  	CAN_InitStructure.CAN_BS1 = CAN_BS1_13tq;
   	CAN_InitStructure.CAN_BS2 = CAN_BS2_2tq;
   }
-  CAN_InitStructure.CAN_Prescaler = brp_from_birate(bitrate);
+  if(SystemCoreClock == 24000000)
+    CAN_InitStructure.CAN_Prescaler = brp_from_birate_24(bitrate);
+  else
+    CAN_InitStructure.CAN_Prescaler = brp_from_birate_48(bitrate);
   
   CAN_Init(CANx, &CAN_InitStructure);
 
