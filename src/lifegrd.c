@@ -280,8 +280,12 @@ UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 u
 **/
 UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
 {
-  heartbeatStop(d);
-  heartbeatInit(d);
+  d->ProducerHeartBeatTimer = DelAlarm(d->ProducerHeartBeatTimer);
+  if ( *d->ProducerHeartBeatTime )
+    {
+      TIMEVAL time = *d->ProducerHeartBeatTime;
+      d->ProducerHeartBeatTimer = SetAlarm(d, 0, &ProducerHeartbeatAlarm, 0, MS_TO_TIMEVAL(time));
+    }
   return 0;
 }
 
