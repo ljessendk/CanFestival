@@ -65,7 +65,7 @@ void initTimer(void)
 
 	/* Enable the TIM17 gloabal Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = TIM17_IRQn;
-	NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelPriority = 3;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 
@@ -200,7 +200,7 @@ unsigned char canInit(CO_Data * d, uint32_t bitrate)
 
   /* NVIC configuration *******************************************************/
   NVIC_InitStructure.NVIC_IRQChannel = CEC_CAN_IRQn;
-  NVIC_InitStructure.NVIC_IRQChannelPriority = 0x0;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 3;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
 
@@ -254,6 +254,20 @@ unsigned char canInit(CO_Data * d, uint32_t bitrate)
   CAN_ITConfig(CANx, CAN_IT_FMP0, ENABLE);
 
   return 1;
+}
+
+void canClose(void)
+{
+  NVIC_InitTypeDef  NVIC_InitStructure;
+  /* NVIC configuration : remove irq */
+  NVIC_InitStructure.NVIC_IRQChannel = CEC_CAN_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelPriority = 3;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  /* CAN déinit */
+  CAN_DeInit(CANx);
+  /* disable CAN clock */
+  RCC_APB1PeriphClockCmd(CAN_CLK, DISABLE);
 }
 
 // The driver send a CAN message passed from the CANopen stack
