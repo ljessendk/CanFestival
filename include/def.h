@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define OD_WRITE_NOT_ALLOWED         0x06010002
 #define OD_NO_SUCH_OBJECT            0x06020000
 #define OD_NOT_MAPPABLE              0x06040041
+#define OD_ACCES_FAILED              0x06060000
 #define OD_LENGTH_DATA_INVALID       0x06070010
 #define OD_NO_SUCH_SUBINDEX 	     0x06090011
 #define OD_VALUE_RANGE_EXCEEDED      0x06090030 /* Value range test result */

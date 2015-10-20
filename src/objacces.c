@@ -242,9 +242,10 @@ UNS32 _setODentry( CO_Data* d,
         }
       }
 
-      /* TODO : Store value in NVRAM */
+      /* Store value if requested with user defined function
+	     Function should return OD_ACCES_FAILED in case of store error */
       if (ptrTable->pSubindex[bSubindex].bAccessType & TO_BE_SAVE){
-        (*d->storeODSubIndex)(d, wIndex, bSubindex);
+        return (*d->storeODSubIndex)(d, wIndex, bSubindex);
       }
       return OD_SUCCESSFUL;
     }else{
@@ -266,4 +267,7 @@ UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCal
   return errorCode;
 }
 
-void _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex){}
+UNS32 _storeODSubIndex (CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+{
+  return OD_SUCCESSFUL;
+}
