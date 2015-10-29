@@ -207,11 +207,17 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 texts["suffixe"] = "[%d]"%typeinfos[1]
             else:
                 texts["suffixe"] = ""
-            texts["value"], texts["comment"] = ComputeValue(typeinfos[2], values)
+            if values<0 :
+				texts["value"], texts["comment"] = ComputeValue(typeinfos[2], -values)
+            else:
+				texts["value"], texts["comment"] = ComputeValue(typeinfos[2], values)
             if index in variablelist:
                 texts["name"] = UnDigitName(FormatName(subentry_infos["name"]))
                 strDeclareHeader += "extern %(subIndexType)s %(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00*/\n"%texts
-                mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00 */\n"%texts
+                if values>=0 :
+					mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00 */\n"%texts
+                else:
+					mappedVariableContent += "%(subIndexType)s %(name)s%(suffixe)s = -%(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x00 */\n"%texts
             else:
                 strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X%(suffixe)s = %(value)s;%(comment)s\n"%texts
             values = [values]
