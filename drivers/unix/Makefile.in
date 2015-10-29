@@ -87,7 +87,7 @@ install:
 else
 CFLAGS = SUB_OPT_CFLAGS
 
-driver: $(OBJS)
+driver: libcanfestival_$(TARGET).a
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
