@@ -312,7 +312,7 @@ void _initialisation(CO_Data* d){}
 void _preOperational(CO_Data* d){
     if (!(*(d->iam_a_slave)))
     {
-        masterSendNMTstateChange (d, 0, NMT_Reset_Node);
+        masterSendNMTstateChange (d, 0, NMT_Reset_Comunication);
     }
 }
 void _operational(CO_Data* d){}
