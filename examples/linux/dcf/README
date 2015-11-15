@@ -1,0 +1,27 @@
+This file is part of CanFestival, a library implementing CanOpen Stack.
+
+F Beaulier October 15 / 2015
+
+examples/linux/dcf
+
+A DCF example for Linux
+------------------------
+This project is quite different from other examples.
+It is a much more recent one, and the way CanFestival is initialized is a bit different.
+It shows how to write canopen master and slave with CanFestival under Linux OS.
+
+The master use a txt file (dcfdata.txt) in order to fill index 0x1f22 with concise DCF data.
+Also hearbeat is used and it shows how the master can keep an image of the status.
+In slaves, hearbeat producer time is set by the master with concise dcf.
+
+The master binary is launched with the socketcan interface as first argument:
+./master can0
+
+The slave also has socketcan interface as first argument, but the is a second argument for the node id.
+It allows to launch several instance of slave with different node ids.
+./slave can0 1
+./slave can0 2
+./slave can0 3
+
+The objdict of the master is designed to interact with 3 slaves.
+
