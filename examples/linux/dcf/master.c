@@ -108,10 +108,6 @@ void sortie(int sig)
 int main(int argc,char **argv)
 {
     struct sigaction act;
-    UNS32  size = 20;
-	UNS8  dataType;
-	UNS32 errorCode;
-	UNS8 data[20];
 
 	// register handler on SIGINT signal 
 	act.sa_handler=sortie;
