@@ -877,7 +877,8 @@ elif [ "$SUB_TARGET" = "unix" ]; then
 \	examples/TestMasterSlaveLSS/Makefile.in\
 \	examples/SillySlave/Makefile.in\
 \	examples/TestMasterMicroMod/Makefile.in\
-\	examples/test_copcican_linux/Makefile.in
+\	examples/test_copcican_linux/Makefile.in\
+\	examples/linux/dcf/Makefile.in
 fi
 
 if [ "$SUB_TARGET" = "win32" ]; then
