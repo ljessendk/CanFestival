@@ -1,0 +1,32 @@
+CANFESTIVAL_DIR = ../../..
+OPT_CFLAGS = -O2 -Wall -g
+CC = SUB_CC
+CFLAGS = SUB_OPT_CFLAGS
+EXE_CFLAGS = SUB_EXE_CFLAGS
+TARGET = SUB_TARGET
+CAN_DRIVER = SUB_CAN_DRIVER
+TIMERS_DRIVER = SUB_TIMERS_DRIVER
+
+INCLUDES = -I$(CANFESTIVAL_DIR)/include -I$(CANFESTIVAL_DIR)/include/$(TARGET)
+INCLUDES += -I$(CANFESTIVAL_DIR)/include/$(TIMERS_DRIVER)
+
+LIBS = $(CANFESTIVAL_DIR)/src/libcanfestival.a $(CANFESTIVAL_DIR)/drivers/$(TARGET)/libcanfestival_$(TARGET).a
+
+OBJS_SLAVE = slave.o slavedic.o
+OBJS_MASTER = master.o masterdic.o gendcf.o
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+
+all: master slave
+
+slave: $(OBJS_SLAVE) $(LIBS) $(HEADS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS_SLAVE) $(LIBS) $(EXE_CFLAGS)
+
+master: $(OBJS_MASTER) $(LIBS) $(HEADS)
+	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS_MASTER) $(LIBS) $(EXE_CFLAGS)
+
+clean:
+	rm -f $(OBJS_MASTER) $(OBJS_SLAVE)
+	rm -f slave master
+
