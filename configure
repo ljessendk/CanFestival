@@ -121,6 +121,8 @@ while [ $# -ge 1 ]; do
 			echo "On user request: Won't create and link to dll";;
 	--enable-lss)	ENABLE_LSS=1;
 			echo "On user request: LSS services enabled";;
+    --enable-shared) ENABLE_SHARED="1";
+			echo "Create shared library for unix";;
 	--enable-lss-fs)	ENABLE_LSS_FS=1;
 			echo "On user request: LSS FastScan service enabled";;
 	--debug=*)	DEBUG=$optarg;;
@@ -175,6 +177,7 @@ while [ $# -ge 1 ]; do
 		echo 	" --enable-lss  Enable the LSS services"
 		echo 	" --enable-lss-fs  Enable the LSS FastScan service"
 		echo	" --disable-Ox  Disable gcc \"-Ox\" optimizations."
+		echo	" --enable-shared Enable shared library compilation."
 		echo	" --debug=foo,foo,..   Enable debug messages, ERR -> only errors, WAR)."
 		echo	"               \"PDO\" send errors and warnings through PDO messages"
 		echo	"               \"ERR\" print errors only, to stdout"
@@ -805,6 +808,10 @@ else
 	SUB_OPT_CFLAGS=\$\(OPT_CFLAGS\)
 fi
 
+if [ "$ENABLE_SHARED" = "1" ]; then
+	SUB_ENABLE_SHARED="1"
+fi
+
 if [ "$DISABLE_DLL" = "1" ]; then
 	SUB_PROG_CFLAGS=$SUB_PROG_CFLAGS\ -DNOT_USE_DYNAMIC_LOADING
 	SUB_ENABLE_DLL_DRIVERS=0
@@ -915,6 +922,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_OS_NAME:${SUB_OS_NAME}:
 	s:SUB_ARCH_NAME:${SUB_ARCH_NAME}:
 	s:SUB_OPT_CFLAGS:${SUB_OPT_CFLAGS}:
+	s:SUB_ENABLE_SHARED:${SUB_ENABLE_SHARED}:
 	s:SUB_TARGET:${SUB_TARGET}:
 	s:SUB_BINUTILS_PREFIX:${SUB_BINUTILS_PREFIX}:
 	s:SUB_TIMERS_DRIVER:timers_${SUB_TIMERS_DRIVER}:

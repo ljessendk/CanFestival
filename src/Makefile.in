@@ -38,11 +38,12 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_LSS = SUB_ENABLE_LSS
+ENABLE_SHARED = SUB_ENABLE_SHARED
 
 INCLUDES = -I../include -I../include/$(TARGET) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
 
-OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o\
-	    $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o $(TARGET)_timer.o $(TARGET)_dcf.o $(TARGET)_emcy.o
+OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o \
+	   $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o $(TARGET)_timer.o $(TARGET)_dcf.o $(TARGET)_emcy.o
 
 
 ifeq ($(ENABLE_LSS),1)
@@ -66,7 +67,7 @@ ifeq ($(TARGET),cm4)
 endif
 
 ifeq ($(TARGET),unix)
-OPT_CFLAGS = -O2
+OPT_CFLAGS = -fPIC -O2
 endif
 
 # # # # Options # # # #
@@ -115,8 +116,19 @@ CFLAGS = SUB_OPT_CFLAGS
 ifeq ($(TARGET),none)
 canfestival: libcanfestival.o
 else
+ifeq ($(ENABLE_SHARED),1)
+canfestival: libcanfestival.so
+else
 canfestival: libcanfestival.a
 endif
+endif
+
+libcanfestival.so: $(OBJS)
+	@echo " "
+	@echo "*********************************************"
+	@echo "**Building [libcanfestival.so]"
+	@echo "*********************************************"
+	$(CC) -shared -Wl,-soname,$@ -o $@  $(OBJS)
 
 libcanfestival.a: $(OBJS)
 	@echo " "
@@ -140,18 +152,27 @@ $(TARGET)_%.o: %.c
 	@echo "*********************************************"
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
+ifeq ($(ENABLE_SHARED),1)
+install: libcanfestival.so
+	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/include/canfestival
+	cp libcanfestival.so $(PREFIX)/lib/
+	cp ../include/*.h $(PREFIX)/include/canfestival
+else
 install: libcanfestival.a
 	mkdir -p $(PREFIX)/lib/
 	mkdir -p $(PREFIX)/include/canfestival
 	cp libcanfestival.a $(PREFIX)/lib/
 	cp ../include/*.h $(PREFIX)/include/canfestival
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/libcanfestival.a
+	rm -f $(PREFIX)/lib/libcanfestival.so
 	rm -rf $(PREFIX)/include/canfestival
 
 clean:
-	rm -f $(OBJS) libcanfestival.a libcanfestival.o
+	rm -f $(OBJS) libcanfestival.a libcanfestival.o libcanfestival.so
 
 endif
 mrproper: clean

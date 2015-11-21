@@ -36,12 +36,17 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+ENABLE_SHARED = SUB_ENABLE_SHARED
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 TEST_COPCICAN_LINUX_OBJS = test_copcican_linux.o
 
+ifeq ($(ENABLE_SHARED),1)
+OBJS = $(TEST_COPCICAN_LINUX_OBJS)
+else
 OBJS = $(TEST_COPCICAN_LINUX_OBJS) ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a ../../src/libcanfestival.a
+endif
 
 all: test_copcican_linux
 
@@ -52,9 +57,13 @@ all: test_copcican_linux
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:
 	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
 
-
+ifeq ($(ENABLE_SHARED),1)
 test_copcican_linux: test_copcican_linux.c $(OBJS)
-	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) -L../../src -L../../drivers/unix -lcanfestival -lcanfestival_$(TARGET) $(EXE_CFLAGS)
+else
+test_copcican_linux: test_copcican_linux.c $(OBJS)
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) -lcanfestival -lcanfestival_$(TARGET) $(EXE_CFLAGS)
+endif
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<

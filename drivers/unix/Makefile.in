@@ -29,7 +29,7 @@ libcanfestival_$(TARGET)-objs := $(OBJS)
 #else
 # Normal Makefile
 CC = SUB_CC
-OPT_CFLAGS = -O2
+OPT_CFLAGS = -fPIC -O2
 PROG_CFLAGS = SUB_PROG_CFLAGS
 OS_NAME = SUB_OS_NAME
 ARCH_NAME = SUB_ARCH_NAME
@@ -39,6 +39,7 @@ CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_DLL_DRIVERS = SUB_ENABLE_DLL_DRIVERS
 BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
+ENABLE_SHARED = SUB_ENABLE_SHARED
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(TIMERS_DRIVER)
 
@@ -86,36 +87,49 @@ install:
 
 else
 CFLAGS = SUB_OPT_CFLAGS
-
+ifeq ($(ENABLE_SHARED),1)
+driver: libcanfestival_$(TARGET).so
+else
 driver: libcanfestival_$(TARGET).a
+endif
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
+	@echo Is shared enabled $(ENABLE_SHARED)
 
-#../$(TIMERS_DRIVER)/$(TIMERS_DRIVER).o:
-#	$(MAKE) -C ../$(TIMERS_DRIVER) driver
-
-#../$(CAN_DRIVER)/$(CAN_DRIVER).o:
-#	$(MAKE) -C ../$(CAN_DRIVER) driver
 
 libcanfestival_$(TARGET).a: $(OBJS)
 	@echo Building [libcanfestival_$(TARGET).a]
 	$(BINUTILS_PREFIX)ar rc $@ $(OBJS)
 	$(BINUTILS_PREFIX)ranlib $@
 
+libcanfestival_$(TARGET).so: $(OBJS)
+	@echo Building [libcanfestival_$(TARGET).so]
+	$(CC) -shared -Wl,-soname,$@ -o $@  $(OBJS)
+
+ifeq ($(ENABLE_SHARED),1)
+install: libcanfestival_$(TARGET).so
+	mkdir -p $(PREFIX)/lib/
+	mkdir -p $(PREFIX)/include/canfestival
+	cp libcanfestival_$(TARGET).so $(PREFIX)/lib/
+	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+else
 install: libcanfestival_$(TARGET).a
 	mkdir -p $(PREFIX)/lib/
 	mkdir -p $(PREFIX)/include/canfestival
 	cp libcanfestival_$(TARGET).a $(PREFIX)/lib/
 	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+endif
 
 uninstall:
 	rm -f $(PREFIX)/lib/libcanfestival_$(TARGET).a
+	rm -f $(PREFIX)/lib/libcanfestival_$(TARGET).so
 	rm -f $(TARGET_HFILES)
 
 clean:
 	rm -f $(OBJS)
 	rm -f libcanfestival_$(TARGET).a
+	rm -f libcanfestival_$(TARGET).so
 
 endif
 mrproper: clean

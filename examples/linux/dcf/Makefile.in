@@ -1,3 +1,26 @@
+#! gmake
+
+#
+# Copyright (C) 2015 Francois Beaulier
+#
+# This file is part of canfestival, a library implementing the canopen
+# stack
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
 CANFESTIVAL_DIR = ../../..
 OPT_CFLAGS = -O2 -Wall -g
 CC = SUB_CC
@@ -6,11 +29,16 @@ EXE_CFLAGS = SUB_EXE_CFLAGS
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+ENABLE_SHARED = SUB_ENABLE_SHARED
 
 INCLUDES = -I$(CANFESTIVAL_DIR)/include -I$(CANFESTIVAL_DIR)/include/$(TARGET)
 INCLUDES += -I$(CANFESTIVAL_DIR)/include/$(TIMERS_DRIVER)
 
+ifeq ($(ENABLE_SHARED),1)
+LIBS = -L../../../src -L../../../drivers/unix -lcanfestival -lcanfestival_$(TARGET)
+else
 LIBS = $(CANFESTIVAL_DIR)/src/libcanfestival.a $(CANFESTIVAL_DIR)/drivers/$(TARGET)/libcanfestival_$(TARGET).a
+endif
 
 OBJS_SLAVE = slave.o slavedic.o
 OBJS_MASTER = master.o masterdic.o gendcf.o
@@ -20,10 +48,10 @@ OBJS_MASTER = master.o masterdic.o gendcf.o
 
 all: master slave
 
-slave: $(OBJS_SLAVE) $(LIBS) $(HEADS)
+slave: $(OBJS_SLAVE)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS_SLAVE) $(LIBS) $(EXE_CFLAGS)
 
-master: $(OBJS_MASTER) $(LIBS) $(HEADS)
+master: $(OBJS_MASTER)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $@ $(OBJS_MASTER) $(LIBS) $(EXE_CFLAGS)
 
 clean:

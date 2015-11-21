@@ -34,6 +34,7 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+ENABLE_SHARED = SUB_ENABLE_SHARED
 
 EXEC = main
 SRCS = $(wildcard *.cpp)
@@ -44,16 +45,29 @@ CPP_OBJS = $(SRCS:%.cpp=%.o)
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
+ifeq ($(ENABLE_SHARED),1)
+OBJS = ObjDict.o
+else
 OBJS = ObjDict.o ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+endif
 
 all: DS401_Slave_Gui
 
+ifeq ($(ENABLE_SHARED),1)
+../../drivers/$(TARGET)/libcanfestival_$(TARGET).so:
+	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).so
+else
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:
 	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
+endif
 
-
+ifeq ($(ENABLE_SHARED),1)
+DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
+	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -L../../src -L../../drivers/unix -lcanfestival -lcanfestival_$(TARGET) -o $@
+else
 DS401_Slave_Gui: ObjDict.c $(OBJS) $(CPP_OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $(OBJS) $(CPP_OBJS) $(EXE_CFLAGS) `wx-config --libs` -o $@
+endif
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) $< -o $@
 
