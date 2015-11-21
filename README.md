@@ -2,6 +2,10 @@ This is a fork of the CanFestival-3 project http://dev.automforge.net/CanFestiva
 
 Latest work done:
 
+- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuß for his work
+
+- New example added : examples/linux/dcf
+
 - I needed the stack to be more dynamic, i wanted to be able to dynamically build the OD and the CO_Data struct without any global declaration, so i have made few changes. (this is not a dirty hack it is even cleaner i think)
 
 - solving array of string or domain issue (search for "Array of strings issue" in the mailing list)
@@ -10,7 +14,7 @@ Latest work done:
 
 - stm32F0/F1/F4 basic support
 
-Any feedback, comments, tests results (on other platforms than Linux would be great) are welcome.
+Any feedback, comment, is welcome.
 
 You can contact me at : 
 fbeaulier < a t > ingelibre < d o t > fr
