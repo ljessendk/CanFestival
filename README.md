@@ -2,7 +2,9 @@ This is a fork of the CanFestival-3 project http://dev.automforge.net/CanFestiva
 
 Latest work done:
 
-- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuß for his work
+- The Canopen dictionary editor Objdictedit.py now allows to define the size of each string or domain, thanks to Mattes Standfuß for his work 
+
+- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuß for this also
 
 - New example added : examples/linux/dcf
 
