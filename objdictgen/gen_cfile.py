@@ -187,6 +187,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         texts["index"] = index
         strIndex = ""
         entry_infos = Node.GetEntryInfos(index)
+	params_infos = Node.GetParamsEntry(index)
         texts["EntryName"] = entry_infos["name"].encode('ascii','replace')
         values = Node.GetEntry(index)
         if index in variablelist:
@@ -204,7 +205,10 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                     raise ValueError, _("\nDomain variable not initialized\nindex : 0x%04X\nsubindex : 0x00")%index
             texts["subIndexType"] = typeinfos[0]
             if typeinfos[1] is not None:
-                texts["suffixe"] = "[%d]"%typeinfos[1]
+                if params_infos["buffer_size"] != "":
+			texts["suffixe"] = "[%s]"%params_infos["buffer_size"]
+		else:
+			texts["suffixe"] = "[%d]"%typeinfos[1]
             else:
                 texts["suffixe"] = ""
             if values<0 :
@@ -276,13 +280,17 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 # Entry type is RECORD
                 for subIndex, value in enumerate(values):
                     texts["subIndex"] = subIndex
+		    params_infos = Node.GetParamsEntry(index,subIndex)
                     if subIndex > 0:
                         subentry_infos = Node.GetSubentryInfos(index, subIndex)
                         typename = GetTypeName(Node, subentry_infos["type"])
                         typeinfos = GetValidTypeInfos(typename, [values[subIndex]])
                         texts["subIndexType"] = typeinfos[0]
                         if typeinfos[1] is not None:
-                            texts["suffixe"] = "[%d]"%typeinfos[1]
+                            if params_infos["buffer_size"] != "": 
+			          texts["suffixe"] = "[%s]"%params_infos["buffer_size"]
+		            else:
+			       texts["suffixe"] = "[%d]"%typeinfos[1]
                         else:
                             texts["suffixe"] = ""
                         texts["value"], texts["comment"] = ComputeValue(typeinfos[2], value)
