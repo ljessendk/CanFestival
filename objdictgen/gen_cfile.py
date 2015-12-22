@@ -305,6 +305,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
         strIndex += "                    subindex %(NodeName)s_Index%(index)04X[] = \n                     {\n"%texts
         for subIndex in xrange(len(values)):
             subentry_infos = Node.GetSubentryInfos(index, subIndex)
+	    params_infos = Node.GetParamsEntry(index,subIndex)
             if subIndex < len(values) - 1:
                 sep = ","
             else:
@@ -334,7 +335,10 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 else:
                     name = "%s_obj%04X_%s"%(texts["NodeName"], texts["index"], FormatName(subentry_infos["name"]))
             if typeinfos[2] == "visible_string":
-                sizeof = str(max(len(values[subIndex]), default_string_size))
+                if params_infos["buffer_size"] != "":
+		  sizeof = params_infos["buffer_size"]
+		else:
+                  sizeof = str(max(len(values[subIndex]), default_string_size))
             elif typeinfos[2] == "domain":
                 sizeof = str(len(values[subIndex]))
             else:
