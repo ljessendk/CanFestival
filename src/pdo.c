@@ -519,6 +519,11 @@ sendOnePDOevent (CO_Data * d, UNS8 pdoNum)
 
   offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
 
+  if (*(UNS32 *) d->objdict[offsetObjdict].pSubindex[1].pObject & 0x80000000)
+    {
+      return 0;
+    }
+ 
   MSG_WAR (0x3968, "  PDO is on EVENT. Trans type : ",
            *((UNS8 *) d->objdict[offsetObjdict].pSubindex[2].pObject));
   
@@ -838,3 +843,24 @@ PDOStop (CO_Data * d)
         offsetObjdict++;
       }
 }
+
+void
+PDOEnable (CO_Data * d, UNS8 pdoNum)
+{
+  UNS16 offsetObjdict;
+  if(!d->firstIndex->PDO_TRS)
+      return;
+  offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
+  *(UNS32 *) d->objdict[offsetObjdict].pSubindex[1].pObject &= ~0x80000000;
+}
+
+void
+PDODisable (CO_Data * d, UNS8 pdoNum)
+{
+  UNS16 offsetObjdict;
+  if(!d->firstIndex->PDO_TRS)
+      return;
+  offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
+  *(UNS32 *) d->objdict[offsetObjdict].pSubindex[1].pObject |= 0x80000000;
+}
+

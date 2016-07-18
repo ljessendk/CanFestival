@@ -113,6 +113,20 @@ UNS8 sendPDOevent (CO_Data* d);
 UNS8 sendOnePDOevent (CO_Data* d, UNS8 pdoNum);
 
 /** 
+ * @brief Enable a PDO by setting to 0 the bit 32 of the COB-ID parameter
+ * @param *d Pointer on a CAN object data structure
+ * @param pdoNum The PDO number
+ */
+void PDOEnable (CO_Data * d, UNS8 pdoNum);
+
+/** 
+ * @brief Disable a PDO by setting to 1 the bit 32 of the COB-ID parameter
+ * @param *d Pointer on a CAN object data structure
+ * @param pdoNum The PDO number
+ */
+void PDODisable (CO_Data * d, UNS8 pdoNum);
+
+/** 
  * @ingroup pdo
  * @brief Function iterates on all TPDO and look TPDO transmit 
  * type and content change before sending it.
