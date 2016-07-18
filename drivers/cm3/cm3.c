@@ -182,13 +182,13 @@ unsigned char canInit(CO_Data * d, uint32_t bitrate)
   GPIO_PinRemapConfig(GPIO_Remap1_CAN1 , ENABLE);
 
   /* NVIC configuration *******************************************************/
-  NVIC_InitStructure.NVIC_IRQChannel = USB_HP_CAN1_TX_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannel = CAN1_TX_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   
-  NVIC_InitStructure.NVIC_IRQChannel = USB_LP_CAN1_RX0_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannel = CAN1_RX0_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0x0;
   NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0x0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
@@ -245,6 +245,21 @@ unsigned char canInit(CO_Data * d, uint32_t bitrate)
   CAN_ITConfig(CANx, CAN_IT_FMP0, ENABLE);
 
   return 1;
+}
+
+void canClose(void)
+{
+  NVIC_InitTypeDef  NVIC_InitStructure;
+  /* NVIC configuration : remove irq */
+  NVIC_InitStructure.NVIC_IRQChannel = CAN1_TX_IRQn;
+  NVIC_InitStructure.NVIC_IRQChannelCmd = DISABLE;
+  NVIC_Init(&NVIC_InitStructure);
+  NVIC_InitStructure.NVIC_IRQChannel = CAN1_RX0_IRQn;
+  NVIC_Init(&NVIC_InitStructure);
+  /* CAN déinit */
+  CAN_DeInit(CANx);
+  /* disable CAN clock */
+  RCC_APB1PeriphClockCmd(CAN_CLK, DISABLE);
 }
 
 // The driver send a CAN message passed from the CANopen stack

@@ -33,7 +33,11 @@ INCLUDES = -I../../include \
            -I$(LIB_ROOT)/CMSIS/CM3/CoreSupport/ \
 		   -I.
 
-DEFINES = -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+# For medium density F103           
+# DEFINES = -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+
+# For Connectivity line F105, external clock with 8Mhz crystal
+DEFINES = -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000ul
 
 CFLAGS = $(PROG_CFLAGS) $(DEFINES)
 
