@@ -120,7 +120,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 UNS8
 sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
 {
-  UNS16 *pwCobId;
+  UNS32 *pwCobId;
   UNS16 offset = d->firstIndex->PDO_RCV;
   UNS16 lastIndex = d->lastIndex->PDO_RCV;
 
@@ -179,7 +179,7 @@ proceedPDO (CO_Data * d, Message * m)
   UNS32 *pMappingParameter = NULL;
   UNS8 *pTransmissionType = NULL;       /* pointer to the transmission
                                            type */
-  UNS16 *pwCobId = NULL;
+  UNS32 *pwCobId = NULL;
   UNS8 Size;
   UNS8 offset;
   UNS8 status;
@@ -439,19 +439,19 @@ CopyBits (UNS8 NbBits, UNS8 * SrcByteIndex, UNS8 SrcBitIndex,
 
       /* We can now get src and align it to dest */
       UNS8 Aligned =
-        Vect > 0 ? *SrcByteIndex << Vect : *SrcByteIndex >> -Vect;
+          (UNS8)(Vect > 0 ? *SrcByteIndex << Vect : *SrcByteIndex >> -Vect);
 
       /* Compute the nb of bit we will be able to copy */
       UNS8 BoudaryLimit = (Vect > 0 ? 8 - DestBitIndex : 8 - SrcBitIndex);
       UNS8 BitsToCopy = BoudaryLimit > NbBits ? NbBits : BoudaryLimit;
 
       /* Create a mask that will serve in: */
-      UNS8 Mask =
+      UNS8 Mask = (UNS8)
         ((0xff << (DestBitIndex + BitsToCopy)) |
          (0xff >> (8 - DestBitIndex)));
 
       /* - Filtering src */
-      UNS8 Filtered = Aligned & ~Mask;
+      UNS8 Filtered = (UNS8)(Aligned & ~Mask);
 
       /* - and erase bits where we write, preserve where we don't */
       *DestByteIndex &= Mask;
