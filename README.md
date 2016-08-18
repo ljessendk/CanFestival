@@ -2,6 +2,8 @@ This is a fork of the CanFestival-3 project http://dev.automforge.net/CanFestiva
 
 Latest work done:
 
+- Fix some big endian issues and remove compiler warnings by adding explicit casts. Thanks to Casey Klimasuskas for sharing.
+
 - The Canopen dictionary editor Objdictedit.py now allows to define the size of each string or domain, thanks to Mattes Standfuß for his work 
 
 - The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuß for this also
