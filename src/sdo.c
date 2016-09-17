@@ -143,7 +143,7 @@ void SDOTimeoutAlarm(CO_Data* d, UNS32 id)
 	if ((offset == 0) || ((offset+d->transfers[id].CliServNbr) > d->lastIndex->SDO_CLT)) {
 		return ;
 	}
-	nodeId = (UNS8) *((UNS32*) d->objdict[offset+d->transfers[id].CliServNbr].pSubindex[3].pObject);
+	nodeId = *((UNS8*) d->objdict[offset+d->transfers[id].CliServNbr].pSubindex[3].pObject);
 	MSG_ERR(0x1A01, "SDO timeout. SDO response not received.", 0);
 	MSG_WAR(0x2A02, "server node id : ", nodeId);
 	MSG_WAR(0x2A02, "         index : ", d->transfers[id].index);
