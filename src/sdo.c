@@ -34,8 +34,8 @@
 
 #include <stdlib.h>
 
-#include "canfestival.h"
 #include "sysdep.h"
+#include "canfestival.h"
 
 /* Uncomment if your compiler does not support inline functions */
 #define NO_INLINE
@@ -1456,7 +1456,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                             break;
                         }
                         else
-                            d->transfers[line].offset = d->transfers[line].lastblockoffset + 7 * AckSeq;
+                            d->transfers[line].offset = d->transfers[line].lastblockoffset + (7 * AckSeq);
                         if(d->transfers[line].offset > d->transfers[line].count) { /* Bad AckSeq reveived (too high) */
 					        MSG_ERR(0x1AA1, "SDO error : Received upload response with bad ackseq index 0x1200 + ",
 							    CliServNbr);
@@ -1466,7 +1466,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
            			}
                     else
 					    MSG_WAR(0x3AA2, "Received SDO block START upload defined at index 0x1200 + ", CliServNbr);
-                    d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
+                    d->transfers[line].lastblockoffset = d->transfers[line].offset;
                     for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1541,7 +1541,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
                             break;
                         }
                         else
-                            d->transfers[line].offset = d->transfers[line].lastblockoffset + 7 * AckSeq;
+                            d->transfers[line].offset = d->transfers[line].lastblockoffset + (7 * AckSeq);
                         if(d->transfers[line].offset > d->transfers[line].count) { /* Bad AckSeq reveived (too high) */
 					        MSG_ERR(0x1AA1, "SDO error : Received upload segment with bad ackseq index 0x1200 + ",
 							    CliServNbr);
@@ -1549,7 +1549,7 @@ UNS8 proceedSDO (CO_Data* d, Message *m)
 					        return 0xFF;
                         }
 					}
-                 	d->transfers[line].lastblockoffset = (UNS8) d->transfers[line].offset;
+                 	d->transfers[line].lastblockoffset = d->transfers[line].offset;
                 	for(SeqNo = 1 ; SeqNo <= d->transfers[line].blksize ; SeqNo++) {
                         d->transfers[line].seqno = SeqNo;
 				        getSDOlineRestBytes(d, line, &nbBytes);
@@ -1922,10 +1922,12 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 	MSG_WAR(0x3AC3, "                                   nb bytes : ", count);
 
 	/* Check that the data can fit in the transfer buffer */
+#ifndef SDO_DYNAMIC_BUFFER_ALLOCATION
 	if(count > SDO_MAX_LENGTH_TRANSFER){
 		MSG_ERR(0x1AC3, "SDO error : request for more than SDO_MAX_LENGTH_TRANSFER bytes to transfer to node : ", nodeId);
 		return 0xFF;
 	}
+#endif
 
 	/* First let's find the corresponding SDO client in our OD  */
 	CliNbr = GetSDOClientFromNodeId( d, nodeId);
