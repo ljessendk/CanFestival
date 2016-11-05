@@ -125,7 +125,8 @@ UNS8 sendEMCY(CO_Data* d, UNS16 errCode, UNS8 errRegister, const UNS8 errSpecifi
  **  
  ** @param d
  ** @param errCode Code of the error                                                                                        
- ** @param errRegister Bits of Error register (1001h) to be set.
+ ** @param errRegMask
+ ** @param addInfo
  ** @return 1 if error, 0 if successful
  */
 UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
@@ -183,8 +184,7 @@ UNS8 EMCY_setError(CO_Data* d, UNS16 errCode, UNS8 errRegMask, UNS16 addInfo)
  **                                                                                                 
  **  
  ** @param d
- ** @param errCode Code of the error                                                                                        
- ** @param errRegister Bits of Error register (1001h) to be set.
+ ** @param errCode Code of the error
  ** @return 1 if error, 0 if successful
  */
 void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)

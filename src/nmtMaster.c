@@ -38,12 +38,12 @@
 **
 **
 ** @param d
-** @param Node_ID
+** @param nodeId
 ** @param cs
 **
 ** @return
 **/
-UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 Node_ID, UNS8 cs)
+UNS8 masterSendNMTstateChange(CO_Data* d, UNS8 nodeId, UNS8 cs)
 {
   Message m;
 
