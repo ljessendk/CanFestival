@@ -1,3 +1,8 @@
+WARNING:
+--------
+Set cm3.h according to the STM32 family you are using : F103 or F105
+Uncomment the right block
+
 This is a short how to for ARM Cortex-M3 MCU support in Canfestival
 -------------------------------------------------------------------
 
