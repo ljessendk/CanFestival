@@ -62,6 +62,7 @@ UNS8 GetSDOClientFromNodeId( CO_Data* d, UNS8 nodeId );
  ** @param data
  ** @param Callback
  ** @param endianize
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -77,6 +78,7 @@ INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
  ** @param subIndex
  ** @param dataType
  ** @param Callback
+ ** @param useBlockMode
  **
  ** @return
  **/
@@ -585,7 +587,7 @@ UNS8 getSDOlineToClose (CO_Data* d, UNS8 CliServNbr, UNS8 whoami, UNS8 *line)
  **
  **
  ** @param d
- ** @param CliServNbr
+ ** @param nodeId
  ** @param whoami
  **
  ** @return
@@ -706,6 +708,7 @@ UNS8 sendSDO (CO_Data* d, UNS8 whoami, UNS8 CliServNbr, UNS8 *pData)
  **
  ** @param d
  ** @param whoami
+ ** @param CliServNbr
  ** @param index
  ** @param subIndex
  ** @param abortCode

@@ -40,8 +40,8 @@
 **
 **
 ** @param d
-** @param TPDO_com TPDO communication parameters OD entry
-** @param TPDO_map TPDO mapping parameters OD entry
+** @param numPdo The PDO index
+** @param pdo pointer to can message to be filled
 **
 ** @return
 **/
@@ -113,7 +113,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 **
 **
 ** @param d
-** @param cobId
+** @param RPDOIndex
 **
 ** @return
 **/

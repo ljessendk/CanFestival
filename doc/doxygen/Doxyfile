@@ -549,7 +549,7 @@ INPUT                  = \
 ../../include/ \
 ../../src/ \
 ../../drivers/unix/unix.c \
-../../drivers/win32/win32.cpp \
+../../drivers/win32/win32.c \
 ../../drivers/timers_unix/timers_unix.c \
 
 
