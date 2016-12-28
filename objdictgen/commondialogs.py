@@ -817,7 +817,6 @@ class CreateNodeDialog(wx.Dialog):
 
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
-        parent.AddGrowableCol(0)
     
     def _init_coll_TopBoxSizer_Items(self, parent):
         parent.AddSizer(self.LeftBoxSizer, 1, border=10, flag=wx.GROW|wx.RIGHT)
