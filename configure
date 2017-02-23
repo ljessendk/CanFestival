@@ -67,6 +67,10 @@ LSS_TIMEOUT_MS=1000
 #Timeout in milliseconds for LSS FastScan.
 LSS_FS_TIMEOUT_MS=100
 
+#Size of dynamic buffer to use when the static is full. 0 to disable SDO dynamic buffer allocation
+SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE=0
+
+
 ###########################################################################
 #                             DEFAULT BUILD OPTIONS                       #
 ###########################################################################
@@ -121,7 +125,7 @@ while [ $# -ge 1 ]; do
 			echo "On user request: Won't create and link to dll";;
 	--enable-lss)	ENABLE_LSS=1;
 			echo "On user request: LSS services enabled";;
-    --enable-shared) ENABLE_SHARED="1";
+	--enable-shared) ENABLE_SHARED="1";
 			echo "Create shared library for unix";;
 	--enable-lss-fs)	ENABLE_LSS_FS=1;
 			echo "On user request: LSS FastScan service enabled";;
@@ -137,6 +141,7 @@ while [ $# -ge 1 ]; do
 	--EMCY_MAX_ERRORS=*) EMCY_MAX_ERRORS=$optarg;;
 	--LSS_TIMEOUT_MS=*)	LSS_TIMEOUT_MS=$optarg;;
 	--LSS_FS_TIMEOUT_MS=*)	LSS_FS_TIMEOUT_MS=$optarg;;
+	--SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE=*)	SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE=$optarg;;
 	--help)
 		echo	"Usage: ./configure [options]"
 		echo	"Options:"
@@ -195,7 +200,9 @@ while [ $# -ge 1 ]; do
 		echo	" --LSS_TIMEOUT_MS [=1000] Timeout in milliseconds for LSS services."
 		echo	"                          LSS must be enabled with \"--enable-lss\""
 		echo	" --LSS_FS_TIMEOUT_MS [=100] Timeout in milliseconds for LSS FastScan service."
-		echo	"                            LSS FastScan must be enabled with \"--enable-lss-fs\""
+		echo	"                          LSS FastScan must be enabled with \"--enable-lss-fs\""
+		echo	" --SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE [=0] Max size of dynamic memory to use if SDO_MAX_LENGTH_TRANSFER exceeded"
+		echo    "                          (0 to disable feature)"
 		exit 0;;
 	*)		echo "Unknown argument ${1}"; exit -1;;
 	esac
@@ -719,6 +726,14 @@ echo "" >> include/config.h
 echo "#ifndef _CONFIG_H_" >> include/config.h
 echo "#define _CONFIG_H_" >> include/config.h
 echo "" >> include/config.h
+
+if [ "$SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE" != "0" ]; then
+	SDO_DYNAMIC_BUFFER_ALLOCATION="1"
+else
+	SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE=""
+	SDO_DYNAMIC_BUFFER_ALLOCATION=""
+fi
+
 for i in \
  MAX_CAN_BUS_ID\
  SDO_MAX_LENGTH_TRANSFER\
@@ -734,7 +749,9 @@ for i in \
  RTCAN_SOCKET\
  EMCY_MAX_ERRORS\
  LSS_TIMEOUT_MS\
- LSS_FS_TIMEOUT_MS; do
+ LSS_FS_TIMEOUT_MS\
+ SDO_DYNAMIC_BUFFER_ALLOCATION\
+ SDO_DYNAMIC_BUFFER_ALLOCATION_SIZE; do
 if [ "${!i}" = "" ]; then
 echo "/* $i is not defined */" >> include/config.h
 else
