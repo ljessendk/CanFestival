@@ -278,9 +278,13 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS16 offset = d->firstIndex->PDO_RCV;
     UNS16 lastIndex = d->lastIndex->PDO_RCV;
     UNS32 cobID[] = {0x200, 0x300, 0x400, 0x500};
+    UNS32 canID;
+    UNS32 otherBits;
     if( offset ) while( (offset <= lastIndex) && (i < 4)) {
-      if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
-	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
+      canID = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & 0x1fffffff;
+      otherBits = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & ~0x1fffffff;
+      if((canID == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
+	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = (cobID[i] + nodeId) | otherBits;
       i ++;
       offset ++;
     }
@@ -291,10 +295,14 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS16 offset = d->firstIndex->PDO_TRS;
     UNS16 lastIndex = d->lastIndex->PDO_TRS;
     UNS32 cobID[] = {0x180, 0x280, 0x380, 0x480};
+    UNS32 canID;
+    UNS32 otherBits;
     i = 0;
     if( offset ) while ((offset <= lastIndex) && (i < 4)) {
-      if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
-	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = cobID[i] + nodeId;
+      canID = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & 0x1fffffff;
+      otherBits = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & ~0x1fffffff;
+      if((canID == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
+	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = (cobID[i] + nodeId) | otherBits;
       i ++;
       offset ++;
     }
