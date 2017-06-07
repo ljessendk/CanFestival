@@ -258,8 +258,9 @@ static UNS8 write_consise_dcf_next_entry(CO_Data* d, UNS8 nodeId)
                     CheckSDOAndContinue,/* Callback*/
                     0,   /* no endianize*/
                     0); /* no block mode */
-    if(Ret)
-        MSG_ERR(0x1A02,"Erreur writeNetworkDictCallBackAI",Ret);
+    if(Ret) {
+        MSG_ERR(0x1A02,"Error writeNetworkDictCallBackAI",Ret);
+    }
     return 1;
 }
 
@@ -276,8 +277,9 @@ static UNS8 read_consise_dcf_next_entry(CO_Data* d, UNS8 nodeId)
                    0, /* UNS8 dataType*/
                    CheckSDOAndContinue,/* Callback*/
                    0); /* no block mode */
-    if(Ret)
-        MSG_ERR(0x1A03,"Erreur readNetworkDictCallbackAI",Ret);
+    if(Ret) {
+        MSG_ERR(0x1A03,"Error readNetworkDictCallbackAI",Ret);
+    }
     return 1;
 }
 
@@ -295,6 +297,7 @@ void SaveNode(CO_Data* d, UNS8 nodeId)
                     CheckSDOAndContinue,/* Callback*/
                     0,   /* no endianize*/
                     0); /* no block mode */
-    if(Ret)
-        MSG_ERR(0x1A04,"Erreur writeNetworkDictCallBackAI",Ret);
+    if(Ret) {
+        MSG_ERR(0x1A04,"Error writeNetworkDictCallBackAI",Ret);
+    }
 }
