@@ -258,7 +258,6 @@ UNS32 _setODentry( CO_Data* d,
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
   UNS32 errorCode;
-  ODCallback_t *CallbackList;
   const indextable *odentry;
 
   odentry = d->scanIndexOD (d, wIndex, &errorCode);
