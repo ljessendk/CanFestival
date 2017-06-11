@@ -24,6 +24,7 @@
 CC = SUB_CC
 CXX = SUB_CXX
 LD = SUB_LD
+PYTHON = SUB_PYTHON
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -80,11 +81,11 @@ endif
 
 CANOpenShellMasterOD.c: CANOpenShellMasterOD.od
 	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py CANOpenShellMasterOD.od CANOpenShellMasterOD.c
+	$(PYTHON) ../../objdictgen/objdictgen.py CANOpenShellMasterOD.od CANOpenShellMasterOD.c
 
 CANOpenShellSlaveOD.c: CANOpenShellSlaveOD.od
 	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py CANOpenShellSlaveOD.od CANOpenShellSlaveOD.c
+	$(PYTHON) ../../objdictgen/objdictgen.py CANOpenShellSlaveOD.od CANOpenShellSlaveOD.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<

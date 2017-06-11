@@ -46,6 +46,7 @@ canf_ktest-objs := $(OBJS)
 #else
 # Normal Makefile
 CC = SUB_CC
+PYTHON = SUB_PYTHON
 PREFIX = SUB_PREFIX
 KERNELDIR := SUB_KERNELDIR
 
@@ -79,10 +80,10 @@ canf_ktest_console: console/console.c console/console.h
 
 TestSlave.c: TestSlave.od
 	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py TestSlave.od TestSlave.c
+	$(PYTHON) ../../objdictgen/objdictgen.py TestSlave.od TestSlave.c
 
 TestMaster.c: TestMaster.od
 	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
+	$(PYTHON) ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 	
 #endif
