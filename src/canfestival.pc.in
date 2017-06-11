@@ -1,0 +1,10 @@
+prefix=SUB_PREFIX
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: canfestival
+Description: Free software CANopen framework
+Version: 3
+
+Libs: -L${libdir} -lcanfestival
+Cflags: -I${includedir}/canfestival

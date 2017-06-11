@@ -869,6 +869,7 @@ fi
 # General Makefiles
 MAKEFILES=Makefile.in\
 \ src/Makefile.in\
+\ src/canfestival.pc.in\
 \ drivers/Makefile.in\
 \ objdictgen/Makefile.in\
 \ examples/Makefile.in\
