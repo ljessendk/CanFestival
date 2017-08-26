@@ -42,7 +42,7 @@ INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVE
 
 MASTER_OBJS = TestSlaveA.o TestSlaveB.o TestMaster.o TestMasterSlaveLSS.o SlaveA.o SlaveB.o Master.o
 
-ifeq($(ENABLE_SHARED),1)
+ifeq ($(ENABLE_SHARED),1)
 OBJS = $(MASTER_OBJS)
 else
 OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
