@@ -109,6 +109,7 @@ while [ $# -ge 1 ]; do
 	--cc=*)		CC=$optarg;;
 	--cxx=*)	CXX=$optarg;;
 	--ld=*)		LD=$optarg;;
+	--python=*)	PYTHON=$optarg;;
 	--binutils=*)   BINUTILS_PREFIX=$optarg;;
 	--arch=*)	SUB_ARCH_NAME=$optarg;;
 	--os=*)		SUB_OS_NAME=$optarg;;
@@ -148,6 +149,7 @@ while [ $# -ge 1 ]; do
 		echo 	" --cc=foo      Use C compiler 'foo' instead of defaults ${CC1} or ${CC2}."
 		echo 	" --cxx=foo     Use C++ compiler 'foo' instead of defaults g++."
 		echo 	" --ld=foo      Use linker 'foo' instead of ld."
+		echo 	" --python=foo  Use python interpreter 'foo' instead of defaults python."
 		echo 	" --arch=foo    Use architecture 'foo' instead of trying to autodetect."
 		echo 	" --os=foo      Use operative system 'foo' instead of trying to autodetect."
 		echo 	" --kerneldir=foo   Use 'foo' as kernel source directory instead of default"
@@ -652,6 +654,10 @@ fi
 
 echo "Using ${LD} as a linker"
 
+if [ "$PYTHON" = "" ]; then
+	PYTHON=python
+fi
+
 # Guess prefix as regard cross compiling target machine
 if [ "$SUB_PREFIX" = "" ]; then
 	$CC -dumpspecs |grep -A 1 'cross_compile'|grep -q 1
@@ -863,6 +869,7 @@ fi
 # General Makefiles
 MAKEFILES=Makefile.in\
 \ src/Makefile.in\
+\ src/canfestival.pc.in\
 \ drivers/Makefile.in\
 \ objdictgen/Makefile.in\
 \ examples/Makefile.in\
@@ -932,6 +939,7 @@ for makefile_in in $MAKEFILES; do
 	s:SUB_CC:${CC}:
 	s:SUB_CXX:${CXX}:
 	s:SUB_LD:${LD}:
+	s:SUB_PYTHON:${PYTHON}:
 	s:SUB_PROG_CFLAGS:${SUB_PROG_CFLAGS}:
 	s:SUB_EXE_CFLAGS:${SUB_EXE_CFLAGS}:
 	s:SUB_KERNELDIR:${SUB_KERNELDIR}:

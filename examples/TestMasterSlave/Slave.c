@@ -96,7 +96,7 @@ void TestSlave_post_TPDO(CO_Data* d)
 	}
 }
 
-void TestSlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+UNS32 TestSlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 {
 	/*TODO : 
 	 * - call getODEntry for index and subindex, 
@@ -108,6 +108,7 @@ void TestSlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 	 * 
 	 * */
 	eprintf("TestSlave_storeODSubIndex : %4.4x %2.2x\n", wIndex,  bSubindex);
+	return 0;
 }
 
 void TestSlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg, const UNS8 errSpec[5])

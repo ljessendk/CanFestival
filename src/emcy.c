@@ -63,7 +63,9 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, 
 		for (index = 0; index < d->error_history_size; ++index)
 			*(d->error_first_element + index) = 0;		/* clear all the fields in Pre-defined Error Field (1003h) */
 	else
+	{
 		;// abort message
+	}
   return 0;
 }
 
@@ -218,7 +220,10 @@ void EMCY_errorRecovered(CO_Data* d, UNS16 errCode)
 		*d->error_register = errRegister_tmp;
 	}
 	else
+	{
 		MSG_WAR(0x3054, "recovered error was not active", 0);
+	}
+	
 }
 
 /*! This function is responsible to process an EMCY canopen-message.

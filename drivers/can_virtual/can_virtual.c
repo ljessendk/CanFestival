@@ -54,6 +54,8 @@ UNS8 canReceive_driver(CAN_HANDLE fd0, Message *m)
 UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
 {
   int i;
+  ssize_t writeOk;
+  int canSendFail = 0;
   
   printf("%lx->[ ", (CANPipe*)fd0 - &canpipes[0]); 
   for(i=0; i < MAX_NB_CAN_PIPES; i++)
@@ -71,10 +73,11 @@ UNS8 canSend_driver(CAN_HANDLE fd0, Message const *m)
   {
   	if(canpipes[i].used && &canpipes[i] != (CANPipe*)fd0)
   	{
-		write(canpipes[i].pipe[1], m, sizeof(Message));
+		writeOk = write(canpipes[i].pipe[1], m, sizeof(Message));
+		canSendFail |= writeOk == -1; 
   	}
   }
-  return 0;
+  return canSendFail;
 }
 
 /***************************************************************************/
@@ -101,6 +104,7 @@ UNS8 canChangeBaudRate_driver( CAN_HANDLE fd0, char* baud)
 /***************************************************************************/
 CAN_HANDLE canOpen_driver(s_BOARD *board)
 {
+  (void)board;
   int i;  
   for(i=0; i < MAX_NB_CAN_PIPES; i++)
   {

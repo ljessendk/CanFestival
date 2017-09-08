@@ -24,6 +24,7 @@
 CC = SUB_CC
 CXX = SUB_CXX
 LD = SUB_LD
+PYTHON = SUB_PYTHON
 OPT_CFLAGS = -O2
 CFLAGS = SUB_OPT_CFLAGS
 PROG_CFLAGS = SUB_PROG_CFLAGS
@@ -53,7 +54,7 @@ DS401_Master: TestMaster.c $(OBJS)
 	
 TestMaster.c: TestMaster.od
 	$(MAKE) -C ../../objdictgen gnosis
-	python ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
+	$(PYTHON) ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<

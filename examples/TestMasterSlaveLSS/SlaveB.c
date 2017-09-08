@@ -61,7 +61,7 @@ void TestSlaveB_post_TPDO(CO_Data* d)
 	SlaveBMap1+=16;
 }
 
-void TestSlaveB_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+UNS32 TestSlaveB_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 {
 	/*TODO : 
 	 * - call getODEntry for index and subindex, 

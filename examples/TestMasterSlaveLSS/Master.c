@@ -69,7 +69,7 @@ void TestMaster_initialisation(CO_Data* d)
 
 // Step counts number of times ConfigureSlaveNode is called
 // There is one per each slave
-static init_step[] ={0,0};
+static int init_step[] ={0,0};
 
 /*Forward declaration*/
 static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId);
@@ -264,7 +264,7 @@ static void CheckLSSAndContinue(CO_Data* d, UNS8 command)
 			
 				/*The configuration of the slaves' nodeId ended.
 				 * Start the configuration of the baud rate. */
-				eprintf("Master : There are not no-configured slaves in the net\n", command);
+				eprintf("Master : There are not no-configured slaves in the net\n");
 				eprintf("Switching all the nodes to LSS CONFIGURATION state\n");
 				configNetworkNode(d,LSS_SM_GLOBAL,&LSS_mode,0,NULL);
 				eprintf("LSS=>Activate Bit Timing\n");
