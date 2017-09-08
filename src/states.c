@@ -74,7 +74,7 @@ void canDispatch(CO_Data* d, Message *m)
 				if(d->CurrentCommunicationState.csEmergency)
 					proceedEMCY(d,m);
 			break;
-		/* case TIME_STAMP: */
+		case TIME_STAMP:
 		case PDO1tx:
 		case PDO1rx:
 		case PDO2tx:
