@@ -30,7 +30,7 @@ __version__ = "$Revision: 1.48 $"
 
 if __name__ == '__main__':
     def usage():
-        print _("\nUsage of objdictedit.py :")
+        print ("\nUsage of objdictedit.py :")
         print "\n   %s [Filepath, ...]\n"%sys.argv[0]
 
     try:
