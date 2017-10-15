@@ -32,6 +32,5 @@ clean:
 manual: clean
 	cd en && \
 	pdflatex manual.tex && \
-	pdflatex manual.tex && \
 	cp manual.pdf ../../../objdictgen/doc/manual_en.pdf && \
 	latex2html -split 0 -dir html manual.tex
