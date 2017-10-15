@@ -467,7 +467,7 @@ void TestMaster_post_SlaveBootup(CO_Data* d, UNS8 nodeid)
 {
 	eprintf("TestMaster_post_SlaveBootup %x\n", nodeid);
 	/* Wait until the new baud rate is stored before configure the slaves*/
-	if(MasterBoard.baudrate=="250K")
+	if(strcmp(MasterBoard.baudrate,"250K") == 0)
 		ConfigureSlaveNode(d, nodeid);
 }
 
