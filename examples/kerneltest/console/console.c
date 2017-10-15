@@ -37,7 +37,7 @@ int main(int argc,char *argv[])
     
 	while (1) {
 		printf("> ");
-		scanf ("%s", &command);
+		scanf ("%9s", &command);
 
 		if (strcmp(command,"start") == 0)
 			cmd = CMD_START;
