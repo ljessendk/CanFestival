@@ -136,6 +136,12 @@ CAN_HANDLE canOpen_driver(s_BOARD *board)
 		if(!canpipes[i].used)
 			break;
 	}
+
+	if(i==MAX_NB_CAN_PIPES)
+	{
+		printk (KERN_NOTICE "can_virtual: No free pipes, failed initializing driver.\n");
+		return (CAN_HANDLE)NULL;
+	}
 	
 	// initialize CANPipe structure
 	init_waitqueue_head(&canpipes[i].w_queue);

@@ -187,6 +187,12 @@ CAN_HANDLE canOpen(s_BOARD *board, CO_Data * d)
 		break;
 	}
 
+	if(i==MAX_NB_CAN_PORTS)
+	{
+        	fprintf(stderr,"CanOpen : Can Driver no free can ports\n");
+		return NULL;
+	}
+
 	#ifndef NOT_USE_DYNAMIC_LOADING
 	if (m_canOpen == NULL)
 	{
