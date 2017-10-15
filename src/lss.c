@@ -434,7 +434,7 @@ UNS8 sendMasterLSSMessage(CO_Data* d, UNS8 command,void *dat1,void *dat2)
   case LSS_CONF_ACT_BIT_TIMING: /* Activate Bit Timing Parameters */
 	m.data[1]=(UNS8)(*(UNS32*)dat1 & 0xFF);
 	m.data[2]=(UNS8)(*(UNS32*)dat1>>8 & 0xFF);
-	if(d->lss_transfer.baudRate!="none"){
+	if(strcmp(d->lss_transfer.baudRate,"none")){
 		d->lss_transfer.switchDelay=(UNS16)(*(UNS32*)dat1 & 0xFFFF);
 		d->lss_transfer.switchDelayState=SDELAY_FIRST;
 		d->lss_transfer.canHandle_t=d->canHandle;
@@ -748,7 +748,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 			break;
 		}
 		
-		if(d->lss_transfer.baudRate!="none"){
+		if(strcmp(d->lss_transfer.baudRate,"none")){
 			d->lss_transfer.switchDelay=getLSSDelay(m);
 			MSG_WAR(0x3D2C, "Slave Switch Delay set to: ",d->lss_transfer.switchDelay);
 			d->lss_transfer.switchDelayState=SDELAY_FIRST;
