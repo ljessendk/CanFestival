@@ -238,7 +238,7 @@ void WriteDeviceEntry(char* sdo)
 		printf("Size     : %2.2x\n", size);
 		printf("Data     : %x\n", data);
 
-		writeNetworkDictCallBack(CANOpenShellOD_Data, nodeid, index, subindex, size, 0, &data, CheckWriteSDO, 0);
+		writeNetworkDictCallBack(CANOpenShellOD_Data, (UNS8)nodeid, (UNS16)index, (UNS8)subindex, size, 0, &data, CheckWriteSDO, 0);
 	}
 	else
 		printf("Wrong command  : %s\n", sdo);
@@ -326,7 +326,8 @@ int NodeInit(int NodeID, int NodeType)
 	if(!canOpen(&Board,CANOpenShellOD_Data)) return INIT_ERR;
 
 	/* Defining the node Id */
-	setNodeId(CANOpenShellOD_Data, NodeID);
+
+	setNodeId(CANOpenShellOD_Data, (UNS8)NodeID);
 	/* Start Timer thread */
 	StartTimerLoop(&Init);
 	return 0;
@@ -359,10 +360,10 @@ void help_menu(void)
 	printf("\n");
 }
 
-int ExtractNodeId(char *command) {
+UNS8 ExtractNodeId(char *command) {
 	int nodeid;
 	sscanf(command, "%2x", &nodeid);
-	return nodeid;
+	return (UNS8)nodeid;
 }
 
 int ProcessCommand(char* command)
