@@ -4,9 +4,9 @@ Latest work done:
 
 - Fix some big endian issues and remove compiler warnings by adding explicit casts. Thanks to Casey Klimasuskas for sharing.
 
-- The Canopen dictionary editor Objdictedit.py now allows to define the size of each string or domain, thanks to Mattes Standfu√ü for his work 
+- The Canopen dictionary editor Objdictedit.py now allows to define the size of each string or domain, thanks to Mattes Standfuﬂ for his work 
 
-- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfu√ü for this also
+- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuﬂ for this also
 
 - New example added : examples/linux/dcf
 
@@ -21,4 +21,4 @@ Latest work done:
 Any feedback, comment, is welcome.
 
 You can contact me at : 
-fbeaulier < a t > ingelibre < d o t > fr
+fbeaulier < a t > orange < d o t > fr
