@@ -44,6 +44,7 @@ unsigned int slavenodeid;
 /*****************************************************************************/
 void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 {
+	(void)d;
 	eprintf("TestMaster_heartbeatError %d\n", heartbeatID);
 }
 
@@ -54,6 +55,7 @@ void TestMaster_heartbeatError(CO_Data* d, UNS8 heartbeatID)
  ********************************************************/
 void TestMaster_initialisation(CO_Data* d)
 {
+	(void)d;
 	UNS32 PDO1_COBID = 0x0180 + slavenodeid; 
 	UNS32 PDO2_COBID = 0x0200 + slavenodeid;
 	UNS32 size = sizeof(UNS32); 
@@ -315,7 +317,7 @@ static void ConfigureSlaveNode(CO_Data* d, UNS8 nodeId)
 
 void TestMaster_preOperational(CO_Data* d)
 {
-
+	(void)d;
 	eprintf("TestMaster_preOperational\n");
 	ConfigureSlaveNode(&TestMaster_Data, (UNS8)slavenodeid);
 	
@@ -323,16 +325,19 @@ void TestMaster_preOperational(CO_Data* d)
 
 void TestMaster_operational(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_operational\n");
 }
 
 void TestMaster_stopped(CO_Data* d)
 {
+	(void)d;
 	eprintf("TestMaster_stopped\n");
 }
 
 void TestMaster_post_sync(CO_Data* d)
 {
+	(void)d;
 	DO++;
 	
 	AO1 = AI1 / 2;
@@ -357,6 +362,7 @@ void TestMaster_post_sync(CO_Data* d)
 
 void TestMaster_post_TPDO(CO_Data* d)
 {
+	(void)d;
 //	eprintf("TestMaster_post_TPDO\n");	
 }
 
@@ -409,6 +415,8 @@ void help(void)
 /***************************  INIT  *****************************************/
 void InitNodes(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	/****************************** INITIALISATION MASTER *******************************/
 	if(MasterBoard.baudrate){
 		/* Defining the node Id */
@@ -422,6 +430,8 @@ void InitNodes(CO_Data* d, UNS32 id)
 /***************************  EXIT  *****************************************/
 void Exit(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	masterSendNMTstateChange(&TestMaster_Data, 0x02, NMT_Reset_Node);
 
     //Stop master

@@ -61,6 +61,7 @@ UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable,
 **/   
 void SyncAlarm(CO_Data* d, UNS32 id)
 {
+	(void)id;
 	sendSYNC(d) ;
 }
 
@@ -75,6 +76,8 @@ void SyncAlarm(CO_Data* d, UNS32 id)
 **/  
 UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
+	(void)unsused_indextable;
+	(void)unsused_bSubindex;
 	startSYNC(d);
 	return 0;
 }
@@ -183,5 +186,5 @@ UNS8 proceedSYNC(CO_Data* d)
 }
 
 
-void _post_sync(CO_Data* d){}
-void _post_TPDO(CO_Data* d){}
+void _post_sync(CO_Data* d){(void)d;}
+void _post_TPDO(CO_Data* d){(void)d;}

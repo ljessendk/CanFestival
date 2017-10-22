@@ -316,12 +316,12 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   *d->bDeviceNodeId = nodeId;
 }
 
-void _initialisation(CO_Data* d){}
+void _initialisation(CO_Data* d){(void)d;}
 void _preOperational(CO_Data* d){
     if (!(*(d->iam_a_slave)))
     {
         masterSendNMTstateChange (d, 0, NMT_Reset_Node);
     }
 }
-void _operational(CO_Data* d){}
-void _stopped(CO_Data* d){}
+void _operational(CO_Data* d){(void)d;}
+void _stopped(CO_Data* d){(void)d;}
