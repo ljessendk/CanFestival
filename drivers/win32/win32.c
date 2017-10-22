@@ -83,7 +83,7 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 		handle=NULL;
 		return 0;
 	}
-	return -1;
+	return 255;
 #else
   handle = NULL;
   return 0;

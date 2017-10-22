@@ -72,7 +72,7 @@ void WaitReceiveTaskEnd(TASK_HANDLE *Thread)
 {
 	if(WaitForSingleObject(*Thread, 1000) == WAIT_TIMEOUT)
 	{
-		TerminateThread(*Thread, -1);
+		TerminateThread(*Thread, 0xFFFFFFFF);
 	}
 	CloseHandle(*Thread);
 }
@@ -130,7 +130,7 @@ void StopTimerLoop(TimerCallback_t exitfunction)
 	setTimer(0);
 	if(WaitForSingleObject(timer_thread,1000) == WAIT_TIMEOUT)
 	{
-		TerminateThread(timer_thread, -1);
+		TerminateThread(timer_thread, 0xFFFFFFFF);
 	}
 	CloseHandle(timer);
 	CloseHandle(timer_thread);

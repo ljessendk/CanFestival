@@ -317,7 +317,7 @@ void TestMaster_preOperational(CO_Data* d)
 {
 
 	eprintf("TestMaster_preOperational\n");
-	ConfigureSlaveNode(&TestMaster_Data, slavenodeid);
+	ConfigureSlaveNode(&TestMaster_Data, (UNS8)slavenodeid);
 	
 }
 
@@ -513,7 +513,7 @@ int main(int argc,char **argv)
 	eprintf("Finishing.\n");
 	
 	// Reset the slave node for next use (will stop emitting heartbeat)
-	masterSendNMTstateChange (&TestMaster_Data, slavenodeid, NMT_Reset_Node);
+	masterSendNMTstateChange (&TestMaster_Data, (UNS8)slavenodeid, NMT_Reset_Node);
 	
 	// Stop master
 	setState(&TestMaster_Data, Stopped);

@@ -146,7 +146,7 @@ sendPDOrequest (CO_Data * d, UNS16 RPDOIndex)
           MSG_WAR (0x3930, "sendPDOrequest cobId is : ", *pwCobId);
           {
             Message pdo;
-            pdo.cob_id = UNS16_LE(*pwCobId);
+            pdo.cob_id = UNS16_LE(((unsigned short)*pwCobId));
             pdo.rtr = REQUEST;
             pdo.len = 0;
             return canSend (d->canHandle, &pdo);
