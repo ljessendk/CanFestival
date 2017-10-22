@@ -1916,6 +1916,7 @@ void resetClientSDOLineFromNodeId(CO_Data* d, UNS8 nodeId)
 INLINE UNS8 _writeNetworkDict (CO_Data* d, UNS8 nodeId, UNS16 index,
 		UNS8 subIndex, UNS32 count, UNS8 dataType, void *data, SDOCallback_t Callback, UNS8 endianize, UNS8 useBlockMode)
 {
+	(void)endianize;
 	UNS8 err;
 	UNS8 line;
 	UNS8 CliNbr;

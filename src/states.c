@@ -275,7 +275,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   */
   {
     UNS8 i = 0;
-    UNS16 offset = d->firstIndex->PDO_RCV;
+    offset = d->firstIndex->PDO_RCV;
     UNS16 lastIndex = d->lastIndex->PDO_RCV;
     UNS32 cobID[] = {0x200, 0x300, 0x400, 0x500};
     UNS32 canID;
@@ -292,7 +292,7 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   /* ** Initialize the transmit PDO communication parameters. Only for 0x1800 to 0x1803 */
   {
     UNS8 i = 0;
-    UNS16 offset = d->firstIndex->PDO_TRS;
+    offset = d->firstIndex->PDO_TRS;
     UNS16 lastIndex = d->lastIndex->PDO_TRS;
     UNS32 cobID[] = {0x180, 0x280, 0x380, 0x480};
     UNS32 canID;
@@ -316,12 +316,12 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
   *d->bDeviceNodeId = nodeId;
 }
 
-void _initialisation(CO_Data* d){}
+void _initialisation(CO_Data* d){(void)d;}
 void _preOperational(CO_Data* d){
     if (!(*(d->iam_a_slave)))
     {
         masterSendNMTstateChange (d, 0, NMT_Reset_Node);
     }
 }
-void _operational(CO_Data* d){}
-void _stopped(CO_Data* d){}
+void _operational(CO_Data* d){(void)d;}
+void _stopped(CO_Data* d){(void)d;}

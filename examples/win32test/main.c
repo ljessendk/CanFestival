@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
       return 1;
       }
 
-   node_id = atoi(argv[1]);
+   node_id = (UNS8)atoi(argv[1]);
    if (node_id < 2 || node_id > 127)
       {
       printf("ERROR: node_id shoule be >=2 and <= 127\n");
