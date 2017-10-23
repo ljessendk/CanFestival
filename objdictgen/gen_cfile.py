@@ -531,6 +531,7 @@ const indextable %(NodeName)s_objdict[] =
 
 const indextable * %(NodeName)s_scanIndexOD (CO_Data *d, UNS16 wIndex, UNS32 * errorCode)
 {
+	(void)d;
 	int i;
 	switch(wIndex){
 """%texts

@@ -100,6 +100,7 @@ int get_info_step = 0;
 /* Callback function that check the read SDO demand */
 void CheckReadInfoSDO(CO_Data* d, UNS8 nodeid)
 {
+	(void)d;
 	UNS32 abortCode;
 	UNS32 data=0;
 	UNS32 size=64;
@@ -163,6 +164,7 @@ void GetSlaveNodeInfo(UNS8 nodeid)
 /* Callback function that check the read SDO demand */
 void CheckReadSDO(CO_Data* d, UNS8 nodeid)
 {
+	(void)d;
 	UNS32 abortCode;
 	UNS32 data=0;
 	UNS32 size=64;
@@ -205,6 +207,7 @@ void ReadDeviceEntry(char* sdo)
 /* Callback function that check the write SDO demand */
 void CheckWriteSDO(CO_Data* d, UNS8 nodeid)
 {
+	(void)d;
 	UNS32 abortCode;
 
 	if(getWriteResultNetworkDict(CANOpenShellOD_Data, nodeid, &abortCode) != SDO_FINISHED)
@@ -246,43 +249,52 @@ void WriteDeviceEntry(char* sdo)
 
 void CANOpenShellOD_post_SlaveBootup(CO_Data* d, UNS8 nodeid)
 {
+	(void)d;
 	printf("Slave %x boot up\n", nodeid);
 }
 
 /***************************  CALLBACK FUNCTIONS  *****************************************/
 void CANOpenShellOD_initialisation(CO_Data* d)
 {
+	(void)d;
 	printf("Node_initialisation\n");
 }
 
 void CANOpenShellOD_preOperational(CO_Data* d)
 {
+	(void)d;
 	printf("Node_preOperational\n");
 }
 
 void CANOpenShellOD_operational(CO_Data* d)
 {
+	(void)d;
 	printf("Node_operational\n");
 }
 
 void CANOpenShellOD_stopped(CO_Data* d)
 {
+	(void)d;
 	printf("Node_stopped\n");
 }
 
 void CANOpenShellOD_post_sync(CO_Data* d)
 {
+	(void)d;
 	//printf("Master_post_sync\n");
 }
 
 void CANOpenShellOD_post_TPDO(CO_Data* d)
 {
+	(void)d;
 	//printf("Master_post_TPDO\n");
 }
 
 /***************************  INITIALISATION  **********************************/
 void Init(CO_Data* d, UNS32 id)
 {
+	(void)d;
+	(void)id;
 	if(Board.baudrate)
 	{
 		/* Init node state*/
@@ -293,6 +305,8 @@ void Init(CO_Data* d, UNS32 id)
 /***************************  CLEANUP  *****************************************/
 void Exit(CO_Data* d, UNS32 nodeid)
 {
+	(void)d;
+	(void)nodeid;
 	if(strcmp(Board.baudrate, "none"))
 	{
 		/* Reset all nodes on the network */
