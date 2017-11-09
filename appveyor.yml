@@ -1,0 +1,20 @@
+version: 1.0.{build}
+image: Visual Studio 2017 Preview
+before_build:
+- cmd: >-
+    echo installing gnosis util
+
+    cd %APPVEYOR_BUILD_FOLDER%\objdictgen\
+
+    7z e Gnosis_Utils-current.tar.gz > nul
+
+    7z x Gnosis_Utils-1.2.2.tar > nul
+
+    cd Gnosis_Utils-1.2.2
+
+    python setup.py install > nul
+build:
+  project: CanFestival-3.vc15.sln
+  verbosity: minimal
+test: off
+deploy: off
