@@ -30,6 +30,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <fcntl.h>
 #endif
 
+#if WIN32
+	#define _WINSOCKAPI_    // stops windows.h including winsock.h. Fixes problem in AnaGateDllCan.h 
+#endif
 #include "can_driver.h"
 #include "AnaGateDllCan.h"
 
