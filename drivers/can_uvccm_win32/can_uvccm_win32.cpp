@@ -179,7 +179,7 @@ bool can_uvccm_win32::open_rs232(int port, int baud_rate)
 
    COMMTIMEOUTS timeouts;
    ::memset(&timeouts, 0, sizeof (timeouts));
-   timeouts.ReadIntervalTimeout = -1;
+   timeouts.ReadIntervalTimeout = (DWORD) -1;
    timeouts.ReadTotalTimeoutConstant = 0;
    timeouts.ReadTotalTimeoutMultiplier = 0;
    timeouts.WriteTotalTimeoutConstant = 5000;
@@ -283,7 +283,7 @@ bool can_uvccm_win32::get_can_data(const char* can_cmd_buf, long& bufsize, Messa
       return false;
       }
 
-   bufsize = buf.tellg();
+   bufsize = (long)buf.tellg();
 
    *m = msg;
    return true;
@@ -351,5 +351,7 @@ extern "C"
 extern "C"
 	UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd, char* baud)
 	{
+	(void)fd;
+	(void)baud;
 	return 0;
 	} 

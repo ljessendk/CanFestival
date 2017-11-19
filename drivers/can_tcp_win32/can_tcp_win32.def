@@ -1,4 +1,4 @@
-LIBRARY	can_peak_win32
+LIBRARY	can_tcp_win32
 	
 EXPORTS
    canReceive_driver

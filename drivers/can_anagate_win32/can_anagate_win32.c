@@ -52,7 +52,7 @@ SAnaGatePort *pFirstAnaGatePort=NULL;
 
 
 /********* AnaGate API CAN receive callback Funciton  ****************/
-void WINAPI AnaGateReceiveCallBack (int nIdentifier, const char* pcBuffer, int nBufferLen, int nFlags, int hHandle)
+void WINAPI AnaGateReceiveCallBack (AnaUInt32 nIdentifier, const char* pcBuffer, int nBufferLen, int nFlags, int hHandle)
 {
 	SAnaGatePort *pAnaGatePort = pFirstAnaGatePort;
    int           i;
@@ -68,8 +68,8 @@ void WINAPI AnaGateReceiveCallBack (int nIdentifier, const char* pcBuffer, int n
 		}
 	}
 	
-	pAnaGatePort->sMsgBuffer.cob_id =   nIdentifier;
-	pAnaGatePort->sMsgBuffer.len= nBufferLen;
+	pAnaGatePort->sMsgBuffer.cob_id =   (UNS16)nIdentifier;
+	pAnaGatePort->sMsgBuffer.len= (UNS8)nBufferLen;
 	if (nFlags == 2)
 	 pAnaGatePort->sMsgBuffer.rtr = 1;
 	else
@@ -127,10 +127,11 @@ UNS8 __stdcall canSend_driver(CAN_HANDLE fd0, Message const *m)
 	  nMsgTyp = 2; //Remote frame;
 	}
 
-	if ( (nRetCode = CANWrite(pAnaCanPort->hHandle , m->cob_id,(const char*) m->data, m->len, nMsgTyp) ) )
+	nRetCode = CANWrite(pAnaCanPort->hHandle, m->cob_id, (const char*)m->data, m->len, nMsgTyp);
+	if (nRetCode)
 	{
 	  CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
-	  fprintf(stderr,"canSend_driver (AnaGate_Win32) %s \n",nRetCode);
+	  fprintf(stderr,"canSend_driver (AnaGate_Win32) %d \n",nRetCode);
 	  //printf("canSend_driver (AnaGate_Win32) %s \n",nRetCode);
 	  return 1;
 	}
@@ -161,7 +162,8 @@ UNS8 __stdcall canChangeBaudRate_driver( CAN_HANDLE fd0, char* baud)
    char cErrorMsg[100];
    struct SAnaGatePort*  pAnaGatePort = (struct SAnaGatePort*)fd0;
    
-   if (nRetCode = CANSetGlobals (pAnaGatePort->hHandle, TranslateBaudeRate(baud), 0, 0, 1, 0) ) 
+   nRetCode = CANSetGlobals(pAnaGatePort->hHandle, TranslateBaudeRate(baud), 0, 0, 1, 0);
+   if (nRetCode)
    {
       CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
       fprintf(stderr, "canChangeBaudRate_drive (AnaGate_Win32): %s\n", cErrorMsg);
@@ -233,12 +235,14 @@ CAN_HANDLE __stdcall canOpen_driver(s_BOARD *board)
 
 	}
 	// Connect to AnaGate
-	if ( nRetCode = CANOpenDevice (&pNewAnaGatePort->hHandle, 
-		 						0,		/*confirmation*/ 
-								1,		/*Monitor*/ 
-								PortNr,
-								sIPAddress, 
-								1000	/*TimeOut*/ )  )
+	nRetCode = CANOpenDevice(&pNewAnaGatePort->hHandle,
+		0,		/*confirmation*/
+		1,		/*Monitor*/
+		PortNr,
+		sIPAddress,
+		1000	/*TimeOut*/);
+
+	if (nRetCode)
 	{
 		CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
 		fprintf(stderr, "canOpen_driver (AnaGate_Win32): %s @ %s\n", cErrorMsg,sIPAddress);
@@ -247,12 +251,13 @@ CAN_HANDLE __stdcall canOpen_driver(s_BOARD *board)
 	}
 
 	// Inizial Baudrate
-	if (nRetCode = CANSetGlobals (pNewAnaGatePort->hHandle, 
-							   TranslateBaudeRate(board->baudrate), 
-							   0,/*OperatingMode = normal*/ 
-							   0,/*CAN-Termination = off*/ 
-							   1, /*HighSpeedMode = on*/
-							   0 /*Timestamps = off*/) ) 
+	nRetCode = CANSetGlobals(pNewAnaGatePort->hHandle,
+		TranslateBaudeRate(board->baudrate),
+		0,/*OperatingMode = normal*/
+		0,/*CAN-Termination = off*/
+		1, /*HighSpeedMode = on*/
+		0 /*Timestamps = off*/);
+	if (nRetCode) 
 	{
 		CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
 		fprintf(stderr, "canOpen_driver (AnaGate_Win32): %s @ %s\n", cErrorMsg,sIPAddress);
@@ -276,7 +281,8 @@ CAN_HANDLE __stdcall canOpen_driver(s_BOARD *board)
 												); 
 
 	// Install receive callback funktion
-	if (nRetCode = CANSetCallback(pNewAnaGatePort->hHandle,  AnaGateReceiveCallBack) ) 
+	nRetCode = CANSetCallback(pNewAnaGatePort->hHandle, AnaGateReceiveCallBack);
+	if (nRetCode)
 	{
 		canClose_driver (pNewAnaGatePort);
 		CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
@@ -300,7 +306,8 @@ int __stdcall canClose_driver(CAN_HANDLE fd0)
 	CloseHandle (pAnaCanPort->hAnaRecEvent);
 	CloseHandle (pAnaCanPort->hFesticalRecAcknowledge);
 
-	if ( nRetCode = CANCloseDevice(pAnaCanPort->hHandle) )
+	nRetCode = CANCloseDevice(pAnaCanPort->hHandle);
+	if (nRetCode)
 	{
 	  CANErrorMessage( nRetCode, cErrorMsg ,100 ); // Convert returncode to error messge
 	  fprintf(stderr, "canClose_driver (AnaGate_Linux): %s\n", cErrorMsg);
