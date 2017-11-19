@@ -110,6 +110,9 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <PreBuildEvent>
+      <Command> c:\python27\python.exe "$(SolutionDir)objdictgen\objdictgen.py" TestMaster.od "TestMaster.c"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CanFestival-3.vc15.vcxproj">
