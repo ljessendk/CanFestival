@@ -1,18 +1,46 @@
 version: 1.0.{build}
 image: Visual Studio 2017 Preview
+configuration:
+- Debug
+- Release
+platform: x86
 before_build:
-- cmd: >-
-    echo installing gnosis util
+- ps: >-
+    write-host installing gnosis util
 
-    cd %APPVEYOR_BUILD_FOLDER%\objdictgen\
+    cd objdictgen
 
-    7z e Gnosis_Utils-current.tar.gz > nul
+    7z e Gnosis_Utils-current.tar.gz > $null
 
-    7z x Gnosis_Utils-1.2.2.tar > nul
+    7z x Gnosis_Utils-1.2.2.tar > $null
 
     cd Gnosis_Utils-1.2.2
 
-    python setup.py install > nul
+    python setup.py install > $null
+
+    cd ../..
+
+
+    write-host Downloading and unpacking drivers into ./download
+
+    mkdir download
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+
+    #Add new drivers here
+
+    $drivers = @(("http://www.anagate.de/download/API/AnaGateAPI-CAN-1.11-2.13.zip", "download\AnaGateAPI-CAN.zip"),
+                 ("https://www.peak-system.com/fileadmin/media/files/pcan-basic.zip","download\pcan-basic.zip"))
+
+    foreach ($d in $drivers)
+
+    {
+        $source = $d[0]
+        $destination = "$env:APPVEYOR_BUILD_FOLDER\"+$d[1]
+        Invoke-WebRequest $source -OutFile $destination
+        [System.IO.Compression.ZipFile]::ExtractToDirectory($destination, $destination.Replace(".zip",""))
+    }
 build:
   project: CanFestival-3.vc15.sln
   verbosity: minimal
