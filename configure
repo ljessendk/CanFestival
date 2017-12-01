@@ -298,7 +298,7 @@ if [ "$SUB_CAN_DRIVER" = "" ]; then
 		if [ -e /usr/lib/libpcan.so ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_linux
-		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "PCAN_LIB" != "" ]; then
+		elif [ "$SUB_OS_NAME" = "CYGWIN" -a "$PCAN_LIB" != "" ]; then
 			echo "Choosing installed Peak driver as CAN driver."
 			SUB_CAN_DRIVER=peak_win32
 		elif [ -e /usr/lib/libcanlib.so ]; then
