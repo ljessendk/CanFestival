@@ -26,6 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <string.h>
 #include <stdio.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 // Integers
 #define INTEGER8 signed char
@@ -62,10 +64,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // ---------------------
 #ifdef DEBUG_ERR_CONSOLE_ON
 #define MSG_ERR(num, str, val)      \
-          printf(num, ' ');	\
-          printf(str);		\
-          printf(val);		\
-          printf('\n');
+            cli(); /* printf_P() is not re-entrant so disable interrupts */ \
+            printf_P(PSTR("0X%x %S 0X%x\n\r"), num, PSTR(str), val);\
+            sei(); /* re-enable interrupts */
 #else
 #    define MSG_ERR(num, str, val)
 #endif
@@ -74,10 +75,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // ---------------------
 #ifdef DEBUG_WAR_CONSOLE_ON
 #define MSG_WAR(num, str, val)      \
-          printf(num, ' ');	\
-          printf(str);		\
-          printf(val);		\
-          printf('\n');
+            cli(); /* printf_P() is not re-entrant so disable interrupts */ \
+            printf_P(PSTR("0X%x %S 0X%x\n\r"), num, PSTR(str), val);\
+            sei(); /* re-enable interrupts */
 #else
 #    define MSG_WAR(num, str, val)
 #endif
