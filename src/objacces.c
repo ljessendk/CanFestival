@@ -95,7 +95,7 @@ UNS32 _getODentry( CO_Data* d,
   const indextable *ptrTable;
   ODCallback_t *Callback;
 
-  ptrTable = (*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
+  ptrTable = (*d->scanIndexOD)(wIndex, &errorCode, &Callback);
 
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
@@ -177,7 +177,7 @@ UNS32 _setODentry( CO_Data* d,
   const indextable *ptrTable;
   ODCallback_t *Callback;
 
-  ptrTable =(*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
+  ptrTable =(*d->scanIndexOD)(wIndex, &errorCode, &Callback);
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
 
@@ -257,12 +257,10 @@ UNS32 _setODentry( CO_Data* d,
     }
 }
 
-/*
 const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)
 {
   return (*d->scanIndexOD)(wIndex, errorCode, Callback);
 }
-*/
 
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
@@ -270,7 +268,7 @@ UNS32 errorCode;
 ODCallback_t *CallbackList;
 const indextable *odentry;
 
-  odentry = d->scanIndexOD (d, wIndex, &errorCode, &CallbackList);
+  odentry = scanIndexOD (d, wIndex, &errorCode, &CallbackList);
   if(errorCode == OD_SUCCESSFUL  &&  CallbackList  &&  bSubindex < odentry->bSubCount) 
     CallbackList[bSubindex] = Callback;
   return errorCode;

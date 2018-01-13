@@ -806,7 +806,7 @@ PDOInit (CO_Data * d)
         UNS32 errorCode;
         ODCallback_t *CallbackList;
         /* Find callback list */
-        d->scanIndexOD (d, pdoIndex, &errorCode, &CallbackList);
+        scanIndexOD (d, pdoIndex, &errorCode, &CallbackList);
         if (errorCode == OD_SUCCESSFUL && CallbackList)
           {
             /*Assign callbacks to corresponding subindex */
