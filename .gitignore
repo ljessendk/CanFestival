@@ -1,0 +1,10 @@
+*.o
+*.pyc
+Makefile
+*.a
+*.so
+*.lss
+*.map
+*.hex
+*.elf
+*.eep
