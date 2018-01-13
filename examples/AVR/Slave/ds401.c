@@ -61,7 +61,7 @@ unsigned char digital_input_handler(CO_Data* d, unsigned char *newInput, unsigne
 unsigned char digital_output_handler(CO_Data* d, unsigned char *newOutput, unsigned char size)
 {
   unsigned char loops, i, error, type;
-  unsigned char varsize = 1;
+  UNS32 varsize = 1;
 
   loops = (sizeof(Write_Outputs_8_Bit) <= size) ? sizeof(Write_Outputs_8_Bit) : size;
 
