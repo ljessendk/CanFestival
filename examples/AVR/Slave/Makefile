@@ -88,7 +88,7 @@ $(PROJECT).elf: $(OBJECTS)
 
 size: $(PROJECT).elf
 	@echo
-	@avr-size -C --mcu=${MCU} $(PROJECT).elf
+	@avr-size $(PROJECT).elf
 
 ## Clean target
 .PHONY: clean
