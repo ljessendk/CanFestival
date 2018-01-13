@@ -93,8 +93,9 @@ UNS32 _getODentry( CO_Data* d,
   UNS32 errorCode;
   UNS32 szData;
   const indextable *ptrTable;
+  ODCallback_t *Callback;
 
-  ptrTable = (*d->scanIndexOD)(d, wIndex, &errorCode);
+  ptrTable = (*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
 
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
@@ -174,9 +175,9 @@ UNS32 _setODentry( CO_Data* d,
   UNS8 dataType;
   UNS32 errorCode;
   const indextable *ptrTable;
-  ODCallback_t Callback;
+  ODCallback_t *Callback;
 
-  ptrTable =(*d->scanIndexOD)(d, wIndex, &errorCode);
+  ptrTable =(*d->scanIndexOD)(d, wIndex, &errorCode, &Callback);
   if (errorCode != OD_SUCCESSFUL)
     return errorCode;
 
@@ -194,7 +195,6 @@ UNS32 _setODentry( CO_Data* d,
 
   dataType = ptrTable->pSubindex[bSubindex].bDataType;
   szData = ptrTable->pSubindex[bSubindex].size;
-  Callback = ptrTable->pSubindex[bSubindex].callback;
 
   /* check the size, we must allow to store less bytes than data size, even for intergers
 	 (e.g. UNS40 : objdictedit will store it in a uint64_t, setting the size to 8 but PDO comes
@@ -236,13 +236,13 @@ UNS32 _setODentry( CO_Data* d,
       *pExpectedSize = szData;
 
       /* Callbacks */
-      if(Callback){
-        errorCode = (Callback)(d, ptrTable, bSubindex);
+      if(Callback && Callback[bSubindex]){
+        errorCode = (Callback[bSubindex])(d, ptrTable, bSubindex);
         if(errorCode != OD_SUCCESSFUL)
         {
             return errorCode;
         }
-      }
+       }
 
       /* Store value if requested with user defined function
 	     Function should return OD_ACCES_FAILED in case of store error */
@@ -257,14 +257,22 @@ UNS32 _setODentry( CO_Data* d,
     }
 }
 
+/*
+const indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback)
+{
+  return (*d->scanIndexOD)(wIndex, errorCode, Callback);
+}
+*/
+
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback)
 {
-  UNS32 errorCode;
-  const indextable *odentry;
+UNS32 errorCode;
+ODCallback_t *CallbackList;
+const indextable *odentry;
 
-  odentry = d->scanIndexOD (d, wIndex, &errorCode);
-  if(errorCode == OD_SUCCESSFUL &&  bSubindex < odentry->bSubCount) 
-    odentry->pSubindex[bSubindex].callback = Callback;
+  odentry = d->scanIndexOD (d, wIndex, &errorCode, &CallbackList);
+  if(errorCode == OD_SUCCESSFUL  &&  CallbackList  &&  bSubindex < odentry->bSubCount) 
+    CallbackList[bSubindex] = Callback;
   return errorCode;
 }
 

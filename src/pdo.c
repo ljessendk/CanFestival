@@ -801,23 +801,25 @@ PDOInit (CO_Data * d)
   UNS16 lastIndex = d->lastIndex->PDO_TRS;
   if (offsetObjdict)
     while (offsetObjdict <= lastIndex)
-    {
+      {
         /* Assign callbacks to sensible TPDO mapping subindexes */
         UNS32 errorCode;
-        const indextable *ptrTable = (*d->scanIndexOD)(d, pdoIndex, &errorCode);
-        if (errorCode == OD_SUCCESSFUL)
-        {
+        ODCallback_t *CallbackList;
+        /* Find callback list */
+        d->scanIndexOD (d, pdoIndex, &errorCode, &CallbackList);
+        if (errorCode == OD_SUCCESSFUL && CallbackList)
+          {
             /*Assign callbacks to corresponding subindex */
             /* Transmission type */
-            ptrTable->pSubindex[2].callback = &TPDO_Communication_Parameter_Callback;
+            CallbackList[2] = &TPDO_Communication_Parameter_Callback;
             /* Inhibit time */
-            ptrTable->pSubindex[3].callback = &TPDO_Communication_Parameter_Callback;
+            CallbackList[3] = &TPDO_Communication_Parameter_Callback;
             /* Event timer */
-            ptrTable->pSubindex[5].callback = &TPDO_Communication_Parameter_Callback;
-        }
+            CallbackList[5] = &TPDO_Communication_Parameter_Callback;
+          }
         pdoIndex++;
         offsetObjdict++;
-    }
+      }
 
   /* Trigger a non-sync event */
   _sendPDOevent (d, 0);
