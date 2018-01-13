@@ -9,6 +9,10 @@ TARGET = AVR
 CC = avr-gcc
 SRC = ../../../src
 DRV = ../../../drivers/AVR
+OBJDICTGEN = ../../../objdictgen/objdictgen.py
+OBJDICTGEN_DEPS = ../../../objdictgen/gen_cfile.py
+VPATH+=$(SRC)
+VPATH+=$(DRV)
 
 ## Options common to compile, link and assembly rules
 COMMON = -mmcu=$(MCU)
@@ -38,20 +42,20 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 INCLUDES = -I../../../include/AVR -I../../../include
 
 ## Objects that must be built in order to link
-OBJECTS = 	$(DRV)/can_AVR.o\
-		$(DRV)/timer_AVR.o\
-		$(SRC)/dcf.o\
-		$(SRC)/timer.o\
-		$(SRC)/emcy.o\
-		$(SRC)/lifegrd.o\
-		$(SRC)/lss.o\
-		$(SRC)/nmtMaster.o\
-		$(SRC)/nmtSlave.o\
-		$(SRC)/objacces.o\
-		$(SRC)/pdo.o\
-		$(SRC)/sdo.o\
-		$(SRC)/states.o\
-		$(SRC)/sync.o\
+OBJECTS = 	can_AVR.o\
+		timer_AVR.o\
+		dcf.o\
+		timer.o\
+		emcy.o\
+		lifegrd.o\
+		lss.o\
+		nmtMaster.o\
+		nmtSlave.o\
+		objacces.o\
+		pdo.o\
+		sdo.o\
+		states.o\
+		sync.o\
 		ObjDict.o\
 		ds401.o\
 		main.o
@@ -95,6 +99,9 @@ size: $(PROJECT).elf
 clean:
 	-rm -rf *.o $(PROJECT).elf dep/* $(PROJECT).hex $(PROJECT).eep $(PROJECT).lss $(PROJECT).map
 
+ObjDict.c ObjDict.h : ObjDict.od $(OBJDICTGEN) $(OBJDICTGEN_DEPS)
+	$(OBJDICTGEN) $< ObjDict.c
+	
 
 ## Other dependencies
 -include $(shell mkdir dep 2>/dev/null) $(wildcard dep/*)
