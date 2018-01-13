@@ -791,7 +791,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 	case LSS_SM_SELECTIVE_SERIAL:
 	{
 		UNS32 errorCode;
-  		const indextable *ptrTable;
+  		const CONSTSTORE indextable *ptrTable;
   		ODCallback_t *Callback;
   		UNS32 _SpecificNodeInfo;
   
@@ -832,7 +832,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 	case LSS_IDENT_REMOTE_SERIAL_HIGH:
 	{
 		UNS32 errorCode;
-  		const indextable *ptrTable;
+  		const CONSTSTORE indextable *ptrTable;
   		ODCallback_t *Callback;
   		UNS32 _SpecificNodeInfo;
   		
@@ -879,7 +879,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 	{
 	
 		UNS32 errorCode;
-  		const indextable *ptrTable;
+  		const CONSTSTORE indextable *ptrTable;
   		ODCallback_t *Callback;
   		UNS32 _SpecificNodeInfo;
   
@@ -914,7 +914,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
    		case LSS_FS_RESET:
    		{
    			UNS32 errorCode;
-  			const indextable *ptrTable;
+  			const CONSTSTORE indextable *ptrTable;
   			ODCallback_t *Callback;
   				
 			MSG_WAR(0x3D3A, "SlaveLSS Reseting LSSPos", 0);
@@ -967,7 +967,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 					{
 						/* Switch to the next LSS-ID[sub] */
 						UNS32 errorCode;
-  						const indextable *ptrTable;
+  						const CONSTSTORE indextable *ptrTable;
   						ODCallback_t *Callback;
 		
 						d->lss_transfer.LSSPos=getLSSNext(m);

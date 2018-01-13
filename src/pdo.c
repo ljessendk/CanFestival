@@ -48,8 +48,8 @@
 
 UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
-  const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
-  const indextable *TPDO_map = d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
+  const CONSTSTORE indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
+  const CONSTSTORE indextable *TPDO_map = d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
 
   UNS8 prp_j = 0x00;
   UNS32 offset = 0x00000000;
@@ -760,7 +760,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
 
 UNS32
 TPDO_Communication_Parameter_Callback (CO_Data * d,
-                                       const indextable * OD_entry,
+                                       const CONSTSTORE indextable * OD_entry,
                                        UNS8 bSubindex)
 {
   /* If PDO are actives */
@@ -771,7 +771,7 @@ TPDO_Communication_Parameter_Callback (CO_Data * d,
       case 3:                  /* Changed inhibit time */
       case 5:                  /* Changed event time */
         {
-          const indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS;
+          const CONSTSTORE indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS;
           UNS8 numPdo = (UNS8) (OD_entry - TPDO_com);    /* number of the actual processed pdo-nr. */
 
           /* Zap all timers and inhibit flag */

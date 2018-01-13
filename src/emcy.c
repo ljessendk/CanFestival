@@ -40,7 +40,7 @@
 
 
 
-UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex);
+UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable, UNS8 unsused_bSubindex);
 
 #define Data data  /* temporary fix */
 
@@ -54,7 +54,7 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, 
 **
 ** @return
 **/
-UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
+UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	UNS8 index;
 	(void)unsused_indextable;

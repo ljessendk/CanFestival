@@ -4,12 +4,12 @@
 #include "SillySlave.h"
 
 /**************************************************************************/
-/* Declaration of the mapped variables                                    */
+/* Declaration of mapped variables                                        */
 /**************************************************************************/
 UNS8 LifeSignal = 0x0;		/* Mapped at index 0x2001, subindex 0x00 */
 
 /**************************************************************************/
-/* Declaration of the value range types                                   */
+/* Declaration of value range types                                       */
 /**************************************************************************/
 
 #define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */
@@ -46,14 +46,14 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 /* index 0x1000 :   Device Type. */
                     UNS32 SillySlave_obj1000 = 0x2000000;	/* 33554432 */
-                    subindex SillySlave_Index1000[] = 
+                    const CONSTSTORE subindex SillySlave_Index1000[] = 
                      {
                        { RO, uint32, sizeof (UNS32), (void*)&SillySlave_obj1000 }
                      };
 
 /* index 0x1001 :   Error Register. */
                     UNS8 SillySlave_obj1001 = 0x0;	/* 0 */
-                    subindex SillySlave_Index1001[] = 
+                    const CONSTSTORE subindex SillySlave_Index1001[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&SillySlave_obj1001 }
                      };
@@ -69,7 +69,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        NULL,
                        NULL,
                      };
-                    subindex SillySlave_Index1003[] = 
+                    const CONSTSTORE subindex SillySlave_Index1003[] = 
                      {
                        { RW, valueRange_EMC, sizeof (UNS8), (void*)&SillySlave_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&SillySlave_obj1003[0] }
@@ -81,22 +81,28 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 /* index 0x1006 :   Communication / Cycle Period */
                     UNS32 SillySlave_obj1006 = 0x0;   /* 0 */
 
+/* index 0x100C :   Guard Time */ 
+                    UNS16 SillySlave_obj100C = 0x0;   /* 0 */
+
+/* index 0x100D :   Life Time Factor */ 
+                    UNS8 SillySlave_obj100D = 0x0;   /* 0 */
+
 /* index 0x1012 :   TIME COB ID. */
                     UNS32 SillySlave_obj1012 = 0x80000100;	/* 2147483904 */
-                    subindex SillySlave_Index1012[] = 
+                    const CONSTSTORE subindex SillySlave_Index1012[] = 
                      {
                        { RW, uint32, sizeof (UNS32), (void*)&SillySlave_obj1012 }
                      };
 
 /* index 0x1013 :   High Resolution Timestamp. */
                     UNS32 SillySlave_obj1013 = 0x0;	/* 0 */
-                    subindex SillySlave_Index1013[] = 
+                    const CONSTSTORE subindex SillySlave_Index1013[] = 
                      {
                        { RW, uint32, sizeof (UNS32), (void*)&SillySlave_obj1013 }
                      };
 
 /* index 0x1014 :   Emergency COB ID */
-                    UNS32 SillySlave_obj1014 = 0x0;   /* 0 */
+                    UNS32 SillySlave_obj1014 = 0x80 + 0x00;   /* 128 + NodeID */
 
 /* index 0x1016 :   Consumer Heartbeat Time */
                     UNS8 SillySlave_highestSubIndex_obj1016 = 0;
@@ -111,7 +117,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     UNS32 SillySlave_obj1018_Product_Code = 0x12;	/* 18 */
                     UNS32 SillySlave_obj1018_Revision_Number = 0x1;	/* 1 */
                     UNS32 SillySlave_obj1018_Serial_Number = 0x1;	/* 1 */
-                    subindex SillySlave_Index1018[] = 
+                    const CONSTSTORE subindex SillySlave_Index1018[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&SillySlave_highestSubIndex_obj1018 },
                        { RO, uint32, sizeof (UNS32), (void*)&SillySlave_obj1018_Vendor_ID },
@@ -130,7 +136,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        NULL,
                        NULL,
                      };
-                    subindex SillySlave_Index1200[] = 
+                    const CONSTSTORE subindex SillySlave_Index1200[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&SillySlave_highestSubIndex_obj1200 },
                        { RO, uint32, sizeof (UNS32), (void*)&SillySlave_obj1200_COB_ID_Client_to_Server_Receive_SDO },
@@ -153,7 +159,7 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                        NULL,
                        NULL,
                      };
-                    subindex SillySlave_Index1800[] = 
+                    const CONSTSTORE subindex SillySlave_Index1800[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&SillySlave_highestSubIndex_obj1800 },
                        { RW, uint32, sizeof (UNS32), (void*)&SillySlave_obj1800_COB_ID_used_by_PDO },
@@ -169,32 +175,36 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
                     {
                       0x20010008	/* 536936456 */
                     };
-                    subindex SillySlave_Index1A00[] = 
+                    const CONSTSTORE subindex SillySlave_Index1A00[] = 
                      {
                        { RW, uint8, sizeof (UNS8), (void*)&SillySlave_highestSubIndex_obj1A00 },
                        { RW, uint32, sizeof (UNS32), (void*)&SillySlave_obj1A00[0] }
                      };
 
 /* index 0x2001 :   Mapped variable LifeSignal */
-                    subindex SillySlave_Index2001[] = 
+                    const CONSTSTORE subindex SillySlave_Index2001[] = 
                      {
                        { RO, uint8, sizeof (UNS8), (void*)&LifeSignal }
                      };
 
-const indextable SillySlave_objdict[] = 
+/**************************************************************************/
+/* Declaration of pointed variables                                       */
+/**************************************************************************/
+
+const CONSTSTORE indextable SillySlave_objdict[] = 
 {
-  { (subindex*)SillySlave_Index1000,sizeof(SillySlave_Index1000)/sizeof(SillySlave_Index1000[0]), 0x1000},
-  { (subindex*)SillySlave_Index1001,sizeof(SillySlave_Index1001)/sizeof(SillySlave_Index1001[0]), 0x1001},
-  { (subindex*)SillySlave_Index1012,sizeof(SillySlave_Index1012)/sizeof(SillySlave_Index1012[0]), 0x1012},
-  { (subindex*)SillySlave_Index1013,sizeof(SillySlave_Index1013)/sizeof(SillySlave_Index1013[0]), 0x1013},
-  { (subindex*)SillySlave_Index1018,sizeof(SillySlave_Index1018)/sizeof(SillySlave_Index1018[0]), 0x1018},
-  { (subindex*)SillySlave_Index1200,sizeof(SillySlave_Index1200)/sizeof(SillySlave_Index1200[0]), 0x1200},
-  { (subindex*)SillySlave_Index1800,sizeof(SillySlave_Index1800)/sizeof(SillySlave_Index1800[0]), 0x1800},
-  { (subindex*)SillySlave_Index1A00,sizeof(SillySlave_Index1A00)/sizeof(SillySlave_Index1A00[0]), 0x1A00},
-  { (subindex*)SillySlave_Index2001,sizeof(SillySlave_Index2001)/sizeof(SillySlave_Index2001[0]), 0x2001},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1000,sizeof(SillySlave_Index1000)/sizeof(SillySlave_Index1000[0]), 0x1000},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1001,sizeof(SillySlave_Index1001)/sizeof(SillySlave_Index1001[0]), 0x1001},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1012,sizeof(SillySlave_Index1012)/sizeof(SillySlave_Index1012[0]), 0x1012},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1013,sizeof(SillySlave_Index1013)/sizeof(SillySlave_Index1013[0]), 0x1013},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1018,sizeof(SillySlave_Index1018)/sizeof(SillySlave_Index1018[0]), 0x1018},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1200,sizeof(SillySlave_Index1200)/sizeof(SillySlave_Index1200[0]), 0x1200},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1800,sizeof(SillySlave_Index1800)/sizeof(SillySlave_Index1800[0]), 0x1800},
+  { (const CONSTSTORE subindex* const)SillySlave_Index1A00,sizeof(SillySlave_Index1A00)/sizeof(SillySlave_Index1A00[0]), 0x1A00},
+  { (const CONSTSTORE subindex* const)SillySlave_Index2001,sizeof(SillySlave_Index2001)/sizeof(SillySlave_Index2001[0]), 0x2001},
 };
 
-const indextable * SillySlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const CONSTSTORE indextable * SillySlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;
@@ -223,7 +233,7 @@ const indextable * SillySlave_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCa
  */
 s_PDO_status SillySlave_PDO_status[1] = {s_PDO_status_Initializer};
 
-quick_index SillySlave_firstIndex = {
+const quick_index SillySlave_firstIndex = {
   5, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -232,7 +242,7 @@ quick_index SillySlave_firstIndex = {
   7 /* PDO_TRS_MAP */
 };
 
-quick_index SillySlave_lastIndex = {
+const quick_index SillySlave_lastIndex = {
   5, /* SDO_SVR */
   0, /* SDO_CLT */
   0, /* PDO_RCV */
@@ -241,7 +251,7 @@ quick_index SillySlave_lastIndex = {
   7 /* PDO_TRS_MAP */
 };
 
-UNS16 SillySlave_ObjdictSize = sizeof(SillySlave_objdict)/sizeof(SillySlave_objdict[0]); 
+const UNS16 SillySlave_ObjdictSize = sizeof(SillySlave_objdict)/sizeof(SillySlave_objdict[0]); 
 
 CO_Data SillySlave_Data = CANOPEN_NODE_DATA_INITIALIZER(SillySlave);
 

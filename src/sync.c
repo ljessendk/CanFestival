@@ -50,7 +50,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ** @param id                                                                                       
 **/  
 void SyncAlarm(CO_Data* d, UNS32 id);
-UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, 
+UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable,
 	UNS8 unsused_bSubindex);
 
 /*!                                                                                                
@@ -74,7 +74,7 @@ void SyncAlarm(CO_Data* d, UNS32 id)
 **                                                                                                 
 ** @return                                                                                         
 **/  
-UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
+UNS32 OnCOB_ID_SyncUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable, UNS8 unsused_bSubindex)
 {
 	(void)unsused_indextable;
 	(void)unsused_bSubindex;

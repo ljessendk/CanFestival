@@ -318,7 +318,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             indexCallbacks[index] = "*callbacks = %s_callbacks; "%name
         else:
             indexCallbacks[index] = ""
-        strIndex += "                    subindex %(NodeName)s_Index%(index)04X[] = \n                     {\n"%texts
+        strIndex += "                    const CONSTSTORE subindex %(NodeName)s_Index%(index)04X[] = \n                     {\n"%texts
         for subIndex in xrange(len(values)):
             subentry_infos = Node.GetSubentryInfos(index, subIndex)
 	    params_infos = Node.GetParamsEntry(index,subIndex)
@@ -389,7 +389,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                        NULL,
                        NULL,
                      };
-                    subindex %(NodeName)s_Index1003[] = 
+                    const CONSTSTORE subindex %(NodeName)s_Index1003[] = 
                      {
                        { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
                        { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
@@ -464,7 +464,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     maxPDOtransmit = 0
     for i, index in enumerate(listIndex):
         texts["index"] = index
-        strDeclareIndex += "  { (subindex*)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]), 0x%(index)04X},\n"%texts
+        strDeclareIndex += "  { (const CONSTSTORE subindex* const)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]), 0x%(index)04X},\n"%texts
         strDeclareSwitch += "		case 0x%04X: i = %d;%sbreak;\n"%(index, i, indexCallbacks[index])
         for cat, idx_min, idx_max in categories:
             if idx_min <= index <= idx_max:
@@ -544,13 +544,13 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 """ + pointedVariableContent
 
     fileContent += """
-const indextable %(NodeName)s_objdict[] = 
+const CONSTSTORE indextable %(NodeName)s_objdict[] = 
 {
 """%texts
     fileContent += strDeclareIndex
     fileContent += """};
 
-const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
+const CONSTSTORE indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;
@@ -596,7 +596,7 @@ CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
-const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
+const CONSTSTORE indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;

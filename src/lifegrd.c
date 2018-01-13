@@ -41,10 +41,10 @@
 
 void ConsumerHeartbeatAlarm(CO_Data* d, UNS32 id);
 void ProducerHeartbeatAlarm(CO_Data* d, UNS32 id);
-UNS32 OnHearbeatProducerUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex);
+UNS32 OnHearbeatProducerUpdate(CO_Data* d, const CONSTSTORE indextable * unused_indextable, UNS8 unused_bSubindex);
 
 void GuardTimeAlarm(CO_Data* d, UNS32 id);
-UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex);
+UNS32 OnNodeGuardUpdate(CO_Data* d, const CONSTSTORE indextable * unused_indextable, UNS8 unused_bSubindex);
 
 
 e_nodeState getNodeState (CO_Data* d, UNS8 nodeId)
@@ -262,7 +262,7 @@ void GuardTimeAlarm(CO_Data* d, UNS32 id)
  * @param unused_bSubindex
  * @ingroup nodeguardo
  */
-UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
+UNS32 OnNodeGuardUpdate(CO_Data* d, const CONSTSTORE indextable * unused_indextable, UNS8 unused_bSubindex)
 {
   (void)unused_indextable;
   (void)unused_bSubindex;
@@ -282,7 +282,7 @@ UNS32 OnNodeGuardUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 u
 ** @return
  * @ingroup heartbeato
 **/
-UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const indextable * unused_indextable, UNS8 unused_bSubindex)
+UNS32 OnHeartbeatProducerUpdate(CO_Data* d, const CONSTSTORE indextable * unused_indextable, UNS8 unused_bSubindex)
 {
   (void)unused_indextable;
   (void)unused_bSubindex;

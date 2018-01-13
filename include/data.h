@@ -56,7 +56,7 @@ typedef struct struct_CO_Data CO_Data;
 struct struct_CO_Data {
 	/* Object dictionary */
 	UNS8 *bDeviceNodeId;
-	const indextable *objdict;
+	const CONSTSTORE indextable *objdict;
 	s_PDO_status *PDO_status;
 	TIMER_HANDLE *RxPDO_EventTimers;
 	void (*RxPDO_EventTimers_Handler)(CO_Data*, UNS32);
@@ -114,7 +114,7 @@ struct struct_CO_Data {
 	storeODSubIndex_t storeODSubIndex; 
 	
 	/* DCF concise */
-    const indextable* dcf_odentry;
+    const CONSTSTORE indextable* dcf_odentry;
 	UNS8* dcf_cursor;
 	UNS32 dcf_entries_count;
 	UNS8 dcf_status;
