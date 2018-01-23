@@ -254,14 +254,14 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
 
   if(offset){
     /* Adjust COB-ID Client->Server (rx) only id already set to default value or id not valid (id==0xFF)*/
-    if((*(UNS32*)d->objdict[offset].pSubindex[1].pObject == ((UNS32)0x600) + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
+    if((READ_UNS32(d->objdict, offset, 1) == ((UNS32)0x600) + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_client = 0x600 + nodeId; */
-      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = 0x600 + nodeId;
+      WRITE_UNS32(d->objdict, offset, 1, 0x600 + nodeId);
     }
     /* Adjust COB-ID Server -> Client (tx) only id already set to default value or id not valid (id==0xFF)*/
-    if((*(UNS32*)d->objdict[offset].pSubindex[2].pObject == ((UNS32)0x580) + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
+    if((READ_UNS32(d->objdict, offset, 2) == ((UNS32)0x580) + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF)){
       /* cob_id_server = 0x580 + nodeId; */
-      *(UNS32*)d->objdict[offset].pSubindex[2].pObject = 0x580 + nodeId;
+      WRITE_UNS32(d->objdict, offset, 2, 0x580 + nodeId);
     }
   }
 
@@ -281,10 +281,10 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS32 canID;
     UNS32 otherBits;
     if( offset ) while( (offset <= lastIndex) && (i < 4)) {
-      canID = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & 0x1fffffff;
-      otherBits = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & ~0x1fffffff;
+      canID = READ_UNS32(d->objdict, offset, 1) & 0x1fffffff;
+      otherBits = READ_UNS32(d->objdict, offset, 1) & ~0x1fffffff;
       if((canID == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
-	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = (cobID[i] + nodeId) | otherBits;
+	      WRITE_UNS32(d->objdict, offset, 1, (cobID[i] + nodeId) | otherBits);
       i ++;
       offset ++;
     }
@@ -299,10 +299,10 @@ void setNodeId(CO_Data* d, UNS8 nodeId)
     UNS32 otherBits;
     i = 0;
     if( offset ) while ((offset <= lastIndex) && (i < 4)) {
-      canID = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & 0x1fffffff;
-      otherBits = (*(UNS32*)d->objdict[offset].pSubindex[1].pObject) & ~0x1fffffff;
+      canID = READ_UNS32(d->objdict, offset, 1) & 0x1fffffff;
+      otherBits = READ_UNS32(d->objdict, offset, 1) & ~0x1fffffff;
       if((canID == cobID[i] + *d->bDeviceNodeId)||(*d->bDeviceNodeId==0xFF))
-	      *(UNS32*)d->objdict[offset].pSubindex[1].pObject = (cobID[i] + nodeId) | otherBits;
+	      WRITE_UNS32(d->objdict, offset, 1, (cobID[i] + nodeId) | otherBits);
       i ++;
       offset ++;
     }

@@ -74,7 +74,7 @@ UNS8 check_and_start_node(CO_Data* d, UNS8 nodeId)
         return 0;
     /* Set the first SDO client as available */
     if(d->firstIndex->SDO_CLT)
-        *(UNS8*) d->objdict[d->firstIndex->SDO_CLT].pSubindex[3].pObject = 0;
+        WRITE_UNS8(d->objdict, d->firstIndex->SDO_CLT, 3, 0);
     else
         return 3;
     if((init_consise_dcf(d, nodeId) == 0) || (read_consise_dcf_next_entry(d, nodeId) == 0)){
@@ -179,7 +179,6 @@ UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
     /* Fetch DCF OD entry */
     UNS32 errorCode;
     ODCallback_t *Callback;
-    UNS8* dcf;
     d->dcf_odentry = (*d->scanIndexOD)(0x1F22, &errorCode, &Callback);
     /* If DCF entry do not exist... Nothing to do.*/
     if (errorCode != OD_SUCCESSFUL) goto DCF_finish;
@@ -187,9 +186,7 @@ UNS8 init_consise_dcf(CO_Data* d,UNS8 nodeId)
     if(nodeId > d->dcf_odentry->bSubCount) goto DCF_finish;
     /* If DCF empty... Nothing to do */
     if(! d->dcf_odentry->pSubindex[nodeId].size) goto DCF_finish;
-    //dcf = *(UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject;
-    dcf = (UNS8*)d->dcf_odentry->pSubindex[nodeId].pObject;
-    d->dcf_cursor = dcf + 4;
+    d->dcf_cursor = ((UNS8*)d->dcf_odentry->pSubindex[nodeId].pObject) + 4;
     d->dcf_entries_count = 0;
     d->dcf_status = DCF_STATUS_INIT;
     return 1;
@@ -208,7 +205,6 @@ UNS8 get_next_DCF_data(CO_Data* d, dcf_entry_t *dcf_entry, UNS8 nodeId)
   if(nodeId > d->dcf_odentry->bSubCount)
      return 0;
   szData = d->dcf_odentry->pSubindex[nodeId].size;
-  //dcf = *(UNS8**)d->dcf_odentry->pSubindex[nodeId].pObject;
   dcf = (UNS8*)d->dcf_odentry->pSubindex[nodeId].pObject;
   nb_entries = UNS32_LE(*((UNS32*)dcf));
   dcfend = dcf + szData;

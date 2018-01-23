@@ -804,7 +804,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 		_SpecificNodeInfo=getLSSIdent(m);
 				
 		ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
-		if(_SpecificNodeInfo==*(UNS32*)ptrTable->pSubindex[msg_cs-(LSS_SM_SELECTIVE_VENDOR-1)].pObject){
+		if(_SpecificNodeInfo==READ_UNS32(ptrTable, 0, msg_cs-(LSS_SM_SELECTIVE_VENDOR-1))){
 			
 			d->lss_transfer.addr_sel_match|=(0x01<<(msg_cs-LSS_SM_SELECTIVE_VENDOR));
 			/* If all the fields has been set */
@@ -842,12 +842,12 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 			
 		/* Check if the data match the identity object. */
 		switch(msg_cs){
-		case LSS_IDENT_REMOTE_VENDOR:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo == *(UNS32*)ptrTable->pSubindex[1].pObject)? d->lss_transfer.addr_ident_match|0x01:0;	break;
-		case LSS_IDENT_REMOTE_PRODUCT:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo == *(UNS32*)ptrTable->pSubindex[2].pObject)? d->lss_transfer.addr_ident_match|0x02:0;	break;
-		case LSS_IDENT_REMOTE_REV_LOW:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo <= *(UNS32*)ptrTable->pSubindex[3].pObject)? d->lss_transfer.addr_ident_match|0x04:0; break;
-		case LSS_IDENT_REMOTE_REV_HIGH:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo >= *(UNS32*)ptrTable->pSubindex[3].pObject)? d->lss_transfer.addr_ident_match|0x08:0;	break;
-		case LSS_IDENT_REMOTE_SERIAL_LOW:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo <= *(UNS32*)ptrTable->pSubindex[4].pObject)? d->lss_transfer.addr_ident_match|0x10:0;	break;
-		case LSS_IDENT_REMOTE_SERIAL_HIGH:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo >= *(UNS32*)ptrTable->pSubindex[4].pObject)? d->lss_transfer.addr_ident_match|0x20:0;	break;
+		case LSS_IDENT_REMOTE_VENDOR:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo == READ_UNS32(ptrTable, 0, 1)? d->lss_transfer.addr_ident_match|0x01:0;	break;
+		case LSS_IDENT_REMOTE_PRODUCT:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo == READ_UNS32(ptrTable, 0, 2)? d->lss_transfer.addr_ident_match|0x02:0;	break;
+		case LSS_IDENT_REMOTE_REV_LOW:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo <= READ_UNS32(ptrTable, 0, 3)? d->lss_transfer.addr_ident_match|0x04:0; break;
+		case LSS_IDENT_REMOTE_REV_HIGH:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo >= READ_UNS32(ptrTable, 0, 3)? d->lss_transfer.addr_ident_match|0x08:0;	break;
+		case LSS_IDENT_REMOTE_SERIAL_LOW:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo <= READ_UNS32(ptrTable, 0, 4)? d->lss_transfer.addr_ident_match|0x10:0;	break;
+		case LSS_IDENT_REMOTE_SERIAL_HIGH:d->lss_transfer.addr_ident_match=(_SpecificNodeInfo >= READ_UNS32(ptrTable, 0, 4)? d->lss_transfer.addr_ident_match|0x20:0;	break;
 		}
 		/* If all the fields has been set.. */
 		if(d->lss_transfer.addr_ident_match==0x3F){
@@ -884,7 +884,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
   		UNS32 _SpecificNodeInfo;
   
   		ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
-  		_SpecificNodeInfo=*(UNS32*)ptrTable->pSubindex[msg_cs-(LSS_INQ_VENDOR_ID-1)].pObject;
+  		_SpecificNodeInfo=READ_UNS32(ptrTable, 0, msg_cs-(LSS_INQ_VENDOR_ID-1));
   		MSG_WAR(0x3D37, "SlaveLSS identity field inquired ", _SpecificNodeInfo);
 			
 		sendSlaveLSSMessage(d,msg_cs,&_SpecificNodeInfo,0);
@@ -922,7 +922,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 			d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;
 			
   			ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
-  			d->lss_transfer.IDNumber=*(UNS32*)ptrTable->pSubindex[d->lss_transfer.LSSPos+1].pObject;
+  			d->lss_transfer.IDNumber=READ_UNS32(ptrTable, 0, d->lss_transfer.LSSPos+1);
 			
 			sendSlaveLSSMessage(d,LSS_IDENT_SLAVE,0,0);
    		}
@@ -972,7 +972,7 @@ UNS8 proceedLSS_Slave(CO_Data* d, Message* m )
 		
 						d->lss_transfer.LSSPos=getLSSNext(m);
 						ptrTable = (*d->scanIndexOD)(0x1018, &errorCode, &Callback);
-  						d->lss_transfer.IDNumber=*(UNS32*)ptrTable->pSubindex[d->lss_transfer.LSSPos+1].pObject;
+  						d->lss_transfer.IDNumber=READ_UNS32(ptrTable, 0, d->lss_transfer.LSSPos+1);
 						d->lss_transfer.FastScan_SM=LSS_FS_PROCESSING;						
 					}
 					sendSlaveLSSMessage(d,LSS_IDENT_SLAVE,0,0);
