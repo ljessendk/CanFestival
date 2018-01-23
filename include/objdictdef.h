@@ -73,6 +73,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define RW     0x00  
 #define WO     0x01
 #define RO     0x02
+#define CONST  0x03
 
 #define TO_BE_SAVE  0x04
 #define DCF_TO_SEND 0x08
@@ -92,7 +93,10 @@ typedef struct td_subindex
     const UNS8              bAccessType;
     const UNS8              bDataType; /* Defines of what datatype the entry is */
     const UNS32             size;      /* The size (in Byte) of the variable */
-    void* const             pObject;   /* This is the pointer of the Variable */
+    union {
+        void* const         pObject;   /* This is the pointer of the Variable */
+        const CONSTSTORE void* const pObjectConst;
+    };
 } subindex;
 
 /** Struct for creating entries in the communictaion profile

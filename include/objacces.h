@@ -41,22 +41,22 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include <applicfg.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+
 #define READ_UNS32(objDict, index, subIndex)\
-        (*(UNS32*) objDict[index].pSubindex[subIndex].pObject)
+        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS32*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS32*)objDict[index].pSubindex[subIndex].pObjectConst)
 
 #define READ_UNS16(objDict, index, subIndex)\
-        (*(UNS16*) objDict[index].pSubindex[subIndex].pObject)
+        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS16*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS16*)objDict[index].pSubindex[subIndex].pObjectConst)
 
 #define READ_UNS8(objDict, index, subIndex)\
-        (*(UNS8*) objDict[index].pSubindex[subIndex].pObject)
+       (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS8*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS8*)objDict[index].pSubindex[subIndex].pObjectConst)
 
 #define IS_NULL(objDict, index, subIndex)\
-        (objDict[index].pSubindex[subIndex].pObject == NULL)
+        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? objDict[index].pSubindex[subIndex].pObject == NULL : objDict[index].pSubindex[subIndex].pObjectConst == NULL)
 
 #define WRITE_UNS32(objDict, index, subIndex, value)\
     (*((UNS32*)objDict[index].pSubindex[subIndex].pObject) = value)

@@ -40,6 +40,17 @@
 
 #include "data.h"
 
+
+void *memcpy_flash(void * dest, const CONSTSTORE void * source, size_t length) {
+    char* dstPointer = dest;
+    const CONSTSTORE char* srcPointer = source;
+    size_t i;
+    for(i = 0; i < length; i++) {
+        dstPointer[i] = srcPointer[i];
+    }
+    return dstPointer;
+}
+
 //We need the function implementation for linking
 //Only a placeholder with a define isnt enough!
 UNS8 accessDictionaryError(UNS16 index, UNS8 subIndex,
@@ -105,7 +116,7 @@ UNS32 _getODentry( CO_Data* d,
     return OD_NO_SUCH_SUBINDEX;
   }
 
-  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType & WO)) {
+  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType == WO)) {
     MSG_WAR(0x2B30, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
     accessDictionaryError(wIndex, bSubindex, 0, 0, OD_READ_NOT_ALLOWED);
     return OD_READ_NOT_ALLOWED;
@@ -135,14 +146,24 @@ UNS32 _getODentry( CO_Data* d,
     MSG_WAR(visible_string, "data type ", *pDataType);
     for ( i = szData ; i > 0 ; i--) {
       MSG_WAR(i," ", j);
-      ((UNS8*)pDestData)[j++] =
-        ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[i-1];
+      ((UNS8*)pDestData)[j++] = ((UNS8*)ptrTable->pSubindex[bSubindex].bAccessType == CONST ? ptrTable->pSubindex[bSubindex].pObjectConst)[i-1] :
+        ptrTable->pSubindex[bSubindex].pObject)[i-1];
     }
     *pExpectedSize = szData;
   }
   else /* no endianisation change */
 #  endif
-  memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+  if(ptrTable->pSubindex[bSubindex].bAccessType == CONST) {
+      
+      if(ptrTable->pSubindex[bSubindex].bDataType == visible_string && bSubindex != 0) {
+          const CONSTSTORE char* dp = *(const CONSTSTORE char* const CONSTSTORE *)ptrTable->pSubindex[bSubindex].pObjectConst;
+          memcpy_flash(pDestData, dp,szData);
+      } else {
+          memcpy_flash(pDestData, ptrTable->pSubindex[bSubindex].pObjectConst,szData);
+      }
+  } else {
+      memcpy(pDestData, ptrTable->pSubindex[bSubindex].pObject,szData);
+  }
 
   if(*pDataType != visible_string)
       *pExpectedSize = szData;
@@ -186,7 +207,7 @@ UNS32 _setODentry( CO_Data* d,
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_NO_SUCH_SUBINDEX);
     return OD_NO_SUCH_SUBINDEX;
   }
-  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType == RO)) {
+  if (checkAccess && (ptrTable->pSubindex[bSubindex].bAccessType == RO || ptrTable->pSubindex[bSubindex].bAccessType == CONST)) {
     MSG_WAR(0x2B25, "Access Type : ", ptrTable->pSubindex[bSubindex].bAccessType);
     accessDictionaryError(wIndex, bSubindex, 0, *pExpectedSize, OD_WRITE_NOT_ALLOWED);
     return OD_WRITE_NOT_ALLOWED;
@@ -230,9 +251,10 @@ UNS32 _setODentry( CO_Data* d,
       *  - store string size in td_subindex 
       * */
       /* terminate visible_string with '\0' */
-      if(dataType == visible_string && *pExpectedSize < szData)
-        ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[*pExpectedSize] = 0;
-      
+      if(dataType == visible_string && *pExpectedSize < szData) {
+          ((UNS8*)ptrTable->pSubindex[bSubindex].pObject)[*pExpectedSize] = 0;
+      }
+
       *pExpectedSize = szData;
 
       /* Callbacks */

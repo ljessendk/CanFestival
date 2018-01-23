@@ -28,7 +28,7 @@ import re
 """
 Dictionary of translation between access symbol and their signification
 """
-AccessType = {"ro" : "Read Only", "wo" : "Write Only", "rw" : "Read/Write"}
+AccessType = {"ro" : "Read Only", "wo" : "Write Only", "rw" : "Read/Write", "const" : "Const"}
 
 BoolType = {True : "True", False : "False"} 
 OptionType = {True : "Yes", False : "No"}
@@ -114,11 +114,11 @@ MappingDictionary = {
     0x1007 : {"name" : "Synchronous Window Length", "struct" : var, "need" : False, "values" :
                 [{"name" : "Synchronous Window Length", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1008 : {"name" : "Manufacturer Device Name", "struct" : var, "need" : False, "values" :
-                [{"name" : "Manufacturer Device Name", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Manufacturer Device Name", "type" : 0x09, "access" : 'const', "pdo" : False}]},
     0x1009 : {"name" : "Manufacturer Hardware Version", "struct" : var, "need" : False, "values" :
-                [{"name" : "Manufacturer Hardware Version", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Manufacturer Hardware Version", "type" : 0x09, "access" : 'const', "pdo" : False}]},
     0x100A : {"name" : "Manufacturer Software Version", "struct" : var, "need" : False, "values" :
-                [{"name" : "Manufacturer Software Version", "type" : 0x09, "access" : 'ro', "pdo" : False}]},
+                [{"name" : "Manufacturer Software Version", "type" : 0x09, "access" : 'const', "pdo" : False}]},
     0x100C : {"name" : "Guard Time", "struct" : var, "need" : False, "values" :
                 [{"name" : "Guard Time", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x100D : {"name" : "Life Time Factor", "struct" : var, "need" : False, "values" :

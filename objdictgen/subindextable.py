@@ -35,8 +35,8 @@ ColAlignements = [wx.ALIGN_CENTER, wx.ALIGN_LEFT, wx.ALIGN_CENTER, wx.ALIGN_RIGH
 def GetAccessList(write=True):
     _ = lambda x : x
     if write:
-        return [_("Read Only"), _("Write Only"), _("Read/Write")]
-    return [_("Read Only"), _("Read/Write")]
+        return [_("Read Only"), _("Write Only"), _("Read/Write"), _("Const")]
+    return [_("Read Only"), _("Read/Write"), _("Const")]
 AccessList = ",".join(map(_, GetAccessList()))
 RAccessList = ",".join(map(_, GetAccessList(False)))
 ACCESS_LIST_DICT = dict([(_(access), access) for access in GetAccessList()])

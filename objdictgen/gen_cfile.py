@@ -73,7 +73,7 @@ def GetValidTypeInfos(typename, items=[]):
                     size = max(size, len(item))
                 if values[1] != "":
                     size = max(size, int(values[1]))
-                typeinfos = ("UNS8", size, "visible_string", False)
+                typeinfos = ("char", size, "visible_string", False)
             elif values[0] == "DOMAIN":
                 size = 0
                 for item in items:
@@ -207,6 +207,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 if not typeinfos[1]:
                     raise ValueError, _("\nDomain variable not initialized\nindex : 0x%04X\nsubindex : 0x00")%index
             texts["subIndexType"] = typeinfos[0]
+            if subentry_infos["access"].upper() == "CONST":
+		texts["subIndexType"] = "const CONSTSTORE " + texts["subIndexType"]
             if typeinfos[1] is not None:
                 if params_infos["buffer_size"] != "":
 			texts["suffixe"] = "[%s]"%params_infos["buffer_size"]
@@ -237,6 +239,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
             else:
                 texts["value"] = values[0]
             texts["subIndexType"] = typeinfos[0]
+            if subentry_infos["access"].upper() == "CONST":
+                texts["subIndexType"] = "const CONSTSTORE " + texts["subIndexType"]
             strIndex += "                    %(subIndexType)s %(NodeName)s_highestSubIndex_obj%(index)04X = %(value)d; /* number of subindex - 1*/\n"%texts
             
             # Entry type is ARRAY
@@ -245,9 +249,14 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 typename = Node.GetTypeName(subentry_infos["type"])
                 typeinfos = GetValidTypeInfos(typename, values[1:])
                 texts["subIndexType"] = typeinfos[0]
+                if subentry_infos["access"].upper() == "CONST":
+                    texts["subIndexType"] = "const CONSTSTORE " + texts["subIndexType"]
+
                 if typeinfos[1] is not None:
                     texts["suffixe"] = "[%d]"%typeinfos[1]
                     texts["type_suffixe"] = "*"
+                    if subentry_infos["access"].upper() == "CONST":
+                        texts["type_suffixe"] += " const CONSTSTORE "
                 else:
                     texts["suffixe"] = ""
                     texts["type_suffixe"] = ""
@@ -255,8 +264,12 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 if index in variablelist:
                     texts["name"] = UnDigitName(FormatName(entry_infos["name"]))
                     texts["values_count"] =  str(len(values)-1)
-                    strDeclareHeader += "extern %(subIndexType)s %(name)s[%(values_count)s]%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
-                    mappedVariableContent += "%(subIndexType)s %(name)s[]%(suffixe)s =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
+                    if subentry_infos["access"].upper() == "CONST":
+                        strDeclareHeader += "extern %(subIndexType)s%(type_suffixe)s %(name)s[%(values_count)s];\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
+                        mappedVariableContent += "%(subIndexType)s%(type_suffixe)s %(name)s[] =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
+                    else:
+                        strDeclareHeader += "extern %(subIndexType)s %(name)s[%(values_count)s]%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n"%texts
+                        mappedVariableContent += "%(subIndexType)s %(name)s[]%(suffixe)s =\t\t/* Mapped at index 0x%(index)04X, subindex 0x01 - 0x%(length)02X */\n  {\n"%texts
                     for subIndex, value in enumerate(values):
                         sep = ","
                         if subIndex > 0:
@@ -265,7 +278,10 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                             value, comment = ComputeValue(typeinfos[2], value)
                             if len(value) is 2 and typename is "DOMAIN":
                                 raise ValueError("\nDomain variable not initialized\nindex : 0x%04X\nsubindex : 0x%02X"%(index, subIndex))
-                            mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
+                            if subentry_infos["access"].upper() == "CONST" and typeinfos[2] == "visible_string":
+                                mappedVariableContent += "    (const CONSTSTORE char[]){%s}%s%s\n"%(value, sep, comment)
+                            else:
+                                mappedVariableContent += "    %s%s%s\n"%(value, sep, comment)
                     mappedVariableContent += "  };\n"
                 else:
                     strIndex += "                    %(subIndexType)s%(type_suffixe)s %(NodeName)s_obj%(index)04X[] = \n                    {\n"%texts
@@ -289,6 +305,9 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                         typename = GetTypeName(Node, subentry_infos["type"])
                         typeinfos = GetValidTypeInfos(typename, [values[subIndex]])
                         texts["subIndexType"] = typeinfos[0]
+                        if subentry_infos["access"].upper() == "CONST":
+                           texts["subIndexType"] = "const CONSTSTORE " + texts["subIndexType"]
+
                         if typeinfos[1] is not None:
                             if params_infos["buffer_size"] != "": 
 			          texts["suffixe"] = "[%s]"%params_infos["buffer_size"]
@@ -299,7 +318,11 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                         texts["value"], texts["comment"] = ComputeValue(typeinfos[2], value)
                         texts["name"] = FormatName(subentry_infos["name"])
                         if index in variablelist:
-                            strDeclareHeader += "extern %(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
+                            strDeclareHeader += "extern ";
+                            if subentry_infos["access"].upper() == "CONST":
+                                mappedVariableContent += "const CONSTSTORE ";
+                                strDeclareHeader += "const CONSTSTORE ";
+                            strDeclareHeader += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
                             mappedVariableContent += "%(subIndexType)s %(parent)s_%(name)s%(suffixe)s = %(value)s;\t\t/* Mapped at index 0x%(index)04X, subindex 0x%(subIndex)02X */\n"%texts
                         else:
                             strIndex += "                    %(subIndexType)s %(NodeName)s_obj%(index)04X_%(name)s%(suffixe)s = %(value)s;%(comment)s\n"%texts
@@ -364,7 +387,10 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 save = "|TO_BE_SAVE"
             else:
                 save = ""
-            strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
+            if subentry_infos["access"].upper() == "CONST":
+                strIndex += "                       { %s%s, %s, %s, .pObjectConst=&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
+            else:
+                strIndex += "                       { %s%s, %s, %s, .pObject=&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
             pointer_name = pointers_dict.get((index, subIndex), None)
             if pointer_name is not None:
                 pointedVariableContent += "%s* %s = &%s;\n"%(typeinfos[0], pointer_name, name)
@@ -391,8 +417,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                      };
                     const CONSTSTORE subindex %(NodeName)s_Index1003[] = 
                      {
-                       { RW, valueRange_EMC, sizeof (UNS8), (void*)&%(NodeName)s_highestSubIndex_obj1003 },
-                       { RO, uint32, sizeof (UNS32), (void*)&%(NodeName)s_obj1003[0] }
+                       { RW, valueRange_EMC, sizeof (UNS8), .pObject=(void*)&%(NodeName)s_highestSubIndex_obj1003 },
+                       { RO, uint32, sizeof (UNS32), .pObject=(void*)&%(NodeName)s_obj1003[0] }
                      };
 """%texts
 

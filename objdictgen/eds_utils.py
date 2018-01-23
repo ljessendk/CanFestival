@@ -50,7 +50,7 @@ nodedcfname_model = re.compile('NODE([0-9]{1,3})DCFNAME$')
 BOOL_TRANSLATE = {True : "1", False : "0"}
 
 # Dictionary for quickly translate eds access value into canfestival access value
-ACCESS_TRANSLATE = {"RO" : "ro", "WO" : "wo", "RW" : "rw", "RWR" : "rw", "RWW" : "rw", "CONST" : "ro"}
+ACCESS_TRANSLATE = {"RO" : "ro", "WO" : "wo", "RW" : "rw", "RWR" : "rw", "RWW" : "rw", "CONST" : "const"}
 
 # Function for verifying data values
 is_integer = lambda x: type(x) in (IntType, LongType)

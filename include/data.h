@@ -115,7 +115,10 @@ struct struct_CO_Data {
 	
 	/* DCF concise */
     const CONSTSTORE indextable* dcf_odentry;
-	UNS8* dcf_cursor;
+    //union {
+        UNS8* dcf_cursor;
+        //const CONSTSTORE UNS8* dcf_cursor_const;
+    //};
 	UNS32 dcf_entries_count;
 	UNS8 dcf_status;
     UNS32 dcf_size;
