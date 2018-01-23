@@ -79,11 +79,11 @@ $(CANOPENSHELL): $(OBJS)
 	mkdir -p Debug; cp $(CANOPENSHELL) Debug
 endif
 
-CANOpenShellMasterOD.c: CANOpenShellMasterOD.od
+CANOpenShellMasterOD.c: CANOpenShellMasterOD.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py CANOpenShellMasterOD.od CANOpenShellMasterOD.c
 
-CANOpenShellSlaveOD.c: CANOpenShellSlaveOD.od
+CANOpenShellSlaveOD.c: CANOpenShellSlaveOD.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py CANOpenShellSlaveOD.od CANOpenShellSlaveOD.c
 

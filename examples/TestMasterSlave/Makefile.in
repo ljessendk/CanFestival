@@ -78,11 +78,11 @@ $(TESTMASTERSLAVE): $(OBJS)
 endif
 
 
-TestSlave.c: TestSlave.od
+TestSlave.c: TestSlave.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py TestSlave.od TestSlave.c
 
-TestMaster.c: TestMaster.od
+TestMaster.c: TestMaster.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 

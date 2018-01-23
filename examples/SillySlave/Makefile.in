@@ -61,7 +61,7 @@ SillySlave: SillySlave.c $(OBJS)
 endif
 
 
-SillySlave.c: SillySlave.od
+SillySlave.c: SillySlave.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py SillySlave.od SillySlave.c
 

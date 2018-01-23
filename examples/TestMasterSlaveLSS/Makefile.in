@@ -73,15 +73,15 @@ $(TESTMASTERSLAVELSS): $(OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) $(EXE_CFLAGS)
 endif
 
-TestSlaveA.c: TestSlaveA.od
+TestSlaveA.c: TestSlaveA.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py TestSlaveA.od TestSlaveA.c
 
-TestSlaveB.c: TestSlaveB.od
+TestSlaveB.c: TestSlaveB.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py TestSlaveB.od TestSlaveB.c
 
-TestMaster.c: TestMaster.od
+TestMaster.c: TestMaster.od ../../objdictgen/objdictgen.py ../../objdictgen/gen_cfile.py
 	$(MAKE) -C ../../objdictgen gnosis
 	$(PYTHON) ../../objdictgen/objdictgen.py TestMaster.od TestMaster.c
 
