@@ -39,7 +39,7 @@ CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_SHARED = SUB_ENABLE_SHARED
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
+INCLUDES = -I../../include -I../../include/default -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 TEST_COPCICAN_LINUX_OBJS = test_copcican_linux.o
 

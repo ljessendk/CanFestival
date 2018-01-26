@@ -32,7 +32,7 @@ TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_DLL_DRIVERS=SUB_ENABLE_DLL_DRIVERS
 CAN_DLL_CFLAGS=SUB_CAN_DLL_CFLAGS
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER)
+INCLUDES = -I../../include -I../../include/default -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER)
 
 OBJS = $(CAN_DRIVER).o
 

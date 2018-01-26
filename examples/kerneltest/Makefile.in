@@ -28,6 +28,7 @@ CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 
 EXTRA_CFLAGS := -I$(src)/../../include
+EXTRA_CFLAGS += -I$(src)/../../include/default
 EXTRA_CFLAGS += -I$(src)/../../include/$(TARGET)
 EXTRA_CFLAGS += -I$(src)/../../include/$(CAN_DRIVER)
 EXTRA_CFLAGS += -I$(src)/../../include/$(TIMERS_DRIVER)

@@ -44,7 +44,7 @@ DEPFILE = .depend
 CPP_OBJS = $(SRCS:%.cpp=%.o)
 
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
+INCLUDES = -I../../include -I../../include/default -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 ifeq ($(ENABLE_SHARED),1)
 OBJS = ObjDict.o

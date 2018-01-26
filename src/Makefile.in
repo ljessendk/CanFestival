@@ -40,7 +40,7 @@ TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_LSS = SUB_ENABLE_LSS
 ENABLE_SHARED = SUB_ENABLE_SHARED
 
-INCLUDES = -I../include -I../include/$(TARGET) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
+INCLUDES = -I../include -I../include/default -I../include/$(TARGET) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
 
 OBJS = $(TARGET)_objacces.o $(TARGET)_lifegrd.o $(TARGET)_sdo.o \
 	   $(TARGET)_pdo.o $(TARGET)_sync.o $(TARGET)_nmtSlave.o $(TARGET)_nmtMaster.o $(TARGET)_states.o $(TARGET)_timer.o $(TARGET)_dcf.o $(TARGET)_emcy.o

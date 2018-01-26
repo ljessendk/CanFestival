@@ -38,7 +38,7 @@ TIMERS_DRIVER = SUB_TIMERS_DRIVER
 TESTMASTERSLAVELSS = "TestMasterSlaveLSS"
 ENABLE_SHARED = SUB_ENABLE_SHARED
 
-INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
+INCLUDES = -I../../include -I../../include/default -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = TestSlaveA.o TestSlaveB.o TestMaster.o TestMasterSlaveLSS.o SlaveA.o SlaveB.o Master.o
 

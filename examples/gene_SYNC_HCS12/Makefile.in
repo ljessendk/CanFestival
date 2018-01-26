@@ -32,7 +32,7 @@ BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
 TARGET = SUB_TARGET
 
 
-INCLUDES = -I../../include -I../../include/hcs12
+INCLUDES = -I../../include -I../../include/default -I../../include/hcs12
 MEMORY_X = ../../include/hcs12/board/arch
 
 OBJCOPY = $(BINUTILS_PREFIX)objcopy
