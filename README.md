@@ -1,24 +1,16 @@
-This is a fork of the CanFestival-3 project http://dev.automforge.net/CanFestival-3
+This is a fork of https://bitbucket.org/Mongo/canfestival-3-asc which is again a fork of the original CanFestival-3 project http://dev.automforge.net/CanFestival-3
 
-Latest work done:
+This is CanFestival-3 + the best fixes from canfestival-3-asc + optimizations for small memory devices.
 
-- Fix some big endian issues and remove compiler warnings by adding explicit casts. Thanks to Casey Klimasuskas for sharing.
+The major improvement this fork brings to the table is the ability to place static data in flash instead of RAM to reduce memory consumption on devices with limited RAM (example PIC or AVR microcontrollers). As an example, the memory consumption of the AVR/Slave example is reduced by ~1KB.
 
-- The Canopen dictionary editor Objdictedit.py now allows to define the size of each string or domain, thanks to Mattes Standfuﬂ for his work 
+Highlights of changes in this fork:
+- Fixed compile warnings in AVR example
+- Fixed MSG_WAR/MSG_ERROR debug output for AVR
+- Improved example buildscripts to automatically rebuild object dictionaries when gen_cfile.py or objdictgen.py changes.
+- Allow static dictionary index tables to be stored in flash instead of RAM to save RAM on small systems with limited RAM (for example AVR). 
+- Allow constant data in object dictionary to be stored in flash instead of RAM to save RAM on small systems with limited RAM (for example AVR).
 
-- The stack can now be compiled as a .so shared lib, thanks to Mattes Standfuﬂ for this also
+Comments/feedback:
+github < a t > ljessen < d o t > dk
 
-- New example added : examples/linux/dcf
-
-- I needed the stack to be more dynamic, i wanted to be able to dynamically build the OD and the CO_Data struct without any global declaration, so i have made few changes. (this is not a dirty hack it is even cleaner i think)
-
-- solving array of string or domain issue (search for "Array of strings issue" in the mailing list)
-
-- solving bugs on sdo block transfer and dcf management
-
-- stm32F0/F1/F4 basic support
-
-Any feedback, comment, is welcome.
-
-You can contact me at : 
-fbeaulier < a t > orange < d o t > fr
