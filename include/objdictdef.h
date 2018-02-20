@@ -92,9 +92,9 @@ typedef struct td_subindex
 {
     const UNS8              bAccessType;
     const UNS8              bDataType; /* Defines of what datatype the entry is */
-    const UNS32             size;      /* The size (in Byte) of the variable */
+    UNS32             size;      /* The size (in Byte) of the variable */
     union {
-        void* const         pObject;   /* This is the pointer of the Variable */
+        void*          pObject;   /* This is the pointer of the Variable */
         const CONSTSTORE void* const pObjectConst;
     };
 } subindex;
