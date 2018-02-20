@@ -48,9 +48,6 @@
 
 UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
 {
-  //const CONSTSTORE indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS + numPdo;
-  //const CONSTSTORE indextable *TPDO_map = d->objdict + d->firstIndex->PDO_TRS_MAP + numPdo;
-
   UNS8 prp_j = 0x00;
   UNS32 offset = 0x00000000;
   UNS8 mappingCount = READ_UNS8(d->objdict, d->firstIndex->PDO_TRS_MAP + numPdo, 0);

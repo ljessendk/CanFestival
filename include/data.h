@@ -60,9 +60,9 @@ struct struct_CO_Data {
 	s_PDO_status *PDO_status;
 	TIMER_HANDLE *RxPDO_EventTimers;
 	void (*RxPDO_EventTimers_Handler)(CO_Data*, UNS32);
-	const quick_index *firstIndex;
-	const quick_index *lastIndex;
-	const UNS16 *ObjdictSize;
+	const CONSTSTORE quick_index *firstIndex;
+	const CONSTSTORE quick_index *lastIndex;
+	const CONSTSTORE UNS16 *ObjdictSize;
 	const UNS8 *iam_a_slave;
 	valueRangeTest_t valueRangeTest;
 	
