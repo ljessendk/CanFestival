@@ -52,7 +52,7 @@ all: SillySlave
 ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a:
 	$(MAKE) -C ../../drivers/$(TARGET) libcanfestival_$(TARGET).a
 
-ifeq($(ENABLE_SHARED),1)
+ifeq ($(ENABLE_SHARED),1)
 SillySlave: SillySlave.c $(OBJS)
 	$(LD) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ $(OBJS) -L../../src -L../../drivers/unix -lcanfestival -lcanfestival_unix $(EXE_CFLAGS)
 else

@@ -30,6 +30,8 @@ TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
 ENABLE_SHARED = SUB_ENABLE_SHARED
+OBJDICTGEN = ../../../objdictgen/objdictgen.py
+OBJDICTGEN_DEPS = ../../../objdictgen/gen_cfile.py
 
 INCLUDES = -I$(CANFESTIVAL_DIR)/include -I$(CANFESTIVAL_DIR)/include/default -I$(CANFESTIVAL_DIR)/include/$(TARGET)
 INCLUDES += -I$(CANFESTIVAL_DIR)/include/$(TIMERS_DRIVER)
@@ -57,4 +59,14 @@ master: $(OBJS_MASTER)
 clean:
 	rm -f $(OBJS_MASTER) $(OBJS_SLAVE)
 	rm -f slave master
+
+master.c : masterdic.h
+slave.c : slavedic.h
+
+masterdic.c masterdic.h : masterdic.od $(OBJDICTGEN) $(OBJDICTGEN_DEPS)
+	$(OBJDICTGEN) $< masterdic.c
+
+slavedic.c slavedic.h : slavedic.od $(OBJDICTGEN) $(OBJDICTGEN_DEPS)
+	$(OBJDICTGEN) $< slavedic.c
+
 

@@ -104,7 +104,7 @@ void SillySlave_heartbeatError(CO_Data* d, UNS8 heartbeatID)
 void SillySlave_initialisation(CO_Data* d )
 {
     UNS32 PDO1_COBID = 0x0180 + NODE_MASTER; 
-    UNS8 size = sizeof(PDO1_COBID); 
+    UNS32 size = sizeof(PDO1_COBID);
     
     printf("SillySlave_initialisation\n");
 
@@ -148,7 +148,7 @@ void SillySlave_post_TPDO(CO_Data* d)
     printf("LifeSignal = %u\n", LifeSignal);    
 }
 
-void SillySlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
+UNS32 SillySlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
 {
     /*TODO : 
      * - call getODEntry for index and subindex, 
@@ -160,6 +160,8 @@ void SillySlave_storeODSubIndex(CO_Data* d, UNS16 wIndex, UNS8 bSubindex)
      * 
      * */
     printf("SillySlave_storeODSubIndex : %4.4x %2.2xh\n", wIndex,  bSubindex);
+
+    return 0;
 }
 
 void SillySlave_post_emcy(CO_Data* d, UNS8 nodeID, UNS16 errCode, UNS8 errReg, const UNS8 errSpec[5])
