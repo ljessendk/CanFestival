@@ -55,7 +55,7 @@ UNS8 buildPDO (CO_Data * d, UNS8 numPdo, Message * pdo)
   UNS32 offset = 0x00000000;
   UNS8 mappingCount = READ_UNS8(d->objdict, d->firstIndex->PDO_TRS_MAP + numPdo, 0);
 
-  pdo->cob_id = (UNS16) UNS16_LE(READ_UNS32(d->objdict, d->firstIndex->PDO_TRS, 1) & 0x7FF);
+  pdo->cob_id = (UNS16) UNS16_LE(READ_UNS32(d->objdict, d->firstIndex->PDO_TRS + numPdo, 1) & 0x7FF);
   pdo->rtr = NOT_A_REQUEST;
 
   MSG_WAR (0x3009, "  PDO CobId is : ",
