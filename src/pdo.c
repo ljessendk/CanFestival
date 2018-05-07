@@ -25,6 +25,7 @@
 #include "objacces.h"
 #include "canfestival.h"
 #include "sysdep.h"
+#include "objaccessinternal.h"
 
 /*!
 ** @file   pdo.c
@@ -737,7 +738,7 @@ _sendPDOevent (CO_Data * d, UNS8 isSyncEvent)
 
 UNS32
 TPDO_Communication_Parameter_Callback (CO_Data * d,
-                                       const CONSTSTORE indextable * OD_entry,
+                                       UNS16 wIndex,
                                        UNS8 bSubindex)
 {
   /* If PDO are actives */
@@ -749,6 +750,10 @@ TPDO_Communication_Parameter_Callback (CO_Data * d,
       case 5:                  /* Changed event time */
         {
           const CONSTSTORE indextable *TPDO_com = d->objdict + d->firstIndex->PDO_TRS;
+
+          UNS32 errorCode;
+          ODCallback_t* callback;
+          const CONSTSTORE indextable *OD_entry = scanIndexOD (d, wIndex, &errorCode, &callback);
           UNS8 numPdo = (UNS8) (OD_entry - TPDO_com);    /* number of the actual processed pdo-nr. */
 
           /* Zap all timers and inhibit flag */

@@ -33,14 +33,13 @@
 **
 */
 
-#include <data.h>
 #include "emcy.h"
+#include "data.h"
 #include "canfestival.h"
 #include "sysdep.h"
+#include "config.h"
 
-
-
-UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable, UNS8 unsused_bSubindex);
+UNS32 OnNumberOfErrorsUpdate(CO_Data* d, UNS16 unsused_indextable, UNS8 unsused_bSubindex);
 
 #define Data data  /* temporary fix */
 
@@ -54,7 +53,7 @@ UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_i
 **
 ** @return
 **/
-UNS32 OnNumberOfErrorsUpdate(CO_Data* d, const CONSTSTORE indextable * unsused_indextable, UNS8 unsused_bSubindex)
+UNS32 OnNumberOfErrorsUpdate(CO_Data* d, UNS16 unsused_indextable, UNS8 unsused_bSubindex)
 {
 	UNS8 index;
 	(void)unsused_indextable;

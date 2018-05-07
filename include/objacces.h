@@ -45,27 +45,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 extern "C" {
 #endif
 
-
-#define READ_UNS32(objDict, index, subIndex)\
-        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS32*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS32*)objDict[index].pSubindex[subIndex].pObjectConst)
-
-#define READ_UNS16(objDict, index, subIndex)\
-        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS16*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS16*)objDict[index].pSubindex[subIndex].pObjectConst)
-
-#define READ_UNS8(objDict, index, subIndex)\
-       (objDict[index].pSubindex[subIndex].bAccessType != CONST ? *(UNS8*)objDict[index].pSubindex[subIndex].pObject : *(const CONSTSTORE UNS8*)objDict[index].pSubindex[subIndex].pObjectConst)
-
-#define IS_NULL(objDict, index, subIndex)\
-        (objDict[index].pSubindex[subIndex].bAccessType != CONST ? objDict[index].pSubindex[subIndex].pObject == NULL : objDict[index].pSubindex[subIndex].pObjectConst == NULL)
-
-#define WRITE_UNS32(objDict, index, subIndex, value)\
-    (*((UNS32*)objDict[index].pSubindex[subIndex].pObject) = value)
-
-#define WRITE_UNS16(objDict, index, subIndex, value)\
-    (*((UNS16*)objDict[index].pSubindex[subIndex].pObject) = value)
-
-#define WRITE_UNS8(objDict, index, subIndex, value)\
-    (*((UNS8*)objDict[index].pSubindex[subIndex].pObject) = value)
+typedef struct struct_CO_Data CO_Data;
 
 typedef UNS32 (*valueRangeTest_t)(UNS8 typeValue, void *Value);
 typedef UNS32 (* storeODSubIndex_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
@@ -278,17 +258,7 @@ UNS32 _setODentry( CO_Data* d,
 #define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
        _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
 
-
-
-/**
- * @brief Scan the index of object dictionary. Used only by setODentry and getODentry.
- * @param *d Pointer to a CAN object data structure
- * @param wIndex
- * @param *errorCode :  OD_SUCCESSFUL if index foundor SDO abort code. (See file def.h)
- * @param **Callback
- * @return NULL if index not found. Else : return the table part of the object dictionary.
- */
- const CONSTSTORE indextable * scanIndexOD (CO_Data* d, UNS16 wIndex, UNS32 *errorCode, ODCallback_t **Callback);
+typedef UNS32 (*ODCallback_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 
 UNS32 RegisterSetODentryCallBack(CO_Data* d, UNS16 wIndex, UNS8 bSubindex, ODCallback_t Callback);
 

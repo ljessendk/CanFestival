@@ -79,6 +79,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define LSS_FS_PROCESSING 1
 #define LSS_FS_CONFIRMATION 2
 
+#include "applicfg.h"
+#include "timer.h"
+
+typedef struct struct_CO_Data CO_Data;
 
 typedef void (*LSSCallback_t)(CO_Data* d, UNS8 command); 
 

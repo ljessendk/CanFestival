@@ -19,13 +19,16 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-#include "data.h"
+
+#include "applicfg.h"
 
 #define DCF_STATUS_INIT         0
 #define DCF_STATUS_READ_CHECK   1
 #define DCF_STATUS_WRITE        2
 #define DCF_STATUS_SAVED        3
 #define DCF_STATUS_VERIF_OK     4
+
+typedef struct struct_CO_Data CO_Data;
 
 /** 
  * @brief Init the consise dcf in CO_Data for nodeId

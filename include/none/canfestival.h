@@ -3,8 +3,9 @@
 
 #include "timerscfg.h"
 #include "can_driver.h"
-#include "data.h"
 #include "timers_driver.h"
+
+struct CO_Data;
 
 typedef void* LIB_HANDLE;
 

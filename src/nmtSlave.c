@@ -34,6 +34,7 @@
 #include "states.h"
 #include "canfestival.h"
 #include "sysdep.h"
+#include "data.h"
 
 /*!
 ** put the slave in the state wanted by the master

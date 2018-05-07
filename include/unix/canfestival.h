@@ -7,7 +7,6 @@ extern "C" {
 
 #include "timerscfg.h"
 #include "can_driver.h"
-#include "data.h"
 #include "timers_driver.h"
 
 #ifndef __KERNEL__
@@ -15,6 +14,7 @@ extern "C" {
 #endif
 
 typedef void* LIB_HANDLE;
+struct CO_Data;
 
 /** @defgroup userapi User API */
 

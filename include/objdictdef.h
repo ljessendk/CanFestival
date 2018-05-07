@@ -120,12 +120,11 @@ typedef struct s_quick_index{
 	UNS16 PDO_TRS_MAP;
 }quick_index;
 
-
-/*typedef struct struct_CO_Data CO_Data; */
-typedef UNS32 (*ODCallback_t)(CO_Data* d, const CONSTSTORE indextable *, UNS8 bSubindex);
-typedef const CONSTSTORE indextable * (*scanIndexOD_t)(UNS16 wIndex, UNS32 * errorCode, ODCallback_t **Callback);
-
 /************************** MACROS *********************************/
+
+typedef struct struct_CO_Data CO_Data;
+typedef UNS32 (*ODCallback_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
+typedef const CONSTSTORE indextable * (*scanIndexOD_t)(UNS16 wIndex, UNS32 * errorCode, ODCallback_t **Callback);
 
 /* CANopen usefull helpers */
 #define GET_NODE_ID(m)         (UNS16_LE(m.cob_id) & 0x7f)

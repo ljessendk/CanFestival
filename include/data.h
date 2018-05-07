@@ -27,11 +27,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 extern "C" {
 #endif
 
-/* declaration of CO_Data type let us include all necessary headers
- struct struct_CO_Data can then be defined later
- */
-typedef struct struct_CO_Data CO_Data;
-
 #include "applicfg.h"
 #include "def.h"
 #include "can.h"

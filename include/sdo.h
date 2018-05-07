@@ -34,9 +34,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __sdo_h__
 #define __sdo_h__
 
-struct struct_s_transfer;
+//struct struct_s_transfer;
 
+#include "config.h"
 #include "timer.h"
+
+typedef struct struct_CO_Data CO_Data;
+typedef struct Message Message;
 
 /* Block mode : Data consumer receive step 
  * - set to RXSTEP_STARTED when client receive initiate upload response 
@@ -100,9 +104,6 @@ struct struct_s_transfer {
   SDOCallback_t Callback;   /**< The user callback func to be called at SDO transaction end */
 };
 typedef struct struct_s_transfer s_transfer;
-
-
-#include "data.h"
 
 /** 
  * @brief Reset of a SDO exchange on timeout.

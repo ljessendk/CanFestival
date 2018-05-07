@@ -52,6 +52,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 // Needed defines by Canfestival lib
 #define MAX_CAN_BUS_ID 1
 #define SDO_MAX_LENGTH_TRANSFER 32
+#define SDO_BLOCK_SIZE 16
 #define SDO_MAX_SIMULTANEOUS_TRANSFERS 1
 #define NMT_MAX_NODE_ID 128
 #define SDO_TIMEOUT_MS 3000U

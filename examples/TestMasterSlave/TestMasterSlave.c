@@ -43,7 +43,7 @@ void pause(void)
 #include "Slave.h"
 #include "TestMasterSlave.h"
 
-UNS32 OnMasterMap1Update(CO_Data* d, const indextable * unsused_indextable, UNS8 unsused_bSubindex)
+UNS32 OnMasterMap1Update(CO_Data* d, UNS16 unsused_indextable, UNS8 unsused_bSubindex)
 {
 	eprintf("OnMasterMap1Update:%d\n", MasterMap1);
 	return 0;

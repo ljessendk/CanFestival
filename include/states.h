@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __states_h__
 #define __states_h__
 
-#include <applicfg.h>
+#include "applicfg.h"
 
 /* The nodes states 
  * -----------------
@@ -59,6 +59,9 @@ typedef struct
 	INTEGER8 csPDO;
 	INTEGER8 csLSS;
 } s_state_communication;
+
+typedef struct struct_CO_Data CO_Data;
+typedef struct Message Message;
 
 /** 
  * @brief Function that user app can overload
@@ -96,8 +99,6 @@ void _operational(CO_Data* d);
  * @param *d Pointer on a CAN object data structure
  */
 void _stopped(CO_Data* d);
-
-#include "data.h"
 
 /************************* prototypes ******************************/
 

@@ -1,5 +1,7 @@
 #include "applicfg.h"
-#include "data.h"
+
+struct CO_Data;
+struct Message;
 
 void initTimer(void);
 void clearTimer(void);

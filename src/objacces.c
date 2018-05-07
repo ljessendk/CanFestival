@@ -37,7 +37,7 @@
 /* #define DEBUG_WAR_CONSOLE_ON */
 /* #define DEBUG_ERR_CONSOLE_ON */
 
-
+#include "objacces.h"
 #include "data.h"
 
 
@@ -259,7 +259,7 @@ UNS32 _setODentry( CO_Data* d,
 
       /* Callbacks */
       if(Callback && Callback[bSubindex]){
-        errorCode = (Callback[bSubindex])(d, ptrTable, bSubindex);
+        errorCode = (Callback[bSubindex])(d, wIndex, bSubindex);
         if(errorCode != OD_SUCCESSFUL)
         {
             return errorCode;

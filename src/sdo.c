@@ -34,8 +34,13 @@
 
 #include <stdlib.h>
 
+#include "sdo.h"
+#include "def.h"
+#include "states.h"
 #include "sysdep.h"
 #include "canfestival.h"
+#include "data.h"
+#include "objaccessinternal.h"
 
 /* Uncomment if your compiler does not support inline functions */
 #define NO_INLINE
@@ -45,6 +50,8 @@
 #else
 #define INLINE inline
 #endif
+
+typedef struct struct_CO_Data CO_Data;
 
 /*Internals prototypes*/
 

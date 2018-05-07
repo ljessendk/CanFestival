@@ -10,6 +10,7 @@ Highlights of changes in this fork:
 - Improved example buildscripts to automatically rebuild object dictionaries when gen_cfile.py or objdictgen.py changes.
 - Allow static dictionary index tables to be stored in flash instead of RAM to save RAM on small systems with limited RAM (for example AVR). 
 - Allow constant data in object dictionary to be stored in flash instead of RAM to save RAM on small systems with limited RAM (for example AVR).
+- Hide internal structure definitions from public API
 
 Comments/feedback:
 github < a t > ljessen < d o t > dk

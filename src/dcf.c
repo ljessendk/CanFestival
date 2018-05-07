@@ -33,10 +33,10 @@
 **
 */
 
-
+#include "dcf.h"
 #include "data.h"
 #include "sysdep.h"
-#include "dcf.h"
+#include "objaccessinternal.h"
 
 typedef struct {
     UNS16 Index;
