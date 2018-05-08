@@ -140,10 +140,12 @@ UNS32 _getODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
+#ifndef getODEntry
 #define getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess)                         \
        _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess, 1)            
+#endif
 
 /** 
  * @ingroup od
@@ -168,10 +170,12 @@ UNS32 _getODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
+#ifndef readLocalDict
 #define readLocalDict( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess)                         \
        _getODentry( OD, wIndex, bSubindex, pDestData, pExpectedSize, \
 		          pDataType,  checkAccess, 0)
+#endif
 
 /* By this function you can write an entry into the object dictionary
  * @param *d Pointer to a CAN object data structure
@@ -223,10 +227,12 @@ UNS32 _setODentry( CO_Data* d,
  * - OD_SUCCESSFUL is returned upon success. 
  * - SDO abort code is returned if error occurs . (See file def.h)
  */
+#ifndef setODentry
 #define setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
                   checkAccess) \
        _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, \
                   checkAccess, 1)
+#endif
 
 /** @fn UNS32 writeLocalDict(d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess)
  * @ingroup od
@@ -255,8 +261,10 @@ UNS32 _setODentry( CO_Data* d,
  * retcode = writeLocalDict( (UNS16)0x1800, (UNS8)2, &B, sizeof(UNS8), 1 );
  * @endcode
  */
+#ifndef writeLocalDict
 #define writeLocalDict( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess) \
        _setODentry( d, wIndex, bSubindex, pSourceData, pExpectedSize, checkAccess, 0)
+#endif
 
 typedef UNS32 (*ODCallback_t)(CO_Data* d, UNS16 wIndex, UNS8 bSubindex);
 
