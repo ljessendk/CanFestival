@@ -97,7 +97,7 @@ mrproper: clean
 	rm -f TestSlaveB.c
 	rm -f TestMaster.c
 
-install: TestMasterSlaveLSS
+install: $(TESTMASTERSLAVELSS)
 	mkdir -p $(PREFIX)/bin/
 	cp $< $(PREFIX)/bin/
 

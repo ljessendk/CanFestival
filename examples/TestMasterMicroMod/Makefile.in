@@ -83,7 +83,7 @@ clean:
 mrproper: clean
 	rm -f TestMaster.c
 
-install: TestMasterMicroMod
+install: $(TESTMASTERMICROMOD)
 	mkdir -p $(PREFIX)/bin/
 	cp $< $(PREFIX)/bin/
 
