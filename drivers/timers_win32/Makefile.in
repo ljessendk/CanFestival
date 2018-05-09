@@ -40,7 +40,7 @@ OBJS = $(TIMERS_DRIVER).o
 
 SRC_HFILES = ../../include/$(TIMERS_DRIVER)/timerscfg.h
 
-TARGET_HFILES = $(PREFIX)/include/canfestival/timerscfg.h
+TARGET_HFILES = $(DESTDIR)$(PREFIX)/include/canfestival/timerscfg.h
 
 all: driver
 
@@ -50,8 +50,8 @@ driver: $(OBJS)
 	$(CXX) $(CFLAGS) $(PROG_CFLAGS) ${PROGDEFINES} $(INCLUDES) -o $@ -c $<
 
 install:
-	mkdir -p $(PREFIX)/include/canfestival
-	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp $(SRC_HFILES) $(DESTDIR)$(PREFIX)/include/canfestival
 
 uninstall:
 	rm -f $(TARGET_HFILES)

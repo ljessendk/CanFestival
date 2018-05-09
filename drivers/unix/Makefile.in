@@ -52,7 +52,7 @@ endif
 
 SRC_HFILES = ../../include/$(TARGET)/applicfg.h ../../include/$(TARGET)/canfestival.h
 
-TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h $(PREFIX)/include/$(TARGET)/canfestival.h
+TARGET_HFILES = $(DESTDIR)$(PREFIX)/include/$(TARGET)/applicfg.h $(DESTDIR)$(PREFIX)/include/$(TARGET)/canfestival.h
 
 all: driver
 
@@ -111,19 +111,19 @@ ifeq ($(ENABLE_SHARED),1)
 install: libcanfestival_$(TARGET).so
 	mkdir -p $(PREFIX)/lib/
 	mkdir -p $(PREFIX)/include/canfestival
-	cp libcanfestival_$(TARGET).so $(PREFIX)/lib/
+	cp libcanfestival_$(TARGET).so $(DESTDIR)$(PREFIX)/lib/
 	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
 else
 install: libcanfestival_$(TARGET).a
-	mkdir -p $(PREFIX)/lib/
-	mkdir -p $(PREFIX)/include/canfestival
-	cp libcanfestival_$(TARGET).a $(PREFIX)/lib/
-	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp libcanfestival_$(TARGET).a $(DESTDIR)$(PREFIX)/lib/
+	cp $(SRC_HFILES) $(DESTDIR)$(PREFIX)/include/canfestival
 endif
 
 uninstall:
-	rm -f $(PREFIX)/lib/libcanfestival_$(TARGET).a
-	rm -f $(PREFIX)/lib/libcanfestival_$(TARGET).so
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcanfestival_$(TARGET).a
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcanfestival_$(TARGET).so
 	rm -f $(TARGET_HFILES)
 
 clean:

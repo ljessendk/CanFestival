@@ -76,10 +76,10 @@ mrproper: clean
 	rm -f SillySlave.c
 
 install: SillySlave
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $< $(DESTDIR)$(PREFIX)/bin/
 
 uninstall:
-	rm -f $(PREFIX)/bin/SillySlave
+	rm -f $(DESTDIR)$(PREFIX)/bin/SillySlave
 
 

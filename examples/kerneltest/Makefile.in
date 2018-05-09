@@ -69,12 +69,12 @@ mrproper: clean
 
 install:
 	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules_install
-	mkdir -p $(PREFIX)/bin/
-	cp console/canf_ktest_console $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp console/canf_ktest_console $(DESTDIR)$(PREFIX)/bin/
 	/bin/sh insert.sh
 
 uninstall:
-	rm -f $(PREFIX)/bin/canf_ktest_console
+	rm -f $(DESTDIR)$(PREFIX)/bin/canf_ktest_console
 
 canf_ktest_console: console/console.c console/console.h
 	$(CC) console/console.c -o console/canf_ktest_console

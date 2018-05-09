@@ -46,8 +46,8 @@ endif
 
 HUB=can_serial_hub
 
-TARGET_SOFILES = $(PREFIX)/lib/$(DRIVER)
-TARGET_BINFILES = $(PREFIX)/bin/$(HUB)
+TARGET_SOFILES = $(DESTDIR)$(PREFIX)/lib/$(DRIVER)
+TARGET_BINFILES = $(DESTDIR)$(PREFIX)/bin/$(HUB)
 
 all: driver $(HUB)
 
@@ -63,10 +63,10 @@ libcanfestival_$(CAN_DRIVER).so: $(OBJS)
 	$(CC) -shared -Wl,-soname,libcanfestival_$(CAN_DRIVER).so $(CAN_DLL_CFLAGS) -o $@ $<
 
 install: libcanfestival_$(CAN_DRIVER).so $(HUB)
-	mkdir -p $(PREFIX)/lib/
-	cp libcanfestival_$(CAN_DRIVER).so $(PREFIX)/lib/
-	mkdir -p $(PREFIX)/bin/
-	cp $(HUB) $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	cp libcanfestival_$(CAN_DRIVER).so $(DESTDIR)$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $(HUB) $(DESTDIR)$(PREFIX)/bin/
 	
 uninstall:
 	rm -f $(TARGET_SOFILES)

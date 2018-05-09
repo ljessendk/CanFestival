@@ -61,7 +61,7 @@ else
 DRIVER = $(OBJS)
 endif
 
-TARGET_SOFILES = $(PREFIX)/lib/$(DRIVER)
+TARGET_SOFILES = $(DESTDIR)$(PREFIX)/lib/$(DRIVER)
 
 all: driver
 
@@ -83,8 +83,8 @@ libcanfestival_$(CAN_DRIVER).$(DLL_TYPE): $(OBJS)
 	$(CC) $(PROG_CFLAGS) -shared $(CAN_VSCOM_DLL_FLAGS) -o $@ $< $(CAN_DLL_CFLAGS)
 
 install: libcanfestival_$(CAN_DRIVER).so
-	mkdir -p $(PREFIX)/lib/
-	cp $< $(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	cp $< $(DESTDIR)$(PREFIX)/lib/
 
 uninstall:
 	rm -f $(TARGET_SOFILES)

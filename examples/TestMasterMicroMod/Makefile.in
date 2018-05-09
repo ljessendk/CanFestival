@@ -84,10 +84,10 @@ mrproper: clean
 	rm -f TestMaster.c
 
 install: $(TESTMASTERMICROMOD)
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $< $(DESTDIR)$(PREFIX)/bin/
 
 uninstall:
-	rm -f $(PREFIX)/bin/TestMasterMicroMod
+	rm -f $(DESTDIR)$(PREFIX)/bin/TestMasterMicroMod
 
 

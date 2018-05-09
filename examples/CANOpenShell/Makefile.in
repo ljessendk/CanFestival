@@ -99,8 +99,8 @@ mrproper: clean
 	rm -f CANOpenShellSlaveOD.c
 
 install: $(CANOPENSHELL)
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $< $(DESTDIR)$(PREFIX)/bin/
 
 uninstall:
-	rm -f $(PREFIX)/bin/$(CANOPENSHELL)
+	rm -f $(DESTDIR)$(PREFIX)/bin/$(CANOPENSHELL)

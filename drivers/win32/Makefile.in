@@ -47,7 +47,7 @@ endif
 
 SRC_HFILES = ../../include/$(TARGET)/applicfg.h ../../include/$(TARGET)/canfestival.h
 
-TARGET_HFILES = $(PREFIX)/include/$(TARGET)/applicfg.h $(PREFIX)/include/$(TARGET)/canfestival.h
+TARGET_HFILES = $(DESTDIR)$(PREFIX)/include/$(TARGET)/applicfg.h $(DESTDIR)$(PREFIX)/include/$(TARGET)/canfestival.h
 
 all: driver
 
@@ -71,13 +71,13 @@ libcanfestival_$(TARGET).a: $(OBJS)
 	$(BINUTILS_PREFIX)ranlib $@
 
 install: libcanfestival_$(TARGET).a
-	mkdir -p $(PREFIX)/lib/
-	mkdir -p $(PREFIX)/include/canfestival
-	cp libcanfestival_$(TARGET).a $(PREFIX)/lib/
-	cp $(SRC_HFILES) $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp libcanfestival_$(TARGET).a $(DESTDIR)$(PREFIX)/lib/
+	cp $(SRC_HFILES) $(DESTDIR)$(PREFIX)/include/canfestival
 
 uninstall:
-	rm -f $(PREFIX)/lib/libcanfestival_$(TARGET).a
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcanfestival_$(TARGET).a
 	rm -f $(TARGET_HFILES)
 
 clean:

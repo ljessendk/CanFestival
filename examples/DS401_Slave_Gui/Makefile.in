@@ -90,11 +90,11 @@ mrproper: clean
 	$(RM) $(EXEC) $(DEPEND_FILE)
 	
 install: DS401_Slave_Gui
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $< $(DESTDIR)$(PREFIX)/bin/
 	
 uninstall:
-	rm -f $(PREFIX)/bin/DS401_Slave_Gui
+	rm -f $(DESTDIR)$(PREFIX)/bin/DS401_Slave_Gui
 
 $(EXEC): $(OBJS)
 	$(LD) $(OBJS) `wx-config --libs` -o $(EXEC)

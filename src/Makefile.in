@@ -104,11 +104,11 @@ clean:
 
 install:
 	$(MAKE) -C $(KERNELDIR) M=$(shell pwd) modules_install
-	mkdir -p $(PREFIX)/include/canfestival
-	cp ../include/*.h $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp ../include/*.h $(DESTDIR)$(PREFIX)/include/canfestival
 
 uninstall:
-	rm -rf $(PREFIX)/include/canfestival
+	rm -rf $(DESTDIR)$(PREFIX)/include/canfestival
 
 else
 CFLAGS = SUB_OPT_CFLAGS
@@ -154,24 +154,24 @@ $(TARGET)_%.o: %.c
 
 ifeq ($(ENABLE_SHARED),1)
 install: libcanfestival.so
-	mkdir -p $(PREFIX)/lib/
-	mkdir -p $(PREFIX)/include/canfestival
-	cp libcanfestival.so $(PREFIX)/lib/
-	cp canfestival.pc $(PREFIX)/lib/pkgconfig
-	cp ../include/*.h $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp libcanfestival.so $(DESTDIR)$(PREFIX)/lib/
+	cp canfestival.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig
+	cp ../include/*.h $(DESTDIR)$(PREFIX)/include/canfestival
 else
 install: libcanfestival.a
-	mkdir -p $(PREFIX)/lib/
-	mkdir -p $(PREFIX)/include/canfestival
-	cp libcanfestival.a $(PREFIX)/lib/
-	cp canfestival.pc $(PREFIX)/lib/pkgconfig
-	cp ../include/*.h $(PREFIX)/include/canfestival
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/include/canfestival
+	cp libcanfestival.a $(DESTDIR)$(PREFIX)/lib/
+	cp canfestival.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig
+	cp ../include/*.h $(DESTDIR)$(PREFIX)/include/canfestival
 endif
 
 uninstall:
-	rm -f $(PREFIX)/lib/libcanfestival.a
-	rm -f $(PREFIX)/lib/libcanfestival.so
-	rm -rf $(PREFIX)/include/canfestival
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcanfestival.a
+	rm -f $(DESTDIR)$(PREFIX)/lib/libcanfestival.so
+	rm -rf $(DESTDIR)$(PREFIX)/include/canfestival
 
 clean:
 	rm -f $(OBJS) libcanfestival.a libcanfestival.o libcanfestival.so

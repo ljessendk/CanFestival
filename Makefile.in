@@ -46,8 +46,8 @@ install: canfestival driver
 	$(MAKE) -C src $@
 	$(MAKE) -C examples $@
 	$(MAKE) -C objdictgen $@
-	mkdir -p SUB_PREFIX/etc
-	ldconfig -C SUB_PREFIX/etc/ld.so.cache
+	mkdir -p $(DESTDIR)SUB_PREFIX/etc
+	ldconfig -C $(DESTDIR)SUB_PREFIX/etc/ld.so.cache
 
 uninstall:
 	$(MAKE) -C drivers $@

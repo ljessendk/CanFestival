@@ -77,10 +77,10 @@ mrproper: clean
 	rm -f test_copcican_linux.c
 
 install: test_copcican_linux
-	mkdir -p $(PREFIX)/bin/
-	cp $< $(PREFIX)/bin/
+	mkdir -p $(DESTDIR)$(PREFIX)/bin/
+	cp $< $(DESTDIR)$(PREFIX)/bin/
 
 uninstall:
-	rm -f $(PREFIX)/bin/test_copcican_linux
+	rm -f $(DESTDIR)$(PREFIX)/bin/test_copcican_linux
 
 

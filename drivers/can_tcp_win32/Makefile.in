@@ -47,7 +47,7 @@ endif
 
 SERVER = $(CAN_DRIVER)_server
 
-TARGET_SOFILES = $(PREFIX)/lib/$(DRIVER)
+TARGET_SOFILES = $(DESTDIR)$(PREFIX)/lib/$(DRIVER)
 
 all: driver
 
@@ -74,8 +74,8 @@ $(DRIVER): $(OBJS)
 	-Wl,--exclude-libs,ALL -lws2_32
 		
 install: libcanfestival_$(CAN_DRIVER).so
-	mkdir -p $(PREFIX)/lib/
-	cp $< $(PREFIX)/lib/
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/
+	cp $< $(DESTDIR)$(PREFIX)/lib/
 		
 uninstall:
 	rm -f $(TARGET_SOFILES)
