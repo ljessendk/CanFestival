@@ -14,7 +14,6 @@ extern "C" {
 #endif
 
 typedef void* LIB_HANDLE;
-struct CO_Data;
 
 /** @defgroup userapi User API */
 
