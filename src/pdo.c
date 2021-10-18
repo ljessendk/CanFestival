@@ -837,7 +837,7 @@ PDOEnable (CO_Data * d, UNS8 pdoNum)
   if(!d->firstIndex->PDO_TRS)
       return;
   offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
-  WRITE_UNS32(d->objdict, offsetObjdict, 1, READ_UNS32(d->objdict, offsetObjdict, 1) & 0x80000000);
+  WRITE_UNS32(d->objdict, offsetObjdict, 1, READ_UNS32(d->objdict, offsetObjdict, 1) & ~0x80000000);
 }
 
 void
