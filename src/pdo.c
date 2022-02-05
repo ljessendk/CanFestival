@@ -834,10 +834,37 @@ void
 PDOEnable (CO_Data * d, UNS8 pdoNum)
 {
   UNS16 offsetObjdict;
+  TIMEVAL EventTimerDuration;
+  TIMEVAL InhibitTimerDuration;
+
   if(!d->firstIndex->PDO_TRS)
       return;
   offsetObjdict = (UNS16) (d->firstIndex->PDO_TRS + pdoNum);
   WRITE_UNS32(d->objdict, offsetObjdict, 1, READ_UNS32(d->objdict, offsetObjdict, 1) & ~0x80000000);
+
+  EventTimerDuration = READ_UNS16(d->objdict, offsetObjdict, 5);
+  InhibitTimerDuration = READ_UNS16(d->objdict, offsetObjdict, 3);
+
+  /* Start both event_timer and inhibit_timer */
+  if (EventTimerDuration)
+    {
+      DelAlarm (d->PDO_status[pdoNum].event_timer);
+      d->PDO_status[pdoNum].event_timer =
+        SetAlarm (d, pdoNum, &PDOEventTimerAlarm,
+                  MS_TO_TIMEVAL (EventTimerDuration), 0);
+    }
+
+  if (InhibitTimerDuration)
+    {
+      DelAlarm (d->PDO_status[pdoNum].inhibit_timer);
+      d->PDO_status[pdoNum].inhibit_timer =
+        SetAlarm (d, pdoNum, &PDOInhibitTimerAlarm,
+                  US_TO_TIMEVAL (InhibitTimerDuration *
+                                 100), 0);
+      /* and inhibit TPDO */
+      d->PDO_status[pdoNum].transmit_type_parameter |=
+        PDO_INHIBITED;
+    }
 }
 
 void
