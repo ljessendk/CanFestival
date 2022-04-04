@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define FCT_PTR_INIT =NULL
 
 #define DLSYM(name)\
+	dlerror(); \
 	*(void **) (&name##_driver) = dlsym(handle, #name"_driver");\
 	if (dlerror())  {\
 		fprintf (stderr, "Failed to load `%s' symbol\n", \
