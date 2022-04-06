@@ -33,9 +33,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #define FCT_PTR_INIT =NULL
 
 #define DLSYM(name)\
+	dlerror(); \
 	*(void **) (&name##_driver) = dlsym(handle, #name"_driver");\
-	if ((error = dlerror()) != NULL)  {\
-		fprintf (stderr, "%s\n", error);\
+	if (dlerror())  {\
+		fprintf (stderr, "Failed to load `%s' symbol\n", \
+			 #name"_driver");			 \
 		UnLoadCanDriver(handle);\
 		return NULL;\
 	}
@@ -89,8 +91,6 @@ UNS8 UnLoadCanDriver(LIB_HANDLE handle)
 LIB_HANDLE LoadCanDriver(const char* driver_name)
 {
 	LIB_HANDLE handle = NULL;
-	char *error;
-
 
 	if(handle==NULL)
 	{
