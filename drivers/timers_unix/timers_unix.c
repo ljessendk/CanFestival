@@ -35,10 +35,12 @@ void LeaveMutex(void)
 
 void timer_notify(sigval_t val)
 {
-	if(gettimeofday(&last_sig,NULL)) {
+	struct timeval sig_arrived;
+	if(gettimeofday(&sig_arrived,NULL)) {
 		perror("gettimeofday()");
 	}
 	EnterMutex();
+	last_sig = sig_arrived;
 	TimeDispatch();
 	LeaveMutex();
 //	printf("getCurrentTime() return=%u\n", p.tv_usec);
